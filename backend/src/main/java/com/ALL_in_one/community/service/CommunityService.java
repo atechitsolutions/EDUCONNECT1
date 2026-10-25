@@ -195,7 +195,7 @@ public class CommunityService {
     }
 
     public List<CommunityChatMessageView> communityChatMessages(String email, Long afterId, Long beforeId) {
-        authenticatedUser(email);
+        User viewer = authenticatedUser(email);
         List<CommunityGroupMessage> found;
         if (beforeId != null && beforeId > 0) {
             found = communityChatMessages.findByIdLessThanOrderByIdDesc(beforeId, PageRequest.of(0, 60));
@@ -206,27 +206,69 @@ public class CommunityService {
             found = communityChatMessages.findTop100ByOrderByIdDesc();
             Collections.reverse(found);
         }
-        return found.stream().map(this::communityChatMessageView).toList();
+        return found.stream().map(message -> communityChatMessageView(message, viewer.getId())).toList();
     }
 
-    public CommunityChatMessageView sendCommunityChatMessage(String email, String content) {
+    public CommunityChatMessageView sendCommunityChatMessage(String email, String content, String imageData) {
         User sender = authenticatedUser(email);
         String body = content == null ? "" : content.trim();
-        if (body.isEmpty() || body.length() > 4000) throw new IllegalArgumentException("Message must be between 1 and 4,000 characters.");
+        String image = imageData == null ? null : imageData.trim();
+        if (body.isEmpty() && (image == null || image.isEmpty())) throw new IllegalArgumentException("Write a message or attach an image.");
+        if (body.length() > 4000) throw new IllegalArgumentException("Message is too long (maximum 4,000 characters).");
+        if (image != null && (!image.matches("data:image/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/=]+") || image.length() > 600000))
+            throw new IllegalArgumentException("Choose an image smaller than 450 KB in PNG, JPEG, WebP, or GIF format.");
         if (communityChatMessages.countBySender_IdAndCreatedAtAfter(sender.getId(), LocalDateTime.now().minusMinutes(1)) >= 40)
             throw new IllegalArgumentException("Please slow down and try again in a moment.");
         CommunityGroupMessage message = new CommunityGroupMessage();
-        message.setSender(sender);
-        message.setContent(body);
-        return communityChatMessageView(communityChatMessages.save(message));
+        message.setSender(sender); message.setContent(body); message.setImageData(image);
+        return communityChatMessageView(communityChatMessages.save(message), sender.getId());
+    }
+
+    public CommunityChatMessageView toggleCommunityReaction(String email, Long messageId, String emoji) {
+        User user = authenticatedUser(email);
+        if (emoji == null || !List.of("👍", "❤️", "😂", "😮", "😢", "🎉").contains(emoji)) throw new IllegalArgumentException("Choose a supported reaction.");
+        CommunityGroupMessage message = communityChatMessages.findById(messageId).orElseThrow(() -> new EntityNotFoundException("Message not found."));
+        Map<Long, String> reactions = parseReactions(message.getReactionData());
+        if (emoji.equals(reactions.get(user.getId()))) reactions.remove(user.getId()); else reactions.put(user.getId(), emoji);
+        message.setReactionData(reactions.entrySet().stream().map(entry -> entry.getKey() + "=" + entry.getValue()).collect(Collectors.joining(";")));
+        return communityChatMessageView(communityChatMessages.save(message), user.getId());
+    }
+
+    public void deleteCommunityChatMessage(String email, Long messageId) {
+        User user = authenticatedUser(email);
+        CommunityGroupMessage message = communityChatMessages.findById(messageId).orElseThrow(() -> new EntityNotFoundException("Message not found."));
+        if (!message.getSender().getId().equals(user.getId())) throw new EntityNotFoundException("Message not found.");
+        communityChatMessages.delete(message);
+    }
+
+    public void reportCommunityChatMessage(String email, Long messageId, String reason) {
+        User reporter = current(email);
+        CommunityGroupMessage message = communityChatMessages.findById(messageId).orElseThrow(() -> new EntityNotFoundException("Message not found."));
+        if (message.getSender().getId().equals(reporter.getId())) throw new IllegalArgumentException("You cannot report your own message.");
+        String detail = clean(reason, 700);
+        if (detail == null || detail.isBlank()) throw new IllegalArgumentException("Please provide a reason for reporting this message.");
+        report(email, message.getSender().getId(), "Community message #" + messageId + " reported: " + detail);
     }
 
     private User authenticatedUser(String email) {
         return users.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("Account not found."));
     }
 
-    private CommunityChatMessageView communityChatMessageView(CommunityGroupMessage message) {
-        return new CommunityChatMessageView(message.getId(), message.getSender().getId(), message.getSender().getFullName(), message.getContent(), message.getCreatedAt());
+    private Map<Long, String> parseReactions(String data) {
+        Map<Long, String> reactions = new LinkedHashMap<>();
+        if (data == null || data.isBlank()) return reactions;
+        for (String item : data.split(";")) {
+            String[] parts = item.split("=", 2);
+            if (parts.length == 2) try { reactions.put(Long.parseLong(parts[0]), parts[1]); } catch (NumberFormatException ignored) { }
+        }
+        return reactions;
+    }
+
+    private CommunityChatMessageView communityChatMessageView(CommunityGroupMessage message, Long viewerId) {
+        Map<String, List<Long>> grouped = parseReactions(message.getReactionData()).entrySet().stream()
+                .collect(Collectors.groupingBy(Map.Entry::getValue, LinkedHashMap::new, Collectors.mapping(Map.Entry::getKey, Collectors.toList())));
+        List<ReactionView> reactions = grouped.entrySet().stream().map(entry -> new ReactionView(entry.getKey(), entry.getValue().size(), entry.getValue().contains(viewerId))).toList();
+        return new CommunityChatMessageView(message.getId(), message.getSender().getId(), message.getSender().getFullName(), message.getContent(), message.getImageData(), reactions, message.getCreatedAt());
     }
 
     public List<NotificationView> notificationList(String email) {

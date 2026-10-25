@@ -10,7 +10,7 @@ export function initCommunityPage() {
     if (!root || root.dataset.ready) return;
     root.dataset.ready = "true";
 
-    const state = { profile: null, communityMessages: [], communityHasOlder: false, communityLoading: false, students: [], friends: [], incoming: [], outgoing: [], conversations: [], notifications: [], activeConversation: null, messages: [], hasOlderMessages: false, page: 0, totalPages: 1, filters: {}, timer: null, toastTimer: null };
+    const state = { profile: null, communityMessages: [], communityHasOlder: false, communityLoading: false, students: [], friends: [], incoming: [], outgoing: [], conversations: [], notifications: [], activeConversation: null, messages: [], hasOlderMessages: false, page: 0, totalPages: 1, filters: {}, timer: null, toastTimer: null, chatImageData: null };
     const select = (selector) => root.querySelector(selector);
     const toast = (message, error = false) => {
         const node = select("[data-community-toast]");
@@ -38,9 +38,16 @@ export function initCommunityPage() {
         const messages = state.communityMessages.map(message => {
             const senderName = message.senderName || "Community member";
             const own = currentUserId && Number(message.senderId) === currentUserId;
+            const reactions = message.reactions || [];
+            const reactionButtons = ["👍", "❤️", "😂", "😮", "😢", "🎉"].map(emoji => {
+                const reaction = reactions.find(item => item.emoji === emoji);
+                return `<button type="button" class="community-chat-reaction${reaction?.reactedByMe ? " is-selected" : ""}" data-community-react="${message.id}" data-reaction-emoji="${emoji}" aria-label="React with ${emoji}" aria-pressed="${Boolean(reaction?.reactedByMe)}">${emoji}${reaction?.count ? `<span>${reaction.count}</span>` : ""}</button>`;
+            }).join("");
             return `<article class="community-group-message${own ? " is-own" : ""}" data-message-id="${message.id}">
                 ${own ? "" : `<span class="community-avatar community-group-avatar" aria-hidden="true">${escapeHtml(initials(senderName))}</span>`}
-                <div class="community-group-message-body">${own ? "" : `<strong>${escapeHtml(senderName)}</strong>`}<div class="community-group-bubble"><p>${escapeHtml(message.content)}</p><time>${escapeHtml(dateLabel(message.createdAt))}</time></div></div>
+                <div class="community-group-message-body"><strong>${escapeHtml(senderName)}${own ? " · You" : ""}</strong><div class="community-group-bubble">${message.imageData ? `<img class="community-group-message-image" src="${escapeHtml(message.imageData)}" alt="Image shared by ${escapeHtml(senderName)}" loading="lazy">` : ""}${message.content ? `<p>${escapeHtml(message.content)}</p>` : ""}<time>${escapeHtml(dateLabel(message.createdAt))}</time></div>
+                    <div class="community-group-message-actions"><div class="community-group-reactions">${reactionButtons}</div><div class="community-group-message-tools">${own ? `<button type="button" data-community-delete="${message.id}">Delete</button>` : `<button type="button" data-community-report="${message.id}">⚑ Report</button>`}</div></div>
+                </div>
             </article>`;
         }).join("");
         list.innerHTML = `${olderButton}${messages || `<div class="community-empty-state"><span>✦</span><h3>Start the conversation</h3><p>Be the first to share a question, idea, or helpful study tip.</p></div>`}`;
@@ -70,7 +77,7 @@ export function initCommunityPage() {
         } catch (error) {
             if (!quiet) {
                 const needsSignIn = /\((401|403)\)/.test(error.message || "");
-                select("[data-community-chat-form]").hidden = true;
+                select("[data-community-chat-form]").hidden = needsSignIn;
                 list.innerHTML = needsSignIn
                     ? `<div class="community-empty-state is-error"><span>↗</span><h3>Sign in to join the chat</h3><p>Your session may have expired. Sign in with your EduConnect account to view and send community messages.</p><a class="community-button community-button-primary" href="/community" data-auth-required="true" data-auth-reauth>Sign in again →</a></div>`
                     : `<div class="community-empty-state is-error"><span>!</span><h3>Community chat couldn’t connect</h3><p>${escapeHtml(error.message || "Please check your connection and try again.")}</p><button class="community-small-button is-primary" data-community-chat-retry>Try again</button></div>`;
@@ -255,7 +262,53 @@ export function initCommunityPage() {
         }
     }
 
+    function readFileAsDataUrl(file) {
+        return new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = () => reject(new Error("Could not read that image.")); reader.readAsDataURL(file); });
+    }
+    async function prepareChatImage(file) {
+        if (!file || !["image/jpeg", "image/png", "image/webp", "image/gif"].includes(file.type)) throw new Error("Choose a PNG, JPEG, WebP, or GIF image.");
+        if (file.size > 8 * 1024 * 1024) throw new Error("Choose an image smaller than 8 MB.");
+        let data = await readFileAsDataUrl(file);
+        if (data.length <= 560000) return data;
+        if (file.type === "image/gif") throw new Error("This GIF is too large. Choose a GIF smaller than 450 KB.");
+        const image = new Image(); image.src = data;
+        await new Promise((resolve, reject) => { image.onload = resolve; image.onerror = () => reject(new Error("Could not open that image.")); });
+        const scale = Math.min(1, 1200 / Math.max(image.naturalWidth, image.naturalHeight));
+        const canvas = document.createElement("canvas"); canvas.width = Math.round(image.naturalWidth * scale); canvas.height = Math.round(image.naturalHeight * scale);
+        canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
+        data = canvas.toDataURL("image/jpeg", 0.72);
+        if (data.length > 560000) throw new Error("That image is still too large. Choose a smaller image.");
+        return data;
+    }
+    const chatImageInput = select("[data-chat-image]");
+    chatImageInput.addEventListener("change", async () => {
+        const file = chatImageInput.files?.[0]; if (!file) return;
+        try {
+            state.chatImageData = await prepareChatImage(file);
+            select("[data-chat-image-name]").textContent = file.name;
+            select("[data-chat-image-preview]").innerHTML = `<img src="${state.chatImageData}" alt="Selected image preview"><button type="button" data-chat-image-clear aria-label="Remove attached image">×</button>`;
+            select("[data-chat-image-preview]").hidden = false;
+        } catch (error) { toast(error.message, true); chatImageInput.value = ""; }
+    });
+    select("[data-chat-emoji-toggle]").addEventListener("click", () => { const menu = select("[data-chat-emoji-menu]"); menu.hidden = !menu.hidden; });
+    select("[data-chat-emoji-menu]").addEventListener("click", event => {
+        const button = event.target.closest("[data-chat-emoji]"); if (!button) return;
+        const textarea = select("[data-community-chat-form] textarea"); const start = textarea.selectionStart; const end = textarea.selectionEnd;
+        textarea.setRangeText(button.dataset.chatEmoji, start, end, "end"); textarea.focus(); select("[data-chat-emoji-menu]").hidden = true;
+    });
+    document.addEventListener("click", event => { if (!event.target.closest(".community-group-emoji-wrap")) select("[data-chat-emoji-menu]").hidden = true; });
     root.addEventListener("click", async (event) => {
+        const clearImage = event.target.closest("[data-chat-image-clear]");
+        if (clearImage) { state.chatImageData = null; chatImageInput.value = ""; select("[data-chat-image-name]").textContent = ""; select("[data-chat-image-preview]").hidden = true; return; }
+        const reaction = event.target.closest("[data-community-react]");
+        if (reaction && await run(async () => { const updated = await api.reactToCommunityChatMessage(Number(reaction.dataset.communityReact), reaction.dataset.reactionEmoji); state.communityMessages = state.communityMessages.map(item => item.id === updated.id ? updated : item); renderCommunityMessages({ keepPosition: true }); })) return;
+        const deleteMessage = event.target.closest("[data-community-delete]");
+        if (deleteMessage && confirm("Delete this message for everyone?")) {
+            if (await run(() => api.deleteCommunityChatMessage(Number(deleteMessage.dataset.communityDelete)), "Message deleted.")) { state.communityMessages = state.communityMessages.filter(item => item.id !== Number(deleteMessage.dataset.communityDelete)); renderCommunityMessages({ keepPosition: true }); }
+            return;
+        }
+        const reportMessage = event.target.closest("[data-community-report]");
+        if (reportMessage) { const reason = prompt("Why are you reporting this message?"); if (reason?.trim()) await run(() => api.reportCommunityChatMessage(Number(reportMessage.dataset.communityReport), reason.trim()), "Message reported to the moderation team."); return; }
         const retryGroup = event.target.closest("[data-community-chat-retry]");
         if (retryGroup) { await loadCommunityMessages(); return; }
         const olderGroup = event.target.closest("[data-community-chat-older]");
@@ -365,12 +418,13 @@ export function initCommunityPage() {
         const form = event.currentTarget;
         const textarea = form.elements.content;
         const content = textarea.value.trim();
-        if (!content) return;
+        if (!content && !state.chatImageData) return;
         const send = form.querySelector("button[type=submit]");
         send.disabled = true;
         try {
-            const message = await api.sendCommunityChatMessage(content);
+            const message = await api.sendCommunityChatMessage(content, state.chatImageData);
             state.communityMessages.push(message);
+            state.chatImageData = null; chatImageInput.value = ""; select("[data-chat-image-name]").textContent = ""; select("[data-chat-image-preview]").hidden = true;
             renderCommunityMessages();
             textarea.value = "";
             textarea.focus();
@@ -407,6 +461,7 @@ export function initCommunityPage() {
         if (user.fullName) {
             select("[data-my-name]").textContent = user.fullName;
             select("[data-my-avatar]").textContent = initials(user.fullName);
+            select("[data-community-chat-user-name]").textContent = user.fullName;
         }
         select("[data-my-course]").textContent = "Community member";
         updateCounts();

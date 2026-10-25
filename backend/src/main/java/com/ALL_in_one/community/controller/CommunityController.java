@@ -49,9 +49,19 @@ public class CommunityController {
     }
     @PostMapping("/community-chat/messages") @ResponseStatus(HttpStatus.CREATED)
     public CommunityChatMessageView sendCommunityChatMessage(Principal principal, @Valid @RequestBody MessageRequest body) {
-        return service.sendCommunityChatMessage(principal.getName(), body.content());
+        return service.sendCommunityChatMessage(principal.getName(), body.content(), body.imageData());
     }
 
+    @PatchMapping("/community-chat/messages/{id}/reactions")
+    public CommunityChatMessageView reactToCommunityChatMessage(Principal principal, @PathVariable Long id, @RequestBody Map<String, String> body) {
+        return service.toggleCommunityReaction(principal.getName(), id, body.get("emoji"));
+    }
+    @DeleteMapping("/community-chat/messages/{id}") @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCommunityChatMessage(Principal principal, @PathVariable Long id) { service.deleteCommunityChatMessage(principal.getName(), id); }
+    @PostMapping("/community-chat/messages/{id}/reports") @ResponseStatus(HttpStatus.CREATED)
+    public void reportCommunityChatMessage(Principal principal, @PathVariable Long id, @Valid @RequestBody ReportMessageRequest body) {
+        service.reportCommunityChatMessage(principal.getName(), id, body.reason());
+    }
     @GetMapping("/notifications") public List<NotificationView> notifications(Principal principal) { return service.notificationList(principal.getName()); }
     @GetMapping("/notifications/unread-count") public Map<String, Long> unreadCount(Principal principal) { return Map.of("count", service.unreadNotifications(principal.getName())); }
     @PatchMapping("/notifications/{id}/read") @ResponseStatus(HttpStatus.NO_CONTENT) public void markRead(Principal principal, @PathVariable Long id) { service.markNotificationRead(principal.getName(), id); }

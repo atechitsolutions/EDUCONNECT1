@@ -585,7 +585,7 @@ export default function StudyAbroadHero() {
                             .map(
                                 (destination) => `
                                     <a
-                                        href="#study-abroad-country-comparison"
+                                        href="/study-abroad/search-results?q=${encodeURIComponent(destination.name)}"
                                         class="study-abroad-destination-card"
                                         data-country="${destination.code}"
                                     >

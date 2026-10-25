@@ -40,7 +40,10 @@ export const communityApi = {
         const suffix = query.size ? `?${query.toString()}` : "";
         return call(`/community-chat/messages${suffix}`);
     },
-    sendCommunityChatMessage: (content) => call("/community-chat/messages", json("POST", { content })),
+    sendCommunityChatMessage: (content, imageData) => call("/community-chat/messages", json("POST", { content, imageData })),
+    reactToCommunityChatMessage: (id, emoji) => call(`/community-chat/messages/${id}/reactions`, json("PATCH", { emoji })),
+    deleteCommunityChatMessage: (id) => call(`/community-chat/messages/${id}`, { method: "DELETE" }),
+    reportCommunityChatMessage: (id, reason) => call(`/community-chat/messages/${id}/reports`, json("POST", { reason })),
     conversations: () => call("/conversations"),
     openConversation: (userId) => call(`/conversations/${userId}`, { method: "POST" }),
     messages: (id, afterId, beforeId) => {
