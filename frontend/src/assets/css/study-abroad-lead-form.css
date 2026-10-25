@@ -1,0 +1,795 @@
+/* =========================================================
+   EDUCONNECT — STUDY ABROAD LEAD FORM
+   ========================================================= */
+
+.study-abroad-lead-section {
+    position: relative;
+    width: 100%;
+    padding: 110px 0;
+    background:
+        radial-gradient(
+            circle at 8% 15%,
+            rgba(37, 99, 235, 0.08),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 92% 85%,
+            rgba(37, 99, 235, 0.06),
+            transparent 30%
+        ),
+        #f8fafc;
+    overflow: hidden;
+}
+
+.study-abroad-lead-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.7),
+            transparent 25%,
+            transparent 75%,
+            rgba(255, 255, 255, 0.7)
+        );
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.study-abroad-lead-section .study-abroad-container {
+    position: relative;
+    z-index: 1;
+    width: min(1180px, calc(100% - 48px));
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   MAIN WRAPPER
+========================================================= */
+
+.study-abroad-lead-wrapper {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+    gap: 70px;
+    align-items: start;
+}
+
+
+/* =========================================================
+   LEFT CONTENT
+========================================================= */
+
+.study-abroad-lead-content {
+    padding-top: 35px;
+}
+
+.study-abroad-lead-content .study-abroad-section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 22px;
+    padding: 9px 14px;
+    border: 1px solid rgba(37, 99, 235, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.8);
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.study-abroad-lead-content h2 {
+    max-width: 600px;
+    margin: 0 0 22px;
+    color: #111827;
+    font-size: clamp(38px, 4vw, 58px);
+    line-height: 1.06;
+    letter-spacing: -0.045em;
+    font-weight: 800;
+}
+
+.study-abroad-lead-content > p {
+    max-width: 600px;
+    margin: 0;
+    color: #667085;
+    font-size: 17px;
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   BENEFITS
+========================================================= */
+
+.study-abroad-lead-benefits {
+    display: grid;
+    gap: 18px;
+    margin-top: 42px;
+}
+
+.study-abroad-lead-benefit {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 15px;
+    align-items: start;
+}
+
+.study-abroad-benefit-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: #eaf2ff;
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.study-abroad-lead-benefit strong {
+    display: block;
+    margin-bottom: 4px;
+    color: #111827;
+    font-size: 16px;
+    line-height: 1.4;
+    font-weight: 750;
+}
+
+.study-abroad-lead-benefit p {
+    margin: 0;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   INFORMATION NOTE
+========================================================= */
+
+.study-abroad-lead-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    max-width: 600px;
+    margin-top: 35px;
+    padding: 16px 18px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.78);
+}
+
+.study-abroad-lead-note > span {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #eef4ff;
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.study-abroad-lead-note p {
+    margin: 0;
+    color: #667085;
+    font-size: 12px;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   FORM CARD
+========================================================= */
+
+.study-abroad-lead-card {
+    position: relative;
+    padding: 34px;
+    border: 1px solid #e5e7eb;
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow:
+        0 24px 70px rgba(15, 23, 42, 0.09),
+        0 4px 18px rgba(15, 23, 42, 0.04);
+}
+
+.study-abroad-lead-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 34px;
+    right: 34px;
+    height: 3px;
+    border-radius: 0 0 999px 999px;
+    background: #2563eb;
+}
+
+
+/* =========================================================
+   FORM HEADER
+========================================================= */
+
+.study-abroad-lead-card-header {
+    margin-bottom: 28px;
+}
+
+.study-abroad-lead-card-header > span {
+    display: block;
+    margin-bottom: 8px;
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.study-abroad-lead-card-header h3 {
+    margin: 0 0 7px;
+    color: #111827;
+    font-size: 27px;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+    font-weight: 800;
+}
+
+.study-abroad-lead-card-header p {
+    margin: 0;
+    color: #667085;
+    font-size: 13px;
+}
+
+.study-abroad-selection-note:not([hidden]) {
+    margin: -12px 0 20px;
+    padding: 12px 14px;
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    background: #eff6ff;
+    color: #174a83;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.study-abroad-lead-form {
+    display: grid;
+    gap: 17px;
+}
+
+.study-abroad-form-field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.study-abroad-form-field label {
+    margin-bottom: 7px;
+    color: #344054;
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   INPUTS / SELECTS / TEXTAREA
+========================================================= */
+
+.study-abroad-form-field input,
+.study-abroad-form-field select,
+.study-abroad-form-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #d0d5dd;
+    border-radius: 11px;
+    outline: none;
+    background: #ffffff;
+    color: #101828;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        background-color 180ms ease;
+}
+
+.study-abroad-form-field input,
+.study-abroad-form-field select {
+    min-height: 48px;
+    padding: 0 14px;
+}
+
+.study-abroad-form-field textarea {
+    min-height: 105px;
+    padding: 12px 14px;
+    resize: vertical;
+}
+
+.study-abroad-form-field input::placeholder,
+.study-abroad-form-field textarea::placeholder {
+    color: #98a2b3;
+}
+
+.study-abroad-form-field input:hover,
+.study-abroad-form-field select:hover,
+.study-abroad-form-field textarea:hover {
+    border-color: #98a2b3;
+}
+
+.study-abroad-form-field input:focus,
+.study-abroad-form-field select:focus,
+.study-abroad-form-field textarea:focus {
+    border-color: #2563eb;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+}
+
+
+/* =========================================================
+   FORM ROW
+========================================================= */
+
+.study-abroad-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+
+/* =========================================================
+   PHONE FIELD
+========================================================= */
+
+.study-abroad-phone-field {
+    display: grid;
+    grid-template-columns: 54px minmax(0, 1fr);
+}
+
+.study-abroad-phone-field > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    border: 1px solid #d0d5dd;
+    border-right: 0;
+    border-radius: 11px 0 0 11px;
+    background: #f8fafc;
+    color: #344054;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.study-abroad-phone-field input {
+    border-radius: 0 11px 11px 0;
+}
+
+.study-abroad-phone-field:focus-within > span {
+    border-color: #2563eb;
+}
+
+
+/* =========================================================
+   CHARACTER COUNT
+========================================================= */
+
+.study-abroad-character-count {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+    color: #98a2b3;
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   CONSENT
+========================================================= */
+
+.study-abroad-consent {
+    margin-top: 2px;
+}
+
+.study-abroad-consent label {
+    display: grid;
+    grid-template-columns: 18px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+    cursor: pointer;
+}
+
+.study-abroad-consent input[type="checkbox"] {
+    width: 17px;
+    height: 17px;
+    margin: 2px 0 0;
+    accent-color: #2563eb;
+    cursor: pointer;
+}
+
+.study-abroad-consent span {
+    color: #667085;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   ERROR
+========================================================= */
+
+.study-abroad-form-error {
+    display: block;
+    min-height: 0;
+    margin-top: 5px;
+    color: #d92d20;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.study-abroad-submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    min-height: 52px;
+    margin-top: 4px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 11px;
+    background: #2563eb;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 750;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(37, 99, 235, 0.20);
+    transition:
+        transform 180ms ease,
+        background-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.study-abroad-submit-button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(37, 99, 235, 0.25);
+}
+
+.study-abroad-submit-button:active {
+    transform: translateY(0);
+}
+
+.study-abroad-submit-button:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.22);
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   FORM STATUS
+========================================================= */
+
+.study-abroad-form-status {
+    display: none;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.study-abroad-form-status:not(:empty) {
+    display: block;
+}
+
+
+/* =========================================================
+   PRIVACY
+========================================================= */
+
+.study-abroad-form-privacy {
+    margin: 0;
+    color: #98a2b3;
+    font-size: 10px;
+    line-height: 1.55;
+    text-align: center;
+}
+
+
+/* =========================================================
+   PROCESS STRIP
+========================================================= */
+
+.study-abroad-lead-process {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 35px;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    background: #ffffff;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04);
+}
+
+.study-abroad-lead-process > div {
+    position: relative;
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    column-gap: 12px;
+    padding: 22px;
+}
+
+.study-abroad-lead-process > div:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    top: 22px;
+    right: 0;
+    width: 1px;
+    height: calc(100% - 44px);
+    background: #e5e7eb;
+}
+
+.study-abroad-lead-process > div > span {
+    grid-row: 1 / span 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: #eef4ff;
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.study-abroad-lead-process strong {
+    color: #111827;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.study-abroad-lead-process small {
+    margin-top: 3px;
+    color: #667085;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   SEO CONTENT
+========================================================= */
+
+.study-abroad-lead-seo {
+    max-width: 900px;
+    margin: 70px auto 0;
+    padding-top: 35px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.study-abroad-lead-seo h2 {
+    margin: 0 0 14px;
+    color: #111827;
+    font-size: 25px;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+}
+
+.study-abroad-lead-seo p {
+    margin: 0 0 12px;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.study-abroad-lead-seo p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   INVALID STATES
+========================================================= */
+
+.study-abroad-form-field input[aria-invalid="true"],
+.study-abroad-form-field select[aria-invalid="true"],
+.study-abroad-form-field textarea[aria-invalid="true"] {
+    border-color: #d92d20;
+}
+
+.study-abroad-form-field input[aria-invalid="true"]:focus,
+.study-abroad-form-field select[aria-invalid="true"]:focus,
+.study-abroad-form-field textarea[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 4px rgba(217, 45, 32, 0.08);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 980px) {
+
+    .study-abroad-lead-wrapper {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .study-abroad-lead-content {
+        padding-top: 0;
+    }
+
+    .study-abroad-lead-content h2 {
+        max-width: 760px;
+    }
+
+    .study-abroad-lead-content > p {
+        max-width: 760px;
+    }
+
+    .study-abroad-lead-note {
+        max-width: 760px;
+    }
+
+    .study-abroad-lead-card {
+        max-width: 760px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET / SMALL LAPTOP
+========================================================= */
+
+@media (max-width: 760px) {
+
+    .study-abroad-lead-section {
+        padding: 80px 0;
+    }
+
+    .study-abroad-lead-section .study-abroad-container {
+        width: min(100% - 32px, 620px);
+    }
+
+    .study-abroad-lead-process {
+        grid-template-columns: 1fr;
+    }
+
+    .study-abroad-lead-process > div:not(:last-child)::after {
+        top: auto;
+        right: 22px;
+        bottom: 0;
+        width: calc(100% - 44px);
+        height: 1px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 560px) {
+
+    .study-abroad-lead-section {
+        padding: 65px 0;
+    }
+
+    .study-abroad-lead-section .study-abroad-container {
+        width: calc(100% - 24px);
+    }
+
+    .study-abroad-lead-content h2 {
+        font-size: 34px;
+        line-height: 1.08;
+    }
+
+    .study-abroad-lead-content > p {
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .study-abroad-lead-benefits {
+        margin-top: 30px;
+    }
+
+    .study-abroad-lead-card {
+        padding: 24px 18px;
+        border-radius: 19px;
+    }
+
+    .study-abroad-lead-card::before {
+        left: 18px;
+        right: 18px;
+    }
+
+    .study-abroad-lead-card-header h3 {
+        font-size: 23px;
+    }
+
+    .study-abroad-form-row {
+        grid-template-columns: 1fr;
+        gap: 17px;
+    }
+
+    .study-abroad-lead-process > div {
+        padding: 18px;
+    }
+
+    .study-abroad-lead-seo {
+        margin-top: 50px;
+        padding-top: 28px;
+    }
+
+    .study-abroad-lead-seo h2 {
+        font-size: 21px;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .study-abroad-lead-content h2 {
+        font-size: 30px;
+    }
+
+    .study-abroad-lead-card {
+        padding: 22px 15px;
+    }
+
+    .study-abroad-lead-card::before {
+        left: 15px;
+        right: 15px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .study-abroad-form-field input,
+    .study-abroad-form-field select,
+    .study-abroad-form-field textarea,
+    .study-abroad-submit-button {
+        transition: none;
+    }
+
+    .study-abroad-submit-button:hover {
+        transform: none;
+    }
+
+}

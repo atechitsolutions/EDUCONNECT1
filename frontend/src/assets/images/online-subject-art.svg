@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 450" fill="none">
+  <defs>
+    <linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#4b9bff"/><stop offset="1" stop-color="#8d76f5"/></linearGradient>
+  </defs>
+  <!-- 12 quiet subject illustrations in a 4 × 3 sprite; each cell is 240 × 150. -->
+  <g stroke="url(#a)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".78">
+    <g transform="translate(32 28)"><rect x="4" y="4" width="150" height="92" rx="12"/><path d="M4 23h150M22 14h1m12 0h1m12 0h1M50 43l14 13-14 13m28 0h25"/><path d="M42 115h75m-63-19-8 19m50-19 8 19"/></g>
+    <g transform="translate(272 28)"><circle cx="82" cy="48" r="13"/><circle cx="40" cy="27" r="8"/><circle cx="126" cy="27" r="8"/><circle cx="40" cy="79" r="8"/><circle cx="126" cy="79" r="8"/><path d="m48 31 23 12m23 0 24-12M48 75l23-19m23 0 24 19M82 61v42"/><circle cx="82" cy="112" r="9"/></g>
+    <g transform="translate(512 28)"><path d="M22 108V80h24v28m13 0V58h24v50m13 0V35h24v73m13 0V20h24v88M17 119h137"/><path d="m25 66 34-20 27 7 47-32"/></g>
+    <g transform="translate(752 28)"><rect x="24" y="48" width="126" height="72" rx="11"/><path d="M62 48V34a8 8 0 0 1 8-8h34a8 8 0 0 1 8 8v14M24 76h126m-70-8h14v15H80z"/></g>
+    <g transform="translate(32 178)"><path d="M83 14 97 46l35 4-26 23 8 34-31-18-31 18 8-34-26-23 35-4z"/><circle cx="36" cy="28" r="5"/><circle cx="143" cy="99" r="5"/></g>
+    <g transform="translate(272 178)"><path d="M24 111h128M34 101l34-39 23 19 43-53"/><circle cx="68" cy="62" r="6"/><circle cx="91" cy="81" r="6"/><circle cx="134" cy="28" r="6"/><path d="M112 28h22v22"/></g>
+    <g transform="translate(512 178)"><path d="M82 16v105M115 35c-7-9-17-13-31-13-18 0-29 9-29 22 0 34 57 17 57 49 0 15-13 25-32 25-15 0-28-6-36-17"/><path d="M29 124h106"/></g>
+    <g transform="translate(752 178)"><circle cx="84" cy="67" r="42"/><circle cx="84" cy="67" r="25"/><circle cx="84" cy="67" r="8"/><path d="M84 14v10m0 86v10M31 67h10m86 0h10M47 30l7 7m60 60 7 7m0-74-7 7m-60 60-7 7"/></g>
+    <g transform="translate(32 328)"><path d="m82 12 53 53-53 53-53-53z"/><path d="m61 65 14 14 29-31"/><circle cx="142" cy="22" r="5"/></g>
+    <g transform="translate(272 328)"><path d="m51 101 61-61 22 22-61 61-29 7zM105 47l22 22M44 108l17 17"/><path d="M34 35h19m-9-9v19m70 54h24m-12-12v24"/></g>
+    <g transform="translate(512 328)"><circle cx="82" cy="66" r="45"/><path d="M82 43v46m-17-29c0-8 7-14 17-14s17 6 17 14-7 13-17 13-17 6-17 14 7 14 17 14 17-6 17-14"/></g>
+    <g transform="translate(752 328)"><path d="M35 28h96v76H35zM53 48h60M53 66h60M53 84h38"/><path d="m117 116 12 12 24-27"/></g>
+  </g>
+</svg>

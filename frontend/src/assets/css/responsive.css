@@ -1,0 +1,3574 @@
+/* =========================================================
+   EDUCONNECT — FINAL RESPONSIVE AUTHORITY
+   ---------------------------------------------------------
+   Load this file AFTER every other CSS file.
+
+   Purpose:
+   - Preserve the existing desktop UI.
+   - Fix mobile/tablet overflow.
+   - Make 320 / 344 / 360 / 375 / 390 / 412 / 430px usable.
+   - Fix header + navbar wrapping.
+   - Fix hero/search layout.
+   - Fix institution-card and carousel widths.
+   - Compact large section headers on phones.
+   - Keep study-abroad, footer, auth and homepage sections safe.
+========================================================= */
+
+
+/* =========================================================
+   TABLET SAFETY — 1100PX AND BELOW
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    html,
+    body,
+    #app {
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    #app {
+        overflow-x: hidden;
+    }
+
+    img,
+    svg,
+    video,
+    canvas,
+    iframe {
+        max-width: 100%;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+
+    /* -----------------------------------------------------
+       HEADER — TABLET
+    ----------------------------------------------------- */
+
+    .header-container {
+        max-width: 100%;
+        padding: 10px 16px;
+        gap: 12px;
+    }
+
+    .logo a {
+        font-size: 24px;
+        white-space: nowrap;
+    }
+
+    .search-box {
+        min-width: 0;
+    }
+
+    .search-box input {
+        min-width: 0;
+    }
+
+    .location-box {
+        flex-shrink: 0;
+    }
+
+    .header-auth {
+        flex-shrink: 0;
+        gap: 6px;
+        margin-left: 0;
+    }
+
+    .header-login-button,
+    .header-register-button,
+    .header-user-button {
+        padding: 0 11px;
+        min-height: 34px;
+        font-size: 11px;
+    }
+
+
+    /* -----------------------------------------------------
+       NAVBAR — TABLET
+    ----------------------------------------------------- */
+
+    .navbar-container {
+        max-width: 100%;
+        gap: 12px 16px;
+        padding: 11px 16px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navbar-container a {
+        font-size: 13px;
+    }
+
+    .navbar-partner-login {
+        padding: 7px 12px;
+        font-size: 12px;
+    }
+
+
+    /* -----------------------------------------------------
+       HOME OLD GRID SECTIONS
+    ----------------------------------------------------- */
+
+    .online-section,
+    .news-section {
+        width: min(920px, calc(100% - 32px));
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+    /* -----------------------------------------------------
+       CATEGORY GRID
+    ----------------------------------------------------- */
+
+    .categories-compact-container {
+        width: min(920px, calc(100% - 32px));
+    }
+
+    .categories-compact-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+
+    /* -----------------------------------------------------
+       LARGE CUSTOM SECTIONS
+    ----------------------------------------------------- */
+
+    .boarding-schools-intro,
+    .top-companies-intro,
+    #top-ug-pg-colleges .ug-pg-intro {
+        width: min(920px, calc(100% - 32px));
+    }
+
+    .boarding-schools-carousel,
+    .top-companies-carousel,
+    .boarding-schools-bottom,
+    .top-companies-bottom,
+    .boarding-schools-all,
+    .top-companies-all,
+    #top-ug-pg-colleges .ug-pg-section-wrapper {
+        width: min(920px, calc(100% - 32px));
+    }
+
+}
+
+
+/* =========================================================
+   PHONE SYSTEM — 768PX AND BELOW
+========================================================= */
+
+@media (max-width: 768px) {
+
+    :root {
+        --mobile-page-gap: 12px;
+        --mobile-section-gap: 24px;
+        --mobile-card-gap: 12px;
+        --mobile-radius: 16px;
+    }
+
+
+    /* =====================================================
+       GLOBAL MOBILE SAFETY
+    ===================================================== */
+
+    html,
+    body,
+    #app {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: hidden !important;
+    }
+
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+        scroll-padding-top: 16px;
+    }
+
+    body {
+        margin: 0;
+        min-width: 0;
+    }
+
+    #app {
+        min-height: 100%;
+    }
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    img,
+    svg,
+    video,
+    canvas,
+    iframe {
+        max-width: 100%;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        font: inherit;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    a,
+    span,
+    strong,
+    small,
+    label {
+        max-width: 100%;
+        overflow-wrap: anywhere;
+    }
+
+
+    /* =====================================================
+       HEADER
+       Mobile becomes:
+       ROW 1 = logo + auth
+       ROW 2 = search
+    ===================================================== */
+
+    .header {
+        position: sticky;
+        top: 0;
+        z-index: 10000;
+        width: 100%;
+    }
+
+    .header-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 8px 10px 9px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: auto auto;
+        align-items: center;
+        gap: 7px 8px;
+    }
+
+    .logo {
+        min-width: 0;
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .logo a {
+        display: inline-block;
+        max-width: 100%;
+        font-size: clamp(18px, 5vw, 22px);
+        line-height: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .search-box {
+        width: 100%;
+        min-width: 0;
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .search-box input {
+        width: 100%;
+        min-width: 0;
+        height: 40px;
+        padding: 0 14px;
+        border-radius: 12px;
+        font-size: 13px;
+    }
+
+    .location-box {
+        display: none !important;
+    }
+
+    .header-auth {
+        grid-column: 2;
+        grid-row: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
+        margin-left: 0;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .notification-btn,
+    .header-login-button,
+    .header-register-button,
+    .header-user-button {
+        flex-shrink: 0;
+        min-height: 31px;
+        height: 31px;
+        padding: 0 7px;
+        border-radius: 8px;
+        font-size: 10px;
+        white-space: nowrap;
+    }
+
+    .notification-btn {
+        width: 31px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+
+
+    /* =====================================================
+       NAVBAR
+       IMPORTANT:
+       Do NOT use horizontal scrolling on phones.
+       Links wrap naturally instead.
+    ===================================================== */
+
+    .navbar {
+        position: relative !important;
+        top: auto !important;
+        width: 100%;
+        z-index: 9000;
+        overflow: visible !important;
+    }
+
+    .navbar-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 8px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px 10px;
+        flex-wrap: wrap;
+        overflow: visible !important;
+    }
+
+    .navbar-container > a,
+    .navbar-dropdown,
+    .navbar-partner-login {
+        flex: 0 0 auto;
+    }
+
+    .navbar-container a {
+        font-size: 11px;
+        line-height: 1.15;
+    }
+
+    .navbar-container > a::after,
+    .navbar-dropdown-link::after {
+        bottom: -3px;
+    }
+
+    .navbar-dropdown {
+        height: auto;
+    }
+
+    .navbar-dropdown-link {
+        min-height: 24px;
+        gap: 3px;
+    }
+
+    .navbar-dropdown-arrow {
+        font-size: 8px;
+    }
+
+    .navbar-dropdown-menu {
+        top: calc(100% + 5px);
+        left: 0;
+        transform: translateY(6px);
+        width: 155px;
+        min-width: 155px;
+        max-width: calc(100vw - 24px);
+        padding: 6px;
+        border-radius: 9px;
+    }
+
+    .navbar-dropdown:hover .navbar-dropdown-menu {
+        transform: translateY(0);
+    }
+
+    .navbar-dropdown-menu::before {
+        left: 20px;
+    }
+
+    .navbar-dropdown-menu .navbar-dropdown-item {
+        padding: 9px 10px;
+        font-size: 12px;
+        white-space: normal;
+    }
+
+    .navbar-partner-login {
+        padding: 6px 9px;
+        min-height: 27px;
+        border-radius: 7px;
+        font-size: 10px;
+    }
+
+
+    /* =====================================================
+       HOME HERO
+    ===================================================== */
+
+    .hero {
+        width: 100%;
+        min-height: 620px;
+        max-width: 100%;
+        background-position: center center;
+        overflow: hidden;
+    }
+
+    .hero-overlay {
+        min-height: 620px;
+    }
+
+    .hero-content {
+        width: 100%;
+        max-width: 100%;
+        padding: 38px 12px 42px;
+        text-align: center;
+    }
+
+    .hero-badge {
+        max-width: 100%;
+        margin-bottom: 15px;
+        padding: 7px 11px;
+        font-size: 10px;
+        gap: 7px;
+    }
+
+    .hero-badge-dot {
+        width: 7px;
+        height: 7px;
+        flex: 0 0 7px;
+    }
+
+    .hero-title {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto 14px;
+        font-size: clamp(29px, 9vw, 40px);
+        line-height: 1.08;
+        letter-spacing: -0.8px;
+    }
+
+    .hero-title span {
+        margin-top: 3px;
+    }
+
+    .hero-description {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto 20px;
+        font-size: 13px;
+        line-height: 1.55;
+    }
+
+    .hero-search {
+        width: 100%;
+        max-width: 100%;
+        min-height: 0;
+        margin: 0 auto;
+        padding: 7px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 7px;
+        border-radius: 16px;
+    }
+
+    .hero-search-icon {
+        display: none;
+    }
+
+    .hero-search input {
+        width: 100%;
+        height: 45px;
+        padding: 0 13px;
+        font-size: 13px;
+    }
+
+    .hero-search-btn {
+        width: 100%;
+        min-width: 0;
+        height: 45px;
+        padding: 0 15px;
+        border-radius: 12px;
+        font-size: 13px;
+    }
+
+    .hero-quick-links {
+        width: 100%;
+        max-width: 340px;
+        margin: 10px auto 0;
+        gap: 5px;
+        font-size: 10px;
+    }
+
+    .hero-quick-links span {
+        display: none;
+    }
+
+    .hero-quick-links button {
+        padding: 4px 8px;
+        font-size: 9px;
+    }
+
+    .hero-buttons {
+        width: 100%;
+        margin-top: 17px;
+        gap: 8px;
+        flex-direction: column;
+    }
+
+    .hero-buttons button {
+        width: min(100%, 290px);
+        min-height: 45px;
+        padding: 0 18px;
+        font-size: 13px;
+    }
+
+    .hero-stats {
+        width: 100%;
+        max-width: 360px;
+        margin-top: 20px;
+        padding: 10px 7px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        border-radius: 15px;
+    }
+
+    .hero-stat {
+        min-width: 0;
+        gap: 2px;
+    }
+
+    .hero-stat strong {
+        font-size: 15px;
+    }
+
+    .hero-stat span {
+        font-size: 8.5px;
+        line-height: 1.25;
+        text-align: center;
+    }
+
+    .hero-stat-divider,
+    .hero-scroll-indicator {
+        display: none;
+    }
+
+    .hero-glow-one {
+        width: 220px;
+        height: 220px;
+        top: -100px;
+        right: -80px;
+    }
+
+    .hero-glow-two {
+        width: 190px;
+        height: 190px;
+        bottom: -85px;
+        left: -75px;
+    }
+
+
+    /* =====================================================
+       OLD RUNNING / TICKER SECTIONS
+    ===================================================== */
+
+    .running-section,
+    .ticker {
+        width: calc(100% - 20px);
+        max-width: none;
+        margin: 10px auto;
+    }
+
+    .running-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .running-title,
+    .ticker-title {
+        width: 100%;
+        min-width: 0;
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+
+    .running-content,
+    .ticker-item {
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+
+    .ticker {
+        flex-direction: column;
+    }
+
+    .ticker-wrapper {
+        width: 100%;
+        min-width: 0;
+    }
+
+
+    /* =====================================================
+       PREMIUM TICKERS
+    ===================================================== */
+
+    .premium-ticker-section {
+        width: 100%;
+        padding: 6px 0;
+        overflow: hidden;
+    }
+
+    .premium-ticker {
+        width: calc(100% - 16px);
+        max-width: none;
+        height: 61px;
+        border-radius: 12px;
+    }
+
+    .premium-ticker-label {
+        width: 125px;
+        min-width: 125px;
+        padding: 0 9px;
+        gap: 7px;
+        clip-path: polygon(
+            0 0,
+            91% 0,
+            100% 50%,
+            91% 100%,
+            0 100%
+        );
+    }
+
+    .ticker-label-icon {
+        width: 29px;
+        height: 29px;
+        font-size: 13px;
+    }
+
+    .ticker-label-text {
+        min-width: 0;
+    }
+
+    .ticker-label-text strong {
+        font-size: 8.5px;
+        letter-spacing: 0;
+        line-height: 1.2;
+        white-space: normal;
+    }
+
+    .ticker-label-text span {
+        display: none;
+    }
+
+    .premium-ticker-window {
+        min-width: 0;
+    }
+
+    .premium-ticker-item {
+        min-width: 190px;
+        padding: 0 11px;
+        gap: 7px;
+    }
+
+    .premium-ticker-item-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+    }
+
+    .premium-ticker-item-content strong {
+        font-size: 10.5px;
+    }
+
+    .premium-ticker-item-content span {
+        font-size: 9px;
+    }
+
+    .premium-ticker-arrow {
+        display: none;
+    }
+
+    .premium-ticker-progress {
+        width: calc(100% - 16px);
+    }
+
+
+    /* =====================================================
+       ONLINE / NEWS OLD GRID
+    ===================================================== */
+
+    .online-section,
+    .news-section {
+        width: calc(100% - 24px);
+        max-width: 100%;
+        margin: 26px auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 0;
+    }
+
+    .online-column,
+    .news-column {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .big-banner,
+    .news-banner-slider {
+        width: 100%;
+        height: 220px;
+        min-height: 0;
+        border-radius: 14px;
+    }
+
+    .small-card,
+    .news-card {
+        width: 100%;
+        min-width: 0;
+        padding: 14px;
+        border-radius: 12px;
+    }
+
+
+    /* =====================================================
+       COMPACT CATEGORIES
+    ===================================================== */
+
+    .categories-compact {
+        width: 100%;
+        max-width: 100%;
+        padding: 28px 0 34px !important;
+        overflow: hidden;
+    }
+
+    .categories-compact-container {
+        width: calc(100% - 20px);
+        max-width: 100%;
+        min-width: 0;
+        margin: 0 auto;
+    }
+
+    .categories-compact-header {
+        width: 100%;
+        margin-bottom: 17px;
+        text-align: center;
+    }
+
+    .categories-compact-eyebrow {
+        padding: 6px 10px;
+        margin-bottom: 7px;
+        font-size: 8.5px;
+    }
+
+    .categories-compact-header h2 {
+        margin-bottom: 6px;
+        font-size: clamp(22px, 7vw, 28px) !important;
+        line-height: 1.18;
+    }
+
+    .categories-compact-header p {
+        max-width: 100%;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .categories-compact-grid {
+        width: 100%;
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 9px !important;
+    }
+
+    .compact-category-card {
+        width: 100%;
+        min-width: 0;
+        min-height: 94px !important;
+        height: auto;
+        padding: 8px !important;
+        gap: 7px !important;
+        border-radius: 14px !important;
+    }
+
+    .compact-category-image {
+        flex: 0 0 48px !important;
+        width: 48px !important;
+        height: 48px !important;
+        border-radius: 11px !important;
+    }
+
+    .compact-category-icon {
+        margin-bottom: 3px;
+        font-size: 15px;
+    }
+
+    .compact-category-content {
+        min-width: 0;
+        flex: 1 1 auto;
+    }
+
+    .compact-category-content h3 {
+        max-width: 100%;
+        font-size: clamp(11px, 3.3vw, 13px) !important;
+        line-height: 1.18;
+    }
+
+    .compact-category-arrow {
+        flex: 0 0 21px !important;
+        width: 21px !important;
+        height: 21px !important;
+        font-size: 11px !important;
+    }
+
+
+    /* =====================================================
+       SHARED INFO SECTIONS
+    ===================================================== */
+
+    #online-education,
+    #study-abroad,
+    #news,
+    #compare-college,
+    #education-loan,
+    #rankings,
+    #scholarship,
+    #student-reviews,
+    #top-lists,
+    #top-boarding-schools,
+    #top-companies,
+    #top-ug-pg-colleges {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+    }
+
+    #online-education,
+    #study-abroad,
+    #news,
+    #compare-college,
+    #education-loan,
+    #rankings,
+    #scholarship,
+    #student-reviews,
+    #top-lists {
+        padding-top: 34px !important;
+        padding-bottom: 42px !important;
+    }
+
+    #top-boarding-schools,
+    #top-companies,
+    #top-ug-pg-colleges {
+        padding-top: 38px !important;
+        padding-bottom: 44px !important;
+    }
+
+
+    /* =====================================================
+       SECTION CONTAINERS
+    ===================================================== */
+
+    #online-education > .container,
+    #study-abroad > .container,
+    #news > .container,
+    #compare-college > .container,
+    #education-loan > .container,
+    #rankings > .container,
+    #scholarship > .container,
+    #student-reviews > .container,
+    #top-lists > .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+
+    /* =====================================================
+       GENERIC SECTION HEADERS
+    ===================================================== */
+
+    #online-education .section-header,
+    #study-abroad .section-header,
+    #news .section-header,
+    #compare-college .section-header,
+    #education-loan .section-header,
+    #rankings .section-header,
+    #scholarship .section-header,
+    #student-reviews .section-header,
+    #top-lists .section-header {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 28px 16px 24px !important;
+        border-radius: 0 0 18px 18px !important;
+    }
+
+    #online-education .section-header .section-title,
+    #study-abroad .section-header .section-title,
+    #news .section-header .section-title,
+    #compare-college .section-header .section-title,
+    #education-loan .section-header .section-title,
+    #rankings .section-header .section-title,
+    #scholarship .section-header .section-title,
+    #student-reviews .section-header .section-title,
+    #top-lists .section-header .section-title {
+        margin-bottom: 8px !important;
+        font-size: clamp(23px, 7vw, 29px) !important;
+        line-height: 1.15 !important;
+        letter-spacing: -0.35px !important;
+    }
+
+    #online-education .section-header .section-subtitle,
+    #study-abroad .section-header .section-subtitle,
+    #news .section-header .section-subtitle,
+    #compare-college .section-header .section-subtitle,
+    #education-loan .section-header .section-subtitle,
+    #rankings .section-header .section-subtitle,
+    #scholarship .section-header .section-subtitle,
+    #student-reviews .section-header .section-subtitle,
+    #top-lists .section-header .section-subtitle {
+        width: 100% !important;
+        max-width: 100% !important;
+        font-size: 13px !important;
+        line-height: 1.55 !important;
+    }
+
+
+    /* =====================================================
+       EXISTING COMPACT INFO GRIDS
+    ===================================================== */
+
+    .education-loan-grid,
+    .online-education-grid,
+    .news-grid,
+    .study-abroad-grid,
+    .rankings-grid,
+    .scholarship-grid,
+    .top-lists-grid,
+    .compare-college-grid,
+    .video-reviews-grid {
+        width: calc(100% - 24px) !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .education-loan-grid .institution-card,
+    .online-education-grid .institution-card,
+    .news-grid .institution-card,
+    .study-abroad-grid .institution-card,
+    .rankings-grid .institution-card,
+    .scholarship-grid .institution-card,
+    .top-lists-grid .institution-card,
+    .compare-college-grid .institution-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+    }
+
+
+    /* =====================================================
+       INSTITUTION CARDS — BASE MOBILE
+    ===================================================== */
+
+    .institution-card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        border-radius: var(--mobile-radius) !important;
+    }
+
+    .institution-card-visual {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: clamp(125px, 36vw, 160px) !important;
+        min-height: 0 !important;
+        flex: 0 0 auto !important;
+    }
+
+    .institution-card-visual > img {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        object-fit: cover !important;
+    }
+
+    .institution-card-title {
+        left: 72px !important;
+        right: 10px !important;
+        bottom: 11px !important;
+    }
+
+    .institution-card-title h3 {
+        font-size: clamp(13px, 4vw, 16px) !important;
+        line-height: 1.2 !important;
+    }
+
+    .institution-card-title p {
+        font-size: 10px !important;
+        line-height: 1.3 !important;
+    }
+
+    .institution-card-logo {
+        left: 11px !important;
+        bottom: 11px !important;
+        width: 48px !important;
+        height: 48px !important;
+    }
+
+    .institution-card-score,
+    .institution-card-rank {
+        top: 10px !important;
+        padding: 4px 7px !important;
+        font-size: 10px !important;
+    }
+
+    .institution-card-score {
+        right: 10px !important;
+    }
+
+    .institution-card-rank {
+        left: 10px !important;
+    }
+
+    .institution-card-category {
+        margin: 11px 12px 0 !important;
+        padding: 4px 7px !important;
+        font-size: 9px !important;
+    }
+
+    .institution-card-program {
+        margin: 10px 12px 5px !important;
+        font-size: 14px !important;
+        line-height: 1.3 !important;
+    }
+
+    .institution-card-rating-row {
+        gap: 7px !important;
+        padding: 0 12px 10px !important;
+    }
+
+    .institution-card-rating {
+        font-size: 12px !important;
+    }
+
+    .institution-card-reviews {
+        font-size: 10px !important;
+    }
+
+    .institution-card-fees {
+        gap: 5px !important;
+        padding: 0 12px 11px !important;
+    }
+
+    .institution-card-fees strong {
+        font-size: 13px !important;
+    }
+
+    .institution-card-fees span {
+        font-size: 10px !important;
+    }
+
+    .institution-card-ranking {
+        margin: 0 12px !important;
+        padding: 10px 0 !important;
+        font-size: 10px !important;
+    }
+
+    .institution-card-highlight {
+        padding: 9px 12px !important;
+        font-size: 10px !important;
+    }
+
+    .institution-card-actions {
+        width: 100% !important;
+        padding: 0 12px 7px !important;
+        margin-top: auto;
+    }
+
+    .institution-card-action {
+        min-height: 38px !important;
+        font-size: 11px !important;
+    }
+
+
+    /* =====================================================
+       ALL CAROUSEL VIEWPORTS
+    ===================================================== */
+
+    .boarding-schools-carousel,
+    .top-companies-carousel,
+    #top-ug-pg-colleges .ug-pg-carousel,
+    #student-reviews .student-reviews-carousel,
+    #education-loan .education-loan-carousel,
+    #top-lists .top-lists-carousel,
+    #compare-college .compare-college-carousel,
+    .online-education-carousel,
+    .news-carousel,
+    .study-abroad-carousel,
+    .early-learning-carousel {
+        width: calc(100% - 20px) !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 auto !important;
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    .boarding-schools-viewport,
+    .top-companies-viewport,
+    #top-ug-pg-colleges .ug-pg-viewport,
+    #student-reviews .student-reviews-viewport,
+    #education-loan .education-loan-viewport,
+    #top-lists .top-lists-viewport,
+    #compare-college .compare-college-viewport,
+    .online-education-viewport,
+    .news-viewport,
+    .study-abroad-viewport {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+    }
+
+
+    /* =====================================================
+       CAROUSEL TRACKS
+    ===================================================== */
+
+    .boarding-schools-track,
+    .top-companies-track,
+    #top-ug-pg-colleges .ug-pg-track,
+    #student-reviews .student-reviews-track,
+    #education-loan .education-loan-track,
+    #top-lists .top-lists-track,
+    #compare-college .compare-college-track,
+    .online-education-track,
+    .news-track,
+    .study-abroad-track,
+    .institution-carousel-track,
+    .early-learning-track {
+        width: max-content !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        gap: 12px !important;
+        flex-shrink: 0 !important;
+    }
+
+
+    /* =====================================================
+       MOBILE CAROUSEL CARDS
+       One full card fits inside the phone viewport.
+    ===================================================== */
+
+    .boarding-schools-track .institution-card,
+    .top-companies-track .institution-card,
+    #top-ug-pg-colleges .ug-pg-track .institution-card,
+    #student-reviews .student-reviews-track .video-review-card,
+    #education-loan .education-loan-track .institution-card,
+    #top-lists .top-lists-track .institution-card,
+    #compare-college .compare-college-track .institution-card,
+    .institution-carousel-track .institution-card,
+    .online-education-track .institution-card,
+    .news-track .institution-card,
+    .study-abroad-track .institution-card,
+    .early-learning-track .institution-card,
+    .early-learning-carousel .institution-card {
+        flex: 0 0 calc(100vw - 36px) !important;
+        width: calc(100vw - 36px) !important;
+        min-width: calc(100vw - 36px) !important;
+        max-width: calc(100vw - 36px) !important;
+        height: auto !important;
+        min-height: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+
+    /* =====================================================
+       BOARDING SCHOOLS / TOP COMPANIES INTRO
+       Short, horizontal, phone-friendly card.
+    ===================================================== */
+
+    .boarding-schools-intro,
+    .top-companies-intro,
+    #top-ug-pg-colleges .ug-pg-intro {
+        width: calc(100% - 20px) !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        margin: 0 auto 16px !important;
+        padding: 15px 14px !important;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) auto !important;
+        align-items: center !important;
+        gap: 10px !important;
+        border-radius: 17px !important;
+        box-sizing: border-box !important;
+    }
+
+    .boarding-schools-intro-content,
+    .top-companies-intro-content,
+    #top-ug-pg-colleges .ug-pg-intro-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .boarding-schools-label,
+    .top-companies-label,
+    #top-ug-pg-colleges .ug-pg-eyebrow {
+        margin-bottom: 4px !important;
+        font-size: 8px !important;
+        letter-spacing: 0.7px !important;
+    }
+
+    .boarding-schools-intro h2,
+    .top-companies-intro h2,
+    #top-ug-pg-colleges .ug-pg-intro h2 {
+        margin: 0 !important;
+        font-size: clamp(19px, 6.5vw, 25px) !important;
+        line-height: 1.1 !important;
+        letter-spacing: -0.3px !important;
+    }
+
+    .boarding-schools-intro h2::after,
+    .top-companies-intro h2::after {
+        width: 40px !important;
+        height: 2px !important;
+        margin-top: 8px !important;
+    }
+
+    .boarding-schools-intro p,
+    .top-companies-intro p,
+    #top-ug-pg-colleges .ug-pg-intro p {
+        margin: 6px 0 0 !important;
+        max-width: 100% !important;
+        font-size: 10.5px !important;
+        line-height: 1.38 !important;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+
+    .boarding-schools-intro-badge,
+    .top-companies-intro-badge,
+    #top-ug-pg-colleges .ug-pg-stat {
+        width: 64px !important;
+        height: 64px !important;
+        min-width: 64px !important;
+        min-height: 64px !important;
+        flex: 0 0 64px !important;
+        align-self: center !important;
+        margin: 0 !important;
+    }
+
+    .boarding-schools-intro-badge strong,
+    .top-companies-intro-badge strong,
+    #top-ug-pg-colleges .ug-pg-stat strong {
+        font-size: 21px !important;
+        line-height: 1 !important;
+    }
+
+    .boarding-schools-intro-badge span,
+    .top-companies-intro-badge span,
+    #top-ug-pg-colleges .ug-pg-stat span {
+        margin-top: 4px !important;
+        font-size: 6px !important;
+        line-height: 1.1 !important;
+    }
+
+
+    /* =====================================================
+       BOARDING / COMPANY CUSTOM CARDS
+    ===================================================== */
+
+    .boarding-school-card,
+    .top-company-card {
+        flex: 0 0 calc(100vw - 36px) !important;
+        width: calc(100vw - 36px) !important;
+        min-width: calc(100vw - 36px) !important;
+        max-width: calc(100vw - 36px) !important;
+        min-height: 0 !important;
+        height: auto !important;
+        padding: 17px !important;
+        border-radius: 17px !important;
+        box-sizing: border-box !important;
+    }
+
+    .boarding-school-main,
+    .top-company-main {
+        width: 100% !important;
+        min-width: 0 !important;
+        padding-right: 28px !important;
+        gap: 10px !important;
+    }
+
+    .boarding-school-details,
+    .top-company-details {
+        width: 100% !important;
+        min-width: 0 !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 7px !important;
+    }
+
+    .boarding-school-footer,
+    .top-company-footer {
+        width: 100% !important;
+        min-width: 0 !important;
+        flex-wrap: wrap !important;
+        gap: 7px !important;
+    }
+
+    .boarding-school-highlight,
+    .top-company-highlight {
+        max-width: 100% !important;
+        white-space: normal !important;
+        font-size: 10px !important;
+    }
+
+
+    /* =====================================================
+       BOARDING / COMPANY CTA
+    ===================================================== */
+
+    .boarding-schools-bottom,
+    .top-companies-bottom,
+    #top-ug-pg-colleges .ug-pg-cta {
+        width: calc(100% - 20px) !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 18px auto 0 !important;
+        padding: 15px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 11px !important;
+        border-radius: 15px !important;
+        box-sizing: border-box !important;
+    }
+
+    .boarding-schools-bottom-text,
+    .top-companies-bottom-text,
+    #top-ug-pg-colleges .ug-pg-cta > div {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .boarding-schools-explore-btn,
+    .top-companies-explore-btn,
+    #top-ug-pg-colleges .ug-pg-cta-button {
+        width: 100% !important;
+        min-height: 42px !important;
+        justify-content: center !important;
+    }
+
+
+    /* =====================================================
+       TOP LISTS
+    ===================================================== */
+
+    #top-lists .top-lists-intro {
+        width: calc(100% - 20px) !important;
+        min-height: 0 !important;
+        height: auto !important;
+        margin: 0 auto 14px !important;
+        padding: 14px 14px !important;
+        display: block !important;
+        position: relative !important;
+        border-radius: 17px !important;
+        box-sizing: border-box !important;
+    }
+
+    #top-lists .top-lists-intro-content {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        padding: 0 70px 0 0 !important;
+    }
+
+    #top-lists .top-lists-eyebrow {
+        margin: 0 0 4px !important;
+        font-size: 8px !important;
+        line-height: 1.1 !important;
+        letter-spacing: 0.75px !important;
+    }
+
+    #top-lists .top-lists-intro h2 {
+        margin: 0 0 5px !important;
+        font-size: clamp(19px, 6.5vw, 24px) !important;
+        line-height: 1.08 !important;
+    }
+
+    #top-lists .top-lists-intro p {
+        margin: 0 !important;
+        font-size: 10.5px !important;
+        line-height: 1.38 !important;
+        display: -webkit-box !important;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+
+    #top-lists .top-lists-stat {
+        position: absolute !important;
+        right: 11px !important;
+        bottom: 11px !important;
+        width: 56px !important;
+        height: 56px !important;
+        min-width: 56px !important;
+        min-height: 56px !important;
+        flex-basis: 56px !important;
+        margin: 0 !important;
+    }
+
+    #top-lists .top-lists-stat strong {
+        font-size: 18px !important;
+    }
+
+    #top-lists .top-lists-stat span {
+        font-size: 5.5px !important;
+        max-width: 48px !important;
+        line-height: 1.1 !important;
+    }
+
+    #top-lists .top-lists-viewport {
+        width: calc(100% - 20px) !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        overflow: hidden !important;
+        border-radius: 16px;
+    }
+
+    #top-lists .top-lists-track {
+        gap: 10px !important;
+    }
+
+    #top-lists .top-lists-track .institution-card {
+        flex-basis: calc(100vw - 34px) !important;
+        width: calc(100vw - 34px) !important;
+        min-width: calc(100vw - 34px) !important;
+        max-width: calc(100vw - 34px) !important;
+    }
+
+    #top-lists .top-lists-track .institution-card-visual {
+        height: 132px !important;
+        min-height: 132px !important;
+    }
+
+    #top-lists .top-lists-next {
+        right: 2px !important;
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px !important;
+        min-height: 30px !important;
+        font-size: 14px !important;
+        z-index: 30 !important;
+    }
+
+
+    /* =====================================================
+       EARLY LEARNING
+       The previous 300/280px fixed cards are overridden here.
+    ===================================================== */
+
+    #play-school,
+    #pre-school,
+    #school {
+        width: 100% !important;
+        padding: 17px 0 27px !important;
+        overflow: hidden !important;
+    }
+
+    .early-learning-section {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .early-learning-intro {
+        width: calc(100% - 20px) !important;
+        max-width: 100% !important;
+        min-height: 0 !important;
+        margin: 0 auto 13px !important;
+        padding: 13px 12px !important;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) 66px !important;
+        align-items: center !important;
+        gap: 9px !important;
+        border-radius: 16px !important;
+    }
+
+    .early-learning-intro-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .early-learning-label {
+        margin-bottom: 4px !important;
+        font-size: 8px !important;
+        letter-spacing: 0.75px !important;
+        line-height: 1.2 !important;
+    }
+
+    .early-learning-intro h2 {
+        margin: 0 0 4px !important;
+        font-size: clamp(20px, 6.5vw, 26px) !important;
+        line-height: 1.08 !important;
+        letter-spacing: -0.3px !important;
+    }
+
+    .early-learning-intro p {
+        max-width: 100% !important;
+        margin: 0 !important;
+        font-size: 10.5px !important;
+        line-height: 1.38 !important;
+        display: -webkit-box !important;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+
+    .early-learning-badge {
+        width: 66px !important;
+        height: 66px !important;
+        min-width: 66px !important;
+        min-height: 66px !important;
+        flex: 0 0 66px !important;
+        margin: 0 !important;
+        align-self: center !important;
+    }
+
+    .early-learning-badge strong {
+        font-size: 21px !important;
+    }
+
+    .early-learning-badge span {
+        margin-top: 3px !important;
+        font-size: 6px !important;
+        letter-spacing: 0.4px !important;
+    }
+
+    .early-learning-carousel {
+        width: calc(100% - 20px) !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+        overflow: hidden !important;
+        mask-image: none !important;
+        -webkit-mask-image: none !important;
+    }
+
+    .early-learning-carousel::before,
+    .early-learning-carousel::after {
+        width: 14px !important;
+    }
+
+    .early-learning-track {
+        gap: 10px !important;
+        animation-duration: 30s !important;
+    }
+
+    .early-learning-carousel .institution-card {
+        flex: 0 0 calc(100vw - 34px) !important;
+        width: calc(100vw - 34px) !important;
+        min-width: calc(100vw - 34px) !important;
+        max-width: calc(100vw - 34px) !important;
+    }
+
+    .early-learning-carousel .institution-card-visual {
+        height: 132px !important;
+        min-height: 132px !important;
+    }
+
+    .early-learning-all,
+    .early-learning-bottom {
+        width: calc(100% - 20px) !important;
+        max-width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .early-learning-all-grid {
+        grid-template-columns: 1fr !important;
+        gap: 11px !important;
+    }
+
+    .early-learning-bottom {
+        margin-top: 18px !important;
+        padding: 15px !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        border-radius: 15px !important;
+    }
+
+    .early-learning-explore-btn {
+        width: 100% !important;
+        min-height: 42px !important;
+    }
+
+
+    /* =====================================================
+       EXPANDED VIEWS
+    ===================================================== */
+
+    .boarding-schools-all-grid,
+    .top-companies-all-grid,
+    #top-ug-pg-colleges .ug-pg-all-grid {
+        width: calc(100% - 20px) !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        grid-template-columns: 1fr !important;
+        gap: 11px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+
+    /* =====================================================
+       REVIEW CARDS
+    ===================================================== */
+
+    #student-reviews .video-review-card,
+    .video-review-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+    }
+
+    .video-review-thumbnail,
+    #student-reviews .video-review-thumbnail {
+        width: 100% !important;
+        height: clamp(145px, 43vw, 190px) !important;
+    }
+
+    .video-review-content,
+    #student-reviews .video-review-content {
+        min-width: 0 !important;
+        padding: 13px !important;
+    }
+
+    .video-review-content h3 {
+        font-size: 15px !important;
+        line-height: 1.3 !important;
+    }
+
+    .video-review-content p {
+        font-size: 11px !important;
+        line-height: 1.55 !important;
+    }
+
+
+    /* =====================================================
+       SLIDER ARROWS
+       Always stay inside the viewport.
+    ===================================================== */
+
+    #student-reviews .student-reviews-next,
+    #education-loan .education-loan-next,
+    #top-lists .top-lists-next,
+    #compare-college .compare-college-next {
+        right: 3px !important;
+        width: 34px !important;
+        height: 34px !important;
+        min-width: 34px !important;
+        min-height: 34px !important;
+        font-size: 14px !important;
+    }
+
+
+    /* =====================================================
+       INFO INTRO BLOCKS
+    ===================================================== */
+
+    .education-loan-intro,
+    .online-education-intro,
+    .news-intro,
+    .study-abroad-intro,
+    .rankings-intro,
+    .scholarship-intro,
+    .top-lists-intro,
+    .compare-college-intro {
+        width: calc(100% - 20px) !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding: 17px 14px !important;
+        border-radius: 16px !important;
+        box-sizing: border-box !important;
+    }
+
+    .education-loan-intro-content,
+    .online-education-intro-content,
+    .news-intro-content,
+    .study-abroad-intro-content,
+    .rankings-intro-content,
+    .scholarship-intro-content,
+    .top-lists-intro-content,
+    .compare-college-intro-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+    }
+
+
+    /* =====================================================
+       BANNER SAFETY
+    ===================================================== */
+
+    .premium-banner,
+    #online-education .premium-banner,
+    #study-abroad .premium-banner,
+    #news .premium-banner,
+    #compare-college .premium-banner,
+    #education-loan .premium-banner,
+    #rankings .premium-banner,
+    #scholarship .premium-banner,
+    #student-reviews .premium-banner,
+    #top-lists .premium-banner {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 260px !important;
+        border-radius: 17px !important;
+    }
+
+    .premium-banner-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 23px 15px !important;
+    }
+
+    .premium-banner-title {
+        max-width: 100% !important;
+        font-size: clamp(24px, 7vw, 31px) !important;
+        line-height: 1.12 !important;
+    }
+
+    .premium-banner-subtitle {
+        max-width: 100% !important;
+        font-size: 13px !important;
+        line-height: 1.55 !important;
+    }
+
+
+    /* =====================================================
+       STUDY ABROAD — HERO PAGE
+    ===================================================== */
+
+    #study-abroad-page {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden !important;
+    }
+
+    .study-abroad-hero {
+        width: 100%;
+        max-width: 100%;
+        min-height: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .study-abroad-hero-container {
+        width: calc(100% - 20px) !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 auto !important;
+        padding: 43px 0 142px !important;
+        grid-template-columns: 1fr !important;
+        gap: 28px !important;
+    }
+
+    .study-abroad-hero-content {
+        width: 100%;
+        max-width: 100% !important;
+        min-width: 0;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .study-abroad-hero-badge {
+        max-width: 100%;
+        margin-bottom: 15px;
+        padding: 7px 10px;
+        font-size: 8.5px;
+        letter-spacing: 0.5px;
+    }
+
+    .study-abroad-hero-content h1 {
+        width: 100%;
+        max-width: 100%;
+        font-size: clamp(31px, 9vw, 43px);
+        line-height: 1.05;
+        letter-spacing: -1px;
+    }
+
+    .study-abroad-hero-content > p {
+        width: 100%;
+        max-width: 100%;
+        margin: 18px auto 20px;
+        font-size: 13.5px;
+        line-height: 1.55;
+    }
+
+    .study-abroad-hero-search {
+        width: 100%;
+        max-width: 100%;
+        min-height: 0;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        border-radius: 13px;
+    }
+
+    .study-abroad-hero-search-icon {
+        width: 34px;
+        font-size: 15px;
+    }
+
+    .study-abroad-hero-search input {
+        height: 43px;
+        padding: 0 7px;
+        font-size: 11px;
+    }
+
+    .study-abroad-hero-search button {
+        min-width: 76px;
+        height: 43px;
+        padding: 0 8px;
+        border-radius: 10px;
+        font-size: 10px;
+    }
+
+    .study-abroad-popular {
+        width: 100%;
+        max-width: 100%;
+        justify-content: center;
+        gap: 5px;
+        margin-top: 10px;
+        overflow: hidden;
+    }
+
+    .study-abroad-popular > span {
+        display: none;
+    }
+
+    .study-abroad-popular button {
+        padding: 5px 8px;
+        font-size: 8.5px;
+    }
+
+    .study-abroad-hero-actions {
+        width: 100%;
+        margin-top: 17px;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .study-abroad-primary-btn,
+    .study-abroad-secondary-btn {
+        width: 100%;
+        min-height: 44px;
+        justify-content: center;
+        font-size: 12px;
+    }
+
+    .study-abroad-hero-side {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+    }
+
+    .study-abroad-hero-card {
+        width: 100%;
+        min-height: 76px;
+        padding: 12px;
+        border-radius: 15px;
+        gap: 10px;
+    }
+
+    .study-abroad-hero-card-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        font-size: 18px;
+    }
+
+    .study-abroad-hero-card strong {
+        font-size: 12px;
+    }
+
+    .study-abroad-hero-card span {
+        font-size: 9.5px;
+        line-height: 1.35;
+    }
+
+    .study-abroad-hero-stats {
+        width: calc(100% - 20px);
+        max-width: 100%;
+        min-height: 0;
+        bottom: 13px;
+        padding: 10px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+        border-radius: 15px;
+    }
+
+    .study-abroad-stat {
+        min-width: 0;
+    }
+
+    .study-abroad-stat strong {
+        font-size: 16px;
+    }
+
+    .study-abroad-stat span {
+        font-size: 8px;
+        line-height: 1.2;
+        text-align: center;
+    }
+
+    .study-abroad-scroll {
+        display: none !important;
+    }
+
+
+    /* =====================================================
+       STUDY ABROAD — DESTINATION GRID
+    ===================================================== */
+
+    .study-abroad-destinations {
+        width: 100%;
+        max-width: 100%;
+        padding: 42px 0 50px !important;
+        overflow: hidden;
+    }
+
+    .study-abroad-destinations-container {
+        width: calc(100% - 20px) !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 auto;
+    }
+
+    .study-abroad-destinations-header {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto 22px;
+    }
+
+    .study-abroad-section-eyebrow {
+        padding: 6px 10px;
+        font-size: 8px;
+        letter-spacing: 0.8px;
+    }
+
+    .study-abroad-destinations-header h2 {
+        font-size: clamp(27px, 8vw, 35px);
+        letter-spacing: -0.9px;
+        line-height: 1.08;
+    }
+
+    .study-abroad-destinations-header p {
+        max-width: 100%;
+        font-size: 12.5px;
+        line-height: 1.55;
+    }
+
+    .study-abroad-destination-filters {
+        width: 100%;
+        max-width: 100%;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        gap: 6px;
+        margin-bottom: 22px;
+        padding-bottom: 3px;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .study-abroad-destination-filters::-webkit-scrollbar {
+        display: none;
+    }
+
+    .destination-filter {
+        flex: 0 0 auto;
+        padding: 7px 11px;
+        font-size: 9px;
+    }
+
+    .study-abroad-destination-grid {
+        width: 100%;
+        max-width: 100%;
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+    }
+
+    .study-abroad-destination-card {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        border-radius: 17px;
+    }
+
+    .destination-card-image {
+        width: 100%;
+        height: 175px;
+    }
+
+    .destination-country {
+        left: 13px;
+        bottom: 12px;
+        gap: 6px;
+        font-size: 15px;
+    }
+
+    .destination-country span {
+        font-size: 17px;
+    }
+
+    .destination-favourite {
+        top: 10px;
+        right: 10px;
+        width: 33px;
+        height: 33px;
+        font-size: 17px;
+    }
+
+    .destination-card-content {
+        padding: 15px;
+    }
+
+    .destination-card-content h3 {
+        margin-bottom: 11px;
+        font-size: 16px;
+        line-height: 1.25;
+    }
+
+    .destination-card-info {
+        min-height: 0;
+        gap: 7px;
+    }
+
+    .destination-card-info > div {
+        gap: 7px;
+        font-size: 10px;
+    }
+
+    .destination-info-icon {
+        width: 21px;
+        height: 21px;
+        border-radius: 6px;
+        font-size: 10px;
+    }
+
+    .destination-explore-button {
+        min-height: 41px;
+        margin-top: 13px;
+        padding: 0 12px;
+        font-size: 10px;
+    }
+
+    .destination-explore-button span {
+        font-size: 15px;
+    }
+
+    .study-abroad-destinations-footer {
+        width: 100%;
+        margin-top: 21px;
+        padding: 15px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        border-radius: 15px;
+    }
+
+    .study-abroad-destinations-footer p {
+        font-size: 10.5px;
+        line-height: 1.45;
+    }
+
+    .study-abroad-compare-button {
+        width: 100%;
+        min-height: 41px;
+        justify-content: center;
+        font-size: 10px;
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .site-footer {
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .footer-container,
+    .footer-highlight,
+    .footer-bottom-container {
+        width: calc(100% - 20px) !important;
+        max-width: 520px !important;
+        min-width: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    .footer-container {
+        padding: 40px 0 28px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 26px 16px;
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .footer-logo {
+        font-size: 24px;
+    }
+
+    .footer-description {
+        max-width: 100%;
+        font-size: 12px;
+        line-height: 1.65;
+    }
+
+    .footer-social {
+        gap: 7px;
+        margin-top: 17px;
+    }
+
+    .social-link {
+        width: 33px;
+        height: 33px;
+        font-size: 12px;
+    }
+
+    .footer-column h3 {
+        margin-bottom: 12px;
+        font-size: 13px;
+    }
+
+    .footer-column li {
+        margin-bottom: 8px;
+    }
+
+    .footer-column a {
+        font-size: 11px;
+    }
+
+    .footer-highlight {
+        margin-bottom: 25px;
+        padding: 16px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        border-radius: 14px;
+    }
+
+    .footer-highlight-content h3 {
+        font-size: 14px;
+    }
+
+    .footer-highlight-content p {
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .footer-cta {
+        width: 100%;
+        min-height: 40px;
+        padding: 0 14px;
+        font-size: 12px;
+    }
+
+    .footer-bottom-container {
+        min-height: 0;
+        padding: 17px 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .footer-bottom p,
+    .footer-legal a {
+        font-size: 10px;
+    }
+
+    .footer-legal {
+        gap: 8px 14px;
+        flex-wrap: wrap;
+    }
+
+
+    /* =====================================================
+       AUTH MODAL
+    ===================================================== */
+
+    .auth-modal-dialog {
+        width: calc(100vw - 16px) !important;
+        max-width: 520px !important;
+        max-height: calc(100vh - 16px) !important;
+        border-radius: 18px !important;
+    }
+
+    .auth-modal-content {
+        width: 100%;
+        max-height: calc(100vh - 16px);
+        padding: 46px 16px 22px !important;
+    }
+
+    .auth-modal-content h2 {
+        font-size: 28px !important;
+        line-height: 1.1;
+    }
+
+    .auth-modal-content > .auth-view > p {
+        margin: 9px 0 22px;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .auth-form-group input,
+    .auth-form-group select {
+        min-height: 48px;
+        padding: 0 12px;
+        font-size: 13px;
+    }
+
+    .auth-modal-form {
+        gap: 14px;
+    }
+
+    .auth-modal-submit {
+        min-height: 48px;
+        font-size: 14px;
+    }
+
+    .auth-modal-close {
+        top: 10px;
+        right: 10px;
+        width: 38px;
+        height: 38px;
+        font-size: 22px;
+    }
+
+
+    /* =====================================================
+       CURSOR / SECTION FLIGHT
+    ===================================================== */
+
+    .premium-cursor,
+    .section-flight-plane {
+        display: none !important;
+    }
+
+
+    /* =====================================================
+       TABLES
+    ===================================================== */
+
+    table {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .table-wrapper,
+    .table-responsive,
+    .responsive-table {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+
+    /* =====================================================
+       TOUCH DEVICES
+    ===================================================== */
+
+    @media (hover: none), (pointer: coarse) {
+
+        .institution-card:hover,
+        .compact-category-card:hover,
+        .premium-banner:hover,
+        .small-card:hover,
+        .news-card:hover,
+        .study-abroad-destination-card:hover,
+        .study-abroad-hero-card:hover {
+            transform: none !important;
+        }
+
+        .institution-card:hover .institution-card-visual > img,
+        .compact-category-card:hover .compact-category-image img,
+        .study-abroad-destination-card:hover .destination-card-image img {
+            transform: none !important;
+        }
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES — 480PX AND BELOW
+========================================================= */
+
+@media (max-width: 480px) {
+
+    :root {
+        --mobile-page-gap: 10px;
+        --mobile-card-gap: 10px;
+    }
+
+
+    /* Header */
+    .header-container {
+        padding: 7px 8px 8px;
+        gap: 6px;
+    }
+
+    .logo a {
+        font-size: 18px;
+    }
+
+    .search-box input {
+        height: 38px;
+        font-size: 12px;
+        border-radius: 11px;
+    }
+
+    .header-auth {
+        gap: 3px;
+    }
+
+    .notification-btn,
+    .header-login-button,
+    .header-register-button,
+    .header-user-button {
+        min-height: 29px;
+        height: 29px;
+        padding: 0 6px;
+        border-radius: 7px;
+        font-size: 9px;
+    }
+
+    .notification-btn {
+        width: 29px;
+    }
+
+
+    /* Navbar */
+    .navbar-container {
+        padding: 7px 7px;
+        gap: 6px 8px;
+    }
+
+    .navbar-container a {
+        font-size: 10px;
+    }
+
+    .navbar-partner-login {
+        padding: 5px 8px;
+        min-height: 24px;
+        font-size: 9px;
+    }
+
+    .navbar-dropdown-menu {
+        width: 145px;
+        min-width: 145px;
+        padding: 5px;
+    }
+
+    .navbar-dropdown-menu .navbar-dropdown-item {
+        padding: 8px 9px;
+        font-size: 11px;
+    }
+
+
+    /* Hero */
+    .hero {
+        min-height: 600px;
+    }
+
+    .hero-overlay {
+        min-height: 600px;
+    }
+
+    .hero-content {
+        padding: 30px 10px 34px;
+    }
+
+    .hero-title {
+        font-size: clamp(28px, 9vw, 34px);
+    }
+
+    .hero-description {
+        font-size: 12px;
+    }
+
+    .hero-search input,
+    .hero-search-btn {
+        height: 43px;
+    }
+
+    .hero-buttons button {
+        max-width: 270px;
+    }
+
+    .hero-stats {
+        max-width: 320px;
+    }
+
+
+    /* Categories */
+    .categories-compact-container {
+        width: calc(100% - 16px);
+    }
+
+    .categories-compact-grid {
+        gap: 7px !important;
+    }
+
+    .compact-category-card {
+        min-height: 88px !important;
+        padding: 7px !important;
+        gap: 6px !important;
+        border-radius: 12px !important;
+    }
+
+    .compact-category-image {
+        flex-basis: 44px !important;
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 10px !important;
+    }
+
+    .compact-category-content h3 {
+        font-size: 11.5px !important;
+    }
+
+    .compact-category-arrow {
+        flex-basis: 20px !important;
+        width: 20px !important;
+        height: 20px !important;
+        font-size: 10px !important;
+    }
+
+
+    /* Shared sections */
+    #online-education,
+    #study-abroad,
+    #news,
+    #compare-college,
+    #education-loan,
+    #rankings,
+    #scholarship,
+    #student-reviews,
+    #top-lists,
+    #top-boarding-schools,
+    #top-companies,
+    #top-ug-pg-colleges {
+        padding-top: 30px !important;
+        padding-bottom: 38px !important;
+    }
+
+    .education-loan-grid,
+    .online-education-grid,
+    .news-grid,
+    .study-abroad-grid,
+    .rankings-grid,
+    .scholarship-grid,
+    .top-lists-grid,
+    .compare-college-grid {
+        width: calc(100% - 20px) !important;
+    }
+
+    .institution-card-visual {
+        height: 128px !important;
+    }
+
+
+    /* Early learning */
+    .early-learning-intro {
+        width: calc(100% - 16px) !important;
+        grid-template-columns: minmax(0, 1fr) 58px !important;
+        gap: 7px !important;
+        padding: 11px 10px !important;
+        border-radius: 14px !important;
+    }
+
+    .early-learning-intro h2 {
+        font-size: 21px !important;
+    }
+
+    .early-learning-intro p {
+        font-size: 9.5px !important;
+        -webkit-line-clamp: 2;
+    }
+
+    .early-learning-badge {
+        width: 58px !important;
+        height: 58px !important;
+        min-width: 58px !important;
+        min-height: 58px !important;
+        flex-basis: 58px !important;
+    }
+
+    .early-learning-badge strong {
+        font-size: 18px !important;
+    }
+
+    .early-learning-badge span {
+        font-size: 5.5px !important;
+    }
+
+    .early-learning-carousel,
+    .early-learning-all,
+    .early-learning-bottom {
+        width: calc(100% - 16px) !important;
+    }
+
+    .early-learning-carousel .institution-card {
+        flex-basis: calc(100vw - 28px) !important;
+        width: calc(100vw - 28px) !important;
+        min-width: calc(100vw - 28px) !important;
+    }
+
+    .early-learning-carousel .institution-card-visual {
+        height: 126px !important;
+        min-height: 126px !important;
+    }
+
+
+    /* Boarding / companies */
+    .boarding-schools-intro,
+    .top-companies-intro,
+    #top-ug-pg-colleges .ug-pg-intro {
+        width: calc(100% - 16px) !important;
+        grid-template-columns: minmax(0, 1fr) 58px !important;
+        padding: 12px 10px !important;
+        border-radius: 14px !important;
+    }
+
+    .boarding-schools-intro h2,
+    .top-companies-intro h2,
+    #top-ug-pg-colleges .ug-pg-intro h2 {
+        font-size: 20px !important;
+    }
+
+    .boarding-schools-intro p,
+    .top-companies-intro p,
+    #top-ug-pg-colleges .ug-pg-intro p {
+        font-size: 9.5px !important;
+    }
+
+    .boarding-schools-intro-badge,
+    .top-companies-intro-badge,
+    #top-ug-pg-colleges .ug-pg-stat {
+        width: 58px !important;
+        height: 58px !important;
+        min-width: 58px !important;
+        min-height: 58px !important;
+        flex-basis: 58px !important;
+    }
+
+    .boarding-schools-intro-badge strong,
+    .top-companies-intro-badge strong,
+    #top-ug-pg-colleges .ug-pg-stat strong {
+        font-size: 19px !important;
+    }
+
+    .boarding-school-card,
+    .top-company-card {
+        flex-basis: calc(100vw - 28px) !important;
+        width: calc(100vw - 28px) !important;
+        min-width: calc(100vw - 28px) !important;
+        max-width: calc(100vw - 28px) !important;
+        padding: 15px !important;
+    }
+
+
+    /* Top lists */
+    #top-lists .top-lists-intro {
+        width: calc(100% - 16px) !important;
+        padding: 13px 12px !important;
+    }
+
+    #top-lists .top-lists-intro-content {
+        padding-right: 66px !important;
+    }
+
+    #top-lists .top-lists-intro h2 {
+        font-size: 20px !important;
+    }
+
+    #top-lists .top-lists-stat {
+        width: 53px !important;
+        height: 53px !important;
+        min-width: 53px !important;
+        min-height: 53px !important;
+        right: 9px !important;
+        bottom: 9px !important;
+    }
+
+    #top-lists .top-lists-track .institution-card {
+        flex-basis: calc(100vw - 28px) !important;
+        width: calc(100vw - 28px) !important;
+        min-width: calc(100vw - 28px) !important;
+        max-width: calc(100vw - 28px) !important;
+    }
+
+    #top-lists .top-lists-track .institution-card-visual {
+        height: 126px !important;
+        min-height: 126px !important;
+    }
+
+
+    /* Study abroad */
+    .study-abroad-hero-container {
+        width: calc(100% - 16px) !important;
+        padding: 38px 0 137px !important;
+    }
+
+    .study-abroad-hero-content h1 {
+        font-size: clamp(29px, 9.5vw, 38px);
+    }
+
+    .study-abroad-hero-content > p {
+        font-size: 12.5px;
+    }
+
+    .study-abroad-hero-search {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 5px;
+        border-radius: 13px;
+    }
+
+    .study-abroad-hero-search-icon {
+        display: none;
+    }
+
+    .study-abroad-hero-search input,
+    .study-abroad-hero-search button {
+        width: 100%;
+        min-width: 0;
+        height: 41px;
+    }
+
+    .study-abroad-hero-search button {
+        border-radius: 9px;
+    }
+
+    .study-abroad-hero-stats {
+        width: calc(100% - 16px);
+        padding: 9px;
+    }
+
+    .study-abroad-stat strong {
+        font-size: 15px;
+    }
+
+    .study-abroad-stat span {
+        font-size: 7px;
+    }
+
+    .study-abroad-destinations-container {
+        width: calc(100% - 16px) !important;
+    }
+
+    .destination-card-image {
+        height: 164px;
+    }
+
+
+    /* Footer */
+    .footer-container,
+    .footer-highlight,
+    .footer-bottom-container {
+        width: calc(100% - 16px) !important;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES — 360PX AND BELOW
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .header-container {
+        padding: 6px 7px 7px;
+        gap: 5px;
+    }
+
+    .logo a {
+        font-size: 17px;
+    }
+
+    .notification-btn,
+    .header-login-button,
+    .header-register-button,
+    .header-user-button {
+        min-height: 28px;
+        height: 28px;
+        padding: 0 5px;
+        font-size: 8.5px;
+    }
+
+    .notification-btn {
+        width: 28px;
+    }
+
+    .search-box input {
+        height: 36px;
+        font-size: 11px;
+    }
+
+    .navbar-container {
+        padding: 6px;
+        gap: 5px 7px;
+    }
+
+    .navbar-container a {
+        font-size: 9px;
+    }
+
+    .navbar-partner-login {
+        padding: 4px 6px;
+        min-height: 23px;
+        font-size: 8.5px;
+    }
+
+
+    .hero {
+        min-height: 575px;
+    }
+
+    .hero-overlay {
+        min-height: 575px;
+    }
+
+    .hero-content {
+        padding: 25px 8px 28px;
+    }
+
+    .hero-badge {
+        font-size: 8.5px;
+    }
+
+    .hero-title {
+        font-size: 27px;
+    }
+
+    .hero-description {
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .hero-search input,
+    .hero-search-btn {
+        height: 41px;
+        font-size: 12px;
+    }
+
+    .hero-quick-links button {
+        font-size: 8px;
+        padding: 3px 6px;
+    }
+
+    .hero-buttons button {
+        max-width: 250px;
+        min-height: 42px;
+        font-size: 12px;
+    }
+
+    .hero-stats {
+        max-width: 285px;
+        padding: 8px 6px;
+    }
+
+    .hero-stat strong {
+        font-size: 14px;
+    }
+
+    .hero-stat span {
+        font-size: 7.5px;
+    }
+
+
+    /* Early learning */
+    .early-learning-intro {
+        width: calc(100% - 14px) !important;
+        grid-template-columns: minmax(0, 1fr) 52px !important;
+        padding: 10px 9px !important;
+        gap: 6px !important;
+        border-radius: 13px !important;
+    }
+
+    .early-learning-intro h2 {
+        font-size: 19px !important;
+    }
+
+    .early-learning-intro p {
+        font-size: 9px !important;
+    }
+
+    .early-learning-badge {
+        width: 52px !important;
+        height: 52px !important;
+        min-width: 52px !important;
+        min-height: 52px !important;
+        flex-basis: 52px !important;
+    }
+
+    .early-learning-badge strong {
+        font-size: 16px !important;
+    }
+
+    .early-learning-badge span {
+        font-size: 5px !important;
+    }
+
+    .early-learning-carousel,
+    .early-learning-all,
+    .early-learning-bottom {
+        width: calc(100% - 14px) !important;
+    }
+
+    .early-learning-carousel .institution-card {
+        flex-basis: calc(100vw - 24px) !important;
+        width: calc(100vw - 24px) !important;
+        min-width: calc(100vw - 24px) !important;
+    }
+
+    .early-learning-carousel .institution-card-visual {
+        height: 120px !important;
+        min-height: 120px !important;
+    }
+
+
+    /* Custom carousel cards */
+    .boarding-school-card,
+    .top-company-card {
+        flex-basis: calc(100vw - 24px) !important;
+        width: calc(100vw - 24px) !important;
+        min-width: calc(100vw - 24px) !important;
+        max-width: calc(100vw - 24px) !important;
+        padding: 13px !important;
+        border-radius: 15px !important;
+    }
+
+    .boarding-schools-intro,
+    .top-companies-intro,
+    #top-ug-pg-colleges .ug-pg-intro {
+        width: calc(100% - 14px) !important;
+        grid-template-columns: minmax(0, 1fr) 52px !important;
+        padding: 10px 9px !important;
+        gap: 6px !important;
+    }
+
+    .boarding-schools-intro h2,
+    .top-companies-intro h2,
+    #top-ug-pg-colleges .ug-pg-intro h2 {
+        font-size: 19px !important;
+    }
+
+    .boarding-schools-intro p,
+    .top-companies-intro p,
+    #top-ug-pg-colleges .ug-pg-intro p {
+        font-size: 9px !important;
+    }
+
+    .boarding-schools-intro-badge,
+    .top-companies-intro-badge,
+    #top-ug-pg-colleges .ug-pg-stat {
+        width: 52px !important;
+        height: 52px !important;
+        min-width: 52px !important;
+        min-height: 52px !important;
+        flex-basis: 52px !important;
+    }
+
+    .boarding-schools-intro-badge strong,
+    .top-companies-intro-badge strong,
+    #top-ug-pg-colleges .ug-pg-stat strong {
+        font-size: 17px !important;
+    }
+
+
+    /* Top lists */
+    #top-lists .top-lists-intro {
+        width: calc(100% - 12px) !important;
+        padding: 11px 10px !important;
+    }
+
+    #top-lists .top-lists-intro-content {
+        padding-right: 60px !important;
+    }
+
+    #top-lists .top-lists-intro h2 {
+        font-size: 18px !important;
+    }
+
+    #top-lists .top-lists-intro p {
+        font-size: 9px !important;
+    }
+
+    #top-lists .top-lists-stat {
+        width: 49px !important;
+        height: 49px !important;
+        min-width: 49px !important;
+        min-height: 49px !important;
+        right: 8px !important;
+        bottom: 8px !important;
+    }
+
+    #top-lists .top-lists-stat strong {
+        font-size: 16px !important;
+    }
+
+    #top-lists .top-lists-track .institution-card {
+        flex-basis: calc(100vw - 22px) !important;
+        width: calc(100vw - 22px) !important;
+        min-width: calc(100vw - 22px) !important;
+        max-width: calc(100vw - 22px) !important;
+    }
+
+    #top-lists .top-lists-track .institution-card-visual {
+        height: 120px !important;
+        min-height: 120px !important;
+    }
+
+
+    /* Institution card */
+    .institution-card-visual {
+        height: 120px !important;
+    }
+
+    .institution-card-title {
+        left: 66px !important;
+        bottom: 9px !important;
+    }
+
+    .institution-card-title h3 {
+        font-size: 12px !important;
+    }
+
+    .institution-card-program {
+        font-size: 12px !important;
+    }
+
+    .institution-card-category {
+        margin: 10px 10px 0 !important;
+    }
+
+    .institution-card-rating-row,
+    .institution-card-fees {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .institution-card-ranking {
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+
+    .institution-card-highlight {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+
+    /* Footer */
+    .footer-container {
+        grid-template-columns: 1fr !important;
+        gap: 20px;
+    }
+
+    .footer-brand {
+        grid-column: auto;
+    }
+
+    .footer-column {
+        width: 100%;
+    }
+
+    .footer-description {
+        font-size: 11px;
+    }
+
+
+    /* Auth */
+    .auth-modal-dialog {
+        width: calc(100vw - 12px) !important;
+        border-radius: 16px !important;
+    }
+
+    .auth-modal-content {
+        padding: 43px 13px 18px !important;
+    }
+
+    .auth-modal-content h2 {
+        font-size: 25px !important;
+    }
+
+    .auth-form-group input,
+    .auth-form-group select {
+        min-height: 45px;
+        font-size: 12px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+/* =========================================================
+   FINAL COMPACT INSTITUTION CARD SYSTEM
+   ---------------------------------------------------------
+   This section is intentionally LAST.
+   It is the final authority for all institution-card
+   dimensions on phones.
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .institution-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        border-radius: 14px !important;
+        box-sizing: border-box !important;
+    }
+
+    .institution-card-visual {
+        height: 128px !important;
+        min-height: 128px !important;
+        flex-basis: 128px !important;
+    }
+
+    .institution-card-visual > img {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        object-fit: cover !important;
+    }
+
+    .institution-card-logo {
+        width: 43px !important;
+        height: 43px !important;
+        left: 10px !important;
+        bottom: 9px !important;
+        padding: 4px !important;
+    }
+
+    .institution-card-score,
+    .institution-card-rank {
+        top: 9px !important;
+        padding: 3px 6px !important;
+        min-height: 22px !important;
+        font-size: 9px !important;
+        line-height: 1.1 !important;
+    }
+
+    .institution-card-score {
+        right: 9px !important;
+    }
+
+    .institution-card-rank {
+        left: 9px !important;
+    }
+
+    .institution-card-title {
+        left: 60px !important;
+        right: 9px !important;
+        bottom: 9px !important;
+    }
+
+    .institution-card-title h3 {
+        margin-bottom: 2px !important;
+        font-size: 13px !important;
+        line-height: 1.15 !important;
+    }
+
+    .institution-card-title p {
+        font-size: 9px !important;
+        line-height: 1.2 !important;
+    }
+
+    .institution-card-category {
+        margin: 8px 10px 0 !important;
+        padding: 3px 6px !important;
+        font-size: 8px !important;
+        line-height: 1.2 !important;
+    }
+
+    .institution-card-program {
+        margin: 6px 10px 4px !important;
+        font-size: 13px !important;
+        line-height: 1.18 !important;
+    }
+
+    .institution-card-rating-row {
+        gap: 5px !important;
+        padding: 0 10px 6px !important;
+    }
+
+    .institution-card-rating {
+        font-size: 11px !important;
+    }
+
+    .institution-card-reviews {
+        font-size: 9px !important;
+    }
+
+    .institution-card-fees {
+        gap: 4px !important;
+        padding: 0 10px 7px !important;
+    }
+
+    .institution-card-fees strong {
+        font-size: 12px !important;
+    }
+
+    .institution-card-fees span {
+        font-size: 9px !important;
+    }
+
+    .institution-card-ranking {
+        margin: 0 10px !important;
+        padding: 6px 0 !important;
+        font-size: 9px !important;
+        line-height: 1.3 !important;
+        -webkit-line-clamp: 2 !important;
+        display: -webkit-box !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+    }
+
+    .institution-card-highlight {
+        padding: 6px 10px !important;
+        font-size: 9px !important;
+        line-height: 1.3 !important;
+        -webkit-line-clamp: 2 !important;
+        display: -webkit-box !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+    }
+
+    .institution-card-actions {
+        margin-top: 0 !important;
+        padding: 0 10px 4px !important;
+    }
+
+    .institution-card-action {
+        min-height: 31px !important;
+        height: 31px !important;
+        font-size: 10px !important;
+    }
+
+    .institution-card-action span {
+        font-size: 16px !important;
+    }
+
+
+    /* -----------------------------------------------------
+       ALL KNOWN INSTITUTION-CARD CAROUSELS
+    ----------------------------------------------------- */
+
+    .institution-carousel-track .institution-card,
+    .boarding-schools-track .institution-card,
+    .top-companies-track .institution-card,
+    .ug-pg-track .institution-card,
+    .boarding-schools-carousel .institution-card,
+    .top-companies-carousel .institution-card,
+    #top-ug-pg-colleges .ug-pg-track .institution-card,
+    .early-learning-track .institution-card,
+    .early-learning-carousel .institution-card,
+    #education-loan .education-loan-track .institution-card,
+    #top-lists .top-lists-track .institution-card,
+    #compare-college .compare-college-track .institution-card,
+    .online-education-track .institution-card,
+    .news-track .institution-card,
+    .study-abroad-track .institution-card,
+    .rankings-track .institution-card,
+    .scholarship-track .institution-card {
+        flex: 0 0 calc(100vw - 24px) !important;
+        width: calc(100vw - 24px) !important;
+        min-width: calc(100vw - 24px) !important;
+        max-width: calc(100vw - 24px) !important;
+        height: auto !important;
+        min-height: 0 !important;
+        box-sizing: border-box !important;
+    }
+
+
+    /* -----------------------------------------------------
+       CAROUSEL TRACK SPACING
+    ----------------------------------------------------- */
+
+    .institution-carousel-track,
+    .boarding-schools-track,
+    .top-companies-track,
+    .ug-pg-track,
+    #top-ug-pg-colleges .ug-pg-track,
+    .early-learning-track,
+    #education-loan .education-loan-track,
+    #top-lists .top-lists-track,
+    #compare-college .compare-college-track,
+    .online-education-track,
+    .news-track,
+    .study-abroad-track,
+    .rankings-track,
+    .scholarship-track {
+        gap: 10px !important;
+    }
+
+
+    /* -----------------------------------------------------
+       CUSTOM BOARDING / COMPANY CARDS
+    ----------------------------------------------------- */
+
+    .boarding-school-card,
+    .top-company-card {
+        flex: 0 0 calc(100vw - 24px) !important;
+        width: calc(100vw - 24px) !important;
+        min-width: calc(100vw - 24px) !important;
+        max-width: calc(100vw - 24px) !important;
+        height: auto !important;
+        min-height: 0 !important;
+        padding: 14px !important;
+        border-radius: 15px !important;
+        box-sizing: border-box !important;
+    }
+}
+
+
+/* =========================================================
+   COMPACT CARDS — 480PX AND BELOW
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .institution-card-visual {
+        height: 116px !important;
+        min-height: 116px !important;
+        flex-basis: 116px !important;
+    }
+
+    .institution-card-logo {
+        width: 40px !important;
+        height: 40px !important;
+        left: 9px !important;
+        bottom: 8px !important;
+    }
+
+    .institution-card-title {
+        left: 56px !important;
+        right: 8px !important;
+        bottom: 8px !important;
+    }
+
+    .institution-card-title h3 {
+        font-size: 12px !important;
+        line-height: 1.12 !important;
+    }
+
+    .institution-card-title p {
+        font-size: 8.5px !important;
+    }
+
+    .institution-card-category {
+        margin: 7px 9px 0 !important;
+        padding: 3px 5px !important;
+        font-size: 7.5px !important;
+    }
+
+    .institution-card-program {
+        margin: 5px 9px 3px !important;
+        font-size: 12px !important;
+    }
+
+    .institution-card-rating-row {
+        padding: 0 9px 5px !important;
+    }
+
+    .institution-card-rating {
+        font-size: 10.5px !important;
+    }
+
+    .institution-card-reviews {
+        font-size: 8.5px !important;
+    }
+
+    .institution-card-fees {
+        padding: 0 9px 6px !important;
+    }
+
+    .institution-card-fees strong {
+        font-size: 11px !important;
+    }
+
+    .institution-card-fees span {
+        font-size: 8.5px !important;
+    }
+
+    .institution-card-ranking {
+        margin: 0 9px !important;
+        padding: 5px 0 !important;
+        font-size: 8.5px !important;
+        line-height: 1.25 !important;
+    }
+
+    .institution-card-highlight {
+        padding: 5px 9px !important;
+        font-size: 8.5px !important;
+        line-height: 1.25 !important;
+    }
+
+    .institution-card-actions {
+        padding: 0 9px 3px !important;
+    }
+
+    .institution-card-action {
+        min-height: 29px !important;
+        height: 29px !important;
+        font-size: 9.5px !important;
+    }
+
+    .institution-card-action span {
+        font-size: 15px !important;
+    }
+
+    .institution-carousel-track .institution-card,
+    .boarding-schools-track .institution-card,
+    .top-companies-track .institution-card,
+    .ug-pg-track .institution-card,
+    .boarding-schools-carousel .institution-card,
+    .top-companies-carousel .institution-card,
+    #top-ug-pg-colleges .ug-pg-track .institution-card,
+    .early-learning-track .institution-card,
+    .early-learning-carousel .institution-card,
+    #education-loan .education-loan-track .institution-card,
+    #top-lists .top-lists-track .institution-card,
+    #compare-college .compare-college-track .institution-card,
+    .online-education-track .institution-card,
+    .news-track .institution-card,
+    .study-abroad-track .institution-card,
+    .rankings-track .institution-card,
+    .scholarship-track .institution-card {
+        flex-basis: calc(100vw - 20px) !important;
+        width: calc(100vw - 20px) !important;
+        min-width: calc(100vw - 20px) !important;
+        max-width: calc(100vw - 20px) !important;
+    }
+}
+
+
+/* =========================================================
+   COMPACT CARDS — 360PX AND BELOW
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .institution-card-visual {
+        height: 108px !important;
+        min-height: 108px !important;
+        flex-basis: 108px !important;
+    }
+
+    .institution-card-logo {
+        width: 37px !important;
+        height: 37px !important;
+        left: 8px !important;
+        bottom: 7px !important;
+    }
+
+    .institution-card-title {
+        left: 52px !important;
+        right: 7px !important;
+        bottom: 7px !important;
+    }
+
+    .institution-card-title h3 {
+        font-size: 11px !important;
+    }
+
+    .institution-card-title p {
+        font-size: 8px !important;
+    }
+
+    .institution-card-category {
+        margin: 6px 8px 0 !important;
+        padding: 2px 5px !important;
+        font-size: 7px !important;
+    }
+
+    .institution-card-program {
+        margin: 5px 8px 3px !important;
+        font-size: 11px !important;
+    }
+
+    .institution-card-rating-row {
+        padding: 0 8px 4px !important;
+    }
+
+    .institution-card-rating {
+        font-size: 10px !important;
+    }
+
+    .institution-card-reviews {
+        font-size: 8px !important;
+    }
+
+    .institution-card-fees {
+        padding: 0 8px 5px !important;
+    }
+
+    .institution-card-fees strong {
+        font-size: 10.5px !important;
+    }
+
+    .institution-card-fees span {
+        font-size: 8px !important;
+    }
+
+    .institution-card-ranking {
+        margin: 0 8px !important;
+        padding: 4px 0 !important;
+        font-size: 8px !important;
+    }
+
+    .institution-card-highlight {
+        padding: 4px 8px !important;
+        font-size: 8px !important;
+    }
+
+    .institution-card-actions {
+        padding: 0 8px 2px !important;
+    }
+
+    .institution-card-action {
+        min-height: 27px !important;
+        height: 27px !important;
+        font-size: 9px !important;
+    }
+
+    .institution-card-action span {
+        font-size: 14px !important;
+    }
+
+    .institution-carousel-track .institution-card,
+    .boarding-schools-track .institution-card,
+    .top-companies-track .institution-card,
+    .ug-pg-track .institution-card,
+    .boarding-schools-carousel .institution-card,
+    .top-companies-carousel .institution-card,
+    #top-ug-pg-colleges .ug-pg-track .institution-card,
+    .early-learning-track .institution-card,
+    .early-learning-carousel .institution-card,
+    #education-loan .education-loan-track .institution-card,
+    #top-lists .top-lists-track .institution-card,
+    #compare-college .compare-college-track .institution-card,
+    .online-education-track .institution-card,
+    .news-track .institution-card,
+    .study-abroad-track .institution-card,
+    .rankings-track .institution-card,
+    .scholarship-track .institution-card {
+        flex-basis: calc(100vw - 16px) !important;
+        width: calc(100vw - 16px) !important;
+        min-width: calc(100vw - 16px) !important;
+        max-width: calc(100vw - 16px) !important;
+    }
+}
+
+
+/* =========================================================
+   CARD MOBILE TOUCH POLISH
+========================================================= */
+
+@media (hover: none), (pointer: coarse) {
+
+    .institution-card:hover {
+        transform: none !important;
+    }
+
+    .institution-card:hover
+    .institution-card-visual > img {
+        transform: none !important;
+    }
+}

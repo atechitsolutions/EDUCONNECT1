@@ -1,0 +1,1079 @@
+/* =========================================================
+   STUDY ABROAD — COURSE EXPLORER
+========================================================= */
+
+.study-abroad-course-explorer {
+    position: relative;
+    width: 100%;
+    padding: 100px 0 110px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #f1f7fc 52%,
+            #f9fcff 100%
+        );
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.study-abroad-course-explorer::before {
+    content: "";
+
+    position: absolute;
+
+    width: 440px;
+    height: 440px;
+
+    top: -240px;
+    left: -160px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(73, 163, 255, 0.12),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+.study-abroad-course-explorer::after {
+    content: "";
+
+    position: absolute;
+
+    width: 430px;
+    height: 430px;
+
+    right: -180px;
+    bottom: -250px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(15, 76, 129, 0.08),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.study-abroad-course-explorer-container {
+    position: relative;
+    z-index: 2;
+
+    width: min(
+        1280px,
+        calc(100% - 40px)
+    );
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.study-abroad-course-explorer-header {
+    max-width: 850px;
+
+    margin: 0 auto 36px;
+
+    text-align: center;
+}
+
+
+.study-abroad-course-explorer-header
+.study-abroad-section-eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px 15px;
+
+    margin-bottom: 15px;
+
+    border: 1px solid #dce8f2;
+
+    border-radius: 50px;
+
+    background: #f6faff;
+
+    color: #2563eb;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+}
+
+
+.study-abroad-course-explorer-header h2 {
+    margin: 0;
+
+    color: #102f4d;
+
+    font-size: clamp(
+        35px,
+        4.5vw,
+        54px
+    );
+
+    line-height: 1.08;
+
+    letter-spacing: -1.7px;
+
+    font-weight: 850;
+}
+
+
+.study-abroad-course-explorer-header h2 span {
+    color: #2563eb;
+}
+
+
+.study-abroad-course-explorer-header p {
+    max-width: 790px;
+
+    margin: 18px auto 0;
+
+    color: #647b90;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.study-abroad-course-search {
+    display: flex;
+
+    align-items: stretch;
+
+    width: 100%;
+
+    min-height: 64px;
+
+    padding: 6px;
+
+    border: 1px solid #d7e4ed;
+
+    border-radius: 14px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 14px 40px rgba(15, 76, 129, 0.08);
+
+    margin-bottom: 25px;
+}
+
+
+.course-search-input {
+    position: relative;
+
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+.course-search-icon {
+    width: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+}
+
+
+.course-search-input input {
+    width: 100%;
+
+    height: 50px;
+
+    padding: 0 42px 0 0;
+
+    border: 0;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #172033;
+
+    font-family: inherit;
+
+    font-size: 14px;
+}
+
+
+.course-search-input input::placeholder {
+    color: #94a3b2;
+}
+
+
+.course-search-clear {
+    position: absolute;
+
+    right: 10px;
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background: #eef4f8;
+
+    color: #52677a;
+
+    cursor: pointer;
+
+    font-size: 18px;
+}
+
+
+.course-search-clear[hidden] {
+    display: none;
+}
+
+
+.course-search-button {
+    min-width: 120px;
+
+    padding: 0 20px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 750;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.course-search-button:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.study-abroad-course-filters {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    margin-bottom: 25px;
+}
+
+
+.course-filter {
+    min-height: 42px;
+
+    padding: 0 16px;
+
+    border: 1px solid #d6e3ed;
+
+    border-radius: 50px;
+
+    background: #ffffff;
+
+    color: #526a7d;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.course-filter:hover {
+    border-color: #8bbce6;
+
+    color: #2563eb;
+
+    transform: translateY(-1px);
+}
+
+
+.course-filter.active {
+    border-color: #2563eb;
+
+    background: #2563eb;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   RESULTS INFO
+========================================================= */
+
+.study-abroad-course-results-info {
+    margin-bottom: 16px;
+
+    color: #718497;
+
+    font-size: 12px;
+
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   COURSE GRID
+========================================================= */
+
+.study-abroad-course-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 19px;
+}
+
+
+/* =========================================================
+   COURSE CARD
+========================================================= */
+
+.study-abroad-course-card {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    border: 1px solid #dce7ef;
+
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 30px rgba(15, 76, 129, 0.06);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.study-abroad-course-card:hover {
+    transform: translateY(-6px);
+
+    border-color: #bfd9ed;
+
+    box-shadow:
+        0 20px 42px rgba(15, 76, 129, 0.12);
+}
+
+
+.study-abroad-course-card.is-hidden {
+    display: none;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.course-card-header {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    padding: 19px 19px;
+
+    border-bottom: 1px solid #e8eff4;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fbff,
+            #edf6fc
+        );
+}
+
+
+.course-card-icon {
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d9e7f2;
+
+    border-radius: 11px;
+
+    background: #ffffff;
+
+    font-size: 20px;
+}
+
+
+.course-card-category {
+    display: inline-flex;
+
+    align-items: center;
+
+    min-height: 26px;
+
+    padding: 0 9px;
+
+    border-radius: 6px;
+
+    background: #eaf4ff;
+
+    color: #2563eb;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.6px;
+
+    text-transform: uppercase;
+}
+
+
+.course-card-favourite {
+    width: 34px;
+    height: 34px;
+
+    margin-left: auto;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d9e5ee;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    color: #65798a;
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.course-card-favourite:hover {
+    color: #2563eb;
+
+    transform: scale(1.06);
+}
+
+
+.course-card-favourite.is-favourite {
+    border-color: #2563eb;
+
+    background: #2563eb;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.course-card-content {
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+
+    padding: 20px;
+}
+
+
+.course-card-content h3 {
+    margin: 0 0 9px;
+
+    color: #172b40;
+
+    font-size: 20px;
+
+    line-height: 1.25;
+
+    letter-spacing: -0.4px;
+}
+
+
+.course-card-destinations {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 6px;
+
+    margin: 0 0 17px;
+
+    color: #647b90;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   DETAILS
+========================================================= */
+
+.course-card-details {
+    display: flex;
+
+    flex-direction: column;
+
+    border-top: 1px solid #edf2f6;
+}
+
+
+.course-card-detail {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid #edf2f6;
+}
+
+
+.course-card-detail:last-child {
+    border-bottom: 0;
+}
+
+
+.course-detail-icon {
+    width: 30px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #f0f7fd;
+
+    font-size: 13px;
+}
+
+
+.course-card-detail > div {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.course-card-detail > div > span {
+    color: #8a9aaa;
+
+    font-size: 9px;
+
+    font-weight: 750;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.45px;
+}
+
+
+.course-card-detail strong {
+    color: #34495c;
+
+    font-size: 11px;
+
+    line-height: 1.45;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   EXPLORE
+========================================================= */
+
+.course-explore-button {
+    min-height: 44px;
+
+    margin-top: 16px;
+
+    padding: 0 14px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    border: 1px solid #d4e4ef;
+
+    border-radius: 9px;
+
+    background: #f7fbff;
+
+    color: #0f4c81;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 750;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.course-explore-button:hover {
+    border-color: #2563eb;
+
+    background: #2563eb;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.study-abroad-course-empty {
+    padding: 55px 20px;
+
+    margin-top: 20px;
+
+    border: 1px dashed #b8cedf;
+
+    border-radius: 17px;
+
+    background: rgba(255, 255, 255, 0.7);
+
+    text-align: center;
+}
+
+
+.study-abroad-course-empty[hidden] {
+    display: none;
+}
+
+
+.study-abroad-course-empty-icon {
+    margin-bottom: 10px;
+
+    font-size: 35px;
+}
+
+
+.study-abroad-course-empty h3 {
+    margin: 0 0 6px;
+
+    color: #172b40;
+
+    font-size: 20px;
+}
+
+
+.study-abroad-course-empty p {
+    margin: 0 0 17px;
+
+    color: #718497;
+
+    font-size: 13px;
+}
+
+
+.study-abroad-course-empty button {
+    min-height: 42px;
+
+    padding: 0 16px;
+
+    border: 0;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.study-abroad-course-footer {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-top: 35px;
+
+    padding: 23px 25px;
+
+    border: 1px solid #dce7ef;
+
+    border-radius: 15px;
+
+    background: rgba(255, 255, 255, 0.78);
+}
+
+
+.study-abroad-course-footer-content {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+
+.study-abroad-course-footer-icon {
+    width: 43px;
+    height: 43px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #eaf4ff;
+
+    font-size: 20px;
+}
+
+
+.study-abroad-course-footer-content > div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.study-abroad-course-footer-content strong {
+    color: #263b50;
+
+    font-size: 14px;
+}
+
+
+.study-abroad-course-footer-content span {
+    color: #718497;
+
+    font-size: 12px;
+}
+
+
+.study-abroad-view-courses-button {
+    min-height: 44px;
+
+    flex-shrink: 0;
+
+    padding: 0 17px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    border-radius: 9px;
+
+    background: #0f4c81;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.study-abroad-view-courses-button:hover {
+    background: #0b3b65;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   LARGE TABLET
+========================================================= */
+
+@media (max-width: 1150px) {
+
+    .study-abroad-course-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .study-abroad-course-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .study-abroad-course-explorer {
+        padding: 70px 0 80px;
+    }
+
+
+    .study-abroad-course-explorer-container {
+        width: calc(100% - 28px);
+    }
+
+
+    .study-abroad-course-explorer-header h2 {
+        font-size: 34px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .study-abroad-course-search {
+        flex-direction: column;
+
+        gap: 7px;
+
+        padding: 7px;
+    }
+
+
+    .course-search-input {
+        width: 100%;
+    }
+
+
+    .course-search-button {
+        width: 100%;
+
+        min-height: 48px;
+    }
+
+
+    .study-abroad-course-filters {
+        justify-content: flex-start;
+
+        flex-wrap: nowrap;
+
+        overflow-x: auto;
+
+        margin-right: -14px;
+
+        padding-right: 14px;
+
+        padding-bottom: 7px;
+
+        scrollbar-width: none;
+    }
+
+
+    .study-abroad-course-filters::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    .course-filter {
+        flex-shrink: 0;
+    }
+
+
+    .study-abroad-course-grid {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+
+    .study-abroad-course-footer {
+        align-items: stretch;
+
+        flex-direction: column;
+
+        padding: 19px;
+    }
+
+
+    .study-abroad-view-courses-button {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .course-search-button,
+    .course-filter,
+    .study-abroad-course-card,
+    .course-card-favourite,
+    .course-explore-button,
+    .study-abroad-view-courses-button {
+        transition: none;
+    }
+
+}

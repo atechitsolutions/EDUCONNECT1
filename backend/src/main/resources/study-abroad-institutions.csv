@@ -1,0 +1,124 @@
+# Country|ISO country code|Institution name|Type|Optional description
+United States|US|Northeastern University|UNIVERSITY
+United States|US|New York University|UNIVERSITY
+United States|US|Drexel University|UNIVERSITY
+United States|US|Clark University|UNIVERSITY
+United States|US|Yeshiva University|UNIVERSITY
+United States|US|University of Detroit Mercy|UNIVERSITY
+United States|US|Illinois Institute of Technology|UNIVERSITY
+United States|US|DePaul University|UNIVERSITY
+United States|US|Washington State University|UNIVERSITY
+United States|US|Colorado State University|UNIVERSITY
+United States|US|Northern Arizona University|UNIVERSITY
+United States|US|Utica University|UNIVERSITY
+United States|US|City University of Seattle|UNIVERSITY
+United States|US|Clarkson University|UNIVERSITY
+United States|US|Touro University|UNIVERSITY
+United States|US|University of Massachusetts Lowell|UNIVERSITY
+United States|US|University of West Florida|UNIVERSITY
+United States|US|Central Washington University|UNIVERSITY
+United States|US|University of Massachusetts Dartmouth|UNIVERSITY
+United States|US|University of Nevada, Las Vegas|UNIVERSITY
+United States|US|Troy University|UNIVERSITY
+United States|US|Lewis University|UNIVERSITY
+United States|US|University of Arizona|UNIVERSITY
+United States|US|University of California|UNIVERSITY
+United States|US|University of Michigan|UNIVERSITY
+United States|US|University of Wisconsin–Madison|UNIVERSITY
+United States|US|Harvard University|UNIVERSITY
+United States|US|Stanford University|UNIVERSITY
+United States|US|Brown University|UNIVERSITY
+United States|US|Johns Hopkins University|UNIVERSITY
+United States|US|Case Western Reserve University|UNIVERSITY
+United States|US|Clemson University|UNIVERSITY
+United States|US|Loyola University Chicago|UNIVERSITY
+Canada|CA|University of Toronto|UNIVERSITY
+Canada|CA|McGill University|UNIVERSITY
+Canada|CA|University of Alberta|UNIVERSITY
+Canada|CA|University of Calgary|UNIVERSITY
+Canada|CA|University of Waterloo|UNIVERSITY
+Canada|CA|University of Manitoba|UNIVERSITY
+Canada|CA|University of Saskatchewan|UNIVERSITY
+Canada|CA|University of Victoria|UNIVERSITY
+Canada|CA|Simon Fraser University|UNIVERSITY
+Canada|CA|York University|UNIVERSITY
+Canada|CA|Algoma University|UNIVERSITY
+Canada|CA|Brock University|UNIVERSITY
+Canada|CA|University Canada West|UNIVERSITY
+Canada|CA|Yorkville University|UNIVERSITY
+Canada|CA|Northeastern University — Canadian programs|UNIVERSITY
+Canada|CA|International Business University|UNIVERSITY
+United Kingdom|GB|University of Liverpool|UNIVERSITY
+United Kingdom|GB|Northeastern University London|UNIVERSITY
+United Kingdom|GB|University of Sussex|UNIVERSITY
+United Kingdom|GB|University of Sunderland|UNIVERSITY
+United Kingdom|GB|University of Roehampton|UNIVERSITY
+United Kingdom|GB|London Metropolitan University|UNIVERSITY
+United Kingdom|GB|St Mary's University, Twickenham|UNIVERSITY
+United Kingdom|GB|University of Edinburgh|UNIVERSITY
+United Kingdom|GB|University of Manchester|UNIVERSITY
+United Kingdom|GB|University of Warwick|UNIVERSITY
+United Kingdom|GB|Newcastle University|UNIVERSITY
+United Kingdom|GB|Aston University|UNIVERSITY
+United Kingdom|GB|Coventry University|UNIVERSITY
+United Kingdom|GB|Lancaster University|UNIVERSITY
+United Kingdom|GB|Loughborough University|UNIVERSITY
+United Kingdom|GB|Brunel University London|UNIVERSITY
+United Kingdom|GB|University of Greenwich|UNIVERSITY
+United Kingdom|GB|University of Aberdeen|UNIVERSITY
+United Kingdom|GB|Abertay University|UNIVERSITY
+United Kingdom|GB|University of Lincoln|UNIVERSITY
+Australia|AU|Australian National University|UNIVERSITY
+Australia|AU|University of Melbourne|UNIVERSITY
+Australia|AU|University of Sydney|UNIVERSITY
+Australia|AU|University of Adelaide|UNIVERSITY
+Australia|AU|RMIT University|UNIVERSITY
+Australia|AU|Deakin University|UNIVERSITY
+Australia|AU|Curtin University|UNIVERSITY
+Australia|AU|Macquarie University|UNIVERSITY
+Australia|AU|University of Newcastle|UNIVERSITY
+Australia|AU|Queensland University of Technology|UNIVERSITY
+Australia|AU|University of Canberra|UNIVERSITY
+Australia|AU|Western Sydney University|UNIVERSITY
+Germany|DE|WHU – Otto Beisheim School of Management|INSTITUTION
+Germany|DE|SRH University|UNIVERSITY
+Germany|DE|International School of Management (ISM)|INSTITUTION
+Germany|DE|CODE University of Applied Sciences|UNIVERSITY
+Germany|DE|Munich Business School|INSTITUTION
+Germany|DE|Touro University — Germany listing|UNIVERSITY
+Germany|DE|University of Applied Management|UNIVERSITY
+Germany|DE|ICN Business School|INSTITUTION
+Germany|DE|University of Bonn|UNIVERSITY
+Germany|DE|University of Cologne|UNIVERSITY
+Germany|DE|University of Freiburg|UNIVERSITY
+Germany|DE|University of Hamburg|UNIVERSITY
+Germany|DE|University of Mannheim|UNIVERSITY
+Germany|DE|University of Stuttgart|UNIVERSITY
+Germany|DE|University of Tübingen|UNIVERSITY
+Germany|DE|University of Würzburg|UNIVERSITY
+Germany|DE|TU Darmstadt|UNIVERSITY
+Germany|DE|Chemnitz University of Technology|UNIVERSITY
+France|FR|Paris School of Business|INSTITUTION
+France|FR|ICN Business School|INSTITUTION
+France|FR|Excelia Business School|INSTITUTION
+France|FR|EDC Paris Business School|INSTITUTION
+France|FR|EMLV Business School|INSTITUTION
+France|FR|KEDGE Business School|INSTITUTION
+France|FR|ESDES Business School|INSTITUTION
+France|FR|Aivancity School for Technology, Business and Society|INSTITUTION
+France|FR|American Business College|COLLEGE
+Ireland|IE|University College Cork|UNIVERSITY
+Ireland|IE|Dundalk Institute of Technology|INSTITUTION
+Ireland|IE|Dublin City University|UNIVERSITY
+Ireland|IE|Dublin Business School|INSTITUTION
+Ireland|IE|Griffith College Ireland|COLLEGE
+Ireland|IE|Cork Institute of Technology|INSTITUTION|Legacy name supplied; verify the current institution name and status before applying.
+Finland|FI|Seinäjoki University of Applied Sciences (SeAMK)|UNIVERSITY
+Finland|FI|South-Eastern Finland University of Applied Sciences (Xamk)|UNIVERSITY
+Finland|FI|Haaga-Helia University of Applied Sciences|UNIVERSITY
+Finland|FI|Metropolia University of Applied Sciences|UNIVERSITY
+Netherlands|NL|Utrecht University|UNIVERSITY
+Netherlands|NL|Wageningen University & Research|UNIVERSITY
+Italy|IT|POLIMI Graduate School of Management|INSTITUTION
+United Arab Emirates|AE|Rochester Institute of Technology of Dubai|UNIVERSITY
+Hungary|HU|International Business School (IBS)|INSTITUTION

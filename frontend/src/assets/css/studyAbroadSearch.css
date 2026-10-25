@@ -1,0 +1,765 @@
+/* =========================================================
+   STUDY ABROAD — SEARCH
+========================================================= */
+
+.study-abroad-search-section {
+    position: relative;
+    width: 100%;
+    padding: 95px 0 105px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.study-abroad-search-section::before {
+    content: "";
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    top: -220px;
+    right: -130px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(73, 163, 255, 0.13),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+.study-abroad-search-section::after {
+    content: "";
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    bottom: -220px;
+    left: -130px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(15, 76, 129, 0.07),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.study-abroad-search-container {
+    position: relative;
+    z-index: 2;
+
+    width: min(
+        1200px,
+        calc(100% - 40px)
+    );
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.study-abroad-search-header {
+    max-width: 800px;
+
+    margin: 0 auto 35px;
+
+    text-align: center;
+}
+
+
+.study-abroad-section-eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px 15px;
+
+    margin-bottom: 15px;
+
+    border: 1px solid #dce9f4;
+
+    border-radius: 50px;
+
+    background: #f5faff;
+
+    color: #2563eb;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+}
+
+
+.study-abroad-search-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: clamp(
+        34px,
+        4vw,
+        52px
+    );
+
+    font-weight: 850;
+
+    line-height: 1.1;
+
+    letter-spacing: -1.5px;
+}
+
+
+.study-abroad-search-header h2 span {
+    color: #2563eb;
+}
+
+
+.study-abroad-search-header p {
+    max-width: 700px;
+
+    margin: 17px auto 0;
+
+    color: #667085;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   SEARCH BOX
+========================================================= */
+
+.study-abroad-search-box {
+    display: flex;
+
+    align-items: stretch;
+
+    width: 100%;
+
+    min-height: 66px;
+
+    padding: 7px;
+
+    border: 1px solid #d9e5ef;
+
+    border-radius: 15px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 15px 45px rgba(15, 76, 129, 0.10);
+}
+
+
+.study-abroad-search-field {
+    position: relative;
+
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+.study-abroad-search-field-icon {
+    width: 50px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 19px;
+}
+
+
+.study-abroad-search-field input {
+    width: 100%;
+
+    height: 52px;
+
+    padding: 0 45px 0 0;
+
+    border: 0;
+
+    outline: 0;
+
+    background: transparent;
+
+    color: #111827;
+
+    font-family: inherit;
+
+    font-size: 15px;
+}
+
+
+.study-abroad-search-field input::placeholder {
+    color: #98a7b6;
+}
+
+
+.study-abroad-search-field input:focus {
+    outline: none;
+}
+
+
+/* =========================================================
+   CLEAR BUTTON
+========================================================= */
+
+.study-abroad-search-clear {
+    position: absolute;
+
+    right: 12px;
+
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+
+    border-radius: 50%;
+
+    background: #eef4f8;
+
+    color: #475569;
+
+    cursor: pointer;
+
+    font-size: 19px;
+
+    line-height: 1;
+}
+
+
+.study-abroad-search-clear:hover {
+    background: #e1ebf3;
+}
+
+
+.study-abroad-search-clear[hidden] {
+    display: none;
+}
+
+
+/* =========================================================
+   SEARCH BUTTON
+========================================================= */
+
+.study-abroad-search-button {
+    min-width: 125px;
+
+    padding: 0 22px;
+
+    border: 0;
+
+    border-radius: 10px;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 750;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.study-abroad-search-button:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.study-abroad-search-status {
+    min-height: 25px;
+
+    margin-top: 10px;
+
+    padding-left: 5px;
+
+    color: #667085;
+
+    font-size: 13px;
+}
+
+
+.study-abroad-search-status:empty {
+    display: none;
+}
+
+
+/* =========================================================
+   RESULTS
+========================================================= */
+
+.study-abroad-search-results {
+    position: relative;
+
+    margin-top: 6px;
+
+    padding: 8px;
+
+    border: 1px solid #dce6ee;
+
+    border-radius: 13px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 18px 45px rgba(15, 23, 42, 0.12);
+
+    max-height: 400px;
+
+    overflow-y: auto;
+}
+
+
+.study-abroad-search-results[hidden] {
+    display: none;
+}
+
+
+.study-abroad-search-result {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    width: 100%;
+
+    padding: 13px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: #111827;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    text-align: left;
+}
+
+
+.study-abroad-search-result:hover,
+.study-abroad-search-result:focus {
+    background: #f1f7fd;
+
+    outline: none;
+}
+
+
+.study-abroad-search-result-icon {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #eff6ff;
+
+    font-size: 18px;
+}
+
+
+.study-abroad-search-result-content {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.study-abroad-search-result-content strong {
+    color: #172033;
+
+    font-size: 14px;
+}
+
+
+.study-abroad-search-result-content span {
+    color: #718096;
+
+    font-size: 12px;
+}
+
+
+.study-abroad-search-result-type {
+    margin-left: auto;
+
+    flex-shrink: 0;
+
+    color: #2563eb;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.7px;
+}
+
+
+/* =========================================================
+   QUICK SEARCH
+========================================================= */
+
+.study-abroad-search-quick {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-top: 28px;
+}
+
+
+.study-abroad-search-quick-card {
+    min-width: 0;
+
+    padding: 19px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    border: 1px solid #e0e9f1;
+
+    border-radius: 13px;
+
+    background: #f9fbfd;
+
+    color: #111827;
+
+    cursor: pointer;
+
+    text-align: left;
+
+    font-family: inherit;
+
+    transition:
+        transform 0.22s ease,
+        border-color 0.22s ease,
+        background 0.22s ease,
+        box-shadow 0.22s ease;
+}
+
+
+.study-abroad-search-quick-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #b9d6ed;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 12px 28px rgba(15, 76, 129, 0.09);
+}
+
+
+.study-abroad-search-quick-icon {
+    width: 43px;
+    height: 43px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    background: #eaf4ff;
+
+    font-size: 20px;
+}
+
+
+.study-abroad-search-quick-card > div:nth-child(2) {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.study-abroad-search-quick-card strong {
+    color: #172033;
+
+    font-size: 14px;
+}
+
+
+.study-abroad-search-quick-card span {
+    color: #718096;
+
+    font-size: 11px;
+
+    line-height: 1.4;
+}
+
+
+.study-abroad-search-quick-arrow {
+    margin-left: auto;
+
+    flex-shrink: 0;
+
+    color: #2563eb;
+
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   POPULAR SEARCHES
+========================================================= */
+
+.study-abroad-search-popular {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 25px;
+}
+
+
+.study-abroad-search-popular > span {
+    margin-right: 4px;
+
+    color: #667085;
+
+    font-size: 12px;
+
+    font-weight: 650;
+}
+
+
+.study-abroad-search-popular button {
+    min-height: 32px;
+
+    padding: 0 12px;
+
+    border: 1px solid #dce6ee;
+
+    border-radius: 50px;
+
+    background: #ffffff;
+
+    color: #506274;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.study-abroad-search-popular button:hover {
+    border-color: #8bbce4;
+
+    background: #f1f7fd;
+
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .study-abroad-search-quick {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .study-abroad-search-section {
+        padding: 70px 0 80px;
+    }
+
+
+    .study-abroad-search-container {
+        width: calc(100% - 28px);
+    }
+
+
+    .study-abroad-search-header h2 {
+        font-size: 34px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .study-abroad-search-header p {
+        font-size: 14px;
+    }
+
+
+    .study-abroad-search-box {
+        flex-direction: column;
+
+        gap: 7px;
+
+        padding: 7px;
+    }
+
+
+    .study-abroad-search-field {
+        width: 100%;
+    }
+
+
+    .study-abroad-search-button {
+        width: 100%;
+
+        min-height: 48px;
+    }
+
+
+    .study-abroad-search-quick {
+        grid-template-columns: 1fr;
+
+        gap: 10px;
+    }
+
+
+    .study-abroad-search-quick-card {
+        padding: 16px;
+    }
+
+
+    .study-abroad-search-popular {
+        justify-content: flex-start;
+
+        align-items: flex-start;
+    }
+
+
+    .study-abroad-search-popular > span {
+        width: 100%;
+
+        margin-bottom: 3px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .study-abroad-search-button,
+    .study-abroad-search-quick-card {
+        transition: none;
+    }
+
+}

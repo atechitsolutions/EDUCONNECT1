@@ -1,0 +1,1173 @@
+/* =========================================================
+   PLAY SCHOOL / PRE SCHOOL / SCHOOL
+   SHARED HOMEPAGE SECTION
+========================================================= */
+
+#play-school,
+#pre-school,
+#school {
+
+    position: relative;
+
+    padding: 30px 0 40px;
+
+    background:
+        radial-gradient(
+            circle at 92% 8%,
+            rgba(29, 116, 201, 0.12),
+            transparent 320px
+        ),
+        radial-gradient(
+            circle at 5% 92%,
+            rgba(16, 185, 129, 0.08),
+            transparent 320px
+        ),
+        linear-gradient(
+            135deg,
+            #eef6fc 0%,
+            #dcebf7 48%,
+            #f4f8fc 100%
+        );
+
+    border-top:
+        1px solid rgba(15, 76, 129, 0.08);
+
+    border-bottom:
+        1px solid rgba(15, 76, 129, 0.08);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   SECTION CONTENT
+========================================================= */
+
+.early-learning-section {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   INTRO CARD
+========================================================= */
+
+.early-learning-intro {
+
+    width:
+        min(1100px, calc(100% - 40px));
+
+    margin:
+        0 auto 20px;
+
+    padding:
+        22px 32px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        2px;
+
+    border-radius:
+        24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f5faff 55%,
+            #e8f3fc 100%
+        );
+
+    border:
+        1px solid
+        rgba(29, 116, 201, 0.12);
+
+    box-shadow:
+        0 16px 38px
+        rgba(15, 76, 129, 0.09);
+
+    overflow:
+        hidden;
+}
+
+
+/* =========================================================
+   INTRO CONTENT
+========================================================= */
+
+.early-learning-intro-content {
+
+    min-width: 0;
+
+    max-width:
+        800px;
+}
+
+
+.early-learning-label {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    gap:
+        8px;
+
+    margin-bottom:
+        10px;
+
+    color:
+        #0f4c81;
+
+    font-size:
+        12px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1.2px;
+
+    line-height:
+        1.3;
+
+    text-transform:
+        uppercase;
+}
+
+
+.early-learning-intro h2 {
+
+    margin:
+        0 0 10px;
+
+    color:
+        #102f4d;
+
+    font-size:
+        clamp(28px, 3vw, 40px);
+
+    font-weight:
+        800;
+
+    line-height:
+        1.1;
+
+    letter-spacing:
+        -0.5px;
+}
+
+
+.early-learning-intro p {
+
+    max-width:
+        760px;
+
+    margin:
+        0;
+
+    color:
+        #5a7187;
+
+    font-size:
+        15px;
+
+    line-height:
+        1.55;
+}
+
+
+/* =========================================================
+   FEATURE COUNT BADGE
+========================================================= */
+
+.early-learning-badge {
+
+    flex:
+        0 0 110px;
+
+    width:
+        110px;
+
+    height:
+        110px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border-radius:
+        50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0f4c81,
+            #1d74c9
+        );
+
+    color:
+        #ffffff;
+
+    box-shadow:
+        0 14px 30px
+        rgba(15, 76, 129, 0.22);
+
+    user-select:
+        none;
+}
+
+
+.early-learning-badge strong {
+
+    font-size:
+        34px;
+
+    line-height:
+        1;
+
+    font-weight:
+        800;
+}
+
+
+.early-learning-badge span {
+
+    margin-top:
+        7px;
+
+    text-align:
+        center;
+
+    font-size:
+        10px;
+
+    line-height:
+        1.35;
+
+    font-weight:
+        700;
+
+    text-transform:
+        uppercase;
+
+    letter-spacing:
+        .7px;
+}
+
+
+/* =========================================================
+   CAROUSEL VIEWPORT
+========================================================= */
+
+.early-learning-carousel {
+
+    position:
+        relative;
+
+    width:
+        min(1300px, calc(100% - 40px));
+
+    margin:
+        0 auto;
+
+    overflow:
+        hidden;
+
+    isolation:
+        isolate;
+}
+
+
+/*
+   Soft edge masking keeps the carousel visually clean
+   without adding extra DOM elements.
+*/
+
+.early-learning-carousel::before,
+.early-learning-carousel::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    bottom:
+        0;
+
+    width:
+        55px;
+
+    z-index:
+        4;
+
+    pointer-events:
+        none;
+}
+
+
+.early-learning-carousel::before {
+
+    left:
+        0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(238, 246, 252, 1),
+            rgba(238, 246, 252, 0)
+        );
+}
+
+
+.early-learning-carousel::after {
+
+    right:
+        0;
+
+    background:
+        linear-gradient(
+            270deg,
+            rgba(238, 246, 252, 1),
+            rgba(238, 246, 252, 0)
+        );
+}
+
+
+/* =========================================================
+   MOVING TRACK
+========================================================= */
+
+.early-learning-track {
+
+    display:
+        flex;
+
+    align-items:
+        stretch;
+
+    width:
+        max-content;
+
+    gap:
+        22px;
+
+    animation:
+        earlyLearningScroll
+        38s
+        linear
+        infinite;
+
+    will-change:
+        transform;
+
+    transform:
+        translate3d(0, 0, 0);
+
+    backface-visibility:
+        hidden;
+}
+
+
+.early-learning-carousel:hover
+.early-learning-track {
+
+    animation-play-state:
+        paused;
+}
+
+
+/* =========================================================
+   SEAMLESS CAROUSEL ANIMATION
+========================================================= */
+
+@keyframes earlyLearningScroll {
+
+    0% {
+
+        transform:
+            translate3d(
+                0,
+                0,
+                0
+            );
+
+    }
+
+    100% {
+
+        transform:
+            translate3d(
+                -50%,
+                0,
+                0
+            );
+
+    }
+
+}
+
+
+/* =========================================================
+   INSTITUTION CARD INSIDE CAROUSEL
+========================================================= */
+
+/*
+   The actual card is now generated by InstitutionCard.js.
+   This section controls only its carousel sizing.
+*/
+
+.early-learning-carousel
+.institution-card {
+
+    flex:
+        0 0 390px;
+
+    width:
+        390px;
+
+    min-width:
+        390px;
+
+    min-height:
+        0;
+}
+
+
+/* =========================================================
+   ALL CARDS CONTAINER
+========================================================= */
+
+.early-learning-all {
+
+    width:
+        min(1300px, calc(100% - 40px));
+
+    margin:
+        24px auto 0;
+
+    animation:
+        earlyLearningReveal
+        .25s
+        ease
+        both;
+}
+
+
+.early-learning-all[hidden] {
+
+    display:
+        none !important;
+}
+
+
+/* =========================================================
+   REVEAL ANIMATION
+========================================================= */
+
+@keyframes earlyLearningReveal {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(8px);
+
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   ALL CARDS GRID
+========================================================= */
+
+.early-learning-all-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(
+                0,
+                1fr
+            )
+        );
+
+    gap:
+        22px;
+}
+
+
+/*
+   Cards inside View All should be regular-width cards,
+   not carousel items.
+*/
+
+.early-learning-all
+.institution-card {
+
+    width:
+        100%;
+
+    min-width:
+        0;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.early-learning-bottom {
+
+    width:
+        min(1300px, calc(100% - 40px));
+
+    margin:
+        30px auto 0;
+
+    padding:
+        20px 26px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        24px;
+
+    border-radius:
+        18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f4c81,
+            #1d74c9
+        );
+
+    color:
+        #ffffff;
+
+    box-shadow:
+        0 12px 28px
+        rgba(15, 76, 129, 0.15);
+}
+
+
+/* =========================================================
+   CTA TEXT
+========================================================= */
+
+.early-learning-bottom > div {
+
+    min-width:
+        0;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        4px;
+}
+
+
+.early-learning-bottom span {
+
+    color:
+        rgba(255,255,255,.78);
+
+    font-size:
+        12px;
+
+    line-height:
+        1.4;
+}
+
+
+.early-learning-bottom strong {
+
+    color:
+        #ffffff;
+
+    font-size:
+        15px;
+
+    line-height:
+        1.45;
+
+    font-weight:
+        800;
+}
+
+
+/* =========================================================
+   CTA BUTTON
+========================================================= */
+
+.early-learning-explore-btn {
+
+    flex:
+        0 0 auto;
+
+    min-height:
+        44px;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        10px;
+
+    padding:
+        0 18px;
+
+    border:
+        none;
+
+    border-radius:
+        999px;
+
+    background:
+        #ffffff;
+
+    color:
+        #0f4c81;
+
+    font-size:
+        13px;
+
+    font-weight:
+        800;
+
+    cursor:
+        pointer;
+
+    white-space:
+        nowrap;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+
+.early-learning-explore-btn:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 7px 18px
+        rgba(0,0,0,.14);
+}
+
+
+.early-learning-explore-btn:focus-visible {
+
+    outline:
+        3px solid
+        rgba(255,255,255,.55);
+
+    outline-offset:
+        3px;
+}
+
+
+.early-learning-explore-btn
+.early-learning-view-all-text {
+
+    color:
+        #0f4c81;
+
+    opacity:
+        1;
+}
+
+
+.early-learning-explore-btn
+span:last-child {
+
+    font-size:
+        18px;
+
+    line-height:
+        1;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .early-learning-intro {
+
+        width:
+            min(900px, calc(100% - 32px));
+
+        padding:
+            28px 32px;
+    }
+
+
+    .early-learning-carousel,
+    .early-learning-all,
+    .early-learning-bottom {
+
+        width:
+            calc(100% - 32px);
+    }
+
+
+    .early-learning-carousel
+    .institution-card {
+
+        flex-basis:
+            350px;
+
+        width:
+            350px;
+
+        min-width:
+            350px;
+    }
+
+
+    .early-learning-all-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    #play-school,
+    #pre-school,
+    #school {
+
+        padding:
+            45px 0 55px;
+    }
+
+
+    .early-learning-intro {
+
+        width:
+            calc(100% - 28px);
+
+        margin-bottom:
+            24px;
+
+        padding:
+            26px 24px;
+
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        gap:
+            20px;
+
+        border-radius:
+            20px;
+    }
+
+
+    .early-learning-intro-content {
+
+        max-width:
+            none;
+
+        width:
+            100%;
+    }
+
+
+    .early-learning-label {
+
+        font-size:
+            11px;
+    }
+
+
+    .early-learning-intro h2 {
+
+        font-size:
+            30px;
+    }
+
+
+    .early-learning-intro p {
+
+        font-size:
+            14px;
+
+        line-height:
+            1.55;
+    }
+
+
+    .early-learning-badge {
+
+        width:
+            96px;
+
+        height:
+            96px;
+
+        flex-basis:
+            96px;
+
+        align-self:
+            flex-end;
+    }
+
+
+    .early-learning-badge strong {
+
+        font-size:
+            30px;
+    }
+
+
+    .early-learning-badge span {
+
+        font-size:
+            9px;
+    }
+
+
+    .early-learning-carousel,
+    .early-learning-all,
+    .early-learning-bottom {
+
+        width:
+            calc(100% - 28px);
+    }
+
+
+    .early-learning-carousel::before,
+    .early-learning-carousel::after {
+
+        width:
+            25px;
+    }
+
+
+    .early-learning-track {
+
+        gap:
+            16px;
+
+        animation-duration:
+            32s;
+    }
+
+
+    .early-learning-carousel
+    .institution-card {
+
+        flex-basis:
+            300px;
+
+        width:
+            300px;
+
+        min-width:
+            300px;
+    }
+
+
+    .early-learning-all {
+
+        margin-top:
+            18px;
+    }
+
+
+    .early-learning-all-grid {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            16px;
+    }
+
+
+    .early-learning-bottom {
+
+        margin-top:
+            24px;
+
+        padding:
+            20px;
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+        gap:
+            16px;
+
+        border-radius:
+            16px;
+    }
+
+
+    .early-learning-bottom strong {
+
+        font-size:
+            14px;
+    }
+
+
+    .early-learning-explore-btn {
+
+        width:
+            100%;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .early-learning-intro {
+
+        padding:
+            22px 20px;
+    }
+
+
+    .early-learning-intro h2 {
+
+        font-size:
+            27px;
+    }
+
+
+    .early-learning-carousel
+    .institution-card {
+
+        flex-basis:
+            280px;
+
+        width:
+            280px;
+
+        min-width:
+            280px;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .early-learning-track {
+
+        animation:
+            none;
+
+        transform:
+            none;
+    }
+
+
+    .early-learning-all {
+
+        animation:
+            none;
+    }
+
+}
+
+/* =========================================================
+   EDUCONNECT — FINAL COMPACT EARLY-LEARNING HEADERS
+========================================================= */
+
+#play-school,
+#pre-school,
+#school {
+    padding: 24px 0 34px !important;
+}
+
+.early-learning-intro {
+    margin-bottom: 16px !important;
+    padding: 16px 24px !important;
+    min-height: 0 !important;
+    gap: 18px !important;
+    border-radius: 20px !important;
+}
+
+.early-learning-label {
+    margin-bottom: 6px !important;
+    font-size: 11px !important;
+    letter-spacing: 1px !important;
+}
+
+.early-learning-intro h2 {
+    margin-bottom: 7px !important;
+    font-size: clamp(27px, 3vw, 36px) !important;
+    line-height: 1.08 !important;
+}
+
+.early-learning-intro p {
+    font-size: 14px !important;
+    line-height: 1.45 !important;
+}
+
+.early-learning-badge {
+    width: 96px !important;
+    height: 96px !important;
+    flex-basis: 96px !important;
+}
+
+.early-learning-badge strong {
+    font-size: 30px !important;
+}
+
+.early-learning-badge span {
+    margin-top: 5px !important;
+    font-size: 9px !important;
+}
+
+@media (max-width: 1000px) {
+    .early-learning-intro {
+        padding: 15px 22px !important;
+        margin-bottom: 14px !important;
+    }
+
+    .early-learning-carousel,
+    .early-learning-all,
+    .early-learning-bottom {
+        margin-top: 0 !important;
+    }
+}
+
+@media (max-width: 650px) {
+    #play-school,
+    #pre-school,
+    #school {
+        padding: 22px 0 30px !important;
+    }
+
+    .early-learning-intro {
+        width: calc(100% - 28px) !important;
+        margin-bottom: 14px !important;
+        padding: 18px 18px !important;
+        gap: 12px !important;
+        border-radius: 18px !important;
+    }
+
+    .early-learning-intro h2 {
+        font-size: 27px !important;
+    }
+
+    .early-learning-intro p {
+        font-size: 13px !important;
+        line-height: 1.45 !important;
+    }
+
+    .early-learning-badge {
+        width: 88px !important;
+        height: 88px !important;
+        flex-basis: 88px !important;
+    }
+
+    .early-learning-badge strong {
+        font-size: 27px !important;
+    }
+
+    .early-learning-badge span {
+        font-size: 8px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .early-learning-intro {
+        padding: 16px !important;
+    }
+
+    .early-learning-intro h2 {
+        font-size: 25px !important;
+    }
+}

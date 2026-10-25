@@ -1,0 +1,450 @@
+/* =========================================================
+   EDUCONNECT — STUDY ABROAD STUDENT REVIEWS
+========================================================= */
+
+.abroad-student-reviews {
+    position: relative;
+    width: 100%;
+    padding: 105px 0 110px;
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            rgba(37, 99, 235, 0.10),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 5% 90%,
+            rgba(96, 165, 250, 0.08),
+            transparent 28%
+        ),
+        #f8fafc;
+    overflow: hidden;
+}
+
+.abroad-student-reviews::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    top: -260px;
+    right: -180px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(37, 99, 235, 0.09),
+        transparent 70%
+    );
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.abroad-student-reviews-container {
+    position: relative;
+    z-index: 2;
+    width: min(1200px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.abroad-student-reviews-header {
+    max-width: 780px;
+    margin: 0 auto 48px;
+    text-align: center;
+}
+
+.abroad-student-reviews-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    margin-bottom: 17px;
+    padding: 7px 16px;
+    border: 1px solid #d7e5f4;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #2563eb;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.abroad-student-reviews-header h2 {
+    margin: 0;
+    color: #111827;
+    font-size: clamp(38px, 4.5vw, 55px);
+    line-height: 1.06;
+    letter-spacing: -2px;
+    font-weight: 850;
+}
+
+.abroad-student-reviews-header p {
+    max-width: 700px;
+    margin: 18px auto 0;
+    color: #667085;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   REVIEWS GRID
+========================================================= */
+
+.abroad-student-reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+
+/* =========================================================
+   REVIEW CARD
+========================================================= */
+
+.abroad-student-review-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 440px;
+    padding: 23px;
+    border: 1px solid #dfe7ef;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.05);
+    overflow: hidden;
+    transition:
+        transform 220ms ease,
+        border-color 220ms ease,
+        box-shadow 220ms ease;
+}
+
+.abroad-student-review-card::before {
+    content: "“";
+    position: absolute;
+    top: 10px;
+    right: 18px;
+    color: #e8f0ff;
+    font-family: Georgia, serif;
+    font-size: 72px;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.abroad-student-review-card:hover {
+    transform: translateY(-6px);
+    border-color: #bfd4e9;
+    box-shadow:
+        0 22px 45px rgba(15, 23, 42, 0.10);
+}
+
+
+/* =========================================================
+   USER
+========================================================= */
+
+.abroad-student-review-top {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.abroad-student-review-avatar {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 800;
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.18);
+}
+
+.abroad-student-review-user {
+    min-width: 0;
+}
+
+.abroad-student-review-user h3 {
+    margin: 0 0 4px;
+    color: #111827;
+    font-size: 15px;
+    line-height: 1.3;
+    font-weight: 800;
+}
+
+.abroad-student-review-user span {
+    display: block;
+    color: #667085;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.abroad-student-review-rating {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 8px;
+    margin-bottom: 17px;
+    padding: 7px 10px;
+    border: 1px solid #f0e5bd;
+    border-radius: 8px;
+    background: #fffaf0;
+}
+
+.abroad-student-review-stars {
+    color: #f59e0b;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.abroad-student-review-rating strong {
+    color: #344054;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   REVIEW TEXT
+========================================================= */
+
+.abroad-student-review-text {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: #475467;
+    font-size: 13px;
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   DETAILS
+========================================================= */
+
+.abroad-student-review-details {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #edf1f5;
+}
+
+.abroad-student-review-details > div {
+    padding: 11px 0;
+}
+
+.abroad-student-review-details > div + div {
+    border-top: 1px solid #edf1f5;
+}
+
+.abroad-student-review-details span {
+    display: block;
+    margin-bottom: 4px;
+    color: #98a2b3;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+}
+
+.abroad-student-review-details strong {
+    display: block;
+    color: #344054;
+    font-size: 11px;
+    line-height: 1.5;
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   FOOTER CTA
+========================================================= */
+
+.abroad-student-reviews-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    margin-top: 30px;
+    padding: 21px 24px;
+    border: 1px solid #d9e6f2;
+    border-radius: 17px;
+    background: linear-gradient(
+        135deg,
+        #ffffff,
+        #f1f7ff
+    );
+}
+
+.abroad-student-reviews-footer p {
+    margin: 0;
+    color: #344054;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.abroad-student-reviews-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    padding: 0 19px;
+    border: 0;
+    border-radius: 10px;
+    background: #2563eb;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition:
+        background 180ms ease,
+        transform 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.abroad-student-reviews-button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.20);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .abroad-student-reviews-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 680px) {
+
+    .abroad-student-reviews {
+        padding: 75px 0 85px;
+    }
+
+    .abroad-student-reviews-container {
+        width: calc(100% - 28px);
+    }
+
+    .abroad-student-reviews-header {
+        margin-bottom: 32px;
+    }
+
+    .abroad-student-reviews-header h2 {
+        font-size: 35px;
+        letter-spacing: -1.2px;
+    }
+
+    .abroad-student-reviews-header p {
+        font-size: 14px;
+    }
+
+    .abroad-student-reviews-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .abroad-student-review-card {
+        min-height: auto;
+        padding: 21px;
+    }
+
+    .abroad-student-reviews-footer {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 16px;
+        padding: 19px;
+    }
+
+    .abroad-student-reviews-button {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .abroad-student-reviews-container {
+        width: calc(100% - 24px);
+    }
+
+    .abroad-student-reviews-header h2 {
+        font-size: 30px;
+    }
+
+    .abroad-student-review-card {
+        padding: 18px;
+        border-radius: 18px;
+    }
+
+    .abroad-student-review-avatar {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.abroad-student-reviews button:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.25);
+    outline-offset: 3px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .abroad-student-review-card,
+    .abroad-student-reviews-button {
+        transition: none;
+    }
+
+    .abroad-student-review-card:hover,
+    .abroad-student-reviews-button:hover {
+        transform: none;
+    }
+
+}

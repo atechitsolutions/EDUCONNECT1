@@ -1,0 +1,986 @@
+[
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Northeastern University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "New York University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Drexel University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Clark University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Yeshiva University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "University of Detroit Mercy",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Illinois Institute of Technology",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "DePaul University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Washington State University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Colorado State University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Northern Arizona University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Utica University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "City University of Seattle",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Clarkson University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Touro University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "University of Massachusetts Lowell",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "University of West Florida",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Central Washington University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "University of Massachusetts Dartmouth",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "University of Nevada, Las Vegas",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Troy University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Lewis University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "University of Arizona",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "University of California",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "University of Michigan",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "University of Wisconsin–Madison",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Harvard University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Stanford University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Brown University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Johns Hopkins University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Case Western Reserve University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Clemson University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United States",
+    "countryCode": "US",
+    "name": "Loyola University Chicago",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "University of Toronto",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "McGill University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "University of Alberta",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "University of Calgary",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "University of Waterloo",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "University of Manitoba",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "University of Saskatchewan",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "University of Victoria",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "Simon Fraser University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "York University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "Algoma University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "Brock University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "University Canada West",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "Yorkville University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "Northeastern University — Canadian programs",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "name": "International Business University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "University of Liverpool",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "Northeastern University London",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "University of Sussex",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "University of Sunderland",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "University of Roehampton",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "London Metropolitan University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "St Mary's University, Twickenham",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "University of Edinburgh",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "University of Manchester",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "University of Warwick",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "Newcastle University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "Aston University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "Coventry University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "Lancaster University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "Loughborough University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "Brunel University London",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "University of Greenwich",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "University of Aberdeen",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "Abertay University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Kingdom",
+    "countryCode": "GB",
+    "name": "University of Lincoln",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Australia",
+    "countryCode": "AU",
+    "name": "Australian National University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Australia",
+    "countryCode": "AU",
+    "name": "University of Melbourne",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Australia",
+    "countryCode": "AU",
+    "name": "University of Sydney",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Australia",
+    "countryCode": "AU",
+    "name": "University of Adelaide",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Australia",
+    "countryCode": "AU",
+    "name": "RMIT University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Australia",
+    "countryCode": "AU",
+    "name": "Deakin University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Australia",
+    "countryCode": "AU",
+    "name": "Curtin University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Australia",
+    "countryCode": "AU",
+    "name": "Macquarie University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Australia",
+    "countryCode": "AU",
+    "name": "University of Newcastle",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Australia",
+    "countryCode": "AU",
+    "name": "Queensland University of Technology",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Australia",
+    "countryCode": "AU",
+    "name": "University of Canberra",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Australia",
+    "countryCode": "AU",
+    "name": "Western Sydney University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "WHU – Otto Beisheim School of Management",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "SRH University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "International School of Management (ISM)",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "CODE University of Applied Sciences",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "Munich Business School",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "Touro University — Germany listing",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "University of Applied Management",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "ICN Business School",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "University of Bonn",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "University of Cologne",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "University of Freiburg",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "University of Hamburg",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "University of Mannheim",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "University of Stuttgart",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "University of Tübingen",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "University of Würzburg",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "TU Darmstadt",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Germany",
+    "countryCode": "DE",
+    "name": "Chemnitz University of Technology",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "France",
+    "countryCode": "FR",
+    "name": "Paris School of Business",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "France",
+    "countryCode": "FR",
+    "name": "ICN Business School",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "France",
+    "countryCode": "FR",
+    "name": "Excelia Business School",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "France",
+    "countryCode": "FR",
+    "name": "EDC Paris Business School",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "France",
+    "countryCode": "FR",
+    "name": "EMLV Business School",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "France",
+    "countryCode": "FR",
+    "name": "KEDGE Business School",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "France",
+    "countryCode": "FR",
+    "name": "ESDES Business School",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "France",
+    "countryCode": "FR",
+    "name": "Aivancity School for Technology, Business and Society",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "France",
+    "countryCode": "FR",
+    "name": "American Business College",
+    "type": "COLLEGE",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Ireland",
+    "countryCode": "IE",
+    "name": "University College Cork",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Ireland",
+    "countryCode": "IE",
+    "name": "Dundalk Institute of Technology",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Ireland",
+    "countryCode": "IE",
+    "name": "Dublin City University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Ireland",
+    "countryCode": "IE",
+    "name": "Dublin Business School",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Ireland",
+    "countryCode": "IE",
+    "name": "Griffith College Ireland",
+    "type": "COLLEGE",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Ireland",
+    "countryCode": "IE",
+    "name": "Cork Institute of Technology",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Finland",
+    "countryCode": "FI",
+    "name": "Seinäjoki University of Applied Sciences (SeAMK)",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Finland",
+    "countryCode": "FI",
+    "name": "South-Eastern Finland University of Applied Sciences (Xamk)",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Finland",
+    "countryCode": "FI",
+    "name": "Haaga-Helia University of Applied Sciences",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Finland",
+    "countryCode": "FI",
+    "name": "Metropolia University of Applied Sciences",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Netherlands",
+    "countryCode": "NL",
+    "name": "Utrecht University",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Netherlands",
+    "countryCode": "NL",
+    "name": "Wageningen University & Research",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Italy",
+    "countryCode": "IT",
+    "name": "POLIMI Graduate School of Management",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "United Arab Emirates",
+    "countryCode": "AE",
+    "name": "Rochester Institute of Technology of Dubai",
+    "type": "UNIVERSITY",
+    "active": true,
+    "studyAbroadEnabled": true
+  },
+  {
+    "country": "Hungary",
+    "countryCode": "HU",
+    "name": "International Business School (IBS)",
+    "type": "INSTITUTION",
+    "active": true,
+    "studyAbroadEnabled": true
+  }
+]

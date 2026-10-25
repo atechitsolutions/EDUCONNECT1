@@ -1,0 +1,886 @@
+/* =========================================================
+   STUDY ABROAD — COUNTRY COMPARISON
+========================================================= */
+
+.study-abroad-country-comparison {
+    position: relative;
+
+    width: 100%;
+
+    padding: 100px 0 110px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f4f9fd 0%,
+            #eaf3fa 50%,
+            #f8fbfe 100%
+        );
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   BACKGROUND DECORATION
+========================================================= */
+
+.study-abroad-country-comparison::before {
+    content: "";
+
+    position: absolute;
+
+    width: 450px;
+    height: 450px;
+
+    top: -250px;
+    left: -170px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(73, 163, 255, 0.13),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+.study-abroad-country-comparison::after {
+    content: "";
+
+    position: absolute;
+
+    width: 420px;
+    height: 420px;
+
+    right: -180px;
+    bottom: -240px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(15, 76, 129, 0.10),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.study-abroad-country-comparison-container {
+    position: relative;
+
+    z-index: 2;
+
+    width: min(
+        1280px,
+        calc(100% - 40px)
+    );
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.study-abroad-country-comparison-header {
+    max-width: 820px;
+
+    margin: 0 auto 40px;
+
+    text-align: center;
+}
+
+
+.study-abroad-country-comparison-header
+.study-abroad-section-eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 8px 15px;
+
+    margin-bottom: 15px;
+
+    border: 1px solid #dce8f2;
+
+    border-radius: 50px;
+
+    background: rgba(255, 255, 255, 0.75);
+
+    color: #2563eb;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+}
+
+
+.study-abroad-country-comparison-header h2 {
+    margin: 0;
+
+    color: #102f4d;
+
+    font-size: clamp(
+        34px,
+        4.5vw,
+        54px
+    );
+
+    line-height: 1.08;
+
+    letter-spacing: -1.7px;
+
+    font-weight: 850;
+}
+
+
+.study-abroad-country-comparison-header h2 span {
+    color: #2563eb;
+}
+
+
+.study-abroad-country-comparison-header p {
+    max-width: 760px;
+
+    margin: 18px auto 0;
+
+    color: #647b90;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   COUNTRY SELECTOR
+========================================================= */
+
+.study-abroad-country-selector {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    margin-bottom: 35px;
+}
+
+
+.country-selector-button {
+    min-height: 43px;
+
+    padding: 0 17px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 7px;
+
+    border: 1px solid #d5e2ed;
+
+    border-radius: 50px;
+
+    background: #ffffff;
+
+    color: #526b80;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.country-selector-button:hover {
+    border-color: #8abce7;
+
+    color: #2563eb;
+
+    transform: translateY(-1px);
+}
+
+
+.country-selector-button.active {
+    border-color: #2563eb;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.18);
+}
+
+
+/* =========================================================
+   COMPARISON GRID
+========================================================= */
+
+.study-abroad-country-comparison-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   COMPARISON CARD
+========================================================= */
+
+.study-abroad-country-comparison-card {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    border: 1px solid #dce7ef;
+
+    border-radius: 18px;
+
+    background: #ffffff;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 12px 35px rgba(15, 76, 129, 0.07);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.study-abroad-country-comparison-card:hover {
+    transform: translateY(-5px);
+
+    border-color: #bfd9ee;
+
+    box-shadow:
+        0 20px 45px rgba(15, 76, 129, 0.12);
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
+.country-comparison-card-header {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 22px;
+
+    border-bottom: 1px solid #e7eef4;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fbff,
+            #eef6fc
+        );
+}
+
+
+.country-comparison-country {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+
+.country-comparison-flag {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #dce8f1;
+
+    font-size: 25px;
+
+    box-shadow:
+        0 5px 15px rgba(15, 76, 129, 0.06);
+}
+
+
+.country-comparison-country > div {
+    min-width: 0;
+}
+
+
+.country-comparison-country > div > span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #2563eb;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+
+.country-comparison-country h3 {
+    margin: 0;
+
+    color: #102f4d;
+
+    font-size: 21px;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+.country-comparison-save {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid #d9e5ee;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    color: #647b90;
+
+    cursor: pointer;
+
+    font-size: 19px;
+
+    line-height: 1;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.country-comparison-save:hover {
+    color: #2563eb;
+
+    transform: scale(1.06);
+}
+
+
+.country-comparison-save.is-favourite {
+    background: #2563eb;
+
+    border-color: #2563eb;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   DETAILS
+========================================================= */
+
+.country-comparison-details {
+    display: flex;
+
+    flex-direction: column;
+
+    padding: 7px 22px 5px;
+}
+
+
+.country-comparison-detail {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 12px;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid #edf2f6;
+}
+
+
+.country-comparison-detail:last-child {
+    border-bottom: 0;
+}
+
+
+.country-comparison-detail-icon {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #f0f7fd;
+
+    font-size: 15px;
+}
+
+
+.country-comparison-detail > div {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.country-comparison-detail > div > span {
+    color: #8a9aaa;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+
+.country-comparison-detail strong {
+    color: #263b50;
+
+    font-size: 13px;
+
+    line-height: 1.45;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   EXPLORE BUTTON
+========================================================= */
+
+.country-comparison-explore-button {
+    min-height: 46px;
+
+    margin: 15px 22px 22px;
+
+    padding: 0 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    border: 1px solid #d3e3ef;
+
+    border-radius: 9px;
+
+    background: #f7fbff;
+
+    color: #0f4c81;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 750;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.country-comparison-explore-button:hover {
+    border-color: #2563eb;
+
+    background: #2563eb;
+
+    color: #ffffff;
+}
+
+.country-comparison-germany-note {
+    display: grid;
+    gap: 7px;
+    margin: 0 22px 22px;
+    padding: 15px;
+    border-radius: 10px;
+    background: #f3f8fd;
+    color: #526b80;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.country-comparison-germany-note strong {
+    color: #102f4d;
+    font-size: 13px;
+}
+
+.country-comparison-germany-note p {
+    margin: 0;
+}
+
+.country-comparison-germany-note a {
+    color: #155db3;
+    font-weight: 650;
+    text-underline-offset: 2px;
+}
+
+
+/* =========================================================
+   MOBILE NOTE
+========================================================= */
+
+.study-abroad-country-comparison-mobile-note {
+    display: none;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.study-abroad-country-comparison-footer {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-top: 35px;
+
+    padding: 22px 25px;
+
+    border: 1px solid #dce7ef;
+
+    border-radius: 15px;
+
+    background: rgba(255, 255, 255, 0.76);
+}
+
+
+.country-comparison-footer-content {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    min-width: 0;
+}
+
+
+.country-comparison-footer-icon {
+    width: 43px;
+    height: 43px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #eaf4ff;
+
+    font-size: 20px;
+}
+
+
+.country-comparison-footer-content > div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+}
+
+
+.country-comparison-footer-content strong {
+    color: #263b50;
+
+    font-size: 14px;
+}
+
+
+.country-comparison-footer-content span {
+    color: #718497;
+
+    font-size: 12px;
+}
+
+
+.country-comparison-button {
+    min-height: 44px;
+
+    flex-shrink: 0;
+
+    padding: 0 17px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 9px;
+
+    border-radius: 9px;
+
+    background: #0f4c81;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.country-comparison-button:hover {
+    background: #0b3b65;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .study-abroad-country-comparison-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .study-abroad-country-comparison {
+        padding: 70px 0 80px;
+    }
+
+
+    .study-abroad-country-comparison-container {
+        width: calc(100% - 28px);
+    }
+
+
+    .study-abroad-country-comparison-header h2 {
+        font-size: 34px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .study-abroad-country-selector {
+        justify-content: flex-start;
+
+        flex-wrap: nowrap;
+
+        overflow-x: auto;
+
+        padding-bottom: 7px;
+
+        margin-right: -14px;
+
+        padding-right: 14px;
+
+        scrollbar-width: none;
+    }
+
+
+    .study-abroad-country-selector::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    .country-selector-button {
+        flex-shrink: 0;
+    }
+
+
+    .study-abroad-country-comparison-grid {
+        display: flex;
+
+        overflow-x: auto;
+
+        scroll-snap-type: x mandatory;
+
+        gap: 15px;
+
+        margin-right: -14px;
+
+        padding-right: 14px;
+
+        padding-bottom: 8px;
+
+        scrollbar-width: none;
+    }
+
+
+    .study-abroad-country-comparison-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    .study-abroad-country-comparison-card {
+        width: calc(100vw - 45px);
+
+        flex: 0 0 calc(100vw - 45px);
+
+        scroll-snap-align: start;
+    }
+
+
+    .study-abroad-country-comparison-mobile-note {
+        display: flex;
+
+        align-items: center;
+
+        gap: 9px;
+
+        margin-top: 13px;
+
+        color: #73879a;
+
+        font-size: 11px;
+    }
+
+
+    .study-abroad-country-comparison-mobile-note p {
+        margin: 0;
+    }
+
+
+    .study-abroad-country-comparison-footer {
+        align-items: stretch;
+
+        flex-direction: column;
+
+        padding: 19px;
+    }
+
+
+    .country-comparison-button {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .country-selector-button,
+    .study-abroad-country-comparison-card,
+    .country-comparison-save,
+    .country-comparison-explore-button,
+    .country-comparison-button {
+        transition: none;
+    }
+
+}

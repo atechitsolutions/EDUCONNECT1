@@ -1,0 +1,849 @@
+/* =========================================================
+   STUDY ABROAD — TOP UNIVERSITIES
+========================================================= */
+
+.study-abroad-top-universities {
+    position: relative;
+    width: 100%;
+    padding: 100px 0 110px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f7fbff 0%,
+            #edf6fc 50%,
+            #ffffff 100%
+        );
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.study-abroad-top-universities::before {
+    content: "";
+
+    position: absolute;
+
+    width: 450px;
+    height: 450px;
+
+    top: -250px;
+    right: -170px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(73, 163, 255, 0.13),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+.study-abroad-top-universities::after {
+    content: "";
+
+    position: absolute;
+
+    width: 400px;
+    height: 400px;
+
+    bottom: -250px;
+    left: -170px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(15, 76, 129, 0.08),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.study-abroad-top-universities-container {
+    position: relative;
+    z-index: 2;
+
+    width: min(
+        1280px,
+        calc(100% - 40px)
+    );
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.study-abroad-top-universities-header {
+    max-width: 850px;
+
+    margin: 0 auto 38px;
+
+    text-align: center;
+}
+
+
+.study-abroad-top-universities-header
+.study-abroad-section-eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 8px 15px;
+
+    margin-bottom: 15px;
+
+    border: 1px solid #dce8f2;
+
+    border-radius: 50px;
+
+    background: rgba(255, 255, 255, 0.78);
+
+    color: #2563eb;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+}
+
+
+.study-abroad-top-universities-header h2 {
+    margin: 0;
+
+    color: #102f4d;
+
+    font-size: clamp(
+        35px,
+        4.5vw,
+        54px
+    );
+
+    line-height: 1.08;
+
+    letter-spacing: -1.7px;
+
+    font-weight: 850;
+}
+
+
+.study-abroad-top-universities-header h2 span {
+    color: #2563eb;
+}
+
+
+.study-abroad-top-universities-header p {
+    max-width: 790px;
+
+    margin: 18px auto 0;
+
+    color: #647b90;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   COUNTRY FILTER
+========================================================= */
+
+.study-abroad-university-filters {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    margin-bottom: 35px;
+}
+
+
+.university-filter {
+    min-height: 43px;
+
+    padding: 0 17px;
+
+    border: 1px solid #d6e3ed;
+
+    border-radius: 50px;
+
+    background: #ffffff;
+
+    color: #526a7d;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.university-filter:hover {
+    border-color: #8bbde8;
+
+    color: #2563eb;
+
+    transform: translateY(-1px);
+}
+
+
+.university-filter.active {
+    border-color: #2563eb;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.17);
+}
+
+
+/* =========================================================
+   UNIVERSITY GRID
+========================================================= */
+
+.study-abroad-university-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+/* =========================================================
+   UNIVERSITY CARD
+========================================================= */
+
+.study-abroad-university-card {
+    position: relative;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    border: 1px solid #dce7ef;
+
+    border-radius: 19px;
+
+    background: #ffffff;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 12px 35px rgba(15, 76, 129, 0.07);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.study-abroad-university-card:hover {
+    transform: translateY(-6px);
+
+    border-color: #bdd9ed;
+
+    box-shadow:
+        0 22px 45px rgba(15, 76, 129, 0.12);
+}
+
+
+.study-abroad-university-card.is-hidden {
+    display: none;
+}
+
+
+/* =========================================================
+   CARD TOP
+========================================================= */
+
+.university-card-top {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 19px 20px;
+
+    border-bottom: 1px solid #e8eff4;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fbff,
+            #edf6fc
+        );
+}
+
+
+.university-rank {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 50px;
+
+    min-height: 30px;
+
+    padding: 0 9px;
+
+    border-radius: 7px;
+
+    background: #eaf4ff;
+
+    color: #2563eb;
+
+    font-size: 11px;
+
+    font-weight: 850;
+
+    letter-spacing: 0.5px;
+}
+
+
+.university-favourite {
+    width: 37px;
+    height: 37px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d8e4ed;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    color: #687c8e;
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+    line-height: 1;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.university-favourite:hover {
+    color: #2563eb;
+
+    transform: scale(1.06);
+}
+
+
+.university-favourite.is-favourite {
+    border-color: #2563eb;
+
+    background: #2563eb;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   UNIVERSITY IDENTITY
+========================================================= */
+
+.university-card-identity {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 21px 20px 12px;
+}
+
+
+.university-logo {
+    width: 55px;
+    height: 55px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #dce7ef;
+
+    border-radius: 13px;
+
+    background: #f8fbfd;
+
+    color: #0f4c81;
+
+    font-size: 22px;
+
+    font-weight: 850;
+}
+
+
+.university-card-identity-content {
+    min-width: 0;
+}
+
+
+.university-country {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #2563eb;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.6px;
+
+    text-transform: uppercase;
+}
+
+
+.university-card-identity h3 {
+    margin: 0;
+
+    color: #172b40;
+
+    font-size: 20px;
+
+    line-height: 1.25;
+
+    letter-spacing: -0.4px;
+}
+
+
+/* =========================================================
+   UNIVERSITY INFORMATION
+========================================================= */
+
+.university-card-content {
+    padding: 0 20px 21px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+}
+
+
+.university-location {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 7px;
+
+    margin: 4px 0 16px;
+
+    color: #657b8d;
+
+    font-size: 13px;
+
+    line-height: 1.45;
+}
+
+
+.university-details {
+    display: flex;
+
+    flex-direction: column;
+
+    border-top: 1px solid #edf2f6;
+}
+
+
+.university-detail {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid #edf2f6;
+}
+
+
+.university-detail:last-child {
+    border-bottom: 0;
+}
+
+
+.university-detail-icon {
+    width: 30px;
+    height: 30px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+
+    background: #f0f7fd;
+
+    font-size: 13px;
+}
+
+
+.university-detail > div {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.university-detail > div > span {
+    color: #8a9aaa;
+
+    font-size: 9px;
+
+    font-weight: 750;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.45px;
+}
+
+
+.university-detail strong {
+    color: #34495c;
+
+    font-size: 12px;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   UNIVERSITY BUTTON
+========================================================= */
+
+.university-view-button {
+    min-height: 44px;
+
+    margin-top: 16px;
+
+    padding: 0 14px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    border: 1px solid #d4e4ef;
+
+    border-radius: 9px;
+
+    background: #f7fbff;
+
+    color: #0f4c81;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    font-weight: 750;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.university-view-button:hover {
+    border-color: #2563eb;
+
+    background: #2563eb;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.study-abroad-university-footer {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-top: 35px;
+
+    padding: 23px 25px;
+
+    border: 1px solid #dce7ef;
+
+    border-radius: 15px;
+
+    background: rgba(255, 255, 255, 0.78);
+}
+
+
+.study-abroad-university-footer p {
+    margin: 0;
+
+    color: #647b90;
+
+    font-size: 13px;
+
+    line-height: 1.55;
+}
+
+
+.study-abroad-university-footer strong {
+    color: #263b50;
+}
+
+
+.study-abroad-all-universities-button {
+    min-height: 44px;
+
+    flex-shrink: 0;
+
+    padding: 0 17px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    border-radius: 9px;
+
+    background: #0f4c81;
+
+    color: #ffffff;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.study-abroad-all-universities-button:hover {
+    background: #0b3b65;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.study-abroad-university-empty {
+    padding: 55px 20px;
+
+    margin-top: 20px;
+
+    border: 1px dashed #b9cedf;
+
+    border-radius: 17px;
+
+    background: rgba(255, 255, 255, 0.7);
+
+    text-align: center;
+}
+
+
+.study-abroad-university-empty[hidden] {
+    display: none;
+}
+
+
+.study-abroad-university-empty h3 {
+    margin: 0 0 6px;
+
+    color: #172b40;
+
+    font-size: 20px;
+}
+
+
+.study-abroad-university-empty p {
+    margin: 0;
+
+    color: #718497;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .study-abroad-university-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .study-abroad-top-universities {
+        padding: 70px 0 80px;
+    }
+
+
+    .study-abroad-top-universities-container {
+        width: calc(100% - 28px);
+    }
+
+
+    .study-abroad-top-universities-header h2 {
+        font-size: 34px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .study-abroad-university-filters {
+        justify-content: flex-start;
+
+        flex-wrap: nowrap;
+
+        overflow-x: auto;
+
+        margin-right: -14px;
+
+        padding-right: 14px;
+
+        padding-bottom: 7px;
+
+        scrollbar-width: none;
+    }
+
+
+    .study-abroad-university-filters::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    .university-filter {
+        flex-shrink: 0;
+    }
+
+
+    .study-abroad-university-grid {
+        grid-template-columns: 1fr;
+
+        gap: 16px;
+    }
+
+
+    .study-abroad-university-footer {
+        align-items: stretch;
+
+        flex-direction: column;
+
+        padding: 19px;
+    }
+
+
+    .study-abroad-all-universities-button {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .university-filter,
+    .study-abroad-university-card,
+    .university-favourite,
+    .university-view-button,
+    .study-abroad-all-universities-button {
+        transition: none;
+    }
+
+}

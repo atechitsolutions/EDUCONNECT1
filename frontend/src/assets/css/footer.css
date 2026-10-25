@@ -1,0 +1,372 @@
+/* =========================================================
+   EDUCONNECT FOOTER
+   ========================================================= */
+
+.site-footer {
+    width: 100%;
+    margin-top: 0;
+    background: #0f2742;
+    color: #ffffff;
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   MAIN FOOTER
+   ========================================================= */
+
+.footer-container {
+    width: min(1200px, calc(100% - 48px));
+    margin: 0 auto;
+    padding: 70px 0 55px;
+
+    display: grid;
+    grid-template-columns:
+        minmax(260px, 1.6fr)
+        repeat(4, minmax(150px, 1fr));
+
+    gap: 45px;
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.footer-brand {
+    max-width: 360px;
+}
+
+.footer-logo {
+    display: inline-block;
+
+    margin-bottom: 18px;
+
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1;
+
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
+
+.footer-description {
+    margin: 0;
+    max-width: 340px;
+
+    color: #c7d4e2;
+
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   SOCIAL LINKS
+   ========================================================= */
+
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin-top: 25px;
+}
+
+.social-link {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    color: #ffffff;
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.social-link:hover {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #0f4c81;
+
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   FOOTER COLUMNS
+   ========================================================= */
+
+.footer-column h3 {
+    margin: 0 0 20px;
+
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.footer-column ul {
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.footer-column li {
+    margin-bottom: 12px;
+}
+
+.footer-column a {
+    color: #c7d4e2;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        padding-left 0.2s ease;
+}
+
+.footer-column a:hover {
+    color: #ffffff;
+    padding-left: 4px;
+}
+
+
+/* =========================================================
+   HIGHLIGHT / CTA
+   ========================================================= */
+
+.footer-highlight {
+    width: min(1200px, calc(100% - 48px));
+
+    margin: 0 auto 45px;
+    padding: 24px 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.footer-highlight-content h3 {
+    margin: 0 0 6px;
+
+    color: #ffffff;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.footer-highlight-content p {
+    margin: 0;
+
+    color: #c7d4e2;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.footer-cta {
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 42px;
+    padding: 0 22px;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #0f4c81;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.footer-cta:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+}
+
+
+/* =========================================================
+   FOOTER BOTTOM
+   ========================================================= */
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom-container {
+    width: min(1200px, calc(100% - 48px));
+
+    min-height: 70px;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.footer-bottom p {
+    margin: 0;
+
+    color: #9fb0c1;
+
+    font-size: 13px;
+}
+
+.footer-legal {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.footer-legal a {
+    color: #9fb0c1;
+
+    font-size: 13px;
+
+    text-decoration: none;
+
+    transition: color 0.2s ease;
+}
+
+.footer-legal a:hover {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+    .footer-container {
+        grid-template-columns:
+            repeat(3, minmax(150px, 1fr));
+
+        gap: 40px 30px;
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1;
+        max-width: 600px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .footer-container {
+        width: min(100% - 32px, 500px);
+
+        padding: 50px 0 35px;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 35px 25px;
+    }
+
+    .footer-brand {
+        grid-column: 1 / -1;
+    }
+
+    .footer-logo {
+        font-size: 27px;
+    }
+
+    .footer-highlight {
+        width: min(100% - 32px, 500px);
+
+        margin-bottom: 35px;
+
+        padding: 22px;
+
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .footer-cta {
+        width: 100%;
+    }
+
+    .footer-bottom-container {
+        width: min(100% - 32px, 500px);
+
+        padding: 22px 0;
+
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .footer-legal {
+        flex-wrap: wrap;
+        gap: 12px 20px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .footer-container {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-brand {
+        grid-column: auto;
+    }
+
+    .footer-column {
+        width: 100%;
+    }
+
+    .footer-description {
+        max-width: none;
+    }
+}

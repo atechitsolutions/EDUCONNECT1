@@ -1,0 +1,661 @@
+/* =========================================================
+   EDUCONNECT — STUDY ABROAD FAQ
+========================================================= */
+
+.study-abroad-faq-section {
+    position: relative;
+    width: 100%;
+    padding: 110px 0 115px;
+    background:
+        radial-gradient(
+            circle at 90% 5%,
+            rgba(37, 99, 235, 0.09),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 5% 90%,
+            rgba(96, 165, 250, 0.07),
+            transparent 28%
+        ),
+        #f8fafc;
+    overflow: hidden;
+}
+
+.study-abroad-faq-section::before {
+    content: "";
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    top: -300px;
+    right: -180px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(37, 99, 235, 0.09),
+        transparent 70%
+    );
+    pointer-events: none;
+}
+
+.study-abroad-faq-section::after {
+    content: "";
+    position: absolute;
+    width: 430px;
+    height: 430px;
+    bottom: -260px;
+    left: -180px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(96, 165, 250, 0.07),
+        transparent 70%
+    );
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.study-abroad-faq-section .study-abroad-container {
+    position: relative;
+    z-index: 2;
+    width: min(1180px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.study-abroad-faq-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 35px;
+    margin-bottom: 42px;
+}
+
+.study-abroad-faq-header > div {
+    max-width: 760px;
+}
+
+.study-abroad-faq-header .study-abroad-section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    margin-bottom: 17px;
+    padding: 7px 15px;
+    border: 1px solid #d7e5f4;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #2563eb;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+}
+
+.study-abroad-faq-header h2 {
+    margin: 0;
+    color: #111827;
+    font-size: clamp(38px, 4.5vw, 55px);
+    line-height: 1.06;
+    letter-spacing: -2px;
+    font-weight: 850;
+}
+
+.study-abroad-faq-header p {
+    max-width: 700px;
+    margin: 17px 0 0;
+    color: #667085;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.study-abroad-section-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid #d5e2ef;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #2563eb;
+    font-size: 12px;
+    font-weight: 800;
+    text-decoration: none;
+    transition:
+        border-color 180ms ease,
+        background 180ms ease,
+        color 180ms ease,
+        transform 180ms ease;
+}
+
+.study-abroad-section-link span {
+    font-size: 17px;
+}
+
+.study-abroad-section-link:hover {
+    border-color: #2563eb;
+    background: #2563eb;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   MAIN FAQ LAYOUT
+========================================================= */
+
+.study-abroad-faq-layout {
+    display: grid;
+    grid-template-columns: 225px minmax(0, 1fr);
+    gap: 24px;
+    align-items: start;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.study-abroad-faq-sidebar {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 18px;
+    border: 1px solid #dfe7ef;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.045);
+}
+
+.study-abroad-faq-sidebar > span {
+    margin: 0 0 10px;
+    padding: 0 4px;
+    color: #98a2b3;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.study-abroad-faq-category {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 42px;
+    padding: 0 12px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    background: transparent;
+    color: #667085;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        background 180ms ease,
+        color 180ms ease,
+        border-color 180ms ease,
+        transform 180ms ease;
+}
+
+.study-abroad-faq-category:hover {
+    border-color: #dce7f2;
+    background: #f7faff;
+    color: #2563eb;
+}
+
+.study-abroad-faq-category.active {
+    border-color: #d7e6fa;
+    background: #eef5ff;
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   FAQ LIST
+========================================================= */
+
+.study-abroad-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+}
+
+
+/* =========================================================
+   FAQ ITEM
+========================================================= */
+
+.study-abroad-faq-item {
+    border: 1px solid #dfe7ef;
+    border-radius: 15px;
+    background: #ffffff;
+    box-shadow:
+        0 7px 24px rgba(15, 23, 42, 0.035);
+    overflow: hidden;
+    transition:
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 180ms ease;
+}
+
+.study-abroad-faq-item:hover {
+    border-color: #bfd4e9;
+}
+
+.study-abroad-faq-item[open] {
+    border-color: #b8d0ea;
+    box-shadow:
+        0 14px 32px rgba(15, 23, 42, 0.07);
+}
+
+
+/* =========================================================
+   QUESTION
+========================================================= */
+
+.study-abroad-faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    min-height: 68px;
+    padding: 0 20px;
+    color: #1d2939;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 750;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+}
+
+.study-abroad-faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.study-abroad-faq-item summary > span:first-child {
+    min-width: 0;
+}
+
+.study-abroad-faq-icon {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 31px;
+    height: 31px;
+    border: 1px solid #d9e4ef;
+    border-radius: 9px;
+    background: #f7faff;
+    color: #2563eb;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1;
+    transition:
+        transform 180ms ease,
+        background 180ms ease,
+        color 180ms ease;
+}
+
+.study-abroad-faq-item[open] .study-abroad-faq-icon {
+    transform: rotate(45deg);
+    background: #2563eb;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   ANSWER
+========================================================= */
+
+.study-abroad-faq-answer {
+    padding: 0 20px 20px;
+}
+
+.study-abroad-faq-answer p {
+    margin: 0;
+    padding-top: 17px;
+    border-top: 1px solid #edf1f5;
+    color: #667085;
+    font-size: 13px;
+    line-height: 1.75;
+}
+
+
+/* =========================================================
+   FAQ CTA
+========================================================= */
+
+.study-abroad-faq-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    margin-top: 35px;
+    padding: 27px 30px;
+    border: 1px solid #d7e5f2;
+    border-radius: 20px;
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f1f7ff 100%
+        );
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.045);
+}
+
+.study-abroad-faq-cta > div:first-child {
+    max-width: 620px;
+}
+
+.study-abroad-faq-cta .study-abroad-section-eyebrow {
+    display: inline-flex;
+    min-height: 30px;
+    margin-bottom: 10px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #eaf2ff;
+    color: #2563eb;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.study-abroad-faq-cta h3 {
+    margin: 0 0 7px;
+    color: #111827;
+    font-size: 24px;
+    line-height: 1.25;
+    letter-spacing: -0.5px;
+    font-weight: 850;
+}
+
+.study-abroad-faq-cta p {
+    margin: 0;
+    color: #667085;
+    font-size: 12px;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   CTA ACTIONS
+========================================================= */
+
+.study-abroad-faq-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+}
+
+.study-abroad-faq-actions .study-abroad-primary-button,
+.study-abroad-faq-actions .study-abroad-secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    text-decoration: none;
+    transition:
+        transform 180ms ease,
+        background 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease;
+}
+
+.study-abroad-faq-actions .study-abroad-primary-button {
+    border: 1px solid #2563eb;
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.study-abroad-faq-actions .study-abroad-primary-button:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.study-abroad-faq-actions .study-abroad-secondary-button {
+    border: 1px solid #d5e2ef;
+    background: #ffffff;
+    color: #344054;
+}
+
+.study-abroad-faq-actions .study-abroad-secondary-button:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SEO CONTENT
+========================================================= */
+
+.study-abroad-faq-seo {
+    max-width: 900px;
+    margin: 65px auto 0;
+    padding-top: 30px;
+    border-top: 1px solid #dfe7ef;
+}
+
+.study-abroad-faq-seo h2 {
+    margin: 0 0 13px;
+    color: #1d2939;
+    font-size: 24px;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+    font-weight: 800;
+}
+
+.study-abroad-faq-seo p {
+    margin: 0 0 12px;
+    color: #667085;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.study-abroad-faq-seo p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .study-abroad-faq-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .study-abroad-faq-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .study-abroad-faq-sidebar {
+        position: static;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 7px;
+        overflow-x: auto;
+        padding: 10px;
+        scrollbar-width: none;
+    }
+
+    .study-abroad-faq-sidebar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .study-abroad-faq-sidebar > span {
+        display: none;
+    }
+
+    .study-abroad-faq-category {
+        flex: 0 0 auto;
+        width: auto;
+        padding: 0 13px;
+        white-space: nowrap;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .study-abroad-faq-section {
+        padding: 75px 0 85px;
+    }
+
+    .study-abroad-faq-section .study-abroad-container {
+        width: calc(100% - 28px);
+    }
+
+    .study-abroad-faq-header {
+        margin-bottom: 30px;
+    }
+
+    .study-abroad-faq-header h2 {
+        font-size: 35px;
+        letter-spacing: -1.2px;
+    }
+
+    .study-abroad-faq-header p {
+        font-size: 14px;
+    }
+
+    .study-abroad-section-link {
+        width: 100%;
+    }
+
+    .study-abroad-faq-item summary {
+        min-height: 63px;
+        padding: 0 15px;
+        font-size: 13px;
+    }
+
+    .study-abroad-faq-answer {
+        padding: 0 15px 17px;
+    }
+
+    .study-abroad-faq-answer p {
+        padding-top: 14px;
+        font-size: 12px;
+    }
+
+    .study-abroad-faq-cta {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 20px;
+        padding: 22px;
+    }
+
+    .study-abroad-faq-cta h3 {
+        font-size: 21px;
+    }
+
+    .study-abroad-faq-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .study-abroad-faq-actions .study-abroad-primary-button,
+    .study-abroad-faq-actions .study-abroad-secondary-button {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .study-abroad-faq-section .study-abroad-container {
+        width: calc(100% - 24px);
+    }
+
+    .study-abroad-faq-header h2 {
+        font-size: 30px;
+    }
+
+    .study-abroad-faq-sidebar {
+        margin-inline: -2px;
+    }
+
+    .study-abroad-faq-item {
+        border-radius: 13px;
+    }
+
+    .study-abroad-faq-item summary {
+        gap: 12px;
+        font-size: 12px;
+    }
+
+    .study-abroad-faq-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 17px;
+    }
+
+    .study-abroad-faq-seo {
+        margin-top: 48px;
+    }
+
+    .study-abroad-faq-seo h2 {
+        font-size: 21px;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.study-abroad-faq-item summary:focus-visible,
+.study-abroad-faq-category:focus-visible,
+.study-abroad-section-link:focus-visible,
+.study-abroad-faq-actions a:focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.22);
+    outline-offset: 3px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .study-abroad-faq-item,
+    .study-abroad-faq-icon,
+    .study-abroad-faq-category,
+    .study-abroad-section-link,
+    .study-abroad-faq-actions a {
+        transition: none;
+    }
+
+}

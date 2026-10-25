@@ -1,0 +1,549 @@
+/* =========================================================
+   AUTH MODAL
+========================================================= */
+
+.auth-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+.auth-modal.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   BACKDROP
+========================================================= */
+
+.auth-modal-backdrop {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(10, 31, 50, 0.72);
+    backdrop-filter: blur(8px);
+}
+
+
+/* =========================================================
+   DIALOG
+========================================================= */
+
+.auth-modal-dialog {
+    position: relative;
+    z-index: 2;
+
+    width: min(1180px, calc(100vw - 40px));
+    max-height: calc(100vh - 40px);
+
+    display: grid;
+    grid-template-columns: 46% 54%;
+
+    background: #ffffff;
+
+    border-radius: 28px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =========================================================
+   LEFT SHOWCASE
+========================================================= */
+
+.auth-modal-showcase {
+    position: relative;
+
+    min-height: 650px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0f4c81,
+            #1976c5
+        );
+
+    color: #ffffff;
+}
+
+
+.auth-modal-showcase-circle {
+    position: absolute;
+
+    width: 480px;
+    height: 480px;
+
+    top: -200px;
+    right: -180px;
+
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.10);
+}
+
+
+.auth-modal-showcase-content {
+    position: relative;
+    z-index: 2;
+
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 70px;
+}
+
+
+.auth-modal-brand {
+    font-size: 15px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 28px;
+}
+
+
+.auth-modal-showcase h2 {
+    margin: 0;
+
+    font-size: 58px;
+    line-height: 1.02;
+
+    font-weight: 800;
+}
+
+
+.auth-modal-showcase h2 span {
+    color: #a8d7ff;
+}
+
+
+.auth-modal-showcase p {
+    max-width: 430px;
+
+    margin-top: 30px;
+
+    font-size: 17px;
+    line-height: 1.6;
+
+    color: rgba(255, 255, 255, 0.82);
+}
+
+
+/* =========================================================
+   RIGHT CONTENT
+========================================================= */
+
+.auth-modal-content {
+    position: relative;
+
+    padding: 68px 60px;
+
+    overflow-y: auto;
+
+    max-height: calc(100vh - 40px);
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.auth-modal-close {
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    width: 52px;
+    height: 52px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    color: #28445d;
+
+    font-size: 30px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.10);
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.auth-modal-close:hover {
+    transform: rotate(90deg);
+    background: #f3f7fb;
+}
+
+
+/* =========================================================
+   VIEW
+========================================================= */
+
+.auth-view {
+    width: 100%;
+}
+
+.auth-view[hidden] {
+    display: none !important;
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.auth-modal-eyebrow {
+    margin-bottom: 18px;
+
+    color: #1d74c9;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.auth-modal-content h2 {
+    margin: 0;
+
+    color: #153755;
+
+    font-size: 44px;
+    line-height: 1.1;
+
+    font-weight: 800;
+}
+
+
+.auth-modal-content > .auth-view > p {
+    margin:
+        14px 0 36px;
+
+    color: #71849a;
+
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.auth-modal-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+
+.auth-form-group {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.auth-form-group label {
+    color: #334c63;
+
+    font-size: 15px;
+
+    font-weight: 700;
+}
+
+
+.auth-form-group input,
+.auth-form-group select {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    min-height: 58px;
+
+    padding:
+        0 16px;
+
+    border:
+        1px solid #d9e2ec;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    background: #ffffff;
+
+    color: #24384b;
+
+    font-family: inherit;
+
+    font-size: 16px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.auth-form-group input:focus,
+.auth-form-group select:focus {
+    border-color: #267ed1;
+
+    box-shadow:
+        0 0 0 4px rgba(38, 126, 209, 0.12);
+}
+
+
+/* =========================================================
+   FORGOT PASSWORD
+========================================================= */
+
+.auth-forgot-row {
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-top: -8px;
+}
+
+
+.auth-forgot-button {
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #1976c5;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.auth-forgot-button:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   SUBMIT
+========================================================= */
+
+.auth-modal-submit {
+    width: 100%;
+
+    min-height: 58px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #0f4c81,
+            #287fd1
+        );
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 17px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 25px rgba(15, 76, 129, 0.22);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.auth-modal-submit:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 15px 30px rgba(15, 76, 129, 0.28);
+}
+
+.auth-modal-submit:disabled {
+    opacity: 0.7;
+
+    cursor: wait;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   SWITCH
+========================================================= */
+
+.auth-switch {
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 6px;
+
+    margin-top: 26px;
+
+    color: #71849a;
+
+    font-size: 14px;
+}
+
+
+.auth-switch-button {
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #1976c5;
+
+    font-family: inherit;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.auth-switch-button:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.auth-modal-message {
+    min-height: 0;
+
+    margin-bottom: 14px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+.auth-modal-message:empty {
+    display: none;
+}
+
+.auth-modal-message.success {
+    color: #218838;
+}
+
+.auth-modal-message.error {
+    color: #dc3545;
+}
+
+
+/* =========================================================
+   BODY LOCK
+========================================================= */
+
+body.auth-modal-open {
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .auth-modal-dialog {
+        grid-template-columns: 1fr;
+
+        width: min(
+            620px,
+            calc(100vw - 24px)
+        );
+    }
+
+    .auth-modal-showcase {
+        display: none;
+    }
+
+    .auth-modal-content {
+        padding: 54px 30px 34px;
+    }
+
+    .auth-modal-content h2 {
+        font-size: 36px;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .auth-modal-content {
+        padding: 48px 20px 28px;
+    }
+
+    .auth-modal-content h2 {
+        font-size: 30px;
+    }
+
+    .auth-modal-close {
+        width: 44px;
+        height: 44px;
+
+        font-size: 25px;
+    }
+}

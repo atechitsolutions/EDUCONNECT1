@@ -1,0 +1,726 @@
+/* =========================================================
+   STUDY ABROAD — APPLICATION PROCESS
+========================================================= */
+
+.study-abroad-application-process {
+    position: relative;
+
+    width: 100%;
+
+    padding: 100px 0 110px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff 0%,
+            #f1f7fc 52%,
+            #f8fbfe 100%
+        );
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   BACKGROUND DECORATION
+========================================================= */
+
+.study-abroad-application-process::before {
+    content: "";
+
+    position: absolute;
+
+    width: 440px;
+    height: 440px;
+
+    top: -250px;
+    left: -170px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(73, 163, 255, 0.12),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+.study-abroad-application-process::after {
+    content: "";
+
+    position: absolute;
+
+    width: 430px;
+    height: 430px;
+
+    right: -180px;
+    bottom: -260px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(15, 76, 129, 0.08),
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.study-abroad-application-container {
+    position: relative;
+
+    z-index: 2;
+
+    width: min(
+        1250px,
+        calc(100% - 40px)
+    );
+
+    margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.study-abroad-application-header {
+    max-width: 850px;
+
+    margin: 0 auto 60px;
+
+    text-align: center;
+}
+
+
+.study-abroad-application-header
+.study-abroad-section-eyebrow {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 8px 15px;
+
+    margin-bottom: 15px;
+
+    border: 1px solid #dce8f2;
+
+    border-radius: 50px;
+
+    background: rgba(255, 255, 255, 0.8);
+
+    color: #2563eb;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.3px;
+}
+
+
+.study-abroad-application-header h2 {
+    margin: 0;
+
+    color: #102f4d;
+
+    font-size: clamp(
+        35px,
+        4.5vw,
+        54px
+    );
+
+    line-height: 1.08;
+
+    letter-spacing: -1.7px;
+
+    font-weight: 850;
+}
+
+
+.study-abroad-application-header h2 span {
+    color: #2563eb;
+}
+
+
+.study-abroad-application-header p {
+    max-width: 790px;
+
+    margin: 18px auto 0;
+
+    color: #647b90;
+
+    font-size: 16px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   TIMELINE
+========================================================= */
+
+.study-abroad-application-timeline {
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(9, minmax(0, 1fr));
+
+    gap: 0;
+}
+
+
+/* =========================================================
+   CONNECTING LINE
+========================================================= */
+
+.study-abroad-application-timeline::before {
+    content: "";
+
+    position: absolute;
+
+    top: 31px;
+
+    left: 5.5%;
+
+    right: 5.5%;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #c7dff1,
+            #7fb6dd,
+            #c7dff1
+        );
+
+    z-index: 0;
+}
+
+
+/* =========================================================
+   STEP
+========================================================= */
+
+.study-abroad-application-step {
+    position: relative;
+
+    z-index: 1;
+
+    min-width: 0;
+
+    padding: 0 7px;
+}
+
+
+/* =========================================================
+   STEP NUMBER
+========================================================= */
+
+.application-step-number {
+    width: 62px;
+    height: 62px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 4px solid #edf6fc;
+
+    border-radius: 50%;
+
+    background: #2563eb;
+
+    color: #ffffff;
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, 0.20);
+
+    font-size: 12px;
+
+    font-weight: 850;
+
+    letter-spacing: 0.4px;
+
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.study-abroad-application-step:hover
+.application-step-number {
+    transform: translateY(-4px) scale(1.05);
+
+    background: #0f4c81;
+
+    box-shadow:
+        0 13px 27px rgba(15, 76, 129, 0.20);
+}
+
+
+/* =========================================================
+   STEP CARD
+========================================================= */
+
+.application-step-card {
+    min-height: 190px;
+
+    padding: 19px 15px;
+
+    border: 1px solid #dce7ef;
+
+    border-radius: 15px;
+
+    background: #ffffff;
+
+    text-align: center;
+
+    box-shadow:
+        0 9px 25px rgba(15, 76, 129, 0.06);
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.study-abroad-application-step:hover
+.application-step-card {
+    transform: translateY(-5px);
+
+    border-color: #bdd9ed;
+
+    box-shadow:
+        0 17px 35px rgba(15, 76, 129, 0.10);
+}
+
+
+/* =========================================================
+   STEP ICON
+========================================================= */
+
+.application-step-icon {
+    width: 42px;
+    height: 42px;
+
+    margin: 0 auto 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: #eef7ff;
+
+    font-size: 19px;
+}
+
+
+/* =========================================================
+   STEP CONTENT
+========================================================= */
+
+.application-step-card h3 {
+    margin: 0 0 8px;
+
+    color: #172b40;
+
+    font-size: 14px;
+
+    line-height: 1.35;
+
+    font-weight: 800;
+}
+
+
+.application-step-card p {
+    margin: 0;
+
+    color: #708497;
+
+    font-size: 11px;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.application-step-status {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 23px;
+
+    margin-top: 13px;
+
+    padding: 0 8px;
+
+    border-radius: 6px;
+
+    background: #f0f7fd;
+
+    color: #2563eb;
+
+    font-size: 8px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.5px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   PROCESS SUMMARY
+========================================================= */
+
+.study-abroad-application-summary {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-top: 45px;
+}
+
+
+.application-summary-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 18px;
+
+    border: 1px solid #dce7ef;
+
+    border-radius: 13px;
+
+    background: rgba(255, 255, 255, 0.78);
+}
+
+
+.application-summary-icon {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background: #eaf4ff;
+
+    font-size: 18px;
+}
+
+
+.application-summary-card > div {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.application-summary-card strong {
+    color: #263b50;
+
+    font-size: 12px;
+}
+
+
+.application-summary-card span {
+    color: #75899a;
+
+    font-size: 10px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.study-abroad-application-cta {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 25px;
+
+    margin-top: 35px;
+
+    padding: 25px;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #0f4c81,
+            #155f96
+        );
+
+    box-shadow:
+        0 15px 35px rgba(15, 76, 129, 0.15);
+}
+
+
+.application-cta-content {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.application-cta-content strong {
+    color: #ffffff;
+
+    font-size: 17px;
+}
+
+
+.application-cta-content span {
+    color: rgba(255, 255, 255, 0.76);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+.application-cta-button {
+    min-height: 45px;
+
+    flex-shrink: 0;
+
+    padding: 0 19px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    border-radius: 9px;
+
+    background: #ffffff;
+
+    color: #0f4c81;
+
+    text-decoration: none;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.application-cta-button:hover {
+    background: #f0f7fd;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1050px) {
+
+    .study-abroad-application-timeline {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        gap: 30px 10px;
+    }
+
+
+    .study-abroad-application-timeline::before {
+        display: none;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .study-abroad-application-process {
+        padding: 70px 0 80px;
+    }
+
+
+    .study-abroad-application-container {
+        width: calc(100% - 28px);
+    }
+
+
+    .study-abroad-application-header {
+        margin-bottom: 40px;
+    }
+
+
+    .study-abroad-application-header h2 {
+        font-size: 34px;
+
+        letter-spacing: -1px;
+    }
+
+
+    .study-abroad-application-timeline {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 16px;
+    }
+
+
+    .study-abroad-application-timeline::before {
+        display: block;
+
+        top: 30px;
+
+        bottom: 30px;
+
+        left: 29px;
+
+        right: auto;
+
+        width: 2px;
+
+        height: auto;
+    }
+
+
+    .study-abroad-application-step {
+        display: grid;
+
+        grid-template-columns: 62px 1fr;
+
+        gap: 15px;
+
+        padding: 0;
+    }
+
+
+    .application-step-number {
+        margin: 0;
+
+        position: relative;
+
+        z-index: 2;
+    }
+
+
+    .application-step-card {
+        min-height: auto;
+
+        padding: 17px;
+
+        text-align: left;
+    }
+
+
+    .application-step-icon {
+        margin: 0 0 9px;
+    }
+
+
+    .study-abroad-application-summary {
+        grid-template-columns: 1fr;
+
+        margin-top: 30px;
+    }
+
+
+    .study-abroad-application-cta {
+        align-items: stretch;
+
+        flex-direction: column;
+
+        padding: 20px;
+    }
+
+
+    .application-cta-button {
+        width: 100%;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .application-step-number,
+    .application-step-card,
+    .application-cta-button {
+        transition: none;
+    }
+
+}

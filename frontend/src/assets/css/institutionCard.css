@@ -1,0 +1,603 @@
+/* =========================================================
+   EDUCONNECT INSTITUTION CARD
+========================================================= */
+
+.institution-card {
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    width: 100%;
+
+    min-width: 0;
+
+    background: #ffffff;
+
+    border: 1px solid #e1e8ef;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 4px 16px rgba(15, 76, 129, 0.08);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        border-color .25s ease;
+}
+
+
+.institution-card:hover {
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        rgba(29, 116, 201, 0.28);
+
+    box-shadow:
+        0 12px 30px
+        rgba(15, 76, 129, 0.13);
+}
+
+
+/* =========================================================
+   IMAGE AREA
+========================================================= */
+
+.institution-card-visual {
+
+    position: relative;
+
+    height: 205px;
+
+    overflow: hidden;
+
+    background: #dfeaf3;
+}
+
+
+.institution-card-visual > img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition:
+        transform .4s ease;
+}
+
+
+.institution-card:hover
+.institution-card-visual > img {
+
+    transform:
+        scale(1.045);
+}
+
+
+.institution-card-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(0,0,0,.02) 35%,
+            rgba(0,0,0,.72) 100%
+        );
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+.institution-card-logo {
+
+    position: absolute;
+
+    left: 16px;
+
+    bottom: 15px;
+
+    width: 52px;
+
+    height: 52px;
+
+    padding: 5px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    border: 1px solid #dbe4ec;
+
+    overflow: hidden;
+
+    z-index: 3;
+}
+
+
+.institution-card-logo img {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+}
+
+
+/* =========================================================
+   SCORE
+========================================================= */
+
+.institution-card-score {
+
+    position: absolute;
+
+    top: 14px;
+
+    right: 14px;
+
+    z-index: 3;
+
+    padding: 6px 9px;
+
+    border-radius: 5px;
+
+    background:
+        rgba(15, 39, 66, .88);
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   RANK
+========================================================= */
+
+.institution-card-rank {
+
+    position: absolute;
+
+    top: 14px;
+
+    left: 14px;
+
+    z-index: 3;
+
+    padding: 5px 8px;
+
+    border-radius: 5px;
+
+    background:
+        rgba(255,255,255,.94);
+
+    color:
+        #0f4c81;
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   TITLE OVER IMAGE
+========================================================= */
+
+.institution-card-title {
+
+    position: absolute;
+
+    left: 82px;
+
+    right: 14px;
+
+    bottom: 15px;
+
+    z-index: 3;
+
+    color: #ffffff;
+}
+
+
+.institution-card-title h3 {
+
+    margin: 0 0 4px;
+
+    font-size: 17px;
+
+    line-height: 1.25;
+
+    font-weight: 800;
+
+    display:
+        -webkit-box;
+
+    -webkit-box-orient:
+        vertical;
+
+    -webkit-line-clamp:
+        2;
+
+    overflow: hidden;
+}
+
+
+.institution-card-title p {
+
+    margin: 0;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+    opacity: .92;
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+.institution-card-body {
+
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+    padding: 0;
+}
+
+
+/* =========================================================
+   CATEGORY
+========================================================= */
+
+.institution-card-category {
+
+    display: inline-flex;
+
+    align-self: flex-start;
+
+    margin:
+        15px 15px 0;
+
+    padding:
+        5px 9px;
+
+    border-radius:
+        5px;
+
+    background:
+        #eef6fc;
+
+    color:
+        #17649c;
+
+    font-size:
+        11px;
+
+    font-weight:
+        700;
+}
+
+
+/* =========================================================
+   PROGRAM
+========================================================= */
+
+.institution-card-program {
+
+    margin:
+        14px 15px 7px;
+
+    color:
+        #20242a;
+
+    font-size:
+        17px;
+
+    line-height:
+        1.3;
+
+    font-weight:
+        800;
+}
+
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.institution-card-rating-row {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    padding:
+        0 15px 13px;
+}
+
+
+.institution-card-rating {
+
+    color:
+        #1f2937;
+
+    font-size:
+        14px;
+
+    font-weight:
+        800;
+}
+
+
+.institution-card-rating::first-letter {
+
+    color:
+        #f5a400;
+}
+
+
+.institution-card-reviews {
+
+    color:
+        #737b84;
+
+    font-size:
+        12px;
+}
+
+
+/* =========================================================
+   FEES
+========================================================= */
+
+.institution-card-fees {
+
+    display:
+        flex;
+
+    align-items:
+        baseline;
+
+    gap:
+        6px;
+
+    padding:
+        0 15px 15px;
+}
+
+
+.institution-card-fees strong {
+
+    color:
+        #1598d0;
+
+    font-size:
+        16px;
+
+    font-weight:
+        800;
+}
+
+
+.institution-card-fees span {
+
+    color:
+        #737b84;
+
+    font-size:
+        12px;
+}
+
+
+/* =========================================================
+   RANKING
+========================================================= */
+
+.institution-card-ranking {
+
+    margin:
+        0 15px;
+
+    padding:
+        13px 0;
+
+    border-top:
+        1px solid #e7ebef;
+
+    border-bottom:
+        1px solid #e7ebef;
+
+    color:
+        #666e76;
+
+    font-size:
+        12px;
+
+    line-height:
+        1.55;
+}
+
+
+/* =========================================================
+   HIGHLIGHT
+========================================================= */
+
+.institution-card-highlight {
+
+    padding:
+        12px 15px;
+
+    color:
+        #58636d;
+
+    font-size:
+        12px;
+
+    line-height:
+        1.5;
+}
+
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.institution-card-actions {
+
+    margin-top:
+        auto;
+
+    padding:
+        0 15px 8px;
+}
+
+
+.institution-card-action {
+
+    width:
+        100%;
+
+    min-height:
+        42px;
+
+    padding:
+        0;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    border:
+        none;
+
+    border-top:
+        1px solid #edf0f2;
+
+    background:
+        transparent;
+
+    color:
+        #31363b;
+
+    font-size:
+        13px;
+
+    font-weight:
+        700;
+
+    cursor:
+        pointer;
+
+    text-align:
+        left;
+
+    transition:
+        color .2s ease,
+        padding-left .2s ease;
+}
+
+
+.institution-card-action:hover {
+
+    color:
+        #1598d0;
+
+    padding-left:
+        4px;
+}
+
+
+.institution-card-action span {
+
+    font-size:
+        20px;
+
+    line-height:
+        1;
+
+    color:
+        #69727b;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .institution-card-visual {
+
+        height:
+            190px;
+    }
+
+
+    .institution-card-title {
+
+        left:
+            76px;
+    }
+
+
+    .institution-card-program {
+
+        font-size:
+            16px;
+    }
+
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .institution-card,
+    .institution-card-visual > img,
+    .institution-card-action {
+
+        transition:
+            none;
+    }
+
+}
