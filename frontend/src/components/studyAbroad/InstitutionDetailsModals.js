@@ -1,3 +1,5 @@
+import institutionOverviews from "../../data/institution-overviews.json";
+
 function escapeHtml(value) {
     return String(value ?? "")
         .replaceAll("&", "&amp;")
@@ -7,6 +9,25 @@ function escapeHtml(value) {
         .replaceAll("'", "&#039;");
 }
 
+function normalizeMatch(value) {
+    return String(value ?? "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/&/g, " and ")
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim()
+        .replace(/\s+/g, " ");
+}
+
+function getSuppliedOverview(institution) {
+    const name = normalizeMatch(institution.name);
+    const country = normalizeMatch(institution.country);
+    return institutionOverviews.find((entry) =>
+        normalizeMatch(entry.name) === name &&
+        normalizeMatch(entry.country) === country
+    );
+}
 function displayValue(value) {
     return value == null || String(value).trim() === "" ? "" : String(value).trim();
 }
@@ -65,17 +86,7 @@ function createModalMarkup(institution) {
     const imageSource = displayValue(institution.imageSourceUrl);
     const licenseUrl = displayValue(institution.imageLicenseUrl);
     const imageName = `${slug(institution.name)}-campus${image.match(/\.(jpg|jpeg|png|webp)(?:$|\?)/i)?.[0]?.replace(/\?.*$/, "") || ".jpg"}`;
-
-    const overview = [
-        field("Institution type", institution.type),
-        field("Established", institution.established),
-        field("Country", institution.country),
-        field("City", institution.city),
-        field("State / region", institution.state),
-        website
-            ? `<div class="study-abroad-details-field"><strong>Official website</strong><a href="${escapeHtml(website)}" target="_blank" rel="noopener noreferrer">Visit institution website ↗</a></div>`
-            : ""
-    ].join("");
+    const suppliedOverview = getSuppliedOverview(institution);
 
     const academic = [
         listField("Popular courses in the supplied directory", institution.popularCourses),
@@ -112,8 +123,9 @@ function createModalMarkup(institution) {
                     <span class="study-abroad-details-type">${escapeHtml(institution.type || "Institution")}</span>
                     <h2 id="study-abroad-details-title">${escapeHtml(institution.name || "Institution")}</h2>
                     ${location ? `<p class="study-abroad-details-location">📍 ${escapeHtml(location)}</p>` : ""}
-                    ${institution.description ? `<p class="study-abroad-details-description">${escapeHtml(institution.description)}</p>` : ""}
-                    ${section("Overview", overview)}
+                    ${suppliedOverview
+                        ? section("Institution overview", `<p class="study-abroad-details-overview-copy">${escapeHtml(suppliedOverview.overview)}</p><span class="study-abroad-details-confidence">Source confidence: ${escapeHtml(suppliedOverview.confidence)}</span>`)
+                        : institution.description ? section("Institution overview", `<p class="study-abroad-details-overview-copy">${escapeHtml(institution.description)}</p>`) : ""}
                     ${section("Academics", academic)}
                     ${section("Admissions", admissions)}
                     ${section("Costs", costs)}
@@ -125,7 +137,7 @@ function createModalMarkup(institution) {
                         ${institution.directoryCode ? `<span>Directory record: ${escapeHtml(institution.directoryCode)} · Not independently verified</span>` : ""}
                     </aside>
                     <div class="study-abroad-details-actions">
-                        ${image ? `<a class="study-abroad-details-button" href="${escapeHtml(image)}" download="${escapeHtml(imageName)}">Download Image ↓</a>` : ""}
+                        <a class="study-abroad-details-button" href="#study-abroad-counselling" data-study-abroad-consultation>Free consulting ↗</a>
                         ${website ? `<a class="study-abroad-details-button secondary" href="${escapeHtml(website)}" target="_blank" rel="noopener noreferrer">Visit Website ↗</a>` : ""}
                         <button type="button" class="study-abroad-details-button secondary" data-study-abroad-details-close>Close</button>
                     </div>
@@ -144,7 +156,12 @@ export function openInstitutionDetails(institution) {
         element.addEventListener("click", closeInstitutionDetails);
     });
     document.body.classList.add("study-abroad-details-open");
-    overlay.querySelector(".study-abroad-details-close")?.focus();
+    overlay.querySelector("[data-study-abroad-consultation]")?.addEventListener("click", (event) => {
+        event.preventDefault();
+        closeInstitutionDetails();
+        window.location.hash = "study-abroad-counselling";
+        requestAnimationFrame(() => document.getElementById("study-abroad-counselling")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    });    overlay.querySelector(".study-abroad-details-close")?.focus();
 }
 
 export function closeInstitutionDetails() {
@@ -171,3 +188,7 @@ export function bindInstitutionDetailButtons(container, institutionMap) {
         if (event.key === "Escape") closeInstitutionDetails();
     });
 }
+
+
+
+

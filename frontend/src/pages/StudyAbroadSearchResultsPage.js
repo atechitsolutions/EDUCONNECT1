@@ -10,6 +10,8 @@ import {
 import {
     bindInstitutionDetailButtons
 } from "../components/studyAbroad/InstitutionDetailsModals.js";
+import { getRealInstitutionPhoto, getCountryPhoto } from "../utils/institutionCoverImage.js";
+import { getInstitutionLogoUrl } from "../utils/institutionLogo.js";
 
 import "../assets/css/study-abroad-details.css";
 import "../assets/css/study-abroad-search-results.css";
@@ -18,45 +20,58 @@ const UNIVERSITY_METADATA = new Map(
         .map((item) => [`${normalize(item.name)}|${normalize(item.country)}`, item])
 );
 
+// World University Rankings 2027 positions from Times Higher Education.
+// Publisher and year stay explicit; no other ranking is substituted.
+const THE_2027_RANKS = new Map(Object.entries({
+    "massachusetts institute of technology": "2", "stanford university": "3",
+    "harvard university": "6", "california institute of technology": "7",
+    "university of california berkeley": "9", "yale university": "9",
+    "university of pennsylvania": "14", "university of chicago": "16",
+    "the university of chicago": "16", "johns hopkins university": "17",
+    "columbia university": "19", "university of california los angeles": "20",
+    "cornell university": "21", "university of michigan ann arbor": "23",
+    "carnegie mellon university": "24", "university of washington": "26",
+    "new york university": "29", "new york university nyu": "29",
+    "northwestern university": "29", "duke university": "32",
+    "university of california san diego": "37",
+    "university of illinois urbana champaign": "48", "university of illinois at urbana champaign": "48", "illinois institute of technology": "301–325",
+    "georgia institute of technology": "49", "university of texas at austin": "53",
+    "university of wisconsin madison": "53", "university of california davis": "65",
+    "washington university in st louis": "66", "university of california santa barbara": "71",
+    "university of southern california": "71", "brown university": "73",
+    "purdue university west lafayette": "84", "university of north carolina at chapel hill": "85",
+    "boston university": "86", "university of minnesota": "88", "vanderbilt university": "92",
+    "michigan state university": "93", "university of michigan": "23",
+    "university of nevada las vegas": "601–650", "washington state university": "451–500",
+    "colorado state university": "501–550", "clemson university": "701–800",
+    "university of arizona": "139", "university of massachusetts amherst": "143",
+    "case western reserve university": "147", "arizona state university": "200",
+    "arizona state university tempe": "200", "northeastern university": "254", "drexel university": "376–400", "clark university": "1001–1200",
+    "pennsylvania state university": "101", "penn state": "101",
+    "university of florida": "138",
+    "university of melbourne": "34", "the university of melbourne": "34",
+    "university of sydney": "51", "the university of sydney": "51",
+    "monash university": "61", "university of queensland": "73", "the university of queensland": "73",
+    "unsw sydney": "75", "university of new south wales": "75", "australian national university": "77",
+    "university of technology sydney": "152", "macquarie university": "161",
+    "university of western australia": "173", "the university of western australia": "173",
+    "deakin university": "218", "queensland university of technology": "222",
+    "rmit university": "239", "university of wollongong": "247", "griffith university": "266",
+    "university of tasmania": "277", "la trobe university": "291", "curtin university": "292",
+    "swinburne university of technology": "294", "university of newcastle": "295",
+    "flinders university": "301–325", "western sydney university": "301–325",
+    "james cook university": "326–350", "edith cowan university": "351–375",
+    "university of southern queensland": "376–400", "australian catholic university": "401–450",
+    "bond university": "401–450", "murdoch university": "401–450", "university of canberra": "401–450",
+    "central queensland university": "451–500", "charles darwin university": "451–500",
+    "federation university australia": "501–550", "southern cross university": "551–600",
+    "university of the sunshine coast": "551–600", "victoria university": "551–600",
+    "charles sturt university": "651–700", "the university of notre dame australia": "801–1000"
+}));
 function getUniversityMetadata(item) {
     return UNIVERSITY_METADATA.get(
         `${normalize(item.name)}|${normalize(canonicalCountry(item.country))}`
     ) || UNIVERSITY_METADATA.get(`${normalize(item.name)}|${normalize(item.country)}`);
-}
-
-function formatAnnualTuition(metadata) {
-    if (!metadata || metadata.tuitionInrMin == null || metadata.tuitionInrMax == null) {
-        return "Check official fees";
-    }
-    const lakhsMin = metadata.tuitionInrMin / 100000;
-    const lakhsMax = metadata.tuitionInrMax / 100000;
-    const amount = lakhsMin === lakhsMax
-        ? `₹${lakhsMin.toFixed(2)} lakh`
-        : `₹${lakhsMin.toFixed(2)}–${lakhsMax.toFixed(2)} lakh`;
-    return `${amount} / year`;
-}
-
-function renderVerifiedFacts(metadata) {
-    const ranking = metadata?.ranking
-        ? `#${escapeHtml(metadata.ranking)}`
-        : "Ranking unavailable";
-    const tuition = formatAnnualTuition(metadata);
-    const academicYear = escapeHtml(metadata?.academicYear || "2026-2027");
-    const feeLevel = escapeHtml(metadata?.feeLevel || "Undergraduate");
-    const rankSource = metadata?.rankingSourceUrl
-        ? `<a href="${escapeHtml(metadata.rankingSourceUrl)}" target="_blank" rel="noopener noreferrer">Ranking source ↗</a>`
-        : "";
-    const feeSource = metadata?.feeSourceUrl
-        ? `<a href="${escapeHtml(metadata.feeSourceUrl)}" target="_blank" rel="noopener noreferrer">Official tuition source ↗</a>`
-        : "";
-    const conversion = metadata?.exchangeRate
-        ? `<small>Original: $${Number(metadata.tuitionFeeMin).toLocaleString("en-US")} USD · Converted at ₹${metadata.exchangeRate}/USD on ${escapeHtml(metadata.exchangeRateDate)}. Tuition only; fees and living costs excluded. <a href="${escapeHtml(metadata.exchangeRateSourceUrl)}" target="_blank" rel="noopener noreferrer">Rate source ↗</a></small>`
-        : `<small>Programme fees vary. Confirm current tuition directly with the institution.</small>`;
-
-    return `<div class="study-abroad-institution-facts">
-        <div><span>QS World University Rankings ${escapeHtml(metadata?.rankingYear || 2027)}</span><strong>${ranking}</strong>${rankSource}</div>
-        <div><span>Annual tuition · ${feeLevel} · ${academicYear}</span><strong>${escapeHtml(tuition)}</strong>${feeSource}${conversion}</div>
-    </div>`;
 }
 
 const COUNTRY_ALIASES = [
@@ -326,10 +341,12 @@ function renderInstitutionCard(item, index, bestMatchId) {
             name: escapeHtml(item.name || "Institution"),
             category: escapeHtml(type),
             location: escapeHtml(location),
-            image: escapeHtml(item.coverImageUrl || ""),
-            logo: metadata?.logoUrl || "",
+            image: escapeHtml(getCountryPhoto(item.country)),
+            logo: metadata?.logoUrl || getInstitutionLogoUrl({ ...item, name: item.name }),
             logoAlt: escapeHtml(`${item.name || "Institution"} official logo`),
-            verifiedFacts: renderVerifiedFacts(metadata),
+            verifiedFacts: "",
+            belowActions: `<div class="study-abroad-rank-fact"><span aria-hidden="true">🏆</span><label>World rank</label><strong>${escapeHtml(THE_2027_RANKS.get(normalize(item.name)) || (normalize(canonicalCountry(item.country)) === "united states" ? "Not ranked in THE 2027" : "Not verified"))}</strong></div>`,
+            country: escapeHtml(item.country || ""),
             program: item.popularCourses
                 ? `Popular courses: ${escapeHtml(item.popularCourses.split(";").map((course) => course.trim()).filter(Boolean).slice(0, 2).join(" · "))}`
                 : "",
@@ -338,7 +355,7 @@ function renderInstitutionCard(item, index, bestMatchId) {
                 item.established ? `Established ${item.established}` : ""
             ].filter(Boolean).join(" · ")),
             actionLabel: "View Details",
-            showCompare: true
+            showCompare: false
         }
     });
 
@@ -351,6 +368,10 @@ function renderInstitutionCard(item, index, bestMatchId) {
                 isBestMatch ? "is-best-match" : ""
             }"
             data-search-result-index="${index}"
+            data-photo-name="${escapeHtml(item.name || "")}"
+            data-photo-city="${escapeHtml(item.city || "")}"
+            data-photo-state="${escapeHtml(item.state || "")}"
+            data-photo-country="${escapeHtml(item.country || "")}"
             ${index >= getBatchSize() ? "hidden" : ""}
         >
             ${
@@ -361,6 +382,27 @@ function renderInstitutionCard(item, index, bestMatchId) {
             ${card}
         </div>
     `;
+}
+
+async function loadVisibleInstitutionPhotos(grid) {
+    const cards = [...grid.querySelectorAll('[data-search-result-index]:not([hidden])')];
+    await Promise.all(cards.map(async (card) => {
+        const image = card.querySelector(".institution-card-visual > img");
+        if (!image || image.dataset.photoResolved === "true") return;
+        image.dataset.photoResolved = "true";
+        const photo = await getRealInstitutionPhoto({
+            name: card.dataset.photoName,
+            city: card.dataset.photoCity || card.dataset.photoState,
+            country: card.dataset.photoCountry
+        });
+        if (photo && image.isConnected) {
+            image.dataset.fallbackSrc = image.src;
+            image.onerror = () => { image.onerror = null; image.src = image.dataset.fallbackSrc; };
+            image.src = photo.url;
+            image.alt = `${card.dataset.photoName} or nearby ${card.dataset.photoCity || card.dataset.photoCountry} campus`;
+            image.title = `Photo: ${photo.title} (Wikimedia Commons)`;
+        }
+    }));
 }
 
 function renderResults(root, query, candidates, country, apiOrder) {
@@ -408,6 +450,7 @@ function renderResults(root, query, candidates, country, apiOrder) {
         )
         .join("");
 
+    void loadVisibleInstitutionPhotos(grid);
     controls.hidden = candidates.length <= getBatchSize();
 
     button.dataset.expanded = "false";
@@ -437,6 +480,8 @@ function renderResults(root, query, candidates, country, apiOrder) {
             .forEach((card) => {
                 card.hidden = false;
             });
+
+        void loadVisibleInstitutionPhotos(grid);
 
         if (!cards.some((card) => card.hidden)) {
             button.dataset.expanded = "true";
@@ -716,3 +761,6 @@ export default function StudyAbroadSearchResultsPage() {
 
     return markup;
 }
+
+
+

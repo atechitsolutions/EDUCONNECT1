@@ -1,5 +1,6 @@
 import { getInstitutions } from "../../services/studyAbroadService.js";
 import directoryData from "../../data/study-abroad-university-directory.json";
+import { getInstitutionLogoUrl } from "../../utils/institutionLogo.js";
 
 const COUNTRY_META = {
     US: {
@@ -32,7 +33,7 @@ const COUNTRY_META = {
     },
     BE: {
         flag: "🇧🇪",
-        image: "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=1200&q=85"
+        image: "https://images.unsplash.com/photo-1572886071978-7c60b5b3e506?auto=format&fit=crop&w=1200&q=85"
     },
     FR: {
         flag: "🇫🇷",
@@ -45,6 +46,22 @@ const COUNTRY_META = {
     NZ: {
         flag: "🇳🇿",
         image: "https://images.unsplash.com/photo-1507699622108-4be3abd695ad?auto=format&fit=crop&w=1200&q=85"
+    },
+    IT: {
+        flag: "🇮🇹",
+        image: "https://images.unsplash.com/photo-1668171321834-658179e37f5e?auto=format&fit=crop&w=1200&q=85"
+    },
+    NL: {
+        flag: "🇳🇱",
+        image: "https://images.unsplash.com/photo-1536880756060-98a6a140f0a7?auto=format&fit=crop&w=1200&q=85"
+    },
+    AE: {
+        flag: "🇦🇪",
+        image: "https://images.unsplash.com/photo-1597278315489-a4b8b67659f0?auto=format&fit=crop&w=1200&q=85"
+    },
+    HU: {
+        flag: "🇭🇺",
+        image: "https://images.unsplash.com/photo-1664289496602-378f6e666f7e?auto=format&fit=crop&w=1200&q=85"
     }
 };
 
@@ -75,6 +92,9 @@ function getDirectoryOverview(institution, country) {
     const founding = institution.established ? ` Its recorded founding year is ${institution.established}.` : "";
 
     return `${institution.name} is listed in EduConnect as a ${institutionType.toLowerCase()} based in ${location}.${founding} Use this directory profile to compare its listed details with other destinations. Programme availability, admission requirements, campus services and fees vary by course and applicant; confirm current information with the institution before applying.`;
+}
+function getInstitutionInitials(name) {
+    return String(name || "Institution").trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
 }
 function buildDestinations(institutions) {
     const groups = new Map();
@@ -375,6 +395,7 @@ export default function StudyAbroadDestinations() {
                     if (!entries.length) return "";
                     return `<section class="destination-dialog-group"><h3>${group.title}<span>${entries.length}</span></h3><ul>${entries.map((institution) => `
                         <li><button type="button" class="destination-dialog-institution" data-open-institution="${destination.institutions.indexOf(institution)}">
+                            <span class="destination-dialog-institution-logo" aria-hidden="true">${getInstitutionLogoUrl(institution) ? `<img src="${escapeHtml(getInstitutionLogoUrl(institution))}" alt="" loading="lazy" data-institution-logo /><span class="destination-dialog-institution-logo-fallback" hidden>${escapeHtml(getInstitutionInitials(institution.name))}</span>` : `<span class="destination-dialog-institution-logo-fallback">${escapeHtml(getInstitutionInitials(institution.name))}</span>`}</span>
                             <span class="destination-dialog-institution-details"><strong>${escapeHtml(institution.name || "Institution")}</strong><span>${escapeHtml([institution.city, institution.state].filter(Boolean).join(", ") || institution.type || "Study Abroad institution")}</span></span>
                             <span class="destination-dialog-select-label">View details <span aria-hidden="true">→</span></span>
                         </button></li>`).join("")}</ul></section>`;
@@ -434,6 +455,11 @@ export default function StudyAbroadDestinations() {
                     dialogTitle.textContent = `Study in ${destination.country}`;
                     dialogSummary.textContent = `${destination.institutions.length} listed ${destination.institutions.length === 1 ? "institution" : "institutions"} in this destination.`;
                     dialogList.innerHTML = groupedInstitutions(destination) || "<p>No institutions are listed for this destination yet.</p>";
+                    dialogList.querySelectorAll("[data-institution-logo]").forEach((logo) => logo.addEventListener("error", () => {
+                        logo.hidden = true;
+                        const fallback = logo.nextElementSibling;
+                        if (fallback) fallback.hidden = false;
+                    }, { once: true }));
                     dialogSearch.dataset.destinationQuery = `institutions in ${destination.country}`;
                     dialog.showModal();
                     return;

@@ -1,0 +1,740 @@
+[
+  {
+    "country": "United States",
+    "name": "Northeastern University",
+    "confidence": "high",
+    "overview": "Northeastern is a private research university in Boston, founded in 1898. It is best known for its co-op model, which alternates classroom study with paid, full-time professional placements and has made it a magnet for international students. Strengths include computer science, engineering, health sciences, business, and data analytics. It also runs a network of campuses beyond Boston, including Seattle, Silicon Valley, Toronto, Vancouver, and London. Its research activity is high, and graduate programs in analytics, cybersecurity, and project management are popular with students from India."
+  },
+  {
+    "country": "United States",
+    "name": "New York University",
+    "confidence": "high",
+    "overview": "NYU is a private research university founded in 1831, centred on Greenwich Village in Manhattan. It operates degree-granting campuses in Abu Dhabi and Shanghai plus study-away sites across the world, which gives it an unusually global profile. The Stern School of Business, Tisch School of the Arts, the Courant Institute, and the Tandon School of Engineering in Brooklyn are among its best-known units. It is a member of the Association of American Universities. Its location puts students next to finance, media, technology, and the arts."
+  },
+  {
+    "country": "United States",
+    "name": "Drexel University",
+    "confidence": "high",
+    "overview": "Drexel is a private research university in Philadelphia, founded in 1891 as the Drexel Institute of Art, Science and Industry. It is known for one of the largest co-op programs in the United States, with students alternating study and paid work. Engineering, computing and informatics, health professions, design, and business through the LeBow College are the main strengths. The campus sits in University City alongside the University of Pennsylvania. Its focus on applied learning suits students aiming at direct entry into industry."
+  },
+  {
+    "country": "United States",
+    "name": "Clark University",
+    "confidence": "high",
+    "overview": "Clark is a small private research university in Worcester, Massachusetts, founded in 1887 by Jonas Clark as one of the first graduate-focused universities in the country. It hosted Sigmund Freud's only lectures in the United States in 1909. Geography, psychology, international development, and environmental studies are its signature areas, and its Graduate School of Management offers MBA and specialised master's programs. Class sizes are small and research is built into undergraduate study. It is a good fit for students who prefer a close-knit campus to a large urban one."
+  },
+  {
+    "country": "United States",
+    "name": "Yeshiva University",
+    "confidence": "medium",
+    "overview": "Yeshiva University is a private Jewish university in New York City, tracing its roots to a yeshiva founded in 1886. It combines Torah study with secular academics, and its main campuses are in Washington Heights and Midtown Manhattan. The Katz School of Science and Health offers master's programs in computer science, data analytics, cybersecurity, and artificial intelligence that attract many international students. The Cardozo School of Law and the Sy Syms School of Business are other major units. The Albert Einstein College of Medicine separated from the university in 2019."
+  },
+  {
+    "country": "United States",
+    "name": "University of Detroit Mercy",
+    "confidence": "high",
+    "overview": "Detroit Mercy is a private Catholic university sponsored by the Jesuits and the Sisters of Mercy. It was formed in 1990 by the merger of the University of Detroit, founded in 1877, and Mercy College of Detroit. Engineering and architecture, nursing and health professions, dentistry, and law are its best-known areas, and many engineering students complete co-op placements. The main McNichols campus is in northwest Detroit, with other campuses downtown and in Michigan. It is a mid-sized teaching-focused institution with a strong professional orientation."
+  },
+  {
+    "country": "United States",
+    "name": "Illinois Institute of Technology",
+    "confidence": "high",
+    "overview": "Illinois Tech is a private research university on Chicago's South Side, created in 1940 by the merger of the Armour Institute (1890) and Lewis Institute. Its campus was designed largely by architect Ludwig Mies van der Rohe and is a landmark of modern architecture. Engineering, computer science, applied mathematics, architecture, and the Stuart School of Business are its core strengths, and it has a large graduate population from overseas. It also houses the Chicago-Kent College of Law. Proximity to Chicago's industry and finance sectors supports internships."
+  },
+  {
+    "country": "United States",
+    "name": "DePaul University",
+    "confidence": "high",
+    "overview": "DePaul is the largest Catholic university in the United States, founded in 1898 and run in the Vincentian tradition. Its campuses are in Chicago's Lincoln Park and the Loop. The College of Computing and Digital Media, the Driehaus College of Business, the theatre school, and the College of Law are the main draws. It is popular with working students because of its flexible scheduling and city-centre location. Graduate programs in computer science, data science, and business analytics have many international students."
+  },
+  {
+    "country": "United States",
+    "name": "Washington State University",
+    "confidence": "high",
+    "overview": "Washington State University is a public land-grant research university founded in 1890 in Pullman, in the state's southeast. It has additional campuses in Spokane, the Tri-Cities, and Vancouver, plus a large online program. Agriculture, veterinary medicine, engineering, business, and the Edward R. Murrow College of Communication are its signature areas. The Pullman campus is a classic college town with lower living costs than coastal cities. It is a good option for students wanting a residential campus experience at a public university."
+  },
+  {
+    "country": "United States",
+    "name": "Colorado State University",
+    "confidence": "high",
+    "overview": "Colorado State is a public land-grant research university in Fort Collins, founded in 1870. It has a national reputation in veterinary medicine, agricultural sciences, environmental and atmospheric science, and engineering. It is classified among top research universities and is known for sustainability work. The campus sits at the foothills of the Rocky Mountains, with a strong outdoor culture. Its college town setting is relatively safe and affordable compared with large metropolitan campuses."
+  },
+  {
+    "country": "United States",
+    "name": "Northern Arizona University",
+    "confidence": "high",
+    "overview": "Northern Arizona University is a public university in Flagstaff, founded in 1899 as a normal school. The campus sits at roughly 7,000 feet in a pine forest, giving it a cooler climate than most of Arizona. Forestry, sustainability, education, health professions, and engineering are leading areas, and it runs a large online program. It also has statewide sites for adult and transfer students. It suits students who like a smaller mountain town and outdoor activities."
+  },
+  {
+    "country": "United States",
+    "name": "Utica University",
+    "confidence": "high",
+    "overview": "Utica University is a private institution in Utica, New York, founded in 1946 as Utica College of Syracuse University. It became independent in 1995 and took its current name in 2020. It is known for cybersecurity, economic crime and fraud management, and a large body of online graduate programs. Health sciences, business, and education are also major areas. It enrolls many working professionals and international students in online master's degrees."
+  },
+  {
+    "country": "United States",
+    "name": "City University of Seattle",
+    "confidence": "medium",
+    "overview": "City University of Seattle is a private non-profit university founded in 1973 as City College. It focuses on working adults, offering business, information technology, education, counselling, and leadership programs on campus and online. It maintains partnerships and teaching sites in several other countries. Small classes and evening and hybrid scheduling are its main selling points. Check each program for eligibility for work-linked study before applying."
+  },
+  {
+    "country": "United States",
+    "name": "Clarkson University",
+    "confidence": "high",
+    "overview": "Clarkson is a private research university in Potsdam, in northern New York, founded in 1896 as a memorial technical school. Engineering, business, and the sciences form its core, with a strong focus on entrepreneurship and applied research. It also has campuses in the Capital Region and Beacon. Its small size means close faculty contact and many undergraduate research opportunities. The setting is remote, near the Adirondacks, with a long winter."
+  },
+  {
+    "country": "United States",
+    "name": "Touro University",
+    "confidence": "medium",
+    "overview": "Touro is a private system founded in 1970 by Rabbi Bernard Lander in New York City as Touro College, and it became Touro University in 2022. It is sponsored by the Jewish community but open to all students, with schools in health sciences, osteopathic medicine, pharmacy, law, education, and business. Campuses are across New York and several U.S. states, with international sites such as Berlin and Jerusalem. Different campuses and schools have different entry requirements and costs. Confirm exactly which campus and program applies before shortlisting."
+  },
+  {
+    "country": "United States",
+    "name": "University of Massachusetts Lowell",
+    "confidence": "medium",
+    "overview": "UMass Lowell is a public research university in Lowell, formed in 1975 by merging two older schools whose roots go back to 1894. It is part of the University of Massachusetts system and is classified as a high-activity research university. Engineering, plastics and polymer science, computer science, nursing, and business are the main strengths, and it runs an active co-op program. The campus is on the Merrimack River, about 30 miles from Boston. Tuition is lower than Boston-area private universities."
+  },
+  {
+    "country": "United States",
+    "name": "University of West Florida",
+    "confidence": "high",
+    "overview": "The University of West Florida is a public university in Pensacola, founded in 1963. It is known nationally for its cybersecurity programs, being designated by U.S. agencies as a center of academic excellence in cyber defence. Nursing and health sciences, engineering, business, and archaeology are other strengths. The campus is a nature-preserve setting near Gulf Coast beaches. It offers comparatively affordable tuition for a state university."
+  },
+  {
+    "country": "United States",
+    "name": "Central Washington University",
+    "confidence": "high",
+    "overview": "Central Washington University is a public comprehensive university in Ellensburg, Washington, founded in 1890. It is known for education, flight technology and aviation, information technology and administrative management, and business. It has additional centres near Seattle in Des Moines and Lynnwood and in Moses Lake. The campus is in a small town in central Washington, about two hours from Seattle. It is a teaching-focused university with small classes."
+  },
+  {
+    "country": "United States",
+    "name": "University of Massachusetts Dartmouth",
+    "confidence": "medium",
+    "overview": "UMass Dartmouth is a public university in the Massachusetts South Coast, with roots in a textile school founded in 1895. Its concrete campus was designed by architect Paul Rudolph. It is known for marine science through the School for Marine Science and Technology, as well as engineering, nursing, business, and the visual and performing arts. Cybersecurity and data science have grown in recent years. It sits roughly an hour from both Boston and Providence."
+  },
+  {
+    "country": "United States",
+    "name": "University of Nevada, Las Vegas",
+    "confidence": "high",
+    "overview": "UNLV is a public research university in Las Vegas, founded in 1957. It has a world-leading hospitality management college, connected to the city's tourism and gaming industry. Other strengths include engineering, medicine, law, and the sciences, and it has a very diverse student body. Careers in hospitality, entertainment, and events are well supported by local employer links. The city also offers year-round warm weather and a large service economy."
+  },
+  {
+    "country": "United States",
+    "name": "Troy University",
+    "confidence": "medium",
+    "overview": "Troy University is a public university founded in 1887 as a normal school in Troy, Alabama. It is distinctive for operating several campuses across Alabama and a large online program, and it has long served military-connected students. Business, criminal justice, sport and fitness management, nursing, and education are popular fields. It has historically run teaching sites overseas as well. It offers relatively affordable tuition and flexible study modes."
+  },
+  {
+    "country": "United States",
+    "name": "Lewis University",
+    "confidence": "high",
+    "overview": "Lewis University is a private Catholic university in Romeoville, Illinois, founded in 1932 in the Lasallian tradition of the Christian Brothers. It has a well-known aviation program with its own flight training, alongside nursing, business, computer science, and education. It is about 35 miles southwest of Chicago. Class sizes are small and it has a strong focus on student support. It is a good fit for students who want a Chicago-area location without a big-city campus."
+  },
+  {
+    "country": "United States",
+    "name": "University of Arizona",
+    "confidence": "high",
+    "overview": "The University of Arizona is a public land-grant research university in Tucson, founded in 1885. It is a member of the Association of American Universities and is famous for astronomy, optical sciences, and space science; it led NASA's OSIRIS-REx asteroid sample mission. The Eller College of Management, engineering, environmental science, and the medical school are also well regarded. It has a large international student body. Its desert setting means mild winters and very hot summers."
+  },
+  {
+    "country": "United States",
+    "name": "University of California",
+    "confidence": "high",
+    "overview": "The University of California is a public system with ten campuses, the first established in 1868 at Berkeley. Students apply to individual campuses, such as Berkeley, Los Angeles, San Diego, Davis, Irvine, Santa Barbara, Santa Cruz, Riverside, and Merced, so the choice of campus matters a great deal. The system is among the most research-intensive in the world, with major strengths in engineering, computing, the sciences, and medicine. Admission and tuition are set campus by campus. Before you publish this entry, decide which campus or campuses you want to feature."
+  },
+  {
+    "country": "United States",
+    "name": "University of Michigan",
+    "confidence": "high",
+    "overview": "The University of Michigan is a public research university in Ann Arbor, founded in 1817 in Detroit and moved to its present home in 1837. It is consistently ranked among the top public universities in the United States and has one of the largest research budgets. The Ross School of Business, College of Engineering, medical school, law school, and Ford School of Public Policy are widely respected. Computer science and data science are very popular with international students. It has a large alumni network and a strong college-town atmosphere."
+  },
+  {
+    "country": "United States",
+    "name": "University of Wisconsin–Madison",
+    "confidence": "high",
+    "overview": "UW–Madison is the flagship public research university of Wisconsin, founded in 1848. It is a member of the Association of American Universities and is among the largest research spenders in the United States. Agriculture and life sciences, engineering, computer science, the sciences, and the Wisconsin School of Business are leading areas. The campus lies between two lakes in the state capital. It is known for the \"Wisconsin Idea,\" linking university research with public service."
+  },
+  {
+    "country": "United States",
+    "name": "Harvard University",
+    "confidence": "high",
+    "overview": "Harvard is the oldest institution of higher education in the United States, founded in 1636 in Cambridge, Massachusetts, and is a member of the Ivy League. It includes Harvard College plus graduate and professional schools such as Business, Law, Medicine, the Kennedy School, and the School of Engineering and Applied Sciences. It has the largest university endowment in the world and a huge research output. Admission is extremely selective, and international students are eligible for need-based aid. It is a reach choice for most applicants."
+  },
+  {
+    "country": "United States",
+    "name": "Stanford University",
+    "confidence": "high",
+    "overview": "Stanford is a private research university founded in 1885 by Leland and Jane Stanford and is located in the heart of Silicon Valley. It is a leader in computer science, engineering, business through the Graduate School of Business, and medicine. Its strong startup culture has produced many technology companies. The campus is large and near San Francisco and San Jose. Admission is extremely selective, with limited international aid for some programs."
+  },
+  {
+    "country": "United States",
+    "name": "Brown University",
+    "confidence": "high",
+    "overview": "Brown is an Ivy League university in Providence, Rhode Island, founded in 1764 as the College of Rhode Island. It is known for its Open Curriculum, which lets undergraduates design their own course of study without distribution requirements. Applied mathematics, computer science, biomedical sciences, international and public affairs, and the humanities are particularly strong. It is smaller than many Ivy peers and focuses on undergraduate teaching. Admission is extremely selective."
+  },
+  {
+    "country": "United States",
+    "name": "Johns Hopkins University",
+    "confidence": "high",
+    "overview": "Johns Hopkins is a private research university in Baltimore, founded in 1876 and modelled on the German research university. It is a leader in medicine, public health through the Bloomberg School, international studies through SAIS, and engineering. It has consistently led the United States in federally funded research, helped by its Applied Physics Laboratory. Biomedical engineering and public health programs are especially strong. Admission is highly selective."
+  },
+  {
+    "country": "United States",
+    "name": "Case Western Reserve University",
+    "confidence": "high",
+    "overview": "Case Western Reserve is a private research university in Cleveland, created in 1967 by merging the Case Institute of Technology and Western Reserve University, which dates to 1826. It is known for engineering, biomedical engineering, medicine, nursing, and the Weatherhead School of Management. The campus is in University Circle, next to the Cleveland Clinic, Cleveland Museum of Art, and other institutions. It has strong research links with hospitals and industry. It is a mid-sized university with a technical focus."
+  },
+  {
+    "country": "United States",
+    "name": "Clemson University",
+    "confidence": "high",
+    "overview": "Clemson is a public land-grant research university in South Carolina, established in 1889 through the bequest of Thomas Green Clemson. It is well known for engineering, including automotive engineering at its Greenville campus, plus agriculture, business, and computing. It has strong employer links in the Southeast, including major manufacturing companies. The campus is a classic college town in the foothills of the Blue Ridge Mountains. Its sports teams, the Tigers, are an important part of campus life."
+  },
+  {
+    "country": "United States",
+    "name": "Loyola University Chicago",
+    "confidence": "high",
+    "overview": "Loyola Chicago is a private Jesuit university founded in 1870 as St. Ignatius College. Its Lake Shore campus sits on Lake Michigan, with other campuses downtown and in Maywood for medicine, plus a campus in Rome. Nursing, business through the Quinlan School, social work, law, and the sciences are leading areas. It is committed to social justice and community engagement. It offers a mid-sized, urban university experience."
+  },
+  {
+    "country": "Canada",
+    "name": "University of Toronto",
+    "confidence": "high",
+    "overview": "The University of Toronto, founded in 1827, is Canada's largest and most research-intensive university, with campuses at St. George, Mississauga, and Scarborough. It is known for medicine (insulin was discovered there in 1921), engineering, and artificial intelligence, linked to pioneer Geoffrey Hinton. The Rotman School of Management and the Faculty of Applied Science and Engineering are particularly strong. It is highly competitive, especially for international students. Toronto itself offers a large job market in finance and technology."
+  },
+  {
+    "country": "Canada",
+    "name": "McGill University",
+    "confidence": "high",
+    "overview": "McGill is an English-language public research university in Montreal, founded in 1821. It is one of the highest-ranked universities in Canada and has an unusually international student body. Medicine, law, engineering, science, and the Desautels Faculty of Management are especially strong. The Macdonald Campus houses agriculture and environmental sciences. Living costs in Montreal are lower than in Toronto or Vancouver, though basic French helps in daily life."
+  },
+  {
+    "country": "Canada",
+    "name": "University of Alberta",
+    "confidence": "high",
+    "overview": "The University of Alberta is a public research university in Edmonton, founded in 1908 and a member of the U15 group of research universities. It is known for energy and engineering, artificial intelligence through the Alberta Machine Intelligence Institute, nanotechnology, and health sciences. It also includes Campus Saint-Jean, a francophone campus, and Augustana in Camrose. Edmonton has lower living costs than Toronto or Vancouver. Co-op options are available in many programs."
+  },
+  {
+    "country": "Canada",
+    "name": "University of Calgary",
+    "confidence": "high",
+    "overview": "The University of Calgary is a public research university in Alberta, which became independent in 1966 after beginning as a branch of the University of Alberta. It is part of the U15 and is known for energy and engineering through the Schulich School, business through Haskayne, veterinary medicine, and health sciences. It is close to Alberta's energy sector. The city has plenty of outdoor recreation, including access to the Rocky Mountains. Tuition for international students is lower than at some other major Canadian universities."
+  },
+  {
+    "country": "Canada",
+    "name": "University of Waterloo",
+    "confidence": "high",
+    "overview": "The University of Waterloo, founded in 1957, operates what is often described as the world's largest co-operative education program. It is a leader in engineering, mathematics, and computer science, and its graduates are in high demand with technology employers. The Kitchener-Waterloo tech cluster, with Communitech and many startups, supports internships. It is highly competitive for admission. Many international students choose it for its practical career focus."
+  },
+  {
+    "country": "Canada",
+    "name": "University of Manitoba",
+    "confidence": "high",
+    "overview": "The University of Manitoba, founded in 1877, was the first university in western Canada and is part of the U15. Its main campus is Fort Garry in Winnipeg, with the Bannatyne campus for health sciences. Agriculture, engineering, health sciences, architecture, and Indigenous studies are its strengths. Winnipeg is one of Canada's most affordable large cities. The cold winter climate is a consideration for new arrivals."
+  },
+  {
+    "country": "Canada",
+    "name": "University of Saskatchewan",
+    "confidence": "high",
+    "overview": "The University of Saskatchewan, founded in 1907 in Saskatoon, is a U15 research university. It is known for agriculture, veterinary medicine, water security through the Global Institute for Water Security, and the Canadian Light Source synchrotron. It also hosts the Vaccine and Infectious Disease Organization. The campus is on the South Saskatchewan River and is considered one of the more attractive in Canada. Living costs are relatively low."
+  },
+  {
+    "country": "Canada",
+    "name": "University of Victoria",
+    "confidence": "high",
+    "overview": "The University of Victoria is a public university on Vancouver Island in British Columbia, established in 1963 with roots in Victoria College. It is known for ocean and earth sciences, engineering, business through the Gustavson School, law, and an extensive co-op program. It consistently ranks well for student satisfaction. Victoria has a mild climate by Canadian standards. Housing costs in the city are high."
+  },
+  {
+    "country": "Canada",
+    "name": "Simon Fraser University",
+    "confidence": "high",
+    "overview": "Simon Fraser University, founded in 1965, has campuses in Burnaby, Surrey, and downtown Vancouver. The Burnaby campus, designed by architect Arthur Erickson, sits on top of a mountain. Computing science, business through the Beedie School, sustainability, and engineering are well-known areas, and co-op is a big feature. It has a large international student population. Its location puts students close to Vancouver's technology and film industries."
+  },
+  {
+    "country": "Canada",
+    "name": "York University",
+    "confidence": "high",
+    "overview": "York University is a public university in Toronto, founded in 1959, with its main Keele campus in the north of the city. It is known for the Schulich School of Business, Osgoode Hall Law School, environmental studies, and liberal arts programs. The Glendon campus offers bilingual English-French education. It is one of Canada's largest universities by enrolment. Access to the Toronto subway makes commuting to downtown employers practical."
+  },
+  {
+    "country": "Canada",
+    "name": "Algoma University",
+    "confidence": "medium",
+    "overview": "Algoma University is a small public university in Sault Ste. Marie, Ontario, tracing its history to 1965 as a college affiliated with Laurentian University. It became an independent university in 2008. Business, computer science, and community economic development are among its programs, and it has a large share of international students. It also has satellite locations in Brampton and Timmins. Small class sizes and a lower cost of living are its main attractions."
+  },
+  {
+    "country": "Canada",
+    "name": "Brock University",
+    "confidence": "high",
+    "overview": "Brock University is a public university in St. Catharines, in Ontario's Niagara region, founded in 1964. It is known for co-op programs, business, education, applied health sciences, kinesiology, and the Cool Climate Oenology and Viticulture Institute. The campus is on the Niagara Escarpment, close to Niagara Falls and wine country. It is a mid-sized university with a friendly campus feel. Living costs are lower than in Toronto, which is about 90 minutes away."
+  },
+  {
+    "country": "Canada",
+    "name": "University Canada West",
+    "confidence": "medium",
+    "overview": "University Canada West is a private university in Vancouver, founded in 2004. It focuses on business and management, with MBA specialisations, a Bachelor of Commerce, and related programs. It is known for flexible schedules, small cohorts, and a heavily international student body. It also offers online options. Because it is private, tuition is typically higher than at public universities, so compare costs."
+  },
+  {
+    "country": "Canada",
+    "name": "Yorkville University",
+    "confidence": "medium",
+    "overview": "Yorkville University is a private university founded in 2004 and headquartered in Fredericton, New Brunswick, with additional locations in Toronto and Vancouver. It focuses on professional programs, including counselling psychology, education, business, information technology, and interior design. Many programs are delivered online or in hybrid format. It is aimed mainly at working adults. Check program-specific recognition requirements, especially for regulated professions."
+  },
+  {
+    "country": "Canada",
+    "name": "Northeastern University — Canadian programs",
+    "confidence": "medium",
+    "overview": "Northeastern University, a U.S. research university founded in 1898, runs graduate campuses in Vancouver and Toronto. Programs include project management, analytics, informatics, computer science, and business, with experiential learning built in through the university's co-op model. Degrees are awarded under the Northeastern name, with distinctive U.S. credentials. Confirm the exact campus, program, and approval status before listing it, as this entry covers the Canadian locations of a U.S. parent. It appeals to students who want a U.S.-style program with a Canadian location."
+  },
+  {
+    "country": "Canada",
+    "name": "International Business University",
+    "confidence": "low",
+    "overview": "International Business University is a private institution in Toronto focused on business education, including business bachelor's and MBA programs. It is a newer, smaller institution with an international student body. Its degree-granting status and program approvals should be confirmed directly with Ontario authorities and the university before you publish. Class sizes are likely small and tuition is typically higher than at public universities. Treat this entry as a draft until verified."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "University of Liverpool",
+    "confidence": "high",
+    "overview": "The University of Liverpool, founded in 1881 as University College Liverpool, is a Russell Group research university and one of the original \"red brick\" universities. It is known for veterinary science, engineering, computer science, physics, and the University of Liverpool Management School. It has a partnership campus in Suzhou, China. The city has a strong student culture and lower living costs than London. Its Nobel laureates include physicist James Chadwick."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "Northeastern University London",
+    "confidence": "high",
+    "overview": "Northeastern University London was founded in 2012 as New College of the Humanities, joined the Northeastern University network in 2019, and took its present name in 2021. It is a small private institution at St Katharine Docks, near Tower Bridge. Programs include business, computer science, applied artificial intelligence, project management, and humanities. It links UK degrees to Northeastern's experiential learning approach. Class sizes are small, and tuition is higher than at many UK public universities."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "University of Sussex",
+    "confidence": "high",
+    "overview": "The University of Sussex, founded in 1961, is a public research university near Brighton on the south coast of England. It is known for development studies, neuroscience, artificial intelligence and informatics, chemistry, and media. Its campus lies within the South Downs National Park. It has a strong record in research quality and student satisfaction. Brighton offers a lively, creative city environment close to London."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "University of Sunderland",
+    "confidence": "medium",
+    "overview": "The University of Sunderland gained university status in 1992 and traces its history to Sunderland Technical College in 1901. It has campuses in Sunderland and London. Business, computing, pharmacy, health, education, and automotive engineering are major areas, with links to nearby employers such as Nissan. It has a substantial international student community. Living costs in Sunderland are among the lowest in the UK."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "University of Roehampton",
+    "confidence": "high",
+    "overview": "The University of Roehampton in southwest London achieved university status in 2004, bringing together four historic colleges: Digby Stuart, Southlands, Whitelands, and Froebel. It is known for education, dance, psychology, sport, and health programs. The parkland campus is quiet yet connected to central London by train. It is a smaller institution with a supportive student community. Tuition for international students is moderate for London."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "London Metropolitan University",
+    "confidence": "high",
+    "overview": "London Metropolitan University was formed in 2002 by merging London Guildhall University and the University of North London. Its main campus is on Holloway Road, with a strong presence in the Guildhall area. It offers business, computing, social sciences, art and design, and health programs. It has a very diverse student body. It is positioned as an affordable choice among London universities."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "St Mary's University, Twickenham",
+    "confidence": "high",
+    "overview": "St Mary's University is a Catholic-founded university in Twickenham, southwest London, established in 1850. It is known for sport science, education, business, drama, and theology, with a strong sports culture linked to nearby rugby. The campus includes the historic Strawberry Hill House. It is smaller than many London institutions. It offers a close community environment with convenient transport into central London."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "University of Edinburgh",
+    "confidence": "high",
+    "overview": "The University of Edinburgh, founded in 1583, is one of Scotland's ancient universities and a member of the Russell Group. It is a leader in artificial intelligence and informatics, medicine, law, and the humanities. It has produced numerous Nobel laureates and has a global alumni network. The city is a UNESCO World Heritage Site and a cultural centre. Admission is highly competitive, and living costs are above the UK average."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "University of Manchester",
+    "confidence": "high",
+    "overview": "The University of Manchester was formed in 2004 by merging the Victoria University of Manchester and UMIST, with roots to 1824. It is a Russell Group university and among the largest campuses in the UK. Engineering, materials science (graphene was isolated here), business, medicine, and computer science are strengths. It has numerous Nobel laureates among its past and present staff. Manchester's student city environment is vibrant and cheaper than London."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "University of Warwick",
+    "confidence": "high",
+    "overview": "The University of Warwick, founded in 1965, is a research university on the edge of Coventry. It is renowned for Warwick Business School, economics, mathematics, and engineering through WMG. It has strong links with industry and a high graduate employment profile. The campus is spacious and self-contained. It is consistently among the UK's top universities in national tables."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "Newcastle University",
+    "confidence": "high",
+    "overview": "Newcastle University is a Russell Group university with origins in a medical school established in 1834. It is known for medicine, engineering, marine technology, ageing and health research, and business. It also has campuses in Singapore and Malaysia. Newcastle is a student-friendly city with comparatively low living costs for England. It has a strong research focus and good industry links."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "Aston University",
+    "confidence": "high",
+    "overview": "Aston University in Birmingham traces its history to 1895 and became a university in 1966. It is known for Aston Business School, which emphasises placement years, as well as engineering and applied sciences, optometry, and pharmacy. Its compact city-centre campus makes it convenient for work placements. Graduate employability is a major selling point. Birmingham offers lower living costs than London."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "Coventry University",
+    "confidence": "high",
+    "overview": "Coventry University traces its origins to the Coventry School of Design in 1843 and became a university in 1992. It is known for automotive and transport design, engineering, business, and health, and it has a very international student body. It also operates campuses in London and Scarborough, as well as partner campuses. Its modern city campus is compact and convenient. Tuition fees are moderate within the UK."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "Lancaster University",
+    "confidence": "high",
+    "overview": "Lancaster University, founded in 1964, is a public research university in northwest England with a collegiate system. It is known for the Lancaster University Management School, physics, linguistics, environmental sciences, and security research. It has international campuses in Ghana and Leipzig, and a partnership in Malaysia. The campus is green and self-contained, close to the Lake District. It ranks strongly in UK league tables."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "Loughborough University",
+    "confidence": "high",
+    "overview": "Loughborough University traces its history to a technical institute from 1909 and received its charter in 1966. It is world-renowned for sport and exercise sciences, as well as design, engineering, and business. It regularly ranks highly for student satisfaction and graduate employability. The campus is large and green, with outstanding sports facilities. Placement years are common across many courses."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "Brunel University London",
+    "confidence": "high",
+    "overview": "Brunel University London was founded in 1966 and named for engineer Isambard Kingdom Brunel. Its campus is in Uxbridge, in west London. It is known for engineering, design, sports sciences, business, and a strong placement-year model. The campus is close to Heathrow Airport and connected to central London by Underground. It has a large international student community."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "University of Greenwich",
+    "confidence": "high",
+    "overview": "The University of Greenwich was originally Woolwich Polytechnic in 1890 and became a university in 1992. Its main campus is in the Old Royal Naval College, a UNESCO World Heritage Site in southeast London. It is known for architecture, engineering, business, the Natural Resources Institute, and health. It has a diverse international student body. The location gives easy access to central London."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "University of Aberdeen",
+    "confidence": "high",
+    "overview": "The University of Aberdeen, founded in 1495, is among the oldest universities in the English-speaking world. It is known for energy studies, medicine, law, and the sciences, and it has a long history of links with the North Sea oil and gas industry. The campus in Old Aberdeen is historic. Living costs in northeast Scotland are lower than in many UK cities. It is a good option for energy and engineering students."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "Abertay University",
+    "confidence": "high",
+    "overview": "Abertay University in Dundee became a university in 1994 and is widely known for video games education, having launched one of the first games degrees in the UK in the late 1990s. It is also known for cybersecurity and ethical hacking. Dundee has a significant games industry cluster. The university is relatively small and focuses on industry-relevant teaching. Living costs in Dundee are comparatively low."
+  },
+  {
+    "country": "United Kingdom",
+    "name": "University of Lincoln",
+    "confidence": "medium",
+    "overview": "The University of Lincoln was founded in 1996 and is located in the historic English city of Lincoln. It is known for agri-food technology, engineering in partnership with Siemens, media, law, and computer science. It has a compact campus near the city centre and a strong focus on employability. Living costs are lower than in larger English cities. It is a popular choice for students who prefer a smaller city."
+  },
+  {
+    "country": "Australia",
+    "name": "Australian National University",
+    "confidence": "high",
+    "overview": "The Australian National University, founded in 1946 in Canberra, is the only university created by an Act of the Australian Parliament. It is a member of the Group of Eight and is known for physics, astronomy, political science, Asia-Pacific studies, and law. Nobel laureate Brian Schmidt has served as its vice-chancellor. It has a strong research profile and small teaching groups. Canberra is a safe, compact capital city."
+  },
+  {
+    "country": "Australia",
+    "name": "University of Melbourne",
+    "confidence": "high",
+    "overview": "The University of Melbourne, founded in 1853, is one of Australia's oldest and most highly ranked universities and a member of the Group of Eight. It uses the Melbourne Model, which separates broad undergraduate studies from professional graduate degrees. Medicine, law, business, education, and engineering are among its top areas. The Parkville campus is next to Melbourne's city centre. Melbourne is regularly named among the world's most liveable cities."
+  },
+  {
+    "country": "Australia",
+    "name": "University of Sydney",
+    "confidence": "high",
+    "overview": "The University of Sydney, founded in 1850, is Australia's oldest university and a Group of Eight member. Its sandstone Camperdown campus is among the most distinctive in the country. It is strong in medicine, law, architecture, engineering, veterinary science, and business. It has a large international community. Living costs in Sydney are high, particularly for accommodation."
+  },
+  {
+    "country": "Australia",
+    "name": "University of Adelaide",
+    "confidence": "high",
+    "overview": "The University of Adelaide, founded in 1874, is a Group of Eight university in South Australia. It is known for wine and agricultural science, mining and energy, health sciences, and engineering. Adelaide is more affordable than Sydney or Melbourne. The city is relatively compact and safe. The state government has incentives for international graduates in some fields."
+  },
+  {
+    "country": "Australia",
+    "name": "RMIT University",
+    "confidence": "high",
+    "overview": "RMIT began in 1887 as the Working Men's College of Melbourne. It is a global university of technology, design, and enterprise, with its main campus in Melbourne's city centre and campuses in Vietnam. Design, engineering, IT, business, and fashion are leading areas. It places a strong emphasis on industry-linked learning. It has one of the most international student populations in Australia."
+  },
+  {
+    "country": "Australia",
+    "name": "Deakin University",
+    "confidence": "high",
+    "overview": "Deakin University was founded in 1974 and has campuses in Geelong, Melbourne's Burwood, and Warrnambool, plus a large online campus. It is known for online learning, sport and exercise science, nursing, IT, and artificial intelligence research. It has a reputation for high student satisfaction. Living costs in Geelong are lower than in Melbourne. It is popular with students seeking flexible study options."
+  },
+  {
+    "country": "Australia",
+    "name": "Curtin University",
+    "confidence": "high",
+    "overview": "Curtin University, based in Perth, began in 1966 as the Western Australian Institute of Technology. It is known for mining and resources engineering, health sciences, business, and IT. It operates international campuses in Dubai, Singapore, and Malaysia. Perth is on the west coast with a sunny climate and strong ties to the resources industry. It has a significant international student body."
+  },
+  {
+    "country": "Australia",
+    "name": "Macquarie University",
+    "confidence": "high",
+    "overview": "Macquarie University, founded in 1964, has its campus in Macquarie Park, a business and technology hub in Sydney. It is known for linguistics, cognitive science, business through the Macquarie Graduate School of Management, and hearing research. It has a hospital on campus. It offers strong industry connections in its Macquarie Park precinct. It is a popular choice for international students in Sydney."
+  },
+  {
+    "country": "Australia",
+    "name": "University of Newcastle",
+    "confidence": "medium",
+    "overview": "The University of Newcastle, a public university in New South Wales, became independent in 1965 after starting as a university college in the early 1950s. It is known for engineering, mining, health sciences, and education. It has campuses in Callaghan, Newcastle City, and Sydney, and in Singapore through a partnership. Living costs are lower than in Sydney. It has a strong record in regional research impact."
+  },
+  {
+    "country": "Australia",
+    "name": "Queensland University of Technology",
+    "confidence": "high",
+    "overview": "QUT in Brisbane became a university in 1989, with roots going back to the mid-1800s. It is known for creative industries, IT, engineering, business, and health. Its Gardens Point campus is in the city centre and Kelvin Grove is nearby. It has strong industry links and an applied approach. Brisbane has a warm climate and relatively moderate living costs."
+  },
+  {
+    "country": "Australia",
+    "name": "University of Canberra",
+    "confidence": "medium",
+    "overview": "The University of Canberra, which gained university status in 1990, traces its origins to an advanced education college established in 1967. It focuses on professional degrees such as nursing, sport, design, IT, and health. The Bruce campus is close to Canberra's city centre. It is a smaller university with an applied focus. Living costs in Canberra are moderate."
+  },
+  {
+    "country": "Australia",
+    "name": "Western Sydney University",
+    "confidence": "high",
+    "overview": "Western Sydney University was formed in 1989 and has campuses across Greater Western Sydney, including Parramatta, Penrith, Campbelltown, and Bankstown. It is known for nursing, engineering, IT, psychology, and education. It has a strong regional focus and a diverse student population. The Parramatta city campus gives access to the growing second CBD of Sydney. Living costs are slightly lower than in Sydney's inner suburbs."
+  },
+  {
+    "country": "Germany",
+    "name": "WHU – Otto Beisheim School of Management",
+    "confidence": "high",
+    "overview": "WHU is a private business school in Vallendar near Koblenz, with a second campus in Düsseldorf, founded in 1984. It is known for management, finance, entrepreneurship, and strong corporate links. Programs include the MSc in Management, MSc in Finance, an MBA, and bachelor's degrees. Class sizes are small and the student body is international. Tuition is substantially higher than at German public universities."
+  },
+  {
+    "country": "Germany",
+    "name": "SRH University",
+    "confidence": "medium",
+    "overview": "SRH University is a private institution in the SRH group, headquartered in Heidelberg, with campuses in several German cities. It is a practice-oriented university of applied sciences offering programs in IT, business, engineering, psychology, and health. Its model uses small groups and a \"CORE\" learning approach. International programs are taught in English. It charges tuition fees unlike German public universities."
+  },
+  {
+    "country": "Germany",
+    "name": "International School of Management (ISM)",
+    "confidence": "medium",
+    "overview": "ISM is a private business university founded in 1990 in Dortmund, with campuses in Frankfurt, Hamburg, Munich, Cologne, Stuttgart, and Berlin. It focuses on business and management, with strong ties to industry and dual-study options. Programs include master's degrees in international management, finance, and data science. Teaching is practice-oriented and often in English. Tuition is higher than at public universities."
+  },
+  {
+    "country": "Germany",
+    "name": "CODE University of Applied Sciences",
+    "confidence": "medium",
+    "overview": "CODE University of Applied Sciences is a private university in Berlin founded in 2017. It offers project-based programs in software engineering, product management, interaction design, and data science, with no traditional lectures. Students work with partner companies and startups. It is small and focused on tech careers. Tuition is charged, and some programs offer income-share or scholarship models, so check current terms."
+  },
+  {
+    "country": "Germany",
+    "name": "Munich Business School",
+    "confidence": "medium",
+    "overview": "Munich Business School, founded in 1991, is a private university of applied sciences in Munich. It focuses on business and management, with an international orientation, English-taught master's programs, and an MBA. It has links to Munich's corporate sector. Class sizes are small and teaching is practice-oriented. It charges tuition, which is higher than at public universities."
+  },
+  {
+    "country": "Germany",
+    "name": "Touro University — Germany listing",
+    "confidence": "low",
+    "overview": "This entry refers to the Berlin campus of the U.S.-based Touro system, which opened in the early 2000s. It offers a limited set of programs, historically related to Jewish studies, management, and related fields, with U.S.-style degrees. It should not be treated as equivalent to a traditional German university. Confirm which institution the listing refers to, its current programs, and its recognition status before publishing. This entry should be treated as unverified."
+  },
+  {
+    "country": "Germany",
+    "name": "University of Applied Management",
+    "confidence": "low",
+    "overview": "The University of Applied Management is a private German university founded in 2001, based in the Munich area, offering practice-oriented bachelor's and master's programs in business, psychology, and management. It uses a blended model with study centres across Germany. It primarily serves working professionals. Check the current program list and recognition details before publishing. Treat this entry as medium confidence."
+  },
+  {
+    "country": "Germany",
+    "name": "ICN Business School",
+    "confidence": "medium",
+    "overview": "ICN Business School is a French business school founded in 1905 in Nancy, with a campus in Nuremberg, Germany, operated with the local technical university. It is part of the ARTEM alliance with a mining engineering school and an art school. It has an international profile and offers programs in business, with a focus on innovation and creativity. French and German campuses are separate entries to keep distinct in your data. Check which campus and language track apply."
+  },
+  {
+    "country": "Germany",
+    "name": "University of Bonn",
+    "confidence": "high",
+    "overview": "The University of Bonn, founded in 1818, is a German University of Excellence. It is renowned for mathematics, economics, physics, geosciences, and agricultural sciences. Bonn was the capital of West Germany and hosts many international organisations. Public university tuition is minimal, though semester fees apply. Many master's programs are taught in English."
+  },
+  {
+    "country": "Germany",
+    "name": "University of Cologne",
+    "confidence": "high",
+    "overview": "The University of Cologne, founded in 1388, is one of the oldest in Europe and was re-established in 1919. It is one of Germany's largest universities, with strengths in economics, law, social sciences, and humanities. It has a strong research profile. Cologne is a lively city with many media companies. Public university fees are low, and some master's programs are taught in English."
+  },
+  {
+    "country": "Germany",
+    "name": "University of Freiburg",
+    "confidence": "high",
+    "overview": "The University of Freiburg, founded in 1457, is a German University of Excellence in the Black Forest region. It is renowned for environmental and forest sciences, sustainability research, medicine, and neuroscience. It is a research-intensive university with a strong international profile. Freiburg is known as a green city with a high quality of life. Public tuition is low, though some non-EU fees apply in Baden-Württemberg."
+  },
+  {
+    "country": "Germany",
+    "name": "University of Hamburg",
+    "confidence": "high",
+    "overview": "The University of Hamburg, founded in 1919, is among the largest universities in Germany and a University of Excellence. It is known for climate research, nanoscience, law, and the humanities, and Asian and African studies. Hamburg is a major port city with a broad job market. Public tuition is low. Many master's programs are taught in English."
+  },
+  {
+    "country": "Germany",
+    "name": "University of Mannheim",
+    "confidence": "high",
+    "overview": "The University of Mannheim traces its roots to a commercial college established in 1907 and became a university in 1967. It is among Germany's leading universities for business, economics, and social sciences. It is housed in a baroque palace. It has close ties to local companies. Baden-Württemberg charges tuition to non-EU students, so check current fees."
+  },
+  {
+    "country": "Germany",
+    "name": "University of Stuttgart",
+    "confidence": "high",
+    "overview": "The University of Stuttgart, with roots going back to 1829, is a technical university known for engineering, automotive and aerospace technology, simulation technology, and architecture. It benefits from the strong industrial base of the Stuttgart region, including Mercedes-Benz and Porsche. It has a research focus and strong industry links. Baden-Württemberg charges tuition for non-EU students. Many English-taught master's programs are available."
+  },
+  {
+    "country": "Germany",
+    "name": "University of Tübingen",
+    "confidence": "high",
+    "overview": "The University of Tübingen, founded in 1477, is a German University of Excellence in a historic town in Baden-Württemberg. It is known for medicine, neuroscience, theology, and machine learning, hosting a cluster of excellence in AI. It has a strong research profile. Tübingen is a small university town with a lively student scene. Non-EU students pay tuition fees in this state."
+  },
+  {
+    "country": "Germany",
+    "name": "University of Würzburg",
+    "confidence": "high",
+    "overview": "The University of Würzburg, founded in 1402, is a research university in Bavaria, where Wilhelm Röntgen discovered X-rays in 1895. It is known for physics, medicine, biology, and computer science, including space technology. It is a mid-sized university in a historic city. Bavaria does not charge tuition for most programs. Living costs are lower than in Munich."
+  },
+  {
+    "country": "Germany",
+    "name": "TU Darmstadt",
+    "confidence": "high",
+    "overview": "TU Darmstadt, founded in 1877, is one of Germany's leading technical universities. It is known for computer science, IT security, electrical and mechanical engineering, and it hosted the first electrical engineering chair in the world. It has strong research partnerships with industry. Darmstadt is near Frankfurt. Hesse has low tuition for most programs."
+  },
+  {
+    "country": "Germany",
+    "name": "Chemnitz University of Technology",
+    "confidence": "high",
+    "overview": "Chemnitz University of Technology traces its roots to 1836 and became a technical university in 1986. It is known for mechanical engineering, textile technology, computer science, and business. It is a medium-sized university with strong regional industry links. Chemnitz has some of the lowest living costs among German university cities. Many master's programs are taught in English."
+  },
+  {
+    "country": "France",
+    "name": "Paris School of Business",
+    "confidence": "medium",
+    "overview": "Paris School of Business is a private French business school with a strong international orientation and several programs taught in English. It offers MSc programs in international management, finance, marketing analytics, supply chain, and luxury and fashion. It is known for its Paris location and corporate partnerships. Confirm its current international accreditations and program details on its official website before publishing. Tuition is higher than at French public universities."
+  },
+  {
+    "country": "France",
+    "name": "ICN Business School",
+    "confidence": "medium",
+    "overview": "ICN Business School was founded in 1905 in Nancy, in northeastern France. It is part of the ARTEM alliance with Mines Nancy and the École nationale supérieure d'art et de design, which encourages cross-disciplinary projects. It also has campuses in Paris and Nuremberg. It offers programs in management, with a focus on creativity and innovation. It has international accreditations; confirm which are current before publishing."
+  },
+  {
+    "country": "France",
+    "name": "Excelia Business School",
+    "confidence": "medium",
+    "overview": "Excelia Business School is based in La Rochelle and has a Paris campus. It was formed from a business school established in 1988 and a hospitality and tourism school. It focuses on management, tourism, hospitality, and corporate finance. It has strong links with the tourism industry. Many English-taught master's programs are offered."
+  },
+  {
+    "country": "France",
+    "name": "EDC Paris Business School",
+    "confidence": "medium",
+    "overview": "EDC Paris Business School is a private, non-profit business school in Paris La Défense, founded in 1950. It offers programs in management, finance, entrepreneurship, and international business. It is a smaller, specialised school with a focus on practical learning. Many programs include internships. Its location in La Défense puts it near large corporate headquarters."
+  },
+  {
+    "country": "France",
+    "name": "EMLV Business School",
+    "confidence": "medium",
+    "overview": "EMLV is a business school in Paris La Défense, part of the Pôle Léonard de Vinci group alongside an engineering school and a digital school. It was founded in 1982. It offers programs in management, digital business, finance, and marketing, with work-study options. It has partner universities abroad. Its campus is in a major business district."
+  },
+  {
+    "country": "France",
+    "name": "KEDGE Business School",
+    "confidence": "high",
+    "overview": "KEDGE Business School was created in 2013 through the merger of Bordeaux Management School and Euromed Marseille, whose origins go back to 1872. It has campuses in Bordeaux, Marseille, Toulon, and Paris, among others. It holds the major triple international accreditations for business schools. It offers MSc programs in supply chain, marketing, finance, and more. It has a strong international student base."
+  },
+  {
+    "country": "France",
+    "name": "ESDES Business School",
+    "confidence": "medium",
+    "overview": "ESDES is the business school of the Université Catholique de Lyon, founded in 1968. It offers bachelor's, master's, and MBA programs with a focus on responsible and sustainable management. It has an international network of partner universities. Lyon is France's second-largest business centre. Confirm current English-taught programs and accreditation before publishing."
+  },
+  {
+    "country": "France",
+    "name": "Aivancity School for Technology, Business and Society",
+    "confidence": "low",
+    "overview": "Aivancity is a French higher-education school founded in 2015 focused on artificial intelligence and data. It offers programs in AI and data science, business, and societal impacts of technology, with a campus near Paris. It is a private school with a newer track record. Programs combine technical learning with ethics and entrepreneurship. Check the recognition of each degree with French education authorities before publishing."
+  },
+  {
+    "country": "France",
+    "name": "American Business College",
+    "confidence": "low",
+    "overview": "This listing is ambiguous, as several schools use similar names. It may refer to a Paris-based school offering U.S.-style business programs. Without a clear identification, its status, recognition, and programs cannot be reliably described. Confirm the exact legal name, location, and accreditation with the university before you publish. Treat this entry as a placeholder only."
+  },
+  {
+    "country": "Ireland",
+    "name": "University College Cork",
+    "confidence": "high",
+    "overview": "University College Cork, founded in 1845 as Queen's College Cork, is a public research university in Ireland's southern city. It is known for food science, pharmacy, medicine, environmental studies, and sustainability, and it was the first in the world to receive a green flag for campus sustainability. It has a strong research profile. Cork is a student-friendly city with lower living costs than Dublin. Ireland offers a graduate scheme for non-EU students."
+  },
+  {
+    "country": "Ireland",
+    "name": "Dundalk Institute of Technology",
+    "confidence": "medium",
+    "overview": "Dundalk Institute of Technology was established in 1970 as a regional technical college in the north-east of Ireland. It is known for engineering, computing, business, and music and creative arts. It is a smaller institution with practical teaching. It lies between Dublin and Belfast. Living costs are lower than in Dublin."
+  },
+  {
+    "country": "Ireland",
+    "name": "Dublin City University",
+    "confidence": "high",
+    "overview": "Dublin City University was established in 1975 and became a university in 1989. It is known for business through the DCU Business School, computing, communications, science, and engineering, and it brands itself as Ireland's university of enterprise. It has a strong focus on industry links and internships. Its campus is in north Dublin. Living costs in Dublin are high."
+  },
+  {
+    "country": "Ireland",
+    "name": "Dublin Business School",
+    "confidence": "medium",
+    "overview": "Dublin Business School, founded in 1975, is Ireland's largest independent third-level college. It is located in central Dublin and offers undergraduate and postgraduate programs in business, accounting, marketing, IT, law, and psychology. Its degrees are awarded through the national qualifications body. It enrolls many international students. Fees are usually lower than at public universities but not the lowest."
+  },
+  {
+    "country": "Ireland",
+    "name": "Griffith College Ireland",
+    "confidence": "medium",
+    "overview": "Griffith College is a private college founded in 1974 with campuses in Dublin, Cork, and Limerick. It offers programs in business, law, design, computing, and journalism, with degrees validated by Ireland's national qualifications authority. Class sizes are small. It has a large international student community. It is a good option for students who want a smaller, career-focused environment."
+  },
+  {
+    "country": "Ireland",
+    "name": "Cork Institute of Technology",
+    "confidence": "high",
+    "overview": "Cork Institute of Technology was founded in 1974 and, in 2021, merged with the Institute of Technology Tralee to form Munster Technological University. The name Cork Institute of Technology is therefore a legacy name. Programs in engineering, maritime studies, art, nursing, and business continue under the new university. Use the current name in your website. Confirm which MTU campus a program is on."
+  },
+  {
+    "country": "Finland",
+    "name": "Seinäjoki University of Applied Sciences (SeAMK)",
+    "confidence": "medium",
+    "overview": "SeAMK is a public university of applied sciences in Seinäjoki, in western Finland. It is known for agriculture and food, business, technology, and health and social services. It focuses on practical, employer-linked learning. Tuition fees apply to non-EU students for most degree programs, with scholarships available. Seinäjoki is a small city with low living costs."
+  },
+  {
+    "country": "Finland",
+    "name": "South-Eastern Finland University of Applied Sciences (Xamk)",
+    "confidence": "medium",
+    "overview": "Xamk was formed in 2017 by merging Kymenlaakso University of Applied Sciences and Mikkeli University of Applied Sciences. It has campuses in Kouvola, Kotka, Mikkeli, and other cities. It is known for logistics, technology, business, and health and wellbeing. It has strong links with regional industry and Russian-border logistics. Tuition fees apply to non-EU students."
+  },
+  {
+    "country": "Finland",
+    "name": "Haaga-Helia University of Applied Sciences",
+    "confidence": "medium",
+    "overview": "Haaga-Helia is a public university of applied sciences in Helsinki, formed in 2007 by a merger. It is known for business, hospitality, tourism, IT, and sport management. It has strong links with employers and offers English-taught degrees. Tuition fees apply to non-EU students, with scholarships available. Helsinki offers a high quality of life but moderate-to-high living costs."
+  },
+  {
+    "country": "Finland",
+    "name": "Metropolia University of Applied Sciences",
+    "confidence": "high",
+    "overview": "Metropolia is Finland's largest university of applied sciences, formed in 2008 and based in the Helsinki area. It offers programs in engineering, health, culture, and business, with many English-taught degrees. It is known for practical, project-based learning with industry partners. Tuition fees apply for non-EU students. Helsinki offers a strong tech and startup environment."
+  },
+  {
+    "country": "Netherlands",
+    "name": "Utrecht University",
+    "confidence": "high",
+    "overview": "Utrecht University, founded in 1636, is one of the Netherlands' leading research universities. It is known for life sciences, geosciences, law, humanities, and medicine, and is part of the Utrecht Science Park. It offers many English-taught master's programs. Utrecht is a compact, student-focused city close to Amsterdam. Non-EU tuition is substantial, but scholarships are available."
+  },
+  {
+    "country": "Netherlands",
+    "name": "Wageningen University & Research",
+    "confidence": "high",
+    "overview": "Wageningen University & Research, founded in 1918, focuses on life sciences, agriculture, food, and the environment. It is regularly ranked among the best universities in the world in these fields. It is part of the Dutch \"Food Valley\" region. It has a large international student body, with most master's programs in English. Wageningen is a small, green university town."
+  },
+  {
+    "country": "Italy",
+    "name": "POLIMI Graduate School of Management",
+    "confidence": "medium",
+    "overview": "POLIMI Graduate School of Management is the business school of Politecnico di Milano, with roots in a management institute created in 1979. It offers MBA, executive MBA, and master's programs in management, with a strong link to engineering and technology. It holds the three major international business school accreditations. Its location in Milan connects students to Italy's corporate and design sectors. Tuition is high compared with Italian public universities."
+  },
+  {
+    "country": "United Arab Emirates",
+    "name": "Rochester Institute of Technology of Dubai",
+    "confidence": "high",
+    "overview": "RIT Dubai is the Dubai campus of the Rochester Institute of Technology in the United States, opened in 2008. It offers U.S.-accredited degrees in engineering technology, computing, business, and hospitality, with small classes. Its campus is in Dubai Silicon Oasis. It is attractive to students who want a U.S. degree in the Middle East. Tuition is private-institution level, and living costs in Dubai are relatively high."
+  },
+  {
+    "country": "Hungary",
+    "name": "International Business School (IBS)",
+    "confidence": "low",
+    "overview": "International Business School in Budapest is a private institution founded in the early 1990s offering business programs in English. Its degrees are associated with partner universities, so the exact degree awarded can depend on the program. Budapest has low living costs by European standards. Confirm its recognition status, degree-awarding partners, and current programs before publishing. Treat this entry as medium to low confidence."
+  }
+]

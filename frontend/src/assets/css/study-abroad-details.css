@@ -306,3 +306,17 @@ body.study-abroad-details-open {
         padding: 16px;
     }
 }
+.study-abroad-details-overview-copy {
+    margin: 0;
+    color: #4f6682;
+    font-size: 15px;
+    line-height: 1.8;
+}
+.study-abroad-details-confidence {
+    display: inline-block;
+    margin-top: 12px;
+    color: #71839a;
+    font-size: 12px;
+    font-weight: 650;
+    text-transform: capitalize;
+}

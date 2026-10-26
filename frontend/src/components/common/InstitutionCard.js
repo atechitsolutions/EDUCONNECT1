@@ -8,10 +8,12 @@ export default function InstitutionCard({
         rank = "",
         name = "Institution",
         location = "",
+        country = "",
         image = "",
         logo = "",
         logoAlt = "",
         verifiedFacts = "",
+        belowActions = "",
         score = "",
         rating = "",
         reviews = "",
@@ -26,7 +28,9 @@ export default function InstitutionCard({
         showCompare = true
     } = item;
 
+    const isStudyAbroadSearch = type === "study-abroad-search-result";
     const logoInitials = String(name).split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+    const logoMarkup = `<div class="institution-card-logo">${logo ? `<img src="${logo}" alt="${logoAlt || `${name} official logo`}" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">` : ""}<span class="institution-card-logo-fallback" ${logo ? "hidden" : ""}>${logoInitials}</span></div>`;
 
     return `
         <article
@@ -55,14 +59,7 @@ export default function InstitutionCard({
 
 
                 ${
-                    logo || type === "study-abroad-search-result"
-                        ? `
-                            <div class="institution-card-logo">
-                                ${logo ? `<img src="${logo}" alt="${logoAlt || `${name} official logo`}" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">` : ""}
-                                <span class="institution-card-logo-fallback" ${logo ? "hidden" : ""}>${logoInitials}</span>
-                            </div>
-                        `
-                        : ""
+                    logo && !isStudyAbroadSearch ? logoMarkup : ""
                 }
 
 
@@ -88,31 +85,26 @@ export default function InstitutionCard({
                 }
 
 
-                <div class="institution-card-title">
-
-                    <h3>
-                        ${name}
-                    </h3>
-
-                    ${
-                        location
-                            ? `
-                                <p>
-                                    📍 ${location}
-                                </p>
-                            `
-                            : ""
-                    }
-
-                </div>
+                ${isStudyAbroadSearch ? "" : `
+                    <div class="institution-card-title">
+                        <h3>${name}</h3>
+                        ${location ? `<p>📍 ${location}</p>` : ""}
+                    </div>
+                `}
 
             </div>
 
 
             <div class="institution-card-body">
 
+                ${isStudyAbroadSearch ? `
+                    <div class="study-abroad-search-heading">
+                        ${logoMarkup}
+                        <div><h3>${name}</h3><p>${country || location}</p></div>
+                    </div>
+                ` : ""}
                 ${
-                    category
+                    category && !isStudyAbroadSearch
                         ? `
                             <span class="institution-card-category">
                                 ${category}
@@ -123,7 +115,7 @@ export default function InstitutionCard({
 
 
                 ${
-                    program
+                    program && !isStudyAbroadSearch
                         ? `
                             <h4 class="institution-card-program">
                                 ${program}
@@ -241,8 +233,11 @@ export default function InstitutionCard({
 
                 </div>
 
+                ${belowActions}
+
             </div>
 
         </article>
     `;
 }
+

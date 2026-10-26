@@ -370,3 +370,91 @@
 @media (max-width: 640px) {
     .study-abroad-search-results-grid .study-abroad-institution-facts { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* Compact institution details layout requested for study-abroad results */
+.study-abroad-search-results-grid .institution-card-visual { height: 138px; }
+.study-abroad-search-results-grid .institution-card-title,
+.study-abroad-search-results-grid .institution-card-visual > .institution-card-logo { display: none; }
+.study-abroad-search-results-grid .institution-card-body { padding: 18px 20px 20px; }
+.study-abroad-search-heading { display: flex; align-items: center; gap: 14px; min-height: 66px; }
+.study-abroad-search-heading .institution-card-logo { position: relative; display: flex; flex: 0 0 54px; inset: auto; width: 54px; height: 54px; padding: 6px; border-radius: 10px; box-shadow: 0 4px 12px rgba(25,48,80,.10); }
+.study-abroad-search-heading .institution-card-logo img { width: 100%; height: 100%; object-fit: contain; }
+.study-abroad-search-heading .institution-card-logo-fallback { color: #2056a4; font-weight: 800; }
+.study-abroad-search-heading h3 { margin: 0 0 4px; color: #293c56; font-size: 18px; line-height: 1.3; }
+.study-abroad-search-heading p { margin: 0; color: #687d95; font-size: 14px; }
+
+.study-abroad-institution-facts-compact { display: grid; grid-template-columns: 1fr; gap: 0; margin: 0 0 12px; padding: 0; border: 0; background: transparent; }
+.study-abroad-institution-facts-compact > div { display: grid; grid-template-columns: 24px minmax(0,1fr) auto; align-items: center; gap: 4px 8px; min-height: 42px; padding: 7px 0; border: 0; }
+.study-abroad-institution-facts-compact > div > span { color: #52657b; font-size: 19px; }
+.study-abroad-institution-facts-compact label { color: #566b83; font-size: 14px; }
+.study-abroad-institution-facts-compact strong { color: #344b66; font-size: 14px; text-align: right; }
+.study-abroad-search-results-grid .institution-card-actions { display: block; margin-top: auto; padding-top: 16px; }
+.study-abroad-search-results-grid .institution-card-actions .institution-card-action { width: 100%; min-height: 46px; border: 1px solid #718096; border-radius: 999px; background: #fff; color: #293c56; font-size: 16px; font-weight: 600; justify-content: center; }
+
+
+/* Keep every search-card detail in a clean, readable row */
+.study-abroad-search-results-grid .institution-card { height: auto; min-height: 470px; }
+.study-abroad-search-results-grid .institution-card-body { flex: 1 0 auto; }
+.study-abroad-search-results-grid .study-abroad-institution-facts-compact {
+    display: flex; flex-direction: column; gap: 0;
+    margin: 14px 0 0; padding: 6px 14px;
+    border: 1px solid #e1eaf5; border-radius: 12px; background: #f8fbff;
+}
+.study-abroad-search-results-grid .study-abroad-institution-facts-compact > div {
+    display: grid; grid-template-columns: 24px minmax(0, 1fr) minmax(92px, 1fr);
+    align-items: center; column-gap: 9px; min-height: 44px; padding: 7px 0;
+    border-bottom: 1px solid #e6edf5;
+}
+.study-abroad-search-results-grid .study-abroad-institution-facts-compact > div:last-child { border-bottom: 0; }
+.study-abroad-search-results-grid .study-abroad-institution-facts-compact > div > span {
+    grid-column: 1; grid-row: 1; color: #45688f; font-size: 17px; line-height: 1;
+}
+.study-abroad-search-results-grid .study-abroad-institution-facts-compact label {
+    grid-column: 2; grid-row: 1; min-width: 0; color: #61758d; font-size: 13px; line-height: 1.35;
+}
+.study-abroad-search-results-grid .study-abroad-institution-facts-compact strong {
+    grid-column: 3; grid-row: 1; min-width: 0; color: #263c59; font-size: 13px; line-height: 1.35;
+    text-align: right; overflow-wrap: anywhere;
+}
+.study-abroad-search-results-grid .study-abroad-institution-facts-compact a { grid-column: 2 / 4; margin: 0 0 5px; }
+.study-abroad-search-results-grid .institution-card-actions { padding: 16px 20px 20px; }
+.study-abroad-search-results-grid .institution-card-actions .institution-card-action {
+    display: flex; justify-content: center; align-items: center; position: relative;
+    min-height: 46px; padding: 0 36px; border: 1px solid #6f7e8e;
+    border-radius: 999px; background: #fff; color: #233b59; font-size: 15px; font-weight: 650;
+}
+.study-abroad-search-results-grid .institution-card-actions .institution-card-action span { position: absolute; right: 18px; }
+@media (max-width: 640px) {
+    .study-abroad-search-results-grid .institution-card { min-height: 0; }
+    .study-abroad-search-results-grid .study-abroad-institution-facts-compact > div { grid-template-columns: 22px minmax(0,1fr) minmax(84px,auto); }
+}
+
+/* Two concise facts keep the search cards readable without student-count rows. */
+.study-abroad-search-results-grid .institution-card { min-height: 410px; }
+.study-abroad-search-results-grid .study-abroad-rank-fact {
+    grid-template-columns: 24px minmax(0, 1fr) auto;
+}
+.study-abroad-search-results-grid .study-abroad-summary-fact {
+    grid-template-columns: 24px minmax(0, 1fr);
+    align-items: start;
+}
+.study-abroad-search-results-grid .study-abroad-summary-fact label,
+.study-abroad-search-results-grid .study-abroad-summary-fact strong {
+    grid-column: 2;
+    text-align: left;
+}
+.study-abroad-search-results-grid .study-abroad-summary-fact strong {
+    color: #4b617d;
+    font-size: 12px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.study-abroad-search-results-grid .institution-card-body > .study-abroad-rank-fact {
+    display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; align-items: center;
+    gap: 8px; margin: 0 20px 18px; padding: 11px 14px;
+    border: 1px solid #e1eaf5; border-radius: 12px; background: #f8fbff;
+}
+.study-abroad-search-results-grid .institution-card-body > .study-abroad-rank-fact span { font-size: 18px; }
+.study-abroad-search-results-grid .institution-card-body > .study-abroad-rank-fact label { color: #566b83; font-size: 14px; }
+.study-abroad-search-results-grid .institution-card-body > .study-abroad-rank-fact strong { color: #263c59; font-size: 14px; text-align: right; }
