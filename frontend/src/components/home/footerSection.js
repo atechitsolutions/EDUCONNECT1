@@ -126,31 +126,6 @@ export function FooterSection() {
 
             </div>
 
-
-            <!-- Footer Middle -->
-            <div class="footer-highlight">
-
-                <div class="footer-highlight-content">
-
-                    <h3>
-                        Find the Right Education Opportunities in India
-                    </h3>
-
-                    <p>
-                        Explore top schools, colleges, universities,
-                        courses, scholarships, jobs, career opportunities
-                        and study abroad programs in India.
-                    </p>
-
-                </div>
-
-                <a href="#" class="footer-cta">
-                    Explore Education
-                </a>
-
-            </div>
-
-
             <!-- Footer Bottom -->
             <div class="footer-bottom">
 

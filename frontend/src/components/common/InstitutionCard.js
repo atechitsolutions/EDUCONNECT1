@@ -10,6 +10,8 @@ export default function InstitutionCard({
         location = "",
         image = "",
         logo = "",
+        logoAlt = "",
+        verifiedFacts = "",
         score = "",
         rating = "",
         reviews = "",
@@ -24,6 +26,7 @@ export default function InstitutionCard({
         showCompare = true
     } = item;
 
+    const logoInitials = String(name).split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
 
     return `
         <article
@@ -52,14 +55,11 @@ export default function InstitutionCard({
 
 
                 ${
-                    logo
+                    logo || type === "study-abroad-search-result"
                         ? `
                             <div class="institution-card-logo">
-                                <img
-                                    src="${logo}"
-                                    alt=""
-                                    loading="lazy"
-                                >
+                                ${logo ? `<img src="${logo}" alt="${logoAlt || `${name} official logo`}" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">` : ""}
+                                <span class="institution-card-logo-fallback" ${logo ? "hidden" : ""}>${logoInitials}</span>
                             </div>
                         `
                         : ""
@@ -187,6 +187,8 @@ export default function InstitutionCard({
                         : ""
                 }
 
+
+                ${verifiedFacts}
 
                 ${
                     highlight

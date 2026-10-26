@@ -370,3 +370,37 @@
         max-width: none;
     }
 }
+/* Local public-domain panoramic skyline by GDJ, via Openclipart:
+   https://openclipart.org/detail/300394/panoramic-city-skyline-silhouette */
+.site-footer {
+    position: relative;
+    isolation: isolate;
+    background-color: #0f2742;
+}
+
+.site-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(180deg, rgba(15, 39, 66, .98) 0%, rgba(15, 39, 66, .96) 46%, rgba(15, 39, 66, .78) 76%, rgba(15, 39, 66, .56) 100%),
+        url("/images/educonnect-international-skyline.png");
+    background-position: center, center bottom;
+    background-repeat: no-repeat;
+    background-size: 100% 100%, 100% auto;
+}
+
+.footer-highlight {
+    background: rgba(34, 62, 91, .76);
+    border-color: rgba(192, 215, 241, .2);
+    box-shadow: 0 16px 40px rgba(3, 16, 31, .14), inset 0 1px rgba(255, 255, 255, .06);
+    backdrop-filter: blur(5px);
+}
+
+@media (max-width: 700px) {
+    .site-footer::before {
+        background-size: 100% 100%, auto 180px;
+    }
+}

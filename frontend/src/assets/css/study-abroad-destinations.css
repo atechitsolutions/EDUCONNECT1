@@ -477,6 +477,25 @@
     line-height: 1.15;
 }
 
+#study-abroad-destination-explorer .institution-detail-overview {
+    max-width: 78ch;
+    margin: -8px 0 22px;
+    color: #5f7390;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+#study-abroad-destination-explorer .institution-detail-confidence {
+    width: fit-content;
+    margin: -12px 0 20px;
+    padding: 6px 10px;
+    border: 1px solid #d7e5f7;
+    border-radius: 999px;
+    color: #426184;
+    background: #f5f9ff;
+    font-size: 12px;
+    font-weight: 700;
+}
 #study-abroad-destination-explorer .institution-detail-fields {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -549,7 +568,15 @@
         max-height: 90dvh;
         padding: 28px 18px 20px;
     }
-    #study-abroad-destination-explorer .institution-detail-fields {
+    #study-abroad-destination-explorer .institution-detail-overview {
+    max-width: 78ch;
+    margin: -8px 0 22px;
+    color: #5f7390;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+#study-abroad-destination-explorer .institution-detail-fields {
         grid-template-columns: minmax(0, 1fr);
     }
 }

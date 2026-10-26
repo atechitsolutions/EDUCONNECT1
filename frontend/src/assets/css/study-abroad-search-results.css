@@ -339,3 +339,34 @@
         transition: none;
     }
 }
+/* University facts use only traceable sources; unverified fields stay explicit. */
+.study-abroad-search-results-grid .institution-card-logo-fallback {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    place-items: center;
+    border-radius: inherit;
+    color: #1c5da7;
+    background: #eef5ff;
+    font-size: 15px;
+    font-weight: 850;
+}
+.study-abroad-search-results-grid .institution-card-logo-fallback[hidden] { display: none !important; }
+.study-abroad-search-results-grid .study-abroad-institution-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 2px 15px 14px;
+    padding: 12px;
+    border: 1px solid #e2ebf6;
+    border-radius: 12px;
+    background: #f8fbff;
+}
+.study-abroad-search-results-grid .study-abroad-institution-facts > div { display: grid; align-content: start; gap: 4px; min-width: 0; }
+.study-abroad-search-results-grid .study-abroad-institution-facts span { color: #73859c; font-size: 10px; }
+.study-abroad-search-results-grid .study-abroad-institution-facts strong { color: #203755; font-size: 12px; line-height: 1.4; }
+.study-abroad-search-results-grid .study-abroad-institution-facts a { width: fit-content; color: #1765c1; font-size: 10px; text-decoration: underline; }
+.study-abroad-search-results-grid .study-abroad-institution-facts small { color: #77889e; font-size: 9px; line-height: 1.45; }
+@media (max-width: 640px) {
+    .study-abroad-search-results-grid .study-abroad-institution-facts { grid-template-columns: minmax(0, 1fr); }
+}

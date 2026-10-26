@@ -67,6 +67,15 @@ function getCountryMeta(code) {
     return COUNTRY_META[normalizedCode] ?? FALLBACK_META;
 }
 
+function getDirectoryOverview(institution, country) {
+    if (institution.overview) return institution.overview;
+
+    const institutionType = institution.type || "institution";
+    const location = institution.location || [institution.city, institution.state, country].filter(Boolean).join(", ") || country;
+    const founding = institution.established ? ` Its recorded founding year is ${institution.established}.` : "";
+
+    return `${institution.name} is listed in EduConnect as a ${institutionType.toLowerCase()} based in ${location}.${founding} Use this directory profile to compare its listed details with other destinations. Programme availability, admission requirements, campus services and fees vary by course and applicant; confirm current information with the institution before applying.`;
+}
 function buildDestinations(institutions) {
     const groups = new Map();
 
@@ -187,6 +196,8 @@ export default function StudyAbroadDestinations() {
                         <span class="study-abroad-section-eyebrow">INSTITUTION PROFILE</span>
                         <p class="institution-detail-country" data-institution-detail-country></p>
                         <h2 id="institution-detail-title" data-institution-detail-title></h2>
+                        <p class="institution-detail-overview" data-institution-detail-overview></p>
+                        <p class="institution-detail-confidence" data-institution-detail-confidence hidden></p>
                         <div class="institution-detail-fields" data-institution-detail-fields></div>
                         <p class="institution-detail-note">Tuition, living costs, rankings and scholarship figures in this directory are demo estimates. Confirm current details directly with the institution before applying.</p>
                         <button type="button" class="institution-detail-select" data-detail-select>Select this institution <span aria-hidden="true">→</span></button>
@@ -348,6 +359,8 @@ export default function StudyAbroadDestinations() {
             const detailDialog = sectionElement?.querySelector("[data-institution-detail-dialog]");
             const detailTitle = detailDialog?.querySelector("[data-institution-detail-title]");
             const detailCountry = detailDialog?.querySelector("[data-institution-detail-country]");
+            const detailOverview = detailDialog?.querySelector("[data-institution-detail-overview]");
+            const detailConfidence = detailDialog?.querySelector("[data-institution-detail-confidence]");
             const detailFields = detailDialog?.querySelector("[data-institution-detail-fields]");
             let pendingInstitutionSelection = null;
 
@@ -433,6 +446,15 @@ export default function StudyAbroadDestinations() {
                     pendingInstitutionSelection = { institution, country: destination.country };
                     detailTitle.textContent = institution.name || "Institution";
                     detailCountry.textContent = `${getCountryMeta(destination.code).flag} ${destination.country}`;
+                    detailOverview.textContent = getDirectoryOverview(institution, destination.country);
+                    detailOverview.dataset.verified = institution.overviewVerifiedAt && institution.overviewSources?.length ? "true" : "false";
+                    const confidenceLabels = {
+                        high: "High confidence · well-established facts",
+                        medium: "Medium confidence · verify details",
+                        low: "Low confidence · ambiguous; verify before publishing"
+                    };
+                    detailConfidence.textContent = confidenceLabels[institution.overviewConfidence] || "Confidence not rated";
+                    detailConfidence.hidden = !institution.overviewConfidence;
                     const rows = [
                         ["Location", [institution.city, institution.state, institution.location].filter(Boolean).join(", ")],
                         ["Institution type", institution.type], ["Established", institution.established],
@@ -443,6 +465,7 @@ export default function StudyAbroadDestinations() {
                         ["Verification", institution.verificationNote]
                     ].filter(([, value]) => value && String(value).trim());
                     detailFields.innerHTML = rows.map(([label, value]) => `<div class="institution-detail-field"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("") || "<p>More institution details will be added soon.</p>";
+                    dialog?.close();
                     detailDialog.showModal();
                     return;
                 }

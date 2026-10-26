@@ -2,6 +2,7 @@ import Header from "../layouts/header.js";
 import StudyAbroadNavbar from "../layouts/StudyAbroadNavbar.js";
 import FooterSection from "../components/home/footerSection.js";
 import InstitutionCard from "../components/common/InstitutionCard.js";
+import directoryData from "../data/study-abroad-university-directory.json";
 import {
     getInstitutions,
     searchStudyAbroad
@@ -12,6 +13,51 @@ import {
 
 import "../assets/css/study-abroad-details.css";
 import "../assets/css/study-abroad-search-results.css";
+const UNIVERSITY_METADATA = new Map(
+    (directoryData.countries || []).flatMap((country) => country.institutions || [])
+        .map((item) => [`${normalize(item.name)}|${normalize(item.country)}`, item])
+);
+
+function getUniversityMetadata(item) {
+    return UNIVERSITY_METADATA.get(
+        `${normalize(item.name)}|${normalize(canonicalCountry(item.country))}`
+    ) || UNIVERSITY_METADATA.get(`${normalize(item.name)}|${normalize(item.country)}`);
+}
+
+function formatAnnualTuition(metadata) {
+    if (!metadata || metadata.tuitionInrMin == null || metadata.tuitionInrMax == null) {
+        return "Check official fees";
+    }
+    const lakhsMin = metadata.tuitionInrMin / 100000;
+    const lakhsMax = metadata.tuitionInrMax / 100000;
+    const amount = lakhsMin === lakhsMax
+        ? `₹${lakhsMin.toFixed(2)} lakh`
+        : `₹${lakhsMin.toFixed(2)}–${lakhsMax.toFixed(2)} lakh`;
+    return `${amount} / year`;
+}
+
+function renderVerifiedFacts(metadata) {
+    const ranking = metadata?.ranking
+        ? `#${escapeHtml(metadata.ranking)}`
+        : "Ranking unavailable";
+    const tuition = formatAnnualTuition(metadata);
+    const academicYear = escapeHtml(metadata?.academicYear || "2026-2027");
+    const feeLevel = escapeHtml(metadata?.feeLevel || "Undergraduate");
+    const rankSource = metadata?.rankingSourceUrl
+        ? `<a href="${escapeHtml(metadata.rankingSourceUrl)}" target="_blank" rel="noopener noreferrer">Ranking source ↗</a>`
+        : "";
+    const feeSource = metadata?.feeSourceUrl
+        ? `<a href="${escapeHtml(metadata.feeSourceUrl)}" target="_blank" rel="noopener noreferrer">Official tuition source ↗</a>`
+        : "";
+    const conversion = metadata?.exchangeRate
+        ? `<small>Original: $${Number(metadata.tuitionFeeMin).toLocaleString("en-US")} USD · Converted at ₹${metadata.exchangeRate}/USD on ${escapeHtml(metadata.exchangeRateDate)}. Tuition only; fees and living costs excluded. <a href="${escapeHtml(metadata.exchangeRateSourceUrl)}" target="_blank" rel="noopener noreferrer">Rate source ↗</a></small>`
+        : `<small>Programme fees vary. Confirm current tuition directly with the institution.</small>`;
+
+    return `<div class="study-abroad-institution-facts">
+        <div><span>QS World University Rankings ${escapeHtml(metadata?.rankingYear || 2027)}</span><strong>${ranking}</strong>${rankSource}</div>
+        <div><span>Annual tuition · ${feeLevel} · ${academicYear}</span><strong>${escapeHtml(tuition)}</strong>${feeSource}${conversion}</div>
+    </div>`;
+}
 
 const COUNTRY_ALIASES = [
     ["United States", [
@@ -271,6 +317,8 @@ function renderInstitutionCard(item, index, bestMatchId) {
         .filter((value, i, values) => values.indexOf(value) === i)
         .join(", ");
 
+    const metadata = getUniversityMetadata(item);
+
     const card = InstitutionCard({
         type: "study-abroad-search-result",
         item: {
@@ -279,6 +327,9 @@ function renderInstitutionCard(item, index, bestMatchId) {
             category: escapeHtml(type),
             location: escapeHtml(location),
             image: escapeHtml(item.coverImageUrl || ""),
+            logo: metadata?.logoUrl || "",
+            logoAlt: escapeHtml(`${item.name || "Institution"} official logo`),
+            verifiedFacts: renderVerifiedFacts(metadata),
             program: item.popularCourses
                 ? `Popular courses: ${escapeHtml(item.popularCourses.split(";").map((course) => course.trim()).filter(Boolean).slice(0, 2).join(" · "))}`
                 : "",

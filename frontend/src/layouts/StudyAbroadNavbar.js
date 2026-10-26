@@ -1,5 +1,7 @@
 import { getInstitutions } from "../services/studyAbroadService.js";
 import localInstitutions from "../data/studyAbroadInstitutions.json";
+import universityDirectory from "../data/study-abroad-university-directory.json";
+import { getInstitutionLogoUrl } from "../utils/institutionLogo.js";
 
 /* =========================================================
    EDUCONNECT — STUDY ABROAD NAVBAR
@@ -843,6 +845,27 @@ async function loadCountryMenuInstitutions() {
     }
 }
 
+const VERIFIED_UNIVERSITY_FACTS = (universityDirectory.countries || [])
+    .flatMap((country) => country.institutions || [])
+    .filter((item) => item.metadataStatus === "verified")
+    .reduce((map, item) => {
+        map.set(`${item.name.trim().toLowerCase()}::${item.country.trim().toLowerCase()}`, item);
+        return map;
+    }, new Map());
+
+function countryListingMetadata(item) {
+    return VERIFIED_UNIVERSITY_FACTS.get(`${String(item.name || "").trim().toLowerCase()}::${String(item.country || "").trim().toLowerCase()}`);
+}
+
+function countryListingFacts(metadata) {
+    const rank = metadata?.ranking ? `${metadata.rankingOrganization} ${metadata.rankingYear}: ${metadata.ranking}` : "Ranking unavailable";
+    const fee = metadata?.tuitionInrMin
+        ? `Annual undergraduate tuition: ₹${(metadata.tuitionInrMin / 100000).toFixed(2)} lakh (2026–27)`
+        : "Check official fees";
+    const sources = [metadata?.rankingSourceUrl, metadata?.feeSourceUrl].filter(Boolean);
+    const sourceLinks = sources.map((url, index) => `<a href="${escapeCountryMenuText(url)}" target="_blank" rel="noopener noreferrer">${index === 0 ? "Ranking source" : "Tuition source"} ↗</a>`).join("");
+    return `<div class="edu-university-verified-facts"><span>${escapeCountryMenuText(rank)}</span><span>${escapeCountryMenuText(fee)}</span>${sourceLinks}</div>`;
+}
 function renderCountryMenuInstitutions(nav, institutions) {
         Object.entries(COUNTRY_MENU_LABELS).forEach(([key, destination]) => {
             const matches = institutions.filter((item) => destination.aliases.includes(
@@ -857,7 +880,12 @@ function renderCountryMenuInstitutions(nav, institutions) {
                 const type = String(item.type || "").toUpperCase();
                 const typeLabel = type === "UNIVERSITY" ? "University" : type === "COLLEGE" ? "College" : "Institution";
                 const initials = name.split(/\s+/).slice(0, 2).map((word) => word[0] || "").join("").toUpperCase();
-                return `<article class="edu-university-card"><div class="edu-university-card-top"><span class="edu-university-logo">${initials}</span><span class="edu-university-tag blue">${typeLabel}</span></div><h4>${name}</h4><p>${escapeCountryMenuText(destination.country)}</p><div class="edu-university-meta"><span>Study Abroad listing</span></div><a href="#study-abroad-institutions">View institution list <span>→</span></a></article>`;
+                const metadata = countryListingMetadata(item);
+                const logoUrl = getInstitutionLogoUrl({ ...item, logoUrl: metadata?.logoUrl });
+                const logo = logoUrl
+                    ? `<span class="edu-university-logo"><img src="${escapeCountryMenuText(logoUrl)}" alt="${name} logo" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span hidden>${initials}</span></span>`
+                    : `<span class="edu-university-logo">${initials}</span>`;
+                return `<article class="edu-university-card"><div class="edu-university-card-top">${logo}<span class="edu-university-tag blue">${typeLabel}</span></div><h4>${name}</h4><p>${escapeCountryMenuText(destination.country)}</p><div class="edu-university-meta"><span>Study Abroad listing</span></div>${countryListingFacts(metadata)}<a href="#study-abroad-institutions">View institution list <span>→</span></a></article>`;
             }).join("") : `<p class="edu-country-list-empty">No institutions are listed for ${escapeCountryMenuText(destination.country)} yet.</p>`;
         });
 }
