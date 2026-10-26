@@ -2426,24 +2426,100 @@
 
 .edu-university-verified-facts {
     display: grid;
-    gap: 6px;
-    margin-top: 12px;
-    padding: 10px 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+    padding: 10px;
     color: #53657d;
-    background: #f4f8ff;
+    background: #f7faff;
     border: 1px solid #dce8f8;
-    border-radius: 10px;
-    font-size: 11px;
-    line-height: 1.45;
+    border-radius: 12px;
 }
 
-.edu-university-verified-facts a {
+.edu-university-fact {
+    display: grid;
+    align-content: start;
+    gap: 5px;
+    min-width: 0;
+    min-height: 58px;
+    padding: 9px 10px;
+    border: 1px solid #e5edf8;
+    border-radius: 9px;
+    background: #fff;
+}
+
+.edu-university-fact > span {
+    color: #71839a;
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.edu-university-fact > strong {
+    color: #243b59;
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.edu-university-fact-sources {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 2px 2px 0;
+}
+
+.edu-university-fact-sources a {
     width: fit-content;
     color: var(--edu-primary);
+    font-size: 11px;
     font-weight: 700;
     text-decoration: none;
 }
 
-.edu-university-verified-facts a:hover {
-    text-decoration: underline;
+.edu-university-fact-sources a:hover { text-decoration: underline; }
+
+@media (max-width: 560px) {
+    .edu-university-verified-facts { grid-template-columns: minmax(0, 1fr); }
+    .edu-university-fact-sources { grid-column: 1; }
+}
+
+
+/* Keep ranking and tuition tiles inside their country-menu cards. */
+.edu-university-grid {
+    grid-auto-rows: min-content;
+    align-items: stretch;
+}
+
+.edu-university-grid .edu-university-card {
+    box-sizing: border-box;
+    height: auto;
+    min-height: 330px;
+    align-self: stretch;
+    overflow: visible;
+}
+
+.edu-university-grid .edu-university-verified-facts {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+}
+
+.edu-university-grid .edu-university-fact {
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+.edu-university-grid .edu-university-fact > strong {
+    overflow-wrap: anywhere;
+}
+
+.edu-university-grid .edu-university-card > a {
+    margin-top: 12px;
+}
+
+@media (max-width: 560px) {
+    .edu-university-grid .edu-university-card { min-height: 0; }
 }

@@ -864,7 +864,7 @@ function countryListingFacts(metadata) {
         : "Check official fees";
     const sources = [metadata?.rankingSourceUrl, metadata?.feeSourceUrl].filter(Boolean);
     const sourceLinks = sources.map((url, index) => `<a href="${escapeCountryMenuText(url)}" target="_blank" rel="noopener noreferrer">${index === 0 ? "Ranking source" : "Tuition source"} ↗</a>`).join("");
-    return `<div class="edu-university-verified-facts"><span>${escapeCountryMenuText(rank)}</span><span>${escapeCountryMenuText(fee)}</span>${sourceLinks}</div>`;
+    return `<div class="edu-university-verified-facts"><div class="edu-university-fact"><span>World ranking</span><strong>${escapeCountryMenuText(rank)}</strong></div><div class="edu-university-fact"><span>Annual tuition</span><strong>${escapeCountryMenuText(fee.replace("Annual undergraduate tuition: ", ""))}</strong></div></div>`;
 }
 function renderCountryMenuInstitutions(nav, institutions) {
         Object.entries(COUNTRY_MENU_LABELS).forEach(([key, destination]) => {
@@ -885,7 +885,7 @@ function renderCountryMenuInstitutions(nav, institutions) {
                 const logo = logoUrl
                     ? `<span class="edu-university-logo"><img src="${escapeCountryMenuText(logoUrl)}" alt="${name} logo" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span hidden>${initials}</span></span>`
                     : `<span class="edu-university-logo">${initials}</span>`;
-                return `<article class="edu-university-card"><div class="edu-university-card-top">${logo}<span class="edu-university-tag blue">${typeLabel}</span></div><h4>${name}</h4><p>${escapeCountryMenuText(destination.country)}</p><div class="edu-university-meta"><span>Study Abroad listing</span></div>${countryListingFacts(metadata)}<a href="#study-abroad-institutions">View institution list <span>→</span></a></article>`;
+                return `<article class="edu-university-card"><div class="edu-university-card-top">${logo}<span class="edu-university-tag blue">${typeLabel}</span></div><h4>${name}</h4><p>${escapeCountryMenuText(destination.country)}</p>${countryListingFacts(metadata)}</article>`;
             }).join("") : `<p class="edu-country-list-empty">No institutions are listed for ${escapeCountryMenuText(destination.country)} yet.</p>`;
         });
 }
@@ -2732,3 +2732,5 @@ export default function StudyAbroadNavbar() {
     `;
 
 }
+
+

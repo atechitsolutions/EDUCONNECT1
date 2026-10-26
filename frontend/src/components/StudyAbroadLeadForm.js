@@ -261,98 +261,6 @@ export default function StudyAbroadLeadForm() {
                             </div>
 
 
-                            <!-- ==================================================
-                                 CURRENT EDUCATION
-                            =================================================== -->
-
-                            <div class="study-abroad-form-row">
-
-                                <div class="study-abroad-form-field">
-
-                                    <label for="study-abroad-education">
-                                        Current education *
-                                    </label>
-
-                                    <select
-                                        id="study-abroad-education"
-                                        name="education"
-                                        required
-                                    >
-
-                                        <option value="">
-                                            Select
-                                        </option>
-
-                                        <option value="12th">
-                                            Class 12
-                                        </option>
-
-                                        <option value="bachelors">
-                                            Bachelor's
-                                        </option>
-
-                                        <option value="masters">
-                                            Master's
-                                        </option>
-
-                                        <option value="working-professional">
-                                            Working professional
-                                        </option>
-
-                                        <option value="other">
-                                            Other
-                                        </option>
-
-                                    </select>
-
-                                </div>
-
-
-                                <div class="study-abroad-form-field">
-
-                                    <label for="study-abroad-graduation">
-                                        Graduation year
-                                    </label>
-
-                                    <select
-                                        id="study-abroad-graduation"
-                                        name="graduationYear"
-                                    >
-
-                                        <option value="">
-                                            Select
-                                        </option>
-
-                                        <option value="2026">
-                                            2026
-                                        </option>
-
-                                        <option value="2027">
-                                            2027
-                                        </option>
-
-                                        <option value="2028">
-                                            2028
-                                        </option>
-
-                                        <option value="2029">
-                                            2029
-                                        </option>
-
-                                        <option value="2030">
-                                            2030
-                                        </option>
-
-                                        <option value="later">
-                                            Later
-                                        </option>
-
-                                    </select>
-
-                                </div>
-
-                            </div>
-
 
                             <!-- ==================================================
                                  DESTINATION
@@ -414,126 +322,12 @@ export default function StudyAbroadLeadForm() {
                             </div>
 
                             <div class="study-abroad-form-field">
-                                <label for="study-abroad-institution">
-                                    Preferred university / institution
-                                </label>
-                                <input
-                                    id="study-abroad-institution"
-                                    name="institution"
-                                    type="text"
-                                    placeholder="Choose an institution or enter one"
-                                    autocomplete="organization"
-                                />
-                            </div>
 
-
-                            <!-- ==================================================
-                                 COURSE
-                            =================================================== -->
-
-                            <div class="study-abroad-form-field">
-
-                                <label for="study-abroad-course">
-                                    Preferred course / field
-                                </label>
-
-                                <select
-                                    id="study-abroad-course"
-                                    name="course"
-                                >
-
-                                    <option value="">
-                                        Select field
-                                    </option>
-
-                                    <option value="computer-science">
-                                        Computer Science
-                                    </option>
-
-                                    <option value="data-science">
-                                        Data Science & AI
-                                    </option>
-
-                                    <option value="engineering">
-                                        Engineering
-                                    </option>
-
-                                    <option value="business">
-                                        Business & Management
-                                    </option>
-
-                                    <option value="finance">
-                                        Finance & Economics
-                                    </option>
-
-                                    <option value="health">
-                                        Health & Life Sciences
-                                    </option>
-
-                                    <option value="design">
-                                        Design & Creative Arts
-                                    </option>
-
-                                    <option value="hospitality">
-                                        Hospitality & Tourism
-                                    </option>
-
-                                    <option value="other">
-                                        Other
-                                    </option>
-
-                                </select>
 
                             </div>
 
 
-                            <!-- ==================================================
-                                 STUDY LEVEL
-                            =================================================== -->
 
-                            <div class="study-abroad-form-field">
-
-                                <label for="study-abroad-degree">
-                                    Desired study level
-                                </label>
-
-                                <select
-                                    id="study-abroad-degree"
-                                    name="degree"
-                                >
-
-                                    <option value="">
-                                        Select level
-                                    </option>
-
-                                    <option value="bachelors">
-                                        Bachelor's
-                                    </option>
-
-                                    <option value="masters">
-                                        Master's
-                                    </option>
-
-                                    <option value="mba">
-                                        MBA
-                                    </option>
-
-                                    <option value="phd">
-                                        PhD
-                                    </option>
-
-                                    <option value="diploma">
-                                        Diploma / Certificate
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-
-                            <!-- ==================================================
-                                 BUDGET
-                            =================================================== -->
 
 
                             <!-- ==================================================
@@ -608,7 +402,7 @@ export default function StudyAbroadLeadForm() {
                             >
 
                                 <span>
-                                    Request free counselling
+                                    Get free counselling
                                 </span>
 
                                 <span aria-hidden="true">

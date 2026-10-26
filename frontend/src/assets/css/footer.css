@@ -381,15 +381,17 @@
 .site-footer::before {
     content: "";
     position: absolute;
+
     inset: 0;
     z-index: -1;
     pointer-events: none;
     background-image:
-        linear-gradient(180deg, rgba(15, 39, 66, .98) 0%, rgba(15, 39, 66, .96) 46%, rgba(15, 39, 66, .78) 76%, rgba(15, 39, 66, .56) 100%),
+        linear-gradient(180deg, rgba(15, 39, 66, .98) 0%, rgba(15, 39, 66, .96) 0%, rgba(15, 39, 66, .78) 0%, rgba(15, 39, 66, .56) 0%),
         url("/images/educonnect-international-skyline.png");
     background-position: center, center bottom;
+    background-position: center calc(100% + 59px);
     background-repeat: no-repeat;
-    background-size: 100% 100%, 100% auto;
+    background-size: 100% 100%, 115% auto;
 }
 
 .footer-highlight {
