@@ -2,6 +2,7 @@ import { getInstitutions } from "../services/studyAbroadService.js";
 import localInstitutions from "../data/studyAbroadInstitutions.json";
 import universityDirectory from "../data/study-abroad-university-directory.json";
 import { getInstitutionLogoUrl } from "../utils/institutionLogo.js";
+import { openInstitutionDetails } from "../components/studyAbroad/InstitutionDetailsModals.js";
 
 /* =========================================================
    EDUCONNECT — STUDY ABROAD NAVBAR
@@ -834,6 +835,16 @@ async function loadCountryMenuInstitutions() {
             item.active === true && item.studyAbroadEnabled === true
         ) : localInstitutions;
         renderCountryMenuInstitutions(nav, institutions);
+        if (nav.dataset.countryDetailsBound !== "true") {
+            nav.dataset.countryDetailsBound = "true";
+            nav.addEventListener("click", (event) => {
+                const button = event.target.closest("[data-country-institution-details]");
+                if (!button || !nav.contains(button)) return;
+                const card = button.closest("[data-country-institution-id]");
+                const institution = institutions.find((item) => String(item.id) === card?.dataset.countryInstitutionId);
+                if (institution) openInstitutionDetails(institution);
+            });
+        }
     } catch (error) {
         renderCountryMenuInstitutions(nav, localInstitutions);
         nav.querySelectorAll("[data-country-list-count]").forEach((count) => {
@@ -885,7 +896,7 @@ function renderCountryMenuInstitutions(nav, institutions) {
                 const logo = logoUrl
                     ? `<span class="edu-university-logo"><img src="${escapeCountryMenuText(logoUrl)}" alt="${name} logo" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span hidden>${initials}</span></span>`
                     : `<span class="edu-university-logo">${initials}</span>`;
-                return `<article class="edu-university-card"><div class="edu-university-card-top">${logo}<span class="edu-university-tag blue">${typeLabel}</span></div><h4>${name}</h4><p>${escapeCountryMenuText(destination.country)}</p>${countryListingFacts(metadata)}</article>`;
+                return `<article class="edu-university-card" data-country-institution-id="${escapeCountryMenuText(item.id)}"><div class="edu-university-card-top">${logo}<span class="edu-university-tag blue">${typeLabel}</span></div><h4>${name}</h4><p>${escapeCountryMenuText(destination.country)}</p>${countryListingFacts(metadata)}<button type="button" class="edu-university-card-details" data-country-institution-details>View details <span>→</span></button></article>`;
             }).join("") : `<p class="edu-country-list-empty">No institutions are listed for ${escapeCountryMenuText(destination.country)} yet.</p>`;
         });
 }
@@ -2732,5 +2743,7 @@ export default function StudyAbroadNavbar() {
     `;
 
 }
+
+
 
 

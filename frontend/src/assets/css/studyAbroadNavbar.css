@@ -2523,3 +2523,28 @@
 @media (max-width: 560px) {
     .edu-university-grid .edu-university-card { min-height: 0; }
 }
+
+.edu-university-grid .edu-university-card-details {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px 14px;
+    border: 1px solid #cfe0f5;
+    border-radius: 10px;
+    background: #f4f8ff;
+    color: var(--edu-primary, #2167d5);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 750;
+    cursor: pointer;
+    transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+.edu-university-grid .edu-university-card-details:hover {
+    border-color: #9fc3f3;
+    background: #eaf2ff;
+    transform: translateY(-1px);
+}
+.edu-university-grid .edu-university-card-details span { font-size: 17px; }
