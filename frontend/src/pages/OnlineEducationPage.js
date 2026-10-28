@@ -6,6 +6,7 @@ import renderOnlineEducationLeadForm, {
   bindOnlineEducationLeadForm
 } from "../components/onlineeducationleadform.js";
 
+
 const levels = [
     "School",
     "Diploma",
@@ -173,6 +174,7 @@ export default function OnlineEducationPage() {
             </div>
           </div>
         </section>
+
 
         <section class="oe-section oe-level-section" id="oe-levels">
           <div class="oe-container">
@@ -576,6 +578,7 @@ export default function OnlineEducationPage() {
                   id="oe-programme-results"
                   aria-live="polite"
                 ></div>
+
                 <button
                     type="button"
                     id="oe-load-more"
