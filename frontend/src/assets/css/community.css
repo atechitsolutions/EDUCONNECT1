@@ -354,3 +354,230 @@
 .community-hero-photo .community-float-card { right: 12px; bottom: 38px; }
 @media (max-width: 900px) { .community-hero-photo { width: min(100%, 620px); height: 260px; justify-self: center; } }
 @media (max-width: 600px) { .community-hero-photo { height: 205px; border-radius: 18px; } .community-hero-photo .community-float-card { right: 8px; bottom: 34px; max-width: calc(100% - 16px); } }
+
+/* Remove blue background and border around chat images */
+.community-group-message.is-own .community-group-bubble,
+.community-group-bubble {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 8px;
+}
+
+/* Show the complete image without cropping */
+.community-group-message-image {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    max-height: 360px;
+    object-fit: contain;
+    object-position: center;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+/* Restore normal text message bubbles */
+.community-group-bubble {
+    padding: 11px 14px 8px;
+    border: 1px solid #e1eaf5;
+    border-radius: 15px 15px 15px 4px;
+    color: #2b405e;
+    background: #f3f7fd;
+    box-shadow: 0 2px 0 rgba(215, 228, 244, 0.72);
+}
+
+/* Restore the outgoing text message bubble */
+.community-group-message.is-own .community-group-bubble {
+    border-color: #b8d2fb;
+    border-radius: 15px 15px 4px 15px;
+    color: #fff;
+    background: linear-gradient(135deg, #2768df, #4b8df3);
+    box-shadow: 0 3px 0 #1f55ae;
+}
+
+/* Images: no blue background or border */
+.community-group-message-image {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    max-height: 360px;
+    object-fit: contain;
+    object-position: center;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    box-shadow: none;
+}
+
+/* Prevent image-only bubbles from adding blue styling */
+.community-group-bubble:has(.community-group-message-image) {
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Remove blue styling ONLY from image message bubbles */
+.community-group-bubble:has(.community-group-message-image) {
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Keep the image fully visible without cropping */
+.community-group-bubble:has(.community-group-message-image)
+.community-group-message-image {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    max-height: 360px;
+    object-fit: contain;
+    object-position: center;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    box-shadow: none;
+}
+
+/* Preserve blue styling for text messages */
+.community-group-message.is-own
+.community-group-bubble:not(:has(.community-group-message-image)) {
+    color: #fff;
+    background: linear-gradient(135deg, #2768df, #4b8df3);
+    border: 1px solid #b8d2fb;
+    box-shadow: 0 3px 0 #1f55ae;
+}
+
+/* Make outgoing text messages fit their content */
+.community-group-message.is-own:not(:has(.community-group-message-image)) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    align-self: flex-end;
+    width: fit-content;
+    max-width: 84%;
+}
+
+/* Remove full-width stretching from the text bubble */
+.community-group-message.is-own:not(:has(.community-group-message-image)) .community-group-message-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: fit-content;
+    max-width: 100%;
+}
+
+/* Blue background should wrap only the text */
+.community-group-message.is-own:not(:has(.community-group-message-image)) .community-group-bubble {
+    display: inline-grid;
+    width: fit-content;
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 9px 12px 7px;
+}
+
+/* Keep the text and timestamp properly sized */
+.community-group-message.is-own:not(:has(.community-group-message-image)) .community-group-bubble p {
+    width: auto;
+    max-width: 100%;
+    margin: 0;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.community-group-message.is-own:not(:has(.community-group-message-image)) .community-group-bubble time {
+    justify-self: end;
+}
+
+/* Compact reaction picker */
+.community-group-message-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.community-group-reactions {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Hide the emoji list until opened */
+.community-group-reactions.is-collapsed {
+    display: none;
+}
+
+/* Single emoji toggle button */
+.community-reaction-toggle {
+    display: inline-flex;
+    width: 36px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d7e5f8;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 2px 0 #e3ecf8;
+    font-size: 17px;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.community-reaction-toggle:hover {
+    background: #edf5ff;
+    transform: translateY(-1px);
+}
+
+/* Responsive emoji panel */
+@media (max-width: 600px) {
+    .community-group-reactions {
+        flex-wrap: wrap;
+        max-width: 220px;
+    }
+}
+
+/* Compact reaction picker */
+.community-group-message-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.community-reaction-toggle {
+    display: inline-flex;
+    width: 34px;
+    height: 30px;
+    flex: 0 0 34px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid #dce7f5;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.community-reaction-toggle:hover {
+    background: #edf5ff;
+}
+
+.community-group-reactions.is-collapsed {
+    display: none !important;
+}
+
+.community-group-reactions:not(.is-collapsed) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+}
