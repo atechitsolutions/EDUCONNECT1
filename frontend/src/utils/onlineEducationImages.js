@@ -10,10 +10,132 @@
  * No random subject images or generic Unsplash images are used.
  */
 
+
 const INSTITUTION_IMAGES = {
+"the open university": {
+  imageUrl: "https://i.pinimg.com/236x/8e/24/d2/8e24d28dad9d62db7b214b8c5ffe4e7d.jpg",
+  imageAlt: "The Open University campus and learning facilities",
+  imageSource: "campus"
+},
+"open university uk": {
+  imageUrl: "/images/the-open-university-campus.jpg",
+  imageAlt: "The Open University campus and learning facilities",
+  imageSource: "campus"
+},
+
+"khan academy": {
+  imageUrl: "https://i.pinimg.com/736x/20/74/e4/2074e4ac7bb925622a41d8988779a9f9.jpg",
+  imageAlt: "Khan Academy online learning platform",
+  imageSource: "campus"
+},
+"paris school of business": {
+  imageUrl: "https://i.pinimg.com/1200x/6e/6f/aa/6e6faa3c97b07e233adb0525d5594495.jpg",
+  imageAlt: "Paris School of Business campus in Paris, France",
+  imageSource: "campus"
+},
+
+"edgewood university": {
+  imageUrl: "https://i.pinimg.com/1200x/5a/13/a1/5a13a11c184478c577e489661c6dce71.jpg",
+  imageAlt: "Edgewood University campus",
+  imageSource: "campus"
+},
+"mit open learning": {
+  imageUrl: "https://i.pinimg.com/1200x/81/99/4d/81994dfc9fab231b5f93b368aebdd997.jpg",
+  imageAlt: "MIT Open Learning educational programs",
+  imageSource: "campus"
+},
+"massachusetts institute of technology open learning": {
+  imageUrl: "/images/mit-open-learning.jpg",
+  imageAlt: "MIT Open Learning educational programs",
+  imageSource: "campus"
+},
+
+"o.p. jindal global university": {
+  imageUrl: "https://i.pinimg.com/736x/51/3c/27/513c2739e127b4ebf2d7b8c92c292e70.jpg",
+  imageAlt: "O.P. Jindal Global University campus",
+  imageSource: "campus"
+},
+"op jindal global university": {
+  imageUrl: "/images/op-jindal-global-university-campus.jpg",
+  imageAlt: "O.P. Jindal Global University campus",
+  imageSource: "campus"
+},
+
+  "golden gate university": {
+    imageUrl: "https://i.pinimg.com/1200x/61/f4/85/61f4859868d044ca6515541563904eca.jpg",
+    imageAlt: "Golden Gate University campus",
+    imageSource: "campus"
+  },
+
+  "ggu": {
+    imageUrl: "/images/golden-gate-university-campus.jpg",
+    imageAlt: "Golden Gate University campus",
+    imageSource: "campus"
+  },
+
+  "liverpool john moores university": {
+    imageUrl: "https://i.pinimg.com/1200x/2b/8b/52/2b8b52efbdb0e87e5888f45e2eb7cdc2.jpg",
+    imageAlt: "Liverpool John Moores University campus",
+    imageSource: "campus"
+  },
+
+  "ljmu": {
+    imageUrl: "/images/liverpool-john-moores-university-campus.jpg",
+    imageAlt: "Liverpool John Moores University campus",
+    imageSource: "campus"
+  },
+
+  "iim kozhikode": {
+    imageUrl: "https://i.pinimg.com/1200x/70/4f/23/704f2316d5e99cbbd46f2d9087be3dc6.jpg",
+    imageAlt: "Indian Institute of Management Kozhikode campus",
+    imageSource: "campus"
+  },
+
+  "indian institute of management kozhikode": {
+    imageUrl: "/images/iim-kozhikode-campus.jpg",
+    imageAlt: "Indian Institute of Management Kozhikode campus",
+    imageSource: "campus"
+  },
+  "iit kharagpur": {
+    imageUrl: "https://i.pinimg.com/1200x/c9/83/04/c9830475a3020645c30732308c983375.jpg",
+    imageAlt: "Indian Institute of Technology Kharagpur campus",
+    imageSource: "campus"
+  },
+
+  "indian institute of technology kharagpur": {
+    imageUrl: "/images/iit-kharagpur-campus.jpg",
+    imageAlt: "Indian Institute of Technology Kharagpur campus",
+    imageSource: "campus"
+  },
+
+
+  "iit kanpur": {
+    imageUrl: "https://i.pinimg.com/736x/ae/78/a8/ae78a8c07798621226d7e47381338d89.jpg",
+    imageAlt: "Indian Institute of Technology Kanpur campus",
+    imageSource: "campus"
+  },
+
+  "indian institute of technology kanpur": {
+    imageUrl: "/images/iit-kanpur-campus.jpg",
+    imageAlt: "Indian Institute of Technology Kanpur campus",
+    imageSource: "campus"
+  },
+
+
+  "iit delhi": {
+    imageUrl: "https://i.pinimg.com/1200x/a5/23/a9/a523a95306b42bdaa383c29ee29fc614.jpg",
+    imageAlt: "Indian Institute of Technology Delhi campus building",
+    imageSource: "campus"
+  },
+
+  "indian institute of technology delhi": {
+    imageUrl: "/images/iit-delhi-campus.png",
+    imageAlt: "Indian Institute of Technology Delhi campus building",
+    imageSource: "campus"
+  },
   "iiit bangalore": {
     imageUrl:
-      "https://sclab.iiitb.ac.in/wp-content/uploads/2022/12/Picture1-2-396x360.jpg",
+      "https://images.unsplash.com/photo-1772355149651-4d4cc90c5ca5?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
     imageAlt: "International Institute of Information Technology Bangalore campus",
     imageSource: "campus"
   },

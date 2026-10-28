@@ -725,3 +725,201 @@
         grid-template-columns: minmax(0, 1fr);
     }
 }
+/* ONLINE EDUCATION — SINGLE-LINE COMPACT FILTERS */
+
+#oe-programmes .oe-filter-panel,
+#oe-programmes .oe-filters,
+.oe-filter-panel,
+.oe-filters {
+  padding: 10px 14px !important;
+  margin: 8px 0 !important;
+}
+
+#oe-programmes .oe-filter-panel h2,
+#oe-programmes .oe-filters h2,
+.oe-filter-panel h2,
+.oe-filters h2 {
+  font-size: 16px !important;
+  margin: 0 0 8px !important;
+}
+
+/* Keep filters in one horizontal row */
+#oe-programmes .oe-filter-grid,
+.oe-filter-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+}
+
+/* Hide the last three filter controls */
+#oe-programmes .oe-filter-grid > :nth-child(n + 5),
+.oe-filter-grid > :nth-child(n + 5) {
+  display: none !important;
+}
+
+/* Compact labels */
+#oe-programmes .oe-filter-grid label,
+.oe-filter-grid label {
+  font-size: 11px !important;
+  margin: 0 0 3px !important;
+}
+
+/* Compact dropdowns */
+#oe-programmes .oe-filter-grid select,
+.oe-filter-grid select {
+  height: 34px !important;
+  min-height: 34px !important;
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 700px) {
+  #oe-programmes .oe-filter-grid,
+  .oe-filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}/* ONLINE EDUCATION — ALL FILTERS IN ONE HORIZONTAL LINE */
+
+ #oe-programmes .oe-filter-panel,
+ #oe-programmes .oe-filters,
+ #oe-programmes .oe-filter-card,
+ .oe-filter-panel,
+ .oe-filters,
+ .oe-filter-card {
+   padding: 12px 14px !important;
+   margin: 8px 0 !important;
+ }
+
+ #oe-programmes .oe-filter-grid,
+ .oe-filter-grid {
+   display: grid !important;
+   grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+   gap: 8px !important;
+   align-items: end !important;
+ }
+
+ /* Keep every filter visible */
+ #oe-programmes .oe-filter-grid > *,
+ .oe-filter-grid > * {
+   display: block !important;
+   min-width: 0 !important;
+   margin: 0 !important;
+ }
+
+ /* Compact labels */
+ #oe-programmes .oe-filter-grid label,
+ .oe-filter-grid label {
+   display: block !important;
+   font-size: 10px !important;
+   line-height: 1.2 !important;
+   margin-bottom: 4px !important;
+ }
+
+ /* Compact dropdowns */
+ #oe-programmes .oe-filter-grid select,
+ .oe-filter-grid select,
+ #oe-programmes .oe-filter-grid input,
+ .oe-filter-grid input {
+   width: 100% !important;
+   min-width: 0 !important;
+   height: 34px !important;
+   min-height: 34px !important;
+   padding: 4px 6px !important;
+   font-size: 11px !important;
+   border-radius: 7px !important;
+   box-sizing: border-box !important;
+ }
+
+ /* Keep the filter heading compact */
+ #oe-programmes .oe-filter-panel h2,
+ #oe-programmes .oe-filters h2,
+ .oe-filter-panel h2,
+ .oe-filters h2 {
+   font-size: 16px !important;
+   margin: 0 0 8px !important;
+ }
+
+ /* Smaller screens: allow horizontal scrolling instead of hiding filters */
+ @media (max-width: 1000px) {
+   #oe-programmes .oe-filter-grid,
+   .oe-filter-grid {
+     display: flex !important;
+     flex-wrap: nowrap !important;
+     overflow-x: auto !important;
+     gap: 8px !important;
+     padding-bottom: 6px !important;
+   }
+
+   #oe-programmes .oe-filter-grid > *,
+   .oe-filter-grid > * {
+     flex: 0 0 145px !important;
+   }
+ }/* ONLINE EDUCATION — FORCE ALL FILTERS INTO ONE ROW */
+
+  #oe-programmes {
+    scroll-margin-top: 20px;
+  }
+
+  #oe-programmes .oe-filter-grid,
+  #oe-programmes .oe-filter-fields,
+  #oe-programmes .oe-filters-grid,
+  #oe-programmes .oe-filter-controls,
+  #oe-programmes .oe-filter-form {
+    display: grid !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    align-items: end !important;
+    gap: 10px !important;
+  }
+
+  #oe-programmes label,
+  #oe-programmes .oe-filter-group,
+  #oe-programmes .oe-filter-field,
+  #oe-programmes .oe-filter-control {
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+
+  #oe-programmes label {
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+
+  #oe-programmes select,
+  #oe-programmes input {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    padding: 4px 6px !important;
+    margin-top: 4px !important;
+    font-size: 11px !important;
+    box-sizing: border-box !important;
+  }
+
+  #oe-programmes .oe-filter-panel,
+  #oe-programmes .oe-filters,
+  #oe-programmes .oe-filter-card {
+    padding: 12px !important;
+  }
+
+  @media (max-width: 900px) {
+    #oe-programmes .oe-filter-grid,
+    #oe-programmes .oe-filter-fields,
+    #oe-programmes .oe-filters-grid,
+    #oe-programmes .oe-filter-controls,
+    #oe-programmes .oe-filter-form {
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+    }
+
+    #oe-programmes .oe-filter-grid > *,
+    #oe-programmes .oe-filter-fields > *,
+    #oe-programmes .oe-filters-grid > *,
+    #oe-programmes .oe-filter-controls > *,
+    #oe-programmes .oe-filter-form > * {
+      flex: 0 0 145px !important;
+    }
+  }
