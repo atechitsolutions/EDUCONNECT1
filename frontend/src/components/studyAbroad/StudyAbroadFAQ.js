@@ -63,23 +63,9 @@ export default function StudyAbroadFaq() {
 
             answer:
                 "Costs vary by destination, city, university, course and study duration. Compare tuition and living expenses, then confirm current fees with the university and consult official sources before setting your budget."
-        },
-
-        {
-            question:
-                "Can Indian students get scholarships to study abroad?",
-
-            answer:
-                "Scholarship eligibility, funding and deadlines vary by university, course and provider. Check the official scholarship and university pages for current requirements and deadlines; awards are not guaranteed."
-        },
-
-        {
-            question:
-                "What should Indian students check before applying to study in Germany?",
-
-            answer:
-                "Check whether your academic qualification meets the chosen university’s entry requirements, confirm the programme’s language requirements and review the current APS guidance from the German Missions in India. Requirements depend on your qualifications and programme, so verify them with the university and official sources."
         }
+
+
 
 
     ];
@@ -111,9 +97,7 @@ export default function StudyAbroadFaq() {
                             Study Abroad from India: Admissions, Costs & Scholarships
                         </h2>
 
-                        <p>
-                            Get answers to common questions about choosing a country, applying to universities abroad, scholarships for Indian students, tuition and living costs, language tests and student visa planning.
-                        </p>
+
 
                     </div>
 
@@ -134,61 +118,7 @@ export default function StudyAbroadFaq() {
                      FAQ LAYOUT
                 =================================================== -->
 
-                <div class="study-abroad-faq-layout">
 
-
-                    <!-- CATEGORY NAVIGATION -->
-
-                    <aside
-                        class="study-abroad-faq-sidebar"
-                        aria-label="FAQ categories"
-                    >
-
-                        <span>
-                            EXPLORE TOPICS
-                        </span>
-
-                        <button
-                            type="button"
-                            class="study-abroad-faq-category active"
-                            data-faq-category="all"
-                        >
-                            All questions
-                        </button>
-
-                        <button
-                            type="button"
-                            class="study-abroad-faq-category"
-                            data-faq-category="planning"
-                        >
-                            Planning
-                        </button>
-
-                        <button
-                            type="button"
-                            class="study-abroad-faq-category"
-                            data-faq-category="admission"
-                        >
-                            Admissions
-                        </button>
-
-                        <button
-                            type="button"
-                            class="study-abroad-faq-category"
-                            data-faq-category="finance"
-                        >
-                            Scholarships & finance
-                        </button>
-
-                        <button
-                            type="button"
-                            class="study-abroad-faq-category"
-                            data-faq-category="visa"
-                        >
-                            Visa & travel
-                        </button>
-
-                    </aside>
 
 
                     <!-- QUESTIONS -->
@@ -304,12 +234,7 @@ export default function StudyAbroadFaq() {
 
 
 
-                    <p>
-                        Before submitting an application, verify current
-                        academic, financial, admission and visa requirements
-                        using the official sources provided by the relevant
-                        university, test provider or government authority.
-                    </p>
+
 
                 </div>
 

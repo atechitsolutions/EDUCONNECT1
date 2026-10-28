@@ -195,9 +195,7 @@ export default function CountryComparison() {
                         Compare Study Abroad <span>Destinations</span>
                     </h2>
 
-                    <p>
-                        Compare popular study abroad destinations for Indian students. Review university options, common course areas and indicative tuition, then check current admission requirements, fees and visa guidance with each university and official authority.
-                    </p>
+
                 </header>
 
                 <div
@@ -304,15 +302,6 @@ export default function CountryComparison() {
                     `).join("")}
                 </div>
 
-                <footer class="study-abroad-country-comparison-footer">
-                    <a
-                        href="#edu-study-nav"
-                        class="country-comparison-button"
-                        data-open-destinations
-                    >
-                        Explore Destinations →
-                    </a>
-                </footer>
 
             </div>
         </section>

@@ -110,11 +110,7 @@ export default function AbroadScholarships() {
                     </h2>
 
 
-                    <p>
 
-                        Search for scholarships to study abroad by destination, university, course and study level. Eligibility, funding and deadlines vary by award, so confirm current terms on the official scholarship or university website before applying.
-
-                    </p>
 
 
                 </div>
@@ -124,58 +120,6 @@ export default function AbroadScholarships() {
                      SCHOLARSHIP FILTERS
                 ================================================== -->
 
-                <div class="study-abroad-scholarship-filters">
-
-
-                    <button
-                        type="button"
-                        class="scholarship-filter active"
-                    >
-                        All Scholarships
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="scholarship-filter"
-                    >
-                        USA
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="scholarship-filter"
-                    >
-                        UK
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="scholarship-filter"
-                    >
-                        Canada
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="scholarship-filter"
-                    >
-                        Australia
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="scholarship-filter"
-                    >
-                        Europe
-                    </button>
-
-
-                </div>
 
 
                 <!-- =================================================
@@ -383,18 +327,7 @@ export default function AbroadScholarships() {
                     </div>
 
 
-                    <button
-                        type="button"
-                        class="study-abroad-view-scholarships-button"
-                    >
 
-                        View All Scholarships
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
 
 
                 </div>

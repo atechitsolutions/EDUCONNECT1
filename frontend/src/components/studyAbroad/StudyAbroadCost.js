@@ -192,11 +192,6 @@ export default function StudyAbroadCost() {
                     </h2>
 
 
-                    <p>
-
-                        Estimate the cost of studying abroad from India by comparing tuition, accommodation and living expenses across destinations. Actual costs vary by university, course, city and study duration; confirm current fees with the university and official sources before applying.
-
-                    </p>
 
 
                 </div>
@@ -206,42 +201,7 @@ export default function StudyAbroadCost() {
                      COST FILTERS
                 ================================================== -->
 
-                <div class="study-abroad-cost-filters">
 
-
-                    <button
-                        type="button"
-                        class="cost-filter active"
-                    >
-                        All Destinations
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="cost-filter"
-                    >
-                        Affordable
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="cost-filter"
-                    >
-                        Popular
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="cost-filter"
-                    >
-                        Low Tuition
-                    </button>
-
-
-                </div>
 
 
                 <!-- =================================================
@@ -480,41 +440,7 @@ export default function StudyAbroadCost() {
                      COST CTA
                 ================================================== -->
 
-                <div class="study-abroad-cost-footer">
 
-
-                    <div class="study-abroad-cost-footer-content">
-
-
-                        <strong>
-                            Want to estimate your total expenses?
-                        </strong>
-
-
-                        <span>
-                            Compare destinations and plan your
-                            study abroad budget.
-                        </span>
-
-
-                    </div>
-
-
-                    <button
-                        type="button"
-                        class="study-abroad-cost-button"
-                    >
-
-                        Calculate Your Cost
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
-
-
-                </div>
 
 
             </div>

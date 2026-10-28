@@ -169,9 +169,7 @@ export default function StudyAbroadDestinations() {
                         <span>EduConnect</span>
                     </h2>
 
-                    <p>
-                        Explore the destinations represented in the current institution list.
-                    </p>
+
                 </div>
 
                 <div

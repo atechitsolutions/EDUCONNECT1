@@ -75,9 +75,7 @@ export default function AbroadStudentReviews() {
                         Student Experiences with Study Abroad Planning
                     </h2>
 
-                    <p>
-                        Read about students’ experiences comparing universities, courses and application steps across study destinations.
-                    </p>
+
 
                 </div>
 
@@ -184,20 +182,7 @@ export default function AbroadStudentReviews() {
                      FOOTER CTA
                 ====================================================== -->
 
-                <div class="abroad-student-reviews-footer">
 
-                    <p>
-                        Ready to explore your own study abroad journey?
-                    </p>
-
-                    <button
-                        type="button"
-                        class="abroad-student-reviews-button"
-                    >
-                        Explore Study Options
-                    </button>
-
-                </div>
 
             </div>
 
