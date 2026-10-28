@@ -1,6 +1,8 @@
+
 import { getOnlineEducationProgrammes } from "../../services/onlineEducationService.js";
 import { onlineEducationInstitutions } from "../../data/onlineEducationInstitutions.js";
 import { renderOnlineEducationCustomCards } from "./onlineEducationCustomCards.js";
+import { addProgrammeImages } from "../../utils/onlineEducationImages.js";
 
 const byId = (id) => document.getElementById(id);
 
@@ -66,7 +68,10 @@ function updatePageMetadata() {
 }
 
 function formatTuition(programme) {
-    if (programme.tuitionAmount === null || programme.tuitionAmount === undefined) {
+    if (
+        programme.tuitionAmount === null ||
+        programme.tuitionAmount === undefined
+    ) {
         return "Check provider website";
     }
 
@@ -94,7 +99,7 @@ function safeExternalUrl(url) {
             return parsed.href;
         }
     } catch {
-        // An invalid or missing URL is not rendered as a link.
+        // Invalid or missing URLs are not rendered as links.
     }
 
     return "";
@@ -102,7 +107,7 @@ function safeExternalUrl(url) {
 
 /*
  * Locate an enquiry form already present on the page.
- * This function deliberately does not create a form or assume an ID.
+ * This function does not create a new form or assume an ID.
  */
 function findExistingEnquiryTarget(root) {
     const forms = [...root.querySelectorAll("form")].filter(
@@ -112,8 +117,6 @@ function findExistingEnquiryTarget(root) {
     const enquiryWords =
         /\b(enquir(?:y|ies)|contact|counselling|counseling|consultation|request information|speak to an advisor|speak to an adviser|get in touch)\b/i;
 
-    // Prefer a real existing form whose visible text or attributes indicate
-    // that it handles enquiries or counselling.
     for (const form of forms) {
         const searchableText = [
             form.id,
@@ -137,36 +140,38 @@ function findExistingEnquiryTarget(root) {
         }
     }
 
-    // If a form is inside an existing enquiry/counselling section,
-    // scroll to that containing section.
     for (const form of forms) {
-        const section = form.closest("section, article, [role='region'], .oe-section");
+        const section = form.closest(
+            "section, article, [role='region'], .oe-section"
+        );
 
-        if (section && enquiryWords.test([
-            section.id,
-            section.className,
-            section.getAttribute("aria-label"),
-            section.querySelector("h1, h2, h3, h4")?.innerText
-        ].filter(Boolean).join(" "))) {
+        if (
+            section &&
+            enquiryWords.test([
+                section.id,
+                section.className,
+                section.getAttribute("aria-label"),
+                section.querySelector("h1, h2, h3, h4")?.innerText
+            ].filter(Boolean).join(" "))
+        ) {
             return section;
         }
     }
 
-    // As a fallback, look for an existing enquiry/contact section.
     const sections = [
-        ...root.querySelectorAll("section, article, [role='region'], .oe-section")
+        ...root.querySelectorAll(
+            "section, article, [role='region'], .oe-section"
+        )
     ];
 
-    const section = sections.find((element) =>
+    return sections.find((element) =>
         enquiryWords.test([
             element.id,
             element.className,
             element.getAttribute("aria-label"),
             element.querySelector("h1, h2, h3, h4")?.innerText
         ].filter(Boolean).join(" "))
-    );
-
-    return section || null;
+    ) || null;
 }
 
 function scrollToExistingEnquiry(root) {
@@ -187,7 +192,6 @@ function scrollToExistingEnquiry(root) {
         block: "start"
     });
 
-    // Focus an existing form control when available; do not add a new ID.
     const firstControl = target.matches("form")
         ? target.querySelector(
             'input:not([type="hidden"]):not([disabled]), textarea:not([disabled]), select:not([disabled])'
@@ -215,14 +219,12 @@ function getProgrammeDetails(programme) {
         ["Tuition", formatTuition(programme)]
     ];
 
-    return fields
-        .map(([label, value]) => `
-            <div class="oe-detail-row">
-                <dt>${escapeHTML(label)}</dt>
-                <dd>${escapeHTML(value || "Check provider website")}</dd>
-            </div>
-        `)
-        .join("");
+    return fields.map(([label, value]) => `
+        <div class="oe-detail-row">
+            <dt>${escapeHTML(label)}</dt>
+            <dd>${escapeHTML(value || "Check provider website")}</dd>
+        </div>
+    `).join("");
 }
 
 export async function initOnlineEducationPage() {
@@ -559,7 +561,7 @@ export async function initOnlineEducationPage() {
                 JSON.stringify(compared)
             );
         } catch {
-            // Search and filtering still work if browser storage is unavailable.
+            // Filtering still works if browser storage is unavailable.
         }
     };
 
@@ -668,7 +670,8 @@ export async function initOnlineEducationPage() {
         if (detailsDialog?.isConnected) return detailsDialog;
 
         detailsDialog = document.createElement("dialog");
-        detailsDialog.className = "oe-compare-dialog oe-programme-details-dialog";
+        detailsDialog.className =
+            "oe-compare-dialog oe-programme-details-dialog";
         detailsDialog.setAttribute("aria-label", "Programme details");
 
         root.append(detailsDialog);
@@ -738,31 +741,28 @@ export async function initOnlineEducationPage() {
             </div>
         `;
 
-        if (!dialog.open) {
-            dialog.showModal();
-        }
+        if (!dialog.open) dialog.showModal();
     };
 
     /* ---------------------------------------------------------
-       REDESIGNED PROGRAMME CARDS
+       PROGRAMME CARD RENDERER
     --------------------------------------------------------- */
 
     const renderProgrammeCard = (programme) => {
         const id = String(programme.id);
-        const saved = favourites.includes(id);
-        const selected = compared.includes(id);
-
         const providerName = programme.providerName || "Institution";
         const providerInitials = getProviderInitials(providerName);
-        const imageUrl = safeExternalUrl(programme.image);
-        const providerUrl = safeExternalUrl(programme.officialProgramUrl);
+
+        const imageUrl = safeExternalUrl(
+            programme.imageUrl || programme.image
+        );
 
         const imageMarkup = imageUrl
             ? `
                 <img
                     class="oe-programme-image oe-course-card-image"
                     src="${escapeHTML(imageUrl)}"
-                    alt="${escapeHTML(providerName)}"
+                    alt="${escapeHTML(programme.imageAlt || `${providerName} illustrative programme image`)}"
                     loading="lazy"
                     onerror="this.hidden=true;this.nextElementSibling.hidden=false"
                 >
@@ -780,7 +780,14 @@ export async function initOnlineEducationPage() {
                 >${escapeHTML(providerInitials)}</div>
             `;
 
-        const compareDisabled = !selected && compared.length >= 4;
+        const country = programme.country || "Country not specified";
+        const duration = programme.duration || "Duration not listed";
+        const studyMode = programme.studyMode || "Online";
+        const qualification =
+            programme.qualificationType || "Qualification not listed";
+        const fee = formatTuition(programme);
+        const eligibility =
+            programme.eligibility || "Check official provider";
 
         return `
             <article
@@ -793,50 +800,39 @@ export async function initOnlineEducationPage() {
                     </div>
 
                     <div class="oe-course-card-content">
-                        <div class="oe-course-card-topline">
-                            <span class="oe-programme-subject">
-                                ${escapeHTML(programme.subject || "Programme")}
-                            </span>
-
-                            <span class="oe-sample-badge">
-                                Illustrative sample
-                            </span>
-                        </div>
+                        <p class="oe-course-card-location">
+                            ${escapeHTML(
+                                `${programme.providerType || "INSTITUTION"} · ${country}`
+                            )}
+                        </p>
 
                         <h3 class="oe-course-card-title">
-                            ${escapeHTML(programme.title)}
+                            ${escapeHTML(programme.title || "Programme title")}
                         </h3>
 
-                        <p class="oe-provider-name oe-course-card-provider">
+                        <p class="oe-course-card-provider">
                             ${escapeHTML(providerName)}
                         </p>
 
-                        <div class="oe-programme-tags oe-course-card-tags">
-                            <span>${escapeHTML(programme.educationLevel || "Level varies")}</span>
-                            <span>${escapeHTML(programme.studyMode || "Study mode varies")}</span>
-                            <span>${escapeHTML(programme.qualificationType || "Qualification varies")}</span>
+                        <div class="oe-course-card-tags">
+                            <span>${escapeHTML(studyMode)}</span>
+                            <span>${escapeHTML(duration)}</span>
+                            <span>${escapeHTML(qualification)}</span>
                         </div>
 
-                        <dl class="oe-programme-meta oe-course-card-meta">
-                            <div>
-                                <dt>Location</dt>
-                                <dd>${escapeHTML(programme.country || "Check provider")}</dd>
-                            </div>
+                        <p class="oe-course-card-fee">
+                            <strong>Fee:</strong>
+                            ${escapeHTML(fee)}
+                        </p>
 
-                            <div>
-                                <dt>Duration</dt>
-                                <dd>${escapeHTML(programme.duration || "Check provider")}</dd>
-                            </div>
+                        <p class="oe-course-card-eligibility">
+                            <strong>Eligibility:</strong>
+                            ${escapeHTML(eligibility)}
+                        </p>
 
-                            <div>
-                                <dt>Tuition</dt>
-                                <dd>${escapeHTML(formatTuition(programme))}</dd>
-                            </div>
-                        </dl>
-
-                        <p class="oe-card-footnote">
-                            Programme information may change. Verify details
-                            with the official provider before applying.
+                        <p class="oe-course-card-note">
+                            Illustrative listing — verify programme details
+                            with the official provider.
                         </p>
                     </div>
                 </div>
@@ -854,37 +850,6 @@ export async function initOnlineEducationPage() {
                             class="oe-button oe-primary"
                             data-enquire-programme="${escapeHTML(id)}"
                         >Enquire Now</button>
-                    </div>
-
-                    <div class="oe-course-card-utilities">
-                        ${
-                            providerUrl
-                                ? `<a
-                                    class="oe-course-provider-link"
-                                    href="${escapeHTML(providerUrl)}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >Official site ↗</a>`
-                                : ""
-                        }
-
-                        <button
-                            type="button"
-                            class="oe-icon-button ${saved ? "is-saved" : ""}"
-                            data-favourite="${escapeHTML(id)}"
-                            aria-label="${saved ? "Remove saved programme" : "Save programme"}"
-                            aria-pressed="${saved}"
-                        >${saved ? "♥" : "♡"}</button>
-
-                        <label class="oe-compare-check">
-                            <input
-                                type="checkbox"
-                                data-compare="${escapeHTML(id)}"
-                                ${selected ? "checked" : ""}
-                                ${compareDisabled ? "disabled" : ""}
-                            >
-                            Compare
-                        </label>
                     </div>
                 </div>
             </article>
@@ -945,9 +910,7 @@ export async function initOnlineEducationPage() {
                 `${filtered.length === 1 ? "discovery option" : "discovery options"} · illustrative sample`;
         }
 
-        if (empty) {
-            empty.hidden = filtered.length !== 0;
-        }
+        if (empty) empty.hidden = filtered.length !== 0;
 
         results.innerHTML = filtered
             .slice(0, visibleLimit)
@@ -1147,9 +1110,7 @@ export async function initOnlineEducationPage() {
             </div>
         `;
 
-        if (!dialog.open) {
-            dialog.showModal();
-        }
+        if (!dialog.open) dialog.showModal();
     };
 
     /* ---------------------------------------------------------
@@ -1179,9 +1140,7 @@ export async function initOnlineEducationPage() {
         const count = byId("oe-institution-compare-count");
         const showButton = byId("oe-inst-compare-show");
 
-        if (bar) {
-            bar.hidden = institutionCompared.length === 0;
-        }
+        if (bar) bar.hidden = institutionCompared.length === 0;
 
         if (count) {
             count.textContent = `${institutionCompared.length} selected`;
@@ -1200,7 +1159,7 @@ export async function initOnlineEducationPage() {
 
         const cards = [...root.querySelectorAll(".oe-institution-card")];
 
-        const matchesInstitutions = cards.filter((card) =>
+        const matchingCards = cards.filter((card) =>
             (!country || card.dataset.country === country) &&
             (
                 !level ||
@@ -1217,7 +1176,7 @@ export async function initOnlineEducationPage() {
         );
 
         cards.forEach((card) => {
-            const index = matchesInstitutions.indexOf(card);
+            const index = matchingCards.indexOf(card);
 
             card.hidden =
                 index < 0 ||
@@ -1228,8 +1187,8 @@ export async function initOnlineEducationPage() {
         const more = byId("oe-institution-more");
         const toggle = byId("oe-institution-toggle");
 
-        if (empty) empty.hidden = matchesInstitutions.length !== 0;
-        if (more) more.hidden = matchesInstitutions.length <= 4;
+        if (empty) empty.hidden = matchingCards.length !== 0;
+        if (more) more.hidden = matchingCards.length <= 4;
 
         if (toggle) {
             toggle.textContent = institutionsExpanded
@@ -1322,6 +1281,7 @@ export async function initOnlineEducationPage() {
             }
 
             render();
+
             byId("oe-programmes")?.scrollIntoView({
                 behavior: "smooth",
                 block: "start"
@@ -1338,6 +1298,7 @@ export async function initOnlineEducationPage() {
             }
 
             render();
+
             byId("oe-programmes")?.scrollIntoView({
                 behavior: "smooth",
                 block: "start"
@@ -1354,6 +1315,7 @@ export async function initOnlineEducationPage() {
             }
 
             render();
+
             byId("oe-programmes")?.scrollIntoView({
                 behavior: "smooth",
                 block: "start"
@@ -1372,7 +1334,6 @@ export async function initOnlineEducationPage() {
         if (enquireButton) {
             byId("oe-programme-details-dialog")?.close();
             detailsDialog?.close();
-
             scrollToExistingEnquiry(root);
             return;
         }
@@ -1394,7 +1355,9 @@ export async function initOnlineEducationPage() {
         const clearChip = event.target.closest("[data-clear-filter]");
 
         if (clearChip) {
-            const input = byId(`oe-filter-${clearChip.dataset.clearFilter}`);
+            const input = byId(
+                `oe-filter-${clearChip.dataset.clearFilter}`
+            );
 
             if (input) input.value = "";
 
@@ -1420,7 +1383,6 @@ export async function initOnlineEducationPage() {
             compared = [];
             syncStorage();
             render();
-
             byId("oe-compare-dialog")?.close();
         }
 
@@ -1563,9 +1525,7 @@ export async function initOnlineEducationPage() {
                 </div>
             `;
 
-            if (!dialog.open) {
-                dialog.showModal();
-            }
+            if (!dialog.open) dialog.showModal();
         }
 
         if (event.target.closest("#oe-inst-dialog-clear")) {
@@ -1672,30 +1632,40 @@ export async function initOnlineEducationPage() {
     byId("oe-hero-query")?.addEventListener("input", render);
 
     /* ---------------------------------------------------------
-       LOAD PROGRAMME DATA
+       LOAD PROGRAMME DATA AND ASSIGN IMAGES
     --------------------------------------------------------- */
 
     try {
-        programmes = await getOnlineEducationProgrammes();
+        // Assign image URLs to every programme before filtering or rendering.
+        programmes = addProgrammeImages(
+            await getOnlineEducationProgrammes()
+        );
 
-        // Keep comparison selections valid if the data has changed.
         const availableIds = new Set(
             programmes.map((programme) => String(programme.id))
         );
 
-        compared = compared.filter((id) => availableIds.has(String(id)));
+        compared = compared.filter((id) =>
+            availableIds.has(String(id))
+        );
 
-        favourites = favourites.filter((id) => availableIds.has(String(id)));
+        favourites = favourites.filter((id) =>
+            availableIds.has(String(id))
+        );
 
         syncStorage();
         render();
     } catch (error) {
-        console.error("Unable to load online education programmes.", error);
+        console.error(
+            "Unable to load online education programmes.",
+            error
+        );
 
         const resultCount = byId("oe-result-count");
 
         if (resultCount) {
-            resultCount.textContent = "The discovery sample could not be loaded.";
+            resultCount.textContent =
+                "The discovery sample could not be loaded.";
         }
 
         results.innerHTML = `

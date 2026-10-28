@@ -1243,4 +1243,25 @@
          border-radius: 12px;
          font-size: 12px;
      }
- }
+ }.online-education-card__image {
+    width: 194px;
+    height: 194px;
+    flex: 0 0 194px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .online-education-card__image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    image-rendering: auto;
+  }

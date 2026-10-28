@@ -1,0 +1,675 @@
+
+/* =========================================================
+   EDUCONNECT — ONLINE EDUCATION LEAD FORM
+   File: src/assets/css/onlineeducationleadform.css
+   ========================================================= */
+
+#online-education-lead-form {
+  --lead-blue: #1769df;
+  --lead-blue-dark: #1054bd;
+  --lead-navy: #10254a;
+  --lead-muted: #667995;
+
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  margin: 0;
+  padding: 84px 24px;
+  overflow: hidden;
+  color: var(--lead-navy);
+  background:
+    radial-gradient(
+      circle at 8% 12%,
+      rgba(155, 204, 255, 0.42),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 95% 88%,
+      rgba(111, 163, 255, 0.24),
+      transparent 36%
+    ),
+    linear-gradient(135deg, #f5f9ff 0%, #e7f1ff 52%, #f7faff 100%);
+  scroll-margin-top: 100px;
+  perspective: 1400px;
+}
+
+#online-education-lead-form,
+#online-education-lead-form * {
+  box-sizing: border-box;
+}
+
+#online-education-lead-form::before,
+#online-education-lead-form::after {
+  position: absolute;
+  z-index: -1;
+  content: "";
+  pointer-events: none;
+  border: 1px solid rgba(58, 126, 232, 0.12);
+  border-radius: 50%;
+}
+
+#online-education-lead-form::before {
+  top: -160px;
+  right: -100px;
+  width: 360px;
+  height: 360px;
+  box-shadow:
+    0 0 0 35px rgba(58, 126, 232, 0.035),
+    0 0 0 75px rgba(58, 126, 232, 0.025);
+}
+
+#online-education-lead-form::after {
+  bottom: -180px;
+  left: -120px;
+  width: 380px;
+  height: 380px;
+  box-shadow:
+    0 0 0 40px rgba(58, 126, 232, 0.035),
+    0 0 0 80px rgba(58, 126, 232, 0.025);
+}
+
+/* ---------- Main Layout ---------- */
+
+#online-education-lead-form .lead3d-layout {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(36px, 6vw, 82px);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#online-education-lead-form .lead3d-intro {
+  width: 100%;
+  max-width: 490px;
+  min-width: 0;
+}
+
+/* ---------- Introduction ---------- */
+
+#online-education-lead-form .lead3d-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--lead-blue);
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1.6;
+  letter-spacing: 1.7px;
+}
+
+#online-education-lead-form .lead3d-eyebrow::before {
+  width: 27px;
+  height: 3px;
+  content: "";
+  border-radius: 10px;
+  background: var(--lead-blue);
+}
+
+#online-education-lead-form .lead3d-intro h2 {
+  margin: 20px 0 17px;
+  color: var(--lead-navy);
+  font-size: clamp(34px, 4vw, 53px);
+  font-weight: 850;
+  line-height: 1.13;
+  letter-spacing: -1.6px;
+  overflow-wrap: anywhere;
+}
+
+#online-education-lead-form .lead3d-intro h2 span {
+  display: block;
+  color: var(--lead-blue);
+  text-shadow: 0 5px 20px rgba(23, 105, 223, 0.12);
+}
+
+#online-education-lead-form .lead3d-description {
+  max-width: 450px;
+  margin: 0;
+  color: #526681;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+/* ---------- Benefits ---------- */
+
+#online-education-lead-form .lead3d-benefits {
+  display: grid;
+  gap: 22px;
+  margin-top: 32px;
+}
+
+#online-education-lead-form .lead3d-benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  min-width: 0;
+}
+
+#online-education-lead-form .lead3d-benefit-icon {
+  display: grid;
+  flex: 0 0 45px;
+  width: 45px;
+  height: 45px;
+  place-items: center;
+  color: var(--lead-blue);
+  font-size: 13px;
+  font-weight: 850;
+  border: 1px solid #fff;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #fff, #dceaff);
+  box-shadow:
+    6px 6px 13px rgba(139, 168, 205, 0.23),
+    -4px -4px 12px rgba(255, 255, 255, 0.95),
+    inset 0 1px 1px #fff;
+}
+
+#online-education-lead-form .lead3d-benefit strong {
+  display: block;
+  padding-top: 2px;
+  color: #172e52;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+#online-education-lead-form .lead3d-benefit p {
+  margin: 5px 0 0;
+  color: #63758f;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* ---------- 3D Card ---------- */
+
+#online-education-lead-form .lead3d-card-wrap {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  transform-style: preserve-3d;
+}
+
+#online-education-lead-form .lead3d-card {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: clamp(24px, 3vw, 37px);
+  border: 1px solid rgba(255, 255, 255, 0.98);
+  border-radius: 25px;
+  background: linear-gradient(
+    145deg,
+    #fff 0%,
+    #fcfdff 55%,
+    #f0f6ff 100%
+  );
+  box-shadow:
+    0 32px 75px rgba(27, 78, 139, 0.16),
+    0 12px 28px rgba(27, 78, 139, 0.08),
+    inset 0 2px 0 #fff,
+    inset 0 -1px 0 rgba(215, 230, 250, 0.8);
+  transform: rotateY(-2deg) rotateX(1deg);
+  transition:
+    transform 350ms ease,
+    box-shadow 350ms ease;
+}
+
+#online-education-lead-form .lead3d-card-wrap:hover .lead3d-card {
+  transform: rotateY(0deg) rotateX(0deg) translateY(-3px);
+  box-shadow:
+    0 40px 90px rgba(27, 78, 139, 0.2),
+    0 16px 34px rgba(27, 78, 139, 0.1),
+    inset 0 2px 0 #fff;
+}
+
+#online-education-lead-form .lead3d-card-shadow {
+  position: absolute;
+  z-index: 0;
+  inset: 14px -10px -12px 14px;
+  border: 1px solid rgba(104, 168, 255, 0.5);
+  border-radius: 28px;
+  background: linear-gradient(135deg, #9ac8ff, #4789ee 55%, #2867cf);
+  opacity: 0.34;
+  filter: blur(0.5px);
+  transform: translateZ(-24px);
+}
+
+/* ---------- Card Header ---------- */
+
+#online-education-lead-form .lead3d-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 25px;
+  padding-bottom: 21px;
+  border-bottom: 1px solid #e7edf6;
+}
+
+#online-education-lead-form .lead3d-card-top > div:first-child {
+  min-width: 0;
+}
+
+#online-education-lead-form .lead3d-form-kicker {
+  display: inline-block;
+  color: var(--lead-blue);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1.8px;
+}
+
+#online-education-lead-form .lead3d-card-top h3 {
+  margin: 9px 0 7px;
+  color: var(--lead-navy);
+  font-size: clamp(21px, 2.2vw, 28px);
+  font-weight: 850;
+  line-height: 1.25;
+  letter-spacing: -0.6px;
+  overflow-wrap: anywhere;
+}
+
+#online-education-lead-form .lead3d-card-top p {
+  margin: 0;
+  color: var(--lead-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+#online-education-lead-form .lead3d-card-symbol {
+  display: grid;
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  color: #fff;
+  border: 1px solid #8dc0ff;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #4395ff, #1256c5);
+  box-shadow:
+    0 10px 22px rgba(23, 105, 223, 0.3),
+    inset 0 2px 2px rgba(255, 255, 255, 0.45),
+    inset 0 -4px 8px rgba(7, 58, 154, 0.25);
+  transform: translateZ(15px);
+}
+
+#online-education-lead-form .lead3d-card-symbol svg {
+  display: block;
+  width: 35px;
+  height: 35px;
+}
+
+/* ---------- Form ---------- */
+
+#online-education-lead-form .lead3d-form {
+  width: 100%;
+  margin: 0;
+}
+
+#online-education-lead-form .lead3d-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 15px;
+}
+
+#online-education-lead-form .lead3d-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+#online-education-lead-form .lead3d-field-full {
+  grid-column: 1 / -1;
+}
+
+#online-education-lead-form .lead3d-field label {
+  display: block;
+  margin: 0;
+  color: #253b5b;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+#online-education-lead-form .lead3d-field input,
+#online-education-lead-form .lead3d-field select,
+#online-education-lead-form .lead3d-field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  margin: 0;
+  padding: 12px 14px;
+  color: #1c3150;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  border: 1px solid #dce6f4;
+  border-radius: 12px;
+  outline: none;
+  background: linear-gradient(145deg, #f8fbff, #fff);
+  box-shadow:
+    inset 2px 2px 5px rgba(220, 230, 244, 0.25),
+    inset -2px -2px 5px rgba(255, 255, 255, 0.95);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+#online-education-lead-form .lead3d-field input::placeholder,
+#online-education-lead-form .lead3d-field textarea::placeholder {
+  color: #98a7bb;
+  font-weight: 400;
+  opacity: 1;
+}
+
+#online-education-lead-form .lead3d-field select {
+  cursor: pointer;
+}
+
+#online-education-lead-form .lead3d-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+#online-education-lead-form .lead3d-field input:focus,
+#online-education-lead-form .lead3d-field select:focus,
+#online-education-lead-form .lead3d-field textarea:focus {
+  border-color: #438bfa;
+  background: #fff;
+  box-shadow:
+    0 0 0 4px rgba(23, 105, 223, 0.1),
+    0 5px 12px rgba(23, 105, 223, 0.05);
+}
+
+#online-education-lead-form .lead3d-field input:disabled,
+#online-education-lead-form .lead3d-field select:disabled,
+#online-education-lead-form .lead3d-field textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* ---------- Submit Button ---------- */
+
+#online-education-lead-form .lead3d-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+  min-height: 56px;
+  margin: 25px 0 0;
+  padding: 14px 20px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.5;
+  text-align: center;
+  border: 1px solid #5b9eff;
+  border-radius: 14px;
+  background: linear-gradient(115deg, #2582f5, #1769df 52%, #1054c1);
+  box-shadow:
+    0 12px 24px rgba(23, 105, 223, 0.28),
+    inset 0 2px 1px rgba(255, 255, 255, 0.35),
+    inset 0 -3px 5px rgba(8, 68, 157, 0.2);
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+#online-education-lead-form .lead3d-submit:hover:not(:disabled) {
+  filter: brightness(1.05);
+  box-shadow:
+    0 16px 30px rgba(23, 105, 223, 0.34),
+    inset 0 2px 1px rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+#online-education-lead-form .lead3d-submit:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+#online-education-lead-form .lead3d-submit:focus-visible {
+  outline: 3px solid #77aaff;
+  outline-offset: 4px;
+}
+
+#online-education-lead-form .lead3d-submit:disabled {
+  cursor: wait;
+  opacity: 0.7;
+  transform: none;
+}
+
+#online-education-lead-form .lead3d-submit-arrow {
+  display: grid;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* ---------- Feedback and Privacy ---------- */
+
+#online-education-lead-form .lead3d-status {
+  margin: 15px 0 0;
+  padding: 12px 14px;
+  font-size: 12px;
+  line-height: 1.65;
+  border-radius: 10px;
+}
+
+#online-education-lead-form .lead3d-status-error {
+  color: #a32626;
+  border: 1px solid #ffd1d1;
+  background: #fff3f3;
+}
+
+#online-education-lead-form .lead3d-status-success {
+  color: #126744;
+  border: 1px solid #b8eed6;
+  background: #edfff6;
+}
+
+#online-education-lead-form .lead3d-privacy {
+  margin: 14px 0 0;
+  color: #8492a6;
+  font-size: 11px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* ---------- Tablet ---------- */
+
+@media (max-width: 1000px) {
+  #online-education-lead-form {
+    padding: 65px 22px;
+  }
+
+  #online-education-lead-form .lead3d-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+    max-width: 720px;
+  }
+
+  #online-education-lead-form .lead3d-intro {
+    max-width: 640px;
+  }
+
+  #online-education-lead-form .lead3d-intro h2 {
+    max-width: 570px;
+    font-size: clamp(36px, 6vw, 50px);
+  }
+
+  #online-education-lead-form .lead3d-card {
+    transform: none;
+  }
+
+  #online-education-lead-form .lead3d-card-wrap:hover .lead3d-card {
+    transform: translateY(-2px);
+  }
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 600px) {
+  #online-education-lead-form {
+    padding: 46px 15px;
+    scroll-margin-top: 76px;
+  }
+
+  #online-education-lead-form .lead3d-layout {
+    gap: 30px;
+  }
+
+  #online-education-lead-form .lead3d-eyebrow {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+  }
+
+  #online-education-lead-form .lead3d-intro h2 {
+    margin: 16px 0 14px;
+    font-size: clamp(31px, 8.5vw, 41px);
+    line-height: 1.15;
+    letter-spacing: -1px;
+  }
+
+  #online-education-lead-form .lead3d-description {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  #online-education-lead-form .lead3d-benefits {
+    gap: 18px;
+    margin-top: 26px;
+  }
+
+  #online-education-lead-form .lead3d-benefit-icon {
+    flex-basis: 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  #online-education-lead-form .lead3d-benefit strong {
+    font-size: 14px;
+  }
+
+  #online-education-lead-form .lead3d-benefit p {
+    font-size: 12px;
+  }
+
+  #online-education-lead-form .lead3d-card {
+    padding: 21px 16px;
+    border-radius: 21px;
+    transform: none;
+  }
+
+  #online-education-lead-form .lead3d-card-shadow {
+    inset: 9px -5px -7px 9px;
+    border-radius: 23px;
+  }
+
+  #online-education-lead-form .lead3d-card-top {
+    gap: 10px;
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+  }
+
+  #online-education-lead-form .lead3d-card-top h3 {
+    font-size: 21px;
+  }
+
+  #online-education-lead-form .lead3d-card-top p {
+    font-size: 12px;
+  }
+
+  #online-education-lead-form .lead3d-card-symbol {
+    flex-basis: 43px;
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+  }
+
+  #online-education-lead-form .lead3d-card-symbol svg {
+    width: 27px;
+    height: 27px;
+  }
+
+  #online-education-lead-form .lead3d-field-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  #online-education-lead-form .lead3d-field-full {
+    grid-column: auto;
+  }
+
+  #online-education-lead-form .lead3d-field input,
+  #online-education-lead-form .lead3d-field select,
+  #online-education-lead-form .lead3d-field textarea {
+    font-size: 14px;
+  }
+
+  #online-education-lead-form .lead3d-submit {
+    gap: 10px;
+    min-height: 53px;
+    padding: 12px 10px;
+    font-size: 13px;
+  }
+
+  #online-education-lead-form .lead3d-privacy {
+    font-size: 10px;
+  }
+}
+
+/* ---------- Small Phones ---------- */
+
+@media (max-width: 360px) {
+  #online-education-lead-form {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  #online-education-lead-form .lead3d-card {
+    padding: 18px 13px;
+  }
+
+  #online-education-lead-form .lead3d-card-top h3 {
+    font-size: 19px;
+  }
+
+  #online-education-lead-form .lead3d-card-symbol {
+    flex-basis: 38px;
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* ---------- Accessibility ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  #online-education-lead-form .lead3d-card,
+  #online-education-lead-form .lead3d-submit,
+  #online-education-lead-form .lead3d-field input,
+  #online-education-lead-form .lead3d-field select,
+  #online-education-lead-form .lead3d-field textarea {
+    transition: none;
+  }
+
+  #online-education-lead-form .lead3d-card,
+  #online-education-lead-form .lead3d-card-wrap:hover .lead3d-card {
+    transform: none;
+  }
+}

@@ -279,3 +279,449 @@
         gap: 10px;
     }
 }
+
+/* =========================================================
+   ONLINE EDUCATION — REFERENCE CARD
+   Light mode only
+========================================================= */
+
+.oe-page .oe-programme-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    align-items: stretch;
+}
+
+.oe-page .oe-programme-card.oe-course-card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    padding: 18px;
+    overflow: hidden;
+    color: #202b3c;
+    background: #ffffff;
+    border: 1px solid #e1e5ec;
+    border-radius: 20px;
+    box-shadow: 0 3px 12px rgb(20 36 59 / 4%);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.oe-page .oe-programme-card.oe-course-card:hover {
+    background: #ffffff;
+    border-color: #c7d6ed;
+    box-shadow: 0 8px 24px rgb(20 36 59 / 8%);
+    transform: none;
+}
+
+.oe-page .oe-course-card-main {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    align-items: start;
+    gap: 20px;
+    min-width: 0;
+    padding: 0 0 18px;
+}
+
+.oe-page .oe-course-card-media {
+    width: 150px;
+    min-width: 0;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 15px;
+    background: #edf3fa;
+}
+
+.oe-page .oe-course-card-image,
+.oe-page .oe-course-card-media .oe-programme-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    margin: 0;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 15px;
+}
+
+.oe-page .oe-course-card-monogram {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+    place-items: center;
+    color: #2458a5;
+    background: #edf3fa;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.oe-page .oe-course-card-content {
+    min-width: 0;
+    flex: 1;
+}
+
+.oe-page .oe-course-card-location {
+    margin: 0 0 7px;
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.oe-page .oe-course-card-title {
+    margin: 0 0 5px;
+    color: #172337;
+    font-size: clamp(20px, 2vw, 27px);
+    font-weight: 750;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+}
+
+.oe-page .oe-course-card-provider {
+    margin: 0 0 12px;
+    color: #667085;
+    font-size: 15px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.oe-page .oe-course-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin: 0 0 13px;
+}
+
+.oe-page .oe-course-card-tags span {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    padding: 5px 11px;
+    color: #34445c;
+    background: #f1f4f8;
+    border: 1px solid #e7ebf1;
+    border-radius: 999px;
+    font-size: 12px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.oe-page .oe-course-card-fee,
+.oe-page .oe-course-card-eligibility {
+    margin: 7px 0;
+    color: #273449;
+    font-size: 14px;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+.oe-page .oe-course-card-fee strong,
+.oe-page .oe-course-card-eligibility strong {
+    color: #172337;
+    font-weight: 750;
+}
+
+.oe-page .oe-course-card-note {
+    margin: 8px 0 0;
+    color: #8791a0;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.oe-page .oe-course-card-footer {
+    margin-top: auto;
+    padding-top: 17px;
+    border-top: 1px solid #e9edf2;
+}
+
+.oe-page .oe-course-card-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+    width: 100%;
+}
+
+.oe-page .oe-course-card-actions .oe-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 11px 15px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: center;
+    white-space: normal;
+    cursor: pointer;
+}
+
+.oe-page .oe-course-card-actions .oe-outline {
+    color: #172337;
+    background: #ffffff;
+    border: 1px solid #d6deea;
+}
+
+.oe-page .oe-course-card-actions .oe-outline:hover {
+    color: #172337;
+    background: #f7f9fc;
+    border-color: #b8c7db;
+}
+
+.oe-page .oe-course-card-actions .oe-primary {
+    color: #ffffff;
+    background: #1769d2;
+    border: 1px solid #1769d2;
+}
+
+.oe-page .oe-course-card-actions .oe-primary:hover {
+    color: #ffffff;
+    background: #1256ad;
+    border-color: #1256ad;
+}
+
+/* Prevent inherited dark styles from changing the card */
+.oe-page .oe-programme-card.oe-course-card,
+.oe-page .oe-programme-card.oe-course-card * {
+    color-scheme: light;
+}
+
+@media (max-width: 600px) {
+    .oe-page .oe-programme-card.oe-course-card {
+        padding: 14px;
+        border-radius: 16px;
+    }
+
+    .oe-page .oe-course-card-main {
+        grid-template-columns: 100px minmax(0, 1fr);
+        gap: 13px;
+    }
+
+    .oe-page .oe-course-card-media {
+        width: 100px;
+    }
+
+    .oe-page .oe-course-card-title {
+        font-size: 18px;
+    }
+
+    .oe-page .oe-course-card-provider {
+        font-size: 13px;
+    }
+
+    .oe-page .oe-course-card-tags {
+        gap: 5px;
+    }
+
+    .oe-page .oe-course-card-tags span {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+
+    .oe-page .oe-course-card-fee,
+    .oe-page .oe-course-card-eligibility {
+        font-size: 12px;
+    }
+
+    .oe-page .oe-course-card-actions {
+        gap: 8px;
+    }
+
+    .oe-page .oe-course-card-actions .oe-button {
+        min-height: 44px;
+        padding: 9px 7px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 380px) {
+    .oe-page .oe-course-card-main {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .oe-page .oe-course-card-media {
+        width: 100%;
+        max-width: 180px;
+        aspect-ratio: 4 / 3;
+    }
+}
+
+/* Online Education: clean programme image panel */
+
+.oe-course-card-media {
+    position: relative;
+    flex: 0 0 194px;
+    width: 194px;
+    min-width: 194px;
+    height: 258px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #e8eef8, #d5e2f3);
+}
+
+.oe-course-card-media .oe-course-card-image,
+.oe-course-card-media .oe-programme-image {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    object-fit: cover;
+    object-position: center;
+    border: 0;
+    border-radius: inherit;
+}
+
+/* No initials or monogram beside the image. */
+.oe-course-card-monogram {
+    display: none !important;
+}
+
+/* Keep the layout responsive. */
+@media (max-width: 640px) {
+    .oe-course-card-main {
+        flex-direction: column;
+    }
+
+    .oe-course-card-media {
+        flex: 0 0 auto;
+        width: 100%;
+        min-width: 0;
+        height: 220px;
+    }
+}
+#oe-load-more:not([hidden]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 28px auto 10px;
+    min-width: 180px;
+    padding: 14px 32px;
+    border-radius: 14px;
+    cursor: pointer;
+}
+
+#oe-load-more[hidden] {
+    display: none !important;
+}
+/* =========================================
+   COMPACT TWO-COLUMN PROGRAMME CARDS
+========================================= */
+
+#oe-programme-results {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 20px !important;
+    align-items: stretch;
+}
+
+#oe-programme-results .oe-course-card {
+    min-height: 0;
+    height: auto;
+    border-radius: 18px;
+}
+
+/* Reduce image height */
+#oe-programme-results .oe-course-card-media {
+    height: 165px !important;
+    min-height: 165px;
+    border-radius: 12px;
+}
+
+/* Reduce internal spacing */
+#oe-programme-results .oe-course-card-content {
+    padding: 0 16px 14px !important;
+    gap: 0;
+}
+
+#oe-programme-results .oe-course-card-main {
+    gap: 12px !important;
+}
+
+/* Compact text */
+#oe-programme-results .oe-course-card-location {
+    margin: 0 0 8px;
+    font-size: 11px;
+    letter-spacing: 0.7px;
+}
+
+#oe-programme-results .oe-course-card-title {
+    margin: 0 0 8px;
+    font-size: clamp(17px, 1.35vw, 21px) !important;
+    line-height: 1.3 !important;
+}
+
+#oe-programme-results .oe-course-card-provider {
+    margin: 0 0 12px;
+    font-size: 15px;
+}
+
+#oe-programme-results .oe-course-card-tags {
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+#oe-programme-results .oe-course-card-tags span {
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+#oe-programme-results .oe-course-card-fee,
+#oe-programme-results .oe-course-card-eligibility {
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+#oe-programme-results .oe-course-card-note {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Compact action buttons */
+#oe-programme-results .oe-course-card-footer {
+    margin-top: auto;
+    padding: 12px 16px 16px !important;
+}
+
+#oe-programme-results .oe-course-card-actions {
+    gap: 10px;
+}
+
+#oe-programme-results .oe-course-card-actions .oe-button {
+    min-height: 42px;
+    padding: 10px 12px;
+    font-size: 13px;
+    border-radius: 10px;
+}
+
+/* Tablet and mobile */
+@media (max-width: 760px) {
+    #oe-programme-results {
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 18px !important;
+    }
+
+    #oe-programme-results .oe-course-card-media {
+        height: 190px !important;
+        min-height: 190px;
+    }
+
+    #oe-programme-results .oe-course-card-title {
+        font-size: 19px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    #oe-programme-results .oe-course-card-actions {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
