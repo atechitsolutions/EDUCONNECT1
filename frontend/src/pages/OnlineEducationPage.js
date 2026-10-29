@@ -427,36 +427,20 @@ export default function OnlineEducationPage() {
                   <span>Education level</span>
 
                   <select id="oe-filter-level">
-                    <option value="">All levels</option>
+                    <option value="">Levels</option>
                     ${levels.map(level => `
                       <option>${level}</option>
                     `).join("")}
                   </select>
                 </label>
 
-                <label class="oe-field">
-                  <span>Study mode</span>
 
-                  <select id="oe-filter-mode">
-                    <option value="">All study modes</option>
-                    ${[
-                        "Fully online",
-                        "Distance learning",
-                        "Hybrid",
-                        "On-campus",
-                        "Self-paced online",
-                        "Scheduled online"
-                    ].map(mode => `
-                      <option>${mode}</option>
-                    `).join("")}
-                  </select>
-                </label>
 
                 <label class="oe-field">
                   <span>Country</span>
 
                   <select id="oe-filter-country">
-                    <option value="">All destinations</option>
+                    <option value="">Destinations</option>
                     ${[
                         "India",
                         "United States",
@@ -474,101 +458,7 @@ export default function OnlineEducationPage() {
                   </select>
                 </label>
 
-                <label class="oe-field">
-                  <span>Provider type</span>
 
-                  <select id="oe-filter-type">
-                    <option value="">All provider types</option>
-                    ${[
-                        "School",
-                        "College",
-                        "University",
-                        "Online learning platform",
-                        "Professional training provider"
-                    ].map(type => `
-                      <option>${type}</option>
-                    `).join("")}
-                  </select>
-                </label>
-
-                <label class="oe-field">
-                  <span>Subject area</span>
-
-                  <select id="oe-filter-subject">
-                    <option value="">All subjects</option>
-                    ${[
-                        "Computer Science & IT",
-                        "Artificial Intelligence",
-                        "Data Science",
-                        "Business & Management",
-                        "Engineering & Technology",
-                        "Medicine & Healthcare",
-                        "Education",
-                        "Arts & Humanities",
-                        "Law",
-                        "Finance & Accounting",
-                        "Psychology",
-                        "Science & Mathematics",
-                        "Design & Media",
-                        "Languages",
-                        "Social Sciences",
-                        "Marketing",
-                        "Cybersecurity",
-                        "Project Management"
-                    ].map(subject => `
-                      <option>${subject}</option>
-                    `).join("")}
-                  </select>
-                </label>
-
-                <label class="oe-field">
-                  <span>Difficulty</span>
-
-                  <select id="oe-filter-difficulty">
-                    <option value="">Any level</option>
-                    <option>Beginner</option>
-                    <option>Intermediate</option>
-                    <option>Advanced</option>
-                  </select>
-                </label>
-
-                <label class="oe-field">
-                  <span>Budget preference</span>
-
-                  <select id="oe-filter-budget">
-                    <option value="">Any budget</option>
-                    <option value="free">Free</option>
-                    <option value="10000">Under ₹10,000</option>
-                    <option value="50000">₹10,000–₹50,000</option>
-                    <option value="100000">₹50,000–₹1 lakh</option>
-                    <option value="500000">₹1 lakh–₹5 lakh</option>
-                    <option value="500001">Above ₹5 lakh</option>
-                  </select>
-                </label>
-
-                <div class="oe-filter-disclaimer">
-                  Price ranges are preferences only. Unknown fees are never estimated.
-                </div>
-              </aside>
-
-              <div class="oe-results">
-                <div class="oe-results-toolbar">
-                  <p id="oe-result-count" aria-live="polite">
-                    Loading discovery options…
-                  </p>
-
-                  <label class="oe-sort">
-                    <span>Sort by</span>
-
-                    <select id="oe-sort">
-                      <option value="relevance">Relevance</option>
-                      <option value="lowest">Lowest tuition</option>
-                      <option value="highest">Highest tuition</option>
-                      <option value="shortest">Shortest duration</option>
-                      <option value="longest">Longest duration</option>
-                      <option value="name">Programme name</option>
-                    </select>
-                  </label>
                 </div>
 
                 <div class="oe-active-filters" id="oe-active-filters"></div>

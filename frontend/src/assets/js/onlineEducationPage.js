@@ -800,11 +800,10 @@ export async function initOnlineEducationPage() {
                     </div>
 
                     <div class="oe-course-card-content">
-                        <p class="oe-course-card-location">
-                            ${escapeHTML(
-                                `${programme.providerType || "INSTITUTION"} · ${country}`
-                            )}
-                        </p>
+                  <p class="oe-course-card-location">
+                      ${escapeHTML(programme.providerType || "INSTITUTION")}${country && !["not specified", "country not specified", "n/a", "unknown"].includes(country.trim().toLowerCase()) ? ` · ${escapeHTML(country.trim())}` : ""}
+                  </p>
+
 
                         <h3 class="oe-course-card-title">
                             ${escapeHTML(programme.title || "Programme title")}
@@ -814,26 +813,18 @@ export async function initOnlineEducationPage() {
                             ${escapeHTML(providerName)}
                         </p>
 
-                        <div class="oe-course-card-tags">
-                            <span>${escapeHTML(studyMode)}</span>
-                            <span>${escapeHTML(duration)}</span>
-                            <span>${escapeHTML(qualification)}</span>
-                        </div>
+                    <div class="oe-course-card-tags">
+                        ${[studyMode, duration, qualification]
+                            .filter(value =>
+                                value &&
+                                !["not listed", "not specified", "n/a", "unknown"]
+                                    .includes(value.trim().toLowerCase())
+                            )
+                            .map(value => `<span>${escapeHTML(value.trim())}</span>`)
+                            .join("")}
+                    </div>
 
-                        <p class="oe-course-card-fee">
-                            <strong>Fee:</strong>
-                            ${escapeHTML(fee)}
-                        </p>
 
-                        <p class="oe-course-card-eligibility">
-                            <strong>Eligibility:</strong>
-                            ${escapeHTML(eligibility)}
-                        </p>
-
-                        <p class="oe-course-card-note">
-                            Illustrative listing — verify programme details
-                            with the official provider.
-                        </p>
                     </div>
                 </div>
 
