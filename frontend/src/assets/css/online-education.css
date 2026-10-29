@@ -2020,3 +2020,162 @@
     min-height: 180px;
   }
 }
+
+/* Compact Microsoft AI course section — white background */
+.oe-ms-section {
+  background: #fff !important;
+  padding: 30px 0 40px !important;
+  overflow: hidden;
+}
+
+.oe-ms-section .oe-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.oe-ms-heading {
+  margin-bottom: 24px !important;
+}
+
+.oe-ms-heading h2 {
+  color: #101010;
+  font-size: clamp(22px, 2.2vw, 30px) !important;
+  line-height: 1.25;
+  letter-spacing: -.6px;
+}
+
+.oe-ms-heading h2 span {
+  color: #f52b40;
+}
+
+.oe-ms-carousel {
+  gap: 12px;
+}
+
+.oe-ms-viewport {
+  padding: 4px 0 12px;
+}
+
+.oe-ms-track {
+  gap: 18px;
+}
+
+.oe-ms-card {
+  flex: 0 0 calc((100% - 54px) / 4);
+  border-radius: 17px;
+  box-shadow: 0 5px 20px rgba(22, 28, 45, .10);
+}
+
+.oe-ms-banner {
+  min-height: 115px;
+}
+
+.oe-ms-banner-copy {
+  padding: 12px;
+  gap: 4px;
+}
+
+.oe-ms-banner-copy small {
+  font-size: 9px;
+}
+
+.oe-ms-banner-copy strong {
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.oe-ms-card-body {
+  padding: 14px 14px 13px;
+}
+
+.oe-ms-provider {
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.oe-ms-card-body h3 {
+  font-size: 14px;
+  line-height: 1.4;
+  min-height: 59px;
+  margin-bottom: 10px;
+}
+
+.oe-ms-description {
+  font-size: 10px;
+  line-height: 1.4;
+  padding: 7px 10px;
+  margin-bottom: 12px;
+  border-radius: 22px;
+}
+
+.oe-ms-meta {
+  gap: 8px;
+  font-size: 10px;
+  margin-bottom: 14px;
+}
+
+.oe-ms-actions {
+  gap: 7px;
+}
+
+.oe-ms-view,
+.oe-ms-enquire {
+  min-height: 34px;
+  padding: 6px 8px;
+  font-size: 10px;
+}
+
+.oe-ms-arrow {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .12);
+}
+
+@media (max-width: 1100px) {
+  .oe-ms-card {
+    flex-basis: calc((100% - 18px) / 2);
+  }
+}
+
+@media (max-width: 640px) {
+  .oe-ms-section {
+    padding: 24px 0 30px !important;
+  }
+
+  .oe-ms-section .oe-container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .oe-ms-heading {
+    margin-bottom: 18px !important;
+  }
+
+  .oe-ms-heading h2 {
+    font-size: 22px !important;
+  }
+
+  .oe-ms-carousel {
+    gap: 6px;
+  }
+
+  .oe-ms-track {
+    gap: 12px;
+  }
+
+  .oe-ms-card {
+    flex-basis: 100%;
+  }
+
+  .oe-ms-banner {
+    min-height: 125px;
+  }
+
+  .oe-ms-card-body h3 {
+    min-height: auto;
+  }
+}
