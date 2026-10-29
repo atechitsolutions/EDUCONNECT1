@@ -569,64 +569,76 @@ export default function OnlineEducationPage() {
               </button>
             </div>
 
-            <div class="oe-provider-grid" id="oe-institution-results">
-              ${onlineEducationInstitutions.map(institution => `
-                <article
-                  class="oe-provider-card oe-institution-card"
-                  data-country="${institution.country}"
-                  data-levels="${institution.levels.join("|")}"
-                  data-subjects="${institution.subjects.join("|")}"
-                  data-modes="${institution.modes.join("|")}"
-                >
-                  <div class="oe-institution-top">
-                    <span class="oe-institution-monogram" aria-hidden="true">
-                      ${institution.name
-                        .split(" ")
-                        .filter(word => /^[A-Z]/.test(word))
-                        .slice(0, 2)
-                        .map(word => word[0])
-                        .join("")}
-                    </span>
+        <div class="oe-provider-grid oe-institution-programme-grid" id="oe-institution-results">
+          ${onlineEducationInstitutions.map(institution => `
+            <article
+              class="oe-programme-card oe-course-card oe-institution-card"
+              data-country="${institution.country}"
+              data-levels="${institution.levels.join("|")}"
+              data-subjects="${institution.subjects.join("|")}"
+              data-modes="${institution.modes.join("|")}"
+            >
+              <div class="oe-course-card-main">
 
-                    <span class="oe-verified-source">Official site</span>
+                <div class="oe-course-card-media">
+                  <div class="oe-course-card-monogram oe-institution-logo">
+                    ${institution.name
+                      .split(/\s+/)
+                      .filter(word => /^[A-Z]/.test(word))
+                      .slice(0, 2)
+                      .map(word => word.charAt(0))
+                      .join("")}
                   </div>
+                </div>
 
-                  <h3>${institution.name}</h3>
+                <div class="oe-course-card-content">
 
-                  <p class="oe-institution-location">
-                    ${institution.city} · ${institution.country} · ${institution.type}
+                  <p class="oe-course-card-location">
+                    ${institution.type} · ${institution.country}
                   </p>
 
-                  <p>${institution.programmeNote}</p>
+                  <h3 class="oe-course-card-title">
+                    ${institution.name}
+                  </h3>
 
-                  <div class="oe-institution-tags">
+                  <p class="oe-course-card-provider">
+                    ${institution.city}
+                  </p>
+
+
+
+                  <div class="oe-course-card-tags">
                     ${institution.levels.slice(0, 3).map(level => `
                       <span>${level}</span>
                     `).join("")}
                   </div>
 
-                  <div class="oe-institution-actions">
-                    <a
-                      href="${institution.url}"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      View institution ↗
-                    </a>
+                </div>
+              </div>
+              <div class="oe-institution-actions oe-institution-actions-enhanced">
+                <button
+                  type="button"
+                  class="oe-button oe-outline"
+                  data-view-institution-details="${institution.id}"
+                >
+                  View Details
+                </button>
 
-                    <label>
-                      <input
-                        type="checkbox"
-                        data-institution-compare="${institution.id}"
-                      >
-                      Compare
-                    </label>
-                  </div>
+                <button
+                  type="button"
+                  class="oe-button oe-primary"
+                  data-enquire-institution="${institution.id}"
+                >
+                  Enquire Now
+                </button>
 
-                  <small>Source checked ${institution.lastVerifiedAt}</small>
-                </article>
-              `).join("")}
-            </div>
+
+              </div>
+
+
+            </article>
+          `).join("")}
+        </div>
 
             <div class="oe-institution-more" id="oe-institution-more" hidden>
               <button

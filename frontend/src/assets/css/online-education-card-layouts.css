@@ -922,4 +922,495 @@
     #oe-programmes .oe-filter-form > * {
       flex: 0 0 145px !important;
     }
+  }/* Institution cards: match the programme card layout */
+
+   .oe-institution-programme-grid {
+     display: grid;
+     grid-template-columns: repeat(2, minmax(0, 1fr));
+     gap: 24px;
+     align-items: stretch;
+   }
+
+   .oe-institution-programme-grid .oe-institution-card {
+     min-width: 0;
+     height: 100%;
+     box-sizing: border-box;
+   }
+
+   .oe-institution-programme-grid .oe-course-card-main {
+     display: flex;
+     align-items: flex-start;
+     gap: 24px;
+   }
+
+   .oe-institution-programme-grid .oe-course-card-media {
+     flex: 0 0 190px;
+     width: 190px;
+     min-height: 190px;
+   }
+
+   .oe-institution-programme-grid .oe-institution-logo {
+     width: 100%;
+     min-height: 190px;
+     box-sizing: border-box;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     border-radius: 16px;
+     background: linear-gradient(145deg, #e8f3ff, #dce5ff);
+     color: #1767d2;
+     font-size: 42px;
+     font-weight: 800;
+     letter-spacing: 2px;
+   }
+
+   .oe-institution-programme-grid .oe-course-card-content {
+     min-width: 0;
+     flex: 1;
+   }
+
+   .oe-institution-programme-grid .oe-institution-description {
+     margin: 12px 0;
+     line-height: 1.65;
+     color: #536581;
+     overflow-wrap: anywhere;
+   }
+
+   .oe-institution-programme-grid .oe-course-card-tags {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 8px;
+     margin-top: 14px;
+   }
+
+   .oe-institution-programme-grid .oe-course-card-tags span {
+     display: inline-flex;
+     align-items: center;
+     padding: 8px 12px;
+     border: 1px solid #e2e9f3;
+     border-radius: 999px;
+     background: #f1f5fa;
+     color: #263b59;
+     font-size: 13px;
+   }
+
+   .oe-institution-programme-grid .oe-course-card-footer {
+     margin-top: auto;
+   }
+
+   .oe-institution-programme-grid .oe-course-card-actions {
+     display: grid;
+     grid-template-columns: repeat(2, minmax(0, 1fr));
+     gap: 12px;
+   }
+
+   .oe-institution-programme-grid .oe-course-card-actions > * {
+     min-width: 0;
+     box-sizing: border-box;
+     width: 100%;
+     min-height: 48px;
+   }
+
+   .oe-institution-programme-grid .oe-institution-compare-label {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     gap: 8px;
+     cursor: pointer;
+   }
+
+   .oe-institution-programme-grid .oe-institution-compare-label input {
+     width: 16px;
+     height: 16px;
+     accent-color: #ffffff;
+   }
+
+   .oe-institution-programme-grid .oe-institution-source {
+     display: block;
+     margin-top: 12px;
+     color: #71829b;
+     font-size: 12px;
+   }
+
+   @media (max-width: 900px) {
+     .oe-institution-programme-grid {
+       grid-template-columns: 1fr;
+     }
+   }
+
+   @media (max-width: 560px) {
+     .oe-institution-programme-grid .oe-course-card-main {
+       flex-direction: column;
+     }
+
+     .oe-institution-programme-grid .oe-course-card-media {
+       flex: none;
+       width: 100%;
+       min-height: 130px;
+     }
+
+     .oe-institution-programme-grid .oe-institution-logo {
+       min-height: 130px;
+       font-size: 34px;
+     }
+
+     .oe-institution-programme-grid .oe-course-card-actions {
+       grid-template-columns: 1fr;
+     }
+   }
+/* FIX: Institution cards should match the online education programme cards */
+
+#oe-institution-results.oe-institution-programme-grid,
+#oe-institution-results.oe-provider-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 24px !important;
+  width: 100%;
+  min-width: 0;
+  margin: 24px 0 0;
+  align-items: stretch;
+}
+
+#oe-institution-results > .oe-institution-programme-card {
+  display: flex !important;
+  flex-direction: column;
+  width: 100% !important;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 22px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #dce7f5;
+  border-radius: 22px;
+  box-shadow: 0 8px 24px rgba(25, 62, 112, 0.08);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+#oe-institution-results > .oe-institution-programme-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(25, 62, 112, 0.13);
+}
+
+/* Image and text side by side */
+#oe-institution-results .oe-institution-programme-main {
+  display: grid !important;
+  grid-template-columns: 155px minmax(0, 1fr) !important;
+  gap: 22px;
+  align-items: start;
+  min-width: 0;
+}
+
+/* Compact placeholder until real institution images are added */
+#oe-institution-results .oe-institution-programme-image {
+  display: flex !important;
+  width: 155px !important;
+  height: 175px !important;
+  min-height: 175px !important;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: linear-gradient(145deg, #e8f2ff, #eeedff);
+  border-radius: 16px;
+}
+
+#oe-institution-results .oe-institution-programme-image span {
+  display: flex !important;
+  width: 70px;
+  height: 70px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid #dce7ff;
+  color: #1769d2;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+/* Content */
+#oe-institution-results .oe-institution-programme-content {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#oe-institution-results .oe-institution-programme-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+#oe-institution-results .oe-institution-type {
+  color: #40516b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+#oe-institution-results .oe-institution-programme-content h3 {
+  margin: 0 0 10px;
+  color: #14243e;
+  font-size: 21px;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+#oe-institution-results .oe-institution-location {
+  margin: 0 0 10px;
+  color: #435570;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+#oe-institution-results .oe-institution-description {
+  margin: 0 0 15px;
+  color: #61718a;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+#oe-institution-results .oe-institution-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: auto;
+}
+
+#oe-institution-results .oe-institution-tags span {
+  display: inline-flex;
+  padding: 7px 11px;
+  border: 1px solid #e2eaf4;
+  border-radius: 999px;
+  background: #f1f5fa;
+  color: #263b59;
+  font-size: 12px;
+}
+
+/* Footer actions */
+#oe-institution-results .oe-institution-programme-actions {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e8edf4;
+}
+
+#oe-institution-results .oe-institution-view-button {
+  display: inline-flex !important;
+  justify-content: center;
+  align-items: center;
+  min-height: 46px;
+  padding: 10px 16px;
+  border: 1px solid #1769d2;
+  border-radius: 11px;
+  background: #1769d2;
+  color: #fff !important;
+  font-size: 14px;
+  font-weight: 750;
+  text-align: center;
+  text-decoration: none;
+}
+
+#oe-institution-results .oe-institution-view-button:hover {
+  background: #1056b3;
+}
+
+/* Keep Compare as a checkbox, not a blue button */
+#oe-institution-results .oe-institution-compare-control {
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 !important;
+  margin: 0;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #35455e !important;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+#oe-institution-results .oe-institution-compare-control input[type="checkbox"] {
+  appearance: auto !important;
+  display: inline-block !important;
+  width: 17px !important;
+  height: 17px !important;
+  min-width: 17px;
+  margin: 0 !important;
+  padding: 0 !important;
+  accent-color: #1769d2;
+}
+
+#oe-institution-results .oe-institution-verified-date {
+  margin-top: 12px;
+  color: #8794a8;
+  font-size: 11px;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  #oe-institution-results.oe-institution-programme-grid,
+  #oe-institution-results.oe-provider-grid {
+    grid-template-columns: 1fr !important;
   }
+}
+
+/* Mobile */
+@media (max-width: 560px) {
+  #oe-institution-results > .oe-institution-programme-card {
+    padding: 17px;
+  }
+
+  #oe-institution-results .oe-institution-programme-main {
+    grid-template-columns: 1fr !important;
+  }
+
+  #oe-institution-results .oe-institution-programme-image {
+    width: 100% !important;
+    height: 125px !important;
+    min-height: 125px !important;
+  }
+
+  #oe-institution-results .oe-institution-programme-actions {
+    grid-template-columns: 1fr !important;
+  }
+
+  #oe-institution-results .oe-institution-compare-control {
+    justify-content: flex-start;
+  }
+}
+.oe-institution-actions-enhanced {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    align-items: center;
+}
+
+.oe-institution-actions-enhanced > button {
+    width: 100%;
+    min-width: 0;
+}
+
+.oe-institution-actions-enhanced > label {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+@media (max-width: 560px) {
+    .oe-institution-actions-enhanced {
+        grid-template-columns: 1fr;
+    }
+
+    .oe-institution-actions-enhanced > label {
+        grid-column: auto;
+        justify-content: flex-start;
+    }
+}/* Institution cards: same size as programme cards */
+ .oe-institution-card {
+     padding: 27px;
+     min-height: 0;
+     height: auto;
+ }
+
+ .oe-institution-card img,
+ .oe-institution-card [class*="media"],
+ .oe-institution-card [class*="image"],
+ .oe-institution-card [class*="logo"] {
+     width: 225px;
+     height: 248px;
+     flex: 0 0 225px;
+     aspect-ratio: auto;
+     border-radius: 24px;
+     object-fit: cover;
+ }
+
+ .oe-institution-card h3,
+ .oe-institution-card h2 {
+     font-size: 28px;
+     line-height: 1.2;
+     margin: 0 0 8px;
+ }
+
+ .oe-institution-card h3 + p,
+ .oe-institution-card h2 + p {
+     font-size: 24px;
+     margin: 0 0 12px;
+ }
+
+ .oe-institution-card .oe-button {
+     padding-block: 18px;
+ }
+
+ @media (max-width: 700px) {
+     .oe-institution-card img,
+     .oe-institution-card [class*="media"],
+     .oe-institution-card [class*="image"],
+     .oe-institution-card [class*="logo"] {
+         width: 100%;
+         height: 200px;
+         flex-basis: auto;
+     }
+ }/* Institution card image: 150 x 165 */
+  .oe-institution-card .oe-course-card-main {
+      grid-template-columns: 150px minmax(0, 1fr) !important;
+      gap: 20px !important;
+  }
+
+  .oe-institution-card .oe-course-card-media {
+      width: 150px !important;
+      min-width: 150px !important;
+      max-width: 150px !important;
+      height: 165px !important;
+      min-height: 165px !important;
+      max-height: 165px !important;
+      flex: 0 0 150px !important;
+      aspect-ratio: auto !important;
+  }
+
+  .oe-institution-card .oe-course-card-media img,
+  .oe-institution-card .oe-course-card-monogram {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover;
+  }/* Institution card buttons: 190 x 42 */
+   .oe-institution-card .oe-institution-actions,
+   .oe-institution-card .oe-institution-actions-enhanced {
+       display: flex !important;
+       flex-wrap: wrap !important;
+       justify-content: flex-start !important;
+       align-items: center !important;
+       gap: 95px !important;
+       grid-template-columns: none !important;
+   }
+
+   .oe-institution-card .oe-institution-actions .oe-button,
+   .oe-institution-card .oe-institution-actions-enhanced .oe-button,
+   .oe-institution-card .oe-institution-actions button,
+   .oe-institution-card .oe-institution-actions a {
+       width: 190px !important;
+       min-width: 190px !important;
+       max-width: 190px !important;
+       height: 42px !important;
+       min-height: 42px !important;
+       max-height: 42px !important;
+       padding: 10px 12px !important;
+       font-size: 13px !important;
+       line-height: 1.2 !important;
+       flex: 0 0 190px !important;
+       box-sizing: border-box !important;
+   }

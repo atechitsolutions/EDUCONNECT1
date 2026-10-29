@@ -1,13 +1,23 @@
-
 import { getOnlineEducationProgrammes } from "../../services/onlineEducationService.js";
 import { onlineEducationInstitutions } from "../../data/onlineEducationInstitutions.js";
 import { renderOnlineEducationCustomCards } from "./onlineEducationCustomCards.js";
 import { addProgrammeImages } from "../../utils/onlineEducationImages.js";
 
+/* ---------------------------------------------------------
+   ENQUIRY SETTINGS
+   ENQUIRY_ENDPOINT: your backend URL, e.g. "/api/enquiries".
+   If empty, enquiries are saved in localStorage for testing.
+   USE_EXISTING_ENQUIRY_FORM: true = scroll to a form already on
+   the page (falls back to the popup if none is found).
+--------------------------------------------------------- */
+const ENQUIRY_ENDPOINT = "";
+const ENQUIRY_STORAGE_KEY = "educonnect-online-enquiries";
+const USE_EXISTING_ENQUIRY_FORM = false;
+
 const byId = (id) => document.getElementById(id);
 
 const escapeHTML = (value = "") =>
-    String(value).replace(/[&<>"']/g, (char) => ({
+    String(value ?? "").replace(/[&<>"']/g, (char) => ({
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
@@ -111,7 +121,9 @@ function safeExternalUrl(url) {
  */
 function findExistingEnquiryTarget(root) {
     const forms = [...root.querySelectorAll("form")].filter(
-        (form) => !form.matches("#oe-hero-search-form")
+        (form) =>
+            !form.matches("#oe-hero-search-form") &&
+            !form.matches("[data-oe-enquiry-form]")
     );
 
     const enquiryWords =
@@ -174,16 +186,11 @@ function findExistingEnquiryTarget(root) {
     ) || null;
 }
 
+/* Returns true if an existing enquiry form/section was found and scrolled to. */
 function scrollToExistingEnquiry(root) {
     const target = findExistingEnquiryTarget(root);
 
-    if (!target) {
-        window.alert(
-            "An existing enquiry form could not be identified on this page. " +
-            "Please check the page markup and ensure the enquiry form is present."
-        );
-        return;
-    }
+    if (!target) return false;
 
     target.scrollIntoView({
         behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -205,6 +212,8 @@ function scrollToExistingEnquiry(root) {
             firstControl.focus({ preventScroll: true });
         }, 350);
     }
+
+    return true;
 }
 
 function getProgrammeDetails(programme) {
@@ -225,6 +234,30 @@ function getProgrammeDetails(programme) {
             <dd>${escapeHTML(value || "Check provider website")}</dd>
         </div>
     `).join("");
+}
+
+/* Small set of styles for the enquiry popup form (added once). */
+function injectEnquiryStyles() {
+    if (byId("oe-enquiry-styles")) return;
+
+    const style = document.createElement("style");
+    style.id = "oe-enquiry-styles";
+    style.textContent = `
+        .oe-enquiry-form { display: grid; gap: 12px; margin-top: 14px; }
+        .oe-enquiry-form label { display: grid; gap: 6px; font-size: .88rem; }
+        .oe-enquiry-form input:not([type="checkbox"]),
+        .oe-enquiry-form textarea {
+            width: 100%; box-sizing: border-box; padding: 10px 12px;
+            border-radius: 10px; border: 1px solid rgba(255,255,255,.18);
+            background: rgba(255,255,255,.06); color: inherit; font: inherit;
+        }
+        .oe-enquiry-form .oe-enquiry-check {
+            display: flex; gap: 8px; align-items: flex-start; font-size: .85rem;
+        }
+        .oe-field-error { color: #ff7b8a; font-size: .8rem; }
+        .oe-field-error:empty { display: none; }
+    `;
+    document.head.append(style);
 }
 
 export async function initOnlineEducationPage() {
@@ -282,6 +315,7 @@ export async function initOnlineEducationPage() {
     let institutionsExpanded = false;
     let cardObserver = null;
     let detailsDialog = null;
+    let enquiryDialog = null;
 
     const motionEnabled =
         !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -672,7 +706,7 @@ export async function initOnlineEducationPage() {
         detailsDialog = document.createElement("dialog");
         detailsDialog.className =
             "oe-compare-dialog oe-programme-details-dialog";
-        detailsDialog.setAttribute("aria-label", "Programme details");
+        detailsDialog.setAttribute("aria-label", "Details");
 
         root.append(detailsDialog);
 
@@ -742,6 +776,341 @@ export async function initOnlineEducationPage() {
         `;
 
         if (!dialog.open) dialog.showModal();
+    };
+
+    /* ---------------------------------------------------------
+       INSTITUTION DETAILS DIALOG
+    --------------------------------------------------------- */
+
+    const openInstitutionDetails = (id) => {
+        const institution = onlineEducationInstitutions.find(
+            (item) => String(item.id) === String(id)
+        );
+
+        if (!institution) return;
+
+        const dialog = ensureDetailsDialog();
+        const institutionUrl = safeExternalUrl(institution.url);
+
+        const details = [
+        ["Overview", institution.overview || institution.programmeNote],
+            ["Institution", institution.name],
+            ["City", institution.city],
+            ["Country", institution.country],
+            ["Institution type", institution.type],
+            ["Education levels", institution.levels?.join(", ")],
+            ["Subjects", institution.subjects?.join(", ")],
+            ["Study modes", institution.modes?.join(", ")],
+
+            ["Last verified", institution.lastVerifiedAt || "Not verified yet"]
+        ];
+
+        dialog.innerHTML = `
+            <div class="oe-dialog-head">
+                <div>
+                    <p class="oe-eyebrow">INSTITUTION OVERVIEW</p>
+                    <h2>${escapeHTML(institution.name)}</h2>
+                    <p>
+                        ${escapeHTML(institution.city || "")}
+                        ${institution.city && institution.country ? " · " : ""}
+                        ${escapeHTML(institution.country || "")}
+                    </p>
+                </div>
+
+                <button
+                    type="button"
+                    class="oe-icon-button"
+                    data-close-details
+                    aria-label="Close institution details"
+                >×</button>
+            </div>
+
+            <dl class="oe-programme-detail-list">
+                ${details.map(([label, value]) => `
+                    <div class="oe-detail-row"${label === "Overview" ? ' style="grid-column: 1 / -1;"' : ""}>
+                        <dt>${escapeHTML(label)}</dt>
+                        <dd>${escapeHTML(value || "Not specified")}</dd>
+                    </div>
+                `).join("")}
+            </dl>
+
+            <div class="oe-dialog-actions">
+                ${
+                    institutionUrl
+                        ? `<a
+                            class="oe-button oe-outline"
+                            href="${escapeHTML(institutionUrl)}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >Official Website ↗</a>`
+                        : ""
+                }
+
+                <button
+                    type="button"
+                    class="oe-button oe-primary"
+                    data-enquire-institution="${escapeHTML(institution.id)}"
+                >Enquire Now</button>
+
+                <button
+                    type="button"
+                    class="oe-button oe-outline"
+                    data-close-details
+                >Close</button>
+            </div>
+        `;
+
+        if (!dialog.open) dialog.showModal();
+    };
+
+    /* ---------------------------------------------------------
+       ENQUIRE NOW DIALOG
+    --------------------------------------------------------- */
+
+    const ensureEnquiryDialog = () => {
+        if (enquiryDialog?.isConnected) return enquiryDialog;
+
+        injectEnquiryStyles();
+
+        enquiryDialog = document.createElement("dialog");
+        enquiryDialog.id = "oe-enquiry-dialog";
+        enquiryDialog.className = "oe-compare-dialog oe-enquiry-dialog";
+        enquiryDialog.setAttribute("aria-label", "Enquiry form");
+
+        root.append(enquiryDialog);
+
+        return enquiryDialog;
+    };
+
+    const openEnquiry = (kind, id) => {
+        const subject = kind === "institution"
+            ? onlineEducationInstitutions.find(
+                (item) => String(item.id) === String(id)
+            )
+            : programmes.find((item) => String(item.id) === String(id));
+
+        if (!subject) return;
+
+        // Close any open details popup first
+        detailsDialog?.close();
+
+        // Optional: reuse a form that is already on the page
+        if (USE_EXISTING_ENQUIRY_FORM && scrollToExistingEnquiry(root)) {
+            return;
+        }
+
+        const title = kind === "institution" ? subject.name : subject.title;
+        const sub = kind === "institution"
+            ? [subject.city, subject.country].filter(Boolean).join(" · ")
+            : [subject.providerName, subject.country].filter(Boolean).join(" · ");
+
+        const dialog = ensureEnquiryDialog();
+
+        dialog.innerHTML = `
+            <div class="oe-dialog-head">
+                <div>
+                    <p class="oe-eyebrow">FREE COUNSELLING ENQUIRY</p>
+                    <h2>${escapeHTML(title || "Enquiry")}</h2>
+                    <p>${escapeHTML(sub)}</p>
+                </div>
+
+                <button
+                    type="button"
+                    class="oe-icon-button"
+                    data-close-details
+                    aria-label="Close enquiry form"
+                >×</button>
+            </div>
+
+            <form class="oe-enquiry-form" data-oe-enquiry-form novalidate>
+                <input type="hidden" name="kind" value="${escapeHTML(kind)}">
+                <input type="hidden" name="itemId" value="${escapeHTML(id)}">
+
+                <label>Full name *
+                    <input name="fullName" autocomplete="name" required>
+                    <span class="oe-field-error" data-error-for="fullName"></span>
+                </label>
+
+                <label>Email *
+                    <input type="email" name="email" autocomplete="email" required>
+                    <span class="oe-field-error" data-error-for="email"></span>
+                </label>
+
+                <label>Phone / WhatsApp *
+                    <input type="tel" name="phone" autocomplete="tel" required>
+                    <span class="oe-field-error" data-error-for="phone"></span>
+                </label>
+
+                <label>Message (optional)
+                    <textarea name="message" rows="3"
+                        placeholder="Course, budget, start date, questions..."></textarea>
+                </label>
+
+                <label class="oe-enquiry-check">
+                    <input type="checkbox" name="consent" required>
+                    <span>I agree to be contacted about this enquiry. *</span>
+                </label>
+                <span class="oe-field-error" data-error-for="consent"></span>
+
+                <p class="oe-field-error" data-oe-form-status role="alert"></p>
+
+                <div class="oe-dialog-actions">
+                    <button type="submit" class="oe-button oe-primary">Send Enquiry</button>
+                    <button type="button" class="oe-button oe-outline" data-close-details>Cancel</button>
+                </div>
+            </form>
+        `;
+
+        if (!dialog.open) dialog.showModal();
+
+        dialog.querySelector('input[name="fullName"]')?.focus();
+    };
+
+    const sendEnquiry = async (payload) => {
+        if (ENQUIRY_ENDPOINT) {
+            const response = await fetch(ENQUIRY_ENDPOINT, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server returned ${response.status}`);
+            }
+
+            return;
+        }
+
+        // Local fallback so the flow can be tested without a backend
+        const saved = storage(ENQUIRY_STORAGE_KEY, []);
+        saved.push(payload);
+        localStorage.setItem(ENQUIRY_STORAGE_KEY, JSON.stringify(saved));
+    };
+
+    const handleEnquirySubmit = async (form) => {
+        const fd = new FormData(form);
+
+        const data = {
+            kind: String(fd.get("kind") || ""),
+            itemId: String(fd.get("itemId") || ""),
+            fullName: String(fd.get("fullName") || "").trim(),
+            email: String(fd.get("email") || "").trim(),
+            phone: String(fd.get("phone") || "").trim(),
+            message: String(fd.get("message") || "").trim(),
+            consent: fd.get("consent") === "on"
+        };
+
+        form.querySelectorAll("[data-error-for]").forEach((element) => {
+            element.textContent = "";
+        });
+
+        const status = form.querySelector("[data-oe-form-status]");
+        if (status) status.textContent = "";
+
+        const errors = {};
+        const phoneDigits = data.phone.replace(/\D/g, "");
+
+        if (!data.fullName) errors.fullName = "Please enter your name.";
+
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+            errors.email = "Please enter a valid email.";
+        }
+
+        if (phoneDigits.length < 7 || phoneDigits.length > 15) {
+            errors.phone = "Please enter a valid phone number.";
+        }
+
+        if (!data.consent) errors.consent = "Please tick this box to continue.";
+
+        const errorKeys = Object.keys(errors);
+
+        if (errorKeys.length) {
+            errorKeys.forEach((key) => {
+                const element = form.querySelector(`[data-error-for="${key}"]`);
+                if (element) element.textContent = errors[key];
+            });
+
+            form.querySelector(`[name="${errorKeys[0]}"]`)?.focus();
+            return;
+        }
+
+        const subject = data.kind === "institution"
+            ? onlineEducationInstitutions.find(
+                (item) => String(item.id) === data.itemId
+            )
+            : programmes.find((item) => String(item.id) === data.itemId);
+
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = "Sending...";
+        }
+
+        try {
+            await sendEnquiry({
+                kind: data.kind,
+                itemId: data.itemId,
+                itemName: data.kind === "institution"
+                    ? subject?.name || ""
+                    : subject?.title || "",
+                providerName: data.kind === "institution"
+                    ? subject?.name || ""
+                    : subject?.providerName || "",
+                country: subject?.country || "",
+                fullName: data.fullName,
+                email: data.email,
+                phone: data.phone,
+                message: data.message,
+                submittedAt: new Date().toISOString()
+            });
+
+            const itemLabel = data.kind === "institution"
+                ? subject?.name
+                : subject?.title;
+
+            enquiryDialog.innerHTML = `
+                <div class="oe-dialog-head">
+                    <div>
+                        <p class="oe-eyebrow">ENQUIRY SENT</p>
+                        <h2>Thank you!</h2>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="oe-icon-button"
+                        data-close-details
+                        aria-label="Close"
+                    >×</button>
+                </div>
+
+                <p class="oe-dialog-note">
+                    Your enquiry about
+                    <strong>${escapeHTML(itemLabel || "this option")}</strong>
+                    has been received. Our counsellor will contact you soon.
+                </p>
+
+                <div class="oe-dialog-actions">
+                    <button
+                        type="button"
+                        class="oe-button oe-primary"
+                        data-close-details
+                    >Close</button>
+                </div>
+            `;
+        } catch (error) {
+            console.error("Enquiry could not be sent.", error);
+
+            if (status) {
+                status.textContent =
+                    "Could not send your enquiry. Please try again.";
+            }
+
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = "Send Enquiry";
+            }
+        }
     };
 
     /* ---------------------------------------------------------
@@ -1313,6 +1682,7 @@ export async function initOnlineEducationPage() {
             });
         }
 
+        // Programme card: View Details
         const viewDetails = event.target.closest("[data-view-details]");
 
         if (viewDetails) {
@@ -1320,12 +1690,36 @@ export async function initOnlineEducationPage() {
             return;
         }
 
+        // Institution card: View Details
+        const institutionDetailsButton = event.target.closest(
+            "[data-view-institution-details]"
+        );
+
+        if (institutionDetailsButton) {
+            openInstitutionDetails(
+                institutionDetailsButton.dataset.viewInstitutionDetails
+            );
+            return;
+        }
+
+        // Programme card / popup: Enquire Now
         const enquireButton = event.target.closest("[data-enquire-programme]");
 
         if (enquireButton) {
-            byId("oe-programme-details-dialog")?.close();
-            detailsDialog?.close();
-            scrollToExistingEnquiry(root);
+            openEnquiry("programme", enquireButton.dataset.enquireProgramme);
+            return;
+        }
+
+        // Institution card / popup: Enquire Now
+        const institutionEnquiryButton = event.target.closest(
+            "[data-enquire-institution]"
+        );
+
+        if (institutionEnquiryButton) {
+            openEnquiry(
+                "institution",
+                institutionEnquiryButton.dataset.enquireInstitution
+            );
             return;
         }
 
@@ -1398,8 +1792,9 @@ export async function initOnlineEducationPage() {
             byId("oe-compare-dialog")?.close();
         }
 
+        // Close the details popup or the enquiry popup
         if (event.target.closest("[data-close-details]")) {
-            detailsDialog?.close();
+            event.target.closest("dialog")?.close();
         }
 
         if (event.target.closest("#oe-inst-compare-clear")) {
@@ -1540,6 +1935,19 @@ export async function initOnlineEducationPage() {
             byId("oe-nav-links")?.classList.remove("is-open");
             byId("oe-menu-toggle")?.setAttribute("aria-expanded", "false");
         }
+    });
+
+    /* ---------------------------------------------------------
+       ENQUIRY FORM SUBMIT
+    --------------------------------------------------------- */
+
+    root.addEventListener("submit", (event) => {
+        const form = event.target.closest("[data-oe-enquiry-form]");
+
+        if (!form) return;
+
+        event.preventDefault();
+        handleEnquirySubmit(form);
     });
 
     /* ---------------------------------------------------------
