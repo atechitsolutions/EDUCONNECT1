@@ -12,6 +12,146 @@
 
 
 const INSTITUTION_IMAGES = {
+
+"university of florida": {
+  imageUrl: "https://i.pinimg.com/736x/27/52/d1/2752d1632ae5d4c61a9b07c314b74c3f.jpg",
+  imageAlt: "University of Florida campus in Gainesville, Florida",
+  imageSource: "campus"
+},
+"northeastern university": {
+  imageUrl: "https://i.pinimg.com/1200x/35/28/8a/35288a3434dffa86c81581b4dbf0d8aa.jpg",
+  imageAlt: "Northeastern University campus",
+  imageSource: "campus"
+},
+"penn state world campus": {
+  imageUrl: "https://i.pinimg.com/1200x/bb/43/6c/bb436c50a0db57a10be36df82822bbdc.jpg",
+  imageAlt: "Penn State World Campus online education",
+  imageSource: "campus"
+},
+"pennsylvania state university world campus": {
+  imageUrl: "https://i.pinimg.com/1200x/bb/43/6c/bb436c50a0db57a10be36df82822bbdc.jpg",
+  imageAlt: "Penn State World Campus online education",
+  imageSource: "campus"
+},
+"university of illinois urbana-champaign": {
+  imageUrl: "https://i.pinimg.com/1200x/27/e5/65/27e565f1296f55b781d2d8268162250f.jpg",
+  imageAlt: "University of Illinois Urbana-Champaign campus",
+  imageSource: "campus"
+},
+"university of illinois urbana champaign": {
+  imageUrl: "https://i.pinimg.com/1200x/27/e5/65/27e565f1296f55b781d2d8268162250f.jpg",
+  imageAlt: "University of Illinois Urbana-Champaign campus",
+  imageSource: "campus"
+},
+"university of nebraska–lincoln": {
+  imageUrl: "https://i.pinimg.com/736x/c2/37/0c/c2370cd8cfd85f43842f22e96cd6664d.jpg",
+  imageAlt: "University of Nebraska–Lincoln campus",
+  imageSource: "campus"
+},
+"university of nebraska-lincoln": {
+  imageUrl: "https://i.pinimg.com/736x/c2/37/0c/c2370cd8cfd85f43842f22e96cd6664d.jpg",
+  imageAlt: "University of Nebraska–Lincoln campus",
+  imageSource: "campus"
+},
+"the university of texas at tyler": {
+  imageUrl: "https://i.pinimg.com/1200x/d4/e0/af/d4e0afdab188fabcfd857914b50ff26e.jpg",
+  imageAlt: "The University of Texas at Tyler campus",
+  imageSource: "campus"
+},
+"university of texas at tyler": {
+  imageUrl: "https://i.pinimg.com/1200x/d4/e0/af/d4e0afdab188fabcfd857914b50ff26e.jpg",
+  imageAlt: "The University of Texas at Tyler campus",
+  imageSource: "campus"
+},
+"ut tyler": {
+  imageUrl: "https://i.pinimg.com/1200x/d4/e0/af/d4e0afdab188fabcfd857914b50ff26e.jpg",
+  imageAlt: "The University of Texas at Tyler campus",
+  imageSource: "campus"
+},
+"university of nebraska–lincoln": {
+  imageUrl: "https://i.pinimg.com/736x/c2/37/0c/c2370cd8cfd85f43842f22e96cd6664d.jpg",
+  imageAlt: "University of Nebraska–Lincoln campus",
+  imageSource: "campus"
+},
+"university of nebraska-lincoln": {
+  imageUrl: "https://i.pinimg.com/736x/c2/37/0c/c2370cd8cfd85f43842f22e96cd6664d.jpg",
+  imageAlt: "University of Nebraska–Lincoln campus",
+  imageSource: "campus"
+},
+"swiss school of business and management (ssbm)": {
+  imageUrl: "https://i.pinimg.com/1200x/63/ac/e7/63ace798afbb4ad2fd48b2e81796791a.jpg",
+  imageAlt: "Swiss School of Business and Management (SSBM)",
+  imageSource: "campus"
+},
+"swiss school of business and management": {
+  imageUrl: "https://i.pinimg.com/1200x/63/ac/e7/63ace798afbb4ad2fd48b2e81796791a.jpg",
+  imageAlt: "Swiss School of Business and Management (SSBM)",
+  imageSource: "campus"
+},
+"ssbm": {
+  imageUrl: "https://i.pinimg.com/1200x/63/ac/e7/63ace798afbb4ad2fd48b2e81796791a.jpg",
+  imageAlt: "Swiss School of Business and Management (SSBM)",
+  imageSource: "campus"
+},
+"esgci, paris": {
+  imageUrl: "https://i.pinimg.com/736x/21/2b/20/212b20e92eb3a1df478625d2810c6164.jpg",
+  imageAlt: "ESGCI business school in Paris, France",
+  imageSource: "campus"
+},
+"esgci": {
+  imageUrl: "https://i.pinimg.com/736x/21/2b/20/212b20e92eb3a1df478625d2810c6164.jpg",
+  imageAlt: "ESGCI business school in Paris, France",
+  imageSource: "campus"
+},
+"rushford business school, switzerland": {
+  imageUrl: "https://i.pinimg.com/1200x/38/ba/39/38ba39b6924a206fda8627c8a7434c5d.jpg",
+  imageAlt: "Rushford Business School",
+  imageSource: "campus"
+},
+"rushford business school": {
+  imageUrl: "https://i.pinimg.com/1200x/38/ba/39/38ba39b6924a206fda8627c8a7434c5d.jpg",
+  imageAlt: "Rushford Business School",
+  imageSource: "campus"
+},
+
+"arizona state university — asu online": {
+  imageUrl: "https://i.pinimg.com/1200x/21/ef/e1/21efe1e198248f81f62105bf9b5e3429.jpg",
+  imageAlt: "Arizona State University campus",
+  imageSource: "campus"
+},
+"arizona state university": {
+  imageUrl: "https://i.pinimg.com/1200x/21/ef/e1/21efe1e198248f81f62105bf9b5e3429.jpg",
+  imageAlt: "Arizona State University campus",
+  imageSource: "campus"
+},
+"asu online": {
+  imageUrl: "https://i.pinimg.com/1200x/21/ef/e1/21efe1e198248f81f62105bf9b5e3429.jpg",
+  imageAlt: "Arizona State University campus",
+  imageSource: "campus"
+},
+
+"iim bangalore": {
+  imageUrl: "https://i.pinimg.com/736x/eb/00/57/eb0057f46060ba1ed7fb2053b52e6798.jpg",
+  imageAlt: "Indian Institute of Management Bangalore campus",
+  imageSource: "campus"
+},
+"indian institute of management bangalore": {
+  imageUrl: "https://i.pinimg.com/736x/eb/00/57/eb0057f46060ba1ed7fb2053b52e6798.jpg",
+  imageAlt: "Indian Institute of Management Bangalore campus",
+  imageSource: "campus"
+},
+
+
+"university of waterloo": {
+  imageUrl: "https://i.pinimg.com/736x/cd/14/bb/cd14bba4f89373f7dc6c6dd258010815.jpg",
+  imageAlt: "University of Waterloo campus in Ontario, Canada",
+  imageSource: "campus"
+},
+"waterloo university": {
+  imageUrl: "/images/university-of-waterloo-campus.jpg",
+  imageAlt: "University of Waterloo campus in Ontario, Canada",
+  imageSource: "campus"
+},
 "the open university": {
   imageUrl: "https://i.pinimg.com/236x/8e/24/d2/8e24d28dad9d62db7b214b8c5ffe4e7d.jpg",
   imageAlt: "The Open University campus and learning facilities",
