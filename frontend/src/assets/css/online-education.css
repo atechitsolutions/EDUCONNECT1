@@ -1264,4 +1264,50 @@
     object-fit: contain;
     object-position: center;
     image-rendering: auto;
-  }
+  }/* Programme filters — match the institution filter row */
+   .oe-page #oe-filters {
+       display: grid !important;
+       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto !important;
+       align-items: end !important;
+       gap: 12px 14px !important;
+   }
+
+   .oe-page #oe-filters > .oe-filter-heading {
+       grid-column: 1 / -1 !important;
+       grid-row: 1 !important;
+   }
+
+   .oe-page #oe-filters > label.oe-field {
+       grid-column: auto !important;
+       grid-row: 2 !important;
+       min-width: 0 !important;
+       width: 100% !important;
+       align-self: end !important;
+   }
+
+   .oe-page #oe-filters > #oe-clear {
+       grid-column: 3 !important;
+       grid-row: 2 !important;
+       justify-self: start !important;
+       align-self: end !important;
+       width: auto !important;
+       min-width: 0 !important;
+       max-width: max-content !important;
+       min-height: 42px !important;
+       padding: 9px 16px !important;
+       margin: 0 0 1px !important;
+       white-space: nowrap !important;
+   }
+
+   @media (max-width: 760px) {
+       .oe-page #oe-filters {
+           grid-template-columns: 1fr !important;
+       }
+
+       .oe-page #oe-filters > .oe-filter-heading,
+       .oe-page #oe-filters > label.oe-field,
+       .oe-page #oe-filters > #oe-clear {
+           grid-column: 1 !important;
+           grid-row: auto !important;
+       }
+   }
