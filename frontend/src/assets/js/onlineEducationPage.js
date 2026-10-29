@@ -273,7 +273,7 @@ export async function initOnlineEducationPage() {
     ];
 
     let programmes = [];
-    let visibleLimit = 6;
+    let visibleLimit = 4;
 
     let favourites = storage("educonnect-online-favourites", []);
     let compared = storage("educonnect-online-compare", []);
