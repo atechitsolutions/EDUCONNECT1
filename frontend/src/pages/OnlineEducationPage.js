@@ -467,50 +467,96 @@ export default function OnlineEducationPage() {
 </section>
 
 
-        <section
-          class="oe-section oe-platform-guide"
-          id="oe-platforms"
-          aria-labelledby="oe-platform-title"
-        >
-          <div class="oe-container">
-            <div class="oe-section-head">
-              <div>
-                <p class="oe-eyebrow">A GUIDE TO DISCOVERY SOURCES</p>
 
-                <h2 id="oe-platform-title">
-                  Best websites for online learning, by education level
-                </h2>
+<section class="oe-section oe-popular oe-trending oe-ms-section" id="oe-popular">
+  <div class="oe-container">
+    <div class="oe-ms-heading">
+      <h2>
+        Master Generative AI and
+        <span>get certified with Microsoft</span>
+      </h2>
+    </div>
 
-                <p>
-                  Find learning websites for school courses, diplomas,
-                  certificates and degree discovery. Confirm individual
-                  course details on the provider's official website.
-                </p>
+    <div class="oe-ms-carousel">
+      <button type="button" class="oe-ms-arrow" data-trending-prev
+        aria-label="Previous courses">←</button>
+
+      <div class="oe-ms-viewport">
+        <div class="oe-ms-track" data-trending-track>
+          ${[
+            {
+              title: "Generative AI Mastery Certificate for Data Analysis",
+              description: "Learn to use ChatGPT, Power BI, and more",
+              imageTitle: "Generative AI for Data Analysis",
+              query: "generative AI data analysis"
+            },
+            {
+              title: "Build Foundational Generative AI Skills",
+              description: "Learn to use Neural Network, llm, and more",
+              imageTitle: "Generative AI for Software Development",
+              query: "generative AI software development"
+            },
+            {
+              title: "Introduction to Generative AI for Trainers",
+              description: "Explore Claude, Microsoft 365 Copilot, and more",
+              imageTitle: "Generative AI for Management",
+              query: "generative AI business management"
+            },
+            {
+              title: "Develop Generative AI Apps on Microsoft Foundry",
+              description: "Explore ChatGPT, DALL-E, and more",
+              imageTitle: "Generative AI for Content Creation",
+              query: "generative AI content creation"
+            }
+          ].map((course, index) => `
+            <article class="oe-ms-card">
+              <a class="oe-ms-banner"
+                href="https://learn.microsoft.com/en-us/training/"
+                target="_blank" rel="noopener noreferrer"
+                aria-label="Explore Microsoft Learn">
+                <img
+                  src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=850&q=85"
+                  alt="${course.imageTitle}"
+                  loading="lazy">
+                <span class="oe-ms-banner-shade"></span>
+                <span class="oe-ms-banner-copy">
+                  <small>Microsoft Learn</small>
+                  <strong>${course.imageTitle}</strong>
+                </span>
+              </a>
+
+              <div class="oe-ms-card-body">
+                <p class="oe-ms-provider">Microsoft</p>
+                <h3>${course.title}</h3>
+                <p class="oe-ms-description">${course.description}</p>
+
+                <div class="oe-ms-meta">
+                  <span>▤ &nbsp; Certificate</span>
+                  <span>◷ &nbsp; 2 Months</span>
+                </div>
+
+                <div class="oe-ms-actions">
+                  <a class="oe-ms-view"
+                    href="https://learn.microsoft.com/en-us/training/"
+                    target="_blank" rel="noopener noreferrer">
+                    View Program
+                  </a>
+                  <button class="oe-ms-enquire" type="button"
+                    data-enquire-course="${course.title}">
+                    Enquire
+                  </button>
+                </div>
               </div>
-            </div>
+            </article>
+          `).join("")}
+        </div>
+      </div>
 
-            <div class="oe-platform-grid">
-              ${[
-                    ["School learning", "Khan Academy", "Free learning resources for school-level subjects.", "https://www.khanacademy.org/"],
-                    ["University courses", "Coursera", "Explore online courses and programmes from participating providers.", "https://www.coursera.org/"],
-                    ["University courses", "edX", "Explore courses and professional learning opportunities.", "https://www.edx.org/"],
-                    ["Professional learning", "FutureLearn", "Discover courses across academic and professional subjects.", "https://www.futurelearn.com/"],
-                    ["Technical learning", "freeCodeCamp", "Explore free coding lessons and projects.", "https://www.freecodecamp.org/"],
-                    ["Technology learning", "Microsoft Learn", "Explore technical learning paths and documentation.", "https://learn.microsoft.com/"]
-                ].map(([category, name, description, url]) => `
-                  <article class="oe-platform-card">
-                    <span class="oe-platform-category">${category}</span>
-                    <h3>${name}</h3>
-                    <p>${description}</p>
-
-                    <a href="${url}" target="_blank" rel="noopener noreferrer">
-                      Visit official website ↗
-                    </a>
-                  </article>
-                `).join("")}
-            </div>
-          </div>
-        </section>
+      <button type="button" class="oe-ms-arrow" data-trending-next
+        aria-label="Next courses">→</button>
+    </div>
+  </div>
+</section>
 
         <section class="oe-section oe-programmes-section" id="oe-programmes">
           <div class="oe-container">

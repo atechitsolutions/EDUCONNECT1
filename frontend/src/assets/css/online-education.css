@@ -1767,3 +1767,256 @@
   background: #d91d36;
   transform: translateY(-1px);
 }
+
+/* Microsoft Generative AI course carousel */
+.oe-ms-section {
+  background: #fff;
+  padding: 54px 0 76px;
+  overflow: hidden;
+}
+
+.oe-ms-heading {
+  margin: 0 0 36px;
+}
+
+.oe-ms-heading h2 {
+  margin: 0;
+  color: #101010;
+  font-size: clamp(25px, 3vw, 40px);
+  font-weight: 750;
+  line-height: 1.25;
+  letter-spacing: -1.2px;
+}
+
+.oe-ms-heading h2 span {
+  color: #f52b40;
+}
+
+.oe-ms-carousel {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+}
+
+.oe-ms-viewport {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  padding: 5px 0 14px;
+}
+
+.oe-ms-track {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  transition: transform .45s ease;
+  will-change: transform;
+}
+
+.oe-ms-card {
+  flex: 0 0 calc((100% - 72px) / 4);
+  min-width: 0;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 25px;
+  box-shadow: 0 12px 36px rgba(22, 28, 45, .09);
+  display: flex;
+  flex-direction: column;
+}
+
+.oe-ms-banner {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 158px;
+  overflow: hidden;
+  background: #020611;
+  color: white !important;
+}
+
+.oe-ms-banner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .4s ease;
+}
+
+.oe-ms-card:hover .oe-ms-banner img {
+  transform: scale(1.05);
+}
+
+.oe-ms-banner-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 5, 18, .08),
+    rgba(0, 5, 18, .88)
+  );
+}
+
+.oe-ms-banner-copy {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 16px 13px;
+  display: grid;
+  gap: 6px;
+}
+
+.oe-ms-banner-copy small {
+  font-size: 10px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.oe-ms-banner-copy strong {
+  font-size: 13px;
+  line-height: 1.4;
+  color: #fff;
+}
+
+.oe-ms-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px 18px 18px;
+}
+
+.oe-ms-provider {
+  margin: 0 0 5px;
+  color: #6b6b6b;
+  font-size: 13px;
+}
+
+.oe-ms-card-body h3 {
+  color: #202020;
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.48;
+  margin: 0 0 14px;
+  min-height: 76px;
+}
+
+.oe-ms-description {
+  background: #e3f5f7;
+  color: #007c88;
+  border-radius: 30px;
+  padding: 9px 13px;
+  font-size: 11px;
+  line-height: 1.5;
+  font-weight: 650;
+  margin: 0 0 16px;
+}
+
+.oe-ms-meta {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 12px;
+}
+
+.oe-ms-actions {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.oe-ms-view,
+.oe-ms-enquire {
+  min-height: 41px;
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 25px;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+}
+
+.oe-ms-view {
+  border: 1px solid #aaa;
+  background: #fff;
+  color: #202020 !important;
+}
+
+.oe-ms-view:hover {
+  background: #f4f4f4;
+}
+
+.oe-ms-enquire {
+  border: 1px solid #f52b40;
+  background: #f52b40;
+  color: #fff;
+}
+
+.oe-ms-enquire:hover {
+  background: #d91d32;
+  transform: translateY(-1px);
+}
+
+.oe-ms-arrow {
+  flex: 0 0 42px;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: #292929;
+  box-shadow: 0 3px 16px rgba(0, 0, 0, .1);
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.oe-ms-arrow:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1100px) {
+  .oe-ms-card {
+    flex-basis: calc((100% - 24px) / 2);
+  }
+}
+
+@media (max-width: 640px) {
+  .oe-ms-section {
+    padding: 36px 0 48px;
+  }
+
+  .oe-ms-heading {
+    margin-bottom: 23px;
+  }
+
+  .oe-ms-carousel {
+    gap: 7px;
+  }
+
+  .oe-ms-card {
+    flex-basis: 100%;
+  }
+
+  .oe-ms-track {
+    gap: 16px;
+  }
+
+  .oe-ms-arrow {
+    flex-basis: 32px;
+    width: 32px;
+    height: 32px;
+    font-size: 19px;
+  }
+
+  .oe-ms-banner {
+    min-height: 180px;
+  }
+}
