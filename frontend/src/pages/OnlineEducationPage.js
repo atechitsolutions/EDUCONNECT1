@@ -7,6 +7,54 @@ import renderOnlineEducationLeadForm, {
 } from "../components/onlineeducationleadform.js";
 
 
+
+function bindTrendingCourses(root) {
+  const track = root.querySelector("[data-trending-track]");
+  const previous = root.querySelector("[data-trending-prev]");
+  const next = root.querySelector("[data-trending-next]");
+
+  if (!track || !previous || !next) return;
+
+  let index = 0;
+
+  const getVisibleCount = () => {
+    if (window.innerWidth <= 640) return 1;
+    if (window.innerWidth <= 1100) return 2;
+    return 4;
+  };
+
+  const update = () => {
+    const cards = [...track.querySelectorAll(".oe-trending-card")];
+    const visible = getVisibleCount();
+    const maxIndex = Math.max(0, cards.length - visible);
+
+    index = Math.max(0, Math.min(index, maxIndex));
+
+    const card = cards[0];
+    if (card) {
+      const gap = parseFloat(getComputedStyle(track).gap) || 0;
+      const distance = card.getBoundingClientRect().width + gap;
+      track.style.transform = `translateX(-${index * distance}px)`;
+    }
+
+    previous.disabled = index === 0;
+    next.disabled = index >= maxIndex;
+  };
+
+  previous.addEventListener("click", () => {
+    index--;
+    update();
+  });
+
+  next.addEventListener("click", () => {
+    index++;
+    update();
+  });
+
+  window.addEventListener("resize", update);
+  update();
+}
+
 const levels = [
     "School",
     "Diploma",
@@ -276,61 +324,148 @@ export default function OnlineEducationPage() {
           </div>
         </section>
 
-        <section class="oe-section oe-popular" id="oe-popular">
-          <div class="oe-container">
-            <div class="oe-section-head">
-              <div>
-                <p class="oe-eyebrow">A FEW PLACES TO START</p>
-                <h2>Popular online course topics</h2>
-                <p>
-                  Illustrative discovery links to official topic catalogues.
-                  Courses remain hosted by their providers.
-                </p>
+
+<section class="oe-section oe-popular oe-trending" id="oe-popular">
+  <div class="oe-container">
+    <div class="oe-section-head oe-trending-heading">
+      <div>
+        <p class="oe-eyebrow">TRENDING COURSES</p>
+        <h2>Get Future-Ready with <span>AI</span></h2>
+        <p>
+          Explore popular learning topics and discover programmes
+          from established online learning providers.
+        </p>
+      </div>
+
+      <a class="oe-text-link" href="#oe-programmes">
+        View all courses <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
+    <div class="oe-trending-carousel">
+      <button
+        type="button"
+        class="oe-trending-arrow oe-trending-prev"
+        aria-label="Previous courses"
+        data-trending-prev
+      >&#8592;</button>
+
+      <div class="oe-trending-viewport">
+        <div class="oe-trending-track" data-trending-track>
+          ${[
+            {
+              title: "Foundations of Computer Science",
+              provider: "Coursera",
+              subject: "Computer Science & IT",
+              level: "Short Course",
+              duration: "Self-paced",
+              initials: "CO",
+              image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=85",
+              url: "https://www.coursera.org/browse/computer-science",
+              query: "Computer Science"
+            },
+            {
+              title: "Introduction to Artificial Intelligence",
+              provider: "edX",
+              subject: "Artificial Intelligence",
+              level: "Professional Certificate",
+              duration: "Check duration",
+              initials: "ED",
+              image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=900&q=85",
+              url: "https://www.edx.org/learn/artificial-intelligence",
+              query: "AI & Machine Learning"
+            },
+            {
+              title: "Data Analysis Essentials",
+              provider: "Coursera",
+              subject: "Data Science",
+              level: "Certificate",
+              duration: "Check duration",
+              initials: "CO",
+              image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=85",
+              url: "https://www.coursera.org/browse/data-science",
+              query: "Data Science"
+            },
+            {
+              title: "Business and Management: Core Concepts",
+              provider: "FutureLearn",
+              subject: "Business & Management",
+              level: "Short Course",
+              duration: "Check duration",
+              initials: "FL",
+              image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=85",
+              url: "https://www.futurelearn.com/subjects/business-and-management-courses",
+              query: "Business"
+            }
+          ].map(course => `
+            <article class="oe-trending-card">
+              <div class="oe-trending-image-wrap">
+                <img
+                  class="oe-trending-image"
+                  src="${course.image}"
+                  alt="${course.subject} course"
+                  loading="lazy"
+                  onerror="this.style.display='none'"
+                >
+                <span class="oe-trending-logo">${course.initials}</span>
               </div>
 
-              <a class="oe-text-link" href="#oe-programmes">
-                View all discovery options →
-              </a>
-            </div>
+              <div class="oe-trending-card-body">
+                <p class="oe-trending-provider">${course.provider}</p>
+                <p class="oe-programme-subject">${course.subject}</p>
+                <h3>${course.title}</h3>
 
-            <div class="oe-popular-grid">
-              ${[
-                    ["Foundations of Computer Science", "Computer Science & IT", "Short Course", "Self-paced", "Computer Science", "https://www.coursera.org/browse/computer-science"],
-                    ["Introduction to Artificial Intelligence", "Artificial Intelligence", "Professional Certificate", "Check provider website", "AI & Machine Learning", "https://www.edx.org/learn/artificial-intelligence"],
-                    ["Data Analysis Essentials", "Data Science", "Certificate", "Check provider website", "Data Science", "https://www.coursera.org/browse/data-science"],
-                    ["Business and Management: Core Concepts", "Business & Management", "Short Course", "Check provider website", "Business", "https://www.futurelearn.com/subjects/business-and-management-courses"]
-                ].map(([title, subject, level, duration, filter, url]) => `
-                  <article class="oe-popular-card">
-                    <span class="oe-provider-mark" aria-hidden="true">
-                      ${subject.slice(0, 2).toUpperCase()}
-                    </span>
+                <div class="oe-trending-meta">
+                  <span>
+                    <span aria-hidden="true">▤</span>
+                    ${course.level}
+                  </span>
+                  <span>
+                    <span aria-hidden="true">◷</span>
+                    ${course.duration}
+                  </span>
+                </div>
 
-                    <p class="oe-programme-subject">${subject}</p>
-                    <h3>${title}</h3>
+                <div class="oe-trending-actions">
+                  <a
+                    class="oe-trending-view"
+                    href="${course.url}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >View Program</a>
 
-                    <div class="oe-programme-tags">
-                      <span>${level}</span>
-                      <span>${duration}</span>
-                    </div>
 
-                    <p class="oe-card-footnote">
-                      Illustrative topic link · no fee or certificate claim.
-                    </p>
+<button
+  type="button"
+  class="oe-trending-enquiry"
+  data-enquire-course="${course.title}"
+>
+  Enroll
+</button>
 
-                    <div class="oe-popular-actions">
-                      <a href="${url}" target="_blank" rel="noopener noreferrer">
-                        Browse provider topic ↗
-                      </a>
+                </div>
 
-                      <button type="button" data-query="${filter}">
-                        Find similar options →
-                      </button>
-                    </div>
-                  </article>
-                `).join("")}
-            </div>
-          </div>
-        </section>
+                <button
+                  type="button"
+                  class="oe-trending-similar"
+                  data-query="${course.query}"
+                >Find similar courses →</button>
+              </div>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+
+      <button
+        type="button"
+        class="oe-trending-arrow oe-trending-next"
+        aria-label="Next courses"
+        data-trending-next
+      >&#8594;</button>
+    </div>
+  </div>
+</section>
+
 
         <section
           class="oe-section oe-platform-guide"

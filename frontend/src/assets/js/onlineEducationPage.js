@@ -265,6 +265,44 @@ export async function initOnlineEducationPage() {
 
     const root = byId("online-education-page");
 
+root.querySelectorAll("[data-enquire-course]").forEach((button) => {
+    button.addEventListener("click", () => {
+        const courseName = button.dataset.enquireCourse;
+        const form = root.querySelector(
+            "#study-abroad-counselling, #oe-lead-form, #oe-lead-name"
+        );
+
+        const courseInput = root.querySelector(
+            'input[name="course"], input[name="courseInterest"], ' +
+            'input[name="courseOrInstitution"], #oe-course-interest'
+        );
+
+        if (courseInput) {
+            courseInput.value = courseName;
+            courseInput.dispatchEvent(
+                new Event("input", { bubbles: true })
+            );
+            courseInput.dispatchEvent(
+                new Event("change", { bubbles: true })
+            );
+        }
+
+        const leadForm = root.querySelector(
+            ".oe-lead-form, #oe-lead-form"
+        );
+
+        const target = form || leadForm;
+
+        if (target) {
+            target.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+    });
+});
+
+
     if (!root) return;
 
     const results = byId("oe-programme-results");

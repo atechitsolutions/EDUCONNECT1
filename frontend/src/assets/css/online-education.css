@@ -1311,3 +1311,459 @@
            grid-row: auto !important;
        }
    }
+/* ==========================================
+   TRENDING COURSES — UPGRAD-INSPIRED DESIGN
+   ========================================== */
+
+.oe-page .oe-trending {
+  position: relative;
+  overflow: hidden;
+  padding: 76px 0 88px;
+  color: #ffffff;
+  background:
+    radial-gradient(ellipse at 18% 15%, rgba(36, 119, 255, .20), transparent 35%),
+    radial-gradient(ellipse at 85% 85%, rgba(22, 99, 220, .17), transparent 35%),
+    linear-gradient(125deg, #071329 0%, #101d3b 52%, #08152d 100%);
+}
+
+.oe-page .oe-trending::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .22;
+  background-image:
+    radial-gradient(circle, #86baff 1px, transparent 1.7px),
+    linear-gradient(90deg, transparent 49.8%, rgba(96, 153, 255, .13) 50%, transparent 50.2%);
+  background-size: 44px 44px, 120px 120px;
+  mask-image: linear-gradient(to bottom, black, transparent 95%);
+}
+
+.oe-page .oe-trending .oe-container {
+  position: relative;
+  z-index: 1;
+}
+
+.oe-page .oe-trending-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 34px;
+}
+
+.oe-page .oe-trending .oe-eyebrow {
+  margin-bottom: 15px;
+  color: #8bbaff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
+}
+
+.oe-page .oe-trending .oe-section-head h2 {
+  margin: 0 0 13px;
+  color: #ffffff;
+  font-size: clamp(29px, 3.4vw, 45px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -1.2px;
+}
+
+.oe-page .oe-trending .oe-section-head h2 span {
+  color: #ff5364;
+}
+
+.oe-page .oe-trending .oe-section-head p:not(.oe-eyebrow) {
+  max-width: 700px;
+  color: #b7c5dc;
+  line-height: 1.7;
+}
+
+.oe-page .oe-trending .oe-text-link {
+  flex-shrink: 0;
+  color: #8bbaff;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.oe-page .oe-trending .oe-text-link:hover {
+  color: #ffffff;
+}
+
+.oe-trending-carousel {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) 42px;
+  align-items: center;
+  gap: 14px;
+}
+
+.oe-trending-viewport {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.oe-trending-track {
+  display: flex;
+  align-items: stretch;
+  gap: 22px;
+  transition: transform .4s ease;
+  will-change: transform;
+}
+
+.oe-trending-card {
+  position: relative;
+  display: flex;
+  flex: 0 0 calc((100% - 66px) / 4);
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, .85);
+  border-radius: 24px;
+  background: #ffffff;
+  color: #14213b;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, .22);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.oe-trending-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 52px rgba(0, 0, 0, .34);
+}
+
+.oe-trending-image-wrap {
+  position: relative;
+  height: 176px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, #183b70, #75a9e8);
+}
+
+.oe-trending-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .5s ease;
+}
+
+.oe-trending-card:hover .oe-trending-image {
+  transform: scale(1.06);
+}
+
+.oe-trending-logo {
+  position: absolute;
+  right: 20px;
+  bottom: -20px;
+  display: flex;
+  width: 54px;
+  height: 54px;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid #ffffff;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #145ac7;
+  font-size: 13px;
+  font-weight: 850;
+  box-shadow: 0 3px 12px rgba(12, 34, 70, .12);
+}
+
+.oe-trending-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 25px 19px 18px;
+}
+
+.oe-trending-provider {
+  margin: 0 0 12px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.oe-trending-card .oe-programme-subject {
+  margin: 0 0 8px;
+  color: #1766c9;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.oe-trending-card h3 {
+  min-height: 58px;
+  margin: 0 0 18px;
+  color: #14213b;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.oe-trending-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+  padding: 15px 0 19px;
+  border-top: 1px solid #e8edf5;
+}
+
+.oe-trending-meta span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #34445d;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.oe-trending-meta span span {
+  color: #607087;
+  font-size: 18px;
+}
+
+.oe-trending-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.oe-trending-actions a {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 8px;
+  border: 1px solid #d2d8e2;
+  border-radius: 24px;
+  font-size: 12px;
+  font-weight: 750;
+  text-align: center;
+  text-decoration: none;
+  transition: background .2s ease, color .2s ease;
+}
+
+.oe-trending-view {
+  background: #ffffff;
+  color: #172238;
+}
+
+.oe-trending-view:hover {
+  background: #edf4ff;
+  color: #075dcc;
+}
+
+.oe-trending-syllabus {
+  border-color: #f12c44 !important;
+  background: #f12c44;
+  color: #ffffff;
+}
+
+.oe-trending-syllabus:hover {
+  background: #d91d36;
+  color: #ffffff;
+}
+
+.oe-trending-similar {
+  margin-top: 12px;
+  padding: 10px 0 0;
+  border: 0;
+  background: transparent;
+  color: #1766c9;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 750;
+  text-align: left;
+  cursor: pointer;
+}
+
+.oe-trending-similar:hover {
+  color: #073d91;
+  text-decoration: underline;
+}
+
+.oe-trending-arrow {
+  display: flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 50%;
+  background: #061126;
+  color: #ffffff;
+  font-size: 23px;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+}
+
+.oe-trending-arrow:hover {
+  transform: scale(1.06);
+  background: #1766c9;
+}
+
+.oe-trending-arrow:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+
+@media (max-width: 1100px) {
+  .oe-trending-card {
+    flex-basis: calc((100% - 22px) / 2);
+  }
+
+  .oe-trending-image-wrap {
+    height: 190px;
+  }
+}
+
+@media (max-width: 640px) {
+  .oe-page .oe-trending {
+    padding: 52px 0 60px;
+  }
+
+  .oe-page .oe-trending-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .oe-trending-carousel {
+    grid-template-columns: 30px minmax(0, 1fr) 30px;
+    gap: 7px;
+  }
+
+  .oe-trending-arrow {
+    width: 30px;
+    height: 30px;
+    font-size: 17px;
+  }
+
+  .oe-trending-track {
+    gap: 14px;
+  }
+
+  .oe-trending-card {
+    flex-basis: 100%;
+  }
+
+  .oe-trending-image-wrap {
+    height: 205px;
+  }
+
+  .oe-trending-card h3 {
+    min-height: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oe-trending-track,
+  .oe-trending-card,
+  .oe-trending-image {
+    transition: none;
+  }
+}
+
+
+/* Trending Courses — reduce overall height by about one-third */
+
+.oe-page .oe-trending {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.oe-page .oe-trending-heading {
+  margin-bottom: 22px;
+}
+
+.oe-page .oe-trending .oe-section-head h2 {
+  font-size: clamp(27px, 3vw, 36px);
+}
+
+.oe-trending-card {
+  border-radius: 20px;
+}
+
+.oe-trending-image-wrap {
+  height: 125px;
+}
+
+.oe-trending-card-body {
+  padding: 17px 16px 14px;
+}
+
+.oe-trending-provider {
+  margin-bottom: 7px;
+}
+
+.oe-trending-card .oe-programme-subject {
+  margin-bottom: 5px;
+}
+
+.oe-trending-card h3 {
+  min-height: 48px;
+  margin-bottom: 12px;
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.oe-trending-meta {
+  gap: 8px;
+  padding: 11px 0 13px;
+}
+
+.oe-trending-meta span {
+  font-size: 12px;
+}
+
+.oe-trending-actions a {
+  min-height: 38px;
+  padding: 7px 6px;
+  font-size: 11px;
+}
+
+.oe-trending-similar {
+  margin-top: 7px;
+  padding-top: 5px;
+  font-size: 11px;
+}
+
+.oe-trending-logo {
+  width: 46px;
+  height: 46px;
+  bottom: -17px;
+}
+
+@media (max-width: 640px) {
+  .oe-page .oe-trending {
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+
+  .oe-trending-image-wrap {
+    height: 150px;
+  }
+}
+
+.oe-trending-enquiry {
+  display: flex;
+  flex: 1;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border: 1px solid #f12c44;
+  border-radius: 24px;
+  background: #f12c44;
+  color: #ffffff;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: background .2s ease, transform .2s ease;
+}
+
+.oe-trending-enquiry:hover {
+  background: #d91d36;
+  transform: translateY(-1px);
+}
