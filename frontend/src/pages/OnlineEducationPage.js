@@ -5,6 +5,35 @@ import onlineEducationHeroPoster from "../assets/images/online-education-hero.jp
 import renderOnlineEducationLeadForm, {
   bindOnlineEducationLeadForm
 } from "../components/onlineeducationleadform.js";
+const INSTITUTION_CAMPUS_IMAGES = {
+  "asu": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=700&q=85",
+  "uol": "https://i.pinimg.com/736x/fe/70/f8/fe70f87d53ef0e5027e9351e1aa513f1.jpg",
+  "illinois": "https://i.pinimg.com/736x/3a/a6/bb/3aa6bb97fd94ba00f758a87ae36c725d.jpg",
+  "penn-state-world-campus": "https://i.pinimg.com/1200x/bb/43/6c/bb436c50a0db57a10be36df82822bbdc.jpg",
+  "university-of-florida-online": "https://images.unsplash.com/photo-1564981797816-1043664bf78d?auto=format&fit=crop&w=700&q=85",
+  "open-university": "https://images.unsplash.com/photo-1568792923760-d70635a89fdc?auto=format&fit=crop&w=700&q=85",
+  "university-of-minnesota-online": "https://i.pinimg.com/1200x/c6/f7/03/c6f703dbb407e7d357e5a0cc5d4efef3.jpg",
+  "ignou": "https://i.pinimg.com/736x/2c/3b/43/2c3b4325329db9a8d986e87e54d80e83.jpg",
+  "manipal-university-jaipur": "https://i.pinimg.com/1200x/6d/2f/95/6d2f958c2f7a84b1febffe645e248615.jpg",
+  "amity-online": "https://i.pinimg.com/736x/1c/a6/7f/1ca67f91abca31c288302e252fca138f.jpg",
+  "chandigarh-university": "https://i.pinimg.com/1200x/73/32/46/7332468887a50cf3640bda18d6ca536d.jpg",
+  "jain-university-online": "https://i.pinimg.com/736x/1f/80/85/1f80853e6611116a0c92a2f33ed6c335.jpg",
+  "nmims": "https://i.pinimg.com/1200x/ff/3e/ae/ff3eaee4ea243583d22ea08d2b3ef96b.jpg",
+  "amrita-online": "https://i.pinimg.com/736x/62/7d/83/627d834231f7c460d2f11eca600afffe.jpg",
+  "lpu-online": "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?auto=format&fit=crop&w=700&q=85",
+  "parul-university-online": "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?auto=format&fit=crop&w=700&q=85",
+  "georgia-tech": "https://i.pinimg.com/1200x/09/60/d9/0960d99864cd16c28b21a842eefbcd75.jpg",
+  "snhu": "https://i.pinimg.com/1200x/33/c9/ab/33c9ab82c60e27874c39a7d0c2450843.jpg",
+  "https://i.pinimg.com/1200x/56/3d/0e/563d0ebd63b4c1db7384b9e44f34ec04.jpg": "",
+  "liverpool-online": "https://i.pinimg.com/736x/8c/95/c4/8c95c45a9326e98161c39c4d058a5a70.jpg",
+  "coventry-online": "https://i.pinimg.com/736x/ec/d6/52/ecd652cc6782a8fa4083f4b60fe03f0c.jpg",
+  "Johns Hopkins University": "https://i.pinimg.com/736x/5b/16/72/5b1672ef443127e71ddc26d0940d8fe5.jpg",
+  "athabasca": "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=700&q=85",
+  "deakin": "https://i.pinimg.com/1200x/18/06/3f/18063fab9b876cedffa04e84429b7745.jpg",
+  "monash-online": "https://i.pinimg.com/736x/27/ad/b1/27adb16a4fed64808b166fb687facc3e.jpg",
+  "iu-international": "https://i.pinimg.com/1200x/4b/24/40/4b2440b5e3a85bf899f41eec4a36fb33.jpg",
+  "uoc": "https://i.pinimg.com/1200x/f6/d0/cb/f6d0cb1b9cda2177b535ff0377545243.jpg"
+};
 
 
 
@@ -224,106 +253,6 @@ export default function OnlineEducationPage() {
         </section>
 
 
-        <section class="oe-section oe-level-section" id="oe-levels">
-          <div class="oe-container">
-            <div class="oe-section-head">
-              <div>
-                <p class="oe-eyebrow">LEARNING FOR EVERY STAGE</p>
-                <h2>Explore by education level</h2>
-                <p>From self-paced study resources to postgraduate pathways.</p>
-              </div>
-
-              <a class="oe-text-link" href="#oe-programmes">
-                Browse all options →
-              </a>
-            </div>
-
-            <div class="oe-level-carousel" aria-label="Education levels">
-              <div class="oe-level-grid">
-                ${[
-                    ["01", "School learning", "Subject-led practice and learning resources.", "School", "⌂"],
-                    ["02", "Diploma programmes", "Explore vocational and academic study routes.", "Diploma", "▤"],
-                    ["03", "Bachelor’s degrees", "Discover undergraduate learning pathways.", "Bachelor's", "◇"],
-                    ["04", "Master’s degrees", "Explore advanced postgraduate study.", "Master's", "✦"],
-                    ["05", "MBA programmes", "Find business and management study options.", "MBA", "↗"],
-                    ["06", "PhD & doctoral", "Explore research-led doctoral pathways.", "PhD / Doctorate", "⌘"],
-                    ["07", "Online degrees", "Browse degree discovery resources.", "Online Degree", "▣"],
-                    ["08", "Professional certificates", "Build knowledge through focused programmes.", "Professional Certificate", "✳"],
-                    ["09", "Short courses", "Learn a subject in a shorter format.", "Short Course", "◷"],
-                    ["10", "Microcredentials", "Explore compact learning achievements.", "Microcredential", "✣"]
-                ].map(([n, title, description, level, icon]) => `
-                  <a
-                    class="oe-level-card"
-                    href="#oe-programmes"
-                    data-level="${level}"
-                  >
-                    <span class="oe-card-icon">${icon}</span>
-                    <span class="oe-card-number">${n}</span>
-                    <span class="oe-level-photo" aria-hidden="true"></span>
-
-                    <h3>${title}</h3>
-                    <p>${description}</p>
-
-                    <span class="oe-card-arrow">Explore options →</span>
-                  </a>
-                `).join("")}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="oe-section oe-subject-section">
-          <div class="oe-container">
-            <div class="oe-section-head">
-              <div>
-                <p class="oe-eyebrow">FOLLOW YOUR CURIOSITY</p>
-                <h2>Explore by subject</h2>
-                <p>Choose a subject to apply it to the programme results.</p>
-              </div>
-
-              <div class="oe-subject-controls" aria-label="Subject carousel controls">
-                <button
-                  class="oe-subject-arrow"
-                  type="button"
-                  data-subject-prev
-                  aria-label="Previous subjects"
-                >←</button>
-
-                <button
-                  class="oe-subject-arrow"
-                  type="button"
-                  data-subject-next
-                  aria-label="Next subjects"
-                >→</button>
-              </div>
-            </div>
-
-            <div class="oe-subject-carousel" data-subject-carousel>
-              <div class="oe-subject-grid" data-subject-track>
-                ${subjects.map((subject, index) => `
-                  <button
-                    class="oe-subject-card"
-                    type="button"
-                    data-subject="${subject}"
-                  >
-                    <span class="oe-subject-art" aria-hidden="true"></span>
-
-                    <span class="oe-subject-icon">
-                      ${["✦", "▥", "↗", "⚙", "＋", "＄", "◉", "◇", "✎", "◎", "▧"][index]}
-                    </span>
-
-                    <b>${subject}</b>
-
-                    <small>
-                      Explore programmes <i>→</i>
-                    </small>
-                  </button>
-                `).join("")}
-              </div>
-            </div>
-          </div>
-        </section>
-
 
 <section class="oe-section oe-popular oe-trending" id="oe-popular">
   <div class="oe-container">
@@ -468,6 +397,250 @@ export default function OnlineEducationPage() {
 
 
 
+        <section class="oe-section oe-level-section" id="oe-levels">
+          <div class="oe-container">
+            <div class="oe-section-head">
+              <div>
+                <p class="oe-eyebrow">LEARNING FOR EVERY STAGE</p>
+                <h2>Explore by education level</h2>
+                <p>From self-paced study resources to postgraduate pathways.</p>
+              </div>
+
+              <a class="oe-text-link" href="#oe-programmes">
+                Browse all options →
+              </a>
+            </div>
+
+            <div class="oe-level-carousel" aria-label="Education levels">
+              <div class="oe-level-grid">
+                ${[
+                    ["01", "School learning", "Subject-led practice and learning resources.", "School", "⌂"],
+                    ["02", "Diploma programmes", "Explore vocational and academic study routes.", "Diploma", "▤"],
+                    ["03", "Bachelor’s degrees", "Discover undergraduate learning pathways.", "Bachelor's", "◇"],
+                    ["04", "Master’s degrees", "Explore advanced postgraduate study.", "Master's", "✦"],
+                    ["05", "MBA programmes", "Find business and management study options.", "MBA", "↗"],
+                    ["06", "PhD & doctoral", "Explore research-led doctoral pathways.", "PhD / Doctorate", "⌘"],
+                    ["07", "Online degrees", "Browse degree discovery resources.", "Online Degree", "▣"],
+                    ["08", "Professional certificates", "Build knowledge through focused programmes.", "Professional Certificate", "✳"],
+                    ["09", "Short courses", "Learn a subject in a shorter format.", "Short Course", "◷"],
+                    ["10", "Microcredentials", "Explore compact learning achievements.", "Microcredential", "✣"]
+                ].map(([n, title, description, level, icon]) => `
+                  <a
+                    class="oe-level-card"
+                    href="#oe-programmes"
+                    data-level="${level}"
+                  >
+                    <span class="oe-card-icon">${icon}</span>
+                    <span class="oe-card-number">${n}</span>
+                    <span class="oe-level-photo" aria-hidden="true"></span>
+
+                    <h3>${title}</h3>
+                    <p>${description}</p>
+
+                    <span class="oe-card-arrow">Explore options →</span>
+                  </a>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+         <section class="oe-section oe-universities" id="oe-universities">
+                  <div class="oe-container">
+                    <div class="oe-section-head">
+                      <div>
+                        <p class="oe-eyebrow">INSTITUTION DISCOVERY</p>
+                        <h2>Explore universities and providers</h2>
+                        <p>
+                          Official institution links, checked 9 October 2026.
+                          Programme availability and recognition are programme-specific;
+                          verify directly.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="oe-institution-filters">
+                      <label class="oe-field">
+                        <span>Country</span>
+
+                        <select id="oe-inst-country">
+                          <option value="">All countries</option>
+                          ${[...new Set(onlineEducationInstitutions.map(x => x.country))]
+                            .map(country => `<option>${country}</option>`).join("")}
+                        </select>
+                      </label>
+
+                      <label class="oe-field">
+                        <span>Education level</span>
+
+                        <select id="oe-inst-level">
+                          <option value="">All levels</option>
+                          ${[...new Set(onlineEducationInstitutions.flatMap(x => x.levels))]
+                            .map(level => `<option>${level}</option>`).join("")}
+                        </select>
+                      </label>
+
+                      <label class="oe-field">
+                        <span>Subject</span>
+
+                        <select id="oe-inst-subject">
+                          <option value="">All subjects</option>
+                          ${[...new Set(onlineEducationInstitutions.flatMap(x => x.subjects))]
+                            .map(subject => `<option>${subject}</option>`).join("")}
+                        </select>
+                      </label>
+
+                      <label class="oe-field">
+                        <span>Study mode</span>
+
+                        <select id="oe-inst-mode">
+                          <option value="">All modes</option>
+                          ${[...new Set(onlineEducationInstitutions.flatMap(x => x.modes))]
+                            .map(mode => `<option>${mode}</option>`).join("")}
+                        </select>
+                      </label>
+
+                      <button
+                        type="button"
+                        class="oe-button oe-outline"
+                        id="oe-inst-clear"
+                      >
+                        Clear institution filters
+                      </button>
+                    </div>
+
+                <div class="oe-provider-grid oe-institution-programme-grid" id="oe-institution-results">
+                  ${onlineEducationInstitutions.map(institution => `
+                    <article
+                      class="oe-programme-card oe-course-card oe-institution-card"
+                      data-country="${institution.country}"
+                      data-levels="${institution.levels.join("|")}"
+                      data-subjects="${institution.subjects.join("|")}"
+                      data-modes="${institution.modes.join("|")}"
+                    >
+                      <div class="oe-course-card-main">
+
+                        <div class="oe-course-card-media oe-institution-image-media">
+
+                          <img
+                            class="oe-institution-campus-image"
+                            src="${INSTITUTION_CAMPUS_IMAGES[institution.id] || ""}"
+                            alt="Representative campus image for ${institution.name}"
+                            loading="lazy"
+                            onerror="this.hidden=true; this.nextElementSibling.hidden=false"
+                          >
+
+                          <div
+                            class="oe-course-card-monogram oe-institution-logo"
+                            hidden
+                            aria-hidden="true"
+                          >
+                            ${institution.name
+                              .split(/\s+/)
+                              .filter(word => /^[A-Z]/.test(word))
+                              .slice(0, 2)
+                              .map(word => word.charAt(0))
+                              .join("")}
+                          </div>
+
+                        </div>
+                        <div class="oe-course-card-content">
+
+                          <p class="oe-course-card-location">
+                            ${institution.type} · ${institution.country}
+                          </p>
+
+                          <h3 class="oe-course-card-title">
+                            ${institution.name}
+                          </h3>
+
+                          <p class="oe-course-card-provider">
+                            ${institution.city}
+                          </p>
+
+
+
+                          <div class="oe-course-card-tags">
+                            ${institution.levels.slice(0, 3).map(level => `
+                              <span>${level}</span>
+                            `).join("")}
+                          </div>
+
+                        </div>
+                      </div>
+                      <div class="oe-institution-actions oe-institution-actions-enhanced">
+                        <button
+                          type="button"
+                          class="oe-button oe-outline"
+                          data-view-institution-details="${institution.id}"
+                        >
+                          View Details
+                        </button>
+
+                        <button
+                          type="button"
+                          class="oe-button oe-primary"
+                          data-enquire-institution="${institution.id}"
+                        >
+                          Enquire Now
+                        </button>
+
+
+                      </div>
+
+
+                    </article>
+                  `).join("")}
+                </div>
+
+                    <div class="oe-institution-more" id="oe-institution-more" hidden>
+                      <button
+                        type="button"
+                        class="oe-button oe-outline"
+                        id="oe-institution-toggle"
+                      >
+                        Show more
+                      </button>
+                    </div>
+
+                    <p class="oe-institution-empty" id="oe-institution-empty" hidden>
+                      No institutions match these filters. Clear one or more selections.
+                    </p>
+
+                    <div
+                      id="oe-institution-compare-bar"
+                      class="oe-institution-compare-bar"
+                      hidden
+                    >
+                      <span id="oe-institution-compare-count">0 selected</span>
+
+                      <button
+                        type="button"
+                        class="oe-button oe-outline"
+                        id="oe-inst-compare-clear"
+                      >
+                        Clear
+                      </button>
+
+                      <button
+                        type="button"
+                        class="oe-button oe-primary"
+                        id="oe-inst-compare-show"
+                        disabled
+                      >
+                        Compare institutions
+                      </button>
+                    </div>
+                  </div>
+                </section>
+
+
+
+
+
+
 <section class="oe-section oe-popular oe-trending oe-ms-section" id="oe-popular">
   <div class="oe-container">
     <div class="oe-ms-heading">
@@ -557,6 +730,57 @@ export default function OnlineEducationPage() {
     </div>
   </div>
 </section>
+ <section class="oe-section oe-subject-section">
+          <div class="oe-container">
+            <div class="oe-section-head">
+              <div>
+                <p class="oe-eyebrow">FOLLOW YOUR CURIOSITY</p>
+                <h2>Explore by subject</h2>
+                <p>Choose a subject to apply it to the programme results.</p>
+              </div>
+
+              <div class="oe-subject-controls" aria-label="Subject carousel controls">
+                <button
+                  class="oe-subject-arrow"
+                  type="button"
+                  data-subject-prev
+                  aria-label="Previous subjects"
+                >←</button>
+
+                <button
+                  class="oe-subject-arrow"
+                  type="button"
+                  data-subject-next
+                  aria-label="Next subjects"
+                >→</button>
+              </div>
+            </div>
+
+            <div class="oe-subject-carousel" data-subject-carousel>
+              <div class="oe-subject-grid" data-subject-track>
+                ${subjects.map((subject, index) => `
+                  <button
+                    class="oe-subject-card"
+                    type="button"
+                    data-subject="${subject}"
+                  >
+                    <span class="oe-subject-art" aria-hidden="true"></span>
+
+                    <span class="oe-subject-icon">
+                      ${["✦", "▥", "↗", "⚙", "＋", "＄", "◉", "◇", "✎", "◎", "▧"][index]}
+                    </span>
+
+                    <b>${subject}</b>
+
+                    <small>
+                      Explore programmes <i>→</i>
+                    </small>
+                  </button>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+        </section>
 
         <section class="oe-section oe-programmes-section" id="oe-programmes">
           <div class="oe-container">
@@ -686,181 +910,7 @@ export default function OnlineEducationPage() {
           </div>
         </section>
 
-        <section class="oe-section oe-universities" id="oe-universities">
-          <div class="oe-container">
-            <div class="oe-section-head">
-              <div>
-                <p class="oe-eyebrow">INSTITUTION DISCOVERY</p>
-                <h2>Explore universities and providers</h2>
-                <p>
-                  Official institution links, checked 9 October 2026.
-                  Programme availability and recognition are programme-specific;
-                  verify directly.
-                </p>
-              </div>
-            </div>
 
-            <div class="oe-institution-filters">
-              <label class="oe-field">
-                <span>Country</span>
-
-                <select id="oe-inst-country">
-                  <option value="">All countries</option>
-                  ${[...new Set(onlineEducationInstitutions.map(x => x.country))]
-                    .map(country => `<option>${country}</option>`).join("")}
-                </select>
-              </label>
-
-              <label class="oe-field">
-                <span>Education level</span>
-
-                <select id="oe-inst-level">
-                  <option value="">All levels</option>
-                  ${[...new Set(onlineEducationInstitutions.flatMap(x => x.levels))]
-                    .map(level => `<option>${level}</option>`).join("")}
-                </select>
-              </label>
-
-              <label class="oe-field">
-                <span>Subject</span>
-
-                <select id="oe-inst-subject">
-                  <option value="">All subjects</option>
-                  ${[...new Set(onlineEducationInstitutions.flatMap(x => x.subjects))]
-                    .map(subject => `<option>${subject}</option>`).join("")}
-                </select>
-              </label>
-
-              <label class="oe-field">
-                <span>Study mode</span>
-
-                <select id="oe-inst-mode">
-                  <option value="">All modes</option>
-                  ${[...new Set(onlineEducationInstitutions.flatMap(x => x.modes))]
-                    .map(mode => `<option>${mode}</option>`).join("")}
-                </select>
-              </label>
-
-              <button
-                type="button"
-                class="oe-button oe-outline"
-                id="oe-inst-clear"
-              >
-                Clear institution filters
-              </button>
-            </div>
-
-        <div class="oe-provider-grid oe-institution-programme-grid" id="oe-institution-results">
-          ${onlineEducationInstitutions.map(institution => `
-            <article
-              class="oe-programme-card oe-course-card oe-institution-card"
-              data-country="${institution.country}"
-              data-levels="${institution.levels.join("|")}"
-              data-subjects="${institution.subjects.join("|")}"
-              data-modes="${institution.modes.join("|")}"
-            >
-              <div class="oe-course-card-main">
-
-                <div class="oe-course-card-media">
-                  <div class="oe-course-card-monogram oe-institution-logo">
-                    ${institution.name
-                      .split(/\s+/)
-                      .filter(word => /^[A-Z]/.test(word))
-                      .slice(0, 2)
-                      .map(word => word.charAt(0))
-                      .join("")}
-                  </div>
-                </div>
-
-                <div class="oe-course-card-content">
-
-                  <p class="oe-course-card-location">
-                    ${institution.type} · ${institution.country}
-                  </p>
-
-                  <h3 class="oe-course-card-title">
-                    ${institution.name}
-                  </h3>
-
-                  <p class="oe-course-card-provider">
-                    ${institution.city}
-                  </p>
-
-
-
-                  <div class="oe-course-card-tags">
-                    ${institution.levels.slice(0, 3).map(level => `
-                      <span>${level}</span>
-                    `).join("")}
-                  </div>
-
-                </div>
-              </div>
-              <div class="oe-institution-actions oe-institution-actions-enhanced">
-                <button
-                  type="button"
-                  class="oe-button oe-outline"
-                  data-view-institution-details="${institution.id}"
-                >
-                  View Details
-                </button>
-
-                <button
-                  type="button"
-                  class="oe-button oe-primary"
-                  data-enquire-institution="${institution.id}"
-                >
-                  Enquire Now
-                </button>
-
-
-              </div>
-
-
-            </article>
-          `).join("")}
-        </div>
-
-            <div class="oe-institution-more" id="oe-institution-more" hidden>
-              <button
-                type="button"
-                class="oe-button oe-outline"
-                id="oe-institution-toggle"
-              >
-                Show more
-              </button>
-            </div>
-
-            <p class="oe-institution-empty" id="oe-institution-empty" hidden>
-              No institutions match these filters. Clear one or more selections.
-            </p>
-
-            <div
-              id="oe-institution-compare-bar"
-              class="oe-institution-compare-bar"
-              hidden
-            >
-              <span id="oe-institution-compare-count">0 selected</span>
-
-              <button
-                type="button"
-                class="oe-button oe-outline"
-                id="oe-inst-compare-clear"
-              >
-                Clear
-              </button>
-
-              <button
-                type="button"
-                class="oe-button oe-primary"
-                id="oe-inst-compare-show"
-                disabled
-              >
-                Compare institutions
-              </button>
-            </div>
-          </div>
-        </section>
 
         <section class="oe-section oe-comparison-info" id="oe-compare">
           <div class="oe-container">

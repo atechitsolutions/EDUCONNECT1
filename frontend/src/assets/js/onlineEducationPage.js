@@ -216,6 +216,43 @@ function scrollToExistingEnquiry(root) {
     return true;
 }
 
+
+function getProgrammeOverview(programme) {
+    // Prefer an explicitly supplied overview or description.
+    const suppliedOverview = String(
+        programme.overview || programme.description || ""
+    ).trim();
+
+    if (suppliedOverview.length > 40) {
+        return suppliedOverview;
+    }
+
+    const title = programme.title || "This programme";
+    const provider = programme.providerName || "the listed institution";
+    const subject = programme.subject || "its listed subject area";
+    const qualification =
+        programme.qualificationType || programme.educationLevel || "programme";
+    const level = programme.educationLevel || "Not specified";
+    const mode = programme.studyMode || "Not specified";
+    const duration = programme.duration || "Not listed";
+    const eligibility =
+        programme.eligibility || "Not listed in the supplied catalogue";
+    const categories = Array.isArray(programme.categories)
+        ? programme.categories.filter(Boolean).join(", ")
+        : "";
+
+    const sentences = [
+        `${title} is a ${String(qualification).toLowerCase()} offered by ${provider}.`,
+        `The programme is listed under ${subject}${categories && categories.toLowerCase() !== subject.toLowerCase() ? ` and related areas including ${categories}` : ""}.`,
+        `Its listed education level is ${level}, with a ${String(mode).toLowerCase()} study format.`,
+        `The catalogue lists the programme duration as ${duration}.`,
+        `The available eligibility information is: ${eligibility}.`,
+        `Prospective applicants should consult the official provider for the current curriculum, admission requirements, fees, assessment details, start dates and qualification recognition.`
+    ];
+
+    return sentences.join(" ");
+}
+
 function getProgrammeDetails(programme) {
     const fields = [
         ["Institution", programme.providerName],
@@ -235,6 +272,7 @@ function getProgrammeDetails(programme) {
         </div>
     `).join("");
 }
+
 
 /* Small set of styles for the enquiry popup form (added once). */
 function injectEnquiryStyles() {
@@ -751,70 +789,78 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
         return detailsDialog;
     };
 
-    const openProgrammeDetails = (id) => {
-        const programme = programmes.find(
-            (item) => String(item.id) === String(id)
-        );
 
-        if (!programme) return;
+const openProgrammeDetails = (id) => {
+    const programme = programmes.find(
+        (item) => String(item.id) === String(id)
+    );
 
-        const dialog = ensureDetailsDialog();
-        const providerUrl = safeExternalUrl(programme.officialProgramUrl);
+    if (!programme) return;
 
-        dialog.innerHTML = `
-            <div class="oe-dialog-head">
-                <div>
-                    <p class="oe-eyebrow">PROGRAMME OVERVIEW</p>
-                    <h2>${escapeHTML(programme.title)}</h2>
-                    <p>${escapeHTML(programme.providerName)}</p>
-                </div>
+    const dialog = ensureDetailsDialog();
+    const providerUrl = safeExternalUrl(programme.officialProgramUrl);
+    const overview = getProgrammeOverview(programme);
 
-                <button
-                    type="button"
-                    class="oe-icon-button"
-                    data-close-details
-                    aria-label="Close programme details"
-                >×</button>
+    dialog.innerHTML = `
+        <div class="oe-dialog-head">
+            <div>
+                <p class="oe-eyebrow">PROGRAMME OVERVIEW</p>
+                <h2>${escapeHTML(programme.title)}</h2>
+                <p>${escapeHTML(programme.providerName)}</p>
             </div>
 
-            <p class="oe-dialog-note">
-                Review the available programme information below. Confirm
-                fees, entry requirements, delivery, dates and recognition
-                directly with the provider.
-            </p>
+            <button
+                type="button"
+                class="oe-icon-button"
+                data-close-details
+                aria-label="Close programme details"
+            >×</button>
+        </div>
 
-            <dl class="oe-programme-detail-list">
-                ${getProgrammeDetails(programme)}
-            </dl>
+        <section class="oe-programme-overview-panel">
+            <span class="oe-overview-label">Overview</span>
+            <p>${escapeHTML(overview)}</p>
+        </section>
 
-            <div class="oe-dialog-actions">
-                ${
-                    providerUrl
-                        ? `<a
-                            class="oe-button oe-outline"
-                            href="${escapeHTML(providerUrl)}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >Visit provider ↗</a>`
-                        : ""
-                }
+        <dl class="oe-programme-detail-list">
+            ${getProgrammeDetails(programme)}
+        </dl>
 
-                <button
-                    type="button"
-                    class="oe-button oe-primary"
-                    data-enquire-programme="${escapeHTML(programme.id)}"
-                >Enquire Now</button>
+        <p class="oe-dialog-note">
+            Programme information should be confirmed with the official
+            provider before applying. Availability, fees, admission
+            requirements and recognition may change.
+        </p>
 
-                <button
-                    type="button"
-                    class="oe-button oe-outline"
-                    data-close-details
-                >Close</button>
-            </div>
-        `;
+        <div class="oe-dialog-actions">
+            ${
+                providerUrl
+                    ? `<a
+                        class="oe-button oe-outline"
+                        href="${escapeHTML(providerUrl)}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >Visit provider ↗</a>`
+                    : ""
+            }
 
-        if (!dialog.open) dialog.showModal();
-    };
+            <button
+                type="button"
+                class="oe-button oe-primary"
+                data-enquire-programme="${escapeHTML(programme.id)}"
+            >Enquire Now</button>
+
+            <button
+                type="button"
+                class="oe-button oe-outline"
+                data-close-details
+            >Close</button>
+        </div>
+    `;
+
+    if (!dialog.open) dialog.showModal();
+};
+
 
     /* ---------------------------------------------------------
        INSTITUTION DETAILS DIALOG
