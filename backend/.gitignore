@@ -1,2 +1,4 @@
 # Local development credentials
 application-local.properties
+# Community feed uploads
+uploads/

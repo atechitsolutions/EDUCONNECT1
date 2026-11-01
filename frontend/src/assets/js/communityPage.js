@@ -1,4 +1,4 @@
-
+import { initCommunityFeed } from "./communityFeed.js";
 import { communityApi as api } from "../../services/communityService.js";
 import { getCurrentUser } from "../../services/authService.js";
 
@@ -1772,13 +1772,14 @@ if (name !== "community-chat" && !state.profile) {
         }, 10000);
     }
 
-    window.addEventListener(
-        "pagehide",
-        () => clearInterval(state.timer),
-        { once: true }
-    );
+       window.addEventListener(
+           "pagehide",
+           () => clearInterval(state.timer),
+           { once: true }
+       );
 
-    start();
-}
+       initCommunityFeed(root);
+       start();
+   }
 
-export default initCommunityPage;
+   export default initCommunityPage;

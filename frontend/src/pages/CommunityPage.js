@@ -33,6 +33,7 @@ export function CommunityPage() {
                 <div class="community-side-profile"><span class="community-avatar community-avatar-large" data-my-avatar>EC</span><div><strong data-my-name>Student</strong><small data-my-course>Complete your profile</small></div><span class="community-presence-dot" aria-label="Signed in"></span></div>
                 <nav class="community-tabs" aria-label="Community sections">
                     <button class="is-active" data-community-tab="community-chat" aria-current="page"><span>✦</span> Community Chat</button>
+                    <button data-community-tab="feed"><span>◧</span> Global Feed</button>
                     <button data-community-tab="discover"><span>⌕</span> Discover students</button>
                     <button data-community-tab="friends"><span>◉</span> My friends <b data-tab-count="friends">0</b></button>
                     <button data-community-tab="requests"><span>↗</span> Friend requests <b data-tab-count="requests">0</b></button>
@@ -57,6 +58,10 @@ export function CommunityPage() {
                         </form>
                         <div class="community-group-signin" data-community-chat-signin hidden><p>Sign in or create an EduConnect account to join the conversation.</p><a class="community-button community-button-primary" href="/community" data-auth-required="true">Sign in / Register <span>→</span></a></div>
                     </section>
+                </section>
+
+                <section class="community-panel" data-panel="feed" aria-label="Global Feed" hidden>
+                    <div data-feed-root></div>
                 </section>
 
                 <section class="community-panel" data-panel="discover" aria-labelledby="discover-title" hidden>
@@ -112,4 +117,3 @@ export function CommunityPage() {
 }
 
 export default CommunityPage;
-
