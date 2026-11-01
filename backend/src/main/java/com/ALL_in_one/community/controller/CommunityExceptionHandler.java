@@ -13,9 +13,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice(assignableTypes = {
         CommunityController.class,
-        PostController.class
+        PostController.class,
+        ProfileController.class
 })
 public class CommunityExceptionHandler {
+
+    // ============================================================
+    // 404 - RESOURCE NOT FOUND
+    // ============================================================
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<Map<String, String>> notFound(
@@ -23,28 +28,38 @@ public class CommunityExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(Map.of("message", exception.getMessage()));
+                .body(Map.of(
+                        "message",
+                        exception.getMessage() == null
+                                ? "Resource not found."
+                                : exception.getMessage()
+                ));
     }
+
+    // ============================================================
+    // 400 / 403 - INVALID REQUEST OR ACCESS DENIED
+    // ============================================================
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> badRequest(
             IllegalArgumentException exception) {
 
-        HttpStatus status =
-                exception.getMessage() != null
-                        && exception.getMessage().contains("access is available")
-                        ? HttpStatus.FORBIDDEN
-                        : HttpStatus.BAD_REQUEST;
+        String message = exception.getMessage() == null
+                ? "Request could not be completed."
+                : exception.getMessage();
+
+        HttpStatus status = message.contains("access is available")
+                ? HttpStatus.FORBIDDEN
+                : HttpStatus.BAD_REQUEST;
 
         return ResponseEntity
                 .status(status)
-                .body(Map.of(
-                        "message",
-                        exception.getMessage() == null
-                                ? "Request could not be completed."
-                                : exception.getMessage()
-                ));
+                .body(Map.of("message", message));
     }
+
+    // ============================================================
+    // 400 - VALIDATION ERRORS
+    // ============================================================
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> invalidBody(
@@ -59,6 +74,8 @@ public class CommunityExceptionHandler {
 
         return ResponseEntity
                 .badRequest()
-                .body(Map.of("message", message));
+                .body(Map.of("message", message == null
+                        ? "Please check the submitted fields."
+                        : message));
     }
 }
