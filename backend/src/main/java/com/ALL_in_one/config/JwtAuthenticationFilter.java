@@ -150,7 +150,7 @@ public class JwtAuthenticationFilter
                     jwtService.isTokenValid(
                             token,
                             email
-                    )
+                    ) && userDetails.isEnabled()
             ) {
 
 

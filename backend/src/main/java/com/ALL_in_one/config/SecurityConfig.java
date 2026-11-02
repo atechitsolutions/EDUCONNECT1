@@ -105,6 +105,15 @@ public class SecurityConfig {
                                         )
                                         .permitAll()
 
+                                        .requestMatchers("/api/college/auth/login", "/api/college/enquiries")
+                                        .permitAll()
+
+                                        .requestMatchers("/api/admin/college-partners/**")
+                                        .hasRole("ADMIN")
+
+                                        .requestMatchers("/api/college/**")
+                                        .hasRole("COLLEGE")
+
                                         .requestMatchers("/api/community/admin/**")
                                         .hasRole("ADMIN")
 

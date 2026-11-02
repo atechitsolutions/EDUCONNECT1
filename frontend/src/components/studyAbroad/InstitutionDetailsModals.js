@@ -1,4 +1,5 @@
 import institutionOverviews from "../../data/institution-overviews.json";
+import { recordCollegeEvent } from "../../services/collegePartnerService.js";
 
 function escapeHtml(value) {
     return String(value ?? "")
@@ -87,6 +88,7 @@ function createModalMarkup(institution) {
     const licenseUrl = displayValue(institution.imageLicenseUrl);
     const imageName = `${slug(institution.name)}-campus${image.match(/\.(jpg|jpeg|png|webp)(?:$|\?)/i)?.[0]?.replace(/\?.*$/, "") || ".jpg"}`;
     const suppliedOverview = getSuppliedOverview(institution);
+    const partnerRecordId = Number(institution.id);
 
     const academic = [
         listField("Popular courses in the supplied directory", institution.popularCourses),
@@ -138,6 +140,7 @@ function createModalMarkup(institution) {
                     </aside>
                     <div class="study-abroad-details-actions">
                         <a class="study-abroad-details-button" href="#study-abroad-counselling" data-study-abroad-consultation>Free consulting ↗</a>
+                        ${Number.isInteger(partnerRecordId) && partnerRecordId > 0 ? `<a class="study-abroad-details-button secondary" href="/college/enquire?institutionId=${partnerRecordId}" data-college-enquiry-link>Enquire with this college</a>` : ""}
                         ${website ? `<a class="study-abroad-details-button secondary" href="${escapeHtml(website)}" target="_blank" rel="noopener noreferrer">Visit Website ↗</a>` : ""}
                         <button type="button" class="study-abroad-details-button secondary" data-study-abroad-details-close>Close</button>
                     </div>
@@ -152,6 +155,14 @@ export function openInstitutionDetails(institution) {
     document.body.insertAdjacentHTML("beforeend", createModalMarkup(institution));
     const overlay = document.querySelector("[data-study-abroad-details-overlay]");
     if (!overlay) return;
+    if (Number.isInteger(Number(institution.id)) && Number(institution.id) > 0) {
+        recordCollegeEvent(Number(institution.id), "PROFILE_VIEW").catch(() => {});
+    }
+    overlay.querySelector("[data-college-enquiry-link]")?.addEventListener("click", (event) => {
+        event.preventDefault();
+        const destination = event.currentTarget.href;
+        recordCollegeEvent(Number(institution.id), "ENQUIRY_CLICK").catch(() => {}).finally(() => window.location.assign(destination));
+    });
     overlay.querySelectorAll("[data-study-abroad-details-close]").forEach((element) => {
         element.addEventListener("click", closeInstitutionDetails);
     });

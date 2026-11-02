@@ -80,6 +80,14 @@ export default function AdminDashboardPage() {
                         <strong>Manage Study Abroad →</strong>
                     </a>
 
+                    <!-- COLLEGE PARTNERS -->
+                    <a class="admin-dashboard-card" href="/admin/college-partners">
+                        <span>◫</span>
+                        <h2>College Partners</h2>
+                        <p>Create institution partner access, manage accounts and review verified subscription status.</p>
+                        <strong>Manage College Partners →</strong>
+                    </a>
+
                     <!-- ONLINE EDUCATION: NEW CARD -->
                     <a
                         class="admin-dashboard-card admin-dashboard-card-online-education"

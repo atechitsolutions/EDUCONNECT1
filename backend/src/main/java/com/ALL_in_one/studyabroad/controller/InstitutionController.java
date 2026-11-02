@@ -10,6 +10,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import com.ALL_in_one.collegepartner.service.CollegePartnerService;
+import jakarta.servlet.http.HttpServletRequest;
+import com.ALL_in_one.repository.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,6 +22,8 @@ import java.util.List;
 public class InstitutionController {
 
     private final InstitutionService institutionService;
+    private final CollegePartnerService collegePartnerService;
+    private final UserRepository userRepository;
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -46,7 +53,13 @@ public class InstitutionController {
 
     @GetMapping("/{id}")
     public ResponseEntity<InstitutionResponse> getInstitutionById(
-            @PathVariable Long id) {
+            @PathVariable Long id, HttpServletRequest request, Authentication authentication) {
+
+        Long studentId = null;
+        if (authentication != null && authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch("ROLE_STUDENT"::equals)) {
+            studentId = userRepository.findByEmail(authentication.getName()).map(user -> user.getId()).orElse(null);
+        }
+        collegePartnerService.recordEvent(id, request.getHeader("X-Visitor-Id"), "PAGE_VIEW", null, studentId);
 
         return ResponseEntity.ok(
                 institutionService.getPublicInstitutionById(id)

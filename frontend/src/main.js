@@ -111,6 +111,10 @@ import "./assets/css/education-loan-section.css";
 ========================================================= */
 
 import Router from "./router/router.js";
+import { initCollegePartnerAdminPage } from "./pages/CollegePartnerAdminPage.js";
+import { initCollegeLoginPage } from "./pages/CollegeLoginPage.js";
+import { initCollegePartnerDashboardPage } from "./pages/CollegePartnerDashboardPage.js";
+import { initCollegeEnquiryPage } from "./pages/CollegeEnquiryPage.js";
 
 import {
     initInstitutionSearch
@@ -318,6 +322,11 @@ document.addEventListener(
         ====================================================== */
 
         initAuth();
+
+        initCollegePartnerAdminPage();
+        initCollegeLoginPage();
+        initCollegePartnerDashboardPage();
+        initCollegeEnquiryPage();
 
         /* =====================================================
            COMMUNITY PAGE

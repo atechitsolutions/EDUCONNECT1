@@ -15,6 +15,10 @@ import AdminStudyAbroadPage from "../pages/AdminStudyAbroadPage.js";
 
 import StudyAbroadSearchResultsPage
     from "../pages/StudyAbroadSearchResultsPage.js";
+import CollegePartnerAdminPage from "../pages/CollegePartnerAdminPage.js";
+import CollegeLoginPage from "../pages/CollegeLoginPage.js";
+import CollegePartnerDashboardPage from "../pages/CollegePartnerDashboardPage.js";
+import CollegeEnquiryPage from "../pages/CollegeEnquiryPage.js";
 
 export function Router() {
     const path =
@@ -67,6 +71,23 @@ export function Router() {
         case "/admin/study-abroad":
             pageContent =
                 `${Header()}${AdminStudyAbroadPage()}${FooterSection()}`;
+            break;
+
+        case "/admin/college-partners":
+            pageContent = CollegePartnerAdminPage();
+            break;
+
+        case "/college":
+        case "/college/login":
+            pageContent = CollegeLoginPage();
+            break;
+
+        case "/college/dashboard":
+            pageContent = CollegePartnerDashboardPage();
+            break;
+
+        case "/college/enquire":
+            pageContent = CollegeEnquiryPage();
             break;
 
         // =====================================================
