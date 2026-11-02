@@ -247,14 +247,14 @@ export default function Navbar() {
                  PARTNERS LOGIN
             ================================================== -->
 
-            <button
-                type="button"
+            <a
+                href="/college/login"
                 class="navbar-partner-login"
                 data-partner-login
                 aria-label="Partner Login"
             >
                 Partners Login
-            </button>
+            </a>
 
 
         </div>

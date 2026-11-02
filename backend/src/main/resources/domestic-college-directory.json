@@ -1,0 +1,14 @@
+[
+  {"code":"EC-IN-UG-DELHI","name":"University of Delhi","city":"New Delhi","type":"UNIVERSITY"},
+  {"code":"EC-IN-UG-IISC","name":"Indian Institute of Science","city":"Bengaluru","type":"INSTITUTION"},
+  {"code":"EC-IN-UG-JNU","name":"Jawaharlal Nehru University","city":"New Delhi","type":"UNIVERSITY"},
+  {"code":"EC-IN-UG-BHU","name":"Banaras Hindu University","city":"Varanasi","type":"UNIVERSITY"},
+  {"code":"EC-IN-UG-MUMBAI","name":"University of Mumbai","city":"Mumbai","type":"UNIVERSITY"},
+  {"code":"EC-IN-UG-CHRIST","name":"Christ University","city":"Bengaluru","type":"UNIVERSITY"},
+  {"code":"EC-IN-UG-MANIPAL","name":"Manipal Academy of Higher Education","city":"Manipal","type":"UNIVERSITY"},
+  {"code":"EC-IN-PG-IIMA","name":"IIM Ahmedabad","city":"Ahmedabad","type":"INSTITUTION"},
+  {"code":"EC-IN-PG-IIMB","name":"IIM Bangalore","city":"Bengaluru","type":"INSTITUTION"},
+  {"code":"EC-IN-PG-IIMC","name":"IIM Calcutta","city":"Kolkata","type":"INSTITUTION"},
+  {"code":"EC-IN-PG-IITD","name":"IIT Delhi","city":"New Delhi","type":"INSTITUTION"},
+  {"code":"EC-IN-PG-IITB","name":"IIT Bombay","city":"Mumbai","type":"INSTITUTION"}
+]

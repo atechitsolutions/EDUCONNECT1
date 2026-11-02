@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Local-only configuration and development credentials
+/application-local.properties
+/backend/application-local.properties

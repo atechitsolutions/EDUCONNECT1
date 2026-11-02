@@ -188,6 +188,13 @@ function renderInstitutionList(institutions) {
                                 Edit
                             </button>
 
+                            <a
+                                class="admin-secondary-button"
+                                href="/admin/college-partners?institutionId=${encodeURIComponent(institution.id)}"
+                            >
+                                Add Partner
+                            </a>
+
                             <button
                                 type="button"
                                 class="admin-danger-button"
