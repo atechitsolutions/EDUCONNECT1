@@ -40,7 +40,7 @@ const timeAgo = date => {
     }).format(new Date(date));
 };
 
-// Escape content before rendering hashtags and mentions.
+// Text is escaped first; only then are #tags and @mentions turned into buttons.
 const formatText = text => escapeHtml(text)
     .replace(
         /(^|\s)#([\p{L}\p{N}_]{2,40})/gu,
@@ -82,12 +82,7 @@ const VISIBILITY_LABEL = {
 
 const MAX_IMAGES = 4;
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
-const IMAGE_TYPES = [
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-    "image/gif"
-];
+const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 
 export function initCommunityFeed(root) {
     const host = root.querySelector("[data-feed-root]");
@@ -121,38 +116,23 @@ export function initCommunityFeed(root) {
         <div class="feed-root">
 
             <div class="feed-create-bar">
-                <span class="community-avatar">
-                    ${escapeHtml(initials(me.fullName))}
-                </span>
+                <span class="community-avatar">${escapeHtml(initials(me.fullName))}</span>
 
-                <button
-                    type="button"
-                    class="feed-create-input"
-                    data-feed-open-composer>
+                <button type="button" class="feed-create-input" data-feed-open-composer>
                     What's happening in your academic journey?
                 </button>
 
-                <button
-                    type="button"
-                    class="feed-post-btn"
-                    data-feed-open-composer>
+                <button type="button" class="feed-post-btn" data-feed-open-composer>
                     Create post
                 </button>
             </div>
 
-            <dialog
-                class="feed-compose-dialog"
-                data-feed-dialog
-                aria-labelledby="feed-compose-title">
+            <dialog class="feed-compose-dialog" data-feed-dialog aria-labelledby="feed-compose-title">
 
                 <div class="feed-dialog-head">
                     <h3 id="feed-compose-title">Create post</h3>
 
-                    <button
-                        type="button"
-                        class="feed-icon-btn"
-                        data-feed-close-composer
-                        aria-label="Close">
+                    <button type="button" class="feed-icon-btn" data-feed-close-composer aria-label="Close">
                         ×
                     </button>
                 </div>
@@ -160,29 +140,22 @@ export function initCommunityFeed(root) {
                 <form class="feed-composer" data-feed-composer>
 
                     <div class="feed-composer-top">
-                        <span class="community-avatar">
-                            ${escapeHtml(initials(me.fullName))}
-                        </span>
+                        <span class="community-avatar">${escapeHtml(initials(me.fullName))}</span>
 
                         <textarea
                             name="content"
                             rows="2"
                             maxlength="5000"
                             placeholder="What's happening in your academic journey?"
-                            aria-label="Write a post">
-                        </textarea>
+                            aria-label="Write a post"></textarea>
                     </div>
 
-                    <div
-                        class="feed-previews"
-                        data-feed-previews>
-                    </div>
+                    <div class="feed-previews" data-feed-previews></div>
 
                     <div class="feed-composer-bar">
 
                         <label class="feed-tool" title="Add photos">
                             ▧ Photos
-
                             <input
                                 type="file"
                                 data-feed-files
@@ -200,22 +173,15 @@ export function initCommunityFeed(root) {
                             <option value="JOB">Internship / Job</option>
                         </select>
 
-                        <select
-                            name="visibility"
-                            aria-label="Who can see this post">
-
+                        <select name="visibility" aria-label="Who can see this post">
                             <option value="PUBLIC">🌐 Public</option>
                             <option value="CONNECTIONS">👥 Connections</option>
                             <option value="PRIVATE">🔒 Only me</option>
                         </select>
 
-                        <span class="feed-count" data-feed-count>
-                            0/5000
-                        </span>
+                        <span class="feed-count" data-feed-count>0/5000</span>
 
-                        <button class="feed-post-btn" type="submit">
-                            Post
-                        </button>
+                        <button class="feed-post-btn" type="submit">Post</button>
                     </div>
 
                     <small class="feed-hint">
@@ -229,7 +195,6 @@ export function initCommunityFeed(root) {
 
                 <label class="feed-search">
                     <span aria-hidden="true">⌕</span>
-
                     <input
                         type="search"
                         data-feed-search
@@ -237,29 +202,10 @@ export function initCommunityFeed(root) {
                         aria-label="Search posts and hashtags">
                 </label>
 
-                <div
-                    class="feed-scope"
-                    role="tablist"
-                    aria-label="Post scope">
-
-                    <button
-                        type="button"
-                        class="is-active"
-                        data-feed-scope="all">
-                        Everyone
-                    </button>
-
-                    <button
-                        type="button"
-                        data-feed-scope="mine">
-                        My posts
-                    </button>
-
-                    <button
-                        type="button"
-                        data-feed-scope="saved">
-                        Saved
-                    </button>
+                <div class="feed-scope" role="tablist" aria-label="Post scope">
+                    <button type="button" class="is-active" data-feed-scope="all">Everyone</button>
+                    <button type="button" data-feed-scope="mine">My posts</button>
+                    <button type="button" data-feed-scope="saved">Saved</button>
                 </div>
             </div>
 
@@ -274,19 +220,12 @@ export function initCommunityFeed(root) {
                 `).join("")}
             </div>
 
-            <div
-                class="feed-single"
-                data-feed-single
-                hidden>
-            </div>
+            <div class="feed-single" data-feed-single hidden></div>
 
             <div class="feed-list" data-feed-list></div>
 
             <div class="feed-more" data-feed-more hidden>
-                <button
-                    type="button"
-                    class="feed-more-btn"
-                    data-feed-load-more>
+                <button type="button" class="feed-more-btn" data-feed-load-more>
                     Load more posts
                 </button>
             </div>
@@ -295,6 +234,20 @@ export function initCommunityFeed(root) {
     `;
 
     const $ = selector => host.querySelector(selector);
+
+    // Post viewer: a full-screen dialog attached to the page root,
+    // so it can open from any tab (e.g. a profile).
+    root.insertAdjacentHTML("beforeend", `
+        <dialog class="feed-viewer" data-feed-viewer aria-label="Post viewer">
+            <button type="button" class="feed-viewer-close" data-feed-viewer-close aria-label="Close post">×</button>
+            <div class="feed-root feed-viewer-body" data-feed-viewer-body></div>
+        </dialog>
+    `);
+
+    const viewer = root.querySelector("[data-feed-viewer]");
+    const viewerBody = viewer.querySelector("[data-feed-viewer-body]");
+
+    const changed = () => root.dispatchEvent(new CustomEvent("feed:changed"));
 
     const toast = (message, error = false) => {
         const node = root.querySelector("[data-community-toast]");
@@ -341,14 +294,12 @@ export function initCommunityFeed(root) {
 
         return `
             <div class="feed-gallery feed-gallery-${Math.min(images.length, 4)}">
-
                 ${images.map(path => `
                     <img
                         class="feed-image"
                         data-feed-media="${escapeHtml(path)}"
                         alt="Image shared in a post">
                 `).join("")}
-
             </div>
         `;
     };
@@ -371,15 +322,11 @@ export function initCommunityFeed(root) {
                         ${escapeHtml(p.author.displayName)}
                     </button>
 
-                    <small>
-                        @${escapeHtml(p.author.username)}
-                    </small>
+                    <small>@${escapeHtml(p.author.username)}</small>
 
-                    ${
-                        authorLine(p.author)
-                            ? `<small class="feed-author-meta">${authorLine(p.author)}</small>`
-                            : ""
-                    }
+                    ${authorLine(p.author)
+                        ? `<small class="feed-author-meta">${authorLine(p.author)}</small>`
+                        : ""}
 
                     <small class="feed-meta">
                         <time>${escapeHtml(timeAgo(p.createdAt))}</time>
@@ -406,39 +353,18 @@ export function initCommunityFeed(root) {
 
                     <div class="feed-menu" data-feed-menu-panel hidden>
 
-                        ${
-                            p.mine
-                                ? `
-                                    <button type="button" data-feed-edit>
-                                        Edit post
-                                    </button>
+                        ${p.mine
+                            ? `
+                                <button type="button" data-feed-edit>Edit post</button>
+                                <button type="button" class="is-danger" data-feed-delete>Delete post</button>
+                            `
+                            : `
+                                <button type="button" class="is-danger" data-feed-report>Report post</button>
+                            `}
 
-                                    <button
-                                        type="button"
-                                        class="is-danger"
-                                        data-feed-delete>
-                                        Delete post
-                                    </button>
-                                `
-                                : `
-                                    <button
-                                        type="button"
-                                        class="is-danger"
-                                        data-feed-report>
-                                        Report post
-                                    </button>
-                                `
-                        }
-
-                        ${
-                            single
-                                ? ""
-                                : `
-                                    <button type="button" data-feed-open>
-                                        Open post
-                                    </button>
-                                `
-                        }
+                        ${single
+                            ? ""
+                            : `<button type="button" data-feed-open>Open post</button>`}
 
                     </div>
                 </div>
@@ -446,11 +372,7 @@ export function initCommunityFeed(root) {
             </header>
 
             <div class="feed-body" data-feed-body>
-                ${
-                    p.content
-                        ? `<p>${formatText(p.content)}</p>`
-                        : ""
-                }
+                ${p.content ? `<p>${formatText(p.content)}</p>` : ""}
             </div>
 
             ${gallery(p.images)}
@@ -462,22 +384,15 @@ export function initCommunityFeed(root) {
                     class="${p.likedByMe ? "is-active" : ""}"
                     data-feed-like
                     aria-pressed="${p.likedByMe}">
-                    ♥
-                    <span data-count="like">${p.likeCount}</span>
+                    ♥ <span data-count="like">${p.likeCount}</span>
                 </button>
 
-                <button
-                    type="button"
-                    data-feed-comments-toggle>
-                    💬
-                    <span data-count="comment">${p.commentCount}</span>
+                <button type="button" data-feed-comments-toggle>
+                    💬 <span data-count="comment">${p.commentCount}</span>
                 </button>
 
-                <button
-                    type="button"
-                    data-feed-share>
-                    ↗
-                    <span data-count="share">${p.shareCount}</span>
+                <button type="button" data-feed-share>
+                    ↗ <span data-count="share">${p.shareCount}</span>
                 </button>
 
                 <button
@@ -490,10 +405,7 @@ export function initCommunityFeed(root) {
 
             </div>
 
-            <section
-                class="feed-comments"
-                data-feed-comments
-                hidden>
+            <section class="feed-comments" data-feed-comments hidden>
 
                 <div data-feed-comment-list></div>
 
@@ -505,10 +417,7 @@ export function initCommunityFeed(root) {
                     Load more comments
                 </button>
 
-                <form
-                    class="feed-comment-form"
-                    data-feed-comment-form>
-
+                <form class="feed-comment-form" data-feed-comment-form>
                     <input
                         name="content"
                         maxlength="2000"
@@ -519,11 +428,7 @@ export function initCommunityFeed(root) {
                     <button type="submit">Send</button>
                 </form>
 
-                <small
-                    class="feed-replying"
-                    data-feed-replying
-                    hidden>
-                </small>
+                <small class="feed-replying" data-feed-replying hidden></small>
 
             </section>
 
@@ -552,42 +457,34 @@ export function initCommunityFeed(root) {
 
                 <div class="feed-comment-tools">
 
-                    ${
-                        reply
-                            ? ""
-                            : `
-                                <button
-                                    type="button"
-                                    data-feed-reply="${c.id}"
-                                    data-reply-name="${escapeHtml(c.author.username)}">
-                                    Reply
-                                </button>
-                            `
-                    }
+                    ${reply
+                        ? ""
+                        : `
+                            <button
+                                type="button"
+                                data-feed-reply="${c.id}"
+                                data-reply-name="${escapeHtml(c.author.username)}">
+                                Reply
+                            </button>
+                        `}
 
-                    ${
-                        c.mine
-                            ? `
-                                <button
-                                    type="button"
-                                    data-feed-comment-delete="${c.id}">
-                                    Delete
-                                </button>
-                            `
-                            : ""
-                    }
+                    ${c.mine
+                        ? `
+                            <button type="button" data-feed-comment-delete="${c.id}">
+                                Delete
+                            </button>
+                        `
+                        : ""}
 
                 </div>
 
-                ${
-                    !reply && c.replies?.length
-                        ? `
-                            <div class="feed-replies">
-                                ${c.replies.map(r => commentHtml(r, true)).join("")}
-                            </div>
-                        `
-                        : ""
-                }
+                ${!reply && c.replies?.length
+                    ? `
+                        <div class="feed-replies">
+                            ${c.replies.map(r => commentHtml(r, true)).join("")}
+                        </div>
+                    `
+                    : ""}
 
             </div>
         </div>
@@ -611,17 +508,15 @@ export function initCommunityFeed(root) {
             <h3>Could not load the feed</h3>
             <p>${escapeHtml(message)}</p>
 
-            <button
-                type="button"
-                class="feed-more-btn"
-                data-feed-retry>
+            <button type="button" class="feed-more-btn" data-feed-retry>
                 Try again
             </button>
         </div>
     `;
 
     // ------------------------------------------------------------
-    // IMAGE LOADING
+    // IMAGE LOADING (private images need the bearer token,
+    // so each one is fetched lazily as a blob)
     // ------------------------------------------------------------
 
     const mediaObserver = "IntersectionObserver" in window
@@ -643,6 +538,7 @@ export function initCommunityFeed(root) {
                     img.classList.add("is-loaded");
 
                 } catch {
+                    blobCache.delete(path);
                     img.alt = "Image unavailable";
                 }
             });
@@ -671,31 +567,13 @@ export function initCommunityFeed(root) {
     // POST STATE HELPERS
     // ------------------------------------------------------------
 
-    const cardFor = id =>
-        host.querySelector(`[data-post-id="${id}"]`);
-
     const findPost = id =>
         state.posts.find(p => Number(p.id) === Number(id));
 
-    const replacePost = post => {
-        if (!post || typeof post !== "object" || post.id == null) return;
+    const allCards = id =>
+        root.querySelectorAll(`[data-post-id="${id}"]`);
 
-        const index = state.posts.findIndex(
-            p => Number(p.id) === Number(post.id)
-        );
-
-        if (index >= 0) state.posts[index] = post;
-
-        if (
-            state.single &&
-            Number(state.single.id) === Number(post.id)
-        ) {
-            state.single = post;
-        }
-
-        const card = cardFor(post.id);
-        if (!card) return;
-
+    const paintCard = (card, post) => {
         const likeCount = card.querySelector('[data-count="like"]');
         const commentCount = card.querySelector('[data-count="comment"]');
         const shareCount = card.querySelector('[data-count="share"]');
@@ -717,6 +595,59 @@ export function initCommunityFeed(root) {
             save.classList.toggle("is-active", Boolean(post.savedByMe));
             save.setAttribute("aria-pressed", String(Boolean(post.savedByMe)));
             save.textContent = post.savedByMe ? "★ Saved" : "☆ Save";
+        }
+    };
+
+    // Keeps the list card, single view and viewer in sync.
+    const replacePost = post => {
+        if (!post || typeof post !== "object" || post.id == null) return;
+
+        const index = state.posts.findIndex(
+            p => Number(p.id) === Number(post.id)
+        );
+
+        if (index >= 0) state.posts[index] = post;
+
+        if (state.single && Number(state.single.id) === Number(post.id)) {
+            state.single = post;
+        }
+
+        allCards(post.id).forEach(card => paintCard(card, post));
+    };
+
+    const setCommentCount = (id, count) => {
+        if (count == null) return;
+
+        allCards(id).forEach(card => {
+            const node = card.querySelector('[data-count="comment"]');
+            if (node) node.textContent = count;
+        });
+
+        const post = findPost(id);
+        if (post) post.commentCount = count;
+
+        if (state.single && Number(state.single.id) === Number(id)) {
+            state.single.commentCount = count;
+        }
+    };
+
+    const paintContent = (card, post) => {
+        const body = card.querySelector("[data-feed-body]");
+
+        if (body) {
+            body.innerHTML = post.content
+                ? `<p>${formatText(post.content)}</p>`
+                : "";
+        }
+
+        const meta = card.querySelector(".feed-meta");
+
+        if (meta) {
+            meta.innerHTML = `
+                <time>${escapeHtml(timeAgo(post.createdAt))}</time>
+                ${post.edited ? " · edited" : ""}
+                · ${VISIBILITY_LABEL[post.visibility] || ""}
+            `;
         }
     };
 
@@ -767,9 +698,7 @@ export function initCommunityFeed(root) {
             const currentPage = Number(result?.page ?? state.page);
             const totalPages = Number(result?.totalPages ?? 0);
 
-            state.last =
-                totalPages === 0 ||
-                currentPage >= totalPages - 1;
+            state.last = totalPages === 0 || currentPage >= totalPages - 1;
 
             if (reset) list.innerHTML = "";
 
@@ -782,9 +711,7 @@ export function initCommunityFeed(root) {
             } else {
                 const wrapper = document.createElement("div");
 
-                wrapper.innerHTML = content
-                    .map(p => postHtml(p))
-                    .join("");
+                wrapper.innerHTML = content.map(p => postHtml(p)).join("");
 
                 while (wrapper.firstChild) {
                     list.appendChild(wrapper.firstChild);
@@ -803,10 +730,7 @@ export function initCommunityFeed(root) {
                         error.message || "Please check your connection."
                     );
                 } else {
-                    toast(
-                        error.message || "Could not load more posts.",
-                        true
-                    );
+                    toast(error.message || "Could not load more posts.", true);
                 }
             }
 
@@ -831,16 +755,10 @@ export function initCommunityFeed(root) {
         const list = card.querySelector("[data-feed-comment-list]");
         const more = card.querySelector("[data-feed-more-comments]");
 
-        const page = reset
-            ? 0
-            : Number(more.dataset.page || 0) + 1;
+        const page = reset ? 0 : Number(more.dataset.page || 0) + 1;
 
         if (reset) {
-            list.innerHTML = `
-                <small class="feed-muted">
-                    Loading comments…
-                </small>
-            `;
+            list.innerHTML = `<small class="feed-muted">Loading comments…</small>`;
         }
 
         try {
@@ -849,11 +767,7 @@ export function initCommunityFeed(root) {
             if (reset) list.innerHTML = "";
 
             if (reset && !result.content.length) {
-                list.innerHTML = `
-                    <small class="feed-muted">
-                        No comments yet.
-                    </small>
-                `;
+                list.innerHTML = `<small class="feed-muted">No comments yet.</small>`;
             }
 
             list.insertAdjacentHTML(
@@ -866,9 +780,7 @@ export function initCommunityFeed(root) {
 
         } catch (error) {
             list.innerHTML = `
-                <small class="feed-muted">
-                    ${escapeHtml(error.message)}
-                </small>
+                <small class="feed-muted">${escapeHtml(error.message)}</small>
             `;
         }
     }
@@ -883,15 +795,11 @@ export function initCommunityFeed(root) {
     const renderPreviews = () => {
         state.previewUrls.forEach(url => URL.revokeObjectURL(url));
 
-        state.previewUrls = state.files.map(file =>
-            URL.createObjectURL(file)
-        );
+        state.previewUrls = state.files.map(file => URL.createObjectURL(file));
 
         previews.innerHTML = state.files.map((file, i) => `
             <figure>
-                <img
-                    src="${state.previewUrls[i]}"
-                    alt="Selected image ${i + 1}">
+                <img src="${state.previewUrls[i]}" alt="Selected image ${i + 1}">
 
                 <button
                     type="button"
@@ -911,10 +819,7 @@ export function initCommunityFeed(root) {
     $("[data-feed-files]").addEventListener("change", event => {
         for (const file of event.target.files) {
             if (!IMAGE_TYPES.includes(file.type)) {
-                toast(
-                    "Only JPEG, PNG, WebP or GIF images are allowed.",
-                    true
-                );
+                toast("Only JPEG, PNG, WebP or GIF images are allowed.", true);
                 continue;
             }
 
@@ -945,7 +850,7 @@ export function initCommunityFeed(root) {
             return;
         }
 
-        const button = form.querySelector(".feed-post-btn");
+        const button = form.querySelector(".feed-post-btn[type='submit']");
 
         button.disabled = true;
         button.textContent = "Posting…";
@@ -956,14 +861,9 @@ export function initCommunityFeed(root) {
         data.append("category", form.elements.category.value);
         data.append("visibility", form.elements.visibility.value);
 
-        state.files.forEach(file => {
-            data.append("images", file);
-        });
+        state.files.forEach(file => data.append("images", file));
 
-        const ok = await attempt(
-            () => feedApi.create(data),
-            "Post published."
-        );
+        const ok = await attempt(() => feedApi.create(data), "Post published.");
 
         button.disabled = false;
         button.textContent = "Post";
@@ -976,24 +876,23 @@ export function initCommunityFeed(root) {
         renderPreviews();
 
         $("[data-feed-count]").textContent = "0/5000";
-
         $("[data-feed-dialog]").close();
 
+        changed();
         reload();
     });
 
     // ------------------------------------------------------------
-    // INTERACTIONS
+    // INTERACTIONS (shared by the feed and the post viewer)
     // ------------------------------------------------------------
 
     const closeMenus = except => {
-        host.querySelectorAll("[data-feed-menu-panel]")
-            .forEach(menu => {
-                if (menu !== except) menu.hidden = true;
-            });
+        root.querySelectorAll("[data-feed-menu-panel]").forEach(menu => {
+            if (menu !== except) menu.hidden = true;
+        });
     };
 
-    host.addEventListener("click", async event => {
+    const onClick = async event => {
         const target = event.target instanceof Element
             ? event.target
             : event.target?.parentElement;
@@ -1002,15 +901,17 @@ export function initCommunityFeed(root) {
 
         const button = target.closest("button");
 
-        if (!target.closest("[data-feed-menu]")) {
-            closeMenus();
-        }
+        if (!target.closest("[data-feed-menu]")) closeMenus();
 
         if (!button) return;
 
+        if (button.matches("[data-feed-viewer-close]")) {
+            viewer.close();
+            return;
+        }
+
         if (button.matches("[data-feed-open-composer]")) {
-            const dialog = $("[data-feed-dialog]");
-            dialog.showModal();
+            $("[data-feed-dialog]").showModal();
             form.elements.content.focus();
             return;
         }
@@ -1027,10 +928,9 @@ export function initCommunityFeed(root) {
                 FILTERS.find(f => f.key === filterButton.dataset.feedFilter) ||
                 FILTERS[0];
 
-            host.querySelectorAll("[data-feed-filter]")
-                .forEach(b => {
-                    b.classList.toggle("is-active", b === filterButton);
-                });
+            host.querySelectorAll("[data-feed-filter]").forEach(b => {
+                b.classList.toggle("is-active", b === filterButton);
+            });
 
             return reload();
         }
@@ -1040,10 +940,9 @@ export function initCommunityFeed(root) {
         if (scopeButton) {
             state.scope = scopeButton.dataset.feedScope;
 
-            host.querySelectorAll("[data-feed-scope]")
-                .forEach(b => {
-                    b.classList.toggle("is-active", b === scopeButton);
-                });
+            host.querySelectorAll("[data-feed-scope]").forEach(b => {
+                b.classList.toggle("is-active", b === scopeButton);
+            });
 
             return reload();
         }
@@ -1054,17 +953,15 @@ export function initCommunityFeed(root) {
             search.value = `#${button.dataset.feedTag}`;
             state.q = search.value;
 
-            host.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
+            // Tags clicked inside the viewer should reveal the feed.
+            if (viewer.open) viewer.close();
+
+            host.scrollIntoView({ behavior: "smooth", block: "start" });
 
             return reload();
         }
 
-        if (button.matches("[data-feed-retry]")) {
-            return reload();
-        }
+        if (button.matches("[data-feed-retry]")) return reload();
 
         if (button.matches("[data-feed-load-more]")) {
             state.page += 1;
@@ -1091,11 +988,7 @@ export function initCommunityFeed(root) {
         }
 
         if (button.matches("[data-feed-remove-file]")) {
-            state.files.splice(
-                Number(button.dataset.feedRemoveFile),
-                1
-            );
-
+            state.files.splice(Number(button.dataset.feedRemoveFile), 1);
             return renderPreviews();
         }
 
@@ -1119,23 +1012,16 @@ export function initCommunityFeed(root) {
 
         // Like post.
         if (button.matches("[data-feed-like]")) {
-            const result = await attempt(
-                () => feedApi.like(id)
-            );
+            const result = await attempt(() => feedApi.like(id));
 
-            if (result && typeof result === "object") {
-                replacePost(result);
-            }
+            if (result && typeof result === "object") replacePost(result);
 
             return;
         }
 
         // Save post.
         if (button.matches("[data-feed-save]")) {
-            const result = await attempt(
-                () => feedApi.save(id),
-                null
-            );
+            const result = await attempt(() => feedApi.save(id), null);
 
             if (result && typeof result === "object") {
                 replacePost(result);
@@ -1145,6 +1031,8 @@ export function initCommunityFeed(root) {
                         ? "Saved to your collection."
                         : "Removed from saved."
                 );
+
+                changed();
             }
 
             return;
@@ -1152,17 +1040,12 @@ export function initCommunityFeed(root) {
 
         // Share post.
         if (button.matches("[data-feed-share]")) {
-            const link =
-                `${location.origin}/community?post=${id}`;
+            const link = `${location.origin}/community?post=${id}`;
 
             if (post && post.visibility === "PUBLIC") {
-                const result = await attempt(
-                    () => feedApi.share(id)
-                );
+                const result = await attempt(() => feedApi.share(id));
 
-                if (result && typeof result === "object") {
-                    replacePost(result);
-                }
+                if (result && typeof result === "object") replacePost(result);
             }
 
             if (navigator.share) {
@@ -1188,10 +1071,10 @@ export function initCommunityFeed(root) {
             return;
         }
 
-        // Open single post.
+        // Open post in the viewer dialog.
         if (button.matches("[data-feed-open]")) {
             closeMenus();
-            return showSingle(id);
+            return showViewer(id);
         }
 
         // Show or hide comments.
@@ -1200,10 +1083,7 @@ export function initCommunityFeed(root) {
 
             section.hidden = !section.hidden;
 
-            if (
-                !section.hidden &&
-                !section.dataset.loaded
-            ) {
+            if (!section.hidden && !section.dataset.loaded) {
                 section.dataset.loaded = "1";
                 loadComments(card);
             }
@@ -1218,19 +1098,17 @@ export function initCommunityFeed(root) {
         // Reply to comment.
         if (button.matches("[data-feed-reply]")) {
             state.replyTo = {
-                postId: id,
+                postId: String(id),
                 commentId: Number(button.dataset.feedReply)
             };
 
             const note = card.querySelector("[data-feed-replying]");
 
             note.hidden = false;
-
             note.textContent =
                 `Replying to @${button.dataset.replyName} — send an empty box to cancel`;
 
-            const input =
-                card.querySelector("[data-feed-comment-form] input");
+            const input = card.querySelector("[data-feed-comment-form] input");
 
             input.focus();
             input.value = `@${button.dataset.replyName} `;
@@ -1242,27 +1120,15 @@ export function initCommunityFeed(root) {
         if (button.matches("[data-feed-comment-delete]")) {
             if (!confirm("Delete this comment?")) return;
 
-            const result = await attempt(
-                () => feedApi.removeComment(
-                    button.dataset.feedCommentDelete
-                )
-            );
+            const commentId = button.dataset.feedCommentDelete;
+
+            const result = await attempt(() => feedApi.removeComment(commentId));
 
             if (result) {
-                card.querySelector(
-                    `[data-comment-id="${button.dataset.feedCommentDelete}"]`
-                )?.remove();
+                card.querySelector(`[data-comment-id="${commentId}"]`)?.remove();
 
-                const count = card.querySelector(
-                    '[data-count="comment"]'
-                );
-
-                if (count) {
-                    count.textContent = result.commentCount;
-                }
-
-                if (post) {
-                    post.commentCount = result.commentCount;
+                if (typeof result === "object") {
+                    setCommentCount(id, result.commentCount);
                 }
             }
 
@@ -1281,21 +1147,21 @@ export function initCommunityFeed(root) {
             );
 
             if (result) {
-                card.remove();
+                allCards(id).forEach(c => c.remove());
 
                 state.posts = state.posts.filter(
                     p => Number(p.id) !== Number(id)
                 );
 
-                if (
-                    state.single &&
-                    Number(state.single.id) === Number(id)
-                ) {
+                if (state.single && Number(state.single.id) === Number(id)) {
                     state.single = null;
 
                     $("[data-feed-single]").hidden = true;
                     $("[data-feed-list]").hidden = false;
                 }
+
+                if (viewer.open) viewer.close(); // its close event calls changed()
+                else changed();
             }
 
             return;
@@ -1305,9 +1171,7 @@ export function initCommunityFeed(root) {
         if (button.matches("[data-feed-report]")) {
             closeMenus();
 
-            const reason = prompt(
-                "Why are you reporting this post?"
-            );
+            const reason = prompt("Why are you reporting this post?");
 
             if (reason && reason.trim()) {
                 await attempt(
@@ -1324,16 +1188,17 @@ export function initCommunityFeed(root) {
             closeMenus();
             return startEdit(card, post);
         }
-    });
+    };
+
+    host.addEventListener("click", onClick);
+    viewer.addEventListener("click", onClick);
 
     // ------------------------------------------------------------
     // COMMENT SUBMISSION
     // ------------------------------------------------------------
 
-    host.addEventListener("submit", async event => {
-        const commentForm = event.target.closest(
-            "[data-feed-comment-form]"
-        );
+    const onSubmit = async event => {
+        const commentForm = event.target.closest("[data-feed-comment-form]");
 
         if (!commentForm) return;
 
@@ -1354,8 +1219,7 @@ export function initCommunityFeed(root) {
         }
 
         const parentId =
-            state.replyTo &&
-            String(state.replyTo.postId) === String(id)
+            state.replyTo && String(state.replyTo.postId) === String(id)
                 ? state.replyTo.commentId
                 : null;
 
@@ -1370,22 +1234,15 @@ export function initCommunityFeed(root) {
         state.replyTo = null;
         note.hidden = true;
 
-        const count = card.querySelector(
-            '[data-count="comment"]'
-        );
-
-        if (count) {
-            count.textContent = result.commentCount;
-        }
-
-        const post = findPost(id) || state.single;
-
-        if (post) {
-            post.commentCount = result.commentCount;
+        if (typeof result === "object") {
+            setCommentCount(id, result.commentCount);
         }
 
         loadComments(card);
-    });
+    };
+
+    host.addEventListener("submit", onSubmit);
+    viewer.addEventListener("submit", onSubmit);
 
     // ------------------------------------------------------------
     // EDIT POST
@@ -1405,16 +1262,11 @@ export function initCommunityFeed(root) {
                     aria-label="Edit post">${escapeHtml(post.content)}</textarea>
 
                 <div>
-                    <button
-                        type="button"
-                        class="feed-link-btn"
-                        data-edit-cancel>
+                    <button type="button" class="feed-link-btn" data-edit-cancel>
                         Cancel
                     </button>
 
-                    <button
-                        type="submit"
-                        class="feed-post-btn">
+                    <button type="submit" class="feed-post-btn">
                         Save
                     </button>
                 </div>
@@ -1436,9 +1288,7 @@ export function initCommunityFeed(root) {
         editForm.addEventListener("submit", async submitEvent => {
             submitEvent.preventDefault();
 
-            const content = editForm
-                .querySelector("textarea")
-                .value.trim();
+            const content = editForm.querySelector("textarea").value.trim();
 
             const updated = await attempt(
                 () => feedApi.update(post.id, {
@@ -1449,41 +1299,27 @@ export function initCommunityFeed(root) {
                 "Post updated."
             );
 
-            if (!updated) return;
+            if (!updated || typeof updated !== "object") return;
 
             const index = state.posts.findIndex(
-                p => p.id === updated.id
+                p => Number(p.id) === Number(updated.id)
             );
 
-            if (index >= 0) {
-                state.posts[index] = updated;
-            }
+            if (index >= 0) state.posts[index] = updated;
 
-            if (
-                state.single &&
-                Number(state.single.id) === Number(updated.id)
-            ) {
+            if (state.single && Number(state.single.id) === Number(updated.id)) {
                 state.single = updated;
             }
 
-            body.innerHTML = updated.content
-                ? `<p>${formatText(updated.content)}</p>`
-                : "";
+            // Update every copy of this post (list, single view, viewer).
+            allCards(updated.id).forEach(c => paintContent(c, updated));
 
-            const meta = card.querySelector(".feed-meta");
-
-            if (meta) {
-                meta.innerHTML = `
-                    <time>${escapeHtml(timeAgo(updated.createdAt))}</time>
-                    · edited
-                    · ${VISIBILITY_LABEL[updated.visibility] || ""}
-                `;
-            }
+            changed();
         });
     }
 
     // ------------------------------------------------------------
-    // SINGLE POST VIEW
+    // SINGLE POST VIEW (inline, used for ?post=ID links)
     // ------------------------------------------------------------
 
     async function showSingle(id) {
@@ -1493,10 +1329,7 @@ export function initCommunityFeed(root) {
         $("[data-feed-list]").hidden = true;
 
         box.innerHTML = `
-            <button
-                type="button"
-                class="feed-link-btn"
-                data-feed-back>
+            <button type="button" class="feed-link-btn" data-feed-back>
                 ← Back to feed
             </button>
 
@@ -1509,10 +1342,7 @@ export function initCommunityFeed(root) {
             state.single = post;
 
             box.innerHTML = `
-                <button
-                    type="button"
-                    class="feed-link-btn"
-                    data-feed-back>
+                <button type="button" class="feed-link-btn" data-feed-back>
                     ← Back to feed
                 </button>
 
@@ -1522,10 +1352,7 @@ export function initCommunityFeed(root) {
             watchMedia(box);
 
             const card = box.querySelector("[data-post-id]");
-
-            const comments = card.querySelector(
-                "[data-feed-comments]"
-            );
+            const comments = card.querySelector("[data-feed-comments]");
 
             comments.hidden = false;
             comments.dataset.loaded = "1";
@@ -1534,10 +1361,7 @@ export function initCommunityFeed(root) {
 
         } catch (error) {
             box.innerHTML = `
-                <button
-                    type="button"
-                    class="feed-link-btn"
-                    data-feed-back>
+                <button type="button" class="feed-link-btn" data-feed-back>
                     ← Back to feed
                 </button>
 
@@ -1547,7 +1371,53 @@ export function initCommunityFeed(root) {
     }
 
     // ------------------------------------------------------------
-    // DIALOG BACKDROP
+    // POST VIEWER DIALOG (opens from any tab)
+    // ------------------------------------------------------------
+
+    async function showViewer(id) {
+        viewerBody.innerHTML = skeleton();
+
+        if (!viewer.open) viewer.showModal();
+
+        try {
+            const post = await feedApi.get(id);
+
+            state.single = post;
+
+            viewerBody.innerHTML = postHtml(post, true);
+
+            watchMedia(viewerBody);
+
+            const card = viewerBody.querySelector("[data-post-id]");
+            const comments = card.querySelector("[data-feed-comments]");
+
+            comments.hidden = false;
+            comments.dataset.loaded = "1";
+
+            loadComments(card);
+
+        } catch (error) {
+            viewerBody.innerHTML = errorHtml(error.message);
+        }
+    }
+
+    const onViewerBackdrop = event => {
+        if (event.target === viewer) viewer.close();
+    };
+
+    const onViewerClose = () => {
+        viewerBody.innerHTML = "";
+        changed();
+    };
+
+    const onViewPost = event => showViewer(event.detail);
+
+    viewer.addEventListener("click", onViewerBackdrop);
+    viewer.addEventListener("close", onViewerClose);
+    root.addEventListener("feed:view-post", onViewPost);
+
+    // ------------------------------------------------------------
+    // DIALOG BACKDROP (composer)
     // ------------------------------------------------------------
 
     $("[data-feed-dialog]").addEventListener("click", event => {
@@ -1577,8 +1447,8 @@ export function initCommunityFeed(root) {
 
     const sentinel = $("[data-feed-more]");
 
-    if ("IntersectionObserver" in window) {
-        new IntersectionObserver(entries => {
+    const scrollObserver = "IntersectionObserver" in window
+        ? new IntersectionObserver(entries => {
             if (
                 entries[0].isIntersecting &&
                 !state.loading &&
@@ -1588,35 +1458,27 @@ export function initCommunityFeed(root) {
                 state.page += 1;
                 load();
             }
-        }, {
-            rootMargin: "400px"
-        }).observe(sentinel);
-    }
+        }, { rootMargin: "400px" })
+        : null;
+
+    if (scrollObserver) scrollObserver.observe(sentinel);
 
     // ------------------------------------------------------------
     // COMMUNITY TAB ACTIVATION
     // ------------------------------------------------------------
 
     const activate = () => {
-        if (!state.loaded && !state.loading) {
-            reload();
-        }
+        if (!state.loaded && !state.loading) reload();
 
-        const postId = new URLSearchParams(
-            location.search
-        ).get("post");
+        const postId = new URLSearchParams(location.search).get("post");
 
-        if (
-            postId &&
-            /^\d+$/.test(postId) &&
-            !activate.opened
-        ) {
+        if (postId && /^\d+$/.test(postId) && !activate.opened) {
             activate.opened = true;
             showSingle(postId);
         }
     };
 
-    root.addEventListener("click", event => {
+    const onRootClick = event => {
         const target = event.target instanceof Element
             ? event.target
             : event.target?.parentElement;
@@ -1628,7 +1490,9 @@ export function initCommunityFeed(root) {
         ) {
             activate();
         }
-    });
+    };
+
+    root.addEventListener("click", onRootClick);
 
     if (new URLSearchParams(location.search).get("post")) {
         root.querySelector('[data-community-tab="feed"]')?.click();
@@ -1639,22 +1503,28 @@ export function initCommunityFeed(root) {
     // ------------------------------------------------------------
 
     const cleanup = () => {
-        state.previewUrls.forEach(url => {
-            URL.revokeObjectURL(url);
-        });
+        clearTimeout(searchTimer);
+        clearTimeout(toast.timer);
 
+        state.previewUrls.forEach(url => URL.revokeObjectURL(url));
         state.previewUrls = [];
 
-        if (mediaObserver) {
-            mediaObserver.disconnect();
-        }
+        blobCache.forEach(promise => {
+            promise.then(url => URL.revokeObjectURL(url)).catch(() => {});
+        });
+        blobCache.clear();
+
+        if (mediaObserver) mediaObserver.disconnect();
+        if (scrollObserver) scrollObserver.disconnect();
+
+        root.removeEventListener("feed:view-post", onViewPost);
+        root.removeEventListener("click", onRootClick);
+
+        if (viewer.open) viewer.close();
+        viewer.remove();
     };
 
-    root.addEventListener(
-        "community:destroy",
-        cleanup,
-        { once: true }
-    );
+    root.addEventListener("community:destroy", cleanup, { once: true });
 }
 
 export default initCommunityFeed;

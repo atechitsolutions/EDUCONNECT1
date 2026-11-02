@@ -10,6 +10,7 @@ const root = `${API_BASE_URL}/api/community`;
 
 async function call(path, options = {}) {
     const token = getToken();
+
     const isForm =
         typeof FormData !== "undefined" &&
         options.body instanceof FormData;
@@ -36,6 +37,7 @@ async function call(path, options = {}) {
     if (!response.ok) {
         throw new Error(
             body.message ||
+            body.error ||
             `Request failed (${response.status}).`
         );
     }
@@ -52,9 +54,9 @@ const json = (method, body) => ({
     body: JSON.stringify(body)
 });
 
-const params = values =>
+const params = (values = {}) =>
     new URLSearchParams(
-        Object.entries(values || {}).filter(
+        Object.entries(values).filter(
             ([, value]) =>
                 value !== "" &&
                 value !== null &&
@@ -62,7 +64,7 @@ const params = values =>
         )
     ).toString();
 
-const query = values => {
+const query = (values) => {
     const result = params(values);
     return result ? `?${result}` : "";
 };
@@ -71,24 +73,20 @@ const usernamePath = username =>
     encodeURIComponent(username);
 
 // ============================================================
-// COMMUNITY POSTS API
+// COMMUNITY FEED API
 // ============================================================
 
 export const feedApi = {
 
-    // --------------------------------------------------------
-    // FEED
-    // --------------------------------------------------------
+    // ========================================================
+    // POSTS
+    // ========================================================
 
-    list: filters =>
+    list: (filters = {}) =>
         call(`/posts${query(filters)}`),
 
     get: id =>
-        call(`/posts/${id}`),
-
-    // --------------------------------------------------------
-    // CREATE / UPDATE / DELETE
-    // --------------------------------------------------------
+        call(`/posts/${encodeURIComponent(id)}`),
 
     create: formData =>
         call("/posts", {
@@ -97,54 +95,58 @@ export const feedApi = {
         }),
 
     update: (id, body) =>
-        call(`/posts/${id}`, json("PUT", body)),
+        call(
+            `/posts/${encodeURIComponent(id)}`,
+            json("PUT", body)
+        ),
 
     remove: id =>
-        call(`/posts/${id}`, {
+        call(`/posts/${encodeURIComponent(id)}`, {
             method: "DELETE"
         }),
 
-    // --------------------------------------------------------
+    // ========================================================
     // LIKE / SAVE / SHARE
-    // --------------------------------------------------------
+    // ========================================================
 
     like: id =>
-        call(`/posts/${id}/like`, {
+        call(`/posts/${encodeURIComponent(id)}/like`, {
             method: "POST"
         }),
 
     save: id =>
-        call(`/posts/${id}/save`, {
+        call(`/posts/${encodeURIComponent(id)}/save`, {
             method: "POST"
         }),
 
     share: id =>
-        call(`/posts/${id}/share`, {
+        call(`/posts/${encodeURIComponent(id)}/share`, {
             method: "POST"
         }),
 
-    // --------------------------------------------------------
-    // REPORT
-    // --------------------------------------------------------
+    // ========================================================
+    // REPORT POSTS
+    // ========================================================
 
     report: (id, reason) =>
         call(
-            `/posts/${id}/reports`,
+            `/posts/${encodeURIComponent(id)}/reports`,
             json("POST", { reason })
         ),
 
-    // --------------------------------------------------------
+    // ========================================================
     // COMMENTS
-    // --------------------------------------------------------
+    // ========================================================
 
     comments: (id, page = 0, size = 10) =>
         call(
-            `/posts/${id}/comments${query({ page, size })}`
+            `/posts/${encodeURIComponent(id)}/comments` +
+            query({ page, size })
         ),
 
     addComment: (id, content, parentId = null) =>
         call(
-            `/posts/${id}/comments`,
+            `/posts/${encodeURIComponent(id)}/comments`,
             json("POST", {
                 content,
                 parentId
@@ -152,9 +154,10 @@ export const feedApi = {
         ),
 
     removeComment: id =>
-        call(`/posts/comments/${id}`, {
-            method: "DELETE"
-        }),
+        call(
+            `/posts/comments/${encodeURIComponent(id)}`,
+            { method: "DELETE" }
+        ),
 
     // ========================================================
     // USER PROFILES
@@ -169,9 +172,9 @@ export const feedApi = {
             body: formData
         }),
 
-    // --------------------------------------------------------
+    // ========================================================
     // PROFILE POSTS
-    // --------------------------------------------------------
+    // ========================================================
 
     profilePosts: (
         username,
@@ -185,7 +188,7 @@ export const feedApi = {
         ),
 
     // ========================================================
-    // FOLLOWERS / FOLLOWING
+    // FOLLOWERS
     // ========================================================
 
     followers: (
@@ -197,6 +200,10 @@ export const feedApi = {
             `/profiles/${usernamePath(username)}/followers` +
             query({ page, size })
         ),
+
+    // ========================================================
+    // FOLLOWING
+    // ========================================================
 
     following: (
         username,
@@ -225,7 +232,7 @@ export const feedApi = {
         ),
 
     // ========================================================
-    // PRIVATE POST / PROFILE IMAGES
+    // PRIVATE IMAGES
     // ========================================================
 
     async image(path) {
@@ -243,8 +250,10 @@ export const feedApi = {
             );
         }
 
-        return URL.createObjectURL(
-            await response.blob()
-        );
+        const blob = await response.blob();
+
+        return URL.createObjectURL(blob);
     }
 };
+
+export default feedApi;

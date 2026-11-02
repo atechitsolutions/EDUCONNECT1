@@ -1,4 +1,3 @@
-
 import { isAuthenticated } from "../services/authService.js";
 
 export function CommunityPage() {
@@ -680,10 +679,10 @@ export function CommunityPage() {
                         hidden
                     >
 
-                        <!-- New advanced profile component mounts here -->
+                        <!-- Advanced profile component -->
                         <div data-profile-root></div>
 
-                        <!-- Legacy profile form retained for compatibility -->
+                        <!-- Legacy profile retained for compatibility -->
                         <div class="community-legacy-profile" hidden>
 
                             <div class="community-section-heading">
