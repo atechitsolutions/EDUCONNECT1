@@ -218,6 +218,14 @@ import {
 
 import "./assets/css/auth.css";
 import "./assets/css/admin.css";
+import "./assets/css/design-tokens.css";
+import "./assets/css/navigation-system.css";
+import "./assets/css/controls-cards.css";
+import "./assets/css/public-experiences.css";
+import "./assets/css/workspace-surfaces.css";
+import "./assets/css/social-footer.css";
+import "./assets/css/responsive-system.css";
+import "./assets/css/iridescent-buttons.css";
 
 /* =========================================================
    APPLICATION INITIALIZATION
@@ -253,6 +261,24 @@ document.addEventListener(
 
         app.innerHTML =
             Router();
+
+        const primaryNavigation = document.querySelector("#educonnect-primary-navigation");
+        const navigationToggle = document.querySelector(".navbar-menu-toggle");
+
+        if (primaryNavigation && navigationToggle) {
+            navigationToggle.addEventListener("click", () => {
+                const expanded = navigationToggle.getAttribute("aria-expanded") === "true";
+                navigationToggle.setAttribute("aria-expanded", String(!expanded));
+                primaryNavigation.classList.toggle("is-open", !expanded);
+            });
+
+            primaryNavigation.addEventListener("click", (event) => {
+                if (event.target.closest("a") && window.matchMedia("(max-width: 768px)").matches) {
+                    navigationToggle.setAttribute("aria-expanded", "false");
+                    primaryNavigation.classList.remove("is-open");
+                }
+            });
+        }
 
         /* =====================================================
            STUDY ABROAD SEARCH

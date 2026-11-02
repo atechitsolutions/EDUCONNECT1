@@ -1,0 +1,23 @@
+/* Authentication and student-facing experiences. */
+.auth-modal-backdrop { background: rgba(8,20,48,.68); backdrop-filter: blur(12px); }
+.auth-modal-dialog { border: 1px solid rgba(255,255,255,.55); background: linear-gradient(145deg,#fff,#f4f7ff 70%,#f5f1ff); box-shadow: 0 32px 90px rgba(5,19,46,.34),0 7px 0 rgba(173,194,230,.55); }
+.auth-modal-showcase { background: radial-gradient(ellipse at 88% 10%,rgba(63,193,216,.45),transparent 34%),linear-gradient(145deg,#10254a,#254b8f 59%,#5547a6); }
+.auth-modal-showcase-circle { border: 1px solid rgba(220,239,255,.25); box-shadow: 0 0 0 30px rgba(200,225,255,.055),0 0 0 68px rgba(200,225,255,.035); }
+.auth-modal-submit { color: #fff; background: var(--ec-spectrum-gradient); box-shadow: 0 5px 0 #433a9f,0 12px 25px rgba(83,68,191,.25); }
+.cp-auth { background: radial-gradient(ellipse at 85% 15%,rgba(109,139,246,.3),transparent 36%),radial-gradient(ellipse at 12% 88%,rgba(31,190,191,.16),transparent 32%),linear-gradient(140deg,#0b1731,#142c52 58%,#302d68); }
+.cp-auth-card { border-color: rgba(255,255,255,.7); border-radius: 23px; background: rgba(255,255,255,.94); box-shadow: 0 10px 0 rgba(133,161,210,.32),0 32px 75px rgba(2,14,39,.38),inset 0 1px #fff; backdrop-filter: blur(18px); }
+
+/* Community keeps its own social identity, tuned into the shared palette. */
+:root { --community-ink: #14233f; --community-muted: #63748d; --community-blue: #2868e8; --community-violet: #7358d8; }
+.community-page { background: radial-gradient(ellipse at 4% 7%,rgba(66,141,255,.17),transparent 34%),radial-gradient(ellipse at 95% 12%,rgba(173,100,225,.14),transparent 33%),linear-gradient(150deg,#eff5ff,#fbfcff 54%,#f3efff); }
+.community-hero { background: radial-gradient(ellipse at 78% 20%,rgba(53,164,218,.24),transparent 34%),linear-gradient(112deg,#0d1933,#19396d 55%,#47418f); }
+.community-button-primary { background: linear-gradient(115deg,#2769eb,#328edb 58%,#239caa); box-shadow: 0 5px 0 #174ba9,0 13px 26px rgba(17,74,177,.25),inset 0 1px rgba(255,255,255,.3); }
+.community-tabs button.is-active { color: #4a4ab4; background: linear-gradient(110deg,#e8efff,#f3edff); box-shadow: inset 3px 0 #6c5bdd; }
+.community-chat-window, .community-profile-dialog { border: 1px solid #dce6f4; box-shadow: 0 22px 65px rgba(11,31,68,.2),inset 0 1px #fff; }
+.community-group-bubble.is-own { background: linear-gradient(120deg,#3069e8,#6558d6); }
+
+/* Footer: quiet midnight gradient with cyan and lavender light. */
+.site-footer { background: radial-gradient(ellipse at 80% 0%,rgba(67,108,208,.22),transparent 38%),linear-gradient(120deg,#0b1832,#112a4b 62%,#252d61); }
+.footer-logo { text-shadow: 0 3px 18px rgba(85,176,255,.18); }
+.footer-container a:hover, .footer-links a:hover { color: #8fe3f2; }
+

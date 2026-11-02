@@ -1,0 +1,100 @@
+/* Tablet layouts: reflow dashboard and discovery grids. */
+@media (max-width: 1024px) {
+    .footer-container { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 30px; }
+    .community-dashboard { grid-template-columns: minmax(0,1fr); }
+    .community-sidebar { position: static; }
+    .community-tabs { grid-template-columns: repeat(3,minmax(0,1fr)); }
+    .community-card-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .cp-dashboard { grid-template-columns: 210px minmax(0,1fr); }
+    .study-abroad-university-grid, .study-abroad-country-comparison-grid,
+    .study-abroad-course-grid, .study-abroad-destination-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+/* Phone layouts: keep content single-column and controls reachable. */
+@media (max-width: 768px) {
+    html { scroll-padding-top: 18px; }
+    .hero, .hero-overlay { min-height: 0; }
+    .section { padding-block: 42px; }
+    .community-page { padding: 20px 14px 36px; }
+    .community-hero { grid-template-columns: minmax(0,1fr); min-height: 0; border-radius: 24px; }
+    .community-network-art { width: min(100%,360px); height: 220px; justify-self: center; transform: scale(.88); transform-origin: center; }
+    .community-dashboard { gap: 12px; }
+    .community-content { padding: 17px; }
+    .community-chat-shell { grid-template-columns: minmax(0,1fr); }
+    .community-conversation-list { max-height: 220px; overflow: auto; }
+    .community-chat-window { min-height: 55vh; }
+    .community-search-form { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+    .community-search-main { grid-column: 1 / -1; }
+    .community-section-heading { align-items: flex-start; flex-direction: column; }
+    .cp-admin { padding: 30px 16px 50px; }
+    .cp-page-head, .cp-panel-head, .cp-dashboard .cp-topbar { align-items: flex-start; flex-direction: column; gap: 12px; }
+    .cp-kpis { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .cp-dashboard { grid-template-columns: minmax(0,1fr); }
+    .cp-sidebar { position: relative; top: auto; height: auto; min-height: 0; padding: 16px; }
+    .cp-sidebar .cp-brand { margin-bottom: 16px; }
+    .cp-form-grid { grid-template-columns: minmax(0,1fr); gap: 0; }
+    .cp-table { min-width: 680px; }
+    .admin-dashboard-page, .latest-news-page, .admin-content-page, .admin-study-abroad-page { padding: 30px 16px 50px; }
+    .admin-dashboard-header, .admin-study-abroad-header { align-items: stretch; flex-direction: column; }
+    .admin-dashboard-grid { grid-template-columns: minmax(0,1fr); }
+    .admin-form-grid { grid-template-columns: minmax(0,1fr); }
+    .admin-study-abroad-item { grid-template-columns: 96px minmax(0,1fr); }
+    .admin-study-abroad-item-actions { grid-column: 1 / -1; }
+    .admin-study-abroad-item-image { width: 96px; }
+    .study-abroad-university-grid, .study-abroad-country-comparison-grid,
+    .study-abroad-course-grid, .study-abroad-destination-grid { grid-template-columns: minmax(0,1fr); }
+    .study-abroad-container, .study-abroad-destinations-container,
+    .study-abroad-country-comparison-container, .study-abroad-top-universities-container,
+    .study-abroad-course-explorer-container { width: min(100% - 28px,720px); }
+    .auth-modal { padding: 12px; }
+    .auth-modal-dialog { width: min(560px,calc(100vw - 24px)); max-height: calc(100dvh - 24px); grid-template-columns: minmax(0,1fr); overflow-y: auto; border-radius: 22px; }
+    .auth-modal-showcase { min-height: 0; padding: 32px 26px; }
+    .auth-modal-showcase h2 { font-size: clamp(32px,9vw,48px); }
+    .auth-modal-showcase-content { padding: 0; }
+    .auth-modal-content { padding: 28px 24px; }
+    .footer-container { width: min(100% - 32px,680px); grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px 18px; padding: 44px 0 36px; }
+    .footer-brand { grid-column: 1 / -1; }
+}
+
+@media (max-width: 520px) {
+    .community-card-grid { grid-template-columns: minmax(0,1fr); }
+    .community-tabs { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .community-hero-stats { justify-content: space-between; gap: 12px; }
+    .community-network-art { height: 180px; transform: scale(.76); margin-block: -8px; }
+    .community-profile-dialog { width: calc(100vw - 24px); max-height: calc(100dvh - 24px); overflow: auto; }
+    .cp-kpis { grid-template-columns: minmax(0,1fr); }
+    .cp-panel, .cp-billing-panel, .cp-password-panel { padding: 17px; }
+    .cp-dialog { width: calc(100vw - 20px); max-height: calc(100dvh - 20px); padding: 18px; border-radius: 17px; }
+    .cp-dialog-actions { flex-wrap: wrap; }
+    .cp-dialog-actions > button { flex: 1 1 auto; min-height: 42px; }
+    .cp-auth { padding: 64px 14px 20px; }
+    .cp-auth-back { left: 16px; top: 19px; }
+    .cp-auth-card { padding: 27px 21px; border-radius: 19px; }
+    .admin-study-abroad-item { grid-template-columns: minmax(0,1fr); }
+    .admin-study-abroad-item-image { width: 100%; height: 150px; }
+    .admin-study-abroad-item-actions { padding: 0 15px 15px; }
+    .admin-study-abroad-item-actions > * { flex: 1; min-height: 42px; text-align: center; }
+    .admin-primary-button, .admin-secondary-button, .admin-danger-button { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; }
+    .footer-container { grid-template-columns: minmax(0,1fr); gap: 19px; }
+    .footer-brand { grid-column: auto; }
+    .auth-modal { align-items: flex-end; padding: 0; }
+    .auth-modal-dialog { width: 100%; max-height: 94dvh; border-radius: 22px 22px 0 0; }
+    .auth-modal-showcase { padding: 25px 22px; }
+    .auth-modal-brand { margin-bottom: 14px; }
+    .auth-modal-showcase p { margin-top: 14px; }
+    .auth-modal-content { padding: 23px 19px 28px; }
+    .study-abroad-dialog-panel, .destination-dialog-panel, .institution-detail-panel { width: calc(100vw - 20px); max-height: calc(100dvh - 20px); overflow: auto; }
+}
+
+/* No hover-only states or expensive transforms on touch devices. */
+@media (hover: none), (pointer: coarse) {
+    .institution-card:hover, .study-abroad-university-card:hover, .study-abroad-course-card:hover,
+    .study-abroad-country-comparison-card:hover, .oe-course-card:hover, .oe-programme-card:hover,
+    .admin-dashboard-card:hover, .admin-study-abroad-item:hover, .admin-content-item:hover,
+    .community-student-card:hover, .community-button:hover, .cp-button:hover { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .01ms; animation-iteration-count: 1; scroll-behavior: auto; transition-duration: .01ms; }
+}

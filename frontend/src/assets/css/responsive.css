@@ -354,11 +354,11 @@
     ===================================================== */
 
     .navbar {
-        position: relative !important;
-        top: auto !important;
+        position: relative;
+        top: auto;
         width: 100%;
         z-index: 9000;
-        overflow: visible !important;
+        overflow: visible;
     }
 
     .navbar-container {
@@ -371,7 +371,7 @@
         justify-content: center;
         gap: 7px 10px;
         flex-wrap: wrap;
-        overflow: visible !important;
+        overflow: visible;
     }
 
     .navbar-container > a,

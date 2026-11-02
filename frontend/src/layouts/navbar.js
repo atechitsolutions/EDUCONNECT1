@@ -7,7 +7,17 @@ export default function Navbar() {
         aria-label="Education navigation"
     >
 
-        <div class="navbar-container">
+        <button
+            class="navbar-menu-toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="educonnect-primary-navigation"
+        >
+            <span aria-hidden="true">☰</span>
+            <span class="navbar-menu-toggle-label">Menu</span>
+        </button>
+
+        <div class="navbar-container" id="educonnect-primary-navigation">
 
 
             <!-- =================================================

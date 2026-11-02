@@ -1,0 +1,65 @@
+/* Home hero and section identity. */
+.hero {
+    isolation: isolate;
+    background-color: var(--ec-midnight);
+    box-shadow: inset 0 -1px rgba(255,255,255,.2);
+}
+.hero::before {
+    content: ""; position: absolute; z-index: 0; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 78% 17%,rgba(50,129,255,.28),transparent 34%), radial-gradient(ellipse at 9% 88%,rgba(183,86,225,.18),transparent 32%);
+    mix-blend-mode: screen;
+}
+.hero-content { position: relative; z-index: 1; }
+.hero-badge { border: 1px solid rgba(193,222,255,.32); background: rgba(234,244,255,.13); box-shadow: inset 0 1px rgba(255,255,255,.2); backdrop-filter: blur(14px); }
+.hero-title span { color: #83d7f4; }
+.hero-search { border: 1px solid rgba(255,255,255,.64); box-shadow: 0 17px 42px rgba(3,15,41,.28), inset 0 1px #fff; }
+.hero-search-btn { color: #fff; background: linear-gradient(110deg,#2869eb,#2687df 54%,#1bb7c3); box-shadow: 0 5px 0 #174ba4, 0 14px 28px rgba(25,105,225,.26); }
+.hero-primary-btn { color: #fff; background: linear-gradient(110deg,#2869eb,#2f87d9 55%,#20a6ae); box-shadow: 0 5px 0 #1b4eaa, 0 13px 25px rgba(28,93,195,.25); }
+.hero-primary-btn:hover { box-shadow: 0 7px 0 #1b4eaa, 0 18px 32px rgba(28,93,195,.32); }
+.hero-stats { border: 1px solid rgba(215,231,255,.24); background: rgba(11,28,61,.4); backdrop-filter: blur(12px); }
+.categories-compact-card, .compact-category-card { border-radius: 18px; box-shadow: 0 6px 0 rgba(215,228,247,.8), 0 15px 32px rgba(24,49,87,.09); }
+.compare-college-intro, .ug-pg-intro, .boarding-schools-intro, .top-companies-intro {
+    border: 1px solid rgba(212,226,248,.7);
+    background: radial-gradient(ellipse at 88% 10%,rgba(127,179,255,.25),transparent 35%), linear-gradient(125deg,#10294f,#294f91 62%,#504aa1);
+    box-shadow: 0 11px 0 rgba(198,215,241,.65), 0 29px 60px rgba(20,47,92,.18), inset 0 1px rgba(255,255,255,.24);
+}
+.compare-college-intro h2, .ug-pg-intro h2, .boarding-schools-intro h2, .top-companies-intro h2 { color: #fff; }
+
+/* Study Abroad: icy campus panels, violet and cyan accents. */
+.study-abroad-container, .study-abroad-destinations-container,
+.study-abroad-country-comparison-container, .study-abroad-top-universities-container,
+.study-abroad-course-explorer-container { color: var(--ec-ink); }
+.study-abroad-page, .study-abroad-bg-soft, .study-abroad-destinations,
+.study-abroad-country-comparison, .study-abroad-top-universities,
+.study-abroad-course-explorer { background-color: #f5f8ff; }
+.study-abroad-bg-blue { background: linear-gradient(135deg,#e9f2ff,#f1efff 58%,#e5f8fa); }
+.study-abroad-bg-dark { background: radial-gradient(ellipse at 85% 5%,rgba(68,117,224,.3),transparent 34%), linear-gradient(135deg,#0b1731,#17365f 58%,#35336e); }
+.study-abroad-eyebrow, .study-abroad-section-eyebrow { color: #6556c8; }
+.study-abroad-btn-primary, .country-comparison-button, .country-comparison-explore-button,
+.course-explore-button, .study-abroad-load-more { color: #fff; background: var(--ec-spectrum-gradient); box-shadow: 0 4px 0 #4a3ca9, 0 10px 22px rgba(90,73,197,.22); }
+.study-abroad-btn-secondary { color: #214d96; border-color: #b9ccec; background: linear-gradient(135deg,#fff,#edf4ff); }
+.study-abroad-destination-card, .destination-dialog-panel, .study-abroad-card,
+.study-abroad-university-card, .study-abroad-country-comparison-card,
+.study-abroad-course-card, .study-abroad-faq-item, .study-abroad-cost-card {
+    border-color: #dce5f4;
+    border-radius: 20px;
+    background: linear-gradient(150deg,#fff 8%,#f9fbff 68%,#f4f1ff);
+}
+.study-abroad-destination-card::after, .study-abroad-university-card::after {
+    background: linear-gradient(135deg,rgba(43,127,233,.08),rgba(148,87,221,.07),rgba(36,190,185,.06));
+}
+.study-abroad-destination-floating, .study-abroad-floating-card { border: 1px solid rgba(255,255,255,.7); background: rgba(248,251,255,.78); box-shadow: 0 16px 36px rgba(23,55,107,.14), inset 0 1px #fff; backdrop-filter: blur(15px); }
+.study-abroad-destination-dialog, .study-abroad-institution-detail-dialog { backdrop-filter: blur(14px); }
+.destination-dialog-panel, .institution-detail-panel { box-shadow: var(--ec-shadow-lg), inset 0 1px #fff; }
+.study-abroad-chip-active, .course-card-category, .university-rank { color: #4b48ac; background: linear-gradient(110deg,#eceeff,#f7eefe); }
+
+/* Online Education: lighter cyan-to-indigo discovery surfaces. */
+.oe-hero { border-bottom: 1px solid #dce8f7; }
+.oe-button.oe-primary { background: linear-gradient(110deg,#2469e9,#2d9ed1 60%,#24a99d); box-shadow: 0 5px 0 #1d55a9,0 12px 24px rgba(35,105,208,.2); }
+.oe-button.oe-primary:hover { box-shadow: 0 7px 0 #1d55a9,0 17px 32px rgba(35,105,208,.28); }
+.oe-course-card, .oe-provider-card, .oe-popular-card, .oe-level-card, .oe-subject-card,
+.oe-institution-card, .oe-programme-card { border-radius: 18px; }
+.oe-course-card-image, .oe-admin-card-photo { background: linear-gradient(140deg,#d9e8ff,#e8e1ff 55%,#d1f3f1); }
+.oe-course-card-tags span, .oe-institution-tags span { color: #4155a4; background: linear-gradient(110deg,#edf2ff,#f5efff); }
+.oe-filter-panel, .oe-search-card, .oe-compare-bar { border-color: #d9e6f5; box-shadow: 0 12px 32px rgba(23,58,108,.09), inset 0 1px #fff; }
+

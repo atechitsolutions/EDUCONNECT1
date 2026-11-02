@@ -1,0 +1,63 @@
+/* EduConnect visual system: shared colour language, lighting and responsive polish. */
+:root {
+    color-scheme: light;
+    --ec-midnight: #10172d;
+    --ec-navy: #263b80;
+    --ec-blue: #496bff;
+    --ec-royal: #3b56d4;
+    --ec-cyan: #16c7d9;
+    --ec-indigo: #5542bd;
+    --ec-violet: #8055e8;
+    --ec-teal: #20b99a;
+    --ec-coral: #f19a70;
+    --ec-pink: #d65bbd;
+    --ec-ice: #edf4ff;
+    --ec-lavender: #dce4f5;
+    --ec-paper: #f3f5fc;
+    --ec-ink: #17243c;
+    --ec-muted: #65738a;
+    --ec-line: #dce4f2;
+    --ec-shadow-sm: 0 7px 18px rgba(24, 48, 86, .08);
+    --ec-shadow: 0 16px 38px rgba(22, 46, 87, .12);
+    --ec-shadow-lg: 0 28px 70px rgba(12, 29, 61, .20);
+    --ec-blue-gradient: linear-gradient(120deg, #263b80, #496bff 60%, #16c7d9);
+    --ec-spectrum-gradient: linear-gradient(115deg, #496bff, #8055e8 57%, #d65bbd);
+    --ec-ocean-gradient: linear-gradient(120deg, #16c7d9, #20b99a 56%, #496bff);
+    --ec-sunset-gradient: linear-gradient(115deg, #263b80, #8055e8 56%, #f19a70);
+    --ec-surface-gradient: linear-gradient(145deg, #ffffff, #f3f5fc 72%, #dce4f5);
+    --ec-radius-sm: 12px;
+    --ec-radius-md: 18px;
+    --ec-radius-lg: 26px;
+    --ec-pill: 999px;
+    --ec-space-1: 4px;
+    --ec-space-2: 8px;
+    --ec-space-3: 12px;
+    --ec-space-4: 16px;
+    --ec-space-6: 24px;
+    --ec-motion-fast: 150ms ease;
+    --ec-motion-standard: 220ms cubic-bezier(.2,.7,.2,1);
+    --primary: var(--ec-blue);
+    --primary-light: #4a91ff;
+    --secondary: var(--ec-coral);
+    --success: var(--ec-teal);
+    --danger: #d95762;
+    --background: var(--ec-paper);
+    --white: #fff;
+    --black: var(--ec-ink);
+    --gray: var(--ec-muted);
+    --light-gray: #e9eef7;
+    --shadow: var(--ec-shadow-sm);
+    --radius: 16px;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body {
+    color: var(--ec-ink);
+    background:
+        radial-gradient(ellipse at 4% 7%, rgba(96, 152, 255, .07), transparent 26rem),
+        radial-gradient(ellipse at 96% 34%, rgba(177, 123, 230, .065), transparent 30rem),
+        #f8faff;
+}
+::selection { color: #fff; background: #425dd7; }
+:focus-visible { outline: 3px solid rgba(39, 124, 230, .52); outline-offset: 3px; }
+

@@ -1,0 +1,230 @@
+/* One cascade-enforced surface for native, linked, nested, and later-rendered buttons. */
+:root body :is(
+    button,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    [role="button"],
+    a[class*="button"],
+    a[class*="btn"],
+    a[class*="cta"],
+    a[class*="action"],
+    a[class*="login"],
+    a[class*="detail"],
+    [data-destination-search]
+):not(.oe-subject-card) {
+    appearance: none !important;
+    box-sizing: border-box !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: .5rem !important;
+    text-align: center !important;
+    border: 1px solid color-mix(in srgb, #2563eb 24%, var(--button-surface-color, #fff)) !important;
+    border-radius: 999px !important;
+    color: #263451 !important;
+    background-color: #fff !important;
+    background-image:
+        linear-gradient(180deg, #fff 0%, #fafdff 100%) !important;
+    background-clip: padding-box !important;
+    box-shadow:
+        0 1px 2px rgba(35,75,130,.06),
+        0 4px 10px rgba(35,75,130,.08),
+        0 0 0 1px rgba(160,195,230,.10),
+        inset 0 1px 0 rgba(255,255,255,.92),
+        inset 0 -1px 3px rgba(91,135,185,.06) !important;
+    text-shadow: 0 1px 0 rgba(255,255,255,.8) !important;
+    backdrop-filter: blur(10px) saturate(125%) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(125%) !important;
+    transition:
+        transform 180ms cubic-bezier(.2,.75,.25,1),
+        box-shadow 180ms ease,
+        filter 180ms ease,
+        background-color 180ms ease !important;
+}
+
+:root body :is(
+    button,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    [role="button"],
+    a[class*="button"],
+    a[class*="btn"],
+    a[class*="cta"],
+    a[class*="action"],
+    a[class*="login"],
+    a[class*="detail"],
+    [data-destination-search]
+):not(.oe-subject-card):not(:disabled):hover {
+    transform: translateY(-2px) !important;
+    filter: brightness(1.045) saturate(1.08) !important;
+    box-shadow:
+        0 2px 4px rgba(35,75,130,.08),
+        0 7px 14px rgba(35,75,130,.11),
+        0 0 8px rgba(120,190,235,.10),
+        inset 0 1px 0 rgba(255,255,255,1),
+        inset 0 -1px 4px rgba(71,130,185,.08) !important;
+}
+
+:root body :is(
+    button,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    [role="button"],
+    a[class*="button"],
+    a[class*="btn"],
+    a[class*="cta"],
+    a[class*="action"],
+    a[class*="login"],
+    a[class*="detail"],
+    [data-destination-search]
+):not(.oe-subject-card):not(:disabled):active {
+    transform: translateY(1px) scale(.985) !important;
+    filter: saturate(.96) !important;
+    box-shadow:
+        0 0 0 rgba(61,82,139,0),
+        inset 0 3px 7px rgba(72,155,205,.20),
+        inset 0 1px 0 rgba(255,255,255,.75) !important;
+}
+
+:root body :is(
+    button,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    [role="button"],
+    a[class*="button"],
+    a[class*="btn"],
+    a[class*="cta"],
+    a[class*="action"],
+    a[class*="login"],
+    a[class*="detail"],
+    [data-destination-search]
+):not(.oe-subject-card):focus-visible {
+    outline: 2px solid rgba(91,155,220,.58) !important;
+    outline-offset: 3px !important;
+}
+
+:root body :is(
+    button,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    [role="button"],
+    a[class*="button"],
+    a[class*="btn"],
+    a[class*="cta"],
+    a[class*="action"],
+    a[class*="login"],
+    a[class*="detail"],
+    [data-destination-search]
+):not(.oe-subject-card):disabled,
+:root body :is(
+    button,
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"],
+    [role="button"],
+    a[class*="button"],
+    a[class*="btn"],
+    a[class*="cta"],
+    a[class*="action"],
+    a[class*="login"],
+    a[class*="detail"],
+    [data-destination-search]
+):not(.oe-subject-card)[aria-disabled="true"] {
+    opacity: .56 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    filter: saturate(.68) !important;
+    box-shadow:
+        0 1px 0 rgba(145,164,202,.18),
+        0 3px 8px rgba(52,75,125,.08),
+        inset 0 1px 0 rgba(255,255,255,.8) !important;
+}
+
+@media (hover: none), (pointer: coarse) {
+    :root body :is(
+        button,
+        input[type="button"],
+        input[type="submit"],
+        input[type="reset"],
+        [role="button"],
+        a[class*="button"],
+        a[class*="btn"],
+        a[class*="cta"],
+        a[class*="action"],
+        a[class*="login"],
+        a[class*="detail"],
+        [data-destination-search]
+    ):not(.oe-subject-card):not(:disabled):hover {
+        transform: none !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :root body :is(button, input[type="button"], input[type="submit"], input[type="reset"], [role="button"], a[class*="button"], a[class*="btn"], a[class*="cta"], a[class*="action"], a[class*="login"], a[class*="detail"], [data-destination-search]):not(.oe-subject-card) {
+        transition: none !important;
+    }
+}
+
+/* Main navigation links share the Partner Login pill treatment. */
+:root body .navbar-container .navbar-link,
+:root body .navbar-container .navbar-partner-login {
+    display: inline-flex !important;
+    min-height: 40px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 8px 12px !important;
+    border: 1px solid rgba(255,255,255,.58) !important;
+    border-radius: 999px !important;
+    color: #263451 !important;
+    background: #fff !important;
+    box-shadow: 0 2px 7px rgba(7,24,55,.13), inset 0 1px rgba(255,255,255,.92) !important;
+    text-decoration: none !important;
+    text-shadow: none !important;
+}
+
+:root body .navbar-container .navbar-link:hover,
+:root body .navbar-container .navbar-partner-login:hover {
+    color: #1e4f9d !important;
+    background: #f4f8ff !important;
+    border-color: rgba(255,255,255,.82) !important;
+    box-shadow: 0 3px 9px rgba(7,24,55,.16), inset 0 1px #fff !important;
+}
+
+:root body .navbar-container > .navbar-link::after,
+:root body .navbar-dropdown-link::after {
+    display: none !important;
+}
+
+:root body .navbar-dropdown-arrow {
+    color: #263451 !important;
+}
+
+@media (max-width: 768px) {
+    :root body .navbar-container > .navbar-link,
+    :root body .navbar-dropdown > .navbar-link {
+        width: 100% !important;
+    }
+}
+
+@media (min-width: 769px) {
+    :root body .navbar-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 7px !important;
+        padding: 9px 12px !important;
+    }
+
+    :root body .navbar-container .navbar-link,
+    :root body .navbar-container .navbar-partner-login {
+        min-height: 34px !important;
+        padding: 6px 9px !important;
+        font-size: 12px !important;
+    }
+}

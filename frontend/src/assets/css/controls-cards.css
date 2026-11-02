@@ -1,0 +1,121 @@
+/* Common controls and form surfaces. */
+button, input, select, textarea { accent-color: var(--ec-blue); }
+button, [role="button"] { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background-color .2s ease; }
+input, select, textarea {
+    border-color: var(--ec-line);
+    color: var(--ec-ink);
+}
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+    border-color: #7da8ef;
+    box-shadow: 0 0 0 4px rgba(49,111,225,.12);
+}
+
+/* Low-specificity defaults keep existing page button variants in control. */
+:where(button) {
+    box-sizing: border-box;
+    border-radius: var(--ec-radius-sm);
+    border: 1px solid rgba(194,211,238,.9);
+    color: var(--ec-ink);
+    background: var(--ec-surface-gradient);
+    box-shadow: 0 3px 0 rgba(32,59,117,.14), 0 8px 16px rgba(24,48,93,.1), inset 0 1px rgba(255,255,255,.22);
+    transition: transform var(--ec-motion-fast), box-shadow var(--ec-motion-fast), filter var(--ec-motion-fast), border-color var(--ec-motion-fast), background-color var(--ec-motion-fast);
+}
+:where(button:disabled) { box-shadow: none; cursor: not-allowed; }
+:where(button:active:not(:disabled)) { transform: translateY(1px) scale(.985); box-shadow: inset 0 2px 5px rgba(17,34,70,.18); }
+@media (hover: hover) and (pointer: fine) {
+    :where(button:not(:disabled):hover) { transform: translateY(-2px); filter: brightness(1.035); box-shadow: 0 5px 0 rgba(32,59,117,.17), 0 13px 22px rgba(24,48,93,.16), inset 0 1px rgba(255,255,255,.28); }
+}
+
+/* Reusable bubble button variants for new and existing UI surfaces. */
+.ec-button {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1px solid transparent;
+    border-radius: var(--ec-pill);
+    color: #fff;
+    font: inherit;
+    font-weight: 750;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 4px 0 rgba(22,45,99,.26), 0 10px 20px rgba(23,48,101,.16), inset 0 1px rgba(255,255,255,.34);
+    transition: transform var(--ec-motion-standard), box-shadow var(--ec-motion-standard), filter var(--ec-motion-standard);
+}
+.ec-button--primary { background: var(--ec-blue-gradient); }
+.ec-button--secondary { background: linear-gradient(120deg,#5542bd,#8055e8); }
+.ec-button--success { background: var(--ec-ocean-gradient); }
+.ec-button--accent { background: linear-gradient(120deg,#d65bbd,#8055e8 60%,#f19a70); }
+.ec-button--neutral { border-color: #dce4f5; color: #263b80; background: linear-gradient(145deg,#fff,#edf1fb); box-shadow: 0 3px 0 rgba(43,65,113,.12), 0 8px 16px rgba(43,65,113,.08), inset 0 1px #fff; }
+.ec-button--dark { background: linear-gradient(120deg,#10172d,#263b80); }
+.ec-button--danger { background: linear-gradient(120deg,#c93f5d,#e36a72); }
+.ec-button:disabled, .ec-button[aria-disabled="true"] { opacity: .56; filter: saturate(.6); cursor: not-allowed; box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+    .ec-button:not(:disabled):not([aria-disabled="true"]):hover { transform: translateY(-2px); filter: brightness(1.06); box-shadow: 0 6px 0 rgba(22,45,99,.28), 0 15px 28px rgba(23,48,101,.22), inset 0 1px rgba(255,255,255,.42); }
+}
+.ec-button:active:not(:disabled) { transform: translateY(1px) scale(.985); box-shadow: inset 0 3px 6px rgba(17,34,70,.2); }
+
+/* Shared selectors add consistent elevation while retaining each section's palette. */
+:where(.hero-primary-btn, .hero-search-btn, .institution-card-action, .study-abroad-btn-primary,
+    .country-comparison-button, .country-comparison-explore-button, .course-explore-button,
+    .study-abroad-load-more, .oe-button, .admin-primary-button, .admin-secondary-button,
+    .admin-danger-button, .community-button, .community-group-message-form button,
+    .feed-post-btn, .feed-actions button, .feed-comment-form button, .cp-button,
+    .auth-modal-submit, .auth-forgot-button, .auth-switch-button) {
+    transition: transform var(--ec-motion-standard), box-shadow var(--ec-motion-standard), filter var(--ec-motion-standard), background-color var(--ec-motion-standard);
+}
+:where(.study-abroad-btn-primary, .country-comparison-button, .country-comparison-explore-button,
+    .course-explore-button, .study-abroad-load-more, .admin-primary-button,
+    .community-button-primary, .cp-button-gold, .auth-modal-submit, .feed-post-btn) {
+    box-shadow: 0 4px 0 rgba(33,57,125,.25), 0 10px 20px rgba(43,78,163,.18), inset 0 1px rgba(255,255,255,.32);
+}
+.section-heading h2 { color: var(--ec-navy); letter-spacing: -.025em; }
+.section-heading p { color: var(--ec-muted); }
+.app-card, .institution-card, .study-abroad-card, .study-abroad-university-card,
+.study-abroad-country-comparison-card, .study-abroad-course-card,
+.study-abroad-destination-card, .oe-course-card, .oe-institution-card,
+.oe-provider-card, .oe-programme-card, .admin-dashboard-card,
+.admin-study-abroad-item, .admin-content-item {
+    border-color: rgba(206,220,241,.92);
+    box-shadow: 0 5px 0 rgba(221,231,247,.82), 0 15px 34px rgba(22,48,91,.09), inset 0 1px rgba(255,255,255,.95);
+    transition: transform .28s cubic-bezier(.2,.7,.2,1), box-shadow .28s ease, border-color .2s ease;
+}
+.institution-card, .study-abroad-university-card, .study-abroad-course-card,
+.study-abroad-country-comparison-card, .oe-course-card, .oe-programme-card {
+    transform: perspective(1100px) rotateX(var(--ec-tilt-x, 0deg)) rotateY(var(--ec-tilt-y, 0deg));
+    transform-style: preserve-3d;
+}
+@media (hover: hover) and (pointer: fine) {
+    .institution-card:hover, .study-abroad-university-card:hover, .study-abroad-course-card:hover,
+    .study-abroad-country-comparison-card:hover, .oe-course-card:hover, .oe-programme-card:hover,
+    .admin-dashboard-card:hover, .admin-study-abroad-item:hover, .admin-content-item:hover {
+        z-index: 2;
+        border-color: rgba(107,151,232,.72);
+        box-shadow: 0 9px 0 rgba(207,223,247,.92), 0 25px 48px rgba(22,48,91,.16), inset 0 1px #fff;
+        transform: perspective(1100px) rotateX(var(--ec-tilt-x, 0deg)) rotateY(var(--ec-tilt-y, 0deg)) translateY(-5px);
+    }
+    .app-card:hover { transform: translateY(-5px) rotateX(1deg); box-shadow: var(--ec-shadow); }
+}
+.institution-card { border-radius: 19px; overflow: hidden; background: linear-gradient(155deg,#fff,#f4f8ff); }
+.institution-card-visual { background: linear-gradient(135deg,#bed7ff,#d7d5ff 55%,#aee8e5); }
+.institution-card-logo { border-color: #d4e0f2; box-shadow: 0 5px 14px rgba(12,31,65,.18), inset 0 1px #fff; }
+.institution-card-category { color: #3456b2; background: linear-gradient(100deg,#eaf1ff,#f1edff); }
+.institution-card-action { color: #fff; background: var(--ec-blue-gradient); box-shadow: 0 4px 0 #214ba2, 0 9px 17px rgba(35,96,209,.2); }
+.boarding-school-card, .top-company-card, .news-card, .small-card, .loan-mini-card,
+.early-learning-card, .scholarship-card, .review-card {
+    border-color: rgba(207,222,243,.9);
+    box-shadow: 0 6px 0 rgba(216,228,246,.78), 0 16px 34px rgba(19,47,90,.09), inset 0 1px #fff;
+    transition: transform .26s ease, box-shadow .26s ease, border-color .2s ease;
+}
+.news-card { overflow: hidden; border-radius: 18px; background: linear-gradient(145deg,#fff,#f3f7ff); }
+.news-card:hover, .boarding-school-card:hover, .top-company-card:hover, .small-card:hover {
+    border-color: #b6c9ec;
+    box-shadow: 0 9px 0 rgba(204,220,244,.9), 0 24px 44px rgba(19,47,90,.15), inset 0 1px #fff;
+    transform: translateY(-4px) perspective(950px) rotateX(.7deg);
+}
+.news-tag, .boarding-schools-intro-badge { color: #4b53b4; background: linear-gradient(110deg,#e8efff,#f2eaff); }
+.loan-mini-card { border-radius: 19px; }
+
