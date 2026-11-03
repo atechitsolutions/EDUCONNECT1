@@ -13,8 +13,15 @@ public class CollegeSubscription {
     @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "account_id", nullable = false) private CollegePartnerAccount account;
     @Column(nullable = false, length = 20) private String status = "PENDING";
     @Column(nullable = false) private Long amountPaise = 99900L;
+    @Column(name = "billing_interval", length = 20) private String billingInterval = "MONTHLY";
+    @Column(name = "payment_status", length = 30) private String paymentStatus = "PENDING";
+    @Column(name = "payment_reference", length = 120, unique = true) private String paymentReference;
+    @Column(name = "activated_by", length = 150) private String activatedBy;
+    @Column(name = "activation_note", length = 500) private String activationNote;
     private LocalDateTime startsAt;
     @Column(name = "expires_at") private LocalDateTime expiresAt;
+    @Column(name = "renewal_at") private LocalDateTime renewalAt;
+    @Column(name = "cancelled_at") private LocalDateTime cancelledAt;
     @Column(length = 100) private String gateway;
     @Column(length = 120) private String gatewaySubscriptionId;
     @Column(nullable = false) private LocalDateTime createdAt;

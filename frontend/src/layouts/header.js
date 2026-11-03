@@ -1,4 +1,5 @@
 export default function Header() {
+    const isHomePage = window.location.pathname === "/";
     return `
         <header class="header">
             <div class="header-container">
@@ -8,6 +9,19 @@ export default function Header() {
                     <a href="/">ALL IN ONE</a>
                 </div>
 
+                ${isHomePage ? `
+                <a class="header-community-promo" href="/community" aria-label="Explore the Global Student Community">
+                    <span class="community-promo-people" aria-hidden="true">
+                        <span>JD</span><span>AR</span><span>PS</span><span>MK</span><b>+</b>
+                    </span>
+                    <span class="community-promo-copy">
+                        <strong>Global Student Community</strong>
+                        <small>Connect · Discuss · Share · Grow</small>
+                    </span>
+                    <span class="community-promo-live"><i></i> LIVE</span>
+                    <span class="community-promo-cta">Explore Community <b aria-hidden="true">→</b></span>
+                </a>
+                ` : `
                 <!-- Search -->
                 <div class="search-box">
                     <input
@@ -15,18 +29,10 @@ export default function Header() {
                         placeholder="Search Schools, Colleges, Universities, Jobs..."
                     >
                 </div>
+                `}
 
                 <!-- Location -->
-                <div class="location-box">
-                    <select>
-                        <option>India</option>
-                        <option>Delhi</option>
-                        <option>Mumbai</option>
-                        <option>Bangalore</option>
-                        <option>Pune</option>
-                        <option>Hyderabad</option>
-                    </select>
-                </div>
+
 
                 <!-- Right Side -->
                <div class="header-auth">

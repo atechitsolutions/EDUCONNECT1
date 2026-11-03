@@ -15,4 +15,10 @@ public interface CollegeAnalyticsEventRepository extends JpaRepository<CollegeAn
     List<CollegeAnalyticsEvent> findRecentViews(@Param("iid") Long institutionId);
     long countByInstitution_Id(Long institutionId);
     long countByEventType(String eventType);
+    List<CollegeAnalyticsEvent> findByStudent_IdAndCreatedAtAfterOrderByCreatedAtDesc(Long studentId, LocalDateTime since);
+    boolean existsByStudent_IdAndInstitution_IdAndEventTypeAndCreatedAtAfter(Long studentId, Long institutionId, String eventType, LocalDateTime since);
+    boolean existsByVisitorIdAndInstitution_IdAndEventTypeAndCreatedAtAfter(String visitorId, Long institutionId, String eventType, LocalDateTime since);
+    boolean existsByDedupeKey(String dedupeKey);
+    List<CollegeAnalyticsEvent> findByInstitution_IdAndEventTypeAndCreatedAtAfterOrderByCreatedAtAsc(Long institutionId, String eventType, LocalDateTime since);
+    List<CollegeAnalyticsEvent> findByCreatedAtAfterAndStudentIsNotNullOrderByCreatedAtDesc(LocalDateTime since);
 }

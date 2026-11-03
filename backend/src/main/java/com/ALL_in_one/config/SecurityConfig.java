@@ -108,6 +108,12 @@ public class SecurityConfig {
                                         .requestMatchers("/api/college/auth/login", "/api/college/enquiries")
                                         .permitAll()
 
+                                        .requestMatchers("/api/college/enquiries/*/revoke-contact-consent")
+                                        .hasRole("STUDENT")
+
+                                        .requestMatchers("/api/analytics/college-event")
+                                        .permitAll()
+
                                         .requestMatchers("/api/admin/college-partners/**")
                                         .hasRole("ADMIN")
 
@@ -184,6 +190,7 @@ public class SecurityConfig {
                         "Authorization",
                         "Content-Type",
                         "X-Visitor-Id"
+                        ,"X-Event-Id", "X-Source-Page"
                 )
         );
 

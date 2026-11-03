@@ -24,6 +24,8 @@ public class CollegeStudentEnquiry {
     @Column(columnDefinition = "TEXT") private String message;
     @Column(name = "consent_given", nullable = false) private boolean consentGiven;
     @Column(name = "consent_at") private LocalDateTime consentAt;
+    @Column(name = "consent_scope", length = 40) private String consentScope;
+    @Column(name = "contact_consent_revoked_at") private LocalDateTime contactConsentRevokedAt;
     @Column(nullable = false, length = 24) private String status = "NEW";
     @Column(nullable = false) private LocalDateTime createdAt;
     @Column(nullable = false) private LocalDateTime updatedAt;

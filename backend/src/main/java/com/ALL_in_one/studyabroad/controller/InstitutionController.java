@@ -59,7 +59,7 @@ public class InstitutionController {
         if (authentication != null && authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).anyMatch("ROLE_STUDENT"::equals)) {
             studentId = userRepository.findByEmail(authentication.getName()).map(user -> user.getId()).orElse(null);
         }
-        collegePartnerService.recordEvent(id, request.getHeader("X-Visitor-Id"), "PAGE_VIEW", null, studentId);
+        collegePartnerService.recordEvent(id, request.getHeader("X-Visitor-Id"), "PAGE_VIEW", null, studentId, request.getRequestURI(), null);
 
         return ResponseEntity.ok(
                 institutionService.getPublicInstitutionById(id)

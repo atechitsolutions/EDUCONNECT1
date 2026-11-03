@@ -8,4 +8,5 @@ public interface CollegePartnerAccountRepository extends JpaRepository<CollegePa
     boolean existsByUsernameIgnoreCaseAndIdNot(String username, Long id);
     boolean existsByInstitution_Id(Long institutionId);
     Optional<CollegePartnerAccount> findByUsername(String username);
+    Optional<CollegePartnerAccount> findByInstitution_Id(Long institutionId);
 }
