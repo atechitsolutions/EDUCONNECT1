@@ -129,7 +129,7 @@ export default function Navbar() {
                         class="navbar-dropdown-item"
                         data-auth-required="true"
                     >
-                        Universities
+                       UG Colleges
                     </a>
 
 
@@ -169,19 +169,6 @@ export default function Navbar() {
             </a>
 
 
-            <!-- =================================================
-                 SCHOLARSHIPS
-            ================================================== -->
-
-            <a
-                href="#scholarship"
-                class="navbar-link"
-                data-auth-required="true"
-                aria-label="Scholarships and Financial Aid"
-            >
-                Scholarships
-            </a>
-
 
             <!-- =================================================
                  JOBS
@@ -201,14 +188,7 @@ export default function Navbar() {
                  COMMUNITY
             ================================================== -->
 
-            <a
-                href="/community"
-                class="navbar-link"
-                data-auth-required="true"
-                aria-label="Education Community"
-            >
-                Community
-            </a>
+
 
 
             <!-- =================================================
@@ -251,6 +231,22 @@ export default function Navbar() {
             >
                 Online Courses
             </a>
+
+
+
+   <!-- =================================================
+                 SCHOLARSHIPS
+            ================================================== -->
+
+            <a
+                href="#scholarship"
+                class="navbar-link"
+                data-auth-required="true"
+                aria-label="Scholarships and Financial Aid"
+            >
+                Scholarships
+            </a>
+
 
 
             <!-- =================================================
