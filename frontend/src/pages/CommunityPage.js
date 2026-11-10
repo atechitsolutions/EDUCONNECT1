@@ -103,13 +103,7 @@ export function CommunityPage() {
                         fetchpriority="high"
                     >
 
-                    <div class="community-float-card">
-                        <span class="community-float-icon">✦</span>
-                        <span>
-                            <b>Good conversations start here</b>
-                            <small>Meet classmates and find your people</small>
-                        </span>
-                    </div>
+
                 </figure>
 
             </section>
