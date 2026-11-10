@@ -758,6 +758,11 @@ export function initCommunityPage() {
 
     function renderChat() {
         const target = select("[data-chat-window]");
+        const shell = select(".community-chat-shell");
+        shell?.classList.toggle(
+            "has-active-conversation",
+            Boolean(state.activeConversation)
+        );
 
         if (!state.activeConversation) {
             target.innerHTML = `
@@ -782,6 +787,7 @@ export function initCommunityPage() {
 
         target.innerHTML = `
             <header class="community-chat-header">
+                <button class="community-icon-button community-chat-back" type="button" data-back-conversations aria-label="Back to conversations">←</button>
                 ${avatar(c.student)}
                 <span>
                     <b>${escapeHtml(c.student.displayName)}</b>
@@ -851,6 +857,17 @@ export function initCommunityPage() {
 
         if (name === "messages") renderChat();
     }
+
+    document.querySelector(".community-page-footer")?.addEventListener(
+        "click",
+        event => {
+            const link = event.target.closest("[data-community-tab-link]");
+            if (!link) return;
+            event.preventDefault();
+            setTab(link.dataset.communityTabLink);
+            root.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    );
 
     async function refreshMessages() {
         if (
@@ -1023,6 +1040,19 @@ export function initCommunityPage() {
     // =========================================================
 
     root.addEventListener("click", async event => {
+        const backToConversations = event.target.closest(
+            "[data-back-conversations]"
+        );
+
+        if (backToConversations) {
+            state.activeConversation = null;
+            state.messages = [];
+            state.hasOlderMessages = false;
+            renderConversations();
+            renderChat();
+            return;
+        }
+
         // NEW: toggle the six reaction emojis
         const reactionToggle = event.target.closest(
             "[data-community-reaction-toggle]"

@@ -271,7 +271,9 @@ export default function MainLayout() {
                  EDUCATION LOANS
             ================================================== -->
 
-            ${EducationLoanSection()}
+            <section id="education-loans" aria-label="Education loan information">
+                ${EducationLoanSection()}
+            </section>
 
 
             <!-- =================================================

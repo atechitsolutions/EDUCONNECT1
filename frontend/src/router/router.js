@@ -7,6 +7,7 @@ import Header from "../layouts/header.js";
 import FooterSection from "../components/home/footerSection.js";
 import Navbar from "../layouts/navbar.js";
 import CommunityPage from "../pages/CommunityPage.js";
+import LatestNewsPage from "../components/latestNews.js";
 
 import AdminDashboardPage from "../pages/AdminDashboard.js";
 import AdminNewsPage from "../pages/AdminNewsPage.js";
@@ -27,7 +28,10 @@ export function Router() {
     let pageContent = "";
     let pageStatus = 200;
 
-    switch (path) {
+    const latestNewsMatch = path.match(/^\/latest-news\/(\d+)$/);
+    if (path === "/latest-news" || latestNewsMatch) {
+        pageContent = `${Header()}${Navbar()}${LatestNewsPage(latestNewsMatch?.[1] || "")}${FooterSection()}`;
+    } else switch (path) {
         // =====================================================
         // HOME
         // =====================================================
@@ -120,8 +124,7 @@ export function Router() {
         // =====================================================
 
         case "/community":
-            pageContent =
-                `${Header()}${Navbar()}${CommunityPage()}${FooterSection()}`;
+            pageContent = CommunityPage();
             break;
 
         // =====================================================

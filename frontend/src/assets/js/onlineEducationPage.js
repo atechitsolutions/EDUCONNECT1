@@ -51,8 +51,8 @@ function setMeta(selector, attribute, value, createTag) {
 function updatePageMetadata() {
     const title = "Online Education: Compare Courses & Degrees | EduConnect";
     const description =
-        "Compare online courses, certificates, diplomas and degree programmes. Explore learning websites by education level, subject, study mode and destination.";
-    const canonicalUrl = "https://www.educonnect.com/online-education/";
+        "Compare online courses, certificates, diplomas and degrees by subject, level, study mode and destination. Explore options from universities and learning providers.";
+    const canonicalUrl = "https://stepinstudents.com/online-education/";
 
     document.title = title;
 
@@ -62,7 +62,7 @@ function updatePageMetadata() {
     setMeta('meta[property="og:title"]', "property", title, "meta");
     setMeta('meta[property="og:description"]', "property", description, "meta");
     setMeta('meta[property="og:url"]', "property", canonicalUrl, "meta");
-    setMeta('meta[name="twitter:card"]', "name", "summary", "meta");
+    setMeta('meta[name="twitter:card"]', "name", "summary_large_image", "meta");
     setMeta('meta[name="twitter:title"]', "name", title, "meta");
     setMeta('meta[name="twitter:description"]', "name", description, "meta");
 

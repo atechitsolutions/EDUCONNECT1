@@ -1,4 +1,3 @@
-import Header from "../layouts/header.js";
 import StudyAbroadNavbar from "../layouts/StudyAbroadNavbar.js";
 import FooterSection from "../components/home/footerSection.js";
 import InstitutionCard from "../components/common/InstitutionCard.js";
@@ -657,7 +656,6 @@ async function loadResults(root) {
 
 export default function StudyAbroadSearchResultsPage() {
     const markup = `
-        ${Header()}
         ${StudyAbroadNavbar()}
 
         <main id="study-abroad-page" class="study-abroad-page">

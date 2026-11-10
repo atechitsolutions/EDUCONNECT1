@@ -8,7 +8,7 @@ function FooterColumn({ title, links = [] }) {
                     .map(
                         (link) => `
                             <li>
-                                <a href="${link.href || "#"}">
+                                <a href="${link.href || "/"}">
                                     ${link.label}
                                 </a>
                             </li>
@@ -16,28 +16,6 @@ function FooterColumn({ title, links = [] }) {
                     )
                     .join("")}
             </ul>
-        </div>
-    `;
-}
-
-function SocialLinks() {
-    return `
-        <div class="footer-social">
-            <a href="#" aria-label="Facebook" class="social-link">
-                <span>f</span>
-            </a>
-
-            <a href="#" aria-label="Instagram" class="social-link">
-                <span>◎</span>
-            </a>
-
-            <a href="#" aria-label="LinkedIn" class="social-link">
-                <span>in</span>
-            </a>
-
-            <a href="#" aria-label="YouTube" class="social-link">
-                <span>▶</span>
-            </a>
         </div>
     `;
 }
@@ -69,8 +47,8 @@ export function FooterSection() {
         description: "Share your learning journey, meet students with similar interests and take part in supportive education discussions.",
         columns: [
             { title: "Community", links: [{ label: "Open the student feed", href: "/community" }, { label: "Student groups", href: "/community" }, { label: "Study discussions", href: "/community" }] },
-            { title: "Discover", links: [{ label: "Online education", href: "/online-education" }, { label: "Study abroad", href: "/study-abroad" }, { label: "Scholarships", href: "/scholarships" }] },
-            { title: "Your space", links: [{ label: "Community guidelines", href: "/community" }, { label: "Student profile", href: "/community" }, { label: "Contact EduConnect", href: "/contact" }] }
+            { title: "Discover", links: [{ label: "Online education", href: "/online-education" }, { label: "Study abroad", href: "/study-abroad" }, { label: "Scholarships", href: "/#scholarships" }] },
+            { title: "Your space", links: [{ label: "Community guidelines", href: "/community" }, { label: "Student profile", href: "/community" }, { label: "EduConnect home", href: "/" }] }
         ]
     } : null;
 
@@ -97,9 +75,9 @@ export function FooterSection() {
                 <div class="page-specific-footer-bottom">
                     <span>${isOnlineEducation ? "Explore learning that fits your life." : "Connect, learn and grow together."}</span>
                     <div class="footer-legal">
-                        <a href="/privacy">Privacy</a>
-                        <a href="/terms">Terms</a>
-                        <a href="/contact">Contact</a>
+                        <a href="/">Home</a>
+                        <a href="/study-abroad">Study abroad</a>
+                        <a href="${isOnlineEducation ? "/community" : "/online-education"}">${isOnlineEducation ? "Community" : "Online education"}</a>
                     </div>
                 </div>
             </footer>
@@ -132,8 +110,6 @@ export function FooterSection() {
 
                     <p class="footer-description">${footerDescription}</p>
 
-                    ${SocialLinks()}
-
                 </div>
 
 
@@ -142,12 +118,12 @@ export function FooterSection() {
                 ${FooterColumn({
                     title: "Education",
                     links: [
-                        { label: "Pre Schools", href: "#" },
-                        { label: "Top Schools in India", href: "#" },
-                        { label: "Top Colleges in India", href: "#" },
-                        { label: "Top Universities in India", href: "#" },
-                        { label: "Online Education", href: "#" },
-                        { label: "Distance Education", href: "#" }
+                        { label: "Pre Schools", href: "/#pre-school" },
+                        { label: "Top Schools in India", href: "/#schools" },
+                        { label: "Top Colleges in India", href: "/#colleges" },
+                        { label: "Top Universities in India", href: "/#colleges" },
+                        { label: "Online Education", href: "/online-education" },
+                        { label: "Distance Education", href: "/online-education" }
                     ]
                 })}
                 `}
@@ -157,12 +133,12 @@ export function FooterSection() {
                 ${FooterColumn({
                     title: "Explore",
                     links: [
-                        { label: "Study Abroad for Indian Students", href: "#" },
-                        { label: "Scholarships in India", href: "#" },
-                        { label: "Top Education Lists", href: "#" },
-                        { label: "Education Rankings", href: "#" },
-                        { label: "Student & Parent Reviews", href: "#" },
-                        { label: "Compare Colleges in India", href: "#" }
+                        { label: "Study Abroad for Indian Students", href: "/study-abroad" },
+                        { label: "Scholarships in India", href: "/#scholarships" },
+                        { label: "Top Education Lists", href: "/#top-lists" },
+                        { label: "Education Rankings", href: "/#rankings" },
+                        { label: "Student & Parent Reviews", href: "/#student-reviews" },
+                        { label: "Compare Colleges in India", href: "/#institution-comparison" }
                     ]
                 })}
 
@@ -171,12 +147,12 @@ export function FooterSection() {
                 ${FooterColumn({
                     title: "Career",
                     links: [
-                        { label: "Jobs & Career Opportunities", href: "#" },
-                        { label: "Internships", href: "#" },
-                        { label: "Education Loans", href: "#" },
-                        { label: "Career Guidance", href: "#" },
-                        { label: "Online & Professional Courses", href: "#" },
-                        { label: "Online Certifications", href: "#" }
+                        { label: "Jobs & Career Opportunities", href: "/#top-companies" },
+                        { label: "Career Resources", href: "/#top-companies" },
+                        { label: "Education Loans", href: "/#education-loans" },
+                        { label: "Education Guidance", href: "/#education-categories" },
+                        { label: "Online & Professional Courses", href: "/online-education" },
+                        { label: "Online Certifications", href: "/online-education" }
                     ]
                 })}
 
@@ -185,12 +161,12 @@ export function FooterSection() {
                 ${FooterColumn({
                     title: "Platform",
                     links: [
-                        { label: "Student Community", href: "#" },
-                        { label: "Education News", href: "#" },
-                        { label: "Education Current Affairs", href: "#" },
-                        { label: "College Rankings in India", href: "#" },
-                        { label: "Student & Parent Reviews", href: "#" },
-                        { label: "Contact EduConnect", href: "#" }
+                        { label: "Student Community", href: "/community" },
+                        { label: "Education News", href: "/#news" },
+                        { label: "Education Current Affairs", href: "/#current-affairs" },
+                        { label: "College Rankings in India", href: "/#rankings" },
+                        { label: "Student & Parent Reviews", href: "/#student-reviews" },
+                        { label: "EduConnect home", href: "/" }
                     ]
                 })}
 
@@ -208,17 +184,9 @@ export function FooterSection() {
 
                     <div class="footer-legal">
 
-                        <a href="#">
-                            Privacy Policy
-                        </a>
-
-                        <a href="#">
-                            Terms & Conditions
-                        </a>
-
-                        <a href="#">
-                            Contact Us
-                        </a>
+                        <a href="/">Home</a>
+                        <a href="/study-abroad">Study Abroad</a>
+                        <a href="/online-education">Online Education</a>
 
                     </div>
 

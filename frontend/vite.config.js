@@ -16,6 +16,10 @@ export default defineConfig({
                 "online-education/index": resolve(
                     frontendRoot,
                     "online-education/index.html"
+                ),
+                "community/index": resolve(
+                    frontendRoot,
+                    "community/index.html"
                 )
             }
         }

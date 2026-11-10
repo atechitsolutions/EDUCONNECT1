@@ -71,6 +71,8 @@ export function NewsSection() {
                 </div>
             </div>
 
+            <p class="news-all-link"><a href="/latest-news">Browse all published education news →</a></p>
+
             <div class="news-carousel">
                 <div class="news-viewport">
                     <div class="news-track" data-home-news-track>

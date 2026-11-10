@@ -2,6 +2,7 @@ import initPremiumCursor
     from "./assets/js/premiumCursor.js";
 import { initWebsiteAssistant } from "./components/WebsiteAssistant.js";
 import { initCommunityPage } from "./assets/js/communityPage.js";
+import { applyRouteSEO } from "./utils/routeSEO.js";
 
 import initScrollPlane
     from "./assets/js/scrollPlane.js";
@@ -261,6 +262,8 @@ document.addEventListener(
 
         app.innerHTML =
             Router();
+
+        applyRouteSEO();
 
         const primaryNavigation = document.querySelector("#educonnect-primary-navigation");
         const navigationToggle = document.querySelector(".navbar-menu-toggle");

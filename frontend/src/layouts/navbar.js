@@ -25,7 +25,7 @@ export default function Navbar() {
             ================================================== -->
 
             <a
-                href="#"
+                href="/"
                 class="navbar-link"
                 aria-label="Home - ALL IN ONE Education Platform"
             >
@@ -40,7 +40,7 @@ export default function Navbar() {
             <div class="navbar-dropdown">
 
                 <a
-                    href="#school"
+                    href="/#schools"
                     class="navbar-link navbar-dropdown-link"
                     data-auth-required="true"
                     aria-label="Schools"
@@ -63,7 +63,7 @@ export default function Navbar() {
                 <div class="navbar-dropdown-menu">
 
                     <a
-                        href="#play-school"
+                        href="/#play-school"
                         class="navbar-dropdown-item"
                         data-auth-required="true"
                     >
@@ -72,7 +72,7 @@ export default function Navbar() {
 
 
                     <a
-                        href="#pre-school"
+                        href="/#pre-school"
                         class="navbar-dropdown-item"
                         data-auth-required="true"
                     >
@@ -81,7 +81,7 @@ export default function Navbar() {
 
 
                     <a
-                        href="#boarding-school"
+                        href="/#boarding-schools"
                         class="navbar-dropdown-item"
                         data-auth-required="true"
                     >
@@ -100,7 +100,7 @@ export default function Navbar() {
             <div class="navbar-dropdown">
 
                 <a
-                    href="#top-lists"
+                    href="/#colleges"
                     class="navbar-link navbar-dropdown-link"
                     data-auth-required="true"
                     aria-label="Colleges and Universities"
@@ -125,7 +125,7 @@ export default function Navbar() {
                     <!-- UNIVERSITY -->
 
                     <a
-                        href="#top-lists"
+                        href="/#colleges"
                         class="navbar-dropdown-item"
                         data-auth-required="true"
                     >
@@ -136,7 +136,7 @@ export default function Navbar() {
                     <!-- PG -->
 
                     <a
-                        href="#top-ug-pg-colleges"
+                        href="/#colleges"
                         class="navbar-dropdown-item"
                         data-auth-required="true"
                     >
@@ -175,7 +175,7 @@ export default function Navbar() {
             ================================================== -->
 
             <a
-                href="#jobs"
+                href="/#top-companies"
                 class="navbar-link"
                 data-auth-required="true"
                 aria-label="Education Jobs and Career Opportunities"
@@ -196,7 +196,7 @@ export default function Navbar() {
             ================================================== -->
 
             <a
-                href="#news"
+                href="/#news"
                 class="navbar-link"
                 data-auth-required="true"
                 aria-label="Latest Education News"
@@ -210,7 +210,7 @@ export default function Navbar() {
             ================================================== -->
 
             <a
-                href="#certificate"
+                href="/online-education"
                 class="navbar-link navbar-certificate-link"
                 data-auth-required="true"
                 aria-label="Education Certificates"
@@ -224,7 +224,7 @@ export default function Navbar() {
             ================================================== -->
 
             <a
-                href="#online-courses"
+                href="/online-education"
                 class="navbar-link navbar-onlinecourses-link"
                 data-auth-required="true"
                 aria-label="Online Courses and Education"
@@ -239,7 +239,7 @@ export default function Navbar() {
             ================================================== -->
 
             <a
-                href="#scholarship"
+                href="/#scholarships"
                 class="navbar-link"
                 data-auth-required="true"
                 aria-label="Scholarships and Financial Aid"

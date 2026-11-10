@@ -1,8 +1,8 @@
 const STUDY_ABROAD_PAGE = {
-    title: "Study Abroad from India | Courses & Universities",
-    description: "Compare study abroad destinations for Indian students. Explore universities, courses, admissions, scholarships, intakes, visa planning and estimated tuition and living costs.",
-    canonical: "https://www.educonnect.com/study-abroad/",
-    image: "https://www.educonnect.com/images/banner/study-abroad-banner.jpeg"
+    title: "Study Abroad from India: Courses & Universities | EduConnect",
+    description: "Compare study abroad destinations from India. Explore universities, courses, admissions, scholarships and estimated tuition and living costs.",
+    canonical: "https://stepinstudents.com/study-abroad/",
+    image: "https://stepinstudents.com/images/banner/study-abroad-banner.jpeg"
 };
 
 function setMeta(selector, attribute, content) {
@@ -61,7 +61,7 @@ export function applyStudyAbroadSEO() {
         isPartOf: {
             "@type": "WebSite",
             name: "EduConnect",
-            url: "https://www.educonnect.com/"
+            url: "https://stepinstudents.com/"
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -70,7 +70,7 @@ export function applyStudyAbroadSEO() {
                     "@type": "ListItem",
                     position: 1,
                     name: "Home",
-                    item: "https://www.educonnect.com/"
+                    item: "https://stepinstudents.com/"
                 },
                 {
                     "@type": "ListItem",

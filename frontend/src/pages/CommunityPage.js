@@ -1,12 +1,33 @@
 import { isAuthenticated } from "../services/authService.js";
 
+function communityFooter() {
+    return `
+        <footer class="community-page-footer">
+            <img src="/images/community/community-hero-pin.jpg" alt="" loading="lazy">
+            <div class="community-footer-visual">
+                <div>
+                    <span class="community-kicker">STUDENT COMMUNITY</span>
+                    <h2>Find your people. Learn together.</h2>
+                    <p>Connect with students, share ideas, and build your learning circle.</p>
+                </div>
+            </div>
+            <div class="community-footer-links">
+                <a href="/community" data-community-tab-link="community-chat">Community chat</a>
+                <a href="/community" data-community-tab-link="feed">Student feed</a>
+                <a href="/community" data-community-tab-link="discover">Discover students</a>
+                <a href="/community" data-community-tab-link="profile">Your profile</a>
+            </div>
+        </footer>
+    `;
+}
+
 export function CommunityPage() {
     if (!isAuthenticated()) {
         return `
             <main class="community-auth-wall">
                 <section>
                     <span class="community-kicker">EDUCONNECT COMMUNITY</span>
-                    <h1>Your Community. Your Connections.</h1>
+                    <h1>Your Community.<br>Your Connections.</h1>
                     <p>
                         Sign in with your EduConnect account to join the
                         community conversation and connect with other members.
@@ -20,6 +41,7 @@ export function CommunityPage() {
                     </a>
                 </section>
             </main>
+            ${communityFooter()}
         `;
     }
 
@@ -80,21 +102,11 @@ export function CommunityPage() {
 
                 <figure class="community-hero-photo">
                     <img
-                        src="/images/community/student-community-chat.jpg"
-                        alt="College students chatting together outside on campus"
+                        src="/images/community/community-hero-pin.jpg"
+                        alt="Students connecting and sharing ideas in the EduConnect community"
                         loading="eager"
+                        fetchpriority="high"
                     >
-
-                    <figcaption>
-                        Photo by
-                        <a
-                            href="https://www.pexels.com/photo/young-people-talking-to-each-other-7973037/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            George Pak / Pexels
-                        </a>
-                    </figcaption>
 
                     <div class="community-float-card">
                         <span class="community-float-icon">✦</span>
@@ -852,6 +864,7 @@ export function CommunityPage() {
             </dialog>
 
         </main>
+        ${communityFooter()}
     `;
 }
 
