@@ -36,7 +36,7 @@ See [SEO_KEYWORD_MAP.md](./SEO_KEYWORD_MAP.md) for the route-level map. The targ
 
 ### P0 — Critical
 
-- **Production host is unverified.** Existing project metadata uses `https://www.educonnect.com`; confirm that this is the canonical live domain before launch. All generated canonicals and sitemap URLs depend on it.
+- **Hosting behavior remains unverified.** Frontend canonicals and sitemap now use `https://stepinstudents.com`; configure HTTP and www redirects to this HTTPS non-www host.
 - **Production response codes are not controlled by the frontend router.** The SPA can render a 404 view, but only hosting/server configuration can return an HTTP 404 instead of a soft 404. Verify production direct-route responses.
 - **Client rendering limits metadata for non-JavaScript crawlers and social scrapers.** Static HTML entries now exist for the three public indexable landing pages. Other SPA routes receive runtime metadata only. Keep protected routes noindex and consider server/static rendering only if additional routes become public SEO landing pages.
 
@@ -69,7 +69,7 @@ See [SEO_KEYWORD_MAP.md](./SEO_KEYWORD_MAP.md) for the route-level map. The targ
 
 | URL | Primary keyword | SEO title | H1 | Canonical/indexing | Schema | Internal links/image | Performance |
 |---|---|---|---|---|---|---|---|
-| `/` | education | Education in India: Schools, Colleges & Courses \| EduConnect | Explore. Compare. Find the Right Education. | `https://www.educonnect.com/`; index | WebSite, Organization, WebPage, BreadcrumbList | Section navigation and contextual education imagery; target assets/alt checked, full image audit pending | Build-only; CWV not measured |
+| `/` | education | Education in India: Schools, Colleges & Courses \| EduConnect | Explore. Compare. Find the Right Education. | `https://stepinstudents.com/`; index | WebSite, Organization, WebPage, BreadcrumbList | Section navigation and contextual education imagery; target assets/alt checked, full image audit pending | Build-only; CWV not measured |
 | `/study-abroad/` | study abroad | Study Abroad from India: Courses & Universities \| EduConnect | Study Abroad; compare countries, courses & universities | Self-canonical; index | WebPage, BreadcrumbList, existing FAQPage | Country/institution details remain modal/list-based; relevant banner image | Build-only; CWV not measured |
 | `/online-education/` | online education | Online Education: Compare Courses & Degrees \| EduConnect | Online Education: Compare Courses, Certificates & Degrees | Self-canonical; index | WebPage, BreadcrumbList | Programme/provider cards link within the page; relevant image metadata | Build-only; CWV not measured |
 | `/community/` | student community (not targeted while gated) | Student Community for Learning & Connections \| EduConnect | Your Community. Your Connections. | Noindex; excluded from sitemap | No structured data added | Community navigation and relevant photo | Build-only; CWV not measured |

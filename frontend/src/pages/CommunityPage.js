@@ -74,12 +74,7 @@ export function CommunityPage() {
                             Community Chat <span>→</span>
                         </button>
 
-                        <button
-                            class="community-button community-button-glass"
-                            data-community-tab-link="community-chat"
-                        >
-                            Open group chat <span>↗</span>
-                        </button>
+
                     </div>
 
                     <div class="community-hero-stats" aria-live="polite">

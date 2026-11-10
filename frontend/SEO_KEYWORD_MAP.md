@@ -26,7 +26,7 @@ Keyword targets below are qualitative mappings based on each route's visible pur
 
 ## Remaining deployment checks
 
-- Verify `https://www.educonnect.com` is the production host before publishing; it is the domain already used in the project metadata.
+- Production canonical host is configured as `https://stepinstudents.com`; confirm HTTPS, DNS and host redirects before launch.
 - Submit `/sitemap.xml` in Search Console and inspect rendered routes after deployment.
 - Use PageSpeed Insights/Lighthouse and Search Console field data to check Core Web Vitals and real query performance; local builds cannot establish these metrics.
 - Configure production HTTP status codes, redirects, compression, caching and server-side/pre-rendered metadata in the hosting layer. The current site is a client-rendered Vite app, so social crawlers and non-JavaScript crawlers may not receive route-specific metadata unless the host serves each built HTML entry or pre-renders it.
