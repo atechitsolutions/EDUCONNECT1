@@ -2,6 +2,7 @@ import { onlineEducationInstitutions } from "../data/onlineEducationInstitutions
 import { onlineEducationProgrammes } from "../data/onlineEducationProgrammes.js";
 import onlineEducationHeroVideo from "../assets/images/online-education-hero.mp4";
 import onlineEducationHeroPoster from "../assets/images/online-education-hero.jpg";
+import onlineEducationStudentPortrait from "../assets/images/online-education-student-portrait.jpg";
 import renderOnlineEducationLeadForm, {
   bindOnlineEducationLeadForm
 } from "../components/onlineeducationleadform.js";
@@ -116,6 +117,20 @@ const subjects = [
     "Education"
 ];
 
+const destinations = [
+    "India", "United States", "United Kingdom", "Canada", "Australia",
+    "Germany", "Ireland", "France", "Netherlands", "Global"
+];
+
+const degreeCards = [
+    { degree: "MBA", title: "Master of Business Administration", icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m2 8 10-5 10 5-10 5L2 8Z"/><path d="M6 10v5c3.7 2.7 8.3 2.7 12 0v-5M22 8v6"/></svg>' },
+    { degree: "BBA", title: "Bachelor of Business Administration", icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18M10 12v2h4v-2"/></svg>' },
+    { degree: "BCA", title: "Bachelor of Computer Applications", icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg>' },
+    { degree: "B.Sc", title: "Bachelor of Science", icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6l-6 10a1.5 1.5 0 0 0 1.3 2.2h13.4A1.5 1.5 0 0 0 20 19L14 9V3M7 15h10"/></svg>' },
+    { degree: "B.Com", title: "Bachelor of Commerce", icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v5c0 1.7 3.6 3 8 3 1.4 0 2.7-.2 3.8-.5M4 11v5c0 1.7 3.6 3 8 3M20 6v5M16 16h6m-3-3v6"/></svg>' },
+    { degree: "MA", title: "Master of Arts", icon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5c3.5-1 6.5-.5 9 1.5v14c-2.5-2-5.5-2.5-9-1.5v-14ZM21 5.5c-3.5-1-6.5-.5-9 1.5v14c2.5-2 5.5-2.5 9-1.5v-14Z"/></svg>' }
+];
+
 export default function OnlineEducationPage() {
     return `
       <main class="oe-page" id="online-education-page">
@@ -159,99 +174,81 @@ export default function OnlineEducationPage() {
           </div>
         </nav>
 
-        <section class="oe-hero" id="oe-top">
+        <section class="oe-hero oe-hero-premium" id="oe-top">
           <video
             class="oe-hero-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
+            autoplay muted loop playsinline preload="metadata"
             poster="${onlineEducationHeroPoster}"
-            aria-hidden="true"
-            tabindex="-1"
+            aria-hidden="true" tabindex="-1"
           >
             <source src="${onlineEducationHeroVideo}" type="video/mp4">
           </video>
 
           <div class="oe-hero-inner">
-            <div class="oe-hero-copy">
-              <p class="oe-eyebrow">A clearer way to choose what’s next</p>
+            <div class="oe-hero-panel">
+              <div class="oe-hero-copy">
+                <p class="oe-hero-label"><span class="oe-hero-label-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m2 8 10-5 10 5-10 5L2 8Z"/><path d="M6 10v5c3.7 2.7 8.3 2.7 12 0v-5M22 8v6"/></svg></span> Online Education</p>
+                <h1>Compare &amp; Choose<br>Your <span>Online Degree</span></h1>
+                <p class="oe-hero-description">
+                  Explore top online programmes like MBA, BBA, BCA and more from
+                  trusted universities, all in one place.
+                </p>
 
-              <h1>
-                Online Education: Compare Courses, Certificates &amp; Degrees
-              </h1>
+                <div class="oe-hero-actions">
+                  <a class="oe-button oe-primary" href="#oe-programmes">Explore Programmes <span aria-hidden="true">→</span></a>
+                  <a class="oe-button oe-hero-compare" href="#oe-programmes"><span aria-hidden="true">⚖</span> Compare Courses</a>
+                </div>
 
-              <p>
-                Compare online courses, certificates, diplomas and degree
-                programmes from learning websites and universities. Explore
-                options by subject, education level and study mode, then verify
-                fees and recognition with the provider.
-              </p>
-
-              <div class="oe-hero-actions">
-                <a class="oe-button oe-primary" href="#oe-programmes">
-                  Explore Programmes <span>→</span>
-                </a>
-
-                <a class="oe-button oe-outline" href="#oe-programmes">
-                  Compare Courses
-                </a>
+                <div class="oe-hero-trust" aria-label="Online education benefits">
+                  <span><i aria-hidden="true">♧</i>Top Universities</span>
+                  <span><i aria-hidden="true">▱</i>100% Online</span>
+                  <span><i aria-hidden="true">✧</i>Flexible Learning</span>
+                </div>
               </div>
 
-              <form
-                id="oe-hero-search-form"
-                class="oe-search-form oe-hero-search"
-                role="search"
-              >
-                <label class="oe-field oe-search-wide">
-                  <span>Search courses, subjects or universities</span>
+              <div class="oe-hero-student" aria-label="Student holding a laptop">
+                <div class="oe-hero-orbit" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="oe-hero-student-frame">
+                  <img src="${onlineEducationStudentPortrait}" alt="Student in a lavender sweater holding a laptop" loading="eager">
+                </div>
+                <span class="oe-hero-student-caption">Learn your way, wherever you are</span>
+              </div>
 
-                  <input
-                    id="oe-hero-query"
-                    type="search"
-                    list="oe-programme-suggestions"
-                    placeholder="Try MBA, artificial intelligence or IIIT Bangalore"
-                    autocomplete="off"
-                  >
+              <div class="oe-hero-degrees" aria-label="Explore programmes by degree">
+                ${degreeCards.map(card => `
+                  <button class="oe-degree-card" type="button" data-degree-filter="${card.degree}" aria-label="Show ${card.degree} programmes">
+                    <span class="oe-degree-icon" aria-hidden="true">${card.icon}</span>
+                    <span class="oe-degree-copy"><strong>${card.degree}</strong><small>${card.title}</small></span>
+                  </button>
+                `).join("")}
+              </div>
 
+              <form id="oe-hero-search-form" class="oe-search-form oe-hero-search oe-premium-search" role="search">
+                <label class="oe-hero-query-field">
+                  <span class="oe-visually-hidden">Search programmes, courses or universities</span>
+                  <i aria-hidden="true">⌕</i>
+                  <input id="oe-hero-query" type="search" list="oe-programme-suggestions" placeholder="Try MBA, BBA, BCA or any programme..." autocomplete="off">
                   <datalist id="oe-programme-suggestions">
                     ${onlineEducationProgrammes.map(programme => `
-                      <option
-                        value="${programme.title.replaceAll('"', '&quot;')}"
-                        label="${programme.providerName.replaceAll('"', '&quot;')}"
-                      ></option>
+                      <option value="${programme.title.replaceAll('"', '&quot;')}" label="${programme.providerName.replaceAll('"', '&quot;')}"></option>
                     `).join("")}
                   </datalist>
                 </label>
-
-                <button
-                  class="oe-button oe-primary oe-submit"
-                  type="submit"
-                >
-                  Search programmes <span>→</span>
-                </button>
+                <label class="oe-hero-filter-field">
+                  <span class="oe-visually-hidden">Education level</span>
+                  <i aria-hidden="true">♙</i>
+                  <select id="oe-hero-level"><option value="">All Levels</option>${levels.map(level => `<option value="${level}">${level}</option>`).join("")}</select>
+                </label>
+                <label class="oe-hero-filter-field">
+                  <span class="oe-visually-hidden">Destination</span>
+                  <i aria-hidden="true">⌖</i>
+                  <select id="oe-hero-destination"><option value="">All Destinations</option>${destinations.map(destination => `<option value="${destination}">${destination}</option>`).join("")}</select>
+                </label>
+                <button class="oe-button oe-primary oe-submit" type="submit"><span aria-hidden="true">⌕</span> Search</button>
               </form>
-
-              <div class="oe-quick">
-                <span>Popular:</span>
-                ${[
-                    "Computer Science",
-                    "Artificial Intelligence",
-                    "Data Science",
-                    "Business & Management",
-                    "Digital Marketing",
-                    "Healthcare",
-                    "Engineering",
-                    "Psychology"
-                ].map(x => `
-                    <button type="button" data-query="${x}">${x}</button>
-                `).join("")}
-              </div>
             </div>
           </div>
         </section>
-
 
 
 <section class="oe-section oe-popular oe-trending" id="oe-popular">

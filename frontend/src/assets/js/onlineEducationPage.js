@@ -383,6 +383,7 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
 
     let programmes = [];
     let visibleLimit = 4;
+    let activeDegree = "";
 
     let favourites = storage("educonnect-online-favourites", []);
     let compared = storage("educonnect-online-compare", []);
@@ -656,7 +657,8 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
         type: byId("oe-filter-type")?.value || "",
         subject: byId("oe-filter-subject")?.value || "",
         difficulty: byId("oe-filter-difficulty")?.value || "",
-        budget: byId("oe-filter-budget")?.value || ""
+        budget: byId("oe-filter-budget")?.value || "",
+        degree: activeDegree
     });
 
     const syncStorage = () => {
@@ -698,6 +700,22 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
         };
         const queryTerms = queryAliases[state.query] || [state.query];
 
+        const degreeMatches = (degree) => {
+            if (!degree) return true;
+            const title = String(programme.title || "");
+            const level = `${programme.educationLevel || ""} ${programme.qualificationType || ""}`.toLowerCase();
+            const isBachelor = /bachelor|undergraduate/.test(level) || /\((?:ba|bs|bsc|bcom)\)/i.test(title);
+            switch (degree) {
+                case "MBA": return /\bmba\b|master of business administration/i.test(text);
+                case "BBA": return /\bbba\b|bachelor(?:'s)? of business administration/i.test(text) || (isBachelor && /business/i.test(text) && /administration|management/i.test(text));
+                case "BCA": return /\bbca\b|bachelor(?:'s)? of computer applications/i.test(text) || (isBachelor && /computer applications|computer information systems|information technology|software engineering/i.test(text));
+                case "B.Sc": return /\bb\.?sc\b|bachelor(?:'s)? of science/i.test(text) || (isBachelor && /\(bs\)|science/i.test(title + " " + programme.subject));
+                case "B.Com": return /\bb\.?com\b|bachelor(?:'s)? of commerce/i.test(text) || (isBachelor && /commerce|accountancy|accounting/i.test(text));
+                case "MA": return /master of arts|\bma\b/i.test(text) || (/master|postgraduate/.test(level) && /arts|humanities|history|literature|communication|psychology/i.test(text));
+                default: return true;
+            }
+        };
+
         const subjectAlias = {
             "AI & Machine Learning": "Artificial Intelligence",
             "Computer Science": "Computer Science & IT",
@@ -729,6 +747,7 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
             (levelAliases[state.level] || [state.level]).includes(
                 programme.educationLevel
             ) ||
+            String(programme.qualificationType || "").toLowerCase().includes(state.level.toLowerCase()) ||
             (
                 state.level === "Professional Certificate" &&
                 (programme.categories || []).includes("Professional Certificate")
@@ -758,6 +777,7 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
 
         return (
             (!state.query || queryTerms.some((term) => text.includes(term))) &&
+            degreeMatches(state.degree) &&
             levelOK &&
             (
                 !state.mode ||
@@ -1400,6 +1420,10 @@ const openProgrammeDetails = (id) => {
 
         const activeFilters = byId("oe-active-filters");
 
+        if (activeDegree) {
+            chips.unshift(`<button type="button" data-clear-degree>Degree: ${escapeHTML(activeDegree)} <span aria-hidden="true">×</span></button>`);
+        }
+
         if (activeFilters) {
             activeFilters.innerHTML = chips.join("");
         }
@@ -1583,6 +1607,11 @@ const openProgrammeDetails = (id) => {
         if (query) query.value = "";
 
         visibleLimit = 6;
+        activeDegree = "";
+        const heroLevel = byId("oe-hero-level");
+        const heroDestination = byId("oe-hero-destination");
+        if (heroLevel) heroLevel.value = "";
+        if (heroDestination) heroDestination.value = "";
         render();
     };
 
@@ -1710,9 +1739,30 @@ const openProgrammeDetails = (id) => {
             byId("oe-filters")?.classList.toggle("is-open", !expanded);
         }
 
+        const degreeCard = event.target.closest("[data-degree-filter]");
+
+        if (degreeCard) {
+            activeDegree = degreeCard.dataset.degreeFilter || "";
+            const queryInput = byId("oe-hero-query");
+            if (queryInput) queryInput.value = "";
+            for (const key of filters) {
+                const input = byId(`oe-filter-${key}`);
+                if (input) input.value = "";
+            }
+            const heroLevel = byId("oe-hero-level");
+            const heroDestination = byId("oe-hero-destination");
+            if (heroLevel) heroLevel.value = "";
+            if (heroDestination) heroDestination.value = "";
+            visibleLimit = 6;
+            render();
+            byId("oe-programmes")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            return;
+        }
+
         const subject = event.target.closest("[data-subject]");
 
         if (subject) {
+            activeDegree = "";
             const aliases = {
                 "Computer Science": "Computer Science & IT",
                 "AI & Machine Learning": "Artificial Intelligence",
@@ -1746,6 +1796,7 @@ const openProgrammeDetails = (id) => {
         const level = event.target.closest("[data-level]");
 
         if (level) {
+            activeDegree = "";
             const levelFilter = byId("oe-filter-level");
 
             if (levelFilter) {
@@ -1783,6 +1834,7 @@ const openProgrammeDetails = (id) => {
         const queryLink = event.target.closest("[data-query]");
 
         if (queryLink) {
+            activeDegree = "";
             const queryInput = byId("oe-hero-query");
 
             if (queryInput) {
@@ -1848,6 +1900,12 @@ const openProgrammeDetails = (id) => {
                 : [...favourites, id];
 
             syncStorage();
+            render();
+            return;
+        }
+
+        if (event.target.closest("[data-clear-degree]")) {
+            activeDegree = "";
             render();
             return;
         }
@@ -2134,6 +2192,12 @@ const openProgrammeDetails = (id) => {
             if (input) input.value = "";
         }
 
+        const levelFilter = byId("oe-filter-level");
+        const countryFilter = byId("oe-filter-country");
+        if (levelFilter) levelFilter.value = byId("oe-hero-level")?.value || "";
+        if (countryFilter) countryFilter.value = byId("oe-hero-destination")?.value || "";
+
+        activeDegree = "";
         visibleLimit = 6;
         render();
 
@@ -2154,6 +2218,23 @@ const openProgrammeDetails = (id) => {
         programmes = addProgrammeImages(
             await getOnlineEducationProgrammes()
         );
+
+        const populateProgrammeSelect = (selectId, values, label) => {
+            const select = byId(selectId);
+            if (!select) return;
+            const existing = [...select.options].slice(1).map((option) => option.value);
+            const available = [...new Set([...values, ...existing])]
+                .map((value) => String(value || "").trim())
+                .filter((value) => value && !["not specified", "not listed", "n/a", "unknown"].includes(value.toLowerCase()))
+                .sort((a, b) => a.localeCompare(b));
+            select.innerHTML = `<option value="">${label}</option>` + available.map((value) => `<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`).join("");
+        };
+        const programmeLevels = programmes.map((programme) => programme.educationLevel);
+        const programmeCountries = programmes.map((programme) => programme.country);
+        populateProgrammeSelect("oe-hero-level", programmeLevels, "All Levels");
+        populateProgrammeSelect("oe-filter-level", programmeLevels, "Levels");
+        populateProgrammeSelect("oe-hero-destination", programmeCountries, "All Destinations");
+        populateProgrammeSelect("oe-filter-country", programmeCountries, "Destinations");
 
         const availableIds = new Set(
             programmes.map((programme) => String(programme.id))
