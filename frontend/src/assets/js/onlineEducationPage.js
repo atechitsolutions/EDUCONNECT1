@@ -684,8 +684,19 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
             programme.qualificationType,
             programme.studyMode,
             programme.country,
-            programme.difficultyLevel
+            programme.difficultyLevel,
+            ...(programme.categories || [])
         ].join(" ").toLowerCase();
+
+        const queryAliases = {
+            "ai & machine learning": [
+                "artificial intelligence",
+                "machine learning",
+                "generative ai",
+                "agentic ai"
+            ]
+        };
+        const queryTerms = queryAliases[state.query] || [state.query];
 
         const subjectAlias = {
             "AI & Machine Learning": "Artificial Intelligence",
@@ -746,7 +757,7 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
             );
 
         return (
-            (!state.query || text.includes(state.query)) &&
+            (!state.query || queryTerms.some((term) => text.includes(term))) &&
             levelOK &&
             (
                 !state.mode ||
@@ -1747,6 +1758,26 @@ const openProgrammeDetails = (id) => {
                 behavior: "smooth",
                 block: "start"
             });
+        }
+
+        const similarLink = event.target.closest("[data-find-similar]");
+
+        if (similarLink) {
+            for (const key of filters) {
+                const input = byId(`oe-filter-${key}`);
+                if (input) input.value = "";
+            }
+
+            const queryInput = byId("oe-hero-query");
+            if (queryInput) queryInput.value = similarLink.dataset.findSimilar;
+
+            visibleLimit = 6;
+            render();
+            byId("oe-programmes")?.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+            return;
         }
 
         const queryLink = event.target.closest("[data-query]");

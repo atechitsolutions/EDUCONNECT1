@@ -1734,6 +1734,22 @@
   bottom: -17px;
 }
 
+/* Tighter trending course card controls on phones only. */
+@media (max-width: 600px) {
+  .oe-page .oe-trending { padding-block: 28px; }
+  .oe-trending-card { flex-basis: min(82vw, 330px); border-radius: 18px; }
+  .oe-trending-image-wrap { height: 128px; }
+  .oe-trending-card-body { padding: 20px 14px 14px; }
+  .oe-trending-provider { margin-bottom: 7px; font-size: 12px; }
+  .oe-trending-card h3 { min-height: 0; margin-bottom: 9px; font-size: 15px; }
+  .oe-trending-meta { gap: 7px; padding: 9px 0 10px; }
+  .oe-trending-actions { gap: 7px; }
+  .oe-trending-actions a { min-height: 40px; font-size: 11px; }
+  .oe-trending-arrow { width: 38px; height: 38px; flex: 0 0 38px; }
+  .oe-trending-carousel { gap: 7px; }
+  .oe-trending-track { gap: 10px; }
+}
+
 @media (max-width: 640px) {
   .oe-page .oe-trending {
     padding-top: 36px;

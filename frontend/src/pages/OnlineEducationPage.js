@@ -377,7 +377,7 @@ export default function OnlineEducationPage() {
                 <button
                   type="button"
                   class="oe-trending-similar"
-                  data-query="${course.query}"
+                  data-find-similar="${course.query}"
                 >Find similar courses →</button>
               </div>
             </article>

@@ -1,5 +1,7 @@
 export default function Header() {
     const isHomePage = window.location.pathname === "/";
+    const routePath = window.location.pathname.replace(/\/+$/, "") || "/";
+    const hasPrimaryNavigation = isHomePage || routePath === "/index.html" || routePath === "/latest-news" || /^\/latest-news\/\d+$/.test(routePath);
     return `
         <header class="header">
             <div class="header-container">
@@ -41,6 +43,17 @@ export default function Header() {
                  <button class="notification-btn">
                           🔔
                  </button>
+                 ${hasPrimaryNavigation ? `<button
+                    type="button"
+                    class="mobile-header-menu-toggle"
+                    aria-label="Open main navigation"
+                    aria-expanded="false"
+                    aria-controls="educonnect-primary-navigation"
+                 >
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                 </button>` : ""}
                   <button
                        type="button"
                        class="header-login-button"

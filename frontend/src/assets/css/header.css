@@ -338,3 +338,93 @@
     }
 
 }
+
+/* Phone-only header refinement. Tablet and desktop header rules stay intact. */
+@media (max-width: 600px) {
+    .header-container {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 8px 10px;
+        padding: 9px max(12px, env(safe-area-inset-right)) 9px max(12px, env(safe-area-inset-left));
+    }
+
+    .logo { min-width: 0; }
+    .logo a {
+        display: inline-block;
+        font-size: clamp(19px, 5.4vw, 25px);
+        line-height: 1.1;
+        white-space: nowrap;
+    }
+
+    .header-container > .search-box {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        width: 100%;
+        min-width: 0;
+    }
+    .header-container > .search-box input {
+        min-height: 42px;
+        padding: 9px 14px;
+        font-size: 14px;
+    }
+
+    .header-auth {
+        min-width: 0;
+        justify-content: flex-end;
+        gap: 6px;
+        margin: 0;
+    }
+    .header-auth > button,
+    .header-auth > a {
+        display: inline-flex;
+        min-width: 42px;
+        min-height: 42px;
+        align-items: center;
+        justify-content: center;
+        padding-inline: 9px;
+        font-size: 12px;
+    }
+    .header-auth .notification-btn {
+        width: 42px;
+        padding: 0;
+        flex: 0 0 42px;
+    }
+
+    .header-container:has(.header-community-promo) {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+    .header-community-promo {
+        grid-column: 1 / -1;
+        order: 3;
+        width: 100%;
+        min-height: 48px;
+        flex-basis: auto;
+        gap: 8px;
+        padding: 7px 9px;
+        border-radius: 16px;
+    }
+    .community-promo-people span,
+    .community-promo-people b {
+        width: 27px;
+        height: 27px;
+        font-size: 9px;
+    }
+    .community-promo-copy strong { font-size: 12px; }
+    .community-promo-copy small { font-size: 9px; }
+    .community-promo-live { display: none; }
+    .community-promo-cta {
+        gap: 3px;
+        padding: 8px;
+        font-size: 10px;
+    }
+    .community-promo-cta b { font-size: 14px; }
+}
+
+@media (max-width: 360px) {
+    .header-auth { gap: 4px; }
+    .header-auth > button,
+    .header-auth > a { min-width: 38px; min-height: 40px; padding-inline: 7px; }
+    .header-auth .notification-btn { width: 38px; flex-basis: 38px; }
+    .community-promo-people { display: none; }
+    .community-promo-cta { padding-inline: 6px; }
+}

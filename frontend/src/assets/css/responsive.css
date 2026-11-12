@@ -3572,3 +3572,134 @@
         transform: none !important;
     }
 }
+/* Shared phone-only guardrails; page-specific designs remain in their own stylesheets. */
+@media (max-width: 600px) {
+    html,
+    body {
+        max-width: 100%;
+        overflow-x: clip;
+    }
+
+    #app,
+    #root,
+    main,
+    [role="main"] {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    img,
+    video,
+    canvas,
+    iframe {
+        max-width: 100%;
+    }
+
+    input,
+    select,
+    textarea {
+        max-width: 100%;
+        min-width: 0;
+    }
+
+    dialog,
+    [role="dialog"] {
+        max-width: calc(100vw - 24px);
+        max-height: min(90vh, 90dvh);
+        overflow: auto;
+        box-sizing: border-box;
+    }
+
+    .edu-assistant {
+        right: max(12px, env(safe-area-inset-right));
+        bottom: max(12px, env(safe-area-inset-bottom));
+    }
+
+    /* Keep the compact header controls comfortably tappable after legacy overrides. */
+    .header-container {
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 8px 10px;
+        padding: 9px max(12px, env(safe-area-inset-right)) 9px max(12px, env(safe-area-inset-left));
+    }
+    .header-auth { gap: 6px; }
+    .notification-btn,
+    .header-login-button,
+    .header-register-button,
+    .header-user-button {
+        min-width: 42px;
+        min-height: 42px;
+        height: auto;
+        padding-inline: 9px;
+        font-size: 12px;
+    }
+    .notification-btn { width: 42px; flex: 0 0 42px; }
+    .header-community-promo {
+        grid-column: 1 / -1;
+        order: 3;
+        width: 100%;
+        min-height: 48px;
+        gap: 8px;
+        padding: 7px 9px;
+        border-radius: 16px;
+    }
+    .community-promo-people span,
+    .community-promo-people b { width: 27px; height: 27px; font-size: 9px; }
+    .community-promo-copy strong { font-size: 12px; }
+    .community-promo-copy small { font-size: 9px; }
+    .community-promo-live { display: none; }
+    .community-promo-cta { gap: 3px; padding: 8px; font-size: 10px; }
+
+    /* Override the legacy fixed-height hero rules only at phone widths. */
+    .hero { min-height: 0; align-items: stretch; }
+    .hero-overlay { min-height: 0; padding: 34px 14px 26px; }
+    .hero-content { width: min(100%, 520px); max-width: 100%; margin-inline: auto; padding: 0; }
+    .hero-title { max-width: 100%; margin-bottom: 12px; font-size: clamp(30px, 8.6vw, 38px); line-height: 1.04; letter-spacing: -.9px; }
+    .hero-description { margin-bottom: 17px; font-size: 14px; line-height: 1.5; }
+    .hero-search { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; width: 100%; max-width: 100%; padding: 6px; border-radius: 16px; }
+    .hero-search { position: relative; border: 1px solid rgba(214,226,242,.95); background: #fff; box-shadow: 0 8px 22px rgba(9,28,61,.16); }
+    .hero-search-icon { position: absolute; top: 50%; left: 13px; z-index: 1; display: flex; width: 20px; height: 20px; align-items: center; justify-content: center; transform: translateY(-50%); font-size: 15px; }
+    .hero-search input { min-width: 0; height: 44px; padding: 0 8px 0 36px; font-size: 13px; }
+    .hero-search-btn { width: auto; min-width: 78px; height: 44px; padding-inline: 12px; border-radius: 12px; font-size: 13px; }
+    .hero-quick-links { max-width: 100%; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
+    .hero-quick-links span { display: none; }
+    .hero-buttons { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; width: 100%; margin-top: 16px; }
+    .hero-buttons button { width: 100%; max-width: none; min-height: 46px; padding: 10px 12px; font-size: 13px; }
+    .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; width: 100%; max-width: none; margin-top: 17px; padding: 11px 8px; }
+    .hero-stat { min-width: 0; text-align: center; }
+    .hero-stat strong { font-size: 16px; }
+    .hero-stat span { font-size: 10px; line-height: 1.3; }
+    .hero-scroll-indicator { display: none; }
+
+    .edu-assistant .ea-launcher {
+        right: max(12px, env(safe-area-inset-right));
+        bottom: max(12px, env(safe-area-inset-bottom));
+    }
+
+    .study-abroad-search-section { padding: 34px 0 42px; }
+    .study-abroad-search-container { width: calc(100% - 24px); }
+    .study-abroad-search-header h2 { font-size: clamp(24px, 7vw, 31px); line-height: 1.12; }
+    .study-abroad-search-header p { font-size: 13px; line-height: 1.5; }
+    .study-abroad-search-box { flex-direction: row; align-items: stretch; gap: 6px; min-height: 0; padding: 6px; border-radius: 14px; }
+    .study-abroad-search-field { min-width: 0; min-height: 44px; }
+    .study-abroad-search-field-icon { width: 36px; font-size: 16px; }
+    .study-abroad-search-field input { min-width: 0; height: 44px; padding-right: 34px; font-size: 13px; }
+    .study-abroad-search-clear { right: 3px; width: 30px; height: 30px; }
+    .study-abroad-search-button { width: auto; min-width: 92px; min-height: 44px; padding-inline: 12px; font-size: 12px; }
+}
+
+@media (max-width: 360px) {
+    .header-auth { gap: 4px; }
+    .notification-btn,
+    .header-login-button,
+    .header-register-button,
+    .header-user-button { min-width: 38px; min-height: 40px; padding-inline: 7px; }
+    .notification-btn { width: 38px; flex-basis: 38px; }
+    .community-promo-people { display: none; }
+    .community-promo-cta { padding-inline: 6px; }
+    .hero-overlay { padding: 28px 12px 22px; }
+    .hero-search { grid-template-columns: minmax(0, 1fr); }
+    .hero-search-btn { width: 100%; }
+    .study-abroad-search-box { flex-direction: column; }
+    .study-abroad-search-field { width: 100%; }
+    .study-abroad-search-button { width: 100%; }
+}

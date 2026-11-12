@@ -19,6 +19,10 @@ export default function Navbar() {
 
         <div class="navbar-container" id="educonnect-primary-navigation">
 
+            <a href="/community" class="navbar-link navbar-community-mobile" aria-label="Community">
+                <span class="navbar-mobile-icon" aria-hidden="true">◎</span><span>Community</span>
+            </a>
+
 
             <!-- =================================================
                  HOME
@@ -29,7 +33,7 @@ export default function Navbar() {
                 class="navbar-link"
                 aria-label="Home - ALL IN ONE Education Platform"
             >
-                Home
+                <span class="navbar-mobile-icon" aria-hidden="true">⌂</span><span>Home</span>
             </a>
 
 
@@ -43,10 +47,12 @@ export default function Navbar() {
                     href="/#schools"
                     class="navbar-link navbar-dropdown-link"
                     data-auth-required="true"
+                    aria-expanded="false"
                     aria-label="Schools"
                 >
 
                     <span>
+                        <span class="navbar-mobile-icon" aria-hidden="true">▤</span>
                         Schools
                     </span>
 
@@ -103,10 +109,12 @@ export default function Navbar() {
                     href="/#colleges"
                     class="navbar-link navbar-dropdown-link"
                     data-auth-required="true"
+                    aria-expanded="false"
                     aria-label="Colleges and Universities"
                 >
 
                     <span>
+                        <span class="navbar-mobile-icon" aria-hidden="true">▥</span>
                         Colleges
                     </span>
 
@@ -157,7 +165,7 @@ export default function Navbar() {
                 class="navbar-link"
                 aria-label="Study Abroad Programs"
             >
-                Study Abroad
+                <span class="navbar-mobile-icon" aria-hidden="true">◎</span><span>Study Abroad</span>
             </a>
 
             <a
@@ -165,7 +173,7 @@ export default function Navbar() {
                 class="navbar-link"
                 aria-label="Online Education Programs"
             >
-                Online Education
+                <span class="navbar-mobile-icon" aria-hidden="true">▣</span><span>Online Education</span>
             </a>
 
 
@@ -180,7 +188,7 @@ export default function Navbar() {
                 data-auth-required="true"
                 aria-label="Education Jobs and Career Opportunities"
             >
-                Jobs
+                <span class="navbar-mobile-icon" aria-hidden="true">↗</span><span>Jobs</span>
             </a>
 
 
@@ -201,7 +209,7 @@ export default function Navbar() {
                 data-auth-required="true"
                 aria-label="Latest Education News"
             >
-                News
+                <span class="navbar-mobile-icon" aria-hidden="true">▤</span><span>News</span>
             </a>
 
 
@@ -215,7 +223,7 @@ export default function Navbar() {
                 data-auth-required="true"
                 aria-label="Education Certificates"
             >
-                Certificates
+                <span class="navbar-mobile-icon" aria-hidden="true">✓</span><span>Certificates</span>
             </a>
 
 
@@ -229,7 +237,7 @@ export default function Navbar() {
                 data-auth-required="true"
                 aria-label="Online Courses and Education"
             >
-                Online Courses
+                <span class="navbar-mobile-icon" aria-hidden="true">▶</span><span>Online Courses</span>
             </a>
 
 
@@ -244,7 +252,7 @@ export default function Navbar() {
                 data-auth-required="true"
                 aria-label="Scholarships and Financial Aid"
             >
-                Scholarships
+                <span class="navbar-mobile-icon" aria-hidden="true">✦</span><span>Scholarships</span>
             </a>
 
 
@@ -259,7 +267,7 @@ export default function Navbar() {
                 data-partner-login
                 aria-label="Partner Login"
             >
-                Partners Login
+                <span class="navbar-mobile-icon" aria-hidden="true">↗</span><span>Partners Login</span>
             </a>
 
 

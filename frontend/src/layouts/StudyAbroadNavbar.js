@@ -1192,6 +1192,15 @@ export default function StudyAbroadNavbar() {
                    COUNTRY SWITCHING
                 ========================================== */
 
+                const countryListToggle = event.target.closest("[data-country-list-toggle]");
+                if (countryListToggle && window.matchMedia("(max-width: 600px)").matches) {
+                    event.preventDefault();
+                    const countryMega = countryListToggle.closest(".edu-country-mega");
+                    const isCollapsed = countryMega?.classList.toggle("country-list-collapsed");
+                    countryListToggle.setAttribute("aria-expanded", String(!isCollapsed));
+                    return;
+                }
+
                 const countryButton =
                     event.target.closest(
                         ".edu-country-item"
@@ -1216,6 +1225,16 @@ export default function StudyAbroadNavbar() {
 
                     if (!mega) {
                         return;
+                    }
+
+                    if (window.matchMedia("(max-width: 600px)").matches) {
+                        const listToggle = mega.querySelector("[data-country-list-toggle]");
+                        const countryLabel = countryButton.querySelector("span:first-child")?.textContent?.trim();
+                        mega.classList.add("country-list-collapsed");
+                        if (listToggle) {
+                            listToggle.setAttribute("aria-expanded", "false");
+                            listToggle.textContent = `Explore Countries · ${countryLabel || "Selected"}`;
+                        }
                     }
 
 
@@ -1551,11 +1570,14 @@ export default function StudyAbroadNavbar() {
                                     class="edu-country-sidebar"
                                 >
 
-                                    <div
+                                    <button
+                                        type="button"
                                         class="edu-country-sidebar-title"
+                                        data-country-list-toggle
+                                        aria-expanded="true"
                                     >
                                         Explore Countries
-                                    </div>
+                                    </button>
 
 <button
                                         type="button"

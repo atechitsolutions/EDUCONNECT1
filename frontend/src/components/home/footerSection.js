@@ -1,9 +1,16 @@
-function FooterColumn({ title, links = [] }) {
+function FooterColumn({ title, links = [], mobile = false }) {
+    const accordionId = `footer-links-${mobile ? "mobile-" : ""}${title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
     return `
-        <div class="footer-column">
-            <h3>${title}</h3>
+        <div class="footer-column${mobile ? " footer-mobile-column" : ""}">
+            <h3>
+                <span class="footer-column-title">${title}</span>
+                <button class="footer-accordion-toggle" type="button" aria-expanded="false" aria-controls="${accordionId}">
+                    <span>${title}</span>
+                    <svg class="footer-accordion-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m3 6 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </h3>
 
-            <ul>
+            <ul id="${accordionId}">
                 ${links
                     .map(
                         (link) => `
@@ -54,6 +61,36 @@ export function FooterSection() {
 
     const footerDescription = pageFooter?.description || "Your education platform to discover top schools, colleges, universities, courses, scholarships, education rankings, jobs, careers and study abroad opportunities in India.";
 
+    const pageLinks = pageFooter?.columns || [];
+    const findPageLinks = (title) => pageLinks.find((column) => column.title === title)?.links || [];
+    const mobileFooterColumns = [
+        { title: "Education", links: [
+            { label: "Pre Schools", href: "/#pre-school" }, { label: "Top Schools in India", href: "/#schools" },
+            { label: "Top Colleges in India", href: "/#colleges" }, { label: "Top Universities in India", href: "/#colleges" },
+            { label: "Online Education", href: "/online-education" }, { label: "Distance Education", href: "/online-education" },
+            ...findPageLinks("Online learning"), ...findPageLinks("Study paths")
+        ] },
+        { title: "Explore", links: [
+            { label: "Study Abroad for Indian Students", href: "/study-abroad" }, { label: "Scholarships in India", href: "/#scholarships" },
+            { label: "Top Education Lists", href: "/#top-lists" }, { label: "Education Rankings", href: "/#rankings" },
+            { label: "Student & Parent Reviews", href: "/#student-reviews" }, { label: "Compare Colleges in India", href: "/#institution-comparison" },
+            ...findPageLinks("Discover"), ...findPageLinks("Get started").filter((link) => link.label !== "Student community")
+        ] },
+        { title: "Career", links: [
+            { label: "Jobs & Career Opportunities", href: "/#top-companies" }, { label: "Career Resources", href: "/#top-companies" },
+            { label: "Education Loans", href: "/#education-loans" }, { label: "Education Guidance", href: "/#education-categories" },
+            { label: "Online & Professional Courses", href: "/online-education" }, { label: "Online Certifications", href: "/online-education" }
+        ] },
+        { title: "Platform", links: [
+            { label: "Student Community", href: "/community" }, { label: "Education News", href: "/#news" },
+            { label: "Education Current Affairs", href: "/#current-affairs" }, { label: "College Rankings in India", href: "/#rankings" },
+            { label: "Student & Parent Reviews", href: "/#student-reviews" }, { label: "EduConnect home", href: "/" },
+            ...findPageLinks("Community"), ...findPageLinks("Your space"),
+            ...findPageLinks("Get started").filter((link) => link.label === "Student community")
+        ] }
+    ].map((column) => ({ ...column, links: column.links.filter((link, index, links) => links.findIndex((item) => item.label === link.label && item.href === link.href) === index) }));
+    const mobileFooter = `<nav class="footer-mobile-groups" aria-label="Footer links">${mobileFooterColumns.map((column) => FooterColumn({ ...column, mobile: true })).join("")}</nav>`;
+
     if (pageFooter) {
         return `
             <footer class="site-footer ${pageFooter.className}" id="footer">
@@ -67,10 +104,12 @@ export function FooterSection() {
                 </section>
                 <div class="page-specific-footer-main">
                     <div class="page-specific-footer-intro">
+                        <div class="footer-mobile-logo">EduConnect</div>
                         <span>${isOnlineEducation ? "ONLINE LEARNING" : "STUDENT COMMUNITY"}</span>
                         <p>${footerDescription}</p>
                     </div>
                     ${pageFooter.columns.map((column) => FooterColumn(column)).join("")}
+                    ${mobileFooter}
                 </div>
                 <div class="page-specific-footer-bottom">
                     <span>${isOnlineEducation ? "Explore learning that fits your life." : "Connect, learn and grow together."}</span>
@@ -169,6 +208,8 @@ export function FooterSection() {
                         { label: "EduConnect home", href: "/" }
                     ]
                 })}
+
+                ${mobileFooter}
 
             </div>
 

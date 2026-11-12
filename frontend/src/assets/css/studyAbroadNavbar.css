@@ -1012,12 +1012,20 @@
 }
 
 .edu-country-sidebar-title {
+    width: 100%;
     min-height: 76px;
 
     padding: 0 28px;
 
     display: flex;
     align-items: center;
+
+    appearance: none;
+    border: 0;
+    background: transparent;
+    font-family: inherit;
+    text-align: left;
+    cursor: default;
 
     color: #ffffff;
 
@@ -2548,3 +2556,105 @@
     transform: translateY(-1px);
 }
 .edu-university-grid .edu-university-card-details span { font-size: 17px; }
+
+/* Compact phone-only Study Abroad accordions and destination selector. */
+@media (max-width: 600px) {
+    .edu-study-nav-inner { position: relative; width: calc(100% - 16px); min-height: 58px; gap: 8px; }
+    .edu-study-brand { min-height: 42px; font-size: 13px; }
+    .edu-study-brand-mark { width: 32px; height: 32px; flex-basis: 32px; }
+    .edu-study-nav-actions { gap: 6px; }
+    .edu-study-mobile-button { width: 42px; height: 42px; flex-basis: 42px; border-radius: 11px; }
+    .edu-study-menu {
+        top: calc(100% + 5px);
+        left: 8px;
+        right: 8px;
+        display: none;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
+        justify-content: stretch;
+        gap: 5px;
+        max-height: min(60dvh, 440px);
+        padding: 8px;
+        overflow: visible;
+        border: 1px solid rgba(203,213,225,.9);
+        border-radius: 14px;
+        background: rgba(255,255,255,.98);
+        box-shadow: 0 16px 38px rgba(15,23,42,.16);
+    }
+    .edu-study-menu.is-open { display: grid; }
+    .edu-study-nav-item { width: 100%; min-width: 0; }
+    .edu-study-nav-button {
+        width: 100%;
+        min-width: 0;
+        min-height: 40px;
+        justify-content: space-between;
+        gap: 5px;
+        padding: 0 9px;
+        border: 1px solid rgba(37,99,235,.11);
+        border-radius: 10px;
+        background: #f7f9ff;
+        font-size: 11px;
+        white-space: normal;
+        text-align: left;
+    }
+    .edu-study-nav-button span { width: 13px; height: 13px; flex: 0 0 13px; font-size: 13px; }
+    .edu-study-mega,
+    .edu-country-mega {
+        top: calc(100% + 5px);
+        left: 8px;
+        width: calc(100% - 16px);
+        max-width: none;
+        max-height: min(72dvh, 570px);
+        overflow: auto;
+        overscroll-behavior: contain;
+        border-radius: 14px;
+    }
+    .edu-study-mega-inner,
+    .edu-country-mega-inner { min-width: 0; }
+    .edu-country-sidebar {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 3px;
+        max-height: 185px;
+        padding: 7px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+    }
+    .edu-country-sidebar-title {
+        grid-column: 1 / -1;
+        width: 100%;
+        min-height: 38px;
+        padding: 5px 9px;
+        border: 0;
+        border-bottom: 1px solid rgba(255,255,255,.1);
+        background: transparent;
+        color: #fff;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 750;
+        text-align: left;
+        cursor: pointer;
+    }
+    .edu-country-sidebar-title::after { content: "⌄"; margin-left: auto; font-size: 14px; }
+    .edu-country-mega.country-list-collapsed .edu-country-sidebar { max-height: 50px; overflow: hidden; }
+    .edu-country-mega.country-list-collapsed .edu-country-sidebar > .edu-country-item { display: none; }
+    .edu-country-mega.country-list-collapsed .edu-country-sidebar-title { border-bottom: 0; }
+    .edu-country-item {
+        min-width: 0;
+        min-height: 38px;
+        gap: 3px;
+        padding: 5px 8px;
+        border-radius: 8px;
+        font-size: 10px;
+        line-height: 1.2;
+    }
+    .edu-country-item:hover { padding-left: 8px; }
+    .edu-country-item > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+    .edu-country-arrow { flex: 0 0 auto; font-size: 15px; }
+    .edu-country-content { max-height: 38dvh; padding: 10px; overflow-y: auto; }
+    .edu-country-heading { gap: 5px; }
+    .edu-country-heading h3 { font-size: 17px; }
+    .edu-country-chips { max-height: 100px; gap: 5px; overflow-y: auto; }
+    .edu-country-chips button { min-height: 34px; padding-inline: 9px; font-size: 10px; }
+    .edu-university-grid { grid-template-columns: 1fr; gap: 8px; }
+}

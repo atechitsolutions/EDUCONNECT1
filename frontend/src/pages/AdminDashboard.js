@@ -28,7 +28,7 @@ export default function AdminDashboardPage() {
 
                         <p>
                             Welcome ${user.fullName || "Admin"}.
-                            Manage homepage and Study Abroad content from one place.
+                            Manage EduConnect content and tools from one place.
                         </p>
                     </div>
 
@@ -66,6 +66,21 @@ export default function AdminDashboardPage() {
                         <strong>Manage Current Affairs →</strong>
                     </a>
 
+                    <!-- ONLINE EDUCATION -->
+                    <a
+                        class="admin-dashboard-card admin-dashboard-card-online-education"
+                        href="/online-education/admin"
+                    >
+                        <span>🎓</span>
+                        <h2>Online Education</h2>
+                        <p>
+                            Manage courses, learning pathways, universities,
+                            providers, subjects, platforms and related Online
+                            Education listings in one place.
+                        </p>
+                        <strong>Manage Online Education →</strong>
+                    </a>
+
                     <!-- STUDY ABROAD -->
                     <a
                         class="admin-dashboard-card"
@@ -86,21 +101,6 @@ export default function AdminDashboardPage() {
                         <h2>College Partners</h2>
                         <p>Create institution partner access, manage accounts and review verified subscription status.</p>
                         <strong>Manage College Partners →</strong>
-                    </a>
-
-                    <!-- ONLINE EDUCATION: NEW CARD -->
-                    <a
-                        class="admin-dashboard-card admin-dashboard-card-online-education"
-                        href="/online-education/admin"
-                    >
-                        <span>🎓</span>
-                        <h2>Online Education</h2>
-                        <p>
-                            Add, edit, archive and restore education
-                            cards, online courses, degree programmes,
-                            subjects, learning platforms and institutions.
-                        </p>
-                        <strong>Manage Online Education →</strong>
                     </a>
 
                     <!-- MORE MODULES -->

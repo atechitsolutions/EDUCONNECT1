@@ -1,0 +1,130 @@
+/* Mobile footer accordions. The existing desktop and tablet footer styles remain untouched. */
+.footer-mobile-groups,
+.footer-mobile-logo,
+.footer-accordion-toggle { display: none; }
+
+
+@media (max-width: 600px) {
+    .site-footer { overflow: hidden; }
+    .footer-container,
+    .page-specific-footer-main {
+        width: calc(100% - 32px) !important;
+        max-width: 520px !important;
+        min-width: 0 !important;
+        margin-inline: auto !important;
+        padding: 24px 0 16px !important;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) !important;
+        gap: 0 !important;
+    }
+    .footer-container > .footer-column:not(.footer-mobile-column),
+    .page-specific-footer-main > .footer-column:not(.footer-mobile-column) { display: none !important; }
+    .footer-brand,
+    .page-specific-footer-intro {
+        grid-column: auto !important;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0 0 18px;
+    }
+    .footer-logo,
+    .footer-mobile-logo { display: block; margin: 0 0 8px; font-size: 22px; line-height: 1.1; font-weight: 800; letter-spacing: -.025em; color: #fff; }
+    .footer-mobile-logo { display: block; }
+    .footer-description,
+    .page-specific-footer-intro p { max-width: 100%; margin: 0; font-size: 12px; line-height: 1.55; color: rgba(235,244,255,.8); }
+    .page-specific-footer-intro > span { display: block; margin-bottom: 7px; font-size: 9px; letter-spacing: .14em; }
+
+    .footer-mobile-groups {
+        display: grid;
+        width: 100%;
+        min-width: 0;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+        margin: 0;
+        border-top: 1px solid rgba(220,235,255,.18);
+    }
+    .footer-column.footer-mobile-column {
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        border-bottom: 1px solid rgba(220,235,255,.18);
+    }
+    .footer-mobile-column h3 { margin: 0 !important; font-size: inherit !important; }
+    .footer-mobile-column .footer-column-title { display: none; }
+    .footer-mobile-column .footer-accordion-toggle {
+        display: flex;
+        width: 100%;
+        min-height: 44px;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 8px 2px;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        color: #f7faff;
+        font: inherit;
+        font-size: 13px;
+        font-weight: 700;
+        text-align: left;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .footer-mobile-column .footer-accordion-toggle:focus-visible { outline: 2px solid #9bdcff; outline-offset: 2px; }
+    .footer-accordion-chevron { width: 15px; height: 15px; flex: 0 0 15px; color: #b8d9ff; transition: transform .2s ease; }
+    .footer-mobile-column.is-open .footer-accordion-chevron { transform: rotate(180deg); }
+    .footer-mobile-column ul {
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        margin: 0 !important;
+        padding: 0 4px 0 2px !important;
+        list-style: none;
+        opacity: 0;
+        visibility: hidden;
+        transition: max-height .24s ease, opacity .18s ease, padding .24s ease, visibility .24s;
+    }
+    .footer-mobile-column.is-open ul {
+        max-height: 480px;
+        padding: 0 4px 10px 2px !important;
+        opacity: 1;
+        visibility: visible;
+    }
+    .footer-mobile-column li { margin: 0 !important; }
+    .footer-mobile-column a {
+        display: block;
+        padding: 6px 0;
+        color: rgba(225,237,252,.82);
+        font-size: 12px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+        text-decoration: none;
+    }
+    .footer-mobile-column a:hover,
+    .footer-mobile-column a:focus-visible { color: #fff; }
+
+    .footer-bottom-container,
+    .page-specific-footer-bottom {
+        width: calc(100% - 32px) !important;
+        max-width: 520px;
+        min-width: 0;
+        margin-inline: auto;
+        min-height: 0;
+        padding: 13px 0 max(13px, env(safe-area-inset-bottom)) !important;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 9px;
+    }
+    .footer-bottom p,
+    .page-specific-footer-bottom > span { margin: 0; font-size: 10px; line-height: 1.45; }
+    .footer-legal,
+    .page-specific-footer-bottom .footer-legal { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 14px; }
+    .footer-legal a,
+    .page-specific-footer-bottom .footer-legal a { font-size: 10px; line-height: 1.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .footer-accordion-chevron,
+    .footer-mobile-column ul { transition: none; }
+}

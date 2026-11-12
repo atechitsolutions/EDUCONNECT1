@@ -7,6 +7,27 @@ import { applyRouteSEO } from "./utils/routeSEO.js";
 import initScrollPlane
     from "./assets/js/scrollPlane.js";
 
+
+/* One-at-a-time mobile footer accordions; desktop/tablet footer columns remain static. */
+document.addEventListener("click", (event) => {
+    const button = event.target.closest(".footer-mobile-column .footer-accordion-toggle");
+    if (!button || !window.matchMedia("(max-width: 600px)").matches) return;
+
+    const column = button.closest(".footer-mobile-column");
+    const groups = button.closest(".footer-mobile-groups");
+    if (!column || !groups) return;
+
+    const shouldOpen = button.getAttribute("aria-expanded") !== "true";
+    groups.querySelectorAll(".footer-mobile-column").forEach((item) => {
+        item.classList.remove("is-open");
+        item.querySelector(".footer-accordion-toggle")?.setAttribute("aria-expanded", "false");
+    });
+    if (shouldOpen) {
+        column.classList.add("is-open");
+        button.setAttribute("aria-expanded", "true");
+    }
+});
+
 /* =========================================================
    GLOBAL CSS
 ========================================================= */
@@ -227,6 +248,7 @@ import "./assets/css/workspace-surfaces.css";
 import "./assets/css/social-footer.css";
 import "./assets/css/responsive-system.css";
 import "./assets/css/iridescent-buttons.css";
+import "./assets/css/footer-mobile.css";
 
 /* =========================================================
    APPLICATION INITIALIZATION
@@ -266,18 +288,50 @@ document.addEventListener(
         applyRouteSEO();
 
         const primaryNavigation = document.querySelector("#educonnect-primary-navigation");
-        const navigationToggle = document.querySelector(".navbar-menu-toggle");
+        const navigationToggles = [...document.querySelectorAll(".navbar-menu-toggle, .mobile-header-menu-toggle")];
 
-        if (primaryNavigation && navigationToggle) {
-            navigationToggle.addEventListener("click", () => {
-                const expanded = navigationToggle.getAttribute("aria-expanded") === "true";
-                navigationToggle.setAttribute("aria-expanded", String(!expanded));
-                primaryNavigation.classList.toggle("is-open", !expanded);
+        if (primaryNavigation && navigationToggles.length) {
+            const currentPath = window.location.pathname.replace(/\/$/, "") || "/";
+            primaryNavigation.querySelectorAll("a[href]").forEach((link) => {
+                try {
+                    const linkUrl = new URL(link.href, window.location.origin);
+                    const linkPath = linkUrl.pathname.replace(/\/$/, "") || "/";
+                    if (linkPath === currentPath && !linkUrl.hash) link.setAttribute("aria-current", "page");
+                } catch { /* Ignore non-route links. */ }
+            });
+
+            navigationToggles.forEach((navigationToggle) => {
+                navigationToggle.addEventListener("click", () => {
+                    const expanded = navigationToggle.getAttribute("aria-expanded") === "true";
+                    navigationToggles.forEach((toggle) => {
+                        toggle.setAttribute("aria-expanded", String(!expanded));
+                        toggle.setAttribute("aria-label", expanded ? "Open main navigation" : "Close main navigation");
+                    });
+                    primaryNavigation.classList.toggle("is-open", !expanded);
+                    if (expanded) {
+                        primaryNavigation.querySelectorAll(".navbar-dropdown.is-open").forEach((item) => item.classList.remove("is-open"));
+                        primaryNavigation.querySelectorAll(".navbar-dropdown-link[aria-expanded='true']").forEach((link) => link.setAttribute("aria-expanded", "false"));
+                    }
+                });
             });
 
             primaryNavigation.addEventListener("click", (event) => {
+                const dropdownLink = event.target.closest(".navbar-dropdown-link");
+                if (dropdownLink && window.matchMedia("(max-width: 600px)").matches) {
+                    const dropdown = dropdownLink.closest(".navbar-dropdown");
+                    if (dropdown && !dropdown.classList.contains("is-open")) {
+                        event.preventDefault();
+                        primaryNavigation.querySelectorAll(".navbar-dropdown.is-open").forEach((item) => item.classList.remove("is-open"));
+                        primaryNavigation.querySelectorAll(".navbar-dropdown-link[aria-expanded='true']").forEach((link) => link.setAttribute("aria-expanded", "false"));
+                        dropdown.classList.add("is-open");
+                        dropdownLink.setAttribute("aria-expanded", "true");
+                        return;
+                    }
+                }
                 if (event.target.closest("a") && window.matchMedia("(max-width: 768px)").matches) {
-                    navigationToggle.setAttribute("aria-expanded", "false");
+                    navigationToggles.forEach((toggle) => toggle.setAttribute("aria-expanded", "false"));
+                    primaryNavigation.querySelectorAll(".navbar-dropdown.is-open").forEach((item) => item.classList.remove("is-open"));
+                    primaryNavigation.querySelectorAll(".navbar-dropdown-link[aria-expanded='true']").forEach((link) => link.setAttribute("aria-expanded", "false"));
                     primaryNavigation.classList.remove("is-open");
                 }
             });

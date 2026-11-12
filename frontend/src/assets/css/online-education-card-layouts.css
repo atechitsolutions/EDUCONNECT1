@@ -1414,3 +1414,123 @@
        flex: 0 0 190px !important;
        box-sizing: border-box !important;
    }
+
+/* Reclaim mobile card space overridden by legacy fixed image and action sizes. */
+@media (max-width: 600px) {
+    .oe-page .oe-programme-card.oe-course-card {
+        min-width: 0;
+        padding: 12px;
+        border-radius: 15px;
+    }
+    .oe-page .oe-course-card-main {
+        grid-template-columns: 94px minmax(0, 1fr);
+        align-items: start;
+        gap: 11px;
+        padding-bottom: 11px;
+    }
+    .oe-page .oe-course-card-media,
+    .oe-page .oe-institution-card .oe-course-card-media {
+        width: 94px !important;
+        min-width: 94px !important;
+        max-width: 94px !important;
+        height: 112px !important;
+        min-height: 112px !important;
+        max-height: 112px !important;
+        flex: 0 0 94px !important;
+        aspect-ratio: auto;
+        border-radius: 11px;
+    }
+    .oe-page .oe-course-card-media img,
+    .oe-page .oe-course-card-image,
+    .oe-page .oe-course-card-media .oe-programme-image,
+    .oe-page .oe-course-card-monogram {
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        margin: 0;
+        object-fit: cover;
+        border-radius: inherit;
+    }
+    .oe-page .oe-course-card-title,
+    .oe-page .oe-institution-card h3,
+    .oe-page .oe-institution-card h2 {
+        margin: 0 0 5px;
+        font-size: 16px;
+        line-height: 1.28;
+        overflow-wrap: anywhere;
+    }
+    .oe-page .oe-course-card-location { margin-bottom: 4px; font-size: 9px; letter-spacing: .04em; }
+    .oe-page .oe-course-card-provider { margin-bottom: 7px; font-size: 12px; line-height: 1.35; }
+    .oe-page .oe-course-card-tags { gap: 4px; margin-bottom: 7px; }
+    .oe-page .oe-course-card-tags span { padding: 3px 6px; font-size: 10px; line-height: 1.25; }
+    .oe-page .oe-course-card-fee,
+    .oe-page .oe-course-card-eligibility { margin-block: 4px; font-size: 11px; }
+    .oe-page .oe-course-card-footer { padding-top: 9px; }
+    .oe-page .oe-course-card-actions,
+    .oe-page .oe-institution-card .oe-institution-actions,
+    .oe-page .oe-institution-card .oe-institution-actions-enhanced {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        align-items: stretch;
+        justify-content: stretch !important;
+        gap: 7px !important;
+        width: 100%;
+    }
+    .oe-page .oe-course-card-actions .oe-button,
+    .oe-page .oe-institution-card .oe-institution-actions .oe-button,
+    .oe-page .oe-institution-card .oe-institution-actions-enhanced .oe-button,
+    .oe-page .oe-institution-card .oe-institution-actions button,
+    .oe-page .oe-institution-card .oe-institution-actions a {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        min-height: 42px !important;
+        height: auto !important;
+        max-height: none !important;
+        flex: initial !important;
+        padding: 7px 5px !important;
+        font-size: 11px !important;
+        line-height: 1.2 !important;
+        white-space: normal;
+        text-align: center;
+    }
+    .oe-page .oe-institution-card .oe-course-card-main { padding-bottom: 10px; }
+    .oe-page .oe-programme-card .oe-programme-card-actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+        padding-top: 10px;
+    }
+    .oe-page .oe-programme-card .oe-programme-card-actions a,
+    .oe-page .oe-programme-card .oe-programme-card-actions button {
+        min-height: 42px;
+        padding: 8px 5px;
+        font-size: 11px;
+    }
+    .oe-page .oe-institution-filters,
+    .oe-page .oe-filters {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+        margin-bottom: 12px;
+        padding: 11px;
+    }
+    .oe-page .oe-institution-filters .oe-button,
+    .oe-page .oe-filters .oe-button { width: 100%; min-height: 42px; }
+    .oe-page #oe-programme-results,
+    .oe-page #oe-institution-results { min-width: 0; }
+}
+
+@media (max-width: 360px) {
+    .oe-page .oe-course-card-main { grid-template-columns: minmax(0, 1fr); }
+    .oe-page .oe-course-card-media,
+    .oe-page .oe-institution-card .oe-course-card-media {
+        width: 100% !important;
+        max-width: none !important;
+        height: 132px !important;
+        min-height: 132px !important;
+        max-height: 132px !important;
+    }
+    .oe-page .oe-course-card-actions,
+    .oe-page .oe-institution-card .oe-institution-actions,
+    .oe-page .oe-institution-card .oe-institution-actions-enhanced,
+    .oe-page .oe-programme-card .oe-programme-card-actions { grid-template-columns: minmax(0, 1fr); }
+}
