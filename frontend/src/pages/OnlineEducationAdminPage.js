@@ -1,5 +1,6 @@
 import { renderOnlineEducationCardPreview } from "../assets/js/onlineEducationCustomCards.js";
 import { onlineEducationDefaultCards } from "../data/onlineEducationDefaultCards.js";
+import { getCurrentUser } from "../services/authService.js";
 
 import {
     deleteOnlineEducationCard,
@@ -793,10 +794,26 @@ export function initOnlineEducationAdminPage() {
         );
     });
 }
-
 export default function OnlineEducationAdminPage() {
+    const user = getCurrentUser();
+
+    if (!user || user.role !== "ADMIN") {
+        return `
+            <main class="admin-access-denied">
+                <section>
+                    <h1>Admin Access Required</h1>
+                    <p>Please log in with an administrator account.</p>
+                    <a href="/">Return to EduConnect</a>
+                </section>
+            </main>
+        `;
+    }
+
     return `
         <main class="oe-admin-page">
+
+
+
             <div class="oe-admin-container">
 
                 <header class="oe-admin-header">
@@ -810,9 +827,14 @@ export default function OnlineEducationAdminPage() {
                         </p>
                     </div>
 
-                    <a href="/online-education" class="oe-button oe-outline">
-                        View public page ↗
-                    </a>
+                                       <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                                           <a href="/admin" class="oe-button oe-outline">
+                                               ← Back to Admin Dashboard
+                                           </a>
+                                           <a href="/online-education" class="oe-button oe-outline">
+                                               View public page ↗
+                                           </a>
+                                       </div>
                 </header>
 
                 <section

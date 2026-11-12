@@ -150,7 +150,7 @@ export default function OnlineEducationPage() {
 
               <a href="#oe-universities">Universities</a>
               <a href="#oe-programmes">Compare</a>
-              <a href="/online-education/admin">Admin</a>
+
 
               <a class="oe-nav-cta" href="#oe-programmes">
                 Find a course <span aria-hidden="true">↗</span>
