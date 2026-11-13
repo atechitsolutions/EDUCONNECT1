@@ -250,6 +250,8 @@ import "./assets/css/social-footer.css";
 import "./assets/css/responsive-system.css";
 import "./assets/css/iridescent-buttons.css";
 import "./assets/css/footer-mobile.css";
+import "./assets/css/home-card-swipe.css";
+import initHomeCardSwipe from "./assets/js/homeCardSwipe.js";
 
 /* =========================================================
    APPLICATION INITIALIZATION
@@ -520,6 +522,8 @@ document.addEventListener(
         ) {
             initCompareCollegeCarousel();
         }
+
+        initHomeCardSwipe();
 
         /* =====================================================
            PREMIUM CURSOR
@@ -875,3 +879,6 @@ document.addEventListener(
 
     }
 );
+
+
+

@@ -1,20 +1,22 @@
 import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
 import { getPublishedNews } from "../../services/homeContent.js";
+import { initNewsCarousel } from "../../assets/js/newsCarousel.js";
 
 function createNewsCard(news, index) {
     return InstitutionCard({
         item: {
-            id: news.id,
+            id: "",
             rank: String(index + 1).padStart(2, "0"),
             name: news.title,
             category: news.category,
             location: news.country || "India",
             program: news.subtitle || "Education News",
             ranking: news.description || "",
-            highlight: "Published on StepInStudents",
+            highlight: news.imageCredit ? `<small class="news-image-credit">${news.imageCredit}</small>` : "Published on StepInStudents",
             image: news.imageUrl || "",
-            actionLabel: "Read Full News",
+            actionLabel: news.actionLabel || "Read Full News",
+            actionHref: news.sourceUrl || "",
             showCompare: false
         },
         type: "education-news"
@@ -103,7 +105,43 @@ export function NewsSection() {
 
         try {
             const response = await getPublishedNews();
-            const items = Array.isArray(response) ? response : [];
+            const publishedItems = Array.isArray(response) ? response : [];
+            const currentStories = [
+                {
+                    title: "MIT develops faster, more reliable AI models for climate prediction",
+                    subtitle: "November 12, 2026 · MIT News",
+                    description: "A new training method helps climate emulators adapt to scenarios they did not see during training, using far less data.",
+                    category: "Research & technology",
+                    country: "United States",
+                    imageUrl: "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202611/MIT-Climate-Emulation-01_0.jpg?itok=G0a7yGB9",
+                    sourceUrl: "https://news.mit.edu/2026/new-research-could-lead-faster-trustworthy-ai-models-climate-prediction-1112",
+                    actionLabel: "Read at MIT News",
+                    imageCredit: "Image: UCAR; MIT News"
+                },
+                {
+                    title: "MIT and Northeastern researchers design tougher nature-inspired materials",
+                    subtitle: "November 11, 2026 · MIT News",
+                    description: "A network-inspired material design could improve impact absorption in products such as helmets, packaging, and armor.",
+                    category: "University research",
+                    country: "United States",
+                    imageUrl: "https://news.mit.edu/sites/default/files/download/202611/MIT-MultiMeta-01-Press.jpg",
+                    sourceUrl: "https://news.mit.edu/2026/engineers-design-stronger-resilient-nature-inspired-metamaterials-1111",
+                    actionLabel: "Read at MIT News",
+                    imageCredit: "Photo: Rishi Kommalapati / MIT"
+                },
+                {
+                    title: "MIT welcomes seven new faculty to its College of Computing",
+                    subtitle: "November 10, 2026 · MIT News",
+                    description: "New faculty will work across AI, quantum computing, environmental science, human-AI interaction, and economics.",
+                    category: "Campus & education",
+                    country: "United States",
+                    imageUrl: "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202610/26-27%20SCC%20Faculty%20copy.png?itok=cxHnBrCa",
+                    sourceUrl: "https://news.mit.edu/2026/mit-schwarzman-college-computing-welcomes-new-faculty-1110",
+                    actionLabel: "Read at MIT News",
+                    imageCredit: "Photos courtesy of the faculty / MIT"
+                }
+            ];
+            const items = [...currentStories, ...publishedItems];
 
             if (count) {
                 count.textContent = String(items.length);
@@ -121,8 +159,12 @@ export function NewsSection() {
             track.innerHTML = items
                 .map(createNewsCard)
                 .join("");
+            track.querySelectorAll(".institution-card-visual > img").forEach((image) => {
+                image.addEventListener("error", () => { image.hidden = true; }, { once: true });
+            });
 
             bindNewsNavigation(track);
+            initNewsCarousel();
         } catch (error) {
             console.error("Failed to load homepage news:", error);
             track.innerHTML = `

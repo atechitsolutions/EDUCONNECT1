@@ -128,3 +128,179 @@
     .footer-accordion-chevron,
     .footer-mobile-column ul { transition: none; }
 }
+
+/* Keep the mobile navigation drawer aligned across regular and dropdown links. */
+@media (max-width: 600px) {
+    :root body .navbar-container { align-items: stretch !important; }
+    :root body .navbar-container > .navbar-link,
+    :root body .navbar-container > .navbar-partner-login,
+    :root body .navbar-container .navbar-dropdown,
+    :root body .navbar-container .navbar-dropdown > .navbar-link {
+        width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+    }
+    :root body .navbar-container .navbar-dropdown { flex: 0 0 100% !important; }
+    :root body .navbar-container .navbar-dropdown > .navbar-link { display: flex !important; }
+
+    /* Branded, full-width footer accordions matching the mobile footer reference. */
+    :root body .footer-mobile-column .footer-accordion-toggle {
+        display: flex !important;
+        width: 100% !important;
+        min-height: 44px !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 0 16px !important;
+        border: 1px solid rgba(176,202,238,.72) !important;
+        border-radius: 999px !important;
+        color: #18365d !important;
+        background: #fff !important;
+        text-align: left !important;
+        box-shadow: 0 3px 10px rgba(12,38,75,.12), inset 0 1px #fff !important;
+    }
+    :root body .footer-mobile-column h3 { margin: 0 !important; }
+    :root body .footer-mobile-column { padding: 5px 0 !important; border: 0 !important; }
+    :root body .footer-accordion-chevron { color: #3478e5 !important; }
+}
+
+/* Plain dark-footer accordion labels, matching the requested mobile reference. */
+@media (max-width: 600px) {
+    :root body .footer-mobile-column .footer-accordion-toggle {
+        display: flex !important;
+        width: 100% !important;
+        min-height: 32px !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 4px 2px !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        color: #f5f7fb !important;
+        background: transparent !important;
+        background-image: none !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        text-align: left !important;
+        text-shadow: none !important;
+        transform: none !important;
+        filter: none !important;
+    }
+    :root body .footer-mobile-column .footer-accordion-toggle:hover,
+    :root body .footer-mobile-column .footer-accordion-toggle:active {
+        color: #fff !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        transform: none !important;
+        filter: none !important;
+    }
+    :root body .footer-mobile-column { padding: 2px 0 !important; }
+    :root body .footer-accordion-chevron { width: 12px !important; height: 12px !important; color: #e5eaf2 !important; }
+}
+
+/* Complete mobile footer layout: brand, quick links, accordion list and bottom actions. */
+.footer-mobile-shortcuts,
+.footer-mobile-explore-links,
+.footer-mobile-actions { display: none; }
+
+@media (max-width: 600px) {
+    :root body .site-footer { background: #171c25 !important; }
+    :root body .footer-mobile-logo,
+    :root body .footer-logo { color: #ff3150 !important; font-size: 23px !important; font-weight: 800 !important; }
+    :root body .footer-mobile-shortcuts {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin: 14px 0 15px;
+    }
+    :root body .footer-mobile-shortcuts a {
+        display: grid;
+        width: 27px;
+        height: 27px;
+        place-items: center;
+        border: 1px solid rgba(255,255,255,.3);
+        border-radius: 50%;
+        color: #fff;
+        background: rgba(255,255,255,.08);
+        font-size: 14px;
+        line-height: 1;
+        text-decoration: none;
+    }
+    :root body .footer-mobile-explore-links {
+        display: grid;
+        gap: 7px;
+        margin: 0 0 17px;
+    }
+    :root body .footer-mobile-explore-links a {
+        display: flex;
+        min-height: 33px;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 5px 12px;
+        border: 1px solid rgba(231,237,247,.55);
+        border-radius: 999px;
+        color: #f6f7fa;
+        background: transparent;
+        font-size: 10px;
+        line-height: 1.2;
+        text-decoration: none;
+    }
+    :root body .footer-mobile-groups { margin-top: 4px; border-top: 0; }
+    :root body .footer-mobile-column { padding: 0 !important; }
+    :root body .footer-mobile-column .footer-accordion-toggle {
+        min-height: 29px !important;
+        padding: 3px 1px !important;
+        color: #f5f7fb !important;
+        font-size: 11px !important;
+    }
+    :root body .footer-mobile-column .footer-accordion-toggle:hover,
+    :root body .footer-mobile-column .footer-accordion-toggle:active {
+        background: transparent !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+    :root body .footer-accordion-chevron { width: 11px !important; height: 11px !important; }
+    :root body .footer-bottom-container,
+    :root body .page-specific-footer-bottom {
+        padding-bottom: 10px !important;
+        font-size: 9px;
+    }
+    :root body .footer-mobile-actions {
+        position: fixed;
+        z-index: 11000;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        padding: 9px max(14px, env(safe-area-inset-right)) max(9px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
+        border-top: 1px solid #e3e5e8;
+        background: #fff;
+        box-shadow: 0 -5px 18px rgba(13,24,39,.12);
+    }
+    :root body .footer-mobile-actions > a {
+        display: flex;
+        min-height: 40px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        border: 1px solid #5c626a;
+        border-radius: 6px;
+        color: #171b22;
+        background: #fff;
+        font-size: 11px;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    :root body .footer-mobile-actions > a:last-child {
+        border-color: #e51f3e;
+        color: #fff;
+        background: #e51f3e;
+    }
+    :root body .site-footer { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+    :root body .edu-assistant .ea-launcher { bottom: calc(76px + env(safe-area-inset-bottom)) !important; }
+    :root body .edu-assistant .ea-panel { bottom: calc(150px + env(safe-area-inset-bottom)) !important; }
+}

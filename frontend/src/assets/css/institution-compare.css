@@ -82,11 +82,11 @@
 .institution-compare-result { z-index: 1; }
 .institution-compare-controls label { display: grid; gap: 8px; color: #465974; font-size: 13px; font-weight: 700; }
 .institution-compare-controls > label:first-child::after {
-    min-height: 15px;
     content: "";
 }
-.institution-compare-controls > label:first-child { transform: translateY(4px); }
+.institution-compare-controls > label:first-child { transform: none; }
 .institution-compare-picker { position: relative; z-index: 1; display: grid; gap: 8px; min-width: 0; }
+.institution-compare-picker .institution-compare-search-status { position: absolute; top: calc(100% + 2px); left: 0; right: 0; min-height: 0; margin: 0; }
 .institution-compare-search { display: flex; height: 48px; min-height: 48px; box-sizing: border-box; overflow: hidden; border: 1px solid #d4e0ef; border-radius: 12px; background: #fff; transition: border-color .2s ease, box-shadow .2s ease; }
 .institution-compare-search:focus-within { border-color: #4388e6; box-shadow: 0 0 0 4px rgba(56, 131, 231, .13); }
 .institution-compare-search input { flex: 1; width: 100%; min-width: 0; padding: 0 8px 0 12px; border: 0; outline: 0; background: transparent; color: #172d4a; font: inherit; font-size: 13px; }
@@ -113,16 +113,19 @@
 .institution-compare-submit:focus-visible { outline: 3px solid #83b5ff; outline-offset: 2px; }
 .institution-compare-vs { align-self: center; padding-top: 19px; color: #8393a8; font-size: 12px; font-weight: 900; }
 .institution-compare-submit {
-    height: 50px;
-    min-height: 48px;
+    justify-self: start;
+    align-self: end;
+    width: max-content;
+    height: auto;
+    min-height: 0;
     box-sizing: border-box;
-    padding: 0 18px;
+    padding: 11px 14px;
     border: 0;
     border-radius: 12px;
     background: linear-gradient(120deg, #1059bd 0%, #2479e9 55%, #54a2ff 100%);
     color: white;
     font: inherit;
-    font-size: 15px;
+    font-size: 13px;
     line-height: 1.2;
     font-weight: 800;
     cursor: pointer;

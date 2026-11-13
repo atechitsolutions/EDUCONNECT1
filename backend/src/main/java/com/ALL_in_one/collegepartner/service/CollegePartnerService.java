@@ -104,11 +104,14 @@ public class CollegePartnerService {
         Map<String,Object> result = new LinkedHashMap<>(); result.put("collegeName", a.getInstitution().getName()); result.put("institutionId", iid);
         result.put("currentPlan", active.isPresent() ? "PREMIUM" : "FREE"); result.put("subscriptionStatus", subscriptionStatus(a.getId(), active).get("status")); result.put("billingInterval", active.map(s -> Objects.toString(s.getBillingInterval(),"MONTHLY")).orElse("FOREVER"));
         result.put("subscriptionActive", active.isPresent()); result.put("subscriptionStartsAt", active.map(CollegeSubscription::getStartsAt).orElse(null)); result.put("subscriptionExpiresAt", active.map(CollegeSubscription::getExpiresAt).orElse(null)); result.put("renewalAt", active.map(CollegeSubscription::getRenewalAt).orElse(null)); result.put("paymentStatus", active.map(s -> Objects.toString(s.getPaymentStatus(),"LEGACY")).orElse("NOT_REQUIRED")); result.put("checkoutAvailable", false);
+        // Safe aggregates are available to every partner; student-level information remains Premium-gated.
+        result.put("pageVisits30d", events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "PAGE_VIEW", since));
+        result.put("profileViews30d", events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "PROFILE_VIEW", since));
+        result.put("enquiries30d", enquiries.countByInstitution_IdAndCreatedAtAfter(iid, since));
         if (active.isPresent()) {
             long pageViews = events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "PAGE_VIEW", since);
-            result.put("pageVisits30d", events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "PAGE_VIEW", since)); result.put("uniqueVisitors30d", events.countUniqueVisitors(iid, since)); result.put("authenticatedStudents30d", events.countAuthenticatedStudents(iid, since));
-            result.put("profileViews30d", events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "PROFILE_VIEW", since)); result.put("enquiryClicks30d", events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "ENQUIRY_CLICK", since));
-            result.put("enquiries30d", enquiries.findByInstitution_IdOrderByCreatedAtDesc(iid).stream().filter(e -> e.getCreatedAt().isAfter(since)).count());
+            result.put("uniqueVisitors30d", events.countUniqueVisitors(iid, since)); result.put("authenticatedStudents30d", events.countAuthenticatedStudents(iid, since));
+            result.put("enquiryClicks30d", events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "ENQUIRY_CLICK", since));
             List<Map<String,Object>> daily = dailyVisits(iid, since);
             long weeklyVisits = daily.stream().filter(day -> LocalDate.parse((String)day.get("date")).isAfter(LocalDate.now().minusDays(7))).mapToLong(day -> ((Number)day.get("visits")).longValue()).sum();
             result.put("interestedStudents", enquiries.countByInstitution_Id(iid)); result.put("dailyVisits30d", daily); result.put("weeklyVisits", weeklyVisits); result.put("monthlyVisits", pageViews); result.put("opportunityAlerts", notifications.findByTargetInstitution_IdAndArchivedAtIsNullOrderByCreatedAtDesc(iid).size()); result.put("analyticsAvailable", true);

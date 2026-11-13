@@ -90,6 +90,9 @@ export function FooterSection() {
         ] }
     ].map((column) => ({ ...column, links: column.links.filter((link, index, links) => links.findIndex((item) => item.label === link.label && item.href === link.href) === index) }));
     const mobileFooter = `<nav class="footer-mobile-groups" aria-label="Footer links">${mobileFooterColumns.map((column) => FooterColumn({ ...column, mobile: true })).join("")}</nav>`;
+    const mobileShortcuts = `<nav class="footer-mobile-shortcuts" aria-label="StepInStudents quick links"><a href="/community" aria-label="Student community">◎</a><a href="/#news" aria-label="Education news">▤</a><a href="/online-education" aria-label="Online education">▣</a><a href="/study-abroad" aria-label="Study abroad">↗</a></nav>`;
+    const mobileExploreLinks = `<div class="footer-mobile-explore-links"><a href="/online-education">Explore Online Education <span aria-hidden="true">→</span></a><a href="/community">Join Student Community <span aria-hidden="true">→</span></a></div>`;
+    const mobileActions = `<nav class="footer-mobile-actions" aria-label="Quick actions"><a href="/#colleges">Explore Colleges</a><a href="/study-abroad">Study Abroad</a></nav>`;
 
     if (pageFooter) {
         return `
@@ -107,6 +110,8 @@ export function FooterSection() {
                         <div class="footer-mobile-logo">StepInStudents</div>
                         <span>${isOnlineEducation ? "ONLINE LEARNING" : "STUDENT COMMUNITY"}</span>
                         <p>${footerDescription}</p>
+                        ${mobileShortcuts}
+                        ${mobileExploreLinks}
                     </div>
                     ${pageFooter.columns.map((column) => FooterColumn(column)).join("")}
                     ${mobileFooter}
@@ -119,6 +124,7 @@ export function FooterSection() {
                         <a href="${isOnlineEducation ? "/community" : "/online-education"}">${isOnlineEducation ? "Community" : "Online education"}</a>
                     </div>
                 </div>
+                ${mobileActions}
             </footer>
         `;
     }
@@ -148,6 +154,8 @@ export function FooterSection() {
                     </div>
 
                     <p class="footer-description">${footerDescription}</p>
+                    ${mobileShortcuts}
+                    ${mobileExploreLinks}
 
                 </div>
 
@@ -234,6 +242,7 @@ export function FooterSection() {
                 </div>
 
             </div>
+            ${mobileActions}
 
         </footer>
     `;

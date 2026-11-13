@@ -10,7 +10,7 @@ export function initNewsCarousel() {
         );
 
 
-    if (!carousel) {
+    if (!carousel || carousel.dataset.carouselInitialized === "true") {
         return;
     }
 
@@ -58,6 +58,8 @@ export function initNewsCarousel() {
         return;
     }
 
+
+    carousel.dataset.carouselInitialized = "true";
 
     const originalCount =
         originalCards.length;

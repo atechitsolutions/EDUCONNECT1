@@ -1,0 +1,44 @@
+/* Native, touch-friendly card sliders for homepage sections. */
+#main-content .home-card-swipe {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    touch-action: pan-x pan-y;
+    cursor: grab;
+}
+
+#main-content .home-card-swipe::-webkit-scrollbar {
+    display: none;
+}
+
+#main-content .home-card-swipe.is-pointer-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    user-select: none;
+}
+
+#main-content .home-card-swipe-track {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    width: max-content !important;
+    min-width: max-content !important;
+    max-width: none !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    will-change: auto !important;
+}
+
+#main-content .home-card-swipe-track > * {
+    flex: 0 0 auto !important;
+    scroll-snap-align: start;
+}
+
+#main-content .home-card-swipe-track > .home-card-swipe-item {
+    scroll-snap-stop: always;
+}
+

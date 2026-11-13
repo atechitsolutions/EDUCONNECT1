@@ -14,3 +14,8 @@
 @media(max-width:700px){.cp-plan-grid{grid-template-columns:1fr}.cp-plan-card{padding:20px}.cp-subscription-facts{grid-template-columns:repeat(2,minmax(0,1fr))}.cp-analytics-summary{grid-template-columns:1fr}.cp-preview-grid{grid-template-columns:1fr 1fr}.cp-plan-price strong{font-size:38px}.cp-trend-day{min-width:30px}}
 @media(max-width:360px){.cp-subscription-facts,.cp-preview-grid{grid-template-columns:1fr}.cp-billing-toggle button{padding:8px 11px;font-size:12px}}
 @media(max-width:700px){.cp-dashboard #cp-subscription-history .cp-table-wrap{display:block;max-width:100%;overflow:auto}.cp-dashboard #cp-subscription-history .cp-table{min-width:540px}}
+
+/* Five premium analytics metrics, with responsive wrapping. */
+.cp-partner-kpis{grid-template-columns:repeat(5,minmax(0,1fr))}
+@media(max-width:1000px){.cp-partner-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.cp-partner-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
