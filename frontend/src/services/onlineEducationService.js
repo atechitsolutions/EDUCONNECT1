@@ -27,7 +27,7 @@ async function request(path = "", options = {}) {
         });
     } catch {
         throw new Error(
-            "Could not reach the EduConnect server. Start the backend and try again."
+            "Could not reach the StepInStudents server. Start the backend and try again."
         );
     }
 
@@ -285,7 +285,7 @@ export async function getOnlineEducationProgrammes() {
             .map((card) => ({
                 id: card.id,
                 title: card.title,
-                providerName: card.provider || "EduConnect listing",
+                providerName: card.provider || "StepInStudents listing",
                 providerType: "Institution",
                 subject: card.subject || "Other",
                 categories: [card.subject || "Other"],

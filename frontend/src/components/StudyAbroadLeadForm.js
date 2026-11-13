@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * EDUCONNECT — STUDY ABROAD LEAD FORM
+ * STEPINSTUDENTS — STUDY ABROAD LEAD FORM
  * ============================================================
  *
  * Purpose:

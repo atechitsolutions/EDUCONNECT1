@@ -1,11 +1,11 @@
 const answerFor = (question) => {
     const text = question.toLowerCase();
     if (/scholar|funding|grant|financial aid/.test(text)) return { text: "Explore scholarship options for international study, then confirm eligibility and deadlines with each university or provider.", label: "Explore study abroad", href: "/study-abroad#study-abroad-scholarships" };
-    if (/abroad|oversea|country|destination|visa|study in/.test(text)) return { text: "Compare study destinations, universities, courses, scholarships and application steps in EduConnect’s Study Abroad guide.", label: "Explore study abroad", href: "/study-abroad" };
+    if (/abroad|oversea|country|destination|visa|study in/.test(text)) return { text: "Compare study destinations, universities, courses, scholarships and application steps in StepInStudents’s Study Abroad guide.", label: "Explore study abroad", href: "/study-abroad" };
     if (/online|course|degree|certificate|diploma|subject|learn/.test(text)) return { text: "Browse online courses, certificates, diplomas and degree programmes by subject and education level.", label: "Explore online education", href: "/online-education" };
     if (/university|universities|college/.test(text)) return { text: "Compare university options in the Study Abroad section. Confirm entry requirements and fees directly with each institution.", label: "Compare destinations", href: "/study-abroad#study-abroad-destinations" };
     if (/application|apply|admission|requirement|deadline/.test(text)) return { text: "The Study Abroad guide covers common application steps. Requirements and deadlines vary, so verify them with your chosen institution.", label: "View application guide", href: "/study-abroad#study-abroad-application-process" };
-    return { text: "I can help you find online courses, study-abroad destinations, universities and scholarships. This preview uses EduConnect page guidance; an AI service is not connected yet." };
+    return { text: "I can help you find online courses, study-abroad destinations, universities and scholarships. This preview uses StepInStudents page guidance; an AI service is not connected yet." };
 };
 
 export function initWebsiteAssistant() {
@@ -14,10 +14,10 @@ export function initWebsiteAssistant() {
     const widget = document.createElement("section");
     widget.className = "edu-assistant";
     widget.innerHTML = `
-        <section class="ea-panel" id="edu-assistant-panel" role="dialog" aria-label="EduConnect assistant" aria-modal="false" hidden>
+        <section class="ea-panel" id="edu-assistant-panel" role="dialog" aria-label="StepInStudents assistant" aria-modal="false" hidden>
             <header class="ea-header">
                 <span class="ea-avatar" aria-hidden="true">✦</span>
-                <div class="ea-heading"><strong>EduConnect assistant</strong><span><i></i> Here to help you explore</span></div>
+                <div class="ea-heading"><strong>StepInStudents assistant</strong><span><i></i> Here to help you explore</span></div>
                 <button class="ea-close" type="button" aria-label="Close chat">×</button>
             </header>
             <div class="ea-messages" aria-live="polite" aria-relevant="additions">
@@ -33,9 +33,9 @@ export function initWebsiteAssistant() {
                 <input id="ea-message-input" name="message" type="text" maxlength="500" placeholder="Type your message…" autocomplete="off" required>
                 <button type="submit" aria-label="Send message"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 20 4l-5 16-3-7-8-1Zm8 1 8-9" /></svg></button>
             </form>
-            <p class="ea-note">EduConnect preview assistant</p>
+            <p class="ea-note">StepInStudents preview assistant</p>
         </section>
-        <button class="ea-launcher" type="button" aria-label="Open EduConnect chat" aria-expanded="false" aria-controls="edu-assistant-panel">
+        <button class="ea-launcher" type="button" aria-label="Open StepInStudents chat" aria-expanded="false" aria-controls="edu-assistant-panel">
             <svg class="ea-chat-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2 1-4A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg>
             <svg class="ea-x-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
         </button>`;
@@ -48,7 +48,7 @@ export function initWebsiteAssistant() {
     const setOpen = (open) => {
         panel.hidden = !open;
         launcher.setAttribute("aria-expanded", String(open));
-        launcher.setAttribute("aria-label", open ? "Close EduConnect chat" : "Open EduConnect chat");
+        launcher.setAttribute("aria-label", open ? "Close StepInStudents chat" : "Open StepInStudents chat");
         widget.classList.toggle("is-open", open);
         if (open) input.focus();
     };

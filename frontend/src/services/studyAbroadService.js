@@ -1,7 +1,7 @@
 import { getToken } from "./authService.js";
+import { API_BASE_URL as API_ROOT } from "../config/api.js";
 
-const API_BASE_URL =
-    "http://localhost:8080/api";
+const API_BASE_URL = `${API_ROOT}/api`;
 
 function buildHeaders(includeJson = false) {
     const headers = {};

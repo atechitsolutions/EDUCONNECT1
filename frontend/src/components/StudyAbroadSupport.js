@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * EDUCONNECT — STUDY ABROAD SUPPORT
+ * STEPINSTUDENTS — STUDY ABROAD SUPPORT
  * ============================================================
  *
  * Purpose:
@@ -457,7 +457,7 @@ export default function StudyAbroadSupport() {
                     </p>
 
                     <p>
-                        EDUCONNECT provides a centralized Study Abroad
+                        STEPINSTUDENTS provides a centralized Study Abroad
                         experience where students can explore destinations,
                         courses, universities, scholarships, education loans,
                         exams and application guidance before taking their

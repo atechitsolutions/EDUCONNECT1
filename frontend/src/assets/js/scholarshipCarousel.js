@@ -1,5 +1,5 @@
 /* =========================================================
-   EDUCONNECT — SCHOLARSHIP INFINITE CAROUSEL
+   STEPINSTUDENTS — SCHOLARSHIP INFINITE CAROUSEL
 ========================================================= */
 
 export function initScholarshipCarousel() {

@@ -7,7 +7,7 @@ def norm(x):
  x=unicodedata.normalize('NFKD',str(x or '')).encode('ascii','ignore').decode().lower(); return re.sub(r'[^a-z0-9]+',' ',x).strip()
 def clean(x): return re.sub(r'<[^>]+>',' ',html.unescape(str(x or ''))).strip()
 def get(url):
- req=urllib.request.Request(url,headers={'User-Agent':'EduConnectDirectoryImporter/1.0 (attribution recorded)','Accept':'application/json'})
+ req=urllib.request.Request(url,headers={'User-Agent':'StepInStudentsDirectoryImporter/1.0 (attribution recorded)','Accept':'application/json'})
  with urllib.request.urlopen(req,timeout=15) as r:return json.load(r)
 def oklic(x):
  n=norm(x); return not ('non commercial' in n or 'noncommercial' in n) and any(t in n for t in ['cc by','creative commons attribution','public domain','cc0','cc zero'])
@@ -38,7 +38,7 @@ for country in DATA['countries']:
    candidates.sort(key=lambda x:x[0],reverse=True); rec=None
    for score,title,info,meta,lic,desc in candidates:
     try:
-     u=info.get('thumburl') or info.get('url'); req=urllib.request.Request(u,headers={'User-Agent':'EduConnectDirectoryImporter/1.0'})
+     u=info.get('thumburl') or info.get('url'); req=urllib.request.Request(u,headers={'User-Agent':'StepInStudentsDirectoryImporter/1.0'})
      with urllib.request.urlopen(req,timeout=20) as r: blob=r.read()
      if len(blob)<6000: continue
      ext=pathlib.Path(urllib.parse.urlparse(u).path).suffix.lower()

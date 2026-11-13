@@ -334,7 +334,7 @@ export default function AdminCurrentAffairsPage() {
                 <section>
                     <h1>Admin Access Required</h1>
                     <p>Please log in with an administrator account.</p>
-                    <a href="/">Return to EduConnect</a>
+                    <a href="/">Return to StepInStudents</a>
                 </section>
             </main>
         `;
@@ -349,7 +349,7 @@ export default function AdminCurrentAffairsPage() {
                 <div class="admin-content-header">
                     <div>
                         <span class="admin-dashboard-eyebrow">
-                            EDUCONNECT ADMIN
+                            STEPINSTUDENTS ADMIN
                         </span>
 
                         <h1>Manage Current Affairs</h1>

@@ -48,11 +48,11 @@ function setNewsMetadata(news, id) {
         } catch { return ""; }
     })();
 
-    document.title = title ? `${title} | EduConnect News` : "Education News Not Found | EduConnect";
-    setMeta('meta[name="description"]', "name", description || "Published education news from EduConnect.");
+    document.title = title ? `${title} | StepInStudents News` : "Education News Not Found | StepInStudents";
+    setMeta('meta[name="description"]', "name", description || "Published education news from StepInStudents.");
     setMeta('meta[name="robots"]', "name", valid ? "index, follow, max-image-preview:large" : "noindex, nofollow");
     setMeta('meta[property="og:type"]', "property", "article");
-    setMeta('meta[property="og:site_name"]', "property", "EduConnect");
+    setMeta('meta[property="og:site_name"]', "property", "StepInStudents");
     setMeta('meta[property="og:title"]', "property", document.title);
     setMeta('meta[property="og:description"]', "property", description || title);
     setMeta('meta[property="og:url"]', "property", canonical);
@@ -85,7 +85,7 @@ function setNewsMetadata(news, id) {
             headline: title,
             description: description || title,
             mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
-            publisher: { "@type": "Organization", name: "EduConnect", url: `${SEO_ORIGIN}/` },
+            publisher: { "@type": "Organization", name: "StepInStudents", url: `${SEO_ORIGIN}/` },
             ...(news.category ? { articleSection: String(news.category) } : {}),
             ...(image ? { image: [image] } : {}),
             ...(publishedAt && !Number.isNaN(publishedAt.getTime()) ? { datePublished: publishedAt.toISOString() } : {}),
@@ -102,16 +102,16 @@ function setNewsMetadata(news, id) {
 function setNewsListMetadata(items) {
     const available = Array.isArray(items) && items.some((item) => item?.published !== false);
     const canonical = `${SEO_ORIGIN}/latest-news/`;
-    document.title = "Latest Education News & Updates | EduConnect";
-    setMeta('meta[name="description"]', "name", "Read published education news and updates from EduConnect, with links to related university, course and study-abroad information.");
+    document.title = "Latest Education News & Updates | StepInStudents";
+    setMeta('meta[name="description"]', "name", "Read published education news and updates from StepInStudents, with links to related university, course and study-abroad information.");
     setMeta('meta[name="robots"]', "name", available ? "index, follow, max-image-preview:large" : "noindex, nofollow");
     setMeta('meta[property="og:title"]', "property", document.title);
-    setMeta('meta[property="og:description"]', "property", "Read published education news and updates from EduConnect.");
+    setMeta('meta[property="og:description"]', "property", "Read published education news and updates from StepInStudents.");
     setMeta('meta[property="og:url"]', "property", canonical);
     setMeta('meta[property="og:image"]', "property", `${SEO_ORIGIN}/images/banner/news-banner.jpeg`);
     setMeta('meta[property="og:image:alt"]', "property", "Education news and updates");
     setMeta('meta[name="twitter:title"]', "name", document.title);
-    setMeta('meta[name="twitter:description"]', "name", "Read published education news and updates from EduConnect.");
+    setMeta('meta[name="twitter:description"]', "name", "Read published education news and updates from StepInStudents.");
     setMeta('meta[name="twitter:card"]', "name", "summary_large_image");
     setMeta('meta[name="twitter:image"]', "name", `${SEO_ORIGIN}/images/banner/news-banner.jpeg`);
     document.querySelector('link[rel="canonical"]')?.remove();
@@ -130,9 +130,9 @@ function setNewsListMetadata(items) {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             name: document.title,
-            description: "Read published education news and updates from EduConnect.",
+            description: "Read published education news and updates from StepInStudents.",
             url: canonical,
-            isPartOf: { "@type": "WebSite", name: "EduConnect", url: `${SEO_ORIGIN}/` }
+            isPartOf: { "@type": "WebSite", name: "StepInStudents", url: `${SEO_ORIGIN}/` }
         });
         document.head.append(script);
     }
@@ -234,9 +234,9 @@ export default function LatestNewsPage(newsId = "") {
                 document.documentElement.dataset.routeStatus = "200";
                 container.innerHTML = `
                     <div class="latest-news-intro">
-                        <span class="admin-dashboard-eyebrow">EDUCONNECT NEWS</span>
+                        <span class="admin-dashboard-eyebrow">STEPINSTUDENTS NEWS</span>
                         <h1>Latest News</h1>
-                        <p>All published education news and updates from EduConnect.</p>
+                        <p>All published education news and updates from StepInStudents.</p>
                     </div>
                 `;
 

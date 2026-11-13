@@ -151,7 +151,7 @@ export function Router() {
                         </p>
 
                         <a href="/">
-                            Go to EduConnect Home
+                            Go to StepInStudents Home
                         </a>
                     </section>
                 </main>

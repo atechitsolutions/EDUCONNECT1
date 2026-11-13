@@ -1029,10 +1029,10 @@ export default function OnlineEducationPage() {
           <div class="oe-container">
             <div class="oe-section-head">
               <div>
-                <p class="oe-eyebrow">THE EDUCONNECT APPROACH</p>
+                <p class="oe-eyebrow">THE STEPINSTUDENTS APPROACH</p>
                 <h2>How discovery works</h2>
                 <p>
-                  Use EduConnect to explore options, then confirm programme
+                  Use StepInStudents to explore options, then confirm programme
                   details with the source.
                 </p>
               </div>

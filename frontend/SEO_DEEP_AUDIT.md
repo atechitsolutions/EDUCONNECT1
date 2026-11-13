@@ -1,4 +1,4 @@
-# EduConnect deep SEO audit and implementation report
+# StepInStudents deep SEO audit and implementation report
 
 Audit scope: the checked-out frontend and backend route/service structure, as inspected on 2026-11-03. This documents the existing application; it does not assume that every feature named in the SEO brief exists.
 
@@ -30,7 +30,7 @@ No separate country, university, institution, programme, course-detail, profile,
 
 ## Keyword targets and search intent
 
-See [SEO_KEYWORD_MAP.md](./SEO_KEYWORD_MAP.md) for the route-level map. The targets are qualitative, based on existing page purpose and observed search-result patterns; no search-volume or ranking claims are made. Competitor review found that the Government of Maharashtra study-abroad portal emphasizes country/course discovery, planning steps and checking official sources; Shiksha describes its offer around college and course discovery. EduConnect should differentiate through useful comparisons and clear source/verification context rather than copying their copy or creating thin pages. References: [Maha Study Abroad](https://studyabroad.mahacet.org/) and [Shiksha About](https://www.shiksha.com/about).
+See [SEO_KEYWORD_MAP.md](./SEO_KEYWORD_MAP.md) for the route-level map. The targets are qualitative, based on existing page purpose and observed search-result patterns; no search-volume or ranking claims are made. Competitor review found that the Government of Maharashtra study-abroad portal emphasizes country/course discovery, planning steps and checking official sources; Shiksha describes its offer around college and course discovery. StepInStudents should differentiate through useful comparisons and clear source/verification context rather than copying their copy or creating thin pages. References: [Maha Study Abroad](https://studyabroad.mahacet.org/) and [Shiksha About](https://www.shiksha.com/about).
 
 ## Prioritized findings and actions
 
@@ -69,10 +69,10 @@ See [SEO_KEYWORD_MAP.md](./SEO_KEYWORD_MAP.md) for the route-level map. The targ
 
 | URL | Primary keyword | SEO title | H1 | Canonical/indexing | Schema | Internal links/image | Performance |
 |---|---|---|---|---|---|---|---|
-| `/` | education | Education in India: Schools, Colleges & Courses \| EduConnect | Explore. Compare. Find the Right Education. | `https://stepinstudents.com/`; index | WebSite, Organization, WebPage, BreadcrumbList | Section navigation and contextual education imagery; target assets/alt checked, full image audit pending | Build-only; CWV not measured |
-| `/study-abroad/` | study abroad | Study Abroad from India: Courses & Universities \| EduConnect | Study Abroad; compare countries, courses & universities | Self-canonical; index | WebPage, BreadcrumbList, existing FAQPage | Country/institution details remain modal/list-based; relevant banner image | Build-only; CWV not measured |
-| `/online-education/` | online education | Online Education: Compare Courses & Degrees \| EduConnect | Online Education: Compare Courses, Certificates & Degrees | Self-canonical; index | WebPage, BreadcrumbList | Programme/provider cards link within the page; relevant image metadata | Build-only; CWV not measured |
-| `/community/` | student community (not targeted while gated) | Student Community for Learning & Connections \| EduConnect | Your Community. Your Connections. | Noindex; excluded from sitemap | No structured data added | Community navigation and relevant photo | Build-only; CWV not measured |
+| `/` | education | Education in India: Schools, Colleges & Courses \| StepInStudents | Explore. Compare. Find the Right Education. | `https://stepinstudents.com/`; index | WebSite, Organization, WebPage, BreadcrumbList | Section navigation and contextual education imagery; target assets/alt checked, full image audit pending | Build-only; CWV not measured |
+| `/study-abroad/` | study abroad | Study Abroad from India: Courses & Universities \| StepInStudents | Study Abroad; compare countries, courses & universities | Self-canonical; index | WebPage, BreadcrumbList, existing FAQPage | Country/institution details remain modal/list-based; relevant banner image | Build-only; CWV not measured |
+| `/online-education/` | online education | Online Education: Compare Courses & Degrees \| StepInStudents | Online Education: Compare Courses, Certificates & Degrees | Self-canonical; index | WebPage, BreadcrumbList | Programme/provider cards link within the page; relevant image metadata | Build-only; CWV not measured |
+| `/community/` | student community (not targeted while gated) | Student Community for Learning & Connections \| StepInStudents | Your Community. Your Connections. | Noindex; excluded from sitemap | No structured data added | Community navigation and relevant photo | Build-only; CWV not measured |
 | Search, admin, college and unknown routes | — | Unique route titles where mapped | Route-dependent | Noindex; not in sitemap | No public data schema | Private or variable results | Build-only; server status not tested |
 
 ## Validation performed

@@ -1,5 +1,5 @@
 /* =========================================================
-   EDUCONNECT — NEWS INFINITE CAROUSEL
+   STEPINSTUDENTS — NEWS INFINITE CAROUSEL
 ========================================================= */
 
 export function initNewsCarousel() {

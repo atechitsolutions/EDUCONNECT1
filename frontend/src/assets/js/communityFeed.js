@@ -1,5 +1,6 @@
 import { feedApi } from "../../services/feedService.js";
 import { getCurrentUser } from "../../services/authService.js";
+import { communityAvatarHtml, hydrateCommunityAvatars } from "./communityAvatar.js";
 
 const escapeHtml = (value = "") =>
     String(value ?? "").replace(/[&<>"']/g, c => ({
@@ -9,10 +10,6 @@ const escapeHtml = (value = "") =>
         '"': "&quot;",
         "'": "&#39;"
     })[c]);
-
-const initials = (name = "Student") =>
-    String(name).trim().split(/\s+/).slice(0, 2)
-        .map(p => p[0] || "").join("").toUpperCase() || "S";
 
 const timeAgo = date => {
     if (!date) return "";
@@ -65,15 +62,6 @@ const FILTERS = [
     { key: "job", label: "Internships & Jobs", sort: "latest", category: "JOB" }
 ];
 
-const CATEGORY_LABEL = {
-    GENERAL: "General",
-    PROJECT: "Project",
-    IDEA: "Idea",
-    QUESTION: "Question",
-    ACHIEVEMENT: "Achievement",
-    JOB: "Internship / Job"
-};
-
 const VISIBILITY_LABEL = {
     PUBLIC: "🌐 Public",
     CONNECTIONS: "👥 Connections",
@@ -116,7 +104,7 @@ export function initCommunityFeed(root) {
         <div class="feed-root">
 
             <div class="feed-create-bar">
-                <span class="community-avatar">${escapeHtml(initials(me.fullName))}</span>
+                ${communityAvatarHtml({ userId: me.userId, username: "me", displayName: me.fullName })}
 
                 <button type="button" class="feed-create-input" data-feed-open-composer>
                     What's happening in your academic journey?
@@ -140,7 +128,7 @@ export function initCommunityFeed(root) {
                 <form class="feed-composer" data-feed-composer>
 
                     <div class="feed-composer-top">
-                        <span class="community-avatar">${escapeHtml(initials(me.fullName))}</span>
+                        ${communityAvatarHtml({ userId: me.userId, username: "me", displayName: me.fullName })}
 
                         <textarea
                             name="content"
@@ -233,6 +221,8 @@ export function initCommunityFeed(root) {
         </div>
     `;
 
+    hydrateCommunityAvatars(host);
+
     const $ = selector => host.querySelector(selector);
 
     // Post viewer: a full-screen dialog attached to the page root,
@@ -283,12 +273,6 @@ export function initCommunityFeed(root) {
     // POST RENDERING
     // ------------------------------------------------------------
 
-    const authorLine = author =>
-        [author.course, author.university, author.country]
-            .filter(Boolean)
-            .map(escapeHtml)
-            .join(" · ");
-
     const gallery = images => {
         if (!Array.isArray(images) || !images.length) return "";
 
@@ -309,36 +293,25 @@ export function initCommunityFeed(root) {
 
             <header class="feed-card-head">
 
-                <span class="community-avatar">
-                    ${escapeHtml(initials(p.author.displayName))}
-                </span>
+                ${communityAvatarHtml(p.author)}
 
                 <div class="feed-author">
 
                     <button
                         type="button"
                         class="feed-author-name"
-                        data-view-profile="${escapeHtml(p.author.username)}">
+                        data-view-profile="${escapeHtml(p.author.username)}"
+                        data-view-profile-id="${escapeHtml(p.author.userId ?? "")}"
+                        data-view-profile-name="${escapeHtml(p.author.displayName)}">
                         ${escapeHtml(p.author.displayName)}
                     </button>
 
-                    <small>@${escapeHtml(p.author.username)}</small>
-
-                    ${authorLine(p.author)
-                        ? `<small class="feed-author-meta">${authorLine(p.author)}</small>`
-                        : ""}
-
                     <small class="feed-meta">
+                        <span>@${escapeHtml(p.author.username)}</span>
                         <time>${escapeHtml(timeAgo(p.createdAt))}</time>
-                        ${p.edited ? " · edited" : ""}
-                        · ${VISIBILITY_LABEL[p.visibility] || ""}
                     </small>
 
                 </div>
-
-                <span class="feed-badge">
-                    ${escapeHtml(CATEGORY_LABEL[p.category] || "General")}
-                </span>
 
                 <div class="feed-menu-wrap">
 
@@ -440,13 +413,11 @@ export function initCommunityFeed(root) {
             class="feed-comment${reply ? " is-reply" : ""}"
             data-comment-id="${c.id}">
 
-            <span class="community-avatar">
-                ${escapeHtml(initials(c.author.displayName))}
-            </span>
+                ${communityAvatarHtml(c.author)}
 
             <div class="feed-comment-body">
 
-                <b>${escapeHtml(c.author.displayName)}</b>
+                <button type="button" class="feed-comment-author" data-view-profile="${escapeHtml(c.author.username)}" data-view-profile-id="${escapeHtml(c.author.userId ?? "")}" data-view-profile-name="${escapeHtml(c.author.displayName)}">${escapeHtml(c.author.displayName)}</button>
 
                 <small>
                     @${escapeHtml(c.author.username)}
@@ -718,6 +689,7 @@ export function initCommunityFeed(root) {
                 }
 
                 watchMedia(list);
+                hydrateCommunityAvatars(list);
             }
 
             $("[data-feed-more]").hidden = state.last;
@@ -774,6 +746,7 @@ export function initCommunityFeed(root) {
                 "beforeend",
                 result.content.map(c => commentHtml(c)).join("")
             );
+            hydrateCommunityAvatars(list);
 
             more.dataset.page = page;
             more.hidden = page >= result.totalPages - 1;
@@ -1051,7 +1024,7 @@ export function initCommunityFeed(root) {
             if (navigator.share) {
                 try {
                     await navigator.share({
-                        title: "EduConnect post",
+                        title: "StepInStudents post",
                         url: link
                     });
 
@@ -1387,6 +1360,7 @@ export function initCommunityFeed(root) {
             viewerBody.innerHTML = postHtml(post, true);
 
             watchMedia(viewerBody);
+            hydrateCommunityAvatars(viewerBody);
 
             const card = viewerBody.querySelector("[data-post-id]");
             const comments = card.querySelector("[data-feed-comments]");

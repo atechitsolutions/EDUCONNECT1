@@ -12,7 +12,7 @@ function createNewsCard(news, index) {
             location: news.country || "India",
             program: news.subtitle || "Education News",
             ranking: news.description || "",
-            highlight: "Published on EduConnect",
+            highlight: "Published on StepInStudents",
             image: news.imageUrl || "",
             actionLabel: "Read Full News",
             showCompare: false

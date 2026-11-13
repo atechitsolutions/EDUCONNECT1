@@ -8,7 +8,7 @@ export default function Header() {
 
                 <!-- Logo -->
                 <div class="logo">
-                    <a href="/">ALL IN ONE</a>
+                    <a href="/">StepInStudents</a>
                 </div>
 
                 ${isHomePage ? `

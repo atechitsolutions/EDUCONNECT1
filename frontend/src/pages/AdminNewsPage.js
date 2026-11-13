@@ -165,7 +165,7 @@ export default function AdminNewsPage() {
                 <section>
                     <h1>Admin Access Required</h1>
                     <p>Please log in with an administrator account.</p>
-                    <a href="/">Return to EduConnect</a>
+                    <a href="/">Return to StepInStudents</a>
                 </section>
             </main>
         `;
@@ -178,7 +178,7 @@ export default function AdminNewsPage() {
             <div class="admin-content-container">
                 <div class="admin-content-header">
                     <div>
-                        <span class="admin-dashboard-eyebrow">EDUCONNECT ADMIN</span>
+                        <span class="admin-dashboard-eyebrow">STEPINSTUDENTS ADMIN</span>
                         <h1>Manage News</h1>
                         <p>Create the homepage news that users can open through Read More.</p>
                     </div>

@@ -100,7 +100,7 @@ public class PasswordResetService {
 
 
         message.setSubject(
-                "EduConnect - Password Reset"
+                "StepInStudents - Password Reset"
         );
 
 
@@ -108,14 +108,14 @@ public class PasswordResetService {
                 "Hello "
                         + user.getFullName()
                         + ",\n\n"
-                        + "We received a request to reset your EduConnect password.\n\n"
+                        + "We received a request to reset your StepInStudents password.\n\n"
                         + "Use the following link to reset your password:\n\n"
                         + resetLink
                         + "\n\n"
                         + "This link will expire in 30 minutes.\n\n"
                         + "If you did not request this, you can ignore this email.\n\n"
                         + "Regards,\n"
-                        + "EduConnect"
+                        + "StepInStudents"
         );
 
 

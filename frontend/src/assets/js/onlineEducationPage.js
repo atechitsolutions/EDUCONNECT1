@@ -49,7 +49,7 @@ function setMeta(selector, attribute, value, createTag) {
 }
 
 function updatePageMetadata() {
-    const title = "Online Education: Compare Courses & Degrees | EduConnect";
+    const title = "Online Education: Compare Courses & Degrees | StepInStudents";
     const description =
         "Compare online courses, certificates, diplomas and degrees by subject, level, study mode and destination. Explore options from universities and learning providers.";
     const canonicalUrl = "https://stepinstudents.com/online-education/";
@@ -58,7 +58,7 @@ function updatePageMetadata() {
 
     setMeta('meta[name="description"]', "name", description, "meta");
     setMeta('meta[property="og:type"]', "property", "website", "meta");
-    setMeta('meta[property="og:site_name"]', "property", "EduConnect", "meta");
+    setMeta('meta[property="og:site_name"]', "property", "StepInStudents", "meta");
     setMeta('meta[property="og:title"]', "property", title, "meta");
     setMeta('meta[property="og:description"]', "property", description, "meta");
     setMeta('meta[property="og:url"]', "property", canonicalUrl, "meta");

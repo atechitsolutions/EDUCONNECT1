@@ -1,5 +1,6 @@
 
 import { feedApi } from "../../services/feedService.js";
+import { refreshCommunityAvatar } from "./communityAvatar.js";
 
 const esc = (value = "") =>
     String(value ?? "").replace(/[&<>"']/g, c => ({
@@ -1644,7 +1645,7 @@ export function initCommunityProfile(root) {
                 }
 
                 if (avatarNode) {
-                    avatarNode.textContent = initials(state.p.displayName);
+                    refreshCommunityAvatar(avatarNode, state.p);
                 }
 
                 if (courseNode) {
@@ -1691,7 +1692,7 @@ export function initCommunityProfile(root) {
         if (navigator.share) {
             try {
                 await navigator.share({
-                    title: `${state.p.displayName} on EduConnect`,
+                    title: `${state.p.displayName} on StepInStudents`,
                     url: link
                 });
 
@@ -1989,9 +1990,9 @@ export function initCommunityProfile(root) {
     // --------------------------------------------------
 
     root.addEventListener("click", event => {
-        const link = event.target.closest("[data-view-profile]");
+        const link = event.target.closest("[data-view-profile], [data-view-profile-id]");
 
-        if (!link || link.closest("[data-profile-dialog]")) {
+        if (!link || !link.dataset.viewProfile) {
             return;
         }
 

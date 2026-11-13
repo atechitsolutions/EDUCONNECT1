@@ -1,4 +1,4 @@
-# EduConnect on-page SEO map
+# StepInStudents on-page SEO map
 
 Keyword targets below are qualitative mappings based on each route's visible purpose and content. They are not search-volume forecasts. Confirm demand and performance with Google Search Console or a keyword research service after deployment.
 

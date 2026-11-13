@@ -22,7 +22,7 @@ public class LocalAdminAccountInitializer {
             PasswordEncoder passwordEncoder,
             @Value("${app.local-admin.email}") String email,
             @Value("${app.local-admin.password}") String password,
-            @Value("${app.local-admin.full-name:Local EduConnect Admin}") String fullName
+            @Value("${app.local-admin.full-name:Local StepInStudents Admin}") String fullName
     ) {
         return args -> {
             String normalizedEmail = email.trim().toLowerCase();

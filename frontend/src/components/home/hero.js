@@ -79,7 +79,7 @@ export default function Hero() {
                         role="search"
                         action="/"
                         method="get"
-                        aria-label="Search EduConnect"
+                        aria-label="Search StepInStudents"
                         data-institution-search
                         data-search-suggestions-id="home-institution-suggestions"
                         data-search-results-id="home-institution-results"
@@ -115,7 +115,7 @@ export default function Hero() {
                     <button
                         type="submit"
                         class="hero-search-btn"
-                        aria-label="Search EduConnect"
+                        aria-label="Search StepInStudents"
                     >
                         Search
                     </button>
@@ -239,12 +239,12 @@ export default function Hero() {
                      PLATFORM STATISTICS
 
                      Keep these values only if they are supported
-                     by actual EDUCONNECT data.
+                     by actual STEPINSTUDENTS data.
                 ================================================== -->
 
                 <div
                     class="hero-stats"
-                    aria-label="EduConnect platform information"
+                    aria-label="StepInStudents platform information"
                 >
 
                     <div class="hero-stat">

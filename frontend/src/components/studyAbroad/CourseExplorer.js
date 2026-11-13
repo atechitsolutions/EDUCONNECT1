@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * EDUCONNECT — STUDY ABROAD COURSE EXPLORER
+ * STEPINSTUDENTS — STUDY ABROAD COURSE EXPLORER
  * ============================================================
  *
  * Purpose:
@@ -583,7 +583,7 @@ export default function StudyAbroadCourseExplorer() {
                     </p>
 
                     <p>
-                        EDUCONNECT helps students discover study abroad
+                        STEPINSTUDENTS helps students discover study abroad
                         courses, explore universities, compare destinations
                         and understand the application journey from one
                         platform.

@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * EDUCONNECT — STUDY ABROAD PROGRAM EXPLORER
+ * STEPINSTUDENTS — STUDY ABROAD PROGRAM EXPLORER
  * ============================================================
  *
  * Purpose:
@@ -649,7 +649,7 @@ export default function StudyAbroadProgramExplorer() {
                     </p>
 
                     <p>
-                        EDUCONNECT's Study Abroad discovery experience is
+                        STEPINSTUDENTS's Study Abroad discovery experience is
                         designed to help students explore universities and
                         programs across destinations including the USA, UK,
                         Canada, Australia, Germany and Ireland.

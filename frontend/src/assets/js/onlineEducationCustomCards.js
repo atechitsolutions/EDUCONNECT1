@@ -70,11 +70,11 @@ function renderImageTile(card, section) {
     return `
         <article class="oe-platform-card oe-admin-added-card">
             <span class="oe-platform-photo" ${imageStyle(card.image)}></span>
-            <span class="oe-platform-kicker">${escapeHTML(card.subtitle || "EDUCONNECT")}</span>
+            <span class="oe-platform-kicker">${escapeHTML(card.subtitle || "STEPINSTUDENTS")}</span>
             <h3>${escapeHTML(card.title)}</h3>
             <p>${escapeHTML(card.description)}</p>
             ${/^https?:\/\//i.test(card.link || "") ? `<a class="oe-platform-external" href="${escapeHTML(card.link)}" target="_blank" rel="noopener noreferrer">${escapeHTML(card.provider || "Visit provider")} ↗</a>` : ""}
-            <a class="oe-platform-local" href="#oe-programmes">Explore options on EduConnect <span>→</span></a>
+            <a class="oe-platform-local" href="#oe-programmes">Explore options on StepInStudents <span>→</span></a>
         </article>
     `;
 }
@@ -96,7 +96,7 @@ function renderInstitutionCard(card) {
                 ${card.image
                     ? `<img class="oe-admin-institution-image" src="${escapeHTML(card.image)}" alt="">`
                     : `<span class="oe-institution-monogram" aria-hidden="true">${escapeHTML((card.title || "EC").slice(0, 2).toUpperCase())}</span>`}
-                <span class="oe-verified-source">Added by EduConnect</span>
+                <span class="oe-verified-source">Added by StepInStudents</span>
             </div>
             <h3>${escapeHTML(card.title)}</h3>
             <p class="oe-institution-location">${escapeHTML(country)} · ${escapeHTML(level.split("|")[0])}</p>
@@ -108,7 +108,7 @@ function renderInstitutionCard(card) {
 }
 
 function renderProgrammePreview(card) {
-    const provider = card.provider || 'EduConnect listing';
+    const provider = card.provider || 'StepInStudents listing';
     const subject = card.subject || card.subtitle || 'Online learning';
     const level = card.level || 'Online Degree';
     const mode = card.mode || 'Fully online';

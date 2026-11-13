@@ -6076,7 +6076,7 @@
 
 
 /* =========================================================
-   EDUCONNECT HOMEPAGE — UPDATED CARD SYSTEM
+   STEPINSTUDENTS HOMEPAGE — UPDATED CARD SYSTEM
    Shared reusable InstitutionCard styling for:
    Colleges, Companies, Boarding Schools, Schools,
    Play School, Pre School, Rankings, News, Scholarships,
@@ -9976,7 +9976,7 @@
 
 
 /* =========================================================
-   EDUCONNECT — COMPACT INFORMATION GRID SECTIONS
+   STEPINSTUDENTS — COMPACT INFORMATION GRID SECTIONS
 
    Converted from the old banner + three-column layout to a
    compact 3-column card grid for:
@@ -10552,7 +10552,7 @@
 
 
 /* =========================================================
-   EDUCONNECT — FINAL COMPACT GRID OVERRIDES
+   STEPINSTUDENTS — FINAL COMPACT GRID OVERRIDES
 
    These overrides are intentionally placed at the end of the
    stylesheet so they take precedence over older banner /
@@ -11078,7 +11078,7 @@
 }
 
 /* =========================================================
-   EDUCONNECT — FINAL COMPACT SECTION HEADING OVERRIDES
+   STEPINSTUDENTS — FINAL COMPACT SECTION HEADING OVERRIDES
    Applied after all existing homepage rules.
 ========================================================= */
 
@@ -11498,7 +11498,7 @@
 }
 
 /* =========================================================
-   EDUCONNECT — FINAL MASTER COMPACT CARD OVERRIDE
+   STEPINSTUDENTS — FINAL MASTER COMPACT CARD OVERRIDE
    Changes card size only. Keep all other homepage styling.
 ========================================================= */
 
@@ -16059,7 +16059,7 @@ body,
 
 
 /* =========================================================
-   EDUCONNECT — FINAL SHARED COMPACT INSTITUTION CARDS
+   STEPINSTUDENTS — FINAL SHARED COMPACT INSTITUTION CARDS
    ---------------------------------------------------------
    This is intentionally the LAST card-sizing layer in ui.css.
    Desktop dimensions remain unchanged.

@@ -351,7 +351,7 @@ function initializeAdminStudyAbroad() {
                 deleteButton.dataset.adminDelete;
 
             if (!window.confirm(
-                "Delete this institution from EduConnect?"
+                "Delete this institution from StepInStudents?"
             )) {
                 return;
             }
@@ -386,7 +386,7 @@ export default function AdminStudyAbroadPage() {
                 <section>
                     <h1>Admin Access Required</h1>
                     <p>Please log in with an administrator account.</p>
-                    <a href="/">Return to EduConnect</a>
+                    <a href="/">Return to StepInStudents</a>
                 </section>
             </main>
         `;
@@ -406,7 +406,7 @@ export default function AdminStudyAbroadPage() {
 
                     <div>
                         <span class="admin-study-abroad-eyebrow">
-                            EDUCONNECT ADMIN
+                            STEPINSTUDENTS ADMIN
                         </span>
 
                         <h1>Manage Study Abroad Institutions</h1>

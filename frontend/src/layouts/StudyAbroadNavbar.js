@@ -5,7 +5,7 @@ import { getInstitutionLogoUrl } from "../utils/institutionLogo.js";
 import { openInstitutionDetails } from "../components/studyAbroad/InstitutionDetailsModals.js";
 
 /* =========================================================
-   EDUCONNECT — STUDY ABROAD NAVBAR
+   STEPINSTUDENTS — STUDY ABROAD NAVBAR
    Complete standalone navbar
    Includes:
    - Mega menu clicks
@@ -64,7 +64,7 @@ function destinationCountryPanel(country) {
             <div class="edu-study-column"><h4>Popular specialisations</h4>${data.specializations.map((name) => internalLink(name, name)).join("")}</div>
             <div class="edu-study-column"><h4>Universities to explore</h4>${data.universities.map((name) => `<a href="#study-abroad-country-comparison">${name}</a>`).join("")}</div>
             <div class="edu-study-column"><h4>Study guides</h4>${DESTINATION_GUIDES.map(([name, href]) => `<a href="${href}">${name}</a>`).join("")}</div>
-            <p class="edu-destination-note">Topic links open EduConnect discovery. University and programme details can change; confirm them with the institution. This menu does not rank universities.</p>
+            <p class="edu-destination-note">Topic links open StepInStudents discovery. University and programme details can change; confirm them with the institution. This menu does not rank universities.</p>
         </section>`;
 }
 
@@ -1519,7 +1519,7 @@ export default function StudyAbroadNavbar() {
                         EC
                     </span>
 
-                    EDUCONNECT
+                    STEPINSTUDENTS
 
                 </a>
 
@@ -2089,7 +2089,7 @@ export default function StudyAbroadNavbar() {
                                             </p>
 
                                             <a href="#study-abroad-faq">
-                                                Browse EduConnect study-abroad FAQs →
+                                                Browse StepInStudents study-abroad FAQs →
                                             </a>
 
                                         </div>
@@ -2097,7 +2097,7 @@ export default function StudyAbroadNavbar() {
                                      
                                         <div class="edu-study-column">
                                             <h4>Plan before you book</h4>
-                                            <a href="#abroad-exams">Compare exam overviews on EduConnect</a>
+                                            <a href="#abroad-exams">Compare exam overviews on StepInStudents</a>
                                             <a href="#study-abroad-faq">Check admission requirement guidance</a>
                                             <a href="#study-abroad-destination-explorer">Explore study destinations</a>
                                         </div></div>
@@ -2108,7 +2108,7 @@ export default function StudyAbroadNavbar() {
                                             <h4>Graduate admission tests</h4>
                                             <a href="https://www.ets.org/gre/test-takers/general-test/about.html" target="_blank" rel="noopener noreferrer">GRE General Test ↗</a>
                                             <a href="https://www.mba.com/exams/gmat-exam" target="_blank" rel="noopener noreferrer">GMAT Exam ↗</a>
-                                            <a href="#abroad-exams">See exam summaries on EduConnect</a>
+                                            <a href="#abroad-exams">See exam summaries on StepInStudents</a>
                                         </div>
                                         <div class="edu-study-column">
                                             <h4>What to review</h4>
@@ -2126,7 +2126,7 @@ export default function StudyAbroadNavbar() {
                                             <span class="edu-study-feature-icon" aria-hidden="true">✦</span>
                                             <strong>Check before you prepare</strong>
                                             <p>Test requirements can differ by institution, programme and applicant. Confirm the current policy with your chosen provider.</p>
-                                            <a href="#study-abroad-faq">Review EduConnect guidance →</a>
+                                            <a href="#study-abroad-faq">Review StepInStudents guidance →</a>
                                         </div>
                                     </div>
 
@@ -2136,7 +2136,7 @@ export default function StudyAbroadNavbar() {
                                             <h4>Undergraduate admission tests</h4>
                                             <a href="https://satsuite.collegeboard.org/sat" target="_blank" rel="noopener noreferrer">SAT · official test information ↗</a>
                                             <a href="https://www.act.org/content/act/en/products-and-services/the-act.html" target="_blank" rel="noopener noreferrer">ACT · official test information ↗</a>
-                                            <a href="#abroad-exams">See exam summaries on EduConnect</a>
+                                            <a href="#abroad-exams">See exam summaries on StepInStudents</a>
                                         </div>
                                         <div class="edu-study-column">
                                             <h4>Application planning</h4>
@@ -2181,7 +2181,7 @@ export default function StudyAbroadNavbar() {
                                             <span class="edu-study-feature-icon" aria-hidden="true">i</span>
                                             <strong>Requirements vary</strong>
                                             <p>Confirm accepted tests, scores and deadlines directly with the institution and programme.</p>
-                                            <a href="#study-abroad-faq">Read EduConnect FAQs →</a>
+                                            <a href="#study-abroad-faq">Read StepInStudents FAQs →</a>
                                         </div>
                                     </div></div>
 
@@ -2383,7 +2383,7 @@ export default function StudyAbroadNavbar() {
                                             <span class="edu-study-feature-icon" aria-hidden="true">✦</span>
                                             <strong>Build a clear study plan</strong>
                                             <p>Compare destinations, explore programmes and check official requirements before you apply.</p>
-                                            <a href="#study-abroad-cta">Continue with EduConnect →</a>
+                                            <a href="#study-abroad-cta">Continue with StepInStudents →</a>
                                         </div>
 
                                     </div>
@@ -2448,7 +2448,7 @@ export default function StudyAbroadNavbar() {
                                             <a href="https://www.make-it-in-germany.com/en/visa-residence/types/studying" target="_blank" rel="noopener noreferrer">Germany · Study visa ↗</a>
                                             <a href="https://www.france-visas.gouv.fr/en/web/france-visas/etudiant" target="_blank" rel="noopener noreferrer">France · Student visa ↗</a>
                                             <a href="https://www.irishimmigration.ie/coming-to-study-in-ireland/" target="_blank" rel="noopener noreferrer">Ireland · Study information ↗</a>
-                                            <a href="#study-abroad-faq">More EduConnect study-abroad FAQs →</a>
+                                            <a href="#study-abroad-faq">More StepInStudents study-abroad FAQs →</a>
                                         </div>
                                     </div>
 
@@ -2456,7 +2456,7 @@ export default function StudyAbroadNavbar() {
                                     <div class="edu-study-panel" id="application-documents" data-mega-content="application-documents">
                                         <div class="edu-study-column">
                                             <h4>Application documents</h4>
-                                            <a href="#study-abroad-documents">Document guidance on EduConnect</a>
+                                            <a href="#study-abroad-documents">Document guidance on StepInStudents</a>
                                             <a href="#study-abroad-application">Application process and next steps</a>
                                             <a href="#study-abroad-faq">Common application questions</a>
                                         </div>
@@ -2475,7 +2475,7 @@ export default function StudyAbroadNavbar() {
                                         <div class="edu-study-feature">
                                             <span class="edu-study-feature-icon" aria-hidden="true">▤</span>
                                             <strong>Get your documents ready</strong>
-                                            <p>Use EduConnect’s existing document guidance, then confirm each programme’s exact requirements.</p>
+                                            <p>Use StepInStudents’s existing document guidance, then confirm each programme’s exact requirements.</p>
                                             <a href="#study-abroad-documents">Open document guidance →</a>
                                         </div>
                                     </div>
@@ -2641,7 +2641,7 @@ export default function StudyAbroadNavbar() {
                                         </div>
                                         <div class="edu-study-feature">
                                             <span class="edu-study-feature-icon" aria-hidden="true">↗</span>
-                                            <strong>Plan with EduConnect</strong>
+                                            <strong>Plan with StepInStudents</strong>
                                             <p>Use the on-page tools to organize your budget, timeline and preparation priorities.</p>
                                             <a href="#study-abroad-tools">Browse study planning tools →</a>
                                         </div></div>
@@ -2655,7 +2655,7 @@ export default function StudyAbroadNavbar() {
                                         <div class="edu-study-column">
 
                                             <h4>
-                                                EDUCONNECT
+                                                STEPINSTUDENTS
                                             </h4>
 
                                             <a href="#study-abroad-destinations">
@@ -2714,7 +2714,7 @@ export default function StudyAbroadNavbar() {
                                             <span class="edu-study-feature-icon" aria-hidden="true">↗</span>
                                             <strong>Use official sources</strong>
                                             <p>Check current visa rules, entry requirements and scholarship details with the responsible organization.</p>
-                                            <a href="#study-abroad-faq">Browse EduConnect study-abroad FAQs →</a>
+                                            <a href="#study-abroad-faq">Browse StepInStudents study-abroad FAQs →</a>
                                         </div>
                                     </div>
 

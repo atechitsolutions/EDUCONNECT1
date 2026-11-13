@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * EDUCONNECT — STUDY ABROAD HERO
+ * STEPINSTUDENTS — STUDY ABROAD HERO
  * ============================================================
  *
  * Purpose:
@@ -363,7 +363,7 @@ export default function StudyAbroadHero() {
 
                                 <div>
                                     <span>
-                                        EDUCONNECT
+                                        STEPINSTUDENTS
                                     </span>
 
                                     <strong>

@@ -9,7 +9,7 @@ export default function AdminDashboardPage() {
                 <section>
                     <h1>Admin Access Required</h1>
                     <p>Please log in with an administrator account.</p>
-                    <a href="/">Return to EduConnect</a>
+                    <a href="/">Return to StepInStudents</a>
                 </section>
             </main>
         `;
@@ -21,14 +21,14 @@ export default function AdminDashboardPage() {
                 <div class="admin-dashboard-header">
                     <div>
                         <span class="admin-dashboard-eyebrow">
-                            EDUCONNECT ADMIN
+                            STEPINSTUDENTS ADMIN
                         </span>
 
                         <h1>Admin Dashboard</h1>
 
                         <p>
                             Welcome ${user.fullName || "Admin"}.
-                            Manage EduConnect content and tools from one place.
+                            Manage StepInStudents content and tools from one place.
                         </p>
                     </div>
 

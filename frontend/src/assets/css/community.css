@@ -62,6 +62,13 @@
 .community-avatar { position: relative; display: inline-grid; flex: 0 0 38px; width: 38px; height: 38px; place-items: center; border: 1px solid #d9e8fc; border-radius: 13px; color: #195cae; background: linear-gradient(145deg,#eaf3ff,#dceaff); box-shadow: 0 3px 0 #cbdcf0,inset 0 1px 0 white; font-size: 12px; font-weight: 850; }
 .community-avatar-large { flex-basis: 54px; width: 54px; height: 54px; border-radius: 18px; font-size: 16px; }
 .community-avatar.is-online::after { position: absolute; right: -2px; bottom: -2px; width: 10px; height: 10px; border: 2px solid white; border-radius: 50%; background: #37bd85; content: ""; }
+.community-avatar-photo { overflow: hidden; padding: 0; border-radius: 50%; appearance: none; cursor: pointer; }
+.community-avatar-photo:not(button) { cursor: default; }
+.community-avatar-fallback { display: grid; width: 100%; height: 100%; place-items: center; }
+.community-avatar-image { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; border-radius: inherit; object-fit: cover; opacity: 0; transition: opacity .16s ease; }
+.community-avatar-photo.has-profile-photo .community-avatar-image { opacity: 1; }
+.community-avatar-photo.has-profile-photo .community-avatar-fallback { opacity: 0; }
+.community-avatar-photo:focus-visible { outline: 3px solid #73a8f2; outline-offset: 3px; }
 .community-tabs { display: grid; gap: 5px; padding: 14px 0; }
 .community-tabs button { display: flex; min-height: 41px; align-items: center; gap: 9px; padding: 0 10px; border: 1px solid transparent; border-radius: 11px; color: #61748d; background: transparent; font: inherit; font-size: 11px; font-weight: 700; text-align: left; cursor: pointer; transition: background .2s ease,color .2s ease,transform .2s ease; }
 .community-tabs button > span { display: grid; width: 23px; height: 23px; place-items: center; border-radius: 8px; color: #3979d6; background: #edf5ff; font-size: 13px; }
@@ -133,7 +140,12 @@
 .community-conversation-search input { width: 100%; min-width: 0; border: 0; outline: 0; color: var(--community-ink); font: inherit; font-size: 9px; }
 .community-conversation-item { display: flex; width: 100%; align-items: center; gap: 8px; margin-top: 7px; padding: 8px 5px; border: 1px solid transparent; border-radius: 11px; background: transparent; text-align: left; cursor: pointer; }
 .community-conversation-item:hover,.community-conversation-item.is-active { border-color: #d8e6fa; background: white; box-shadow: 0 3px 7px rgba(37,76,124,.05); }
+.community-conversation-open { display: flex; width: 100%; min-width: 0; align-items: center; gap: 8px; padding: 0; border: 0; color: inherit; background: transparent; font: inherit; text-align: left; cursor: pointer; }
+.community-conversation-open:focus-visible { outline: 2px solid #73a8f2; outline-offset: 2px; border-radius: 8px; }
 .community-conversation-copy { display: grid; flex: 1; min-width: 0; gap: 4px; }
+.community-conversation-name { max-width: 100%; overflow: hidden; padding: 0; border: 0; color: #273c5e; background: transparent; font: inherit; font-size: 9px; font-weight: 750; text-align: left; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+.community-conversation-name:hover { color: #2167ce; text-decoration: underline; }
+.community-conversation-open small { overflow: hidden; color: #8190a5; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
 .community-conversation-copy b { overflow: hidden; color: #273c5e; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
 .community-conversation-copy small { overflow: hidden; color: #8190a5; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
 .community-conversation-end { display: grid; justify-items: end; gap: 4px; }
@@ -155,6 +167,10 @@
 .community-load-older:disabled { opacity: .6; cursor: wait; }
 .community-message { max-width: min(78%,480px); align-self: flex-start; padding: 9px 11px 6px; border: 1px solid #e1e9f5; border-radius: 13px 13px 13px 4px; background: white; box-shadow: 0 2px 0 rgba(216,228,244,.7); }
 .community-message.is-outgoing { align-self: flex-end; border-color: #bdd6fb; border-radius: 13px 13px 4px 13px; background: linear-gradient(140deg,#e8f2ff,#f6faff); }
+.community-message-row { display: flex; max-width: min(84%,540px); align-items: flex-end; gap: 8px; align-self: flex-start; }
+.community-message-row.is-outgoing { align-self: flex-end; }
+.community-message-row > .community-avatar { width: 30px; height: 30px; flex-basis: 30px; border-radius: 50%; }
+.community-message-row .community-message { min-width: 0; max-width: 100%; align-self: auto; }
 .community-message p { margin: 0; color: #344968; font-size: 10px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
 .community-message time { display: block; margin-top: 4px; color: #8c9bb0; font-size: 7px; text-align: right; }
 .community-message-form { display: flex; align-items: flex-end; gap: 8px; padding: 10px; border-top: 1px solid #e5edf7; background: #fbfdff; }
@@ -285,7 +301,10 @@
 .community-group-message.is-own { align-self: flex-end; }
 .community-group-avatar { flex-basis: 32px; width: 32px; height: 32px; border-radius: 11px; font-size: 10px; }
 .community-group-message-body { display: grid; min-width: 0; gap: 4px; }
-.community-group-message-body > strong { padding-inline: 4px; color: #526b89; font-size: 10px; }
+.community-group-message-body > strong,.community-chat-author { padding: 0 4px; border: 0; color: #526b89; background: transparent; font: inherit; font-size: 10px; font-weight: 750; text-align: left; cursor: pointer; }
+.community-chat-author:hover { color: #2167ce; text-decoration: underline; }
+.community-student-card h3 .community-chat-author { padding: 0; color: inherit; font-size: inherit; font-weight: inherit; }
+.community-profile-body h2 .community-chat-author,.community-profile-handle .community-chat-author { padding: 0; color: inherit; font-size: inherit; font-weight: inherit; }
 .community-group-bubble { display: grid; gap: 6px; padding: 11px 14px 8px; border: 1px solid #e1eaf5; border-radius: 15px 15px 15px 4px; color: #2b405e; background: #f3f7fd; box-shadow: 0 2px 0 rgba(215,228,244,.72); }
 .community-group-message.is-own .community-group-bubble { border-color: #b8d2fb; border-radius: 15px 15px 4px 15px; color: #fff; background: linear-gradient(135deg,#2768df,#4b8df3); box-shadow: 0 3px 0 #1f55ae; }
 .community-group-bubble p { margin: 0; font-size: 12px; line-height: 1.55; overflow-wrap: anywhere; white-space: pre-wrap; }
@@ -723,7 +742,7 @@
 }
 
 /* =========================================================
-   EDUCONNECT GLOBAL COMMUNITY FEED
+   STEPINSTUDENTS GLOBAL COMMUNITY FEED
 ========================================================= */
 
 .feed-root {
@@ -990,30 +1009,43 @@
 
 .feed-card-head {
     display: flex;
-    gap: 12px;
-    align-items: flex-start;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
 }
 
 .feed-author {
-    flex: 1;
+    flex: 0 1 auto;
     min-width: 0;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
 }
 
 .feed-author small {
     color: var(--feed-muted);
     line-height: 1.35;
 }
+.feed-author .feed-meta { display: flex; align-items: center; gap: 7px; font-size: .75rem; }
+.feed-author .feed-meta time { font-size: .72rem; }
 
 .feed-author-name {
-    border: 0;
-    background: none;
-    padding: 0;
-    text-align: left;
+    width: fit-content;
+    max-width: min(34vw, 240px);
+    overflow: hidden;
+    padding: 4px 11px;
+    border: 1px solid #dce7f5;
+    border-radius: 999px;
+    background: linear-gradient(120deg,#fff,#f5f8fd);
+    box-shadow: 0 2px 7px rgba(29,64,112,.08);
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     font-weight: 700;
     color: var(--feed-text);
-    font-size: 1rem;
+    font-size: .9rem;
+    cursor: pointer;
 }
 
 .feed-author-name:hover {
@@ -1183,6 +1215,8 @@
 .feed-comment-body small {
     color: var(--feed-muted);
 }
+.feed-comment-author { display: block; max-width: 100%; overflow: hidden; padding: 0; border: 0; color: var(--feed-text); background: transparent; font: inherit; font-weight: 700; text-align: left; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+.feed-comment-author:hover { color: var(--feed-blue); text-decoration: underline; }
 
 .feed-comment-body p {
     margin: 4px 0;

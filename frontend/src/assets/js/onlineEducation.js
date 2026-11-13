@@ -1,5 +1,5 @@
 /* =========================================================
-   EDUCONNECT — ONLINE EDUCATION INFINITE CAROUSEL
+   STEPINSTUDENTS — ONLINE EDUCATION INFINITE CAROUSEL
 ========================================================= */
 
 export function initOnlineEducationCarousel() {

@@ -26,10 +26,10 @@ export function CommunityPage() {
         return `
             <main class="community-auth-wall">
                 <section>
-                    <span class="community-kicker">EDUCONNECT COMMUNITY</span>
+                    <span class="community-kicker">STEPINSTUDENTS COMMUNITY</span>
                     <h1>Your Community.<br>Your Connections.</h1>
                     <p>
-                        Sign in with your EduConnect account to join the
+                        Sign in with your StepInStudents account to join the
                         community conversation and connect with other members.
                     </p>
                     <a
@@ -53,7 +53,7 @@ export function CommunityPage() {
 
                 <div class="community-hero-copy">
                     <span class="community-kicker">
-                        EDUCONNECT · STUDENT NETWORK
+                        STEPINSTUDENTS · STUDENT NETWORK
                     </span>
 
                     <h1 id="community-title">
@@ -98,7 +98,7 @@ export function CommunityPage() {
                 <figure class="community-hero-photo">
                     <img
                         src="/images/community/community-hero-pin.jpg"
-                        alt="Students connecting and sharing ideas in the EduConnect community"
+                        alt="Students connecting and sharing ideas in the StepInStudents community"
                         loading="eager"
                         fetchpriority="high"
                     >
@@ -115,12 +115,12 @@ export function CommunityPage() {
                 <aside class="community-sidebar">
 
                     <div class="community-side-profile">
-                        <span
+                        <button
+                            type="button"
                             class="community-avatar community-avatar-large"
                             data-my-avatar
-                        >
-                            EC
-                        </span>
+                            aria-label="Open your profile"
+                        >EC</button>
 
                         <div>
                             <strong data-my-name>Student</strong>
@@ -202,11 +202,11 @@ export function CommunityPage() {
                         <div class="community-section-heading">
                             <div>
                                 <span class="community-kicker">
-                                    THE EDUCONNECT STUDENT LOUNGE
+                                    THE STEPINSTUDENTS STUDENT LOUNGE
                                 </span>
 
                                 <h2 id="community-chat-title">
-                                    EduConnect Community Chat
+                                    StepInStudents Community Chat
                                 </h2>
 
                                 <p>
@@ -230,7 +230,7 @@ export function CommunityPage() {
                                 </span>
 
                                 <div>
-                                    <strong>EduConnect Community</strong>
+                                    <strong>StepInStudents Community</strong>
                                     <span>
                                         Chatting as
                                         <b data-community-chat-user-name>
@@ -359,7 +359,7 @@ export function CommunityPage() {
                                 hidden
                             >
                                 <p>
-                                    Sign in or create an EduConnect account
+                                    Sign in or create an StepInStudents account
                                     to join the conversation.
                                 </p>
 

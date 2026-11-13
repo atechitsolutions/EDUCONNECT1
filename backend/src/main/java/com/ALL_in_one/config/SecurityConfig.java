@@ -30,8 +30,8 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
-    @Value("${app.frontend.url}")
-    private String frontendUrl;
+    @Value("${app.frontend.allowed-origins:${app.frontend.url}}")
+    private String frontendAllowedOrigins;
 
 
     public SecurityConfig(
@@ -167,9 +167,10 @@ public class SecurityConfig {
 
 
         configuration.setAllowedOrigins(
-                List.of(
-                        frontendUrl
-                )
+                List.of(frontendAllowedOrigins.split(",")).stream()
+                        .map(String::trim)
+                        .filter(origin -> !origin.isEmpty())
+                        .toList()
         );
 
 

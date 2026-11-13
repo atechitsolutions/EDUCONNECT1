@@ -31,7 +31,7 @@ export default function AuthModal() {
                     <div class="auth-modal-showcase-content">
 
                         <div class="auth-modal-brand">
-                            ✦ EDUCONNECT
+                            ✦ STEPINSTUDENTS
                         </div>
 
                         <h2>
@@ -42,7 +42,7 @@ export default function AuthModal() {
                         </h2>
 
                         <p>
-                            Login or create your EduConnect account
+                            Login or create your StepInStudents account
                             and continue your education journey.
                         </p>
 
@@ -87,7 +87,7 @@ export default function AuthModal() {
                         </h2>
 
                         <p id="auth-modal-subtitle">
-                            Login to continue to EduConnect.
+                            Login to continue to StepInStudents.
                         </p>
 
 
@@ -189,7 +189,7 @@ export default function AuthModal() {
                     >
 
                         <div class="auth-modal-eyebrow">
-                            JOIN EDUCONNECT
+                            JOIN STEPINSTUDENTS
                         </div>
 
                         <h2>
@@ -197,7 +197,7 @@ export default function AuthModal() {
                         </h2>
 
                         <p>
-                            Join EduConnect and start your education journey.
+                            Join StepInStudents and start your education journey.
                         </p>
 
 

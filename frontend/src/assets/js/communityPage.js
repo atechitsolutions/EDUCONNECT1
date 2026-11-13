@@ -2,6 +2,7 @@ import { communityApi as api } from "../../services/communityService.js";
 import { getCurrentUser } from "../../services/authService.js";
 import { initCommunityFeed } from "./communityFeed.js";
 import { initCommunityProfile } from "./communityProfile.js";
+import { communityAvatarHtml, hydrateCommunityAvatars, refreshCommunityAvatar } from "./communityAvatar.js";
 
 const escapeHtml = (value = "") =>
     String(value ?? "").replace(/[&<>"']/g, c => ({
@@ -11,10 +12,6 @@ const escapeHtml = (value = "") =>
         '"': "&quot;",
         "'": "&#39;"
     })[c]);
-
-const initials = (name = "Student") =>
-    String(name).trim().split(/\s+/).slice(0, 2)
-        .map(part => part[0] || "").join("").toUpperCase() || "S";
 
 const dateLabel = date =>
     date
@@ -91,9 +88,39 @@ export function initCommunityPage() {
 
     const signedInUser = getCurrentUser();
     const currentUserId = Number(signedInUser?.userId) || null;
+    const profileUsernameById = new Map();
 
-    const avatar = (person, large = false) =>
-        `<span class="community-avatar${large ? " community-avatar-large" : ""}${person.online ? " is-online" : ""}" aria-hidden="true">${escapeHtml(initials(person.displayName))}</span>`;
+    const avatar = (person, large = false) => communityAvatarHtml(person, large);
+
+    const resolveUserNameById = async (userId, name = "") => {
+        const key = String(userId || "");
+        if (!key) return "";
+        if (profileUsernameById.has(key)) return profileUsernameById.get(key);
+
+        const pending = (async () => {
+            const known = [
+                ...state.students,
+                ...state.friends.map(item => item.student),
+                ...state.incoming.map(item => item.student),
+                ...state.outgoing.map(item => item.student),
+                ...state.conversations.map(item => item.student)
+            ].find(person => String(person.userId) === String(userId));
+            if (known?.username) return known.username;
+
+            const result = await api.discover({ q: name, page: 0, size: 40 });
+            const match = (result.content || []).find(
+                person => String(person.userId) === String(userId)
+            );
+            return match?.username || "";
+        })();
+        profileUsernameById.set(key, pending);
+        const username = await pending.catch(() => "");
+        profileUsernameById.set(key, username);
+        return username;
+    };
+
+    const hydrateAvatars = scope =>
+        hydrateCommunityAvatars(scope || root, resolveUserNameById);
 
     // =========================================================
     // COMMUNITY CHAT
@@ -149,17 +176,14 @@ export function initCommunityPage() {
                     class="community-group-message${own ? " is-own" : ""}"
                     data-message-id="${message.id}"
                 >
-                    ${own ? "" : `
-                        <span
-                            class="community-avatar community-group-avatar"
-                            aria-hidden="true"
-                        >${escapeHtml(initials(senderName))}</span>
-                    `}
+                    ${communityAvatarHtml(own
+                        ? { userId: currentUserId, username: "me", displayName: signedInUser?.fullName }
+                        : { senderId: message.senderId, senderName }, false, "community-group-avatar")}
 
                     <div class="community-group-message-body">
-                        <strong>
-                            ${escapeHtml(senderName)}${own ? " · You" : ""}
-                        </strong>
+                        ${own
+                            ? `<strong>${escapeHtml(senderName)} · You</strong>`
+                            : `<button type="button" class="community-chat-author" data-view-profile-id="${escapeHtml(message.senderId)}" data-view-profile-name="${escapeHtml(senderName)}">${escapeHtml(senderName)}</button>`}
 
                         <div class="community-group-bubble">
                             ${message.imageData ? `
@@ -217,6 +241,7 @@ export function initCommunityPage() {
                 </div>
             `}
         `;
+        hydrateAvatars(list);
 
         if (!keepPosition || nearBottom) {
             list.scrollTop = list.scrollHeight;
@@ -288,7 +313,7 @@ export function initCommunityPage() {
                         <div class="community-empty-state is-error">
                             <span>↗</span>
                             <h3>Sign in to join the chat</h3>
-                            <p>Your session may have expired. Sign in with your EduConnect account to view and send community messages.</p>
+                            <p>Your session may have expired. Sign in with your StepInStudents account to view and send community messages.</p>
                             <a class="community-button community-button-primary" href="/community" data-auth-required="true" data-auth-reauth>Sign in again →</a>
                         </div>
                     `
@@ -411,7 +436,7 @@ export function initCommunityPage() {
                 <div class="community-card-person">
                     ${avatar(person, true)}
                     <div>
-                        <h3>${escapeHtml(person.displayName)}</h3>
+                        <h3><button type="button" class="community-chat-author" data-view-profile="${escapeHtml(person.username)}" data-view-profile-id="${escapeHtml(person.userId)}" data-view-profile-name="${escapeHtml(person.displayName)}">${escapeHtml(person.displayName)}</button></h3>
                         <span>@${escapeHtml(person.username)}</span>
                     </div>
                 </div>
@@ -477,8 +502,7 @@ export function initCommunityPage() {
                 ? "Discoverable student"
                 : "Profile hidden from discovery");
 
-        select("[data-my-avatar]").textContent =
-            initials(state.profile.displayName);
+        refreshCommunityAvatar(select("[data-my-avatar]"), state.profile);
 
         const form = select("[data-profile-form]");
 
@@ -602,6 +626,7 @@ export function initCommunityPage() {
         renderConversations();
         renderNotifications();
         updateCounts();
+        hydrateAvatars(root);
     }
 
     function renderFriends() {
@@ -638,7 +663,7 @@ export function initCommunityPage() {
                     <article class="community-request-card">
                         ${avatar(r.student)}
                         <span>
-                            <b>${escapeHtml(r.student.displayName)}</b>
+                            <button type="button" class="community-chat-author" data-view-profile="${escapeHtml(r.student.username)}" data-view-profile-id="${escapeHtml(r.student.userId)}" data-view-profile-name="${escapeHtml(r.student.displayName)}">${escapeHtml(r.student.displayName)}</button>
                             <small>@${escapeHtml(r.student.username)}</small>
                         </span>
                         <button class="community-small-button" data-cancel-request="${r.id}">Cancel</button>
@@ -657,19 +682,22 @@ export function initCommunityPage() {
 
         target.innerHTML = list.length
             ? list.map(c => `
-                <button class="community-conversation-item${state.activeConversation?.id === c.id ? " is-active" : ""}" data-open-conversation="${c.id}">
+                <div class="community-conversation-item${state.activeConversation?.id === c.id ? " is-active" : ""}">
                     ${avatar(c.student)}
                     <span class="community-conversation-copy">
-                        <b>${escapeHtml(c.student.displayName)}</b>
-                        <small>${escapeHtml(c.lastMessage || "Start a conversation")}</small>
+                        <button type="button" class="community-conversation-name" data-view-profile="${escapeHtml(c.student.username)}" data-view-profile-id="${escapeHtml(c.student.userId)}" data-view-profile-name="${escapeHtml(c.student.displayName)}">${escapeHtml(c.student.displayName)}</button>
+                        <button type="button" class="community-conversation-open" data-open-conversation="${c.id}">
+                            <small>${escapeHtml(c.lastMessage || "Start a conversation")}</small>
+                            <span class="community-conversation-end">
+                                <time>${escapeHtml(dateLabel(c.lastMessageAt))}</time>
+                                ${c.unreadCount ? `<i>${c.unreadCount}</i>` : ""}
+                            </span>
+                        </button>
                     </span>
-                    <span class="community-conversation-end">
-                        <time>${escapeHtml(dateLabel(c.lastMessageAt))}</time>
-                        ${c.unreadCount ? `<i>${c.unreadCount}</i>` : ""}
-                    </span>
-                </button>
+                </div>
             `).join("")
             : `<p class="community-inline-empty">No conversations yet. Connect with a student first.</p>`;
+        hydrateAvatars(target);
     }
 
     function renderNotifications() {
@@ -713,8 +741,8 @@ export function initCommunityPage() {
             <div class="community-profile-body">
                 ${avatar(person, true)}
                 <span class="community-kicker">STUDENT PROFILE</span>
-                <h2 id="community-profile-dialog-title">${escapeHtml(person.displayName)}</h2>
-                <p class="community-profile-handle">@${escapeHtml(person.username)}${person.online ? " · Online" : ""}</p>
+                <h2 id="community-profile-dialog-title"><button type="button" class="community-chat-author" data-view-profile="${escapeHtml(person.username)}" data-view-profile-id="${escapeHtml(person.userId)}" data-view-profile-name="${escapeHtml(person.displayName)}">${escapeHtml(person.displayName)}</button></h2>
+                <p class="community-profile-handle"><button type="button" class="community-chat-author" data-view-profile="${escapeHtml(person.username)}" data-view-profile-id="${escapeHtml(person.userId)}" data-view-profile-name="${escapeHtml(person.displayName)}">@${escapeHtml(person.username)}${person.online ? " · Online" : ""}</button></p>
 
                 ${person.bio
                     ? `<p class="community-profile-bio">${escapeHtml(person.bio)}</p>`
@@ -748,6 +776,7 @@ export function initCommunityPage() {
                 </div>
             </div>
         `;
+        hydrateAvatars(select("[data-profile-detail]"));
 
         dialog.showModal();
     }
@@ -790,7 +819,7 @@ export function initCommunityPage() {
                 <button class="community-icon-button community-chat-back" type="button" data-back-conversations aria-label="Back to conversations">←</button>
                 ${avatar(c.student)}
                 <span>
-                    <b>${escapeHtml(c.student.displayName)}</b>
+                    <button type="button" class="community-chat-author" data-view-profile="${escapeHtml(c.student.username)}" data-view-profile-id="${escapeHtml(c.student.userId)}" data-view-profile-name="${escapeHtml(c.student.displayName)}">${escapeHtml(c.student.displayName)}</button>
                     <small>${c.student.online ? "Online now" : "Private conversation"}</small>
                 </span>
                 <button class="community-icon-button" data-view-profile="${escapeHtml(c.student.username)}" aria-label="View student profile">↗</button>
@@ -803,12 +832,21 @@ export function initCommunityPage() {
                 }
 
                 ${state.messages.length
-                    ? state.messages.map(m => `
-                        <article class="community-message${m.senderId === state.profile.userId ? " is-outgoing" : " is-incoming"}" data-message-id="${m.id}">
-                            <p>${escapeHtml(m.content)}</p>
-                            <time>${escapeHtml(dateLabel(m.createdAt))}${m.senderId === state.profile.userId && m.readAt ? " · Read" : ""}</time>
-                        </article>
-                    `).join("")
+                    ? state.messages.map(m => {
+                        const own = Number(m.senderId) === Number(state.profile.userId);
+                        const person = own
+                            ? { userId: state.profile.userId, username: "me", displayName: state.profile.displayName }
+                            : c.student;
+                        return `
+                        <div class="community-message-row${own ? " is-outgoing" : ""}" data-message-id="${m.id}">
+                            ${avatar(person)}
+                            <article class="community-message${own ? " is-outgoing" : " is-incoming"}">
+                                <p>${escapeHtml(m.content)}</p>
+                                <time>${escapeHtml(dateLabel(m.createdAt))}${own && m.readAt ? " · Read" : ""}</time>
+                            </article>
+                        </div>
+                        `;
+                    }).join("")
                     : `
                         <div class="community-chat-empty">
                             <span>✧</span>
@@ -827,6 +865,7 @@ export function initCommunityPage() {
                 <button type="submit" aria-label="Send message">➤</button>
             </form>
         `;
+        hydrateAvatars(target);
 
         const list = select("[data-message-list]");
 
@@ -1396,25 +1435,28 @@ if (name !== "community-chat" && !state.profile) {
             return;
         }
 
-        const view = event.target.closest("[data-view-profile]");
+        const view = event.target.closest("[data-view-profile], [data-view-profile-id]");
 
         if (view) {
+            const username = view.dataset.viewProfile ||
+                await resolveUserNameById(view.dataset.viewProfileId, view.dataset.viewProfileName);
             const cached = [
                 ...state.students,
                 ...state.friends.map(x => x.student),
                 ...state.incoming.map(x => x.student),
                 ...state.outgoing.map(x => x.student),
                 ...state.conversations.map(x => x.student)
-            ].find(
-                p => p.username === view.dataset.viewProfile
+            ].find(p =>
+                (username && p.username === username) ||
+                (view.dataset.viewProfileId && String(p.userId) === String(view.dataset.viewProfileId))
             );
 
             if (cached) {
                 showProfile(cached);
-            } else {
+            } else if (username) {
                 await run(async () => {
                     showProfile(
-                        await api.profile(view.dataset.viewProfile)
+                        await api.profile(username)
                     );
                 }, "");
             }
@@ -1773,8 +1815,11 @@ if (name !== "community-chat" && !state.profile) {
 
         if (user.fullName) {
             select("[data-my-name]").textContent = user.fullName;
-            select("[data-my-avatar]").textContent =
-                initials(user.fullName);
+            refreshCommunityAvatar(select("[data-my-avatar]"), {
+                ...user,
+                displayName: user.fullName,
+                username: "me"
+            });
 
             select("[data-community-chat-user-name]").textContent =
                 user.fullName;

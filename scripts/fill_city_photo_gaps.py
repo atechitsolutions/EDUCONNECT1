@@ -3,7 +3,7 @@ ROOT=pathlib.Path(r'C:\Users\DELL\Documents\Codex\EDUCONNECT-main'); DATA=json.l
 def norm(x): return re.sub(r'[^a-z0-9]+',' ',unicodedata.normalize('NFKD',str(x or '')).encode('ascii','ignore').decode().lower()).strip()
 def clean(x): return re.sub(r'<[^>]+>',' ',html.unescape(str(x or ''))).strip()
 def get(url):
- req=urllib.request.Request(url,headers={'User-Agent':'EduConnect/1.0 (photo credit recorded)','Accept':'application/json'})
+ req=urllib.request.Request(url,headers={'User-Agent':'StepInStudents/1.0 (photo credit recorded)','Accept':'application/json'})
  with urllib.request.urlopen(req,timeout=20) as r:return json.load(r)
 def licensed(s):
  n=norm(s);return not ('non commercial' in n or 'noncommercial' in n) and any(t in n for t in ['cc by','creative commons attribution','public domain','cc0','cc zero'])
@@ -29,7 +29,7 @@ for n,(country,inst) in enumerate(todo,1):
   cands.sort(key=lambda z:z[0],reverse=True); rec=None
   for _,title,info,meta,lic,desc in cands:
    try:
-    url=info.get('thumburl') or info.get('url'); req=urllib.request.Request(url,headers={'User-Agent':'EduConnect/1.0'})
+    url=info.get('thumburl') or info.get('url'); req=urllib.request.Request(url,headers={'User-Agent':'StepInStudents/1.0'})
     with urllib.request.urlopen(req,timeout=20) as r: blob=r.read()
     if len(blob)<6000:continue
     ext=pathlib.Path(urllib.parse.urlparse(url).path).suffix.lower(); ext=ext if ext in ('.jpg','.jpeg','.png','.webp') else '.jpg'; fn=slug(city)+'-destination'+ext; (OUT/fn).write_bytes(blob)

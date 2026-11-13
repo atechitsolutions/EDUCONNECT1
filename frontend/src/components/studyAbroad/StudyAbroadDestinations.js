@@ -91,7 +91,7 @@ function getDirectoryOverview(institution, country) {
     const location = institution.location || [institution.city, institution.state, country].filter(Boolean).join(", ") || country;
     const founding = institution.established ? ` Its recorded founding year is ${institution.established}.` : "";
 
-    return `${institution.name} is listed in EduConnect as a ${institutionType.toLowerCase()} based in ${location}.${founding} Use this directory profile to compare its listed details with other destinations. Programme availability, admission requirements, campus services and fees vary by course and applicant; confirm current information with the institution before applying.`;
+    return `${institution.name} is listed in StepInStudents as a ${institutionType.toLowerCase()} based in ${location}.${founding} Use this directory profile to compare its listed details with other destinations. Programme availability, admission requirements, campus services and fees vary by course and applicant; confirm current information with the institution before applying.`;
 }
 function getInstitutionInitials(name) {
     return String(name || "Institution").trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
@@ -166,7 +166,7 @@ export default function StudyAbroadDestinations() {
 
                     <h2 id="study-abroad-destinations-title">
                         Explore destinations available on
-                        <span>EduConnect</span>
+                        <span>StepInStudents</span>
                     </h2>
 
 

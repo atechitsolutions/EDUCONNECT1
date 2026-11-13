@@ -93,7 +93,7 @@ export default function MainLayout() {
 
             <section
                 id="hero"
-                aria-label="EduConnect education search"
+                aria-label="StepInStudents education search"
             >
                 ${Hero()}
             </section>

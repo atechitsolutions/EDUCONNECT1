@@ -1,5 +1,5 @@
 /* =========================================================
-   EDUCONNECT — STUDY ABROAD PAGE
+   STEPINSTUDENTS — STUDY ABROAD PAGE
    ---------------------------------------------------------
    Page composition only.
 

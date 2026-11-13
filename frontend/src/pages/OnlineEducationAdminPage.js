@@ -803,7 +803,7 @@ export default function OnlineEducationAdminPage() {
                 <section>
                     <h1>Admin Access Required</h1>
                     <p>Please log in with an administrator account.</p>
-                    <a href="/">Return to EduConnect</a>
+                    <a href="/">Return to StepInStudents</a>
                 </section>
             </main>
         `;
@@ -818,7 +818,7 @@ export default function OnlineEducationAdminPage() {
 
                 <header class="oe-admin-header">
                     <div>
-                        <p class="oe-eyebrow">EDUCONNECT CONTENT</p>
+                        <p class="oe-eyebrow">STEPINSTUDENTS CONTENT</p>
                         <h1>Online Education cards</h1>
                         <p>
                             Create cards, edit existing content, archive cards

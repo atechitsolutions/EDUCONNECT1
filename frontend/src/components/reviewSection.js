@@ -1,5 +1,5 @@
 // ============================================================
-// EduConnect - Reusable Premium Card Component
+// StepInStudents - Reusable Premium Card Component
 // File: frontend/src/components/ui/Card.js
 // ============================================================
 
@@ -22,7 +22,7 @@ function loadCardStyles() {
 
     style.textContent = `
         /* =====================================================
-           PREMIUM EDUCONNECT CARD
+           PREMIUM STEPINSTUDENTS CARD
            ===================================================== */
 
         .edu-card {

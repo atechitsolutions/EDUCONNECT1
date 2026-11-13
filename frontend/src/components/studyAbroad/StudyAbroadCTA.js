@@ -206,7 +206,7 @@ ${LJ_STYLES}
 
     <!-- Sign-up card -->
     <form class="lj-card lj-signup" onsubmit="return window.ljLeapSubmit(event)" novalidate>
-      <div class="lj-logo" aria-label="EduConnect">
+      <div class="lj-logo" aria-label="StepInStudents">
         ${LJ_CAP_SVG}
         <span class="lj-logo__text"><span class="lj-logo__edu">EDU</span><span class="lj-logo__connect">CONNECT</span></span>
       </div>
@@ -274,7 +274,7 @@ ${LJ_STYLES}
         </dl>
 
         <p class="lj-desc">
-          EduConnect helps Indian students plan their study abroad journey. Compare destinations,
+          StepInStudents helps Indian students plan their study abroad journey. Compare destinations,
           universities, courses and scholarships, review admission requirements and estimated costs,
           then choose your next step, all in one place.
         </p>

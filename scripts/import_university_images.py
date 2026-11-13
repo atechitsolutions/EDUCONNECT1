@@ -5,7 +5,7 @@ OUT=ROOT/'frontend/public/images/universities'
 REPORT=ROOT/'frontend/src/data/university-image-sources.json'
 OUT.mkdir(parents=True,exist_ok=True)
 DATA=json.loads(SRC.read_text(encoding='utf-8'))
-UA='EduConnectDirectoryImporter/1.0 (campus image import; attribution recorded)'
+UA='StepInStudentsDirectoryImporter/1.0 (campus image import; attribution recorded)'
 
 def norm(x):
     x=unicodedata.normalize('NFKD',str(x or '')).encode('ascii','ignore').decode().lower()

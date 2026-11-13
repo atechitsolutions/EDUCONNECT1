@@ -48,14 +48,14 @@ export function FooterSection() {
     } : isCommunity ? {
         className: "site-footer--community",
         image: "/images/community/student-community-chat.jpg",
-        imageAlt: "Students connecting and chatting in the EduConnect community",
+        imageAlt: "Students connecting and chatting in the StepInStudents community",
         eyebrow: "CONNECT WITH STUDENTS",
         title: "Your next conversation starts here.",
         description: "Share your learning journey, meet students with similar interests and take part in supportive education discussions.",
         columns: [
             { title: "Community", links: [{ label: "Open the student feed", href: "/community" }, { label: "Student groups", href: "/community" }, { label: "Study discussions", href: "/community" }] },
             { title: "Discover", links: [{ label: "Online education", href: "/online-education" }, { label: "Study abroad", href: "/study-abroad" }, { label: "Scholarships", href: "/#scholarships" }] },
-            { title: "Your space", links: [{ label: "Community guidelines", href: "/community" }, { label: "Student profile", href: "/community" }, { label: "EduConnect home", href: "/" }] }
+            { title: "Your space", links: [{ label: "Community guidelines", href: "/community" }, { label: "Student profile", href: "/community" }, { label: "StepInStudents home", href: "/" }] }
         ]
     } : null;
 
@@ -84,7 +84,7 @@ export function FooterSection() {
         { title: "Platform", links: [
             { label: "Student Community", href: "/community" }, { label: "Education News", href: "/#news" },
             { label: "Education Current Affairs", href: "/#current-affairs" }, { label: "College Rankings in India", href: "/#rankings" },
-            { label: "Student & Parent Reviews", href: "/#student-reviews" }, { label: "EduConnect home", href: "/" },
+            { label: "Student & Parent Reviews", href: "/#student-reviews" }, { label: "StepInStudents home", href: "/" },
             ...findPageLinks("Community"), ...findPageLinks("Your space"),
             ...findPageLinks("Get started").filter((link) => link.label === "Student community")
         ] }
@@ -104,7 +104,7 @@ export function FooterSection() {
                 </section>
                 <div class="page-specific-footer-main">
                     <div class="page-specific-footer-intro">
-                        <div class="footer-mobile-logo">EduConnect</div>
+                        <div class="footer-mobile-logo">StepInStudents</div>
                         <span>${isOnlineEducation ? "ONLINE LEARNING" : "STUDENT COMMUNITY"}</span>
                         <p>${footerDescription}</p>
                     </div>
@@ -144,7 +144,7 @@ export function FooterSection() {
                 <div class="footer-brand">
 
                     <div class="footer-logo">
-                        EduConnect
+                        StepInStudents
                     </div>
 
                     <p class="footer-description">${footerDescription}</p>
@@ -205,7 +205,7 @@ export function FooterSection() {
                         { label: "Education Current Affairs", href: "/#current-affairs" },
                         { label: "College Rankings in India", href: "/#rankings" },
                         { label: "Student & Parent Reviews", href: "/#student-reviews" },
-                        { label: "EduConnect home", href: "/" }
+                        { label: "StepInStudents home", href: "/" }
                     ]
                 })}
 
@@ -219,7 +219,7 @@ export function FooterSection() {
                 <div class="footer-bottom-container">
 
                     <p>
-                        © ${currentYear} EduConnect.
+                        © ${currentYear} StepInStudents.
                         All rights reserved.
                     </p>
 

@@ -31,7 +31,7 @@ export default function Navbar() {
             <a
                 href="/"
                 class="navbar-link"
-                aria-label="Home - ALL IN ONE Education Platform"
+                aria-label="Home - StepInStudents Education Platform"
             >
                 <span class="navbar-mobile-icon" aria-hidden="true">⌂</span><span>Home</span>
             </a>
