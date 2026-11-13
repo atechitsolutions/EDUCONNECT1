@@ -5,12 +5,16 @@ const API = `${API_BASE_URL}/api`;
 const VISITOR_KEY = "educonnect_visitor_id";
 
 export function getVisitorId() {
-    let id = localStorage.getItem(VISITOR_KEY);
-    if (!id) {
-        id = globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now()}${Math.random().toString(36).slice(2)}`;
-        localStorage.setItem(VISITOR_KEY, id);
+    try {
+        let id = localStorage.getItem(VISITOR_KEY);
+        if (!id) {
+            id = globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now()}${Math.random().toString(36).slice(2)}`;
+            localStorage.setItem(VISITOR_KEY, id);
+        }
+        return id;
+    } catch {
+        return globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now()}${Math.random().toString(36).slice(2)}`;
     }
-    return id;
 }
 
 async function request(path, options = {}) {
@@ -37,7 +41,12 @@ export const getPartnerEnquiries = () => request("/college/enquiries");
 export const getPartnerEnquiry = id => request(`/college/enquiries/${id}`);
 export const updatePartnerEnquiryStatus = (id, status) => request(`/college/enquiries/${id}/status`, { method: "PATCH", body: JSON.stringify({ status }) });
 export const changePartnerPassword = data => request("/college/auth/change-password", { method: "POST", body: JSON.stringify(data) });
-export const recordCollegeEvent = (institutionId, eventType, course = null) => request("/analytics/college-event", { method: "POST", headers: { "X-Event-Id": globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now()}${Math.random().toString(36).slice(2)}`, "X-Source-Page": location.pathname }, body: JSON.stringify({ institutionId, eventType, course }) });
+export const recordCollegeEvent = (institutionId, eventType, course = null, eventId = null) => {
+    const numericId = Number(institutionId);
+    if (!Number.isSafeInteger(numericId) || numericId <= 0) return Promise.resolve(null);
+    const id = eventId || globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now()}${Math.random().toString(36).slice(2)}`;
+    return request("/analytics/college-event", { method: "POST", headers: { "X-Event-Id": id, "X-Source-Page": location.pathname }, body: JSON.stringify({ institutionId: numericId, eventType, course }) });
+};
 export const submitCollegeEnquiry = data => request("/college/enquiries", { method: "POST", body: JSON.stringify(data) });
 export const revokeCollegeEnquiryConsent = enquiryId => request(`/college/enquiries/${enquiryId}/revoke-contact-consent`, { method: "POST" });
 export const getAdminInterest = () => request("/admin/college-partners/interest");

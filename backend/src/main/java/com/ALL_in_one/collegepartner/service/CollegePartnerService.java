@@ -158,12 +158,16 @@ public class CollegePartnerService {
 
     @Transactional
     public void recordEvent(Long institutionId, String visitorId, String eventType, String course, Long studentId) {
-        recordEvent(institutionId, visitorId, eventType, course, studentId, null, null, null);
+        recordEventInternal(institutionId, visitorId, eventType, course, studentId, null, null, null);
     }
 
     @Transactional
     public void recordEvent(Long institutionId, String visitorId, String eventType, String course, Long studentId, String sourcePage, String requestEventId) {
-        recordEvent(institutionId, visitorId, eventType, course, studentId, sourcePage, requestEventId, null);
+        recordEventInternal(institutionId, visitorId, eventType, course, studentId, sourcePage, requestEventId, null);
+    }
+
+    private void recordEventInternal(Long institutionId, String visitorId, String eventType, String course, Long studentId, String sourcePage, String requestEventId, Long enquiryId) {
+        recordEvent(institutionId, visitorId, eventType, course, studentId, sourcePage, requestEventId, enquiryId);
     }
 
     private void recordEvent(Long institutionId, String visitorId, String eventType, String course, Long studentId, String sourcePage, String requestEventId, Long enquiryId) {
@@ -174,9 +178,13 @@ public class CollegePartnerService {
         String candidateKey = requestEventId != null && requestEventId.matches("[A-Za-z0-9_-]{12,80}") ? requestEventId : null;
         final String eventKey = candidateKey == null ? null : digest(candidateKey + ":" + institutionId + ":" + eventType + ":" + verifiedStudentId);
         if (eventKey != null && events.existsByDedupeKey(eventKey)) return;
-        LocalDateTime recent = LocalDateTime.now().minusMinutes("ENQUIRY_SUBMITTED".equals(eventType) ? 1 : 15);
-        if (verifiedStudentId != null ? events.existsByStudent_IdAndInstitution_IdAndEventTypeAndCreatedAtAfter(verifiedStudentId, institutionId, eventType, recent) : normalizedVisitor != null && events.existsByVisitorIdAndInstitution_IdAndEventTypeAndCreatedAtAfter(normalizedVisitor, institutionId, eventType, recent)) return;
-        CollegeAnalyticsEvent event = new CollegeAnalyticsEvent(); event.setInstitution(institution); event.setEventType(eventType); event.setVisitorId(normalizedVisitor); event.setCourse(clean(course)); event.setSourcePage(clean(sourcePage)); event.setRelatedEnquiryId(enquiryId); event.setDedupeKey(eventKey); if (verifiedStudentId != null) users.findById(verifiedStudentId).ifPresent(event::setStudent); events.save(event);
+        // Only retries with the same event ID are duplicates. Time-window
+        // suppression incorrectly hides legitimate repeat visits.
+        CollegeAnalyticsEvent event = new CollegeAnalyticsEvent(); event.setInstitution(institution); event.setEventType(eventType); event.setVisitorId(normalizedVisitor); event.setCourse(clean(course)); event.setSourcePage(clean(sourcePage)); event.setRelatedEnquiryId(enquiryId); event.setDedupeKey(eventKey); if (verifiedStudentId != null) users.findById(verifiedStudentId).ifPresent(event::setStudent);
+        try { events.saveAndFlush(event); }
+        catch (org.springframework.dao.DataIntegrityViolationException duplicate) {
+            if (eventKey == null || !events.existsByDedupeKey(eventKey)) throw duplicate;
+        }
     }
 
     @Transactional(readOnly = true)

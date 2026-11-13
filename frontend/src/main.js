@@ -3,6 +3,7 @@ import initPremiumCursor
 import { initWebsiteAssistant } from "./components/WebsiteAssistant.js";
 import { initCommunityPage } from "./assets/js/communityPage.js";
 import { applyRouteSEO } from "./utils/routeSEO.js";
+import { recordCollegeEvent } from "./services/collegePartnerService.js";
 
 import initScrollPlane
     from "./assets/js/scrollPlane.js";
@@ -277,6 +278,17 @@ document.addEventListener(
 
             return;
         }
+
+        // Track only actual profile/detail actions on institution cards.
+        document.addEventListener("click", (event) => {
+            const control = event.target.closest(
+                ".institution-card-action[data-action='details'], .institution-card-action[href]"
+            );
+            const institutionId = control?.closest(".institution-card")?.dataset.institutionId;
+            if (!institutionId) return;
+            if (control.dataset.action === "details" && document.querySelector("[data-study-abroad-details-overlay]")) return;
+            recordCollegeEvent(institutionId, "PROFILE_VIEW").catch(() => {});
+        }, true);
 
         /* =====================================================
            RENDER APPLICATION

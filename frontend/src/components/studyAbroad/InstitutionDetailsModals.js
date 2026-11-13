@@ -156,7 +156,10 @@ export function openInstitutionDetails(institution) {
     const overlay = document.querySelector("[data-study-abroad-details-overlay]");
     if (!overlay) return;
     if (Number.isInteger(Number(institution.id)) && Number(institution.id) > 0) {
-        recordCollegeEvent(Number(institution.id), "PROFILE_VIEW").catch(() => {});
+        // Card launches are tracked by the single delegated click handler.
+        // Direct programmatic opens still count as profile views.
+        const openedFromCard = Boolean(document.activeElement?.closest?.(".institution-card"));
+        if (!openedFromCard) recordCollegeEvent(Number(institution.id), "PROFILE_VIEW").catch(() => {});
     }
     overlay.querySelector("[data-college-enquiry-link]")?.addEventListener("click", (event) => {
         event.preventDefault();
