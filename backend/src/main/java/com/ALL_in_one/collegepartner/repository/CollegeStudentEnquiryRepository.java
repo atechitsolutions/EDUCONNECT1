@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 public interface CollegeStudentEnquiryRepository extends JpaRepository<CollegeStudentEnquiry, Long> {
     List<CollegeStudentEnquiry> findByInstitution_IdOrderByCreatedAtDesc(Long institutionId);
+    List<CollegeStudentEnquiry> findByInstitution_IdAndAssignedByIsNotNullOrderByCreatedAtDesc(Long institutionId);
     long countByInstitution_Id(Long institutionId);
     long countByInstitution_IdAndCreatedAtAfter(Long institutionId, LocalDateTime since);
     long countByCreatedAtAfter(LocalDateTime since);

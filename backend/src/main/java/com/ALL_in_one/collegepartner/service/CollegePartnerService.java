@@ -128,7 +128,19 @@ public class CollegePartnerService {
     public List<Map<String,Object>> leads(String username) {
         CollegePartnerAccount a = accountByUsername(username); boolean paid = activeSubscription(a.getId()).isPresent();
         if (!paid) return List.of();
-        return enquiries.findByInstitution_IdOrderByCreatedAtDesc(a.getInstitution().getId()).stream().map(e -> {
+        return leadSummaries(enquiries.findByInstitution_IdOrderByCreatedAtDesc(a.getInstitution().getId()), paid);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> assignedLeads(String username) {
+        CollegePartnerAccount a = accountByUsername(username); boolean paid = activeSubscription(a.getId()).isPresent();
+        List<CollegeStudentEnquiry> assigned = enquiries
+                .findByInstitution_IdAndAssignedByIsNotNullOrderByCreatedAtDesc(a.getInstitution().getId());
+        return leadSummaries(assigned, paid);
+    }
+
+    private List<Map<String,Object>> leadSummaries(List<CollegeStudentEnquiry> enquiries, boolean paid) {
+        return enquiries.stream().map(e -> {
             Map<String,Object> row = new LinkedHashMap<>(); row.put("id", e.getId()); row.put("student", maskName(e.getStudentName())); row.put("contact", maskPhone(e.getStudentPhone())); row.put("email", maskEmail(e.getStudentEmail()));
             boolean contactConsent = "INSTITUTION_CONTACT".equals(e.getConsentScope()) && e.getContactConsentRevokedAt() == null;
             row.put("course", e.getCourse()); row.put("status", e.getStatus()); row.put("consentGiven", e.isConsentGiven()); row.put("contactSharingConsent", contactConsent); row.put("date", e.getCreatedAt()); row.put("eligibleForDetails", paid && e.isConsentGiven() && e.getConsentAt() != null && contactConsent); row.put("source", e.getLeadSource()); row.put("priority", e.getPriority()); row.put("qualification", e.getCurrentQualification()); row.put("city", e.getCity()); row.put("state", e.getState()); return row;
@@ -260,7 +272,10 @@ public class CollegePartnerService {
     }
     private CollegeStudentEnquiry makeAdminLead(AdminLeadRequest r, CollegePartnerAccount partner, String admin, String source) {
         if(!r.consentGiven()||r.consentReference().isBlank()) throw new IllegalArgumentException("Documented, relevant student contact-sharing consent is required before assignment.");
-        CollegeStudentEnquiry e=new CollegeStudentEnquiry(); e.setInstitution(partner.getInstitution()); e.setStudentName(r.studentName().trim()); e.setStudentEmail(r.studentEmail().trim().toLowerCase(Locale.ROOT)); e.setStudentPhone(r.studentPhone().trim()); e.setAlternativePhone(clean(r.alternativePhone())); e.setCourse(r.course().trim()); e.setPreferredDegree(clean(r.preferredDegree())); e.setStudyMode(clean(r.studyMode())); e.setPreferredCountry(clean(r.preferredCountry())); e.setCurrentQualification(clean(r.currentQualification())); e.setPassingYear(clean(r.passingYear())); e.setPreferredCollege(clean(r.preferredCollege())); e.setCity(clean(r.city())); e.setState(clean(r.state())); e.setMessage(clean(r.message())); e.setConsentGiven(true); e.setConsentAt(LocalDateTime.now()); e.setConsentScope("INSTITUTION_CONTACT"); e.setConsentReference(r.consentReference().trim()); e.setLeadSource(source); e.setPriority(r.priority()==null?"NORMAL":r.priority()); e.setStatus(r.status()==null?"NEW":r.status()); e.setAdminNotes(clean(r.adminNotes())); e.setAssignedBy(admin); return e;
+        String email=r.studentEmail().trim().toLowerCase(Locale.ROOT);
+        CollegeStudentEnquiry e=new CollegeStudentEnquiry(); e.setInstitution(partner.getInstitution()); e.setStudentName(r.studentName().trim()); e.setStudentEmail(email); e.setStudentPhone(r.studentPhone().trim()); e.setAlternativePhone(clean(r.alternativePhone())); e.setCourse(r.course().trim()); e.setPreferredDegree(clean(r.preferredDegree())); e.setStudyMode(clean(r.studyMode())); e.setPreferredCountry(clean(r.preferredCountry())); e.setCurrentQualification(clean(r.currentQualification())); e.setPassingYear(clean(r.passingYear())); e.setPreferredCollege(clean(r.preferredCollege())); e.setCity(clean(r.city())); e.setState(clean(r.state())); e.setMessage(clean(r.message())); e.setConsentGiven(true); e.setConsentAt(LocalDateTime.now()); e.setConsentScope("INSTITUTION_CONTACT"); e.setConsentReference(r.consentReference().trim()); e.setLeadSource(source); e.setPriority(r.priority()==null?"NORMAL":r.priority()); e.setStatus(r.status()==null?"NEW":r.status()); e.setAdminNotes(clean(r.adminNotes())); e.setAssignedBy(admin);
+        users.findByEmail(email).filter(user -> "STUDENT".equals(user.getRole())).ifPresent(e::setStudent);
+        return e;
     }
     private void auditLead(CollegeStudentEnquiry lead,String action,String actor,Long institutionId,String details) { CollegeLeadAudit a=new CollegeLeadAudit(); a.setLead(lead); a.setAction(action); a.setActor(actor); a.setInstitutionId(institutionId); a.setDetails(details); leadAudits.save(a); }
     private String safeFileName(String name) { if(name==null)return "unknown"; String safe=name.replaceAll("[^A-Za-z0-9._ -]","_"); return safe.substring(0,Math.min(255,safe.length())); }

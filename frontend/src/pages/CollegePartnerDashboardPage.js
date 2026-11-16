@@ -35,20 +35,49 @@ export function initCollegePartnerDashboardPage() {
     if (currentUser?.mustChangePassword) root.querySelector("#cp-first-password").hidden = false;
     root.querySelector("#cp-password-form").addEventListener("submit", async event => { event.preventDefault(); const form = event.currentTarget, status = form.querySelector("#cp-password-feedback"); try { await changePartnerPassword(Object.fromEntries(new FormData(form))); currentUser.mustChangePassword = false; localStorage.setItem("educonnect_user", JSON.stringify(currentUser)); root.querySelector("#cp-first-password").hidden = true; status.textContent = "Password updated."; } catch (error) { status.textContent = error.message; status.classList.add("is-error"); } });
     const body = root.querySelector("#cp-leads-body"), mobile = root.querySelector("#cp-mobile-leads"), feedback = root.querySelector("#cp-dashboard-feedback"), dialog = root.querySelector("#cp-lead-dialog");
-    let assignedLeads = [];
+    let assignedLeads = [], canManageAssignedLeads = false, assignedLoadError = "";
     const assignedFilter = () => {
         const term=root.querySelector("#cp-assigned-search").value.trim().toLowerCase(), course=root.querySelector("#cp-assigned-course").value, status=root.querySelector("#cp-assigned-status").value, dateFilter=root.querySelector("#cp-assigned-date").value;
         return assignedLeads.filter(lead=>(!term||`${lead.student} ${lead.email} ${lead.course} ${lead.contact}`.toLowerCase().includes(term))&&(!course||lead.course===course)&&(!status||lead.status===status)&&(!dateFilter||String(lead.date||"").slice(0,10)===dateFilter));
     };
+    const updateAssignedLeadCounters = () => {
+        root.querySelector("#cp-assigned-total").textContent=assignedLeads.length;
+        root.querySelector("#cp-assigned-new").textContent=assignedLeads.filter(lead=>lead.status==="NEW").length;
+        root.querySelector("#cp-assigned-contacted").textContent=assignedLeads.filter(lead=>lead.status==="CONTACTED").length;
+        root.querySelector("#cp-assigned-converted").textContent=assignedLeads.filter(lead=>lead.status==="CONVERTED").length;
+    };
+    const assignedStatusControl = lead => canManageAssignedLeads
+        ? `<select data-status="${esc(lead.id)}" aria-label="Lead status">${statuses.map(s=>`<option value="${s}" ${s===lead.status?"selected":""}>${s.replace("_"," ")}</option>`).join("")}</select>`
+        : `<span class="cp-pill is-muted">${esc(String(lead.status||"NEW").replaceAll("_"," "))}</span>`;
     const renderAssignedLeads = () => {
         const list=assignedFilter(), assignedBody=root.querySelector("#cp-assigned-body"), assignedMobile=root.querySelector("#cp-assigned-mobile");
-        assignedBody.innerHTML=list.length?list.map(lead=>`<tr><td><strong>${esc(lead.student)}</strong></td><td>${esc(lead.contact)}<small>${esc(lead.email)}</small></td><td>${esc(lead.course||"—")}<small>${esc(lead.qualification||"Qualification not provided")}</small></td><td>${esc(String(lead.source||"").replaceAll("_"," "))}</td><td>${esc(lead.priority||"NORMAL")}</td><td><select data-status="${esc(lead.id)}" aria-label="Lead status">${statuses.map(s=>`<option value="${s}" ${s===lead.status?"selected":""}>${s.replace("_"," ")}</option>`).join("")}</select></td><td>${date(lead.date)}</td><td>${lead.eligibleForDetails?`<button class="cp-text-button" data-view="${esc(lead.id)}">View details</button>`:`<span class="cp-lock">${lead.consentGiven?"Premium required":"Consent required"}</span>`}</td></tr>`).join(""):`<tr><td colspan="8" class="cp-empty">${assignedLeads.length?"No leads match these filters.":"No assigned student leads are available. Lead details require Premium access."}</td></tr>`;
-        assignedMobile.innerHTML=list.map(lead=>`<article class="cp-lead-card"><div><strong>${esc(lead.student)}</strong><span>${date(lead.date)}</span></div><p>${esc(lead.course||"Course not specified")} · ${esc(lead.source||"")}</p><p>${esc(lead.qualification||"Qualification not provided")} · ${esc(lead.city||"City not provided")}</p><label>Status<select data-status="${esc(lead.id)}">${statuses.map(s=>`<option value="${s}" ${s===lead.status?"selected":""}>${s.replace("_"," ")}</option>`).join("")}</select></label>${lead.eligibleForDetails?`<button class="cp-text-button" data-view="${esc(lead.id)}">View consented details</button>`:`<span class="cp-lock">${lead.consentGiven?"Premium required":"Consent required"}</span>`}</article>`).join("");
+        assignedBody.innerHTML=list.length?list.map(lead=>`<tr><td><strong>${esc(lead.student)}</strong></td><td>${esc(lead.contact)}<small>${esc(lead.email)}</small></td><td>${esc(lead.course||"—")}<small>${esc(lead.qualification||"Qualification not provided")}</small></td><td>${esc(String(lead.source||"").replaceAll("_"," "))}</td><td>${esc(lead.priority||"NORMAL")}</td><td>${assignedStatusControl(lead)}</td><td>${date(lead.date)}</td><td>${lead.eligibleForDetails?`<button class="cp-text-button" data-view="${esc(lead.id)}">View details</button>`:`<span class="cp-lock">${lead.consentGiven?"Premium required":"Consent required"}</span>`}</td></tr>`).join(""):`<tr><td colspan="8" class="cp-empty">${assignedLoadError?`Could not load assigned leads: ${esc(assignedLoadError)}`:assignedLeads.length?"No leads match these filters.":"No admin-assigned student leads have been sent to your institution."}</td></tr>`;
+        assignedMobile.innerHTML=list.map(lead=>`<article class="cp-lead-card"><div><strong>${esc(lead.student)}</strong><span>${date(lead.date)}</span></div><p>${esc(lead.course||"Course not specified")} · ${esc(lead.source||"")}</p><p>${esc(lead.qualification||"Qualification not provided")} · ${esc(lead.city||"City not provided")}</p><label>Status ${assignedStatusControl(lead)}</label>${lead.eligibleForDetails?`<button class="cp-text-button" data-view="${esc(lead.id)}">View consented details</button>`:`<span class="cp-lock">${lead.consentGiven?"Premium required":"Consent required"}</span>`}</article>`).join("");
     };
     ["#cp-assigned-search","#cp-assigned-course","#cp-assigned-status","#cp-assigned-date"].forEach(selector=>root.querySelector(selector).addEventListener("input",renderAssignedLeads));
     let loadStage = "dashboard and subscription";
+    const refreshAssignedLeads = async () => {
+        const assignedFeedback=root.querySelector("#cp-assigned-feedback");
+        try {
+            assignedLeads=await getPartnerAssignedLeads();
+            assignedLoadError="";
+            assignedFeedback.textContent="";
+            assignedFeedback.classList.remove("is-error");
+        } catch(error) {
+            assignedLeads=[];
+            assignedLoadError=error.message;
+            assignedFeedback.textContent=`Could not load assigned leads: ${error.message}`;
+            assignedFeedback.classList.add("is-error");
+        }
+        updateAssignedLeadCounters();
+        const courseSelect=root.querySelector("#cp-assigned-course"), selectedCourse=courseSelect.value;
+        courseSelect.innerHTML='<option value="">All courses</option>'+[...new Set(assignedLeads.map(lead=>lead.course).filter(Boolean))].sort().map(course=>`<option value="${esc(course)}">${esc(course)}</option>`).join("");
+        courseSelect.value=selectedCourse;
+        renderAssignedLeads();
+    };
     const refreshAnalyticsOnReturn = async () => {
         if (document.hidden) return;
+        refreshAssignedLeads();
         try {
             const stats = await getPartnerDashboard();
             const premium = stats.currentPlan === "PREMIUM" && stats.subscriptionActive;
@@ -79,17 +108,26 @@ export function initCollegePartnerDashboardPage() {
     }
     Promise.all([getPartnerDashboard(), getPartnerAlerts(), getPartnerSubscriptionHistory()]).then(async ([stats, alerts, subscriptionHistory]) => {
         loadStage = stats.analyticsAvailable ? "enquiry activity" : "dashboard and subscription";
+        const premium = stats.currentPlan === "PREMIUM" && stats.subscriptionActive;
+        canManageAssignedLeads = premium;
         const leads = stats.analyticsAvailable ? await getPartnerEnquiries() : [];
-        assignedLeads = stats.analyticsAvailable ? await getPartnerAssignedLeads() : [];
-        root.querySelector("#cp-assigned-total").textContent=assignedLeads.length;
-        root.querySelector("#cp-assigned-new").textContent=assignedLeads.filter(l=>l.status==="NEW").length;
-        root.querySelector("#cp-assigned-contacted").textContent=assignedLeads.filter(l=>l.status==="CONTACTED").length;
-        root.querySelector("#cp-assigned-converted").textContent=assignedLeads.filter(l=>l.status==="CONVERTED").length;
+        const assignedFeedback=root.querySelector("#cp-assigned-feedback");
+        assignedLoadError = "";
+        try {
+            assignedLeads = await getPartnerAssignedLeads();
+            assignedFeedback.textContent="";
+            assignedFeedback.classList.remove("is-error");
+        } catch (error) {
+            assignedLeads=[];
+            assignedLoadError=error.message;
+            assignedFeedback.textContent=`Could not load assigned leads: ${error.message}`;
+            assignedFeedback.classList.add("is-error");
+        }
+        updateAssignedLeadCounters();
         const courseSelect=root.querySelector("#cp-assigned-course"), selectedCourse=courseSelect.value;
         courseSelect.innerHTML='<option value="">All courses</option>'+[...new Set(assignedLeads.map(l=>l.course).filter(Boolean))].sort().map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join(""); courseSelect.value=selectedCourse;
         renderAssignedLeads();
         root.querySelector("#cp-college-name").textContent = stats.collegeName;
-        const premium = stats.currentPlan === "PREMIUM" && stats.subscriptionActive;
         root.querySelector("#cp-visits").textContent = stats.pageVisits30d ?? 0;
         root.querySelector("#cp-profile-views").textContent = stats.profileViews30d ?? 0;
         root.querySelector("#cp-unique").textContent = premium ? (stats.uniqueVisitors30d ?? 0) : "Premium";
@@ -124,7 +162,19 @@ export function initCollegePartnerDashboardPage() {
         root.querySelector("#cp-subscription-history").innerHTML = subscriptionHistory.length ? `<div class="cp-table-wrap"><table class="cp-table"><thead><tr><th>Event</th><th>Payment reference</th><th>Verification note</th><th>Date</th></tr></thead><tbody>${subscriptionHistory.map(item => `<tr><td>${esc(item.action)}</td><td>${esc(item.paymentReference || "—")}</td><td>${esc(item.note || "—")}</td><td>${date(item.date)}</td></tr>`).join("")}</tbody></table></div>` : `<p class="cp-empty">No subscription activation history yet.</p>`;
     }).catch(error => { body.innerHTML = `<tr><td colspan="6" class="cp-empty">Could not load ${esc(loadStage)}: ${esc(error.message)}. Check that the backend is running and the configured API base URL is correct.</td></tr>`; feedback.textContent = `${loadStage}: ${error.message}`; feedback.classList.add("is-error"); });
     root.querySelector("#cp-premium-action").addEventListener("click", () => { if (!root.querySelector("#cp-premium-action").disabled) alert("Online subscription checkout is currently unavailable. Please contact StepInStudents administration. Premium access will be enabled only after an administrator verifies payment."); });
-    root.addEventListener("change", async event => { const id = event.target.dataset.status; if (!id) return; try { await updatePartnerEnquiryStatus(id, event.target.value); feedback.textContent = "Enquiry status saved."; } catch (error) { feedback.textContent = error.message; feedback.classList.add("is-error"); } });
+    root.addEventListener("change", async event => {
+        const statusSelect=event.target.closest("select[data-status]"); if(!statusSelect)return;
+        const id=String(statusSelect.dataset.status), lead=assignedLeads.find(item=>String(item.id)===id), nextStatus=statusSelect.value, previousStatus=lead?.status;
+        statusSelect.disabled=true;
+        try {
+            await updatePartnerEnquiryStatus(id,nextStatus);
+            if(lead){lead.status=nextStatus;updateAssignedLeadCounters();renderAssignedLeads();}
+            feedback.textContent="Enquiry status saved.";feedback.classList.remove("is-error");
+        } catch(error) {
+            if(lead)statusSelect.value=previousStatus;
+            feedback.textContent=error.message;feedback.classList.add("is-error");
+        } finally { statusSelect.disabled=false; }
+    });
     root.addEventListener("click", async event => { const button = event.target.closest("[data-view]"); if (!button) return; try { const lead = await getPartnerEnquiry(button.dataset.view), slot = root.querySelector("#cp-lead-detail"); slot.innerHTML = lead.locked ? `<p>Full contact details require an active subscription, a college specific enquiry and recorded student consent.</p><dl><dt>Student</dt><dd>${esc(lead.student)}</dd><dt>Contact</dt><dd>${esc(lead.contact)}</dd><dt>Email</dt><dd>${esc(lead.email)}</dd></dl>` : `<dl><dt>Student</dt><dd>${esc(lead.student)}</dd><dt>Phone</dt><dd>${esc(lead.contact || "—")}</dd><dt>Email</dt><dd>${esc(lead.email)}</dd><dt>Course</dt><dd>${esc(lead.course || "—")}</dd><dt>Enquiry date</dt><dd>${date(lead.date)}</dd><dt>Message</dt><dd>${esc(lead.message || "—")}</dd><dt>Consent</dt><dd>Recorded</dd></dl>`; dialog.showModal(); } catch (error) { feedback.textContent = error.message; feedback.classList.add("is-error"); } });
     root.querySelector("#cp-alert-list").addEventListener("click", async event => { const read = event.target.closest("[data-alert-read]"), archive = event.target.closest("[data-alert-archive]"); try { if (read) await markPartnerAlertRead(read.dataset.alertRead); if (archive) await archivePartnerAlert(archive.dataset.alertArchive); if (read || archive) { const alerts = await getPartnerAlerts(); root.querySelector("#cp-alert-list").innerHTML = alerts.length ? alerts.map(alert => `<article class="cp-lead-card"><span class="cp-pill ${alert.status === "NEW" ? "is-active" : "is-muted"}">${esc(alert.status.replaceAll("_", " "))}</span><h3>${esc(alert.title)}</h3><p>${esc(alert.content)}</p><p><strong>Student identity:</strong> Protected information</p><p><strong>Subscription:</strong> ${alert.subscriptionActive ? "Active · eligibility and consent still apply" : "Inactive · subscription required"}</p><small>${date(alert.createdAt)}</small><div class="cp-dialog-actions"><button class="cp-button cp-button-muted" data-alert-read="${esc(alert.id)}">Mark read</button><button class="cp-button cp-button-muted" data-alert-archive="${esc(alert.id)}">Archive</button></div></article>`).join("") : `<p class="cp-empty">No opportunity alerts yet.</p>`; } } catch (error) { feedback.textContent = error.message; feedback.classList.add("is-error"); } });
 }
