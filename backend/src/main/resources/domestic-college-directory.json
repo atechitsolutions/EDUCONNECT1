@@ -1,14 +1,910 @@
 [
-  {"code":"EC-IN-UG-DELHI","name":"University of Delhi","city":"New Delhi","type":"UNIVERSITY"},
-  {"code":"EC-IN-UG-IISC","name":"Indian Institute of Science","city":"Bengaluru","type":"INSTITUTION"},
-  {"code":"EC-IN-UG-JNU","name":"Jawaharlal Nehru University","city":"New Delhi","type":"UNIVERSITY"},
-  {"code":"EC-IN-UG-BHU","name":"Banaras Hindu University","city":"Varanasi","type":"UNIVERSITY"},
-  {"code":"EC-IN-UG-MUMBAI","name":"University of Mumbai","city":"Mumbai","type":"UNIVERSITY"},
-  {"code":"EC-IN-UG-CHRIST","name":"Christ University","city":"Bengaluru","type":"UNIVERSITY"},
-  {"code":"EC-IN-UG-MANIPAL","name":"Manipal Academy of Higher Education","city":"Manipal","type":"UNIVERSITY"},
-  {"code":"EC-IN-PG-IIMA","name":"IIM Ahmedabad","city":"Ahmedabad","type":"INSTITUTION"},
-  {"code":"EC-IN-PG-IIMB","name":"IIM Bangalore","city":"Bengaluru","type":"INSTITUTION"},
-  {"code":"EC-IN-PG-IIMC","name":"IIM Calcutta","city":"Kolkata","type":"INSTITUTION"},
-  {"code":"EC-IN-PG-IITD","name":"IIT Delhi","city":"New Delhi","type":"INSTITUTION"},
-  {"code":"EC-IN-PG-IITB","name":"IIT Bombay","city":"Mumbai","type":"INSTITUTION"}
+  {
+    "code": "EC-IN-UG-DELHI",
+    "name": "University of Delhi",
+    "city": "New Delhi",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UG-IISC",
+    "name": "Indian Institute of Science",
+    "city": "Bengaluru",
+    "type": "INSTITUTION"
+  },
+  {
+    "code": "EC-IN-UG-JNU",
+    "name": "Jawaharlal Nehru University",
+    "city": "New Delhi",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UG-BHU",
+    "name": "Banaras Hindu University",
+    "city": "Varanasi",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UG-MUMBAI",
+    "name": "University of Mumbai",
+    "city": "Mumbai",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UG-CHRIST",
+    "name": "Christ University",
+    "city": "Bengaluru",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UG-MANIPAL",
+    "name": "Manipal Academy of Higher Education",
+    "city": "Manipal",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-PG-IIMA",
+    "name": "IIM Ahmedabad",
+    "city": "Ahmedabad",
+    "type": "INSTITUTION"
+  },
+  {
+    "code": "EC-IN-PG-IIMB",
+    "name": "IIM Bangalore",
+    "city": "Bengaluru",
+    "type": "INSTITUTION"
+  },
+  {
+    "code": "EC-IN-PG-IIMC",
+    "name": "IIM Calcutta",
+    "city": "Kolkata",
+    "type": "INSTITUTION"
+  },
+  {
+    "code": "EC-IN-PG-IITD",
+    "name": "IIT Delhi",
+    "city": "New Delhi",
+    "type": "INSTITUTION"
+  },
+  {
+    "code": "EC-IN-PG-IITB",
+    "name": "IIT Bombay",
+    "city": "Mumbai",
+    "type": "INSTITUTION"
+  },
+  {
+    "code": "EC-IN-UN-AMITY-NOIDA",
+    "name": "Amity University",
+    "city": "Noida",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-AMITY-MAHARASHTRA",
+    "name": "Amity University Mumbai",
+    "city": "Mumbai",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-AMITY-RAJASTHAN",
+    "name": "Amity University Jaipur",
+    "city": "Jaipur",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-AMITY-HARYANA",
+    "name": "Amity University Gurugram",
+    "city": "Gurugram",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-AMITY-TELANGANA",
+    "name": "Amity University Hyderabad",
+    "city": "Hyderabad",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-AMITY-PUNJAB",
+    "name": "Amity University Mohali",
+    "city": "Mohali",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-PARUL",
+    "name": "Parul University",
+    "city": "Vadodara",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-BENNETT",
+    "name": "Bennett University",
+    "city": "Greater Noida",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-NIMS",
+    "name": "NIMS University",
+    "city": "Jaipur",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-UPES",
+    "name": "UPES",
+    "city": "Dehradun",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-VGU",
+    "name": "Vivekananda Global University",
+    "city": "Jaipur",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-IILM",
+    "name": "IILM University",
+    "city": "Greater Noida",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-DOON-BUSINESS",
+    "name": "Doon Business School",
+    "city": "Dehradun",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-JECRC",
+    "name": "JECRC University",
+    "city": "Jaipur",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-PODDAR",
+    "name": "Poddar Group of Institutions",
+    "city": "Jaipur",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-FUTURE",
+    "name": "Future University",
+    "city": "Bareilly",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-ALLIANCE",
+    "name": "Alliance University",
+    "city": "Bengaluru",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-LPU",
+    "name": "Lovely Professional University",
+    "city": "Phagwara",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-JKLU",
+    "name": "JK Lakshmipat University",
+    "city": "Jaipur",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-LLOYD",
+    "name": "Lloyd Business School",
+    "city": "Greater Noida",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-SPSU",
+    "name": "Sir Padampat Singhania University",
+    "city": "Udaipur",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-SAGE-INDORE",
+    "name": "SAGE University, Indore",
+    "city": "Indore",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-RENAISSANCE",
+    "name": "Renaissance University",
+    "city": "Indore",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-RCCM",
+    "name": "Renaissance College of Commerce & Management",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-IIL",
+    "name": "Indore Institute of Law",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-IDYLLIC",
+    "name": "Idyllic Institute of Management",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-IIST",
+    "name": "Indore Institute of Science & Technology",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-PIMR-INDORE",
+    "name": "Prestige Institute of Management & Research",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-PIMR-DEWAS",
+    "name": "Prestige Institute of Management & Research, Dewas",
+    "city": "Dewas",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-ACROPOLIS",
+    "name": "Acropolis Institute of Technology & Research",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-KARNAVATI",
+    "name": "Karnavati University",
+    "city": "Gandhinagar",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-MARWADI",
+    "name": "Marwadi University",
+    "city": "Rajkot",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-JAGSOM",
+    "name": "Jagdish Sheth School of Management (JAGSoM)",
+    "city": "Bengaluru",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-AGBS",
+    "name": "Amity Global Business School",
+    "city": "Noida",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-PEARL",
+    "name": "Pearl Academy",
+    "city": "Jaipur",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-GSB",
+    "name": "Graduate School of Business",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-SOFTVISION",
+    "name": "Softvision College",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-RADIANT",
+    "name": "Radiant Institute of Management & Science",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-UAIU",
+    "name": "Universal AI University",
+    "city": "Karjat",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-PPSU",
+    "name": "P P Savani University",
+    "city": "Surat",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-RVU",
+    "name": "RV University",
+    "city": "Bengaluru",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-JLU",
+    "name": "Jagran Lakecity University",
+    "city": "Bhopal",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-ORIENTAL",
+    "name": "Oriental University",
+    "city": "Indore",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-ASM-IBMR",
+    "name": "ASM Institute of Business Management & Research",
+    "city": "Pune",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-PIBM",
+    "name": "Pune Institute of Business Management",
+    "city": "Pune",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-PCU",
+    "name": "Pimpri Chinchwad University",
+    "city": "Pune",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-VISHISHT",
+    "name": "Vishisht College",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-PIMR-BHOPAL",
+    "name": "Prestige Institute of Management & Research, Bhopal",
+    "city": "Bhopal",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-SAGE-BHOPAL",
+    "name": "SAGE University Bhopal",
+    "city": "Bhopal",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-ATLAS",
+    "name": "ATLAS SkillTech University",
+    "city": "Mumbai",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-ISME",
+    "name": "International School of Management Excellence",
+    "city": "Bengaluru",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-RIIM",
+    "name": "RIIM Pune",
+    "city": "Pune",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-JAIPURIA",
+    "name": "Jaipuria Institute of Management",
+    "city": "Noida",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-WOXSEN",
+    "name": "Woxsen University",
+    "city": "Hyderabad",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-FOSTIIMA",
+    "name": "FOSTIIMA Business School",
+    "city": "New Delhi",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-NDIM",
+    "name": "New Delhi Institute of Management",
+    "city": "New Delhi",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-IBA-BENGALURU",
+    "name": "Indus Business Academy",
+    "city": "Bengaluru",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-IIBS",
+    "name": "International Institute of Business Studies",
+    "city": "Bengaluru",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-GIMS",
+    "name": "GNIOT Institute of Management Studies",
+    "city": "Greater Noida",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-SBS",
+    "name": "Shanti Business School",
+    "city": "Ahmedabad",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-ISBR",
+    "name": "ISBR Business School",
+    "city": "Bengaluru",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-MEDICAPS",
+    "name": "Medi-Caps University",
+    "city": "Indore",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-DCBS",
+    "name": "Daly College Business School",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-ITM-NAVI-MUMBAI",
+    "name": "ITM Business School",
+    "city": "Navi Mumbai",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-MET",
+    "name": "MET Institute of Management",
+    "city": "Mumbai",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-JKBS",
+    "name": "JK Business School",
+    "city": "Gurugram",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-ISMS",
+    "name": "International School of Management Studies",
+    "city": "Pune",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-GANPAT",
+    "name": "Ganpat University",
+    "city": "Mehsana",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-DY-PATIL-NAVI-MUMBAI",
+    "name": "Dr. D. Y. Patil University",
+    "city": "Navi Mumbai",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-AVANTIKA",
+    "name": "Avantika University",
+    "city": "Ujjain",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-SILVER-OAK",
+    "name": "Silver Oak University",
+    "city": "Ahmedabad",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-BML-MUNJAL",
+    "name": "BML Munjal University",
+    "city": "Gurugram",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-ASIAN-BUSINESS",
+    "name": "Asian Business School",
+    "city": "Noida",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-LEXICON-MILE",
+    "name": "Lexicon MILE",
+    "city": "Pune",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-INTEGRAL",
+    "name": "Integral University",
+    "city": "Lucknow",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-BBDU",
+    "name": "Babu Banarasi Das University",
+    "city": "Lucknow",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-RAMA",
+    "name": "Rama University",
+    "city": "Kanpur",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-KRMU",
+    "name": "K. R. Mangalam University",
+    "city": "Gurugram",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-SGT",
+    "name": "SGT University",
+    "city": "Gurugram",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-SHARDA",
+    "name": "Sharda University",
+    "city": "Greater Noida",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-OP-JINDAL",
+    "name": "O. P. Jindal Global University",
+    "city": "Sonipat",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-CHANDIGARH",
+    "name": "Chandigarh University",
+    "city": "Mohali",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-GLA",
+    "name": "GLA University",
+    "city": "Mathura",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-MANGALAYATAN",
+    "name": "Mangalayatan University",
+    "city": "Aligarh",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-IIMT",
+    "name": "IIMT University",
+    "city": "Meerut",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-GLS",
+    "name": "GLS University",
+    "city": "Ahmedabad",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-INDUS",
+    "name": "Indus University",
+    "city": "Ahmedabad",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-SIGMA",
+    "name": "Sigma University",
+    "city": "Vadodara",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-SOMAIYA",
+    "name": "Somaiya Vidyavihar University",
+    "city": "Mumbai",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-MIT-ADT",
+    "name": "MIT Art, Design and Technology University",
+    "city": "Pune",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-CMR",
+    "name": "CMR University",
+    "city": "Bengaluru",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-PRESIDENCY",
+    "name": "Presidency University",
+    "city": "Bengaluru",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-ACHARYA",
+    "name": "Acharya Institute of Technology",
+    "city": "Bengaluru",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-JAIN",
+    "name": "JAIN (Deemed-to-be University)",
+    "city": "Bengaluru",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-SGVU",
+    "name": "Suresh Gyan Vihar University",
+    "city": "Jaipur",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-APEJAY-STYA",
+    "name": "Apeejay Stya University",
+    "city": "Gurugram",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-GEETA",
+    "name": "Geeta University",
+    "city": "Panipat",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-SAMSKRUTI",
+    "name": "Samskruti University",
+    "city": "Hyderabad",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-GIBS",
+    "name": "GIBS Business School",
+    "city": "Bengaluru",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-APBS",
+    "name": "Asia-Pacific Institute of Management",
+    "city": "New Delhi",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-SVVV",
+    "name": "Shri Vaishnav Vidyapeeth Vishwavidyalaya",
+    "city": "Indore",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-UN-DBS",
+    "name": "DBS Global University",
+    "city": "Dehradun",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-ALLIANCE-ASCENT",
+    "name": "Alliance Ascent College",
+    "city": "Bengaluru",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-PEARL-MUMBAI",
+    "name": "Pearl Academy Mumbai",
+    "city": "Mumbai",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-PEARL-BENGALURU",
+    "name": "Pearl Academy Bengaluru",
+    "city": "Bengaluru",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-PEARL-DELHI-WEST",
+    "name": "Pearl Academy Delhi West",
+    "city": "New Delhi",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-PEARL-DELHI-SOUTH",
+    "name": "Pearl Academy Delhi South",
+    "city": "New Delhi",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-MARANGONI",
+    "name": "Istituto Marangoni Mumbai",
+    "city": "Mumbai",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-SGC-MOHALI",
+    "name": "Saraswati Group of Colleges (SGC)",
+    "city": "Mohali",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-ISDC",
+    "name": "ISDC (International Skill Development Corporation)",
+    "city": "Bengaluru",
+    "type": "INSTITUTION",
+    "directoryCategory": "SERVICE"
+  },
+  {
+    "code": "EC-IN-COL-SUNSTONE",
+    "name": "Sunstone",
+    "city": "Gurugram",
+    "type": "INSTITUTION",
+    "directoryCategory": "SERVICE"
+  },
+  {
+    "code": "EC-IN-UN-INVERTIS",
+    "name": "Invertis University",
+    "city": "Bareilly",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-UID",
+    "name": "Unitedworld Institute of Design (UID), Karnavati University",
+    "city": "Gandhinagar",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-UN-GANPAT-GOA",
+    "name": "Ganpat University Goa",
+    "city": "Verna, Goa",
+    "type": "UNIVERSITY"
+  },
+  {
+    "code": "EC-IN-COL-PIGM",
+    "name": "Prestige Institute of Global Management (PIGM)",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-IIC-DELHI",
+    "name": "Institute of Informatics & Communication (IIC), University of Delhi",
+    "city": "New Delhi",
+    "type": "INSTITUTION"
+  },
+  {
+    "code": "EC-IN-COL-SKITM",
+    "name": "Shivajirao Kadam Institute of Technology & Management (SKITM)",
+    "city": "Indore",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-COL-DSHM",
+    "name": "Delhi School of Hospitality Management (DSHM)",
+    "city": "New Delhi",
+    "type": "COLLEGE"
+  },
+  {
+    "code": "EC-IN-SERVICE-VGU-DISTANCE",
+    "name": "VGU Distance",
+    "city": "India",
+    "type": "INSTITUTION",
+    "directoryCategory": "SERVICE"
+  },
+  {
+    "code": "EC-IN-SERVICE-GLOBAL-DISTANCE",
+    "name": "Global Distance",
+    "city": "India",
+    "type": "INSTITUTION",
+    "directoryCategory": "SERVICE"
+  },
+  {
+    "code": "EC-IN-SERVICE-ONLINE-RENAISSANCE",
+    "name": "Renaissance University Online",
+    "city": "India",
+    "type": "INSTITUTION",
+    "directoryCategory": "SERVICE"
+  },
+  {
+    "code": "EC-IN-SERVICE-COLLEGEPROGRAM",
+    "name": "CollegeProgram",
+    "city": "India",
+    "type": "INSTITUTION",
+    "directoryCategory": "SERVICE"
+  },
+  {
+    "code": "EC-IN-SERVICE-UPGRADE-ONLINE",
+    "name": "Upgrade Online",
+    "city": "India",
+    "type": "INSTITUTION",
+    "directoryCategory": "SERVICE"
+  },
+  {
+    "code": "EC-IN-SERVICE-COLLEGEVIDYA",
+    "name": "CollegeVidya",
+    "city": "India",
+    "type": "INSTITUTION",
+    "directoryCategory": "SERVICE"
+  },
+  {
+    "code": "EC-IN-SERVICE-KOLLEGEAPPLY",
+    "name": "KollegeApply",
+    "city": "India",
+    "type": "INSTITUTION",
+    "directoryCategory": "SERVICE"
+  },
+  {
+    "code": "EC-IN-NEEDS-CLD",
+    "name": "CLD",
+    "city": "India",
+    "type": "INSTITUTION",
+    "directoryCategory": "NEEDS_IDENTIFICATION"
+  },
+  {
+    "code": "EC-IN-NEEDS-MAYURI",
+    "name": "Mayuri Mumbai",
+    "city": "India",
+    "type": "INSTITUTION",
+    "directoryCategory": "NEEDS_IDENTIFICATION"
+  },
+  {
+    "code": "EC-IN-NEEDS-DSHMIILM",
+    "name": "DSHM IILM",
+    "city": "India",
+    "type": "INSTITUTION",
+    "directoryCategory": "NEEDS_IDENTIFICATION"
+  },
+  {
+    "code": "EC-IN-NEEDS-OXFORD",
+    "name": "Oxford College / University",
+    "city": "India",
+    "type": "INSTITUTION",
+    "directoryCategory": "NEEDS_IDENTIFICATION"
+  },
+  {
+    "code": "EC-IN-NEEDS-DYNAMIC",
+    "name": "Dynamic",
+    "city": "India",
+    "type": "INSTITUTION",
+    "directoryCategory": "NEEDS_IDENTIFICATION"
+  },
+  {
+    "code": "EC-IN-ONLINE-VGU",
+    "name": "Vivekananda Global University (VGU) — Online & Distance",
+    "city": "Jaipur, Rajasthan",
+    "type": "INSTITUTION",
+    "directoryCategory": "ONLINE"
+  },
+  {
+    "code": "EC-IN-ONLINE-UPES",
+    "name": "UPES Online",
+    "city": "Dehradun, Uttarakhand",
+    "type": "INSTITUTION",
+    "directoryCategory": "ONLINE"
+  },
+  {
+    "code": "EC-IN-ONLINE-SGT",
+    "name": "SGT University Online",
+    "city": "Gurugram, Haryana",
+    "type": "INSTITUTION",
+    "directoryCategory": "ONLINE"
+  },
+  {
+    "code": "EC-IN-ONLINE-AMITY",
+    "name": "Amity University Online",
+    "city": "Noida, Uttar Pradesh",
+    "type": "INSTITUTION",
+    "directoryCategory": "ONLINE"
+  },
+  {
+    "code": "EC-IN-ONLINE-LPU",
+    "name": "Lovely Professional University (LPU) Online",
+    "city": "Phagwara, Punjab",
+    "type": "INSTITUTION",
+    "directoryCategory": "ONLINE"
+  },
+  {
+    "code": "EC-IN-ONLINE-PARUL",
+    "name": "Parul University Online",
+    "city": "Vadodara, Gujarat",
+    "type": "INSTITUTION",
+    "directoryCategory": "ONLINE"
+  }
 ]

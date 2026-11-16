@@ -88,6 +88,30 @@ input:focus-visible, select:focus-visible, textarea:focus-visible {
     transform: perspective(1100px) rotateX(var(--ec-tilt-x, 0deg)) rotateY(var(--ec-tilt-y, 0deg));
     transform-style: preserve-3d;
 }
+
+.domestic-institution-directory{margin:36px 0 26px;padding:clamp(18px,3vw,30px);border:1px solid #dbe6f4;border-radius:22px;background:linear-gradient(145deg,#f8fbff,#fff)}
+.domestic-directory-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;margin-bottom:24px}
+.domestic-directory-eyebrow{font-size:.72rem;letter-spacing:.12em;font-weight:800;color:#3364ae}
+.domestic-directory-heading h3{margin:8px 0;font-size:clamp(1.35rem,2.3vw,1.9rem);color:#152743}
+.domestic-directory-heading p{margin:0;max-width:760px;color:#617086;line-height:1.55}
+.domestic-directory-total{flex:none;padding:8px 12px;border-radius:999px;background:#eaf1fc;color:#2c568f;font-weight:750;font-size:.85rem}
+.domestic-directory-category{margin-top:24px}
+.domestic-directory-category-badge{padding:5px 8px;border-radius:999px;background:#eef4fc;color:#42638f;font-size:.7rem;font-weight:750}
+.domestic-directory-category-heading{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.domestic-directory-category-heading h4{margin:0;color:#172b49;font-size:1.12rem}
+.domestic-directory-category-heading span{padding:3px 9px;border-radius:999px;background:#eef3fa;color:#556782;font-size:.8rem;font-weight:750}
+.domestic-directory-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:13px}
+.domestic-directory-card{min-width:0;padding:17px;border:1px solid #e2eaf4;border-radius:15px;background:#fff;box-shadow:0 5px 16px #1b3e6808}
+.domestic-directory-card-top{display:flex;justify-content:space-between;align-items:center;gap:9px;margin-bottom:12px}
+.domestic-directory-monogram{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(145deg,#e8f2ff,#f0eaff);color:#265fb0;font-weight:850}
+.domestic-directory-category-badge{padding:5px 8px;border-radius:999px;background:#eef4fc;color:#42638f;font-size:.7rem;font-weight:750}
+.domestic-directory-card h4{margin:0;color:#172b49;font-size:.98rem;line-height:1.35}
+.domestic-directory-card p{margin:7px 0 0;color:#68788d;font-size:.86rem}
+.domestic-directory-more{margin-top:15px}
+.domestic-directory-more summary{width:max-content;max-width:100%;padding:9px 13px;border:1px solid #d5e2f1;border-radius:10px;background:#fff;color:#315d9a;font-weight:750;cursor:pointer}
+.domestic-directory-more[open] .domestic-directory-grid{margin-top:14px}
+@media(max-width:650px){.domestic-directory-heading{align-items:flex-start;flex-direction:column}.domestic-directory-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.domestic-directory-card{padding:13px}.domestic-directory-card-top{align-items:flex-start;flex-direction:column}}
+@media(max-width:390px){.domestic-directory-grid{grid-template-columns:1fr}}
 @media (hover: hover) and (pointer: fine) {
     .institution-card:hover, .study-abroad-university-card:hover, .study-abroad-course-card:hover,
     .study-abroad-country-comparison-card:hover, .oe-course-card:hover, .oe-programme-card:hover,

@@ -10,6 +10,8 @@ export default function InstitutionCard({
         location = "",
         country = "",
         image = "",
+        imageFit = "cover",
+        imageFallback = "",
         logo = "",
         logoAlt = "",
         verifiedFacts = "",
@@ -46,9 +48,12 @@ export default function InstitutionCard({
                     image
                         ? `
                             <img
+                                class="${imageFit === "contain" ? "institution-card-brand-image" : ""}"
                                 src="${image}"
+                                data-fallback-src="${imageFallback}"
                                 alt="${name}"
                                 loading="lazy"
+                                onerror="if(this.dataset.fallbackSrc && this.src !== this.dataset.fallbackSrc){this.src=this.dataset.fallbackSrc}else{this.hidden=true}"
                             >
                         `
                         : ""

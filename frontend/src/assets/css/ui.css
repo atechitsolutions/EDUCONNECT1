@@ -6152,6 +6152,12 @@
         transform .4s ease;
 }
 
+.institution-card-visual > img.institution-card-brand-image {
+    object-fit: contain;
+    padding: 30px;
+    background: linear-gradient(145deg, #fff, #edf4ff);
+}
+
 .institution-card:hover
 .institution-card-visual > img {
     transform: scale(1.045);
@@ -6309,6 +6315,17 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
 
+    overflow: hidden;
+}
+
+.institution-card-description {
+    margin: 0 14px 12px;
+    color: #58677b;
+    font-size: 12px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
     overflow: hidden;
 }
 
