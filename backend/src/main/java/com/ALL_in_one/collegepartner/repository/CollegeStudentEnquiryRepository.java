@@ -10,4 +10,7 @@ public interface CollegeStudentEnquiryRepository extends JpaRepository<CollegeSt
     long countByCreatedAtAfter(LocalDateTime since);
     long countByConsentGivenTrueAndInstitution_Id(Long institutionId);
     List<CollegeStudentEnquiry> findByStudent_IdOrderByCreatedAtDesc(Long studentId);
+    boolean existsByStudentEmailIgnoreCaseAndInstitution_Id(String email, Long institutionId);
+    boolean existsByStudentPhoneAndInstitution_Id(String phone, Long institutionId);
+    long countByLeadSource(String leadSource);
 }

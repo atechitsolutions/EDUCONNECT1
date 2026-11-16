@@ -60,6 +60,23 @@ export const archivePartnerAlert = id => request(`/college/opportunity-alerts/${
 export const getPartnerSubscriptionHistory = () => request("/college/subscription/history");
 export const getAdminSubscriptions = () => request("/admin/college-partners/subscriptions");
 export const getAdminSubscriptionHistory = () => request("/admin/college-partners/subscriptions/history");
+export const getAdminLeadPartners = () => request("/admin/college-partners/leads/partners");
+export const getAdminLeadSummary = () => request("/admin/college-partners/leads/summary");
+export const getAdminLeads = () => request("/admin/college-partners/leads");
+export const getAdminLeadAudit = () => request("/admin/college-partners/leads/audit");
+export const createAdminLead = data => request("/admin/college-partners/leads", { method: "POST", body: JSON.stringify(data) });
+export const assignImportedAdminLeads = data => request("/admin/college-partners/leads/import/assign", { method: "POST", body: JSON.stringify(data) });
+export function previewAdminLeadImport(file, institutionId, onProgress = () => {}) {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest(); xhr.open("POST", `${API}/admin/college-partners/leads/import/preview`);
+        const token = getToken(); if (token) xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+        xhr.upload.onprogress = event => { if (event.lengthComputable) onProgress(Math.round(event.loaded / event.total * 100)); };
+        xhr.onload = () => { let body = {}; try { body = JSON.parse(xhr.responseText || "{}"); } catch {} if (xhr.status >= 200 && xhr.status < 300) resolve(body); else reject(new Error(body.message || `Import preview failed (${xhr.status}).`)); };
+        xhr.onerror = () => reject(new Error("Could not reach the server while uploading the file."));
+        const data = new FormData(); data.append("file", file); data.append("institutionId", institutionId); xhr.send(data);
+    });
+}
+export const getPartnerAssignedLeads = () => request("/college/assigned-leads");
 export const activateAdminPremium = (accountId, paymentReference, note) => request(`/admin/college-partners/${accountId}/subscription/activate`, { method: "POST", body: JSON.stringify({ paymentReference, note }) });
 export const setAdminSubscriptionStatus = (accountId, status, note) => request(`/admin/college-partners/${accountId}/subscription/status`, { method: "PATCH", body: JSON.stringify({ status, note }) });
 export const getPublicInstitution = id => request(`/institution/${encodeURIComponent(id)}`, { headers: {} });

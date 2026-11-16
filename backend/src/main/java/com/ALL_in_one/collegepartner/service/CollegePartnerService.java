@@ -6,6 +6,10 @@ import com.ALL_in_one.collegepartner.repository.*;
 import com.ALL_in_one.studyabroad.entity.Institution;
 import com.ALL_in_one.studyabroad.repository.InstitutionRepository;
 import com.ALL_in_one.repository.UserRepository;
+import com.ALL_in_one.collegepartner.dto.AdminLeadRequest;
+import org.springframework.web.multipart.MultipartFile;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import com.ALL_in_one.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -32,6 +36,7 @@ public class CollegePartnerService {
     private final CollegeSubscriptionAuditRepository subscriptionAudits;
     private final InstitutionRepository institutions;
     private final UserRepository users;
+    private final CollegeLeadAuditRepository leadAudits;
     private final PasswordEncoder encoder;
     private final JwtService jwtService;
     private final SecureRandom random = new SecureRandom();
@@ -126,7 +131,7 @@ public class CollegePartnerService {
         return enquiries.findByInstitution_IdOrderByCreatedAtDesc(a.getInstitution().getId()).stream().map(e -> {
             Map<String,Object> row = new LinkedHashMap<>(); row.put("id", e.getId()); row.put("student", maskName(e.getStudentName())); row.put("contact", maskPhone(e.getStudentPhone())); row.put("email", maskEmail(e.getStudentEmail()));
             boolean contactConsent = "INSTITUTION_CONTACT".equals(e.getConsentScope()) && e.getContactConsentRevokedAt() == null;
-            row.put("course", e.getCourse()); row.put("status", e.getStatus()); row.put("consentGiven", e.isConsentGiven()); row.put("contactSharingConsent", contactConsent); row.put("date", e.getCreatedAt()); row.put("eligibleForDetails", paid && e.isConsentGiven() && e.getConsentAt() != null && contactConsent); return row;
+            row.put("course", e.getCourse()); row.put("status", e.getStatus()); row.put("consentGiven", e.isConsentGiven()); row.put("contactSharingConsent", contactConsent); row.put("date", e.getCreatedAt()); row.put("eligibleForDetails", paid && e.isConsentGiven() && e.getConsentAt() != null && contactConsent); row.put("source", e.getLeadSource()); row.put("priority", e.getPriority()); row.put("qualification", e.getCurrentQualification()); row.put("city", e.getCity()); row.put("state", e.getState()); return row;
         }).toList();
     }
 
@@ -138,7 +143,7 @@ public class CollegePartnerService {
         if (subscription.isEmpty()) return Map.of("id",e.getId(),"locked",true,"message","Detailed student enquiry information requires an active Premium plan.");
         if (!e.isConsentGiven() || e.getConsentAt() == null || !"INSTITUTION_CONTACT".equals(e.getConsentScope()) || e.getContactConsentRevokedAt() != null) return Map.of("id",e.getId(),"student",maskName(e.getStudentName()),"contact",maskPhone(e.getStudentPhone()),"email",maskEmail(e.getStudentEmail()),"course",Objects.toString(e.getCourse(),""),"date",e.getCreatedAt(),"status",e.getStatus(),"consentGiven",e.getConsentAt() != null && e.getContactConsentRevokedAt() == null,"locked",true);
         accessLogs.save(new StudentDataAccessLog(a, e, subscription.get()));
-        Map<String,Object> details = new LinkedHashMap<>(); details.put("id",e.getId()); details.put("student",e.getStudentName()); details.put("contact",e.getStudentPhone()); details.put("email",e.getStudentEmail()); details.put("course",e.getCourse()); details.put("message",e.getMessage()); details.put("date",e.getCreatedAt()); details.put("status",e.getStatus()); details.put("consentGiven",true); details.put("locked",false); return details;
+        Map<String,Object> details = new LinkedHashMap<>(); details.put("id",e.getId()); details.put("student",e.getStudentName()); details.put("contact",e.getStudentPhone()); details.put("email",e.getStudentEmail()); details.put("course",e.getCourse()); details.put("message",e.getMessage()); details.put("date",e.getCreatedAt()); details.put("status",e.getStatus()); details.put("consentGiven",true); details.put("locked",false); details.put("source", e.getLeadSource()); details.put("qualification", e.getCurrentQualification()); details.put("city",e.getCity()); details.put("state",e.getState()); details.put("degree",e.getPreferredDegree()); details.put("studyMode",e.getStudyMode()); details.put("priority",e.getPriority()); return details;
     }
 
     @Transactional
@@ -149,15 +154,121 @@ public class CollegePartnerService {
         if (activeSubscription(a.getId()).isEmpty()) throw new IllegalArgumentException("Student lead management requires an active Premium plan.");
         if (!Objects.equals(e.getInstitution().getId(), a.getInstitution().getId())) throw new IllegalArgumentException("Enquiry not found.");
         e.setStatus(normalized); enquiries.save(e);
+        auditLead(e, "PARTNER_STATUS_CHANGED", username, e.getInstitution().getId(), normalized);
     }
 
     @Transactional
     public CollegeStudentEnquiry submitEnquiry(CollegeEnquiryRequest request, String visitorId, String authenticatedEmail) {
         Institution institution = institutions.findByIdAndActiveTrueAndStudyAbroadEnabledTrue(request.institutionId()).orElseThrow(() -> new IllegalArgumentException("College record not found."));
-        CollegeStudentEnquiry e = new CollegeStudentEnquiry(); e.setInstitution(institution); e.setStudentName(request.name().trim()); e.setStudentEmail(request.email().trim().toLowerCase(Locale.ROOT)); e.setStudentPhone(clean(request.phone())); e.setCourse(clean(request.course())); e.setMessage(clean(request.message())); e.setConsentGiven(true); e.setConsentAt(LocalDateTime.now()); e.setConsentScope(request.contactSharingConsent() ? "INSTITUTION_CONTACT" : "ENQUIRY_ONLY");
+        CollegeStudentEnquiry e = new CollegeStudentEnquiry(); e.setInstitution(institution); e.setStudentName(request.name().trim()); e.setStudentEmail(request.email().trim().toLowerCase(Locale.ROOT)); e.setStudentPhone(clean(request.phone())); e.setCourse(clean(request.course())); e.setMessage(clean(request.message())); e.setConsentGiven(true); e.setConsentAt(LocalDateTime.now()); e.setConsentScope(request.contactSharingConsent() ? "INSTITUTION_CONTACT" : "ENQUIRY_ONLY"); e.setLeadSource("WEBSITE_ENQUIRY");
         users.findByEmail(authenticatedEmail == null ? "" : authenticatedEmail).filter(user -> "STUDENT".equals(user.getRole())).ifPresent(e::setStudent);
         CollegeStudentEnquiry saved = enquiries.save(e); recordEvent(institution.getId(), visitorId, "ENQUIRY_SUBMITTED", request.course(), e.getStudent() == null ? null : e.getStudent().getId(), null, UUID.randomUUID().toString(), saved.getId()); return saved;
     }
+
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> adminLeadPartners() {
+        return accounts.findAll().stream().filter(CollegePartnerAccount::isActive)
+                .map(a -> { boolean premium = activeSubscription(a.getId()).isPresent(); Map<String,Object> row = new LinkedHashMap<>();
+                    row.put("accountId",a.getId()); row.put("institutionId",a.getInstitution().getId()); row.put("collegeName",a.getInstitution().getName());
+                    row.put("username",a.getUsername()); row.put("accountStatus","ACTIVE"); row.put("subscriptionStatus",premium?"ACTIVE":"INACTIVE"); row.put("eligible",premium); return row; })
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String,Object> adminLeadSummary() {
+        List<CollegeStudentEnquiry> all = enquiries.findAll();
+        long manual = all.stream().filter(e -> "ADMIN_ADDED".equals(e.getLeadSource())).count();
+        long imported = all.stream().filter(e -> "EXCEL_IMPORT".equals(e.getLeadSource())).count();
+        long web = all.stream().filter(e -> "WEBSITE_ENQUIRY".equals(e.getLeadSource())).count();
+        long assigned = all.stream().filter(e -> e.getAssignedBy()!=null).count();
+        return Map.of("total",all.size(),"manual",manual,"imported",imported,"website",web,"assigned",assigned,"pending",Math.max(0,all.size()-assigned),"activePartners",accounts.findAll().stream().filter(CollegePartnerAccount::isActive).count());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> adminLeadList() {
+        return enquiries.findAll().stream().sorted(Comparator.comparing(CollegeStudentEnquiry::getCreatedAt, Comparator.nullsLast(Comparator.reverseOrder())))
+                .map(e -> { Map<String,Object> row=new LinkedHashMap<>(); row.put("id",e.getId()); row.put("student",e.getStudentName()); row.put("email",e.getStudentEmail()); row.put("phone",e.getStudentPhone()); row.put("course",e.getCourse()); row.put("source",e.getLeadSource()); row.put("institution",e.getInstitution().getName()); row.put("institutionId",e.getInstitution().getId()); row.put("status",e.getStatus()); row.put("priority",e.getPriority()); row.put("date",e.getCreatedAt()); return row; }).toList();
+    }
+
+    @Transactional
+    public Map<String,Object> createAdminLead(AdminLeadRequest request, String admin) {
+        CollegePartnerAccount partner=eligiblePartner(request.institutionId());
+        if(enquiries.existsByStudentEmailIgnoreCaseAndInstitution_Id(request.studentEmail().trim(),partner.getInstitution().getId())||enquiries.existsByStudentPhoneAndInstitution_Id(request.studentPhone().trim(),partner.getInstitution().getId())) throw new IllegalArgumentException("A lead with this email or mobile number already exists for the selected college.");
+        CollegeStudentEnquiry lead=makeAdminLead(request,partner,admin,"ADMIN_ADDED");
+        lead=enquiries.save(lead); auditLead(lead,"ADMIN_LEAD_ASSIGNED",admin,partner.getInstitution().getId(),"Assigned from admin form; consent ref: "+request.consentReference());
+        return Map.of("id",lead.getId(),"institution",partner.getInstitution().getName(),"message","Lead assigned successfully.");
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String,Object> previewLeadImport(MultipartFile file, Long institutionId) {
+        if(file==null || file.isEmpty()) throw new IllegalArgumentException("Choose a non-empty CSV or Excel file.");
+        if(file.getSize()>5*1024*1024) throw new IllegalArgumentException("Import file must be 5 MB or smaller.");
+        if(institutionId==null) throw new IllegalArgumentException("Select the receiving college partner before previewing the file.");
+        CollegePartnerAccount target=eligiblePartner(institutionId);
+        String filename=Objects.toString(file.getOriginalFilename(),"").toLowerCase(Locale.ROOT);
+        if(!(filename.endsWith(".csv")||filename.endsWith(".xlsx")||filename.endsWith(".xls"))) throw new IllegalArgumentException("Only .csv, .xlsx and .xls files are supported.");
+        try {
+            List<List<String>> records = filename.endsWith(".csv") ? readCsv(file) : readWorkbook(file);
+            if(records.isEmpty()) throw new IllegalArgumentException("The uploaded file has no header row.");
+            List<String> headers=records.get(0).stream().map(this::headerKey).toList(); Map<String,Integer> columns=mapLeadHeaders(headers);
+            List<Map<String,Object>> rows=new ArrayList<>(); Set<String> seen=new HashSet<>(), seenPhones=new HashSet<>(); int valid=0,duplicates=0,invalid=0;
+            for(int i=1;i<records.size();i++) { List<String> cells=records.get(i); if(cells.stream().allMatch(s->s==null||s.isBlank())) continue;
+                Map<String,Object> row=new LinkedHashMap<>(); row.put("rowNumber",i+1); row.put("rawCells",cells); for(String key:columns.keySet()) row.put(key,cell(cells,columns.get(key)));
+                List<String> errors=new ArrayList<>(); String email=Objects.toString(row.get("studentEmail"),"").trim().toLowerCase(Locale.ROOT); String phone=Objects.toString(row.get("studentPhone"),"").replaceAll("\\D","");
+                if(Objects.toString(row.get("studentName"),"").isBlank()) errors.add("Student name is required.");
+                if(!email.matches("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")) errors.add("Valid email address is required.");
+                if(phone.length()<7||phone.length()>15) errors.add("Mobile number must contain 7–15 digits.");
+                if(Objects.toString(row.get("course"),"").isBlank()) errors.add("Interested course is required.");
+                if(!Set.of("true","yes","1","consented").contains(Objects.toString(row.get("consentGiven"),"").trim().toLowerCase(Locale.ROOT))) errors.add("Explicit contact-sharing consent is required.");
+                if(Objects.toString(row.get("consentReference"),"").isBlank()) errors.add("Consent reference is required.");
+                if(!Objects.toString(row.get("priority"),"").isBlank()&&!Set.of("LOW","NORMAL","HIGH","URGENT").contains(Objects.toString(row.get("priority")).trim().toUpperCase(Locale.ROOT))) errors.add("Priority must be LOW, NORMAL, HIGH or URGENT.");
+                if(!Objects.toString(row.get("status"),"").isBlank()&&!STATUSES.contains(Objects.toString(row.get("status")).trim().toUpperCase(Locale.ROOT))) errors.add("Status must be NEW, CONTACTED, FOLLOW_UP, INTERESTED, CONVERTED or CLOSED.");
+                boolean duplicate=(!email.isBlank()&&(!seen.add(email)||enquiries.existsByStudentEmailIgnoreCaseAndInstitution_Id(email,target.getInstitution().getId())))||(!phone.isBlank()&&(!seenPhones.add(phone)||enquiries.existsByStudentPhoneAndInstitution_Id(Objects.toString(row.get("studentPhone"),"").trim(),target.getInstitution().getId())));
+                row.put("duplicate",duplicate); if(duplicate) duplicates++; if(!errors.isEmpty()) invalid++; else if(!duplicate) valid++;
+                row.put("errors",errors); row.put("valid",errors.isEmpty()&&!duplicate); rows.add(row);
+                if(rows.size()>1000) throw new IllegalArgumentException("Import is limited to 1,000 data rows.");
+            }
+            Map<String,Object> result=new LinkedHashMap<>(); result.put("headers",records.get(0)); result.put("suggestedColumns",columns.keySet()); result.put("rows",rows); result.put("total",rows.size()); result.put("valid",valid); result.put("duplicates",duplicates); result.put("invalid",invalid); result.put("message","Preview only. No leads have been saved."); return result;
+        } catch(IllegalArgumentException ex) { throw ex; } catch(Exception ex) { throw new IllegalArgumentException("Could not read this file. Check that it is a valid CSV or Excel workbook."); }
+    }
+
+    @Transactional
+    public Map<String,Object> assignImportedLeads(LeadImportAssignRequest request, String admin) {
+        CollegePartnerAccount partner=eligiblePartner(request.institutionId());
+        Set<String> emails=new HashSet<>();
+        for(AdminLeadRequest row:request.rows()) {
+            if(!row.consentGiven() || row.consentReference().isBlank()) throw new IllegalArgumentException("Every imported lead requires documented contact-sharing consent.");
+            String email=row.studentEmail().trim().toLowerCase(Locale.ROOT);
+            String phone=row.studentPhone().replaceAll("\\D","");
+            if(!emails.add(email)||enquiries.existsByStudentEmailIgnoreCaseAndInstitution_Id(email,partner.getInstitution().getId())||enquiries.existsByStudentPhoneAndInstitution_Id(row.studentPhone().trim(),partner.getInstitution().getId())) throw new IllegalArgumentException("Duplicate lead detected for "+email+(phone.isBlank()?"":" / mobile ending "+phone.substring(Math.max(0,phone.length()-4)))+". Remove duplicates before importing.");
+        }
+        List<CollegeStudentEnquiry> saved=new ArrayList<>();
+        for(AdminLeadRequest row:request.rows()) { if(!"EXCEL_IMPORT".equals(row.leadSource())) throw new IllegalArgumentException("Imported records must use the EXCEL_IMPORT source."); CollegeStudentEnquiry lead=makeAdminLead(row,partner,admin,"EXCEL_IMPORT"); saved.add(enquiries.save(lead)); }
+        CollegeLeadAudit batch=new CollegeLeadAudit(); batch.setAction("IMPORT_BATCH_ASSIGNED"); batch.setActor(admin); batch.setInstitutionId(partner.getInstitution().getId()); batch.setImportFile(safeFileName(request.fileName())); batch.setRecordCount(saved.size()); batch.setDetails("Assigned imported leads after consent and duplicate validation."); leadAudits.save(batch);
+        saved.forEach(lead->auditLead(lead,"IMPORTED_LEAD_ASSIGNED",admin,partner.getInstitution().getId(),"File: "+safeFileName(request.fileName())));
+        return Map.of("assigned",saved.size(),"duplicates",0,"invalid",0,"institution",partner.getInstitution().getName());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Map<String,Object>> adminLeadAudit() { return leadAudits.findTop500ByOrderByCreatedAtDesc().stream().map(a->{Map<String,Object> row=new LinkedHashMap<>(); row.put("leadId",a.getLead()==null?null:a.getLead().getId()); row.put("action",a.getAction()); row.put("actor",a.getActor()); row.put("institutionId",a.getInstitutionId()); row.put("fileName",a.getImportFile()); row.put("recordCount",a.getRecordCount()); row.put("details",a.getDetails()); row.put("date",a.getCreatedAt()); return row;}).toList(); }
+
+    private CollegePartnerAccount eligiblePartner(Long institutionId) {
+        CollegePartnerAccount partner=accounts.findByInstitution_Id(institutionId).orElseThrow(()->new IllegalArgumentException("The selected institution has no registered college partner account."));
+        if(!partner.isActive()) throw new IllegalArgumentException("The selected college partner account is inactive.");
+        if(activeSubscription(partner.getId()).isEmpty()) throw new IllegalArgumentException("Lead assignment requires an active Premium subscription for this college.");
+        return partner;
+    }
+    private CollegeStudentEnquiry makeAdminLead(AdminLeadRequest r, CollegePartnerAccount partner, String admin, String source) {
+        if(!r.consentGiven()||r.consentReference().isBlank()) throw new IllegalArgumentException("Documented, relevant student contact-sharing consent is required before assignment.");
+        CollegeStudentEnquiry e=new CollegeStudentEnquiry(); e.setInstitution(partner.getInstitution()); e.setStudentName(r.studentName().trim()); e.setStudentEmail(r.studentEmail().trim().toLowerCase(Locale.ROOT)); e.setStudentPhone(r.studentPhone().trim()); e.setAlternativePhone(clean(r.alternativePhone())); e.setCourse(r.course().trim()); e.setPreferredDegree(clean(r.preferredDegree())); e.setStudyMode(clean(r.studyMode())); e.setPreferredCountry(clean(r.preferredCountry())); e.setCurrentQualification(clean(r.currentQualification())); e.setPassingYear(clean(r.passingYear())); e.setPreferredCollege(clean(r.preferredCollege())); e.setCity(clean(r.city())); e.setState(clean(r.state())); e.setMessage(clean(r.message())); e.setConsentGiven(true); e.setConsentAt(LocalDateTime.now()); e.setConsentScope("INSTITUTION_CONTACT"); e.setConsentReference(r.consentReference().trim()); e.setLeadSource(source); e.setPriority(r.priority()==null?"NORMAL":r.priority()); e.setStatus(r.status()==null?"NEW":r.status()); e.setAdminNotes(clean(r.adminNotes())); e.setAssignedBy(admin); return e;
+    }
+    private void auditLead(CollegeStudentEnquiry lead,String action,String actor,Long institutionId,String details) { CollegeLeadAudit a=new CollegeLeadAudit(); a.setLead(lead); a.setAction(action); a.setActor(actor); a.setInstitutionId(institutionId); a.setDetails(details); leadAudits.save(a); }
+    private String safeFileName(String name) { if(name==null)return "unknown"; String safe=name.replaceAll("[^A-Za-z0-9._ -]","_"); return safe.substring(0,Math.min(255,safe.length())); }
+    private String headerKey(String raw) { return Objects.toString(raw,"").toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9]",""); }
+    private Map<String,Integer> mapLeadHeaders(List<String> h) { Map<String,List<String>> aliases=new LinkedHashMap<>(); aliases.put("studentName",List.of("studentname","fullname","name")); aliases.put("studentEmail",List.of("studentemail","emailaddress","email")); aliases.put("studentPhone",List.of("studentphone","mobilenumber","phone","mobile")); aliases.put("alternativePhone",List.of("alternativephone","alternativemobile","alternatephone")); aliases.put("course",List.of("interestedcourse","course","program","programme")); aliases.put("preferredDegree",List.of("preferreddegree","degree")); aliases.put("studyMode",List.of("studymode","deliverymode")); aliases.put("preferredCountry",List.of("preferredcountry","country")); aliases.put("currentQualification",List.of("currentqualification","qualification")); aliases.put("passingYear",List.of("passingyear","graduationyear")); aliases.put("preferredCollege",List.of("preferredcollege","college")); aliases.put("city",List.of("city")); aliases.put("state",List.of("state")); aliases.put("consentGiven",List.of("consentgiven","consent","contactsharingconsent")); aliases.put("consentReference",List.of("consentreference","consentproof","consentid")); aliases.put("priority",List.of("priority","leadpriority")); aliases.put("status",List.of("status","leadstatus")); aliases.put("message",List.of("message","enquirymessage")); aliases.put("adminNotes",List.of("adminnotes","internalnotes")); Map<String,Integer> out=new LinkedHashMap<>(); aliases.forEach((key,values)->{for(int i=0;i<h.size();i++)if(values.contains(h.get(i))){out.put(key,i);break;}}); return out; }
+    private String cell(List<String> cells,Integer index) { return index==null||index<0||index>=cells.size()?"":Objects.toString(cells.get(index),"").trim(); }
+    private List<List<String>> readWorkbook(MultipartFile file) throws Exception { try(Workbook wb=WorkbookFactory.create(file.getInputStream())) { Sheet sheet=wb.getSheetAt(0); DataFormatter formatter=new DataFormatter(); List<List<String>> rows=new ArrayList<>(); int max=Math.min(sheet.getLastRowNum(),1001); for(int i=0;i<=max;i++){Row row=sheet.getRow(i); List<String> values=new ArrayList<>(); int width=row==null?0:Math.min(row.getLastCellNum(),40); for(int c=0;c<width;c++)values.add(row==null?"":formatter.formatCellValue(row.getCell(c))); rows.add(values);} return rows; } }
+    private List<List<String>> readCsv(MultipartFile file) throws Exception { String text=new String(file.getBytes(),StandardCharsets.UTF_8); List<List<String>> rows=new ArrayList<>(); List<String> row=new ArrayList<>(); StringBuilder value=new StringBuilder(); boolean quoted=false; for(int i=0;i<text.length();i++){char c=text.charAt(i); if(c=='"'&&(i+1>=text.length()||text.charAt(i+1)!='"'))quoted=!quoted; else if(c=='"'&&i+1<text.length()&&text.charAt(i+1)=='"'){value.append('"');i++;} else if(c==','&&!quoted){row.add(value.toString());value.setLength(0);} else if((c=='\n'||c=='\r')&&!quoted){if(c=='\r'&&i+1<text.length()&&text.charAt(i+1)=='\n')i++;row.add(value.toString());value.setLength(0);rows.add(row);row=new ArrayList<>();if(rows.size()>1002)throw new IllegalArgumentException("Import is limited to 1,000 data rows.");} else value.append(c);} if(value.length()>0||!row.isEmpty()){row.add(value.toString());rows.add(row);} return rows; }
 
     @Transactional
     public void recordEvent(Long institutionId, String visitorId, String eventType, String course, Long studentId) {

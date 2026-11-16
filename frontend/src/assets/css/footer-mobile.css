@@ -199,10 +199,9 @@
     :root body .footer-accordion-chevron { width: 12px !important; height: 12px !important; color: #e5eaf2 !important; }
 }
 
-/* Complete mobile footer layout: brand, quick links, accordion list and bottom actions. */
+/* Compact mobile footer brand and quick links. */
 .footer-mobile-shortcuts,
-.footer-mobile-explore-links,
-.footer-mobile-actions { display: none; }
+.footer-mobile-explore-links { display: none; }
 
 @media (max-width: 600px) {
     :root body .site-footer { background: #171c25 !important; }
@@ -267,40 +266,5 @@
         padding-bottom: 10px !important;
         font-size: 9px;
     }
-    :root body .footer-mobile-actions {
-        position: fixed;
-        z-index: 11000;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        padding: 9px max(14px, env(safe-area-inset-right)) max(9px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
-        border-top: 1px solid #e3e5e8;
-        background: #fff;
-        box-shadow: 0 -5px 18px rgba(13,24,39,.12);
-    }
-    :root body .footer-mobile-actions > a {
-        display: flex;
-        min-height: 40px;
-        align-items: center;
-        justify-content: center;
-        padding: 0 10px;
-        border: 1px solid #5c626a;
-        border-radius: 6px;
-        color: #171b22;
-        background: #fff;
-        font-size: 11px;
-        font-weight: 600;
-        text-decoration: none;
-    }
-    :root body .footer-mobile-actions > a:last-child {
-        border-color: #e51f3e;
-        color: #fff;
-        background: #e51f3e;
-    }
-    :root body .site-footer { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
-    :root body .edu-assistant .ea-launcher { bottom: calc(76px + env(safe-area-inset-bottom)) !important; }
-    :root body .edu-assistant .ea-panel { bottom: calc(150px + env(safe-area-inset-bottom)) !important; }
+
 }

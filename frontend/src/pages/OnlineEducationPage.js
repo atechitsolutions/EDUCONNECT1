@@ -38,53 +38,6 @@ const INSTITUTION_CAMPUS_IMAGES = {
 
 
 
-function bindTrendingCourses(root) {
-  const track = root.querySelector("[data-trending-track]");
-  const previous = root.querySelector("[data-trending-prev]");
-  const next = root.querySelector("[data-trending-next]");
-
-  if (!track || !previous || !next) return;
-
-  let index = 0;
-
-  const getVisibleCount = () => {
-    if (window.innerWidth <= 640) return 1;
-    if (window.innerWidth <= 1100) return 2;
-    return 4;
-  };
-
-  const update = () => {
-    const cards = [...track.querySelectorAll(".oe-trending-card")];
-    const visible = getVisibleCount();
-    const maxIndex = Math.max(0, cards.length - visible);
-
-    index = Math.max(0, Math.min(index, maxIndex));
-
-    const card = cards[0];
-    if (card) {
-      const gap = parseFloat(getComputedStyle(track).gap) || 0;
-      const distance = card.getBoundingClientRect().width + gap;
-      track.style.transform = `translateX(-${index * distance}px)`;
-    }
-
-    previous.disabled = index === 0;
-    next.disabled = index >= maxIndex;
-  };
-
-  previous.addEventListener("click", () => {
-    index--;
-    update();
-  });
-
-  next.addEventListener("click", () => {
-    index++;
-    update();
-  });
-
-  window.addEventListener("resize", update);
-  update();
-}
-
 const levels = [
     "School",
     "Diploma",

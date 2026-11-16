@@ -92,7 +92,6 @@ export function FooterSection() {
     const mobileFooter = `<nav class="footer-mobile-groups" aria-label="Footer links">${mobileFooterColumns.map((column) => FooterColumn({ ...column, mobile: true })).join("")}</nav>`;
     const mobileShortcuts = `<nav class="footer-mobile-shortcuts" aria-label="StepInStudents quick links"><a href="/community" aria-label="Student community">◎</a><a href="/#news" aria-label="Education news">▤</a><a href="/online-education" aria-label="Online education">▣</a><a href="/study-abroad" aria-label="Study abroad">↗</a></nav>`;
     const mobileExploreLinks = `<div class="footer-mobile-explore-links"><a href="/online-education">Explore Online Education <span aria-hidden="true">→</span></a><a href="/community">Join Student Community <span aria-hidden="true">→</span></a></div>`;
-    const mobileActions = `<nav class="footer-mobile-actions" aria-label="Quick actions"><a href="/#colleges">Explore Colleges</a><a href="/study-abroad">Study Abroad</a></nav>`;
 
     if (pageFooter) {
         return `
@@ -124,7 +123,6 @@ export function FooterSection() {
                         <a href="${isOnlineEducation ? "/community" : "/online-education"}">${isOnlineEducation ? "Community" : "Online education"}</a>
                     </div>
                 </div>
-                ${mobileActions}
             </footer>
         `;
     }
@@ -242,7 +240,6 @@ export function FooterSection() {
                 </div>
 
             </div>
-            ${mobileActions}
 
         </footer>
     `;

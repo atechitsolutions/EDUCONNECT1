@@ -298,10 +298,79 @@ function injectEnquiryStyles() {
     document.head.append(style);
 }
 
+function bindCourseCarousels(root) {
+    root.querySelectorAll(".oe-trending-carousel, .oe-ms-carousel").forEach((carousel) => {
+        const track = carousel.querySelector("[data-trending-track]");
+        const viewport = carousel.querySelector(".oe-trending-viewport, .oe-ms-viewport");
+        const previous = carousel.querySelector("[data-trending-prev]");
+        const next = carousel.querySelector("[data-trending-next]");
+        if (!track || !viewport || !previous || !next) return;
+
+        const cards = [...track.children];
+        let index = 0;
+        let pointerStart = null;
+        let pointerDelta = 0;
+        let suppressClick = false;
+
+        const getVisibleCount = () => {
+            if (window.innerWidth <= 640) return 1;
+            if (window.innerWidth <= 1100) return 2;
+            return 3;
+        };
+        const update = () => {
+            const maxIndex = Math.max(0, cards.length - getVisibleCount());
+            index = Math.max(0, Math.min(index, maxIndex));
+            const card = cards[0];
+            if (card) {
+                const gap = parseFloat(getComputedStyle(track).gap) || 0;
+                track.style.transform = `translate3d(-${index * (card.getBoundingClientRect().width + gap)}px, 0, 0)`;
+            }
+            previous.disabled = index === 0;
+            next.disabled = index >= maxIndex;
+            carousel.dataset.activeSlide = String(index + 1);
+        };
+
+        previous.addEventListener("click", () => { index -= 1; update(); });
+        next.addEventListener("click", () => { index += 1; update(); });
+        viewport.addEventListener("pointerdown", (event) => {
+            if (event.pointerType === "mouse") return;
+            pointerStart = { x: event.clientX, y: event.clientY, id: event.pointerId };
+            pointerDelta = 0;
+            if (viewport.setPointerCapture) viewport.setPointerCapture(event.pointerId);
+        });
+        viewport.addEventListener("pointermove", (event) => {
+            if (!pointerStart || event.pointerId !== pointerStart.id) return;
+            pointerDelta = event.clientX - pointerStart.x;
+        });
+        const finishSwipe = (event) => {
+            if (!pointerStart || event.pointerId !== pointerStart.id) return;
+            const horizontal = Math.abs(pointerDelta) > 38 && Math.abs(pointerDelta) > Math.abs(event.clientY - pointerStart.y) * 1.15;
+            if (horizontal) {
+                index += pointerDelta < 0 ? 1 : -1;
+                suppressClick = true;
+                update();
+            }
+            pointerStart = null;
+            pointerDelta = 0;
+        };
+        viewport.addEventListener("pointerup", finishSwipe);
+        viewport.addEventListener("pointercancel", finishSwipe);
+        viewport.addEventListener("click", (event) => {
+            if (!suppressClick) return;
+            event.preventDefault();
+            event.stopPropagation();
+            suppressClick = false;
+        }, true);
+        window.addEventListener("resize", update);
+        update();
+    });
+}
 export async function initOnlineEducationPage() {
     updatePageMetadata();
 
     const root = byId("online-education-page");
+    if (!root) return;
+    bindCourseCarousels(root);
 
 root.querySelectorAll("[data-enquire-course]").forEach((button) => {
     button.addEventListener("click", () => {
