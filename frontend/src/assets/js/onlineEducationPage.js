@@ -1,5 +1,10 @@
 import { getOnlineEducationProgrammes } from "../../services/onlineEducationService.js";
 import { onlineEducationInstitutions } from "../../data/onlineEducationInstitutions.js";
+import domesticInstitutionDirectory from "../../data/domestic-college-directory.json";
+import domesticInstitutionSites from "../../data/domestic-institution-site-data.json";
+import domesticCampusPhotos from "../../data/domestic-college-campus-photos.json";
+import domesticInstitutionOverviews from "../../data/institution-overviews.json";
+import { onlineEducationCampusImages } from "../../pages/OnlineEducationPage.js";
 import { renderOnlineEducationCustomCards } from "./onlineEducationCustomCards.js";
 import { addProgrammeImages } from "../../utils/onlineEducationImages.js";
 
@@ -15,6 +20,65 @@ const ENQUIRY_STORAGE_KEY = "educonnect-online-enquiries";
 const USE_EXISTING_ENQUIRY_FORM = false;
 
 const byId = (id) => document.getElementById(id);
+const CAMPUS_IMAGE_URLS = onlineEducationCampusImages;
+const AMBIGUOUS_DIRECTORY_CODES = new Set([
+    "EC-IN-UN-FUTURE",
+    "EC-IN-UN-GANPAT-GOA",
+    "EC-IN-NEEDS-OXFORD"
+]);
+const DOMESTIC_DISCOVERY_INSTITUTIONS = domesticInstitutionDirectory
+    .filter((record) => {
+        const code = String(record.code || "");
+        const eligible = !record.directoryCategory &&
+            (code.startsWith("EC-IN-UN-") ||
+                ["EC-IN-COL-ACHARYA", "EC-IN-COL-APBS", "EC-IN-NEEDS-OXFORD"].includes(code));
+        return eligible && !onlineEducationInstitutions.some((item) =>
+            item.country === "India" &&
+            item.name.toLocaleLowerCase() === String(record.name || "").toLocaleLowerCase()
+        );
+    })
+    .map((record) => {
+        const site = domesticInstitutionSites[record.code] || {};
+        const overview = domesticInstitutionOverviews.find((item) =>
+            item.country === "India" &&
+            item.name.toLocaleLowerCase() === record.name.toLocaleLowerCase()
+        );
+        // Imported campus URLs have no validated photo attribution/licence.
+        // Keep them out of public cards until manually verified.
+        const imageUrl = "";
+        const officialWebsite = site.officialDomain &&
+            !/^https?:\/\//i.test(site.officialDomain)
+            ? `https://${site.officialDomain}`
+            : "";
+        return {
+            id: `directory-${record.code}`,
+            directoryCode: record.code,
+            name: record.name,
+            country: "India",
+            city: String(record.city || ""),
+            type: record.type === "COLLEGE" ? "College" :
+                record.type === "UNIVERSITY" ? "University" : "Institution",
+            levels: AMBIGUOUS_DIRECTORY_CODES.has(record.code)
+                ? [] : ["Bachelor's", "Master's", "Diploma", "Certificate"],
+            subjects: ["Other"],
+            modes: record.code === "EC-IN-UN-VGU" ? ["Distance learning"] :
+                AMBIGUOUS_DIRECTORY_CODES.has(record.code) ? [] : ["On-campus"],
+            overview: overview?.overview || site.description || "",
+            url: officialWebsite,
+            imageUrl,
+            imageSourceUrl: "",
+            imageVerificationStatus: "awaiting-authentic-photo",
+            dataVerificationStatus: AMBIGUOUS_DIRECTORY_CODES.has(record.code)
+                ? "needs-clarification" : "pending-review",
+            programmeNote: AMBIGUOUS_DIRECTORY_CODES.has(record.code)
+                ? "This directory entry needs confirmation before students rely on it."
+                : record.code === "EC-IN-UN-VGU"
+                    ? "Distance mode is listed for this institution; confirm programme-specific UGC-DEB entitlement."
+                    : "Campus institution listing. No online or distance programme has been verified for this card.",
+            lastVerifiedAt: null
+        };
+    });
+const ALL_DISCOVERY_INSTITUTIONS = [...onlineEducationInstitutions, ...DOMESTIC_DISCOVERY_INSTITUTIONS];
 
 const escapeHTML = (value = "") =>
     String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -967,37 +1031,47 @@ const openProgrammeDetails = (id) => {
     --------------------------------------------------------- */
 
     const openInstitutionDetails = (id) => {
-        const institution = onlineEducationInstitutions.find(
+        const institution = ALL_DISCOVERY_INSTITUTIONS.find(
             (item) => String(item.id) === String(id)
         );
 
-        if (!institution) return;
+        const directoryInstitution = institution || DOMESTIC_DISCOVERY_INSTITUTIONS.find(
+            (item) => String(item.id) === String(id)
+        );
+
+        if (!directoryInstitution) return;
 
         const dialog = ensureDetailsDialog();
-        const institutionUrl = safeExternalUrl(institution.url);
+        const institutionUrl = safeExternalUrl(directoryInstitution.url);
+        const campusImage = safeExternalUrl(
+            directoryInstitution.imageUrl || INSTITUTION_CAMPUS_IMAGES[directoryInstitution.id]
+        );
 
         const details = [
-        ["Overview", institution.overview || institution.programmeNote],
-            ["Institution", institution.name],
-            ["City", institution.city],
-            ["Country", institution.country],
-            ["Institution type", institution.type],
-            ["Education levels", institution.levels?.join(", ")],
-            ["Subjects", institution.subjects?.join(", ")],
-            ["Study modes", institution.modes?.join(", ")],
-
-            ["Last verified", institution.lastVerifiedAt || "Not verified yet"]
+            ["Overview", directoryInstitution.overview || directoryInstitution.programmeNote],
+            ["Institution", directoryInstitution.name],
+            ["City / location", directoryInstitution.city],
+            ["Country", directoryInstitution.country],
+            ["Institution type", directoryInstitution.type],
+            ["Education levels", directoryInstitution.levels?.join(", ")],
+            ["Subjects", directoryInstitution.subjects?.join(", ")],
+            ["Study modes", directoryInstitution.modes?.join(", ")],
+            ["Official website", institutionUrl || "Not verified"],
+            ["Data status", directoryInstitution.dataVerificationStatus || "Source-linked listing; verify programme details"],
+            ["Campus image status", directoryInstitution.imageVerificationStatus === "awaiting-authentic-photo" ? "Authentic campus photo pending verification" : directoryInstitution.imageVerificationStatus === "campus-photo-source-identified" ? "Campus photo source identified; reuse terms need review" : directoryInstitution.imageVerificationStatus || (campusImage ? "Existing catalogue image; review source and reuse permission" : "No campus photo available")],
+            ["Image source", directoryInstitution.imageSourceUrl || "Source and reuse permission need review"],
+            ["Last verified", directoryInstitution.lastVerifiedAt || "Not verified yet"]
         ];
 
         dialog.innerHTML = `
             <div class="oe-dialog-head">
                 <div>
                     <p class="oe-eyebrow">INSTITUTION OVERVIEW</p>
-                    <h2>${escapeHTML(institution.name)}</h2>
+                    <h2>${escapeHTML(directoryInstitution.name)}</h2>
                     <p>
-                        ${escapeHTML(institution.city || "")}
-                        ${institution.city && institution.country ? " · " : ""}
-                        ${escapeHTML(institution.country || "")}
+                        ${escapeHTML(directoryInstitution.city || "")}
+                        ${directoryInstitution.city && directoryInstitution.country ? " · " : ""}
+                        ${escapeHTML(directoryInstitution.country || "")}
                     </p>
                 </div>
 
@@ -1008,6 +1082,8 @@ const openProgrammeDetails = (id) => {
                     aria-label="Close institution details"
                 >×</button>
             </div>
+
+            ${campusImage ? `<img class="oe-institution-detail-campus" src="${escapeHTML(campusImage)}" alt="Campus photo for ${escapeHTML(directoryInstitution.name)}" loading="lazy" onerror="this.hidden=true">` : ""}
 
             <dl class="oe-programme-detail-list">
                 ${details.map(([label, value]) => `
@@ -1033,7 +1109,7 @@ const openProgrammeDetails = (id) => {
                 <button
                     type="button"
                     class="oe-button oe-primary"
-                    data-enquire-institution="${escapeHTML(institution.id)}"
+                            data-enquire-institution="${escapeHTML(directoryInstitution.id)}"
                 >Enquire Now</button>
 
                 <button
@@ -1068,7 +1144,7 @@ const openProgrammeDetails = (id) => {
 
     const openEnquiry = (kind, id) => {
         const subject = kind === "institution"
-            ? onlineEducationInstitutions.find(
+            ? ALL_DISCOVERY_INSTITUTIONS.find(
                 (item) => String(item.id) === String(id)
             )
             : programmes.find((item) => String(item.id) === String(id));
@@ -1219,7 +1295,7 @@ const openProgrammeDetails = (id) => {
         }
 
         const subject = data.kind === "institution"
-            ? onlineEducationInstitutions.find(
+            ? ALL_DISCOVERY_INSTITUTIONS.find(
                 (item) => String(item.id) === data.itemId
             )
             : programmes.find((item) => String(item.id) === data.itemId);
@@ -1731,9 +1807,7 @@ const openProgrammeDetails = (id) => {
         cards.forEach((card) => {
             const index = matchingCards.indexOf(card);
 
-            card.hidden =
-                index < 0 ||
-                (!institutionsExpanded && index >= 4);
+            card.hidden = index < 0 || (!institutionsExpanded && index >= 4);
         });
 
         const empty = byId("oe-institution-empty");
@@ -1745,8 +1819,8 @@ const openProgrammeDetails = (id) => {
 
         if (toggle) {
             toggle.textContent = institutionsExpanded
-                ? "Show less"
-                : "Show more";
+                ? "Show fewer institutions"
+                : `Show all ${matchingCards.length} matching institutions`;
         }
     };
 
@@ -2053,7 +2127,7 @@ const openProgrammeDetails = (id) => {
 
         if (event.target.closest("#oe-inst-compare-show")) {
             const selected = institutionCompared
-                .map((id) => onlineEducationInstitutions.find(
+                .map((id) => ALL_DISCOVERY_INSTITUTIONS.find(
                     (item) => String(item.id) === String(id)
                 ))
                 .filter(Boolean);

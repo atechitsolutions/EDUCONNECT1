@@ -199,6 +199,12 @@ export function SchoolSection() {
                 image:
                     school.image,
 
+                imageFallback:
+                    school.imageFallback || "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=80",
+
+                actionHref:
+                    school.actionHref || "",
+
                 actionLabel:
                     "Explore School"
 
@@ -309,6 +315,24 @@ export function SchoolSection() {
             <!-- =================================================
                  MOVING CARDS
             ================================================== -->
+
+            <div class="school-region-search" aria-label="Find schools by region">
+                <label for="school-region-select">Find top schools by region</label>
+                <div class="school-region-controls">
+                    <select id="school-region-select" aria-label="Select a region">
+                        <option value="">Choose a region</option>
+                        <option>Rajasthan</option><option>Jaipur</option><option>Delhi</option>
+                        <option>Himachal Pradesh</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+                        <option>Gujarat</option><option>Madhya Pradesh</option><option>Telangana</option><option>Andhra Pradesh</option>
+                    </select>
+                    <button type="button" class="school-region-search-button">Search</button>
+                </div>
+                <p>Approximate editorial listings; not official rankings. School details and campus images should be confirmed on the linked school websites.</p>
+            </div>
+            <div class="school-region-results" hidden aria-live="polite">
+                <h3 class="school-region-results-title"></h3>
+                <div class="school-region-results-grid"></div>
+            </div>
 
             <div class="early-learning-carousel">
 

@@ -4,6 +4,7 @@ import { initWebsiteAssistant } from "./components/WebsiteAssistant.js";
 import { initCommunityPage } from "./assets/js/communityPage.js";
 import { applyRouteSEO } from "./utils/routeSEO.js";
 import { recordCollegeEvent } from "./services/collegePartnerService.js";
+import { initRegionalSchools } from "./components/home/regionalSchools.js";
 
 import initScrollPlane
     from "./assets/js/scrollPlane.js";
@@ -300,6 +301,7 @@ document.addEventListener(
             Router();
 
         applyRouteSEO();
+        initRegionalSchools();
 
         const primaryNavigation = document.querySelector("#educonnect-primary-navigation");
         const navigationToggles = [...document.querySelectorAll(".navbar-menu-toggle, .mobile-header-menu-toggle")];

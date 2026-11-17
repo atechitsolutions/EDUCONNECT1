@@ -11633,10 +11633,31 @@
 .institution-carousel-track .institution-card,
 .boarding-schools-track .institution-card,
 .top-companies-track .institution-card,
-.ug-pg-track .institution-card,
-.boarding-schools-carousel .institution-card,
-.top-companies-carousel .institution-card,
-#top-ug-pg-colleges .ug-pg-track .institution-card,
+.school-region-search {
+    margin: 24px 0 28px;
+    padding: 22px 26px;
+    border: 1px solid #d6e7f7;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #f7fbff, #eaf5ff);
+    box-shadow: 0 12px 30px rgba(15, 76, 129, .09);
+}
+.school-region-search > label { display: block; margin-bottom: 10px; color: #12385b; font-size: 18px; font-weight: 800; }
+.school-region-controls { display: flex; gap: 12px; max-width: 720px; }
+.school-region-controls select { flex: 1; min-width: 0; padding: 13px 15px; border: 1px solid #bfd5eb; border-radius: 12px; background: #fff; color: #183c5b; font: inherit; }
+.school-region-search-button { padding: 12px 30px; border: 0; border-radius: 12px; background: #1768a9; color: white; font: inherit; font-weight: 800; cursor: pointer; box-shadow: 0 6px 15px rgba(23,104,169,.2); }
+.school-region-search-button:hover { background: #0f4c81; }
+.school-region-search > p { margin: 12px 0 0; color: #617b94; font-size: 13px; line-height: 1.5; }
+.school-region-results { margin: 28px 0; scroll-margin-top: 24px; }
+.school-region-results[hidden] { display: none; }
+.school-region-results-title { margin: 0 0 18px; color: #12385b; font-size: 25px; }
+.school-region-results-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.school-region-results-grid .institution-card { width: 100%; min-width: 0; }
+.school-region-results-grid .institution-card.is-selected-for-compare { outline: 2px solid #1768a9; }
+.regional-school-card .institution-card-category { display: inline-block; }
+.regional-school-photo-source { display: inline-block; margin: 8px 0 12px; color: #356d9c; font-size: 12px; text-decoration: underline; }
+@media (max-width: 900px) { .school-region-results-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .school-region-search { padding: 18px; } .school-region-controls { flex-direction: column; } .school-region-controls button { width: 100%; } .school-region-results-grid { grid-template-columns: 1fr; } }
+
 .early-learning-track .institution-card,
 .early-learning-carousel .institution-card {
     flex: 0 0 320px !important;

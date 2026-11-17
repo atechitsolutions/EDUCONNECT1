@@ -1,4 +1,8 @@
 import { onlineEducationInstitutions } from "../data/onlineEducationInstitutions.js";
+import domesticInstitutionDirectory from "../data/domestic-college-directory.json";
+import domesticInstitutionSites from "../data/domestic-institution-site-data.json";
+import domesticCampusPhotos from "../data/domestic-college-campus-photos.json";
+import domesticInstitutionOverviews from "../data/institution-overviews.json";
 import { onlineEducationProgrammes } from "../data/onlineEducationProgrammes.js";
 import onlineEducationHeroVideo from "../assets/images/online-education-hero.mp4";
 import onlineEducationHeroPoster from "../assets/images/online-education-hero.jpg";
@@ -16,13 +20,13 @@ const INSTITUTION_CAMPUS_IMAGES = {
   "university-of-minnesota-online": "https://i.pinimg.com/1200x/c6/f7/03/c6f703dbb407e7d357e5a0cc5d4efef3.jpg",
   "ignou": "https://i.pinimg.com/736x/2c/3b/43/2c3b4325329db9a8d986e87e54d80e83.jpg",
   "manipal-university-jaipur": "https://i.pinimg.com/1200x/6d/2f/95/6d2f958c2f7a84b1febffe645e248615.jpg",
-  "amity-online": "https://i.pinimg.com/736x/1c/a6/7f/1ca67f91abca31c288302e252fca138f.jpg",
+  "amity-online": "https://cache.careers360.mobi/media/presets/720X480/colleges/social-media/media-gallery/729/2018/9/29/Campus%20View%20Of%20Amity%20University%20Noida_Campus-View.jpg",
   "chandigarh-university": "https://i.pinimg.com/1200x/73/32/46/7332468887a50cf3640bda18d6ca536d.jpg",
   "jain-university-online": "https://i.pinimg.com/736x/1f/80/85/1f80853e6611116a0c92a2f33ed6c335.jpg",
   "nmims": "https://i.pinimg.com/1200x/ff/3e/ae/ff3eaee4ea243583d22ea08d2b3ef96b.jpg",
   "amrita-online": "https://i.pinimg.com/736x/62/7d/83/627d834231f7c460d2f11eca600afffe.jpg",
   "lpu-online": "https://images.unsplash.com/photo-1592280771190-3e2e4d571952?auto=format&fit=crop&w=700&q=85",
-  "parul-university-online": "https://images.unsplash.com/photo-1607237138185-eedd9c632b0b?auto=format&fit=crop&w=700&q=85",
+  "parul-university-online": "https://www.paruluniversity.ac.in/wp-content/uploads/2026/03/pugallery10.jpg",
   "georgia-tech": "https://i.pinimg.com/1200x/09/60/d9/0960d99864cd16c28b21a842eefbcd75.jpg",
   "snhu": "https://i.pinimg.com/1200x/33/c9/ab/33c9ab82c60e27874c39a7d0c2450843.jpg",
   "https://i.pinimg.com/1200x/56/3d/0e/563d0ebd63b4c1db7384b9e44f34ec04.jpg": "",
@@ -35,6 +39,123 @@ const INSTITUTION_CAMPUS_IMAGES = {
   "iu-international": "https://i.pinimg.com/1200x/4b/24/40/4b2440b5e3a85bf899f41eec4a36fb33.jpg",
   "uoc": "https://i.pinimg.com/1200x/f6/d0/cb/f6d0cb1b9cda2177b535ff0377545243.jpg"
 };
+export const onlineEducationCampusImages = INSTITUTION_CAMPUS_IMAGES;
+
+// Add India's existing directory records without replacing international cards.
+const EXISTING_INSTITUTION_IDS = new Set(onlineEducationInstitutions.map(({ id }) => id));
+const EXISTING_DIRECTORY_CODES = new Set([
+  "EC-IN-UN-AMITY-NOIDA",
+  "EC-IN-UN-LPU",
+  "EC-IN-UN-PARUL",
+  "EC-IN-UN-CHANDIGARH",
+  "EC-IN-UN-JAIN",
+  "EC-IN-UG-MANIPAL"
+]);
+const DIRECTORY_MODE_OVERRIDES = {
+  "EC-IN-UN-VGU": ["Distance learning"],
+  "EC-IN-UN-GANPAT-GOA": [],
+  "EC-IN-UN-FUTURE": [],
+  "EC-IN-NEEDS-OXFORD": []
+};
+// Images from each institution's own campus/gallery page. Keep the source
+// page with the image URL so its origin is traceable in the detail view.
+const VERIFIED_OFFICIAL_CAMPUS_PHOTOS = {
+  "EC-IN-UN-AMITY-NOIDA": {
+    imageUrl: "https://cache.careers360.mobi/media/presets/720X480/colleges/social-media/media-gallery/729/2018/9/29/Campus%20View%20Of%20Amity%20University%20Noida_Campus-View.jpg",
+    sourceUrl: "https://www.amity.edu/noida/aips/pdf/admission_prospectus_2025.pdf"
+  },
+  "EC-IN-UN-BENNETT": {
+    imageUrl: "https://cache.careers360.mobi/media/article_images/2020/7/10/campus-pic.jpg",
+    sourceUrl: "https://www.bennett.edu.in/bennett-university-galleries/"
+  },
+  "EC-IN-UN-VGU": {
+    imageUrl: "https://media.collegesathi.com/universities/1781610103528-vgu-1.webp",
+    sourceUrl: "https://vgu.ac.in/contact"
+  },
+  "EC-IN-UN-PARUL": {
+    imageUrl: "https://www.paruluniversity.ac.in/wp-content/uploads/2026/03/pugallery10.jpg",
+    sourceUrl: "https://www.paruluniversity.ac.in/gallery/"
+  },
+  "EC-IN-UN-UPES": {
+    imageUrl: "https://upeswebsitecdn-prod-hphqfhc0b8h2ffhf.a02.azurefd.net/drupal-data/2025-03/UPES%20Campus.webp",
+    sourceUrl: "https://www.upes.ac.in/campus-life"
+  },
+  "EC-IN-UN-JECRC": {
+    imageUrl: "https://jecrcuniversity.edu.in/wp-content/uploads/2023/01/9842.webp",
+    sourceUrl: "https://jecrcuniversity.edu.in/jecrc-university-campus/"
+  },
+  "EC-IN-UN-NIMS": {
+    imageUrl: "https://nimsuniversity.org/images/home/campus-life/campus%20life/campus-life-1.webp",
+    sourceUrl: "https://nimsuniversity.org/?lang=en"
+  }
+};
+const DOMESTIC_DISCOVERY_INSTITUTIONS = domesticInstitutionDirectory
+  .filter(({ code, name }) => {
+    const entry = String(code || "");
+    const candidate = !domesticInstitutionDirectory.find((item) => item.code === entry)?.directoryCategory &&
+      (entry.startsWith("EC-IN-UN-") ||
+        ["EC-IN-COL-ACHARYA", "EC-IN-COL-APBS", "EC-IN-NEEDS-OXFORD"].includes(entry));
+    return candidate && !EXISTING_INSTITUTION_IDS.has(`directory-${entry}`) &&
+      !EXISTING_DIRECTORY_CODES.has(entry) &&
+      !onlineEducationInstitutions.some((item) =>
+        item.country === "India" &&
+        item.name.toLocaleLowerCase() === String(name || "").toLocaleLowerCase() &&
+        !(entry === "EC-IN-UN-NMIMS" && item.id === "nmims")
+      );
+  })
+  .map((record) => {
+    const site = domesticInstitutionSites[record.code] || {};
+    const overview = domesticInstitutionOverviews.find((item) =>
+      item.country === "India" &&
+      item.name.toLocaleLowerCase() === record.name.toLocaleLowerCase()
+    );
+    const officialWebsite = site.officialDomain &&
+      !/^https?:\/\//i.test(site.officialDomain)
+      ? `https://${site.officialDomain}`
+      : "";
+    // Existing imported image URLs lack reliable attribution/licensing.
+    // Do not present them as verified campus photographs.
+    const verifiedCampusPhoto = VERIFIED_OFFICIAL_CAMPUS_PHOTOS[record.code];
+    const image = verifiedCampusPhoto?.imageUrl || "";
+    const hasVerifiedOnlineProgramme = Boolean(site.onlineProgrammeUrl);
+    const modes = DIRECTORY_MODE_OVERRIDES[record.code] ||
+      (hasVerifiedOnlineProgramme ? ["Fully online"] : ["On-campus"]);
+    const city = String(record.city || "");
+    const ambiguity = record.code === "EC-IN-NEEDS-OXFORD" ||
+      record.code === "EC-IN-UN-GANPAT-GOA" ||
+      record.code === "EC-IN-UN-FUTURE";
+    return {
+      id: `directory-${record.code}`,
+      directoryCode: record.code,
+      name: record.name,
+      country: "India",
+      city,
+      directoryCode: record.code,
+      type: record.type === "COLLEGE" ? "College" : record.type === "UNIVERSITY" ? "University" : "Institution",
+      levels: ambiguity ? [] : ["Bachelor's", "Master's", "Diploma", "Certificate"],
+      subjects: ["Other"],
+      modes,
+      overview: overview?.overview || site.description || "",
+      url: officialWebsite,
+      sourceUrl: officialWebsite,
+      imageUrl: image,
+      imageSourceUrl: image ? verifiedCampusPhoto.sourceUrl : "",
+      imageAttribution: image ? `${record.name} official campus gallery` : "",
+      imageLicense: image ? "Campus photo source identified; reuse terms need confirmation" : "",
+      imageVerificationStatus: image ? "campus-photo-source-identified" : "awaiting-authentic-photo",
+      dataVerificationStatus: ambiguity ? "needs-clarification" : "pending-review",
+      programmeNote: ambiguity
+        ? "This directory entry needs confirmation before students rely on it."
+        : hasVerifiedOnlineProgramme
+          ? "Online mode is listed in the institution source directory; confirm programme-specific UGC-DEB entitlement."
+          : "Campus institution listing. No online or distance programme has been verified for this card.",
+      lastVerifiedAt: null
+    };
+  });
+const ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS = [
+  ...onlineEducationInstitutions,
+  ...DOMESTIC_DISCOVERY_INSTITUTIONS
+];
 
 
 
@@ -417,7 +538,7 @@ export default function OnlineEducationPage() {
 
                         <select id="oe-inst-country">
                           <option value="">All countries</option>
-                          ${[...new Set(onlineEducationInstitutions.map(x => x.country))]
+                          ${[...new Set(ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS.map(x => x.country))]
                             .map(country => `<option>${country}</option>`).join("")}
                         </select>
                       </label>
@@ -427,7 +548,7 @@ export default function OnlineEducationPage() {
 
                         <select id="oe-inst-level">
                           <option value="">All levels</option>
-                          ${[...new Set(onlineEducationInstitutions.flatMap(x => x.levels))]
+                          ${[...new Set(ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS.flatMap(x => x.levels))]
                             .map(level => `<option>${level}</option>`).join("")}
                         </select>
                       </label>
@@ -437,7 +558,7 @@ export default function OnlineEducationPage() {
 
                         <select id="oe-inst-subject">
                           <option value="">All subjects</option>
-                          ${[...new Set(onlineEducationInstitutions.flatMap(x => x.subjects))]
+                          ${[...new Set(ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS.flatMap(x => x.subjects))]
                             .map(subject => `<option>${subject}</option>`).join("")}
                         </select>
                       </label>
@@ -447,7 +568,7 @@ export default function OnlineEducationPage() {
 
                         <select id="oe-inst-mode">
                           <option value="">All modes</option>
-                          ${[...new Set(onlineEducationInstitutions.flatMap(x => x.modes))]
+                          ${[...new Set(ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS.flatMap(x => x.modes))]
                             .map(mode => `<option>${mode}</option>`).join("")}
                         </select>
                       </label>
@@ -462,7 +583,7 @@ export default function OnlineEducationPage() {
                     </div>
 
                 <div class="oe-provider-grid oe-institution-programme-grid" id="oe-institution-results">
-                  ${onlineEducationInstitutions.map(institution => `
+                  ${ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS.map(institution => `
                     <article
                       class="oe-programme-card oe-course-card oe-institution-card"
                       data-country="${institution.country}"
@@ -474,13 +595,15 @@ export default function OnlineEducationPage() {
 
                         <div class="oe-course-card-media oe-institution-image-media">
 
-                          <img
+                          ${institution.imageUrl || INSTITUTION_CAMPUS_IMAGES[institution.id]
+                            ? `<img
                             class="oe-institution-campus-image"
-                            src="${INSTITUTION_CAMPUS_IMAGES[institution.id] || ""}"
-                            alt="Representative campus image for ${institution.name}"
+                            src="${institution.imageUrl || INSTITUTION_CAMPUS_IMAGES[institution.id]}"
+                            alt="Campus image for ${institution.name}; source review pending"
                             loading="lazy"
                             onerror="this.hidden=true; this.nextElementSibling.hidden=false"
-                          >
+                          >`
+                            : ""}
 
                           <div
                             class="oe-course-card-monogram oe-institution-logo"
@@ -509,6 +632,16 @@ export default function OnlineEducationPage() {
                           <p class="oe-course-card-provider">
                             ${institution.city}
                           </p>
+
+                          ${institution.dataVerificationStatus === "needs-clarification"
+                            ? '<p class="oe-institution-review-note">Needs name/location confirmation</p>'
+                            : institution.dataVerificationStatus
+                              ? '<p class="oe-institution-review-note">Pending admin verification</p>'
+                              : ""}
+
+                          ${institution.imageVerificationStatus
+                            ? `<p class="oe-institution-review-note">${institution.imageVerificationStatus === "awaiting-authentic-photo" ? "Authentic campus photo pending verification" : "Campus photo source identified · reuse terms under review"}</p>`
+                            : ""}
 
 
 
@@ -551,7 +684,7 @@ export default function OnlineEducationPage() {
                         class="oe-button oe-outline"
                         id="oe-institution-toggle"
                       >
-                        Show more
+                        Show all matching institutions
                       </button>
                     </div>
 
