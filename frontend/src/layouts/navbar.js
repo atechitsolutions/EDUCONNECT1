@@ -19,11 +19,6 @@ export default function Navbar() {
 
         <div class="navbar-container" id="educonnect-primary-navigation">
 
-            <a href="/community" class="navbar-link navbar-community-mobile" aria-label="Community">
-                <span class="navbar-mobile-icon" aria-hidden="true">◎</span><span>Community</span>
-            </a>
-
-
             <!-- =================================================
                  HOME
             ================================================== -->
