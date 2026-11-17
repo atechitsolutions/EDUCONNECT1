@@ -62,7 +62,7 @@
   "EC-IN-UN-BBDU": "https://www.bbdu.ac.in/images/campus/culture_img.jpg",
   "EC-IN-COL-SPSU": "https://www.spsu.ac.in/wp-content/uploads/2023/01/Campus-Life3.jpg",
   "EC-IN-UN-MIT-ADT": "https://mituniversity.ac.in/assets_web/images/campus_tab_arrow.png",
-  "EC-IN-UG-DELHI": "https://www.educationworld.in/wp-content/uploads/2015/06/University-of-Delhi-North-Campus-Delhi.jpg",
+  "EC-IN-UG-DELHI": "https://images.mid-day.com/images/images/2023/may/Delhi-university_d.jpg",
   "EC-IN-UN-PRESIDENCY": "https://presidencyuniversity.in/uploads/images/6a4b61a8dd9a41783325096.png",
   "EC-IN-COL-PEARL-BENGALURU": "https://www.pearlacademy.com/assets/images/blank.gif",
   "EC-IN-UN-SILVER-OAK": "https://www.silveroakuni.ac.in/_next/image?url=%2Fassets%2Fimages%2Fbanner-images%2Fhome-page-banner%2Fnew%2Fslide-1.webp&amp;w=3840&amp;q=80",
@@ -75,5 +75,71 @@
   "EC-IN-UN-RAMA": "https://www.ramauniversity.ac.in/images/Gallery-home/img4.jpg",
   "EC-IN-PG-IITD": "https://home.iitd.ac.in/public/storage/news_images/QS-Asia-Rankings-2027_1793793509.jpg",
   "EC-IN-UN-CHANDIGARH": "https://www.cuchd.in/home-assets/img/gallery/lab-5.jpg",
-  "EC-IN-UN-GEETA": "https://geetauniversity.edu.in/uploads/all/2544/WhatsApp-Image-2026-05-25-at-13.39.22.jpeg"
+  "EC-IN-UN-GEETA": "https://geetauniversity.edu.in/uploads/all/2544/WhatsApp-Image-2026-05-25-at-13.39.22.jpeg",
+  "EC-IN-COL-ACROPOLIS": "https://www.aitr.ac.in/_next/image?dpl=dpl_DbV1wr2WUAG6jvcsAgdF4qYTUtAh&q=75&url=%2Fimages%2Faitr%2Faiter-hero2.jpg&w=3840",
+  "EC-IN-UN-AMITY-NOIDA": "https://colleges18.s3.ap-south-1.amazonaws.com/Amity_University_Noida_2_650d52d0fb.jpg",
+  "EC-IN-UN-AMITY-HARYANA": "https://images.shiksha.com/mediadata/images/1680077886phpbRnVBK.jpeg",
+  "EC-IN-UN-AMITY-TELANGANA": "https://www.vidyavision.com/CollegeUploads/Photos/2025-16-9-18-09-14_uni%20img2.jpg",
+  "EC-IN-UN-AMITY-RAJASTHAN": "https://www.collegebatch.com/static/clg-gallery/amity-university-jaipur-212855.jpg",
+  "EC-IN-UN-AMITY-MAHARASHTRA": "https://www.collegebatch.com/static/clg-gallery/amity-university-mumbai-354033.jpg",
+  "EC-IN-UN-AMITY-PUNJAB": "https://www.collegebatch.com/static/clg-gallery/amity-university-mohali-353100.jpg",
+  "EC-IN-UG-MANIPAL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/MAHEMANIPALEDU.jpg/1280px-MAHEMANIPALEDU.jpg",
+  "EC-IN-UG-MUMBAI": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Mumbai%2C_India%2C_University_of_Mumbai%2C_Fort_Campus_2.jpg/960px-Mumbai%2C_India%2C_University_of_Mumbai%2C_Fort_Campus_2.jpg",
+  "EC-IN-PG-IITB": "https://upload.wikimedia.org/wikipedia/commons/2/2e/IITBMainBuildingCROP.jpg",
+  "EC-IN-PG-IIMA": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Indian_Institute_of_Management_Ahmedabad%2C_panorama.jpg/1280px-Indian_Institute_of_Management_Ahmedabad%2C_panorama.jpg",
+  "EC-IN-UG-IISC": "https://images.indianexpress.com/2020/06/IISC-1200.jpg",
+  "EC-IN-UG-BHU": "https://images.indianexpress.com/2024/12/BHU.jpg",
+  "EC-IN-UG-CHRIST": "https://christuniversity.in/uploads/banners/banner/1405421998_2026-07-09_11-40-38.png",
+  "EC-IN-UN-PARUL": "https://image-static.collegedunia.com/public/college_data/images/campusimage/1767597541Campus%206.jpg",
+  "EC-IN-UN-BENNETT": "https://images.shiksha.com/mediadata/images/1489648808phpvLzMJ4.jpeg",
+  "EC-IN-UN-UPES": "https://wchst2026.in/assets/img/venue/2a.jpg",
+  "EC-IN-UN-VGU": "https://getyourcollege.s3.ap-south-1.amazonaws.com/college/images/1748241826083.jpeg",
+  "EC-IN-UN-JECRC": "https://dfhe5ze0n4pxu.cloudfront.net/College/Background-Images/Background-Image-1771321055459.jpeg",
+  "EC-IN-UN-LPU": "https://cache.careers360.mobi/media/presets/720X480/colleges/social-media/media-gallery/155/2018/6/7/Lovely-Professional-University-Phagwara12.JPG",
+  "EC-IN-UN-JKLU": "https://image-static.collegedunia.com/public/college_data/images/campusimage/1716371558_MG_3206.jpg",
+  "EC-IN-COL-DOON-BUSINESS": "https://images.careerindia.com/college-photos/3585/dbs-campus_1464948632.jpg",
+  "EC-IN-UN-SAGE-INDORE": "https://cache.careers360.mobi/media/presets/720X480/colleges/social-media/media-gallery/1909/2021/1/13/Campus%20front%20View%20of%20SAGE%20University%20Indore_Campus-View.jpg",
+  "EC-IN-COL-LLOYD": "https://www.lloydbusinessschool.edu.in/images/LBS/iccim/images/main/lloyd-business-school.jpg",
+  "EC-IN-UN-ORIENTAL": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/OrientalUniversity.jpg/1280px-OrientalUniversity.jpg"
+  ,"EC-IN-UN-NIMS": "https://image-static.collegedunia.com/public/college_data/images/campusimage/16184956944.PNG"
+  ,"EC-IN-UN-IILM": "https://www.collegebatch.com/static/clg-gallery/iilm-academy-of-higher-learning-greater-noida-229045.jpg"
+  ,"EC-IN-COL-IDYLLIC": "https://www.collegebatch.com/static/clg-gallery/idyllic-institute-of-management-indore-234740.jpg"
+  ,"EC-IN-COL-PIMR-INDORE": "https://www.collegebatch.com/static/clg-gallery/prestige-institute-of-management-research-indore-215868.jpg"
+  ,"EC-IN-COL-PIMR-DEWAS": "https://media.collegedekho.com/media/img/institute/crawled_images/None/Screenshot_from_2026-03-24_10-22-25.png"
+  ,"EC-IN-COL-JAGSOM": "https://static.boostmytalent.com/img/univ/jagdish-sheth-school-of-management-jagsom-bangalore-campus-admission.webp"
+  ,"EC-IN-COL-RADIANT": "https://getyourcollege.s3.ap-south-1.amazonaws.com/college/images/1748423968193.jpeg"
+  ,"EC-IN-COL-ASM-IBMR": "https://static.wixstatic.com/media/123b37_0463a76ef7764ceabb35039aca10d6d8~mv2.jpg/v1/fill/w_980%2Ch_735%2Cal_c%2Cq_85%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/RIYAN_20240926_122219_Sky%20Blue.jpg"
+  ,"EC-IN-COL-DCBS": "https://www.collegebatch.com/static/clg-gallery/dc-business-school-indore-280664.webp"
+  ,"EC-IN-COL-ITM-NAVI-MUMBAI": "https://daqwpj7vq235r.cloudfront.net/images/mba-institute/ITM-Business-School%2C-Navi-Mumbai%2BCampus-Building3.jpg"
+  ,"EC-IN-COL-JKBS": "https://www.collegebatch.com/static/clg-gallery/jk-business-school-gurgaon-214353.jpg"
+  ,"EC-IN-COL-ISMS": "https://image-static.collegedunia.com/public/college_data/images/campusimage/1589520644IMG-20200123-WA0018.jpg"
+  ,"EC-IN-UN-INTEGRAL": "https://iul.ac.in/img/Buildings/Big/Administrative%20Block.JPG"
+  ,"EC-IN-UN-IIMT": "https://image-static.collegedunia.com/public/college_data/images/campusimage/1746012490SET.jpg"
+  ,"EC-IN-UN-APEJAY-STYA": "https://www.apeejay.academy/images/inside-pages/university.jpg"
+  ,"EC-IN-UN-SVVV": "https://cache.careers360.mobi/media/presets/720X480/colleges/social-media/media-gallery/1761/2020/11/20/Campus%20View%20of%20Shri%20Vaishnav%20Vidyapeeth%20Vishwavidyalaya%20Indore_Campus-View.jpg"
+  ,"EC-IN-UN-DBS": "https://www.dgu.ac/thumb/1400x560/images/header-images/home/hd-13.jpg"
+  ,"EC-IN-COL-MARANGONI": "https://www.collegebatch.com/static/clg-gallery/istituto-marangoni-mumbai-177690.webp"
+  ,"EC-IN-COL-UID": "https://images.shiksha.com/mediadata/images/1573799194phpNFPBK8.jpeg"
+  ,"EC-IN-COL-IIC-DELHI": "https://iic.ac.in/content/images/2022/12/iic-build-1.png"
+  ,"EC-IN-COL-SKITM": "https://www.skitm.in/Gallery/GalleryImage%20%287%29.png"
+  ,"EC-IN-COL-PIBM": "https://upload.wikimedia.org/wikipedia/commons/2/2c/PIBM_Pune_College.jpg"
+  ,"EC-IN-COL-PIMR-BHOPAL": "https://www.collegebatch.com/static/clg-gallery/prestige-institute-of-management-research-bhopal-309327.webp"
+  ,"EC-IN-UN-AVANTIKA": "https://images.shiksha.com/mediadata/images/1578638516phpPY7Tdp.jpeg"
+  ,"EC-IN-UN-GLA": "https://glauniversity.in:8085/assets/images/banner/slider/slider-1.jpg"
+  ,"EC-IN-UN-SAMSKRUTI": "https://collegebatch.com/static/clg-gallery/samskruti-university-hyderabad-327258.jpg"
+  ,"EC-IN-COL-GIBS": "https://daqwpj7vq235r.cloudfront.net/images/mba-institute/gibs-business-school-campus-view.jpeg"
+  ,"EC-IN-COL-APBS": "https://www.apbs.edu.in/images/campus/campus.jpg"
+  ,"EC-IN-COL-PEARL": "https://image-static.collegedunia.com/public/college_data/images/campusimage/14588906541445337424PAFM_New.jpg"
+  ,"EC-IN-COL-PEARL-MUMBAI": "https://cache.careers360.mobi/media/colleges/social-media/media-gallery/1758/2023/9/14/Campus%20View%20of%20Pearl%20Academy%20Mumbai_Campus-View.jpg"
+  ,"EC-IN-COL-PEARL-BENGALURU": "https://pearlwebsitecdn-prod-d8bgbfaqbgcghcfw.a01.azurefd.net/drupal-files/2023-11/Banner-bengaluru-campus_1.webp"
+  ,"EC-IN-COL-PEARL-DELHI-WEST": "https://image-static.collegedunia.com/public/college_data/images/appImage/1606650696Cover.jpg"
+  ,"EC-IN-COL-PEARL-DELHI-SOUTH": "https://pearlwebsitecdn-prod-d8bgbfaqbgcghcfw.a01.azurefd.net/drupal-files/2023-11/Banner-Delhi-South_1.webp"
+  ,"EC-IN-COL-SUNSTONE": "https://colleges18.s3.ap-south-1.amazonaws.com/Sunstone_Business_School_Noida_1_4a1d62ac2c.jpg"
+  ,"EC-IN-COL-ISDC": "https://isdc.org/wp-content/uploads/2024/06/isdc-campus.jpg"
+  ,"EC-IN-COL-SPSU": "https://www.admissionform.spsu.ac.in/assets/about-us-image.png"
+  ,"EC-IN-UG-CHRIST": "https://alumni.christuniversity.in/uploads/photogallery/medium/1669112316_2025-12-05_05-20-47.jpg"
+  ,"EC-IN-COL-SOFTVISION": "https://cache.careers360.mobi/media/presets/720X480/colleges/social-media/media-gallery/17264/2019/5/30/Campus%20View%20of%20Softvision%20College%20Indore_Campus-View.PNG"
+  ,"EC-IN-COL-VISHISHT": "https://cache.careers360.mobi/media/colleges/social-media/media-gallery/17220/2023/12/6/Campus%20View%20of%20Vishisht%20School%20of%20Management%20Indore_Campus-View.jpg"
+  ,"EC-IN-COL-IIBS": "https://www.iibsonline.com/public/about/552.jpg"
+  ,"EC-IN-UN-MEDICAPS": "https://assets.findmycollege.com/FMC_IMAGES/55436/assets/Main_block1.jpg"
 }

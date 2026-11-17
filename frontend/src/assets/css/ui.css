@@ -11655,6 +11655,48 @@
 .school-region-results-grid .institution-card.is-selected-for-compare { outline: 2px solid #1768a9; }
 .regional-school-card .institution-card-category { display: inline-block; }
 .regional-school-photo-source { display: inline-block; margin: 8px 0 12px; color: #356d9c; font-size: 12px; text-decoration: underline; }
+
+.boarding-directory {
+    margin: 28px 0 10px;
+    padding: clamp(18px, 3vw, 34px);
+    border: 1px solid rgba(32, 102, 161, .16);
+    border-radius: 24px;
+    background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(237,246,253,.92));
+    box-shadow: 0 16px 40px rgba(25, 64, 102, .08);
+}
+
+.boarding-directory-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.boarding-directory-heading h3 {
+    margin: 6px 0;
+    color: #153859;
+    font-size: clamp(24px, 3vw, 34px);
+}
+
+.boarding-directory-heading p { margin: 0; color: #60758b; }
+.boarding-region-label { display: grid; gap: 7px; min-width: min(300px, 100%); color: #60758b; font-size: 13px; font-weight: 700; }
+.boarding-region-label select { min-height: 48px; padding: 0 14px; border: 1px solid #cbdced; border-radius: 12px; background: white; color: #183b5d; font: inherit; }
+.boarding-directory-region { margin-top: 26px; }
+.boarding-directory-region[hidden] { display: none !important; }
+.boarding-directory-region > h4 { display: flex; align-items: baseline; gap: 10px; margin: 0 0 15px; color: #153859; font-size: 22px; }
+.boarding-directory-region > h4 span { color: #788ca1; font-size: 13px; font-weight: 500; }
+.boarding-directory-region .boarding-schools-all-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.boarding-directory-region .institution-card { min-width: 0; }
+
+@media (max-width: 1000px) {
+    .boarding-directory-region .boarding-schools-all-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+    .boarding-directory-heading { align-items: stretch; flex-direction: column; }
+    .boarding-directory-region .boarding-schools-all-grid { grid-template-columns: 1fr; }
+}
 @media (max-width: 900px) { .school-region-results-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 600px) { .school-region-search { padding: 18px; } .school-region-controls { flex-direction: column; } .school-region-controls button { width: 100%; } .school-region-results-grid { grid-template-columns: 1fr; } }
 

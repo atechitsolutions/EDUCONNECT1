@@ -1,6 +1,7 @@
 import { API_BASE_URL } from "../config/api.js";
 import siteData from "../data/domestic-institution-site-data.json";
 import photoData from "../data/domestic-college-campus-photos.json";
+import photoSourceData from "../data/domestic-college-photo-sources.json";
 
 const api = `${API_BASE_URL}/api/institution/domestic`;
 const esc = (v = "") => String(v).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -17,28 +18,35 @@ const validOfficialDomain = value => {
     }
     return validWebsite(raw);
 };
-const usableCampusPhoto = value => value && !/(?:blank\.gif|placeholder|no[-_]?image)/i.test(value) ? String(value).replaceAll("&amp;", "&") : "";
+const usableCampusPhoto = value => value && !/(?:blank\.gif|placeholder|no[-_]?image|facebook\.com\/tr|campus[-_]?placement|accreditation|blog\.png|\/logo\.?|logo[-_])/i.test(value) ? String(value).replaceAll("&amp;", "&") : "";
+const isPhysicalInstitution = item => !/(?:-SERVICE-|-ONLINE-|-NEEDS-)/i.test(String(item.directoryCode || ""));
 const facts = item => {
     const site = siteData[item.directoryCode] || {};
     const website = validWebsite(item.website) || validOfficialDomain(site.officialDomain);
-    const image = usableCampusPhoto(item.coverImageUrl) || usableCampusPhoto(site.campusImage) || usableCampusPhoto(photoData[item.directoryCode]) || "";
-    return { website, image, description: item.description || site.description || "Visit the institution’s official website for current programmes and admissions information." };
+    const image = usableCampusPhoto(photoData[item.directoryCode]) || usableCampusPhoto(item.coverImageUrl) || usableCampusPhoto(site.campusImage) || "";
+    const photoSource = photoSourceData[item.directoryCode]?.sourceUrl || image;
+    const photoSourceLabel = photoSourceData[item.directoryCode]?.label || "Open image source";
+    return { website, image, photoSource, photoSourceLabel, description: item.description || site.description || "Visit the institution’s official website for current programmes and admissions information." };
 };
 
 export function CollegesPage() {
     return `<main class="college-discovery-page college-home-page">
         <section class="college-discovery-hero">
-            <div class="college-hero-copy"><span class="college-eyebrow">EDUCONNECT · COLLEGE DISCOVERY</span><h1>Discover India's Leading Colleges &amp; Universities</h1><p>Explore institutions across India and find the right place for your next step.</p>
+            <div class="college-hero-copy"><span class="college-eyebrow">COLLEGE DISCOVERY</span><h1>Discover India's Leading Colleges &amp; Universities</h1><p>Find the right college for your next step.</p>
                 <form class="college-hero-search" data-college-search><span aria-hidden="true">⌕</span><input name="q" type="search" placeholder="Search colleges, universities or courses" aria-label="Search colleges, universities or courses"><button>Explore colleges <span>→</span></button></form>
-                <div class="college-hero-links"><a href="/colleges/ug">Explore undergraduate colleges <span>↗</span></a><a href="/colleges/pg">Explore postgraduate colleges <span>↗</span></a></div>
             </div>
             <div class="college-hero-image" role="img" aria-label="University campus" style="background-image:linear-gradient(180deg,rgba(7,28,56,.04),rgba(7,28,56,.68)),url('${esc(photoData["EC-IN-PG-IIMB"] || "")}')"><span>Find a campus that moves you forward</span></div>
         </section>
-        <section class="college-discovery-intro"><div><span class="college-eyebrow">YOUR NEXT CHAPTER STARTS HERE</span><h2>Explore higher education, your way.</h2></div><p>Search the institutions already listed in EDUCONNECT. Review campus, course and location information, then visit each institution’s official site for current details.</p></section>
-        <section class="college-discovery-shortcuts"><a href="/colleges/ug"><span>01 · UNDERGRADUATE</span><strong>UG Colleges</strong><small>Explore undergraduate institutions and programmes</small><b>Browse directory →</b></a><a href="/colleges/pg"><span>02 · POSTGRADUATE</span><strong>PG Colleges</strong><small>Explore postgraduate institutions and programmes</small><b>Browse directory →</b></a></section>
-        <section class="college-home-directory"><div><span class="college-eyebrow">DISCOVERY DIRECTORY</span><h2>Find your college</h2><p>Search current college and university records from the EDUCONNECT directory.</p></div><a class="college-primary-link" href="/colleges/ug">Browse all colleges <span>→</span></a></section>
-        <section class="college-featured-section"><div class="college-results-heading"><div><span class="college-eyebrow">FROM THE DIRECTORY</span><h2>Featured institutions</h2></div><a href="/colleges/ug">View directory →</a></div><div class="college-featured-grid" data-college-featured><p class="college-directory-loading">Loading institutions…</p></div></section>
-        <section class="college-discovery-insights"><div><span class="college-eyebrow">EXPLORE BY DESTINATION</span><h2>Where students study</h2><p>Cities shown below are drawn from institution records in the directory.</p><div class="college-chip-list" data-college-cities></div></div><div><span class="college-eyebrow">PROGRAMMES IN THE DIRECTORY</span><h2>Explore courses</h2><p>Browse course names currently listed by institutions.</p><div class="college-chip-list" data-college-programmes></div></div></section>
+        <section class="college-home-listing" aria-labelledby="college-home-ug-title">
+            <div class="college-home-listing-heading"><div><span class="college-eyebrow">01 · UNDERGRADUATE</span><h2 id="college-home-ug-title">Explore UG Colleges</h2></div><a href="/colleges/ug">Open UG directory <span>→</span></a></div>
+            <div class="college-results-grid college-home-card-grid" data-college-home-ug><p class="college-directory-loading">Loading UG colleges…</p></div>
+            <button class="college-home-show-more" type="button" data-show-more="ug" hidden>Show more UG colleges <span>↓</span></button>
+        </section>
+        <section class="college-home-listing college-home-pg-listing" aria-labelledby="college-home-pg-title">
+            <div class="college-home-listing-heading"><div><span class="college-eyebrow">02 · POSTGRADUATE</span><h2 id="college-home-pg-title">Explore PG Colleges</h2></div><a href="/colleges/pg">Open PG directory <span>→</span></a></div>
+            <div class="college-results-grid college-home-card-grid" data-college-home-pg><p class="college-directory-loading">Loading PG colleges…</p></div>
+            <button class="college-home-show-more" type="button" data-show-more="pg" hidden>Show more PG colleges <span>↓</span></button>
+        </section>
     </main>`;
 }
 
@@ -66,11 +74,11 @@ export function CollegeDetailPage(id) {
 }
 
 function card(item, index, level) {
-    const { website, image, description } = facts(item);
+    const { website, image, photoSource, photoSourceLabel, description } = facts(item);
     const location = [item.city, item.state].filter(Boolean).join(", ") || "Location not listed";
     const programs = item.popularCourses || "Programme details not listed";
     const imageMarkup = image ? `<img src="${esc(image)}" loading="lazy" alt="${esc(item.name)} campus" onerror="this.remove()">` : "";
-    return `<article class="college-directory-card"><a class="college-card-media" href="/colleges/${item.id}" aria-label="Explore ${esc(item.name)}">${imageMarkup}<span class="college-card-initials">${esc((item.name || "C").split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase())}</span><span class="college-card-location">⌖ ${esc(location)}</span></a><div class="college-card-content"><div class="college-card-meta"><span>${esc(String(item.type || "Institution").toLowerCase())}</span><span>${level}</span></div><h3><a href="/colleges/${item.id}">${esc(item.name)}</a></h3><p class="college-card-programs">${esc(programs)}</p><p class="college-card-description">${esc(description)}</p><div class="college-card-actions"><a class="college-button college-button-primary" href="/colleges/${item.id}">Explore college <span>↗</span></a>${website ? `<a class="college-button" href="${esc(website)}" target="_blank" rel="noopener noreferrer">Official website <span>↗</span></a>` : `<span class="college-website-unlisted">Official website not listed</span>`}<button class="college-compare-button" type="button" data-compare-id="${item.id}">${index === -1 ? "Compare" : "Compare"} <span>＋</span></button></div></div></article>`;
+    return `<article class="college-directory-card"><a class="college-card-media" href="/colleges/${item.id}" aria-label="Explore ${esc(item.name)}">${imageMarkup}<span class="college-card-initials">${esc((item.name || "C").split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase())}</span><span class="college-card-location">⌖ ${esc(location)}</span></a><div class="college-card-content"><div class="college-card-meta"><span>${esc(String(item.type || "Institution").toLowerCase())}</span><span>${level}</span></div><h3><a href="/colleges/${item.id}">${esc(item.name)}</a></h3><p class="college-card-programs">${esc(programs)}</p><p class="college-card-description">${esc(description)}</p>${photoSource?`<a class="college-photo-source" href="${esc(photoSource)}" target="_blank" rel="noopener noreferrer">Campus photo · ${esc(photoSourceLabel)} ↗</a>`:""}<div class="college-card-actions"><a class="college-button college-button-primary" href="/colleges/${item.id}">Explore college <span>↗</span></a>${website ? `<a class="college-button" href="${esc(website)}" target="_blank" rel="noopener noreferrer">Official website <span>↗</span></a>` : `<span class="college-website-unlisted">Official website not listed</span>`}<button class="college-compare-button" type="button" data-compare-id="${item.id}">${index === -1 ? "Compare" : "Compare"} <span>＋</span></button></div></div></article>`;
 }
 
 function bindDirectory(root) {
@@ -95,6 +103,7 @@ function bindDirectory(root) {
     const apply = () => {
         const f = params();
         const list = colleges.filter(c => {
+            if (!isPhysicalInstitution(c)) return false;
             const site = facts(c);
             const hay = [c.name,c.city,c.state,c.type,c.popularCourses,c.description,site.description].join(" ").toLowerCase();
             const code = String(c.directoryCode || "").toUpperCase();
@@ -132,17 +141,29 @@ function showCompare(items) {
 }
 
 export function initCollegeDiscoveryPage() {
+    if (!document.documentElement.dataset.collegeImageFallbackBound) {
+        document.documentElement.dataset.collegeImageFallbackBound = "true";
+        document.addEventListener("error", event => {
+            if (event.target instanceof HTMLImageElement && event.target.matches(".college-card-media img")) event.target.remove();
+        }, true);
+    }
     const directory=document.querySelector("[data-college-directory]");if(directory)bindDirectory(directory);
     const heroForm=document.querySelector("[data-college-search]");heroForm?.addEventListener("submit",e=>{e.preventDefault();const q=new FormData(heroForm).get("q");location.href=`/colleges/ug${q?`?q=${encodeURIComponent(q)}`:""}`;});
-    const featured=document.querySelector("[data-college-featured]");
-    if(featured)fetch(api).then(r=>{if(!r.ok)throw new Error();return r.json();}).then(items=>{
-        const colleges=Array.isArray(items)?items:[];
-        const shown=colleges.filter(c=>facts(c).image).slice(0,3);
-        featured.innerHTML=shown.length?shown.map(c=>{const f=facts(c);return `<a class="college-featured-card" href="/colleges/${c.id}">${f.image?`<img src="${esc(f.image)}" alt="${esc(c.name)} campus" loading="lazy" onerror="this.remove()">`:""}<span>${esc([c.city,c.state].filter(Boolean).join(", ")||"India")}</span><strong>${esc(c.name)}</strong><small>${esc(c.type||"Institution")} · Explore profile →</small></a>`;}).join(""):`<p class="college-directory-loading">No campus images are currently available in the institution records.</p>`;
-        const cityCounts=new Map();colleges.forEach(c=>{if(c.city)cityCounts.set(c.city,(cityCounts.get(c.city)||0)+1);});
-        const cities=[...cityCounts].sort((a,b)=>b[1]-a[1]).slice(0,8);const cityNode=document.querySelector("[data-college-cities]");if(cityNode)cityNode.innerHTML=cities.map(([city,n])=>`<a href="/colleges/ug?q=${encodeURIComponent(city)}">${esc(city)} <small>${n}</small></a>`).join("")||"<span>City details will appear when available.</span>";
-        const courseCounts=new Map();colleges.forEach(c=>String(c.popularCourses||"").split(/[•,|;]/).map(v=>v.trim()).filter(Boolean).forEach(course=>courseCounts.set(course,(courseCounts.get(course)||0)+1)));
-        const courseNode=document.querySelector("[data-college-programmes]");if(courseNode){const courses=[...courseCounts].sort((a,b)=>b[1]-a[1]).slice(0,8);courseNode.innerHTML=courses.map(([course])=>`<a href="/colleges/ug?q=${encodeURIComponent(course)}">${esc(course)}</a>`).join("")||"<span>Course information has not yet been added to these records.</span>";}
-    }).catch(()=>{featured.innerHTML=`<p class="college-directory-loading">The institution directory is currently unavailable.</p>`;});
+    const homeUG=document.querySelector("[data-college-home-ug]");
+    const homePG=document.querySelector("[data-college-home-pg]");
+    if(homeUG||homePG)fetch(api).then(r=>{if(!r.ok)throw new Error("Directory unavailable");return r.json();}).then(items=>{
+        const colleges=Array.isArray(items)?items.filter(isPhysicalInstitution):[];
+        const homeLists={};
+        const draw=(container,level)=>{
+            if(!container)return;
+            const matches=colleges.filter(c=>{const code=String(c.directoryCode||"").toUpperCase();return isPhysicalInstitution(c)&&(level==="PG"?code.includes("-PG-")||!code.includes("-UG-"):!code.includes("-PG-"));});
+            homeLists[level]={container,matches,visible:6};
+            const more=document.querySelector(`[data-show-more="${level.toLowerCase()}"]`);
+            const render=()=>{container.innerHTML=matches.length?matches.slice(0,homeLists[level].visible).map(c=>card(c,0,level)).join(""):`<div class="college-empty-state"><h3>No ${level} college listings are available</h3><p>Institution records will appear here when available.</p></div>`;if(more){more.hidden=matches.length<=homeLists[level].visible;more.innerHTML=homeLists[level].visible>=matches.length?`Show fewer ${level} colleges <span>↑</span>`:`Show more ${level} colleges <span>↓</span>`;}};
+            more?.addEventListener("click",()=>{homeLists[level].visible=homeLists[level].visible>=matches.length?6:Math.min(matches.length,homeLists[level].visible+8);render();});
+            render();
+        };
+        draw(homeUG,"UG");draw(homePG,"PG");
+    }).catch(()=>[homeUG,homePG].filter(Boolean).forEach(container=>{container.innerHTML=`<div class="college-empty-state"><h3>College listings are temporarily unavailable</h3><p>Please try again in a moment.</p></div>`;}));
     const detail=document.querySelector("[data-college-detail]");if(detail)fetch(`${api}/${encodeURIComponent(detail.dataset.collegeDetail)}`).then(r=>{if(!r.ok)throw new Error();return r.json();}).then(c=>{const f=facts(c);const content=detail.querySelector(".college-detail-content");content.innerHTML=`<a class="college-back-link" href="/colleges/ug">← Back to directory</a><span class="college-eyebrow">COLLEGE PROFILE</span><h1>${esc(c.name)}</h1><p class="college-detail-location">${esc([c.city,c.state,c.country].filter(Boolean).join(", "))}</p>${f.image?`<img class="college-detail-image" src="${esc(f.image)}" alt="${esc(c.name)} campus" loading="lazy">`:""}<section class="college-detail-facts"><h2>Institution overview</h2><p>${esc(f.description)}</p><dl><dt>Institution type</dt><dd>${esc(c.type||"Not listed")}</dd><dt>Courses</dt><dd>${esc(c.popularCourses||"Not listed")}</dd><dt>Location</dt><dd>${esc([c.city,c.state].filter(Boolean).join(", ")||"Not listed")}</dd></dl>${f.website?`<a class="college-button college-button-primary" href="${esc(f.website)}" target="_blank" rel="noopener noreferrer">Visit official website ↗</a>`:"<p>Official website not listed.</p>"}</section>`;}).catch(()=>{detail.innerHTML=`<section class="college-empty-state"><h1>College profile unavailable</h1><p>This institution could not be found in the directory.</p><a href="/colleges">Return to college discovery</a></section>`;});
 }

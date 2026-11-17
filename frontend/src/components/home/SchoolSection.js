@@ -296,17 +296,18 @@ export function SchoolSection() {
                 </div>
 
 
-                <div class="early-learning-badge">
-
-                    <strong>
-                        ${schools.length}
-                    </strong>
-
-                    <span>
-                        Featured<br>
-                        Schools
-                    </span>
-
+                <div class="school-region-search school-region-search-inline" aria-label="Find schools by region">
+                    <label for="school-region-select">Find top schools by region</label>
+                    <div class="school-region-controls">
+                        <select id="school-region-select" aria-label="Select a region">
+                            <option value="">Choose a region</option>
+                            <option>Rajasthan</option><option>Jaipur</option><option>Delhi</option>
+                            <option>Himachal Pradesh</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+                            <option>Gujarat</option><option>Madhya Pradesh</option><option>Telangana</option><option>Andhra Pradesh</option>
+                        </select>
+                        <button type="button" class="school-region-search-button">Search</button>
+                    </div>
+                    <p>Approximate editorial listings; not official rankings. Confirm school details and campus photos through the linked sources.</p>
                 </div>
 
             </div>
@@ -316,19 +317,6 @@ export function SchoolSection() {
                  MOVING CARDS
             ================================================== -->
 
-            <div class="school-region-search" aria-label="Find schools by region">
-                <label for="school-region-select">Find top schools by region</label>
-                <div class="school-region-controls">
-                    <select id="school-region-select" aria-label="Select a region">
-                        <option value="">Choose a region</option>
-                        <option>Rajasthan</option><option>Jaipur</option><option>Delhi</option>
-                        <option>Himachal Pradesh</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
-                        <option>Gujarat</option><option>Madhya Pradesh</option><option>Telangana</option><option>Andhra Pradesh</option>
-                    </select>
-                    <button type="button" class="school-region-search-button">Search</button>
-                </div>
-                <p>Approximate editorial listings; not official rankings. School details and campus images should be confirmed on the linked school websites.</p>
-            </div>
             <div class="school-region-results" hidden aria-live="polite">
                 <h3 class="school-region-results-title"></h3>
                 <div class="school-region-results-grid"></div>

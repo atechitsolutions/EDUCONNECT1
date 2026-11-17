@@ -55,7 +55,7 @@ const verified = {
 
 // School-matched campus photos located on school sites or established education directories.
 // Image-page links are retained on each card for photo/source transparency.
-const campusPhotos = {
+export const campusPhotos = {
     "The Shri Ram School, Aravali": { image: "https://tsrs.org/brand/school-campuses/hero/aravali-hero.png", source: "https://tsrs.org/aravali-campus", credit: "Photo source: The Shri Ram School" },
     "Loreto Convent School": { image: "https://www.loretodelhi.com/images/about-us.png", source: "https://www.loretodelhi.com/Default.aspx", credit: "Photo source: Loreto Convent School" },
     "St. John's Senior Secondary School": { image: "https://cdn-blogs.extramarks.com/2025/09/Artboard-1-copy-16%402x-1024x640.webp", source: "https://www.extramarks.com/blogs/schools/best-schools-in-varanasi/", credit: "Photo source: Extramarks" },
@@ -173,7 +173,7 @@ const campusPhotos = {
     "Jayshree Periwal High School": { image: "https://d3bat55ebwjhsf.cloudfront.net/schools/cover/user_root_user%40ezy.com/2E0A1264edtd-scaled.jpg", source: "https://ezyschooling.com/school/jayshree-periwal-high-school-chitrakoot-jaipur", credit: "Photo source: Ezyschooling" }
 };
 
-function fallbackImage(name) {
+export function fallbackImage(name) {
     const initials = esc(name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase());
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600"><defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#e8f3ff"/><stop offset="1" stop-color="#c5def3"/></linearGradient></defs><rect width="1200" height="600" fill="url(#g)"/><path d="M420 360V235l180-110 180 110v125h-95v-95H515v95z" fill="#1768a9" opacity=".82"/><rect x="0" y="430" width="1200" height="170" fill="#ffffff" opacity=".72"/><text x="600" y="505" text-anchor="middle" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#12385b">${initials} · photo not available</text></svg>`;
     return `data:image/svg+xml,${encodeURIComponent(svg)}`;

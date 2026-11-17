@@ -33,6 +33,26 @@ const ROUTE_SEO = {
         primaryKeyword: "student community",
         secondaryKeywords: ["student network", "study partners", "student groups", "education discussions"]
     },
+    "/colleges": {
+        title: "Discover Colleges & Universities in India | StepInStudents",
+        description: "Explore Indian colleges and universities, browse undergraduate and postgraduate options, and search the EDUCONNECT college directory.",
+        image: "/images/banner/education-banner.jpeg",
+        indexable: true,
+        primaryKeyword: "colleges in India",
+        secondaryKeywords: ["Indian universities", "UG colleges", "PG colleges", "college directory"]
+    },
+    "/colleges/ug": {
+        title: "Undergraduate Colleges in India | StepInStudents",
+        description: "Search undergraduate colleges and universities in the EDUCONNECT directory.",
+        indexable: true,
+        primaryKeyword: "undergraduate colleges in India"
+    },
+    "/colleges/pg": {
+        title: "Postgraduate Colleges in India | StepInStudents",
+        description: "Search postgraduate colleges and universities in the EDUCONNECT directory.",
+        indexable: true,
+        primaryKeyword: "postgraduate colleges in India"
+    },
     "/study-abroad/search-results": {
         title: "Study Abroad Search Results | StepInStudents",
         description: "Search study abroad institutions and destinations on StepInStudents.",
@@ -103,7 +123,7 @@ export function applyRouteSEO(pathname = window.location.pathname) {
     // These entry pages ship dedicated static metadata and own page helpers.
     // Avoid replacing their richer social/schema tags with generic metadata.
     if (path === "/study-abroad" || path === "/online-education") return;
-    const page = ROUTE_SEO[path] || (path === "/index.html" ? ROUTE_SEO["/"] : null);
+    const page = ROUTE_SEO[path] || (path === "/index.html" ? ROUTE_SEO["/"] : /^\/colleges\/\d+$/.test(path) ? ROUTE_SEO["/colleges"] : null);
     if (!page) {
         document.title = "Page Not Found | StepInStudents";
         const description = "The requested StepInStudents page could not be found. Return to education discovery and browse available sections.";

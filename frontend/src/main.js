@@ -557,6 +557,26 @@ document.addEventListener(
 
         if (boardingSection) {
 
+            const regionSelect = boardingSection.querySelector("#boarding-region-select");
+            regionSelect?.addEventListener("change", () => {
+                const selectedRegion = regionSelect.value;
+                boardingSection.querySelectorAll("[data-directory-region]").forEach((regionGroup) => {
+                    regionGroup.hidden = selectedRegion !== "all" && regionGroup.dataset.directoryRegion !== selectedRegion;
+                });
+                const directory = boardingSection.querySelector(".boarding-directory-regions");
+                directory?.scrollIntoView({ behavior: "smooth", block: "start" });
+            });
+
+            boardingSection.addEventListener("click", (event) => {
+                const compareButton = event.target.closest('[data-action="compare"]');
+                if (!compareButton || !boardingSection.contains(compareButton)) return;
+                const card = compareButton.closest(".institution-card");
+                const isCompared = compareButton.dataset.compared === "true";
+                compareButton.dataset.compared = isCompared ? "" : "true";
+                compareButton.innerHTML = `${isCompared ? "Compare" : "Added to compare"}<span>›</span>`;
+                card?.classList.toggle("is-selected-for-compare", !isCompared);
+            });
+
             const boardingButton =
                 boardingSection.querySelector(
                     ".boarding-schools-explore-btn"
