@@ -40,3 +40,27 @@
 .cp-partner-kpis{grid-template-columns:repeat(5,minmax(0,1fr))}
 @media(max-width:1000px){.cp-partner-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:700px){.cp-partner-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Institution pay-per-enquiry wallet */
+.cp-wallet-summary{grid-template-columns:repeat(5,minmax(0,1fr));margin:16px 0 22px}
+.cp-wallet-grid{display:grid;grid-template-columns:minmax(260px,.8fr) minmax(0,1.2fr);gap:22px;align-items:start}
+.cp-wallet-grid h3,.cp-wallet-settings-form h3{font:500 21px Georgia,serif;color:#252822;margin:5px 0 14px}
+.cp-row-unlock{padding:8px 12px;font-size:11px;white-space:nowrap}
+.cp-wallet-payment{padding:18px;border:1px solid var(--cp-border);border-radius:12px;background:#fffefa}
+.cp-wallet-qr{min-height:170px;display:grid;place-items:center;text-align:center;padding:15px;border:1px dashed #d3c5a5;border-radius:10px;background:#fbfaf6;color:var(--cp-muted)}
+.cp-wallet-qr img{width:min(210px,100%);max-height:210px;object-fit:contain;background:white;border-radius:8px}
+.cp-wallet-qr p{margin:8px 0 0;font-size:12px}
+.cp-wallet-deposit-form{display:grid;gap:10px;margin-top:16px}
+.cp-wallet-deposit-form label,.cp-wallet-settings-form label{display:grid;gap:6px;color:#383b34;font-size:12px;font-weight:700}
+.cp-wallet-deposit-form input,.cp-wallet-settings-form input,.cp-wallet-settings-form textarea{width:100%;min-width:0;border:1px solid #dedbd0;border-radius:8px;padding:10px 11px;background:#fff;color:#252822;font:inherit}
+.cp-wallet-deposit-form .cp-button:disabled{opacity:.55;cursor:not-allowed}
+.cp-wallet-qr-thumb{display:block;width:130px;max-height:130px;object-fit:contain;border:1px solid #e2ded2;border-radius:8px;padding:6px;background:#fff}
+.cp-wallet-settings-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;padding:18px;border:1px solid var(--cp-border);border-radius:12px;background:#fffefa;margin-bottom:22px}
+.cp-wallet-settings-form label:nth-child(3){grid-column:1/-1}
+.cp-wallet-settings-form #cp-wallet-qr-preview{align-self:center}
+.cp-wallet-settings-form>button,.cp-wallet-settings-form>.cp-feedback{grid-column:1/-1}
+.cp-wallet-remove-qr{display:flex!important;align-items:center;gap:8px}
+.cp-wallet-remove-qr input{width:auto}
+.cp-private{display:inline-block;filter:blur(4px);user-select:none;color:#5f625d}
+.cp-table td .cp-private{max-width:135px;overflow:hidden;vertical-align:middle}
+@media(max-width:900px){.cp-wallet-summary{grid-template-columns:repeat(3,minmax(0,1fr))}.cp-wallet-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.cp-wallet-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.cp-wallet-settings-form{grid-template-columns:1fr;padding:14px}.cp-wallet-settings-form label:nth-child(3),.cp-wallet-settings-form>button,.cp-wallet-settings-form>.cp-feedback{grid-column:auto}.cp-wallet-payment{padding:14px}}

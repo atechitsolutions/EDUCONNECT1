@@ -16,4 +16,5 @@ public class StudentDataAccessLog {
     protected StudentDataAccessLog() { }
     public StudentDataAccessLog(CollegePartnerAccount account, CollegeStudentEnquiry enquiry) { this.account = account; this.enquiry = enquiry; this.createdAt = LocalDateTime.now(); }
     public StudentDataAccessLog(CollegePartnerAccount account, CollegeStudentEnquiry enquiry, CollegeSubscription subscription) { this.account = account; this.enquiry = enquiry; this.subscription = subscription; this.unlockedByUsername = account.getUsername(); this.consentScope = enquiry.getConsentScope(); this.createdAt = LocalDateTime.now(); }
+    public StudentDataAccessLog(CollegePartnerAccount account, CollegeStudentEnquiry enquiry, String username) { this.account = account; this.enquiry = enquiry; this.unlockedByUsername = username; this.consentScope = enquiry.getConsentScope(); this.createdAt = LocalDateTime.now(); }
 }

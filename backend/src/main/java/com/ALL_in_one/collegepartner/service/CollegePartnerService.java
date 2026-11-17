@@ -28,15 +28,14 @@ import java.security.MessageDigest;
 @Service @RequiredArgsConstructor
 public class CollegePartnerService {
     private final CollegePartnerAccountRepository accounts;
-    private final CollegeSubscriptionRepository subscriptions;
     private final CollegeAnalyticsEventRepository events;
     private final CollegeStudentEnquiryRepository enquiries;
     private final StudentDataAccessLogRepository accessLogs;
     private final CollegeInterestNotificationRepository notifications;
-    private final CollegeSubscriptionAuditRepository subscriptionAudits;
     private final InstitutionRepository institutions;
     private final UserRepository users;
     private final CollegeLeadAuditRepository leadAudits;
+    private final CollegeWalletService walletService;
     private final PasswordEncoder encoder;
     private final JwtService jwtService;
     private final SecureRandom random = new SecureRandom();
@@ -64,7 +63,7 @@ public class CollegePartnerService {
         return accounts.findAll().stream().map(a -> {
             Map<String,Object> row = new LinkedHashMap<>(); row.put("id", a.getId()); row.put("institutionId", a.getInstitution().getId()); row.put("collegeName", a.getInstitution().getName());
             row.put("username", a.getUsername()); row.put("officialEmail", a.getOfficialEmail()); row.put("contactPerson", a.getContactPerson()); row.put("contactEmail", a.getContactEmail()); row.put("contactNumber", a.getContactNumber()); row.put("active", a.isActive());
-            row.put("subscriptionActive", activeSubscription(a.getId()).isPresent()); row.put("subscriptionExpiresAt", activeSubscription(a.getId()).map(CollegeSubscription::getExpiresAt).orElse(null)); return row;
+            return row;
         }).toList();
     }
 
@@ -105,57 +104,36 @@ public class CollegePartnerService {
     @Transactional(readOnly = true)
     public Map<String,Object> dashboard(String username) {
         CollegePartnerAccount a = accountByUsername(username); Long iid = a.getInstitution().getId(); LocalDateTime since = LocalDateTime.now().minusDays(30);
-        Optional<CollegeSubscription> active = activeSubscription(a.getId());
         Map<String,Object> result = new LinkedHashMap<>(); result.put("collegeName", a.getInstitution().getName()); result.put("institutionId", iid);
-        result.put("currentPlan", active.isPresent() ? "PREMIUM" : "FREE"); result.put("subscriptionStatus", subscriptionStatus(a.getId(), active).get("status")); result.put("billingInterval", active.map(s -> Objects.toString(s.getBillingInterval(),"MONTHLY")).orElse("FOREVER"));
-        result.put("subscriptionActive", active.isPresent()); result.put("subscriptionStartsAt", active.map(CollegeSubscription::getStartsAt).orElse(null)); result.put("subscriptionExpiresAt", active.map(CollegeSubscription::getExpiresAt).orElse(null)); result.put("renewalAt", active.map(CollegeSubscription::getRenewalAt).orElse(null)); result.put("paymentStatus", active.map(s -> Objects.toString(s.getPaymentStatus(),"LEGACY")).orElse("NOT_REQUIRED")); result.put("checkoutAvailable", false);
-        // Safe aggregates are available to every partner; student-level information remains Premium-gated.
+        // Analytics come from persisted institution events and enquiry records for all partner accounts.
         result.put("pageVisits30d", events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "PAGE_VIEW", since));
         result.put("profileViews30d", events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "PROFILE_VIEW", since));
         result.put("enquiries30d", enquiries.countByInstitution_IdAndCreatedAtAfter(iid, since));
-        if (active.isPresent()) {
-            long pageViews = events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "PAGE_VIEW", since);
-            result.put("uniqueVisitors30d", events.countUniqueVisitors(iid, since)); result.put("authenticatedStudents30d", events.countAuthenticatedStudents(iid, since));
-            result.put("enquiryClicks30d", events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "ENQUIRY_CLICK", since));
-            List<Map<String,Object>> daily = dailyVisits(iid, since);
-            long weeklyVisits = daily.stream().filter(day -> LocalDate.parse((String)day.get("date")).isAfter(LocalDate.now().minusDays(7))).mapToLong(day -> ((Number)day.get("visits")).longValue()).sum();
-            result.put("interestedStudents", enquiries.countByInstitution_Id(iid)); result.put("dailyVisits30d", daily); result.put("weeklyVisits", weeklyVisits); result.put("monthlyVisits", pageViews); result.put("opportunityAlerts", notifications.findByTargetInstitution_IdAndArchivedAtIsNullOrderByCreatedAtDesc(iid).size()); result.put("analyticsAvailable", true);
-        } else result.put("analyticsAvailable", false);
+        long pageViews = events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "PAGE_VIEW", since);
+        List<Map<String,Object>> daily = dailyVisits(iid, since);
+        long weeklyVisits = daily.stream().filter(day -> LocalDate.parse((String)day.get("date")).isAfter(LocalDate.now().minusDays(7))).mapToLong(day -> ((Number)day.get("visits")).longValue()).sum();
+        result.put("uniqueVisitors30d", events.countUniqueVisitors(iid, since)); result.put("authenticatedStudents30d", events.countAuthenticatedStudents(iid, since));
+        result.put("enquiryClicks30d", events.countByInstitution_IdAndEventTypeAndCreatedAtAfter(iid, "ENQUIRY_CLICK", since));
+        result.put("interestedStudents", enquiries.countByInstitution_Id(iid)); result.put("dailyVisits30d", daily); result.put("weeklyVisits", weeklyVisits); result.put("monthlyVisits", pageViews); result.put("opportunityAlerts", notifications.findByTargetInstitution_IdAndArchivedAtIsNullOrderByCreatedAtDesc(iid).size()); result.put("analyticsAvailable", true);
         return result;
     }
 
     @Transactional(readOnly = true)
     public List<Map<String,Object>> leads(String username) {
-        CollegePartnerAccount a = accountByUsername(username); boolean paid = activeSubscription(a.getId()).isPresent();
-        if (!paid) return List.of();
-        return leadSummaries(enquiries.findByInstitution_IdOrderByCreatedAtDesc(a.getInstitution().getId()), paid);
+        return walletService.partnerEnquiries(username);
     }
 
     @Transactional(readOnly = true)
     public List<Map<String,Object>> assignedLeads(String username) {
-        CollegePartnerAccount a = accountByUsername(username); boolean paid = activeSubscription(a.getId()).isPresent();
-        List<CollegeStudentEnquiry> assigned = enquiries
-                .findByInstitution_IdAndAssignedByIsNotNullOrderByCreatedAtDesc(a.getInstitution().getId());
-        return leadSummaries(assigned, paid);
-    }
-
-    private List<Map<String,Object>> leadSummaries(List<CollegeStudentEnquiry> enquiries, boolean paid) {
-        return enquiries.stream().map(e -> {
-            Map<String,Object> row = new LinkedHashMap<>(); row.put("id", e.getId()); row.put("student", maskName(e.getStudentName())); row.put("contact", maskPhone(e.getStudentPhone())); row.put("email", maskEmail(e.getStudentEmail()));
-            boolean contactConsent = "INSTITUTION_CONTACT".equals(e.getConsentScope()) && e.getContactConsentRevokedAt() == null;
-            row.put("course", e.getCourse()); row.put("status", e.getStatus()); row.put("consentGiven", e.isConsentGiven()); row.put("contactSharingConsent", contactConsent); row.put("date", e.getCreatedAt()); row.put("eligibleForDetails", paid && e.isConsentGiven() && e.getConsentAt() != null && contactConsent); row.put("source", e.getLeadSource()); row.put("priority", e.getPriority()); row.put("qualification", e.getCurrentQualification()); row.put("city", e.getCity()); row.put("state", e.getState()); return row;
-        }).toList();
+        accountByUsername(username);
+        return walletService.partnerEnquiries(username).stream().filter(row -> Boolean.TRUE.equals(row.get("assigned"))).toList();
     }
 
     @Transactional
     public Map<String,Object> leadDetails(String username, Long enquiryId) {
         CollegePartnerAccount a = accountByUsername(username); CollegeStudentEnquiry e = enquiries.findById(enquiryId).orElseThrow(() -> new IllegalArgumentException("Enquiry not found."));
         if (!Objects.equals(e.getInstitution().getId(), a.getInstitution().getId())) throw new IllegalArgumentException("Enquiry not found.");
-        Optional<CollegeSubscription> subscription = activeSubscription(a.getId());
-        if (subscription.isEmpty()) return Map.of("id",e.getId(),"locked",true,"message","Detailed student enquiry information requires an active Premium plan.");
-        if (!e.isConsentGiven() || e.getConsentAt() == null || !"INSTITUTION_CONTACT".equals(e.getConsentScope()) || e.getContactConsentRevokedAt() != null) return Map.of("id",e.getId(),"student",maskName(e.getStudentName()),"contact",maskPhone(e.getStudentPhone()),"email",maskEmail(e.getStudentEmail()),"course",Objects.toString(e.getCourse(),""),"date",e.getCreatedAt(),"status",e.getStatus(),"consentGiven",e.getConsentAt() != null && e.getContactConsentRevokedAt() == null,"locked",true);
-        accessLogs.save(new StudentDataAccessLog(a, e, subscription.get()));
-        Map<String,Object> details = new LinkedHashMap<>(); details.put("id",e.getId()); details.put("student",e.getStudentName()); details.put("contact",e.getStudentPhone()); details.put("email",e.getStudentEmail()); details.put("course",e.getCourse()); details.put("message",e.getMessage()); details.put("date",e.getCreatedAt()); details.put("status",e.getStatus()); details.put("consentGiven",true); details.put("locked",false); details.put("source", e.getLeadSource()); details.put("qualification", e.getCurrentQualification()); details.put("city",e.getCity()); details.put("state",e.getState()); details.put("degree",e.getPreferredDegree()); details.put("studyMode",e.getStudyMode()); details.put("priority",e.getPriority()); return details;
+        return walletService.partnerEnquiryDetails(username, enquiryId);
     }
 
     @Transactional
@@ -163,7 +141,6 @@ public class CollegePartnerService {
         String normalized = status == null ? "" : status.trim().toUpperCase(Locale.ROOT);
         if (!STATUSES.contains(normalized)) throw new IllegalArgumentException("Invalid enquiry status.");
         CollegePartnerAccount a = accountByUsername(username); CollegeStudentEnquiry e = enquiries.findById(enquiryId).orElseThrow(() -> new IllegalArgumentException("Enquiry not found."));
-        if (activeSubscription(a.getId()).isEmpty()) throw new IllegalArgumentException("Student lead management requires an active Premium plan.");
         if (!Objects.equals(e.getInstitution().getId(), a.getInstitution().getId())) throw new IllegalArgumentException("Enquiry not found.");
         e.setStatus(normalized); enquiries.save(e);
         auditLead(e, "PARTNER_STATUS_CHANGED", username, e.getInstitution().getId(), normalized);
@@ -180,9 +157,9 @@ public class CollegePartnerService {
     @Transactional(readOnly = true)
     public List<Map<String,Object>> adminLeadPartners() {
         return accounts.findAll().stream().filter(CollegePartnerAccount::isActive)
-                .map(a -> { boolean premium = activeSubscription(a.getId()).isPresent(); Map<String,Object> row = new LinkedHashMap<>();
+                .map(a -> { Map<String,Object> row = new LinkedHashMap<>();
                     row.put("accountId",a.getId()); row.put("institutionId",a.getInstitution().getId()); row.put("collegeName",a.getInstitution().getName());
-                    row.put("username",a.getUsername()); row.put("accountStatus","ACTIVE"); row.put("subscriptionStatus",premium?"ACTIVE":"INACTIVE"); row.put("eligible",premium); return row; })
+                    row.put("username",a.getUsername()); row.put("accountStatus","ACTIVE"); row.put("eligible",true); return row; })
                 .toList();
     }
 
@@ -204,8 +181,9 @@ public class CollegePartnerService {
 
     @Transactional
     public Map<String,Object> createAdminLead(AdminLeadRequest request, String admin) {
-        CollegePartnerAccount partner=eligiblePartner(request.institutionId());
-        if(enquiries.existsByStudentEmailIgnoreCaseAndInstitution_Id(request.studentEmail().trim(),partner.getInstitution().getId())||enquiries.existsByStudentPhoneAndInstitution_Id(request.studentPhone().trim(),partner.getInstitution().getId())) throw new IllegalArgumentException("A lead with this email or mobile number already exists for the selected college.");
+        CollegePartnerAccount partner=eligiblePartnerForUpdate(request.institutionId());
+        String duplicate=duplicateLeadField(partner.getInstitution().getId(), request.studentEmail(), request.studentPhone());
+        if(duplicate!=null) throw new IllegalArgumentException("A lead with this "+duplicate+" already exists for the selected college. Check the existing enquiry or correct the value before assigning.");
         CollegeStudentEnquiry lead=makeAdminLead(request,partner,admin,"ADMIN_ADDED");
         lead=enquiries.save(lead); auditLead(lead,"ADMIN_LEAD_ASSIGNED",admin,partner.getInstitution().getId(),"Assigned from admin form; consent ref: "+request.consentReference());
         return Map.of("id",lead.getId(),"institution",partner.getInstitution().getName(),"message","Lead assigned successfully.");
@@ -246,13 +224,14 @@ public class CollegePartnerService {
 
     @Transactional
     public Map<String,Object> assignImportedLeads(LeadImportAssignRequest request, String admin) {
-        CollegePartnerAccount partner=eligiblePartner(request.institutionId());
-        Set<String> emails=new HashSet<>();
+        CollegePartnerAccount partner=eligiblePartnerForUpdate(request.institutionId());
+        Set<String> emails=new HashSet<>(), phones=new HashSet<>();
+        for(CollegeStudentEnquiry existing:enquiries.findByInstitution_IdOrderByCreatedAtDesc(partner.getInstitution().getId())) { emails.add(existing.getStudentEmail().trim().toLowerCase(Locale.ROOT)); String existingPhone=normalizePhone(existing.getStudentPhone()); if(!existingPhone.isBlank())phones.add(existingPhone); }
         for(AdminLeadRequest row:request.rows()) {
             if(!row.consentGiven() || row.consentReference().isBlank()) throw new IllegalArgumentException("Every imported lead requires documented contact-sharing consent.");
             String email=row.studentEmail().trim().toLowerCase(Locale.ROOT);
-            String phone=row.studentPhone().replaceAll("\\D","");
-            if(!emails.add(email)||enquiries.existsByStudentEmailIgnoreCaseAndInstitution_Id(email,partner.getInstitution().getId())||enquiries.existsByStudentPhoneAndInstitution_Id(row.studentPhone().trim(),partner.getInstitution().getId())) throw new IllegalArgumentException("Duplicate lead detected for "+email+(phone.isBlank()?"":" / mobile ending "+phone.substring(Math.max(0,phone.length()-4)))+". Remove duplicates before importing.");
+            String phone=normalizePhone(row.studentPhone());
+            if(!emails.add(email)||(!phone.isBlank()&&!phones.add(phone))) throw new IllegalArgumentException("Duplicate lead detected for "+email+(phone.isBlank()?"":" / mobile ending "+phone.substring(Math.max(0,phone.length()-4)))+". Remove duplicates before importing.");
         }
         List<CollegeStudentEnquiry> saved=new ArrayList<>();
         for(AdminLeadRequest row:request.rows()) { if(!"EXCEL_IMPORT".equals(row.leadSource())) throw new IllegalArgumentException("Imported records must use the EXCEL_IMPORT source."); CollegeStudentEnquiry lead=makeAdminLead(row,partner,admin,"EXCEL_IMPORT"); saved.add(enquiries.save(lead)); }
@@ -267,13 +246,30 @@ public class CollegePartnerService {
     private CollegePartnerAccount eligiblePartner(Long institutionId) {
         CollegePartnerAccount partner=accounts.findByInstitution_Id(institutionId).orElseThrow(()->new IllegalArgumentException("The selected institution has no registered college partner account."));
         if(!partner.isActive()) throw new IllegalArgumentException("The selected college partner account is inactive.");
-        if(activeSubscription(partner.getId()).isEmpty()) throw new IllegalArgumentException("Lead assignment requires an active Premium subscription for this college.");
         return partner;
     }
+    private CollegePartnerAccount eligiblePartnerForUpdate(Long institutionId) {
+        CollegePartnerAccount partner=accounts.findByInstitutionIdForUpdate(institutionId).orElseThrow(()->new IllegalArgumentException("The selected institution has no registered college partner account."));
+        if(!partner.isActive()) throw new IllegalArgumentException("The selected college partner account is inactive.");
+        return partner;
+    }
+    private String duplicateLeadField(Long institutionId, String email, String phone) {
+        String normalizedEmail=Objects.toString(email,"").trim().toLowerCase(Locale.ROOT), normalizedPhone=normalizePhone(phone);
+        if(!normalizedEmail.isBlank()&&enquiries.findFirstByInstitution_IdAndStudentEmailIgnoreCase(institutionId,normalizedEmail).isPresent()) return "email address";
+        if(!normalizedPhone.isBlank()&&enquiries.findRecentByNormalizedPhoneSuffix(institutionId,normalizedPhone).stream().anyMatch(existing->normalizedPhone.equals(normalizePhone(existing.getStudentPhone())))) return "mobile number";
+        return null;
+    }
+    private String normalizePhone(String phone) {
+        String digits=Objects.toString(phone,"").replaceAll("\\D","");
+        if(digits.length()==12&&digits.startsWith("91")) return digits.substring(2);
+        if(digits.length()==11&&digits.startsWith("0")) return digits.substring(1);
+        return digits;
+    }
+    private String normalizePhoneForStorage(String phone) { return Objects.toString(phone,"").trim().replaceAll("[^+0-9]",""); }
     private CollegeStudentEnquiry makeAdminLead(AdminLeadRequest r, CollegePartnerAccount partner, String admin, String source) {
         if(!r.consentGiven()||r.consentReference().isBlank()) throw new IllegalArgumentException("Documented, relevant student contact-sharing consent is required before assignment.");
         String email=r.studentEmail().trim().toLowerCase(Locale.ROOT);
-        CollegeStudentEnquiry e=new CollegeStudentEnquiry(); e.setInstitution(partner.getInstitution()); e.setStudentName(r.studentName().trim()); e.setStudentEmail(email); e.setStudentPhone(r.studentPhone().trim()); e.setAlternativePhone(clean(r.alternativePhone())); e.setCourse(r.course().trim()); e.setPreferredDegree(clean(r.preferredDegree())); e.setStudyMode(clean(r.studyMode())); e.setPreferredCountry(clean(r.preferredCountry())); e.setCurrentQualification(clean(r.currentQualification())); e.setPassingYear(clean(r.passingYear())); e.setPreferredCollege(clean(r.preferredCollege())); e.setCity(clean(r.city())); e.setState(clean(r.state())); e.setMessage(clean(r.message())); e.setConsentGiven(true); e.setConsentAt(LocalDateTime.now()); e.setConsentScope("INSTITUTION_CONTACT"); e.setConsentReference(r.consentReference().trim()); e.setLeadSource(source); e.setPriority(r.priority()==null?"NORMAL":r.priority()); e.setStatus(r.status()==null?"NEW":r.status()); e.setAdminNotes(clean(r.adminNotes())); e.setAssignedBy(admin);
+        CollegeStudentEnquiry e=new CollegeStudentEnquiry(); e.setInstitution(partner.getInstitution()); e.setStudentName(r.studentName().trim()); e.setStudentEmail(email); e.setStudentPhone(normalizePhoneForStorage(r.studentPhone())); e.setAlternativePhone(r.alternativePhone()==null||r.alternativePhone().isBlank()?null:normalizePhoneForStorage(r.alternativePhone())); e.setCourse(r.course().trim()); e.setPreferredDegree(clean(r.preferredDegree())); e.setStudyMode(clean(r.studyMode())); e.setPreferredCountry(clean(r.preferredCountry())); e.setCurrentQualification(clean(r.currentQualification())); e.setPassingYear(clean(r.passingYear())); e.setPreferredCollege(clean(r.preferredCollege())); e.setCity(clean(r.city())); e.setState(clean(r.state())); e.setMessage(clean(r.message())); e.setConsentGiven(true); e.setConsentAt(LocalDateTime.now()); e.setConsentScope("INSTITUTION_CONTACT"); e.setConsentReference(r.consentReference().trim()); e.setLeadSource(source); e.setPriority(r.priority()==null?"NORMAL":r.priority()); e.setStatus(r.status()==null?"NEW":r.status()); e.setAdminNotes(clean(r.adminNotes())); e.setAssignedBy(admin);
         users.findByEmail(email).filter(user -> "STUDENT".equals(user.getRole())).ifPresent(e::setStudent);
         return e;
     }
@@ -373,10 +369,10 @@ public class CollegePartnerService {
     public void markNotificationReviewed(Long id) { CollegeInterestNotification notice = notifications.findById(id).orElseThrow(() -> new IllegalArgumentException("Notification not found.")); notice.setReviewedAt(LocalDateTime.now()); }
 
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> partnerAlerts(String username) { var account = accountByUsername(username); boolean premium = activeSubscription(account.getId()).isPresent(); return notifications.findByTargetInstitution_IdAndArchivedAtIsNullOrderByCreatedAtDesc(account.getInstitution().getId()).stream().map(n -> { Map<String,Object> row = new LinkedHashMap<>(); row.put("id",n.getId()); row.put("title",premium?n.getTitle():"Student Interest Summary"); row.put("content",premium?n.getContent():"A student has explored your institution alongside others on StepInStudents. Detailed cross-institution activity is a Premium feature. Student identity and contact details remain protected."); row.put("status",premium?n.getStatus():"SUBSCRIPTION_REQUIRED"); row.put("createdAt",n.getCreatedAt()); row.put("institution",n.getTargetInstitution().getName()); row.put("subscriptionActive",premium); row.put("contactDetails", "Protected information"); return row; }).toList(); }
+    public List<Map<String,Object>> partnerAlerts(String username) { var account = accountByUsername(username); return notifications.findByTargetInstitution_IdAndArchivedAtIsNullOrderByCreatedAtDesc(account.getInstitution().getId()).stream().map(n -> { Map<String,Object> row = new LinkedHashMap<>(); row.put("id",n.getId()); row.put("title",n.getTitle()); row.put("content",n.getContent()); row.put("status",n.getStatus()); row.put("createdAt",n.getCreatedAt()); row.put("institution",n.getTargetInstitution().getName()); row.put("contactDetails", "Protected information"); return row; }).toList(); }
 
     @Transactional
-    public void markAlertRead(String username, Long id, boolean archive) { var account = accountByUsername(username); var notice = notifications.findByIdAndTargetInstitution_Id(id, account.getInstitution().getId()).orElseThrow(() -> new IllegalArgumentException("Notification not found.")); if (archive) { notice.setArchivedAt(LocalDateTime.now()); notice.setStatus("ARCHIVED"); } else { notice.setReadAt(LocalDateTime.now()); if ("NEW".equals(notice.getStatus())) notice.setStatus(activeSubscription(account.getId()).isPresent() ? "READ" : "SUBSCRIPTION_REQUIRED"); } }
+    public void markAlertRead(String username, Long id, boolean archive) { var account = accountByUsername(username); var notice = notifications.findByIdAndTargetInstitution_Id(id, account.getInstitution().getId()).orElseThrow(() -> new IllegalArgumentException("Notification not found.")); if (archive) { notice.setArchivedAt(LocalDateTime.now()); notice.setStatus("ARCHIVED"); } else { notice.setReadAt(LocalDateTime.now()); if ("NEW".equals(notice.getStatus())) notice.setStatus("READ"); } }
 
     @Transactional(readOnly = true)
     public List<Map<String,Object>> adminNotificationHistory() { return notifications.findAllByOrderByCreatedAtDesc().stream().map(n -> { Map<String,Object> row = new LinkedHashMap<>(); row.put("id",n.getId()); row.put("institution",n.getTargetInstitution().getName()); row.put("title",n.getTitle()); row.put("status",n.getStatus()); row.put("createdAt",n.getCreatedAt()); row.put("reviewedAt",n.getReviewedAt()); row.put("student",maskName(n.getStudent().getFullName())); return row; }).toList(); }
@@ -386,78 +382,15 @@ public class CollegePartnerService {
     @Transactional(readOnly = true)
     public Map<String,Object> adminSummary() {
         List<CollegePartnerAccount> all = accounts.findAll(); LocalDateTime now = LocalDateTime.now();
-        long activeSubs = all.stream().filter(a -> activeSubscription(a.getId()).isPresent()).count();
-        return Map.of("totalPartners", all.size(), "activeAccounts", all.stream().filter(CollegePartnerAccount::isActive).count(), "inactiveAccounts", all.stream().filter(a -> !a.isActive()).count(), "activeSubscriptions", activeSubs, "expiredOrInactiveSubscriptions", Math.max(0, all.size()-activeSubs), "pageVisits", events.countByEventType("PAGE_VIEW"), "enquiries", enquiries.count());
+        return Map.of("totalPartners", all.size(), "activeAccounts", all.stream().filter(CollegePartnerAccount::isActive).count(), "inactiveAccounts", all.stream().filter(a -> !a.isActive()).count(), "pageVisits", events.countByEventType("PAGE_VIEW"), "enquiries", enquiries.count());
     }
 
     @Transactional(readOnly = true)
-    public List<Map<String,Object>> subscriptionHistory(String username) {
-        var account = accountByUsername(username);
-        return subscriptionAudits.findByAccount_IdOrderByCreatedAtDesc(account.getId()).stream().map(audit -> {
-            Map<String,Object> row = new LinkedHashMap<>(); row.put("action", audit.getAction()); row.put("paymentReference", audit.getPaymentReference()); row.put("note", audit.getNote()); row.put("date", audit.getCreatedAt()); row.put("subscriptionStatus", audit.getSubscription() == null ? null : audit.getSubscription().getStatus()); return row;
-        }).toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<Map<String,Object>> adminSubscriptions() {
-        return accounts.findAll().stream().map(a -> {
-            Optional<CollegeSubscription> current = activeSubscription(a.getId());
-            CollegeSubscription latest = subscriptions.findFirstByAccount_IdOrderByCreatedAtDesc(a.getId()).orElse(null);
-            Map<String,Object> row = new LinkedHashMap<>(); row.put("accountId",a.getId()); row.put("institution",a.getInstitution().getName()); row.put("username",a.getUsername()); row.put("plan",current.isPresent()?"PREMIUM":"FREE"); row.put("status",subscriptionStatus(a.getId(),current)); row.put("subscriptionId",latest==null?null:latest.getId()); row.put("startsAt",latest==null?null:latest.getStartsAt()); row.put("expiresAt",latest==null?null:latest.getExpiresAt()); row.put("paymentStatus",latest==null?"NOT_REQUIRED":latest.getPaymentStatus()); row.put("paymentReference",latest==null?null:latest.getPaymentReference()); return row;
-        }).toList();
-    }
-
-    @Transactional
-    public Map<String,Object> adminActivatePremium(Long accountId, String paymentReference, String note, String adminUsername) {
-        String reference = clean(paymentReference), activationNote = clean(note);
-        if (reference == null || reference.length() > 120) throw new IllegalArgumentException("Enter a payment reference (maximum 120 characters). ");
-        if (activationNote == null || activationNote.length() > 500) throw new IllegalArgumentException("Record a short note confirming independent payment verification.");
-        if (subscriptions.existsByPaymentReference(reference)) throw new IllegalArgumentException("That payment reference has already been used.");
-        CollegePartnerAccount partner = account(accountId);
-        LocalDateTime now = LocalDateTime.now();
-        Optional<CollegeSubscription> current = activeSubscription(accountId);
-        LocalDateTime end = current.map(CollegeSubscription::getExpiresAt).filter(expiry -> expiry.isAfter(now)).orElse(now).plusMonths(1);
-        current.ifPresent(subscription -> subscription.setStatus("RENEWED"));
-        CollegeSubscription subscription = new CollegeSubscription(); subscription.setAccount(partner); subscription.setStatus("ACTIVE"); subscription.setAmountPaise(99900L); subscription.setBillingInterval("MONTHLY"); subscription.setPaymentStatus("ADMIN_VERIFIED_OFFLINE"); subscription.setPaymentReference(reference); subscription.setActivatedBy(adminUsername); subscription.setActivationNote(activationNote); subscription.setStartsAt(now); subscription.setExpiresAt(end); subscription.setRenewalAt(end); subscription.setGateway("ADMIN_VERIFIED_OFFLINE");
-        subscriptions.save(subscription);
-        CollegeSubscriptionAudit audit = new CollegeSubscriptionAudit(); audit.setAccount(partner); audit.setSubscription(subscription); audit.setAction("PREMIUM_ACTIVATED_AFTER_OFFLINE_VERIFICATION"); audit.setAdminUsername(adminUsername); audit.setPaymentReference(reference); audit.setNote(activationNote); subscriptionAudits.save(audit);
-        return Map.of("plan","PREMIUM","status","ACTIVE","startsAt",subscription.getStartsAt(),"expiresAt",subscription.getExpiresAt(),"paymentStatus",subscription.getPaymentStatus());
-    }
-
-    @Transactional
-    public void adminSetSubscriptionStatus(Long accountId, String status, String note, String adminUsername) {
-        String normalized = status == null ? "" : status.trim().toUpperCase(Locale.ROOT);
-        if (!Set.of("SUSPENDED","CANCELLED","EXPIRED").contains(normalized)) throw new IllegalArgumentException("Choose a supported subscription status.");
-        CollegePartnerAccount partner = account(accountId);
-        CollegeSubscription subscription = subscriptions.findFirstByAccount_IdAndStatusAndExpiresAtAfterOrderByExpiresAtDesc(accountId,"ACTIVE",LocalDateTime.now()).orElseThrow(() -> new IllegalArgumentException("No active Premium subscription exists."));
-        subscription.setStatus(normalized); if ("CANCELLED".equals(normalized)) subscription.setCancelledAt(LocalDateTime.now()); if ("EXPIRED".equals(normalized)) subscription.setExpiresAt(LocalDateTime.now());
-        CollegeSubscriptionAudit audit = new CollegeSubscriptionAudit(); audit.setAccount(partner); audit.setSubscription(subscription); audit.setAction(normalized); audit.setAdminUsername(adminUsername); audit.setNote(clean(note)); subscriptionAudits.save(audit);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Map<String,Object>> adminSubscriptionHistory() {
-        return subscriptionAudits.findAllByOrderByCreatedAtDesc().stream().map(audit -> { Map<String,Object> row = new LinkedHashMap<>(); row.put("institution",audit.getAccount().getInstitution().getName()); row.put("action",audit.getAction()); row.put("admin",audit.getAdminUsername()); row.put("paymentReference",audit.getPaymentReference()); row.put("note",audit.getNote()); row.put("date",audit.getCreatedAt()); return row; }).toList();
-    }
-
-    private Map<String,Object> subscriptionStatus(Long accountId, Optional<CollegeSubscription> active) {
-        if (active.isPresent()) return Map.of("status","ACTIVE","plan","PREMIUM");
-        return subscriptions.findFirstByAccount_IdOrderByCreatedAtDesc(accountId).map(latest -> {
-            String status = latest.getStatus();
-            if ("PENDING".equals(status)) status = "PENDING_PAYMENT";
-            if ("ACTIVE".equals(status) && latest.getExpiresAt() != null && !latest.getExpiresAt().isAfter(LocalDateTime.now())) status = "EXPIRED";
-            return Map.<String,Object>of("status",status,"plan","FREE");
-        }).orElse(Map.of("status","FREE","plan","FREE"));
-    }
-
     private List<Map<String,Object>> dailyVisits(Long institutionId, LocalDateTime since) {
         Map<LocalDate,Long> byDay = events.findByInstitution_IdAndEventTypeAndCreatedAtAfterOrderByCreatedAtAsc(institutionId,"PAGE_VIEW",since).stream().collect(Collectors.groupingBy(event -> event.getCreatedAt().toLocalDate(),TreeMap::new,Collectors.counting()));
         return byDay.entrySet().stream().map(entry -> Map.<String,Object>of("date",entry.getKey().toString(),"visits",entry.getValue())).toList();
     }
 
-    private Optional<CollegeSubscription> activeSubscription(Long accountId) {
-        LocalDateTime now = LocalDateTime.now();
-        return subscriptions.findByAccount_IdAndStatusAndExpiresAtAfterOrderByExpiresAtDesc(accountId,"ACTIVE",now).stream().filter(s -> s.getStartsAt() == null || !s.getStartsAt().isAfter(now)).findFirst();
-    }
     private CollegePartnerAccount account(Long id) { return accounts.findById(id).orElseThrow(() -> new IllegalArgumentException("College partner not found.")); }
     private CollegePartnerAccount accountByUsername(String username) { return accounts.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("College partner not found.")); }
     private String generatedUsername(String name) { String slug = name.toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9]+", "").substring(0, Math.min(18, name.toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9]+", "").length())); if (slug.length()<4) slug="college"; String value; do { value=slug+String.format("%04d", random.nextInt(10000)); } while(accounts.existsByUsernameIgnoreCase(value)); return value; }

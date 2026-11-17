@@ -43,6 +43,16 @@ public class InstitutionController {
         );
     }
 
+    @GetMapping("/domestic")
+    public ResponseEntity<List<InstitutionResponse>> getPublicDomesticInstitutions() {
+        return ResponseEntity.ok(institutionService.getPublicDomesticInstitutions());
+    }
+
+    @GetMapping("/domestic/{id}")
+    public ResponseEntity<InstitutionResponse> getPublicDomesticInstitutionById(@PathVariable Long id) {
+        return ResponseEntity.ok(institutionService.getPublicDomesticInstitutionById(id));
+    }
+
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<InstitutionResponse>> getAllInstitutionsForAdmin() {

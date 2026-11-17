@@ -37,6 +37,9 @@ export const setPartnerActive = (id, active) => request(`/admin/college-partners
 export const resetPartnerPassword = id => request(`/admin/college-partners/${id}/reset-password`, { method: "POST" });
 export const loginPartner = data => request("/college/auth/login", { method: "POST", body: JSON.stringify(data) });
 export const getPartnerDashboard = () => request("/college/dashboard");
+export const getPartnerWallet = () => request("/college/wallet");
+export const submitPartnerWalletDeposit = data => request("/college/wallet/deposits", { method: "POST", body: JSON.stringify(data) });
+export const unlockPartnerEnquiries = enquiryIds => request("/college/enquiries/unlock", { method: "POST", body: JSON.stringify({ enquiryIds }) });
 export const getPartnerEnquiries = () => request("/college/enquiries");
 export const getPartnerEnquiry = id => request(`/college/enquiries/${id}`);
 export const updatePartnerEnquiryStatus = (id, status) => request(`/college/enquiries/${id}/status`, { method: "PATCH", body: JSON.stringify({ status }) });
@@ -57,13 +60,18 @@ export const markAdminNotificationReviewed = id => request(`/admin/college-partn
 export const getPartnerAlerts = () => request("/college/opportunity-alerts");
 export const markPartnerAlertRead = id => request(`/college/opportunity-alerts/${id}/read`, { method: "PATCH" });
 export const archivePartnerAlert = id => request(`/college/opportunity-alerts/${id}/archive`, { method: "PATCH" });
-export const getPartnerSubscriptionHistory = () => request("/college/subscription/history");
-export const getAdminSubscriptions = () => request("/admin/college-partners/subscriptions");
-export const getAdminSubscriptionHistory = () => request("/admin/college-partners/subscriptions/history");
 export const getAdminLeadPartners = () => request("/admin/college-partners/leads/partners");
 export const getAdminLeadSummary = () => request("/admin/college-partners/leads/summary");
 export const getAdminLeads = () => request("/admin/college-partners/leads");
 export const getAdminLeadAudit = () => request("/admin/college-partners/leads/audit");
+export const getAdminWalletSettings = () => request("/admin/college-partners/wallet/settings");
+export const updateAdminWalletSettings = data => request("/admin/college-partners/wallet/settings", { method: "PUT", body: JSON.stringify(data) });
+export const getAdminWalletBalances = () => request("/admin/college-partners/wallet/balances");
+export const getAdminWalletDeposits = (status = "PENDING") => request(`/admin/college-partners/wallet/deposits?status=${encodeURIComponent(status)}`);
+export const reviewAdminWalletDeposit = (id, decision, note) => request(`/admin/college-partners/wallet/deposits/${id}`, { method: "PATCH", body: JSON.stringify({ decision, note }) });
+export const adjustAdminWallet = (accountId, amount, reason) => request(`/admin/college-partners/wallet/${accountId}/adjustments`, { method: "POST", body: JSON.stringify({ amount, reason }) });
+export const getAdminWalletTransactions = () => request("/admin/college-partners/wallet/transactions");
+export const getAdminUnlockedLeads = () => request("/admin/college-partners/wallet/unlocked-leads");
 export const createAdminLead = data => request("/admin/college-partners/leads", { method: "POST", body: JSON.stringify(data) });
 export const assignImportedAdminLeads = data => request("/admin/college-partners/leads/import/assign", { method: "POST", body: JSON.stringify(data) });
 export function previewAdminLeadImport(file, institutionId, onProgress = () => {}) {
@@ -77,8 +85,6 @@ export function previewAdminLeadImport(file, institutionId, onProgress = () => {
     });
 }
 export const getPartnerAssignedLeads = () => request("/college/assigned-leads");
-export const activateAdminPremium = (accountId, paymentReference, note) => request(`/admin/college-partners/${accountId}/subscription/activate`, { method: "POST", body: JSON.stringify({ paymentReference, note }) });
-export const setAdminSubscriptionStatus = (accountId, status, note) => request(`/admin/college-partners/${accountId}/subscription/status`, { method: "PATCH", body: JSON.stringify({ status, note }) });
 export const getPublicInstitution = id => request(`/institution/${encodeURIComponent(id)}`, { headers: {} });
 
 export function storePartnerSession(result) {

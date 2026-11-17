@@ -20,6 +20,7 @@ import CollegePartnerAdminPage from "../pages/CollegePartnerAdminPage.js";
 import CollegeLoginPage from "../pages/CollegeLoginPage.js";
 import CollegePartnerDashboardPage from "../pages/CollegePartnerDashboardPage.js";
 import CollegeEnquiryPage from "../pages/CollegeEnquiryPage.js";
+import { CollegesPage, CollegeDirectoryPage, CollegeDetailPage } from "../pages/CollegeDiscoveryPage.js";
 
 export function Router() {
     const path =
@@ -29,8 +30,12 @@ export function Router() {
     let pageStatus = 200;
 
     const latestNewsMatch = path.match(/^\/latest-news\/(\d+)$/);
+    const collegeDetailMatch = path.match(/^\/colleges\/(\d+)$/);
     if (path === "/latest-news" || latestNewsMatch) {
         pageContent = `${Header()}${Navbar()}${LatestNewsPage(latestNewsMatch?.[1] || "")}${FooterSection()}`;
+    } else if (path === "/colleges" || path === "/colleges/ug" || path === "/colleges/pg" || collegeDetailMatch) {
+        const collegePage = collegeDetailMatch ? CollegeDetailPage(collegeDetailMatch[1]) : path === "/colleges" ? CollegesPage() : CollegeDirectoryPage(path.endsWith("/pg") ? "PG" : "UG");
+        pageContent = `${Header()}${Navbar()}${collegePage}${FooterSection()}`;
     } else switch (path) {
         // =====================================================
         // HOME

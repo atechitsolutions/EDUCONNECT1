@@ -12,6 +12,10 @@ public interface InstitutionRepository extends JpaRepository<Institution, Long> 
 
     List<Institution> findByActiveTrueAndStudyAbroadEnabledTrueOrderByCreatedAtDesc();
 
+    List<Institution> findByActiveTrueAndCountryCodeIgnoreCaseOrderByNameAsc(String countryCode);
+
+    Optional<Institution> findByIdAndActiveTrueAndCountryCodeIgnoreCase(Long id, String countryCode);
+
     Optional<Institution> findByIdAndActiveTrueAndStudyAbroadEnabledTrue(Long id);
 
     Optional<Institution> findByNameIgnoreCaseAndCountryIgnoreCase(String name, String country);

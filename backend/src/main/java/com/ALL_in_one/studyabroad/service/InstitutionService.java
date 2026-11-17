@@ -70,6 +70,17 @@ public class InstitutionService {
                 .toList();
     }
 
+    public List<InstitutionResponse> getPublicDomesticInstitutions() {
+        return institutionRepository.findByActiveTrueAndCountryCodeIgnoreCaseOrderByNameAsc("IN")
+                .stream().map(institutionMapper::toResponse).toList();
+    }
+
+    public InstitutionResponse getPublicDomesticInstitutionById(Long id) {
+        Institution institution = institutionRepository.findByIdAndActiveTrueAndCountryCodeIgnoreCase(id, "IN")
+                .orElseThrow(() -> new RuntimeException("Institution Not Found"));
+        return institutionMapper.toResponse(institution);
+    }
+
     public List<InstitutionResponse> getAllInstitutions() {
         return institutionRepository.findAll()
                 .stream()

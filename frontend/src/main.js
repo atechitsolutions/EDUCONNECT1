@@ -128,6 +128,7 @@ import "./assets/css/online-education.css";
 import "./assets/css/online-education-card-layouts.css";
 import "./assets/css/online-education-admin.css";
 import "./assets/css/institution-compare.css";
+import "./assets/css/college-discovery.css";
 import "./assets/css/education-loan-section.css";
 
 /* =========================================================
@@ -139,6 +140,7 @@ import { initCollegePartnerAdminPage } from "./pages/CollegePartnerAdminPage.js"
 import { initCollegeLoginPage } from "./pages/CollegeLoginPage.js";
 import { initCollegePartnerDashboardPage } from "./pages/CollegePartnerDashboardPage.js";
 import { initCollegeEnquiryPage } from "./pages/CollegeEnquiryPage.js";
+import { initCollegeDiscoveryPage } from "./pages/CollegeDiscoveryPage.js";
 
 import {
     initInstitutionSearch
@@ -302,6 +304,7 @@ document.addEventListener(
 
         applyRouteSEO();
         initRegionalSchools();
+        initCollegeDiscoveryPage();
 
         const primaryNavigation = document.querySelector("#educonnect-primary-navigation");
         const navigationToggles = [...document.querySelectorAll(".navbar-menu-toggle, .mobile-header-menu-toggle")];
@@ -333,7 +336,7 @@ document.addEventListener(
 
             primaryNavigation.addEventListener("click", (event) => {
                 const dropdownLink = event.target.closest(".navbar-dropdown-link");
-                if (dropdownLink && window.matchMedia("(max-width: 600px)").matches) {
+                if (dropdownLink && dropdownLink.getAttribute("aria-label") !== "Colleges and Universities" && window.matchMedia("(max-width: 600px)").matches) {
                     const dropdown = dropdownLink.closest(".navbar-dropdown");
                     if (dropdown && !dropdown.classList.contains("is-open")) {
                         event.preventDefault();

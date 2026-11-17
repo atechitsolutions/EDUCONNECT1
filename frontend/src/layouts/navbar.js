@@ -106,11 +106,11 @@ export default function Navbar() {
             <div class="navbar-dropdown">
 
                 <a
-                    href="/#colleges"
+                    href="/colleges"
                     class="navbar-link navbar-dropdown-link"
-                    data-auth-required="true"
                     aria-expanded="false"
                     aria-label="Colleges and Universities"
+                    data-colleges-root
                 >
 
                     <span>
@@ -133,9 +133,8 @@ export default function Navbar() {
                     <!-- UNIVERSITY -->
 
                     <a
-                        href="/#colleges"
+                        href="/colleges/ug"
                         class="navbar-dropdown-item"
-                        data-auth-required="true"
                     >
                        UG Colleges
                     </a>
@@ -144,9 +143,8 @@ export default function Navbar() {
                     <!-- PG -->
 
                     <a
-                        href="/#colleges"
+                        href="/colleges/pg"
                         class="navbar-dropdown-item"
-                        data-auth-required="true"
                     >
                         PG Colleges
                     </a>
