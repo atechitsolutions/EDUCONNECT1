@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
+import org.mockito.ArgumentCaptor;
 
 class CollegeWalletServiceTest {
     private CollegePartnerAccountRepository accounts;
@@ -49,7 +50,7 @@ class CollegeWalletServiceTest {
         enquiry = new CollegeStudentEnquiry(); enquiry.setId(5L); enquiry.setInstitution(institution); enquiry.setStudentName("Test Student");
         enquiry.setStudentEmail("student@example.test"); enquiry.setStudentPhone("9876543210"); enquiry.setCourse("Architecture");
         enquiry.setConsentGiven(true); enquiry.setConsentAt(LocalDateTime.now()); enquiry.setConsentScope("INSTITUTION_CONTACT");
-        walletSettings = new CollegeWalletSettings(); walletSettings.setId(1L); walletSettings.setPricePerEnquiry(new BigDecimal("25.50"));
+        walletSettings = new CollegeWalletSettings(); walletSettings.setId(1L); walletSettings.setPricePerEnquiry(new BigDecimal("25.50")); walletSettings.setExclusiveLeadPrice(new BigDecimal("25.50"));
 
         when(accounts.findByUsernameForUpdate("partner1")).thenReturn(Optional.of(account));
         when(accounts.findByUsername("partner1")).thenReturn(Optional.of(account));
@@ -96,6 +97,26 @@ class CollegeWalletServiceTest {
         assertTrue(error.getMessage().contains("Insufficient wallet balance"));
         assertEquals(new BigDecimal("10.00"), wallet.getBalance());
         verify(transactions, never()).save(any());
+    }
+
+    @Test
+    void unlockUsesTheLeadPriceSnapshotAndStoresTierAndUnitPriceInLedger() {
+        enquiry.setLeadProductType("HOT_LEAD");
+        enquiry.setLeadUnitPrice(new BigDecimal("150.00"));
+        wallet.setBalance(new BigDecimal("200.00"));
+        when(transactions.findByAccount_IdAndEnquiry_IdAndTransactionTypeAndStatus(3L, 5L, "LEAD_UNLOCK", "COMPLETED"))
+                .thenReturn(Optional.empty());
+
+        var result = service.unlock("partner1", new WalletUnlockRequest(List.of(5L)));
+
+        assertEquals(new BigDecimal("150.00"), result.get("charged"));
+        assertEquals(new BigDecimal("50.00"), wallet.getBalance());
+        ArgumentCaptor<CollegeWalletTransaction> charge = ArgumentCaptor.forClass(CollegeWalletTransaction.class);
+        verify(transactions).save(charge.capture());
+        assertEquals("HOT_LEAD", charge.getValue().getLeadProductType());
+        assertEquals(new BigDecimal("150.00"), charge.getValue().getUnitPrice());
+        assertEquals(1, charge.getValue().getQuantity());
+        assertEquals(new BigDecimal("-150.00"), charge.getValue().getAmount());
     }
 
     @Test

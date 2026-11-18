@@ -33,6 +33,8 @@ public class CollegeStudentEnquiry {
     @Column(columnDefinition = "TEXT") private String message;
     @Column(name = "lead_source", length = 32) private String leadSource = "WEBSITE_ENQUIRY";
     @Column(name = "lead_priority", length = 16) private String priority = "NORMAL";
+    @Column(name = "lead_product_type", nullable = false, length = 32) private String leadProductType = "EXCLUSIVE_LEAD";
+    @Column(name = "lead_unit_price", precision = 12, scale = 2) private java.math.BigDecimal leadUnitPrice;
     @Column(name = "admin_notes", columnDefinition = "TEXT") private String adminNotes;
     @Column(name = "consent_reference", length = 180) private String consentReference;
     @Column(name = "assigned_by", length = 120) private String assignedBy;
@@ -43,7 +45,7 @@ public class CollegeStudentEnquiry {
     @Column(nullable = false, length = 24) private String status = "NEW";
     @Column(nullable = false) private LocalDateTime createdAt;
     @Column(nullable = false) private LocalDateTime updatedAt;
-    @PostLoad void applyDefaultsToLegacyRows() { if (leadSource == null) leadSource = "WEBSITE_ENQUIRY"; if (priority == null) priority = "NORMAL"; }
-    @PrePersist void onCreate() { if (leadSource == null) leadSource = "WEBSITE_ENQUIRY"; if (priority == null) priority = "NORMAL"; createdAt = updatedAt = LocalDateTime.now(); }
+    @PostLoad void applyDefaultsToLegacyRows() { if (leadSource == null) leadSource = "WEBSITE_ENQUIRY"; if (priority == null) priority = "NORMAL"; if (leadProductType == null || leadProductType.isBlank() || "STUDENT_ENQUIRY".equals(leadProductType)) leadProductType = assignedBy == null ? "EXCLUSIVE_LEAD" : "WARM_LEAD"; }
+    @PrePersist void onCreate() { if (leadSource == null) leadSource = "WEBSITE_ENQUIRY"; if (priority == null) priority = "NORMAL"; if (leadProductType == null || leadProductType.isBlank()) leadProductType = assignedBy == null ? "EXCLUSIVE_LEAD" : "WARM_LEAD"; createdAt = updatedAt = LocalDateTime.now(); }
     @PreUpdate void onUpdate() { updatedAt = LocalDateTime.now(); }
 }

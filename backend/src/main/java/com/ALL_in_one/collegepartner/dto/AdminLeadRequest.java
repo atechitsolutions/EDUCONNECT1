@@ -23,5 +23,6 @@ public record AdminLeadRequest(
         @NotBlank @Size(max = 180) String consentReference,
         @Pattern(regexp = "LOW|NORMAL|HIGH|URGENT") String priority,
         @Pattern(regexp = "NEW|CONTACTED|FOLLOW_UP|INTERESTED|CONVERTED|CLOSED") String status,
-        @Size(max = 5000) String adminNotes
+        @Size(max = 5000) String adminNotes,
+        @Pattern(regexp = "WARM_LEAD|HOT_LEAD|EXCLUSIVE_LEAD") String leadProductType
 ) {}

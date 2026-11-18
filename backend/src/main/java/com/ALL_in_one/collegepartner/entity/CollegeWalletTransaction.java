@@ -17,6 +17,9 @@ public class CollegeWalletTransaction {
     @ManyToOne(fetch = FetchType.LAZY, optional = false) @JoinColumn(name = "account_id", nullable = false) private CollegePartnerAccount account;
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "enquiry_id") private CollegeStudentEnquiry enquiry;
     @Column(name = "transaction_type", nullable = false, length = 32) private String transactionType;
+    @Column(name = "lead_product_type", length = 32) private String leadProductType;
+    @Column(name = "unit_price", precision = 12, scale = 2) private BigDecimal unitPrice;
+    @Column(name = "quantity") private Integer quantity;
     @Column(nullable = false, precision = 12, scale = 2) private BigDecimal amount;
     @Column(name = "balance_after", precision = 12, scale = 2) private BigDecimal balanceAfter;
     @Column(nullable = false, length = 24) private String status;

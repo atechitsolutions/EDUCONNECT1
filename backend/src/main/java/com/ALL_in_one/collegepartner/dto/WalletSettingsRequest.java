@@ -11,5 +11,10 @@ public record WalletSettingsRequest(
         @Size(max = 1000) String paymentInstructions,
         String qrImageData,
         @Size(max = 60) String qrImageContentType,
-        Boolean removeQrImage
+        Boolean removeQrImage,
+        @DecimalMin("0.00") @DecimalMax("100000.00") BigDecimal warmLeadPrice,
+        @DecimalMin("0.00") @DecimalMax("100000.00") BigDecimal hotLeadPrice,
+        @DecimalMin("0.00") @DecimalMax("100000.00") BigDecimal exclusiveLeadPrice,
+        Boolean warmLeadEnabled, Boolean hotLeadEnabled, Boolean exclusiveLeadEnabled,
+        @Size(max = 60) String warmLeadName, @Size(max = 60) String hotLeadName, @Size(max = 60) String exclusiveLeadName
 ) { }

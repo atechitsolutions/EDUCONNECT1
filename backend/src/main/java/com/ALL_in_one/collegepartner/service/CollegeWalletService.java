@@ -60,17 +60,23 @@ public class CollegeWalletService {
             if (transactions.findByAccount_IdAndEnquiry_IdAndTransactionTypeAndStatus(account.getId(), id, "LEAD_UNLOCK", "COMPLETED").isEmpty()) newUnlocks.add(enquiry);
         }
         CollegeWalletSettings settings = settings();
-        BigDecimal unitPrice = money(settings.getPricePerEnquiry());
-        if (!newUnlocks.isEmpty() && unitPrice.signum() <= 0) throw new IllegalArgumentException("The administrator has not configured a price per enquiry yet.");
-        BigDecimal total = unitPrice.multiply(BigDecimal.valueOf(newUnlocks.size())).setScale(2);
+        Map<Long,BigDecimal> prices = new LinkedHashMap<>();
+        for (CollegeStudentEnquiry enquiry : newUnlocks) {
+            BigDecimal price = enquiry.getLeadUnitPrice() == null ? priceFor(settings, productType(enquiry)) : money(enquiry.getLeadUnitPrice());
+            if (price.signum() <= 0) throw new IllegalArgumentException("The price for " + productName(settings, productType(enquiry)) + " is not configured.");
+            prices.put(enquiry.getId(), price);
+        }
+        BigDecimal total = prices.values().stream().reduce(ZERO, BigDecimal::add).setScale(2);
         if (wallet.getBalance().compareTo(total) < 0) throw new IllegalArgumentException("Insufficient wallet balance. Add funds before unlocking these enquiries.");
         BigDecimal balance = wallet.getBalance();
         for (CollegeStudentEnquiry enquiry : newUnlocks) {
+            BigDecimal unitPrice = prices.get(enquiry.getId());
             balance = balance.subtract(unitPrice);
             CollegeWalletTransaction charge = new CollegeWalletTransaction();
             charge.setAccount(account); charge.setEnquiry(enquiry); charge.setTransactionType("LEAD_UNLOCK");
+            charge.setLeadProductType(productType(enquiry)); charge.setUnitPrice(unitPrice); charge.setQuantity(1);
             charge.setAmount(unitPrice.negate()); charge.setBalanceAfter(balance); charge.setStatus("COMPLETED"); charge.setActor(username);
-            charge.setNote("Enquiry unlocked"); transactions.save(charge);
+            charge.setNote(productName(settings, productType(enquiry)) + " unlocked · unit price " + unitPrice); transactions.save(charge);
             accessLogs.save(new StudentDataAccessLog(account, enquiry, username));
         }
         if (!newUnlocks.isEmpty()) {
@@ -89,6 +95,16 @@ public class CollegeWalletService {
     public Map<String,Object> updateSettings(WalletSettingsRequest request, String admin) {
         CollegeWalletSettings current = settingsRepository.findById(1L).orElseGet(() -> { CollegeWalletSettings value = new CollegeWalletSettings(); value.setId(1L); value.setPricePerEnquiry(ZERO); return value; });
         if (request.pricePerEnquiry() != null) current.setPricePerEnquiry(money(request.pricePerEnquiry()));
+        if (request.warmLeadPrice() != null) current.setWarmLeadPrice(money(request.warmLeadPrice()));
+        if (request.hotLeadPrice() != null) current.setHotLeadPrice(money(request.hotLeadPrice()));
+        if (request.exclusiveLeadPrice() != null) current.setExclusiveLeadPrice(money(request.exclusiveLeadPrice()));
+        if (request.exclusiveLeadPrice() != null || request.pricePerEnquiry() != null) current.setPricePerEnquiry(money(request.exclusiveLeadPrice() == null ? request.pricePerEnquiry() : request.exclusiveLeadPrice()));
+        if (request.warmLeadEnabled() != null) current.setWarmLeadEnabled(request.warmLeadEnabled());
+        if (request.hotLeadEnabled() != null) current.setHotLeadEnabled(request.hotLeadEnabled());
+        if (request.exclusiveLeadEnabled() != null) current.setExclusiveLeadEnabled(request.exclusiveLeadEnabled());
+        if (request.warmLeadName() != null && !request.warmLeadName().isBlank()) current.setWarmLeadName(request.warmLeadName().trim());
+        if (request.hotLeadName() != null && !request.hotLeadName().isBlank()) current.setHotLeadName(request.hotLeadName().trim());
+        if (request.exclusiveLeadName() != null && !request.exclusiveLeadName().isBlank()) current.setExclusiveLeadName(request.exclusiveLeadName().trim());
         current.setUpiId(clean(request.upiId())); current.setPaymentInstructions(clean(request.paymentInstructions()));
         if (Boolean.TRUE.equals(request.removeQrImage())) { current.setQrImageData(null); current.setQrImageContentType(null); }
         if (request.qrImageData() != null && !request.qrImageData().isBlank()) {
@@ -193,7 +209,7 @@ public class CollegeWalletService {
     private Map<String,Object> walletView(CollegePartnerAccount account, CollegePartnerWallet wallet, boolean withHistory) {
         Map<String,Object> result = new LinkedHashMap<>(); result.put("balance", wallet.getBalance()); result.put("totalAdded", wallet.getTotalAdded());
         result.put("totalSpent", wallet.getTotalSpent()); result.put("totalUnlocked", transactions.findByAccount_IdAndTransactionTypeAndStatus(account.getId(), "LEAD_UNLOCK", "COMPLETED").size());
-        CollegeWalletSettings settings = settings(); result.put("pricePerEnquiry", settings.getPricePerEnquiry()); result.put("upiId", settings.getUpiId());
+        CollegeWalletSettings settings = settings(); result.put("pricePerEnquiry", priceFor(settings,"EXCLUSIVE_LEAD")); result.put("leadProducts", productViews(settings)); result.put("upiId", settings.getUpiId());
         result.put("paymentInstructions", settings.getPaymentInstructions()); result.put("qrImageData", settings.getQrImageData()); result.put("qrImageContentType", settings.getQrImageContentType());
         if (withHistory) result.put("transactions", transactions.findByAccount_IdOrderByCreatedAtDesc(account.getId()).stream().map(t -> transactionView(t, null)).toList());
         return result;
@@ -204,7 +220,9 @@ public class CollegeWalletService {
         boolean consent = hasContactConsent(enquiry);
         boolean reveal = unlocked && consent && includeDetailsIfUnlocked;
         Map<String,Object> row = new LinkedHashMap<>(); row.put("id", enquiry.getId()); row.put("date", enquiry.getCreatedAt()); row.put("source", enquiry.getLeadSource()); row.put("status", enquiry.getStatus());
+        String type = productType(enquiry); CollegeWalletSettings pricing = settings();
         row.put("priority", enquiry.getPriority()); row.put("assigned", enquiry.getAssignedBy() != null);
+        row.put("leadProductType", type); row.put("leadProductName", productName(pricing,type)); row.put("unitPrice", enquiry.getLeadUnitPrice() == null ? priceFor(pricing,type) : enquiry.getLeadUnitPrice());
         row.put("locked", !reveal); row.put("unlocked", unlocked && consent); row.put("previouslyUnlocked", unlocked); row.put("eligibleForUnlock", consent && !unlocked);
         row.put("student", reveal ? enquiry.getStudentName() : "Locked enquiry"); row.put("contact", reveal ? Objects.toString(enquiry.getStudentPhone(), "") : "Locked");
         row.put("email", reveal ? enquiry.getStudentEmail() : "Locked"); row.put("course", reveal ? Objects.toString(enquiry.getCourse(), "") : "Locked until unlocked");
@@ -219,6 +237,7 @@ public class CollegeWalletService {
     private Map<String,Object> transactionView(CollegeWalletTransaction item, String institution) {
         Map<String,Object> row = new LinkedHashMap<>(); row.put("id", item.getId()); row.put("institution", institution);
         row.put("transactionType", item.getTransactionType()); row.put("amount", item.getAmount()); row.put("balanceAfter", item.getBalanceAfter());
+        row.put("leadProductType", item.getLeadProductType()); row.put("unitPrice", item.getUnitPrice()); row.put("quantity", item.getQuantity());
         row.put("status", item.getStatus()); row.put("paymentReference", item.getPaymentReference()); row.put("note", item.getNote());
         row.put("actor", item.getActor()); row.put("decidedBy", item.getDecidedBy()); row.put("date", item.getCreatedAt()); row.put("decidedAt", item.getDecidedAt());
         return row;
@@ -232,8 +251,27 @@ public class CollegeWalletService {
     }
 
     private CollegeWalletSettings settings() {
-        return settingsRepository.findById(1L).orElseGet(() -> { CollegeWalletSettings value = new CollegeWalletSettings(); value.setId(1L); value.setPricePerEnquiry(ZERO); return value; });
+        CollegeWalletSettings value = settingsRepository.findById(1L).orElseGet(CollegeWalletSettings::new);
+        if(value.getPricePerEnquiry()==null)value.setPricePerEnquiry(new BigDecimal("250.00"));
+        if(value.getWarmLeadPrice()==null)value.setWarmLeadPrice(new BigDecimal("100.00"));
+        if(value.getHotLeadPrice()==null)value.setHotLeadPrice(new BigDecimal("150.00"));
+        if(value.getExclusiveLeadPrice()==null)value.setExclusiveLeadPrice(value.getPricePerEnquiry().signum()>0?value.getPricePerEnquiry():new BigDecimal("250.00"));
+        if(value.getWarmLeadEnabled()==null)value.setWarmLeadEnabled(true); if(value.getHotLeadEnabled()==null)value.setHotLeadEnabled(true); if(value.getExclusiveLeadEnabled()==null)value.setExclusiveLeadEnabled(true);
+        if(value.getWarmLeadName()==null)value.setWarmLeadName("Warm Lead"); if(value.getHotLeadName()==null)value.setHotLeadName("Hot Lead"); if(value.getExclusiveLeadName()==null)value.setExclusiveLeadName("Exclusive Lead");
+        return value;
     }
+
+    public void snapshotLeadPricing(CollegeStudentEnquiry lead, String requestedType) {
+        CollegeWalletSettings value=settings(); String type=normalizeProduct(requestedType);
+        lead.setLeadProductType(type); lead.setLeadUnitPrice(priceFor(value,type));
+    }
+    public void ensureLeadProductEnabled(String requestedType) { String type=normalizeProduct(requestedType); if(!productEnabled(settings(),type))throw new IllegalArgumentException("This lead product is disabled in wallet settings."); }
+    private String normalizeProduct(String type) { String value=type==null?"WARM_LEAD":type.trim().toUpperCase(Locale.ROOT); if(!Set.of("WARM_LEAD","HOT_LEAD","EXCLUSIVE_LEAD").contains(value))throw new IllegalArgumentException("Choose Warm Lead, Hot Lead or Exclusive Lead."); return value; }
+    private String productType(CollegeStudentEnquiry lead) { String type=lead.getLeadProductType(); return normalizeProduct(type==null||type.isBlank()||"STUDENT_ENQUIRY".equals(type)?(lead.getAssignedBy()==null?"EXCLUSIVE_LEAD":"WARM_LEAD"):type); }
+    private BigDecimal priceFor(CollegeWalletSettings value,String type) { return switch(normalizeProduct(type)){case "WARM_LEAD"->money(value.getWarmLeadPrice());case "HOT_LEAD"->money(value.getHotLeadPrice());default->money(value.getExclusiveLeadPrice());}; }
+    private String productName(CollegeWalletSettings value,String type) { return switch(normalizeProduct(type)){case "WARM_LEAD"->Objects.toString(value.getWarmLeadName(),"Warm Lead");case "HOT_LEAD"->Objects.toString(value.getHotLeadName(),"Hot Lead");default->Objects.toString(value.getExclusiveLeadName(),"Exclusive Lead");}; }
+    private boolean productEnabled(CollegeWalletSettings value,String type) { return switch(normalizeProduct(type)){case "WARM_LEAD"->!Boolean.FALSE.equals(value.getWarmLeadEnabled());case "HOT_LEAD"->!Boolean.FALSE.equals(value.getHotLeadEnabled());default->!Boolean.FALSE.equals(value.getExclusiveLeadEnabled());}; }
+    private List<Map<String,Object>> productViews(CollegeWalletSettings value) { List<Map<String,Object>> rows=new ArrayList<>(); for(String type:List.of("WARM_LEAD","HOT_LEAD","EXCLUSIVE_LEAD")){Map<String,Object> row=new LinkedHashMap<>();row.put("type",type);row.put("name",productName(value,type));row.put("unitPrice",priceFor(value,type));row.put("enabled",productEnabled(value,type));rows.add(row);}return rows; }
 
     private CollegePartnerAccount lockedAccount(String username) { return accounts.findByUsernameForUpdate(username).filter(CollegePartnerAccount::isActive).orElseThrow(() -> new IllegalArgumentException("Active college partner not found.")); }
     private CollegePartnerAccount account(String username) { return accounts.findByUsername(username).filter(CollegePartnerAccount::isActive).orElseThrow(() -> new IllegalArgumentException("Active college partner not found.")); }
@@ -242,7 +280,8 @@ public class CollegeWalletService {
     private String clean(String value) { return value == null || value.isBlank() ? null : value.trim(); }
     private String appendNote(String prior, String next) { String a = clean(prior), b = clean(next); if (a == null) return b; if (b == null) return a; return (a + " · Admin: " + b).substring(0, Math.min(1000, (a + " · Admin: " + b).length())); }
     private Map<String,Object> settingsView(CollegeWalletSettings value) {
-        Map<String,Object> row = new LinkedHashMap<>(); row.put("pricePerEnquiry", value.getPricePerEnquiry()); row.put("upiId", value.getUpiId());
+        Map<String,Object> row = new LinkedHashMap<>(); row.put("pricePerEnquiry", priceFor(value,"EXCLUSIVE_LEAD")); row.put("warmLeadPrice",priceFor(value,"WARM_LEAD"));row.put("hotLeadPrice",priceFor(value,"HOT_LEAD"));row.put("exclusiveLeadPrice",priceFor(value,"EXCLUSIVE_LEAD"));
+        row.put("warmLeadName",productName(value,"WARM_LEAD"));row.put("hotLeadName",productName(value,"HOT_LEAD"));row.put("exclusiveLeadName",productName(value,"EXCLUSIVE_LEAD"));row.put("warmLeadEnabled",productEnabled(value,"WARM_LEAD"));row.put("hotLeadEnabled",productEnabled(value,"HOT_LEAD"));row.put("exclusiveLeadEnabled",productEnabled(value,"EXCLUSIVE_LEAD"));row.put("leadProducts",productViews(value));row.put("upiId", value.getUpiId());
         row.put("paymentInstructions", value.getPaymentInstructions()); row.put("qrImageData", value.getQrImageData()); row.put("qrImageContentType", value.getQrImageContentType());
         row.put("updatedBy", value.getUpdatedBy()); row.put("updatedAt", value.getUpdatedAt()); return row;
     }
