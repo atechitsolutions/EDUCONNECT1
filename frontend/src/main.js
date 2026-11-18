@@ -6,6 +6,7 @@ import { applyRouteSEO } from "./utils/routeSEO.js";
 import { recordCollegeEvent } from "./services/collegePartnerService.js";
 import { initRegionalSchools } from "./components/home/regionalSchools.js";
 import { initSchoolDiscoveryPage } from "./pages/SchoolDiscoveryPage.js";
+import { initHomeSectionBanners } from "./assets/js/homeSectionBanners.js";
 
 import initScrollPlane
     from "./assets/js/scrollPlane.js";
@@ -257,6 +258,7 @@ import "./assets/css/iridescent-buttons.css";
 import "./assets/css/footer-mobile.css";
 import "./assets/css/home-card-swipe.css";
 import initHomeCardSwipe from "./assets/js/homeCardSwipe.js";
+import "./assets/css/home-section-banners.css";
 
 /* =========================================================
    APPLICATION INITIALIZATION
@@ -304,6 +306,7 @@ document.addEventListener(
         app.innerHTML =
             Router();
 
+        initHomeSectionBanners();
         applyRouteSEO();
         initRegionalSchools();
         initCollegeDiscoveryPage();

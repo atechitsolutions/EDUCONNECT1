@@ -186,6 +186,7 @@ export function TopUGPGCollegesSection() {
         "EC-IN-COL-DSHM": "ipu.ac.in"
     };
     const verifiedCampusPhotos = {
+        "EC-IN-UG-DELHI": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/University_of_delhi.jpg/960px-University_of_delhi.jpg",
         "EC-IN-UG-IISC": "https://iisc.ac.in/wp-content/uploads/2021/01/13.jpg",
         "EC-IN-UG-BHU": "https://media.assettype.com/freepressjournal/2023-03/ebd59e34-c06c-4131-bc1c-fb12869f5182/banaras_hindu_university_varanasi.jpg",
         "EC-IN-UG-MUMBAI": "https://cache.careers360.mobi/media/colleges/social-media/media-gallery/891/2018/10/30/Side%20View%20of%20University%20of%20Mumbai%20Mumbai_Campus-View.jpg",
