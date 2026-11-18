@@ -2,6 +2,7 @@ import { onlineEducationInstitutions } from "../data/onlineEducationInstitutions
 import domesticInstitutionDirectory from "../data/domestic-college-directory.json";
 import domesticInstitutionSites from "../data/domestic-institution-site-data.json";
 import domesticCampusPhotos from "../data/domestic-college-campus-photos.json";
+import domesticPhotoSources from "../data/domestic-college-photo-sources.json";
 import domesticInstitutionOverviews from "../data/institution-overviews.json";
 import { onlineEducationProgrammes } from "../data/onlineEducationProgrammes.js";
 import onlineEducationHeroVideo from "../assets/images/online-education-hero.mp4";
@@ -89,6 +90,262 @@ const VERIFIED_OFFICIAL_CAMPUS_PHOTOS = {
     sourceUrl: "https://nimsuniversity.org/?lang=en"
   }
 };
+
+// Institution descriptions below were checked against the linked official
+// profiles and programme pages. Keep each overview to four concise facts.
+export const DOMESTIC_PROFILE_FACTS = {
+  "EC-IN-UN-AMITY-MAHARASHTRA": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Management", "Law", "Science", "Design", "Media"],
+    overview: [
+      "Amity University Mumbai is established under Maharashtra Act XIII of 2014 and is recognized under Section 2(f) of the UGC Act.",
+      "Its main campus is at Bhatan, Panvel, on the Mumbai–Pune Expressway; the university also maintains a separate city office in Kurla.",
+      "The official programme directory lists undergraduate, postgraduate and doctoral offerings across engineering, management, law, sciences and other fields.",
+      "The university describes its Panvel campus as a residential campus with academic, sports and student facilities."
+    ],
+    sourceUrl: "https://amity.edu/mumbai/about-us"
+  },
+  "EC-IN-UN-AMITY-RAJASTHAN": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Management", "Law", "Science", "Architecture", "Hospitality"],
+    overview: [
+      "Amity University Rajasthan is a state-recognized university established under the Amity University Rajasthan Act, 2008.",
+      "Its Jaipur campus is on the Delhi–Jaipur Highway and the university describes it as a 152-acre campus.",
+      "The official programme directory lists undergraduate, postgraduate and doctoral courses across areas including engineering, sciences, architecture and management.",
+      "The university also describes residential, laboratory, library and sports facilities at the Jaipur campus."
+    ],
+    sourceUrl: "https://www.amity.edu/jaipur/about-amity-jaipur"
+  },
+  "EC-IN-UN-AMITY-HARYANA": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Management", "Health Sciences", "Law", "Science", "Liberal Arts"],
+    overview: [
+      "Amity University Gurugram was established under Haryana Act 10 of 2010.",
+      "Its main campus is in Amity Education Valley, Manesar, Gurugram; the university describes the campus as 110 acres.",
+      "The official university profile lists undergraduate, postgraduate and doctoral study across engineering, management, health sciences, law and other disciplines.",
+      "The campus profile describes laboratories, a library, sports facilities and student accommodation."
+    ],
+    sourceUrl: "https://amity.edu/gurugram/about-us"
+  },
+  "EC-IN-UN-AMITY-TELANGANA": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Computer Applications", "Management", "Commerce", "Design", "Science"],
+    overview: [
+      "Amity University Hyderabad was established under the Telangana State Private Universities Act, 2018.",
+      "The university presents its Hyderabad campus as a centre for interdisciplinary education and research.",
+      "Its published programme information includes undergraduate and postgraduate courses in engineering, computing, management, commerce, design and sciences.",
+      "Check the university’s current course pages for campus-specific availability and admission requirements."
+    ],
+    sourceUrl: "https://hyderabad.amity.edu/"
+  },
+  "EC-IN-UN-AMITY-PUNJAB": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Management", "Law", "Design", "Science", "Architecture"],
+    overview: [
+      "Amity University Punjab is a multidisciplinary university based in Mohali.",
+      "The official university profile describes a 40-acre campus near Chandigarh International Airport.",
+      "The university lists undergraduate, postgraduate and doctoral programmes across disciplines including engineering, management, law, design and sciences.",
+      "Its campus profile describes academic, residential and sports facilities; current course details should be checked with the university."
+    ],
+    sourceUrl: "https://amity.edu/infocentremohali/"
+  },
+  "EC-IN-UN-BENNETT": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Artificial Intelligence", "Management", "Media", "Law", "Design"],
+    overview: [
+      "Bennett University is a multidisciplinary university established by The Times Group.",
+      "The university’s official profile describes its campus in Greater Noida as 68 acres.",
+      "Published programmes span engineering, artificial intelligence, management, media, law, design, liberal arts and applied sciences.",
+      "The university also lists postgraduate and doctoral study; confirm the current course catalogue on its official site."
+    ],
+    sourceUrl: "https://www.bennett.edu.in/about-us/overview/"
+  },
+  "EC-IN-UN-NIMS": {
+    levels: ["Bachelor's", "Master's", "Doctoral", "Diploma"],
+    subjects: ["Medicine", "Engineering", "Management", "Law", "Pharmacy", "Science"],
+    overview: [
+      "NIMS University Rajasthan is based on the Jaipur–Delhi Highway in Jaipur.",
+      "The university describes its site as an integrated campus serving multiple academic institutes.",
+      "Its official catalogue lists undergraduate, postgraduate, doctoral and diploma study across health sciences, engineering, management, law and other areas.",
+      "Programme availability and eligibility vary by school and should be confirmed on the university’s current course pages."
+    ],
+    sourceUrl: "https://nimsuniversity.org/"
+  },
+  "EC-IN-UN-UPES": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Computer Science", "Design", "Law", "Business", "Health Sciences"],
+    overview: [
+      "UPES is a private university established under the Uttarakhand UPES Act, 2003.",
+      "It operates two campuses in Dehradun: Bidholi and Kandoli.",
+      "Its seven schools cover advanced engineering, computer science, design, law, business, health sciences, modern media and liberal studies.",
+      "The official academics pages list undergraduate, postgraduate and doctoral programmes; offerings can change by academic year."
+    ],
+    sourceUrl: "https://www.upes.ac.in/about-us"
+  },
+  "EC-IN-UN-VGU": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Management", "Law", "Design", "Science", "Agriculture"],
+    overview: [
+      "Vivekananda Global University is a multidisciplinary private university established in Jaipur in 2012.",
+      "Its official profile places the campus in Jagatpura, Jaipur.",
+      "The university lists undergraduate, postgraduate and doctoral study across engineering, management, law, design, sciences and agriculture.",
+      "VGU also lists online and distance offerings separately; confirm the delivery mode for each programme."
+    ],
+    sourceUrl: "https://vgu.ac.in/who-we-are/vivekananda-global-university"
+  },
+  "EC-IN-UN-IILM": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Management", "Law", "Engineering", "Science", "Liberal Arts", "Social Sciences"],
+    overview: [
+      "IILM University, Greater Noida, was established under the Uttar Pradesh Private University (Amendment) Act, 2022.",
+      "The official profile places the campus in Greater Noida’s Knowledge Park II.",
+      "The university lists undergraduate, postgraduate and doctoral programmes in management, law, engineering, sciences, liberal arts and social sciences.",
+      "Check the official course pages for current programme names, eligibility and campus details."
+    ],
+    sourceUrl: "https://iilm.edu/greater-noida/about/"
+  },
+  "EC-IN-UN-JKLU": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Management", "Design", "Computer Science", "Liberal Arts"],
+    overview: [
+      "JK Lakshmipat University is a private university based in Jaipur, Rajasthan.",
+      "Its official contact information places the campus near Mahindra SEZ on Ajmer Road; the university reports a 30-acre campus.",
+      "Its schools include management, engineering and technology, design, and liberal arts and sciences.",
+      "The official programme catalogue should be checked for current undergraduate, postgraduate and doctoral options."
+    ],
+    sourceUrl: "https://jklu.edu.in/contact-us"
+  },
+  "EC-IN-UN-SAGE-INDORE": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Management", "Law", "Media", "Design", "Pharmacy"],
+    overview: [
+      "SAGE University Indore is based in Indore, Madhya Pradesh.",
+      "The university’s official site describes a 75-acre campus and 14 institutes.",
+      "Published study areas include engineering, management, law, media, design, pharmacy and related disciplines.",
+      "The official course pages list programme-specific duration and eligibility; verify current details there."
+    ],
+    sourceUrl: "https://sageuniversity.in/"
+  },
+  "EC-IN-UN-RVU": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Liberal Arts", "Design", "Business", "Computer Science", "Law", "Healthcare"],
+    overview: [
+      "RV University is a multidisciplinary university based in Bengaluru.",
+      "Its official site lists schools for liberal arts and sciences, design and innovation, economics and business, computer science and engineering, law, film and media, and allied healthcare.",
+      "The university lists undergraduate and postgraduate programmes, with doctoral study available in several schools.",
+      "Check the official admissions pages for current course and campus availability."
+    ],
+    sourceUrl: "https://rvu.edu.in/"
+  },
+  "EC-IN-UN-ORIENTAL": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Agriculture", "Management", "Law", "Pharmacy", "Education", "Engineering"],
+    overview: [
+      "Oriental University is located in Indore, Madhya Pradesh.",
+      "Its official admissions profile describes a campus on the Indore–Ujjain Highway.",
+      "The published programme areas include agriculture, management, law, pharmacy, education, engineering and information technology.",
+      "For current course names and eligibility, use the university’s official programme pages."
+    ],
+    sourceUrl: "https://admission.oui.edu.in/"
+  },
+  "EC-IN-UN-IIMT": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Management", "Law", "Life Sciences", "Pharmacy", "Education"],
+    overview: [
+      "IIMT University is located in Meerut, Uttar Pradesh.",
+      "The official profile lists academic schools in engineering and technology, management, law, life sciences, pharmaceutical sciences and education.",
+      "Its published courses include undergraduate, postgraduate and doctoral study, with examples such as B.Tech, MBA, MCA and law programmes.",
+      "Confirm current offerings and eligibility on the university’s official admissions pages."
+    ],
+    sourceUrl: "https://iimtu.edu.in/page/about-university"
+  },
+  "EC-IN-UN-SGVU": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Agriculture", "Engineering", "Management", "Pharmacy", "Law", "Sciences"],
+    overview: [
+      "Suresh Gyan Vihar University was established by Rajasthan state legislation in 2008 and is based in Jaipur.",
+      "The university’s official profile describes it as a multidisciplinary, research-focused institution.",
+      "Listed fields include agriculture, engineering, management, pharmacy, law, sciences, design, arts and mass communication.",
+      "The university also operates distance and online programmes; confirm the mode and recognition for each course directly."
+    ],
+    sourceUrl: "https://www.sgvu.edu.in/aboutus"
+  },
+  "EC-IN-UN-APEJAY-STYA": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Technology", "Liberal Arts", "Engineering", "Management", "Education", "Pharmacy"],
+    overview: [
+      "Apeejay Stya University is located in Sohna, Gurugram, Haryana.",
+      "The university describes its focus as industry-centred education, technology and liberal arts.",
+      "Its official site lists more than 85 programmes across its academic schools, including teacher education and pharmacy.",
+      "Check the current university programme catalogue for course-level details and eligibility."
+    ],
+    sourceUrl: "https://university.apeejay.edu/"
+  },
+  "EC-IN-UN-SAMSKRUTI": {
+    levels: ["Programme details to confirm"],
+    subjects: ["Engineering", "Pharmacy", "Management"],
+    overview: [
+      "The existing directory labels this entry ‘Samskruti University’ in Hyderabad.",
+      "The institution’s official website identifies Samskruti College of Engineering & Technology and Samskruti College of Pharmacy at Kondapur, Ghatkesar.",
+      "The official course pages list engineering, pharmacy and management programmes.",
+      "The directory’s university-level identity needs confirmation before publishing university-specific claims."
+    ],
+    sourceUrl: "https://www.samskruti.ac.in/engineering/contact",
+    dataVerificationStatus: "needs-clarification"
+  },
+  "EC-IN-COL-APBS": {
+    levels: ["Postgraduate", "Executive"],
+    subjects: ["Management", "Finance", "Analytics", "Healthcare", "Marketing"],
+    overview: [
+      "Asia-Pacific Institute of Management is a management institute in Jasola Vihar, New Delhi.",
+      "The institute’s official site says it was established in 1996.",
+      "Its flagship offerings include AICTE-approved PGDM programmes, including general management, healthcare management, analytics, banking and financial services, and marketing.",
+      "The official site describes the PGDM as a two-year programme; confirm current admissions requirements directly."
+    ],
+    sourceUrl: "https://www.asiapacific.edu/"
+  },
+  "EC-IN-UN-SVVV": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Architecture", "Management", "Law", "Science", "Humanities"],
+    overview: [
+      "Shri Vaishnav Vidyapeeth Vishwavidyalaya is a private university established in Indore in 2015.",
+      "The university is sponsored by the Shri Vaishnav Vidyapeeth Trust.",
+      "Its official materials list disciplines including engineering, architecture, management, law, sciences, humanities, agriculture and computer applications.",
+      "Consult the university’s current programme catalogue for degrees, eligibility and admissions."
+    ],
+    sourceUrl: "https://www.svvv.edu.in/about.html"
+  },
+  "EC-IN-UN-DBS": {
+    levels: ["Bachelor's", "Master's", "Doctoral"],
+    subjects: ["Engineering", "Media", "Law", "Agriculture", "Pharmacy", "Management"],
+    overview: [
+      "DBS Global University is based in Dehradun and was formerly known as Doon Business School.",
+      "The institution’s official profile says it began in 2008 and received university status in 2024.",
+      "Its published disciplines include engineering, media, law, agriculture, pharmacy, liberal arts and management.",
+      "Check the official university site for current programmes, campus details and admission requirements."
+    ],
+    sourceUrl: "https://www.dgu.ac/about-us/about-dgu"
+  }
+};
+
+const campusPhotoIsUsable = (value) => Boolean(value) && !/(?:blank\.gif|placeholder|no[-_]?image|facebook\.com\/tr|campus[-_]?placement|accreditation|blog\.png|\/logo\.?|logo[-_])/i.test(String(value));
+
+function getProgrammeLevels(text = "") {
+  const value = String(text).toLowerCase();
+  const levels = [];
+  if (/undergraduate|\bug\b|bachelor|b\.tech|bba|bca|b\.com/.test(value)) levels.push("Bachelor's");
+  if (/postgraduate|\bpg\b|master|\bmba\b|m\.tech|mca|m\.com/.test(value)) levels.push("Master's");
+  if (/doctoral|\bph\.?d\b/.test(value)) levels.push("Doctoral");
+  if (/diploma/.test(value)) levels.push("Diploma");
+  return levels;
+}
+
+function getAcademicAreas(text = "") {
+  const value = String(text).toLowerCase();
+  return ["Engineering", "Computer Science", "Management", "Law", "Design", "Science", "Pharmacy", "Medicine", "Education", "Media", "Agriculture", "Commerce", "Architecture", "Liberal Arts", "Healthcare"]
+    .filter(area => value.includes(area.toLowerCase()))
+    .slice(0, 6);
+}
 const DOMESTIC_DISCOVERY_INSTITUTIONS = domesticInstitutionDirectory
   .filter(({ code, name }) => {
     const entry = String(code || "");
@@ -109,14 +366,16 @@ const DOMESTIC_DISCOVERY_INSTITUTIONS = domesticInstitutionDirectory
       item.country === "India" &&
       item.name.toLocaleLowerCase() === record.name.toLocaleLowerCase()
     );
-    const officialWebsite = site.officialDomain &&
-      !/^https?:\/\//i.test(site.officialDomain)
-      ? `https://${site.officialDomain}`
-      : "";
-    // Existing imported image URLs lack reliable attribution/licensing.
-    // Do not present them as verified campus photographs.
+    const profile = DOMESTIC_PROFILE_FACTS[record.code];
+    const domainLooksLikeImage = /\.(?:jpe?g|png|webp|gif)(?:[?#]|$)/i.test(String(site.officialDomain || ""));
+    const officialWebsite = profile?.sourceUrl || (site.officialDomain && !domainLooksLikeImage
+      ? (/^https?:\/\//i.test(site.officialDomain) ? site.officialDomain : `https://${site.officialDomain}`)
+      : "");
     const verifiedCampusPhoto = VERIFIED_OFFICIAL_CAMPUS_PHOTOS[record.code];
-    const image = verifiedCampusPhoto?.imageUrl || "";
+    const importedPhoto = domesticCampusPhotos[record.code];
+    const image = [verifiedCampusPhoto?.imageUrl, importedPhoto, site.campusImage]
+      .find(campusPhotoIsUsable)?.replace(/&amp;/g, "&") || "";
+    const photoSource = verifiedCampusPhoto?.sourceUrl || domesticPhotoSources[record.code]?.sourceUrl || image;
     const hasVerifiedOnlineProgramme = Boolean(site.onlineProgrammeUrl);
     const modes = DIRECTORY_MODE_OVERRIDES[record.code] ||
       (hasVerifiedOnlineProgramme ? ["Fully online"] : ["On-campus"]);
@@ -132,18 +391,28 @@ const DOMESTIC_DISCOVERY_INSTITUTIONS = domesticInstitutionDirectory
       city,
       directoryCode: record.code,
       type: record.type === "COLLEGE" ? "College" : record.type === "UNIVERSITY" ? "University" : "Institution",
-      levels: ambiguity ? [] : ["Bachelor's", "Master's", "Diploma", "Certificate"],
-      subjects: ["Other"],
+      levels: profile?.levels || (ambiguity ? [] : getProgrammeLevels(site.description).length ? getProgrammeLevels(site.description) : ["Programme details to confirm"]),
+      subjects: profile?.subjects || (getAcademicAreas(site.description).length ? getAcademicAreas(site.description) : ["Not listed in verified profile"]),
       modes,
-      overview: overview?.overview || site.description || "",
+      overview: (profile?.overview || overview?.overview || (site.description ? [
+        `${record.name} is a ${record.type === "COLLEGE" ? "college" : "university or institution"} in ${city || "India"}.`,
+        `Its directory profile describes ${getAcademicAreas(site.description).join(", ") || "academic programmes"}.`,
+        `The profile indicates ${getProgrammeLevels(site.description).join(" and ") || "programme levels that need confirmation"}.`,
+        `Confirm current courses, eligibility and admissions on ${officialWebsite || "the institution’s official website"}.`
+      ] : [
+        `${record.name} is listed in ${city || "India"} in the existing college directory.`,
+        `The current directory does not provide a verified programme description for this institution.`,
+        `Course levels and subject areas should be confirmed with the institution.`,
+        `Use the linked institutional source${officialWebsite ? ` (${officialWebsite})` : ""} for current information.`
+      ])).join("\n"),
       url: officialWebsite,
       sourceUrl: officialWebsite,
       imageUrl: image,
-      imageSourceUrl: image ? verifiedCampusPhoto.sourceUrl : "",
-      imageAttribution: image ? `${record.name} official campus gallery` : "",
-      imageLicense: image ? "Campus photo source identified; reuse terms need confirmation" : "",
+      imageSourceUrl: image ? photoSource : "",
+      imageAttribution: image ? (domesticPhotoSources[record.code]?.label || `${record.name} campus image source`) : "",
+      imageLicense: image ? (domesticPhotoSources[record.code]?.licenseUrl ? "Creative Commons source; see source page for terms" : "Source linked; reuse terms should be confirmed") : "",
       imageVerificationStatus: image ? "campus-photo-source-identified" : "awaiting-authentic-photo",
-      dataVerificationStatus: ambiguity ? "needs-clarification" : "pending-review",
+      dataVerificationStatus: profile?.dataVerificationStatus || (ambiguity ? "needs-clarification" : "pending-review"),
       programmeNote: ambiguity
         ? "This directory entry needs confirmation before students rely on it."
         : hasVerifiedOnlineProgramme
@@ -152,7 +421,7 @@ const DOMESTIC_DISCOVERY_INSTITUTIONS = domesticInstitutionDirectory
       lastVerifiedAt: null
     };
   });
-const ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS = [
+export const ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS = [
   ...onlineEducationInstitutions,
   ...DOMESTIC_DISCOVERY_INSTITUTIONS
 ];

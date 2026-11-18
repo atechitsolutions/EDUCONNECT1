@@ -939,6 +939,12 @@
     overflow-wrap: anywhere;
 }
 
+.oe-detail-overview dd {
+    white-space: pre-line;
+    line-height: 1.65;
+    font-weight: 500;
+}
+
 .oe-programme-details-dialog {
     width: min(720px, calc(100% - 28px));
     max-width: 720px;
@@ -951,6 +957,47 @@
     background: #fff;
     box-shadow: 0 24px 80px rgba(12, 25, 50, 0.24);
 }
+
+.oe-programme-details-dialog.oe-institution-details-dialog {
+    position: fixed;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    width: min(740px, calc(100vw - 32px));
+    max-width: 740px;
+    max-height: min(78vh, 620px);
+    margin: 0;
+    padding: 20px;
+    overflow: auto;
+}
+
+.oe-institution-detail-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(190px, 38%) minmax(0, 1fr);
+    align-items: center;
+    gap: 18px;
+}
+
+.oe-institution-detail-campus {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 12px;
+    background: #eaf1fa;
+}
+
+.oe-institution-detail-intro { min-width: 0; padding-right: 22px; }
+.oe-institution-detail-intro .oe-eyebrow { margin-bottom: 5px; }
+.oe-institution-detail-intro h2 { margin: 0; color: var(--oe-navy); font-size: clamp(20px, 2.2vw, 27px); line-height: 1.16; }
+.oe-institution-detail-location { margin: 5px 0 8px; color: var(--oe-muted); font-size: 12px; }
+.oe-institution-detail-summary { display: -webkit-box; margin: 0; overflow: hidden; color: #52627a; font-size: 12px; line-height: 1.5; white-space: pre-line; -webkit-box-orient: vertical; -webkit-line-clamp: 4; }
+.oe-institution-detail-close { position: absolute; top: -7px; right: -7px; z-index: 1; }
+.oe-institution-detail-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 13px 0 8px; }
+.oe-institution-detail-facts .oe-detail-row { min-width: 0; padding: 9px 10px; border-radius: 9px; }
+.oe-institution-detail-facts .oe-detail-row dt { margin-bottom: 2px; font-size: 10px; }
+.oe-institution-detail-facts .oe-detail-row dd { font-size: 11px; line-height: 1.4; }
+.oe-institution-details-dialog .oe-dialog-actions { margin-top: 8px; }
 
 .oe-programme-details-dialog::backdrop {
     background: rgba(13, 24, 45, 0.58);
@@ -1005,6 +1052,12 @@
     .oe-programme-details-dialog {
         padding: 17px;
     }
+
+    .oe-programme-details-dialog.oe-institution-details-dialog { max-height: 84dvh; padding: 14px; }
+    .oe-institution-detail-hero { grid-template-columns: 1fr; align-items: start; gap: 12px; }
+    .oe-institution-detail-campus { max-height: 230px; }
+    .oe-institution-detail-intro { padding-right: 22px; }
+    .oe-institution-detail-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (prefers-reduced-motion: reduce) {

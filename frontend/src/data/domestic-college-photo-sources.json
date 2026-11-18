@@ -1,4 +1,8 @@
 {
+  "EC-IN-UN-GLS": { "sourceUrl": "https://collegedunia.com/university/55864-gls-university-ahmedabad/gallery", "label": "CollegeDunia campus gallery" },
+  "EC-IN-UN-INDUS": { "sourceUrl": "https://indusuni.ac.in/conference/", "label": "Indus University official campus photo" },
+  "EC-IN-UN-SIGMA": { "sourceUrl": "https://college360.co.in/university/Sigma-University-Vadodara-1895/gallery", "label": "College360 campus gallery" },
+  "EC-IN-UN-SOMAIYA": { "sourceUrl": "https://www.somaiya.edu/en/colleges", "label": "Somaiya Vidyavihar University official campus photo" },
   "EC-IN-COL-ACROPOLIS": { "sourceUrl": "https://www.aitr.ac.in/", "label": "Acropolis official website" },
   "EC-IN-UN-AMITY-NOIDA": { "sourceUrl": "https://www.colleges18.com/university/12845-amity-university-noida", "label": "Colleges18" },
   "EC-IN-UN-AMITY-HARYANA": { "sourceUrl": "https://www.shiksha.com/university/amity-university-gurugram-gurgaon-38084/infrastructure", "label": "Shiksha" },

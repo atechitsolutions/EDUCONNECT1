@@ -3,8 +3,9 @@ import { onlineEducationInstitutions } from "../../data/onlineEducationInstituti
 import domesticInstitutionDirectory from "../../data/domestic-college-directory.json";
 import domesticInstitutionSites from "../../data/domestic-institution-site-data.json";
 import domesticCampusPhotos from "../../data/domestic-college-campus-photos.json";
+import domesticPhotoSources from "../../data/domestic-college-photo-sources.json";
 import domesticInstitutionOverviews from "../../data/institution-overviews.json";
-import { onlineEducationCampusImages } from "../../pages/OnlineEducationPage.js";
+import { onlineEducationCampusImages, DOMESTIC_PROFILE_FACTS, ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS } from "../../pages/OnlineEducationPage.js";
 import { renderOnlineEducationCustomCards } from "./onlineEducationCustomCards.js";
 import { addProgrammeImages } from "../../utils/onlineEducationImages.js";
 
@@ -39,13 +40,12 @@ const DOMESTIC_DISCOVERY_INSTITUTIONS = domesticInstitutionDirectory
     })
     .map((record) => {
         const site = domesticInstitutionSites[record.code] || {};
+        const profile = DOMESTIC_PROFILE_FACTS[record.code];
         const overview = domesticInstitutionOverviews.find((item) =>
             item.country === "India" &&
             item.name.toLocaleLowerCase() === record.name.toLocaleLowerCase()
         );
-        // Imported campus URLs have no validated photo attribution/licence.
-        // Keep them out of public cards until manually verified.
-        const imageUrl = "";
+        const imageUrl = domesticCampusPhotos[record.code] || site.campusImage || "";
         const officialWebsite = site.officialDomain &&
             !/^https?:\/\//i.test(site.officialDomain)
             ? `https://${site.officialDomain}`
@@ -63,11 +63,11 @@ const DOMESTIC_DISCOVERY_INSTITUTIONS = domesticInstitutionDirectory
             subjects: ["Other"],
             modes: record.code === "EC-IN-UN-VGU" ? ["Distance learning"] :
                 AMBIGUOUS_DIRECTORY_CODES.has(record.code) ? [] : ["On-campus"],
-            overview: overview?.overview || site.description || "",
+            overview: profile?.overview?.join("\n") || overview?.overview || site.description || "",
             url: officialWebsite,
             imageUrl,
-            imageSourceUrl: "",
-            imageVerificationStatus: "awaiting-authentic-photo",
+            imageSourceUrl: domesticPhotoSources[record.code]?.sourceUrl || imageUrl,
+            imageVerificationStatus: imageUrl ? "campus-photo-source-identified" : "awaiting-authentic-photo",
             dataVerificationStatus: AMBIGUOUS_DIRECTORY_CODES.has(record.code)
                 ? "needs-clarification" : "pending-review",
             programmeNote: AMBIGUOUS_DIRECTORY_CODES.has(record.code)
@@ -78,7 +78,7 @@ const DOMESTIC_DISCOVERY_INSTITUTIONS = domesticInstitutionDirectory
             lastVerifiedAt: null
         };
     });
-const ALL_DISCOVERY_INSTITUTIONS = [...onlineEducationInstitutions, ...DOMESTIC_DISCOVERY_INSTITUTIONS];
+const ALL_DISCOVERY_INSTITUTIONS = ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS;
 
 const escapeHTML = (value = "") =>
     String(value ?? "").replace(/[&<>"']/g, (char) => ({
@@ -962,6 +962,7 @@ const openProgrammeDetails = (id) => {
     if (!programme) return;
 
     const dialog = ensureDetailsDialog();
+    dialog.classList.remove("oe-institution-details-dialog");
     const providerUrl = safeExternalUrl(programme.officialProgramUrl);
     const overview = getProgrammeOverview(programme);
 
@@ -1030,64 +1031,67 @@ const openProgrammeDetails = (id) => {
        INSTITUTION DETAILS DIALOG
     --------------------------------------------------------- */
 
-    const openInstitutionDetails = (id) => {
+    const openInstitutionDetails = (id, clickedButton = null) => {
         const institution = ALL_DISCOVERY_INSTITUTIONS.find(
             (item) => String(item.id) === String(id)
         );
 
-        const directoryInstitution = institution || DOMESTIC_DISCOVERY_INSTITUTIONS.find(
+        let directoryInstitution = institution || DOMESTIC_DISCOVERY_INSTITUTIONS.find(
             (item) => String(item.id) === String(id)
         );
+
+        if (!directoryInstitution && clickedButton) {
+            const card = clickedButton.closest(".oe-institution-card");
+            const name = card?.querySelector("h3")?.textContent?.trim();
+            if (name) {
+                directoryInstitution = {
+                    id: String(id),
+                    name,
+                    city: card.querySelector(".oe-institution-location")?.textContent?.trim() || "",
+                    country: card.dataset.country || "",
+                    type: "Institution",
+                    levels: (card.dataset.levels || "").split("|").filter(Boolean),
+                    subjects: (card.dataset.subjects || "").split("|").filter(Boolean),
+                    overview: card.querySelector(".oe-institution-location + p")?.textContent?.trim() || "Institution information is being confirmed.",
+                    imageUrl: card.querySelector("img")?.src || "",
+                    url: ""
+                };
+            }
+        }
 
         if (!directoryInstitution) return;
 
         const dialog = ensureDetailsDialog();
-        const institutionUrl = safeExternalUrl(directoryInstitution.url);
+        dialog.classList.add("oe-institution-details-dialog");
+        const candidateInstitutionUrl = safeExternalUrl(directoryInstitution.url);
+        const institutionUrl = candidateInstitutionUrl && new URL(candidateInstitutionUrl).origin !== window.location.origin
+            ? candidateInstitutionUrl
+            : "";
         const campusImage = safeExternalUrl(
             directoryInstitution.imageUrl || INSTITUTION_CAMPUS_IMAGES[directoryInstitution.id]
         );
 
         const details = [
-            ["Overview", directoryInstitution.overview || directoryInstitution.programmeNote],
-            ["Institution", directoryInstitution.name],
-            ["City / location", directoryInstitution.city],
-            ["Country", directoryInstitution.country],
             ["Institution type", directoryInstitution.type],
             ["Education levels", directoryInstitution.levels?.join(", ")],
-            ["Subjects", directoryInstitution.subjects?.join(", ")],
-            ["Study modes", directoryInstitution.modes?.join(", ")],
-            ["Official website", institutionUrl || "Not verified"],
-            ["Data status", directoryInstitution.dataVerificationStatus || "Source-linked listing; verify programme details"],
-            ["Campus image status", directoryInstitution.imageVerificationStatus === "awaiting-authentic-photo" ? "Authentic campus photo pending verification" : directoryInstitution.imageVerificationStatus === "campus-photo-source-identified" ? "Campus photo source identified; reuse terms need review" : directoryInstitution.imageVerificationStatus || (campusImage ? "Existing catalogue image; review source and reuse permission" : "No campus photo available")],
-            ["Image source", directoryInstitution.imageSourceUrl || "Source and reuse permission need review"],
-            ["Last verified", directoryInstitution.lastVerifiedAt || "Not verified yet"]
-        ];
+            ["Subjects", directoryInstitution.subjects?.join(", ")]
+        ].filter(([, value]) => value && value !== "Not listed in verified profile");
 
         dialog.innerHTML = `
-            <div class="oe-dialog-head">
-                <div>
+            <div class="oe-institution-detail-hero">
+                ${campusImage ? `<img class="oe-institution-detail-campus" src="${escapeHTML(campusImage)}" alt="Campus photo for ${escapeHTML(directoryInstitution.name)}" loading="lazy" onerror="this.hidden=true">` : ""}
+                <div class="oe-institution-detail-intro">
                     <p class="oe-eyebrow">INSTITUTION OVERVIEW</p>
                     <h2>${escapeHTML(directoryInstitution.name)}</h2>
-                    <p>
-                        ${escapeHTML(directoryInstitution.city || "")}
-                        ${directoryInstitution.city && directoryInstitution.country ? " · " : ""}
-                        ${escapeHTML(directoryInstitution.country || "")}
-                    </p>
+                    <p class="oe-institution-detail-location">${escapeHTML(directoryInstitution.city || "")}${directoryInstitution.city && directoryInstitution.country ? " · " : ""}${escapeHTML(directoryInstitution.country || "")}</p>
+                    <p class="oe-institution-detail-summary">${escapeHTML(directoryInstitution.overview || directoryInstitution.programmeNote || "Institution information is being confirmed.")}</p>
                 </div>
-
-                <button
-                    type="button"
-                    class="oe-icon-button"
-                    data-close-details
-                    aria-label="Close institution details"
-                >×</button>
+                <button type="button" class="oe-icon-button oe-institution-detail-close" data-close-details aria-label="Close institution details">×</button>
             </div>
 
-            ${campusImage ? `<img class="oe-institution-detail-campus" src="${escapeHTML(campusImage)}" alt="Campus photo for ${escapeHTML(directoryInstitution.name)}" loading="lazy" onerror="this.hidden=true">` : ""}
-
-            <dl class="oe-programme-detail-list">
+            <dl class="oe-institution-detail-facts">
                 ${details.map(([label, value]) => `
-                    <div class="oe-detail-row"${label === "Overview" ? ' style="grid-column: 1 / -1;"' : ""}>
+                    <div class="oe-detail-row">
                         <dt>${escapeHTML(label)}</dt>
                         <dd>${escapeHTML(value || "Not specified")}</dd>
                     </div>
@@ -2000,18 +2004,6 @@ const openProgrammeDetails = (id) => {
             return;
         }
 
-        // Institution card: View Details
-        const institutionDetailsButton = event.target.closest(
-            "[data-view-institution-details]"
-        );
-
-        if (institutionDetailsButton) {
-            openInstitutionDetails(
-                institutionDetailsButton.dataset.viewInstitutionDetails
-            );
-            return;
-        }
-
         // Programme card / popup: Enquire Now
         const enquireButton = event.target.closest("[data-enquire-programme]");
 
@@ -2252,6 +2244,14 @@ const openProgrammeDetails = (id) => {
             byId("oe-menu-toggle")?.setAttribute("aria-expanded", "false");
         }
     });
+
+    root.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-view-institution-details]");
+        if (!button) return;
+        event.preventDefault();
+        event.stopPropagation();
+        openInstitutionDetails(button.dataset.viewInstitutionDetails, button);
+    }, true);
 
     /* ---------------------------------------------------------
        ENQUIRY FORM SUBMIT
