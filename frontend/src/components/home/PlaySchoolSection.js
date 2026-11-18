@@ -2,13 +2,7 @@ import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
 
 
-export function PlaySchoolSection() {
-
-    /* =====================================================
-       TOP PLAY SCHOOLS
-    ====================================================== */
-
-    const playSchools = [
+export const playSchoolListings = [
 
         {
             rank: "01",
@@ -154,6 +148,9 @@ export function PlaySchoolSection() {
         }
 
     ];
+
+export function PlaySchoolSection() {
+    const playSchools = playSchoolListings;
 
 
     /* =====================================================

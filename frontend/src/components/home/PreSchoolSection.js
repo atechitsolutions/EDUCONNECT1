@@ -2,13 +2,7 @@ import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
 
 
-export function PreSchoolSection() {
-
-    /* =====================================================
-       TOP PRE SCHOOLS
-    ====================================================== */
-
-    const preSchools = [
+export const preSchoolListings = [
 
         {
             rank: "01",
@@ -154,6 +148,9 @@ export function PreSchoolSection() {
         }
 
     ];
+
+export function PreSchoolSection() {
+    const preSchools = preSchoolListings;
 
 
     /* =====================================================

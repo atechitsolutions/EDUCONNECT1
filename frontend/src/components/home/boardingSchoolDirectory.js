@@ -2,7 +2,7 @@ import { campusPhotos, fallbackImage } from "./regionalSchools.js";
 
 // User-provided regional boarding-school shortlist. List order is approximate,
 // and shared schools intentionally remain in each separately named region.
-const regionalSchools = {
+export const regionalBoardingSchools = {
     Rajasthan: [
         ["Mayo College", "Ajmer"], ["Vidya Niketan Birla Public School", "Pilani", "Birla Public School"], ["Birla Balika Vidyapeeth", "Pilani"], ["Heritage Girls' School", "Udaipur"], ["L K Singhania Education Centre", "Gotan"], ["Modi World School", "Jhunjhunu"], ["Jayshree Periwal International School", "Jaipur"], ["Neerja Modi School", "Jaipur"], ["India International School", "Jaipur"], ["Delhi Public School (DPS)", "Jaipur", "Delhi Public School, Jaipur"]
     ],
@@ -145,8 +145,39 @@ export function boardingDirectoryCard(school, index, region) {
     return `<article class="institution-card regional-school-card boarding-directory-card" data-region="${escapeHtml(region)}"><div class="institution-card-visual"><img src="${escapeHtml(image)}" alt="${escapeHtml(photo.source ? `${name} campus` : `${name} campus photo unavailable`)}" loading="lazy" onerror="this.onerror=null;this.src='${fallbackImage(name)}'"><div class="institution-card-overlay"></div><span class="institution-card-rank">#${String(index + 1).padStart(2, "0")}</span><div class="institution-card-title"><h3>${escapeHtml(name)}</h3><p>📍 ${escapeHtml(city)}</p></div></div><div class="institution-card-body"><span class="institution-card-category">Boarding school listing</span><h4 class="institution-card-program">Boarding availability should be confirmed with the school</h4><div class="institution-card-ranking">Approximate editorial listing; not an official ranking.</div><div class="institution-card-highlight">Confirm current boarding options, programmes and admissions directly with the institution.</div>${photoCredit}<div class="institution-card-actions">${explore}<button type="button" class="institution-card-action" data-action="compare">Compare <span>›</span></button></div></div></article>`;
 }
 
+export function getBoardingSchoolListings() {
+    return Object.entries(regionalBoardingSchools).flatMap(([region, schools]) => schools.map((school, index) => {
+        const [name, city, canonicalName] = school;
+        const photo = getPhoto(school);
+        const fallback = fallbackImage(name);
+        return {
+            id: `boarding|${region.toLowerCase()}|${(canonicalName || name).toLowerCase()}|${city.toLowerCase()}`,
+            name: canonicalName || name,
+            canonicalName: canonicalName || "",
+            city,
+            state: region === "Nearby NCR options" ? "India" : region,
+            region,
+            regions: region === "Nearby NCR options" ? [] : [region],
+            rank: index + 1,
+            ranks: { [region]: index + 1 },
+            board: "Not verified",
+            status: "Boarding school listing; confirm current availability with the school",
+            schoolType: "Boarding school listing",
+            description: `${canonicalName || name} appears in the project's regional boarding-school directory. Its current boarding provision and campus details should be confirmed with the school. Board affiliation has not been independently verified for this listing.`,
+            image: photo.image || fallback,
+            imageFallback: fallback,
+            imageAvailable: Boolean(photo.image && photo.image !== fallback),
+            photoSource: photo.image && photo.image !== fallback ? photo.source : "",
+            officialWebsite: "",
+            detailsSource: photo.source || "",
+            schoolTypeGroup: "boarding",
+            isBoardingDirectoryListing: true
+        };
+    }));
+}
+
 export function renderBoardingDirectory() {
-    const regions = Object.entries(regionalSchools);
+    const regions = Object.entries(regionalBoardingSchools);
     const options = regions.map(([region, schools]) => `<option value="${escapeHtml(region)}">${escapeHtml(region)} (${schools.length})</option>`).join("");
     const total = regions.reduce((sum, [, schools]) => sum + schools.length, 0);
     return `<div class="boarding-directory"><div class="boarding-directory-heading"><div><span class="boarding-schools-label">REGIONAL DIRECTORY</span><h3>Boarding schools by region</h3><p>${total} schools from the supplied regional lists. Region order is approximate, not an official ranking.</p></div><label class="boarding-region-label" for="boarding-region-select">Choose a region<select id="boarding-region-select"><option value="all">All regions (${total})</option>${options}</select></label></div><div class="boarding-directory-regions">${regions.map(([region, schools]) => `<section class="boarding-directory-region" data-directory-region="${escapeHtml(region)}"><h4>${escapeHtml(region)} <span>${schools.length} schools</span></h4><div class="boarding-schools-all-grid">${schools.map((school, index) => boardingDirectoryCard(school, index, region)).join("")}</div></section>`).join("")}</div></div>`;
