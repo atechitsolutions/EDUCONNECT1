@@ -213,16 +213,14 @@ export function PlaySchoolSection() {
        VISIBLE CARDS
     ====================================================== */
 
-    const visibleSchools =
-        playSchools.slice(0, 4);
+    const visibleSchools = playSchools;
 
 
     /* =====================================================
        HIDDEN CARDS
     ====================================================== */
 
-    const hiddenSchools =
-        playSchools.slice(4);
+    const hiddenSchools = [];
 
 
     /* =====================================================
@@ -360,9 +358,9 @@ export function PlaySchoolSection() {
                 </div>
 
 
-                <button
+                <a
+                    href="/schools?category=playschool"
                     class="early-learning-explore-btn"
-                    type="button"
                     aria-label="View all play schools"
                 >
 
@@ -375,7 +373,7 @@ export function PlaySchoolSection() {
                         →
                     </span>
 
-                </button>
+                </a>
 
             </div>
 

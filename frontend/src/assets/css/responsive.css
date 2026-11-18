@@ -539,7 +539,7 @@
         display: none;
     }
 
-    .hero-quick-links button {
+    .hero-quick-links a {
         padding: 4px 8px;
         font-size: 9px;
     }
@@ -551,7 +551,7 @@
         flex-direction: column;
     }
 
-    .hero-buttons button {
+    .hero-buttons a {
         width: min(100%, 290px);
         min-height: 45px;
         padding: 0 18px;
@@ -2827,12 +2827,12 @@
         font-size: 12px;
     }
 
-    .hero-quick-links button {
+    .hero-quick-links a {
         font-size: 8px;
         padding: 3px 6px;
     }
 
-    .hero-buttons button {
+    .hero-buttons a {
         max-width: 250px;
         min-height: 42px;
         font-size: 12px;
@@ -3663,7 +3663,7 @@
     .hero-quick-links { max-width: 100%; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
     .hero-quick-links span { display: none; }
     .hero-buttons { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; width: 100%; margin-top: 16px; }
-    .hero-buttons button { width: 100%; max-width: none; min-height: 46px; padding: 10px 12px; font-size: 13px; }
+    .hero-buttons a { width: 100%; max-width: none; min-height: 46px; padding: 10px 12px; font-size: 13px; }
     .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; width: 100%; max-width: none; margin-top: 17px; padding: 11px 8px; }
     .hero-stat { min-width: 0; text-align: center; }
     .hero-stat strong { font-size: 16px; }

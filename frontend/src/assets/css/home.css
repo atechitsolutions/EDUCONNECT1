@@ -427,7 +427,9 @@
 }
 
 
-.hero-quick-links button {
+.hero-quick-links a {
+    display: inline-flex;
+    align-items: center;
     padding: 5px 11px;
 
     border:
@@ -439,6 +441,7 @@
         rgba(255, 255, 255, 0.07);
 
     color: rgba(255, 255, 255, 0.82);
+    text-decoration: none;
 
     font-family: inherit;
 
@@ -457,7 +460,7 @@
 }
 
 
-.hero-quick-links button:hover {
+.hero-quick-links a:hover {
     transform: translateY(-2px);
 
     background:
@@ -486,7 +489,11 @@
 }
 
 
-.hero-buttons button {
+.hero-buttons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     min-height: 52px;
 
     padding: 0 26px;
@@ -1296,7 +1303,7 @@
     }
 
 
-    .hero-quick-links button {
+    .hero-quick-links a {
         padding: 4px 8px;
 
         font-size: 10px;
@@ -1314,7 +1321,7 @@
     }
 
 
-    .hero-buttons button {
+    .hero-buttons a {
         width: 100%;
 
         max-width: 300px;
@@ -1456,7 +1463,7 @@
         font-size: 10px;
     }
     .hero-quick-links span { display: none; }
-    .hero-quick-links button { min-height: 32px; padding: 6px 9px; font-size: 10px; }
+    .hero-quick-links a { min-height: 32px; padding: 6px 9px; font-size: 10px; }
     .hero-buttons {
         display: grid;
         grid-template-columns: minmax(0, 1fr);
@@ -1464,7 +1471,7 @@
         width: 100%;
         margin-top: 16px;
     }
-    .hero-buttons button {
+    .hero-buttons a {
         width: 100%;
         max-width: none;
         min-height: 46px;
@@ -1507,7 +1514,7 @@
         padding-inline: 10px;
         font-size: 12px;
     }
-    .hero-buttons button { font-size: 12px; }
+    .hero-buttons a { font-size: 12px; }
 }
 
 

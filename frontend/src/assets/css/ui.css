@@ -17055,3 +17055,8 @@ body,
     #news .news-section { width: calc(100% - 30px); margin: 34px auto; }
     #news .news-all-link, #news .news-carousel { width: 100%; }
 }
+.early-learning-explore-btn,
+.boarding-schools-explore-btn,
+#top-ug-pg-colleges .ug-pg-cta-button {
+    text-decoration: none;
+}

@@ -149,24 +149,16 @@ function matchesSchoolGroup(record, group) {
     return true;
 }
 
-function schoolCard(record, index, region) {
-    const rank = region && regionalSchoolNames[region]
-        ? (record.ranks?.[region] || regionalSchoolNames[region].findIndex(([name, city]) => name === record.name && city === record.city) + 1)
-        : index + 1;
-    const regionName = region || record.state;
+function schoolCard(record) {
     return `<article class="sd-school-card" data-school-id="${escapeHtml(record.id)}">
         <div class="sd-card-image-wrap">
             <img class="sd-card-image" src="${escapeHtml(record.image)}" alt="${escapeHtml(record.imageAvailable ? `${record.name} campus` : `${record.name} campus photo unavailable`)}" loading="lazy" onerror="this.onerror=null;this.src='${escapeHtml(record.imageFallback)}'">
             <div class="sd-card-image-shade"></div>
-            <span class="sd-rank">#${String(rank).padStart(2, "0")} <small>EDITORIAL</small></span>
             <div class="sd-card-heading"><h3>${escapeHtml(record.name)}</h3><p>⌖ ${escapeHtml(record.city)}, ${escapeHtml(record.state)}</p></div>
         </div>
         <div class="sd-card-content">
             <div class="sd-fact-row"><span class="sd-fact-label">Board</span><strong>${escapeHtml(record.board === "Not verified" ? "Not verified" : record.board)}</strong></div>
-            <div class="sd-fact-row"><span class="sd-fact-label">School type</span><strong>${escapeHtml(record.schoolType === "Not verified" ? "Not verified" : record.schoolType)}</strong></div>
             <p class="sd-card-description">${escapeHtml(record.description)}</p>
-            ${record.photoSource ? `<a class="sd-photo-source" href="${escapeHtml(record.photoSource)}" target="_blank" rel="noopener noreferrer">Campus photo source</a>` : `<span class="sd-photo-source sd-photo-missing">School-matched campus photo unavailable</span>`}
-            ${record.detailsSource ? `<a class="sd-photo-source" href="${escapeHtml(record.detailsSource)}" target="_blank" rel="noopener noreferrer">School details source</a>` : `<span class="sd-photo-source sd-photo-missing">Details not independently verified</span>`}
             <div class="sd-card-actions">
                 <button class="sd-button sd-button-primary" type="button" data-school-action="enquire">Enquire</button>
                 <button class="sd-button" type="button" data-school-action="details">Explore School</button>

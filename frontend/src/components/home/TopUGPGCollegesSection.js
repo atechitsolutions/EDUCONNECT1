@@ -580,9 +580,9 @@ export function TopUGPGCollegesSection() {
                 </div>
 
 
-                <button
+                <a
+                    href="/colleges"
                     class="ug-pg-cta-button"
-                    type="button"
                 >
 
                     <span class="ug-pg-view-all-text">
@@ -594,7 +594,7 @@ export function TopUGPGCollegesSection() {
                         →
                     </span>
 
-                </button>
+                </a>
 
             </div>
 

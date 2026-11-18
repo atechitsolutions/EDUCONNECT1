@@ -222,16 +222,14 @@ export function SchoolSection() {
        VISIBLE CARDS
     ====================================================== */
 
-    const visibleSchools =
-        schools.slice(0, 4);
+    const visibleSchools = schools;
 
 
     /* =====================================================
        HIDDEN CARDS
     ====================================================== */
 
-    const hiddenSchools =
-        schools.slice(4);
+    const hiddenSchools = [];
 
 
     /* =====================================================
@@ -380,9 +378,9 @@ export function SchoolSection() {
                 </div>
 
 
-                <button
+                <a
+                    href="/schools?category=all"
                     class="early-learning-explore-btn"
-                    type="button"
                 >
 
                     <span class="early-learning-view-all-text">
@@ -394,7 +392,7 @@ export function SchoolSection() {
                         →
                     </span>
 
-                </button>
+                </a>
 
             </div>
 

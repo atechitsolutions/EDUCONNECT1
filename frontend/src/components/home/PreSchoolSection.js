@@ -213,16 +213,14 @@ export function PreSchoolSection() {
        VISIBLE CARDS
     ====================================================== */
 
-    const visibleSchools =
-        preSchools.slice(0, 4);
+    const visibleSchools = preSchools;
 
 
     /* =====================================================
        HIDDEN CARDS
     ====================================================== */
 
-    const hiddenSchools =
-        preSchools.slice(4);
+    const hiddenSchools = [];
 
 
     /* =====================================================
@@ -365,9 +363,9 @@ export function PreSchoolSection() {
                 </div>
 
 
-                <button
+                <a
+                    href="/schools?category=preschool"
                     class="early-learning-explore-btn"
-                    type="button"
                 >
 
                     <span class="early-learning-view-all-text">
@@ -379,7 +377,7 @@ export function PreSchoolSection() {
                         →
                     </span>
 
-                </button>
+                </a>
 
             </div>
 

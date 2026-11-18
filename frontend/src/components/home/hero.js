@@ -153,49 +153,44 @@ export default function Hero() {
                     </span>
 
 
-                    <button
-                        type="button"
-                        data-search-query="colleges"
+                    <a
+                        href="/colleges"
                         aria-label="Search colleges"
                     >
                         Colleges
-                    </button>
+                    </a>
 
 
-                    <button
-                        type="button"
-                        data-search-query="universities"
+                    <a
+                        href="/colleges"
                         aria-label="Search universities"
                     >
                         Universities
-                    </button>
+                    </a>
 
 
-                    <button
-                        type="button"
-                        data-search-query="courses"
+                    <a
+                        href="/online-education"
                         aria-label="Search courses"
                     >
                         Courses
-                    </button>
+                    </a>
 
 
-                    <button
-                        type="button"
-                        data-search-query="scholarships"
+                    <a
+                        href="/#scholarships"
                         aria-label="Search scholarships"
                     >
                         Scholarships
-                    </button>
+                    </a>
 
 
-                    <button
-                        type="button"
-                        data-search-query="study abroad"
+                    <a
+                        href="/study-abroad"
                         aria-label="Search study abroad programs"
                     >
                         Study Abroad
-                    </button>
+                    </a>
 
                 </nav>
 
@@ -207,10 +202,9 @@ export default function Hero() {
                 <div class="hero-buttons">
 
 
-                    <button
-                        type="button"
+                    <a
+                        href="/schools"
                         class="primary-btn hero-primary-btn"
-                        data-action="explore-education"
                     >
 
                         Explore Schools, Colleges & Universities
@@ -219,18 +213,17 @@ export default function Hero() {
                             →
                         </span>
 
-                    </button>
+                    </a>
 
 
-                    <button
-                        type="button"
+                    <a
+                        href="/colleges"
                         class="secondary-btn hero-secondary-btn"
-                        data-action="compare-colleges"
                     >
 
                         Compare Top Colleges in India
 
-                    </button>
+                    </a>
 
                 </div>
 
