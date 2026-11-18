@@ -39,8 +39,9 @@ export default function Navbar() {
             <div class="navbar-dropdown">
 
                 <a
-                    href="/#schools"
+                    href="/schools"
                     class="navbar-link navbar-dropdown-link"
+                    data-school-root
                     data-auth-required="true"
                     aria-expanded="false"
                     aria-label="Schools"

@@ -108,6 +108,9 @@ public class SecurityConfig {
                                         .requestMatchers("/api/college/auth/login", "/api/college/enquiries")
                                         .permitAll()
 
+                                        .requestMatchers("/api/school-enquiries")
+                                        .permitAll()
+
                                         .requestMatchers("/api/college/enquiries/*/revoke-contact-consent")
                                         .hasRole("STUDENT")
 

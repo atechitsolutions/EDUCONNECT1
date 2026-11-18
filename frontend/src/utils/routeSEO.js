@@ -41,6 +41,14 @@ const ROUTE_SEO = {
         primaryKeyword: "colleges in India",
         secondaryKeywords: ["Indian universities", "UG colleges", "PG colleges", "college directory"]
     },
+    "/schools": {
+        title: "School Directory in India | StepInStudents",
+        description: "Explore schools across India by region, board and school type. Compare verified school information and send an enquiry to a school.",
+        image: "/images/banner/education-banner.jpeg",
+        indexable: true,
+        primaryKeyword: "schools in India",
+        secondaryKeywords: ["school directory", "boarding schools", "day schools", "CBSE schools", "ICSE schools"]
+    },
     "/colleges/ug": {
         title: "Undergraduate Colleges in India | StepInStudents",
         description: "Search undergraduate colleges and universities in the EDUCONNECT directory.",

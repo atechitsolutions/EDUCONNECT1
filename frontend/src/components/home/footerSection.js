@@ -65,7 +65,7 @@ export function FooterSection() {
     const findPageLinks = (title) => pageLinks.find((column) => column.title === title)?.links || [];
     const mobileFooterColumns = [
         { title: "Education", links: [
-            { label: "Pre Schools", href: "/#pre-school" }, { label: "Top Schools in India", href: "/#schools" },
+            { label: "Pre Schools", href: "/#pre-school" }, { label: "Top Schools in India", href: "/schools" },
             { label: "Top Colleges in India", href: "/#colleges" }, { label: "Top Universities in India", href: "/#colleges" },
             { label: "Online Education", href: "/online-education" }, { label: "Distance Education", href: "/online-education" },
             ...findPageLinks("Online learning"), ...findPageLinks("Study paths")
@@ -164,7 +164,7 @@ export function FooterSection() {
                     title: "Education",
                     links: [
                         { label: "Pre Schools", href: "/#pre-school" },
-                        { label: "Top Schools in India", href: "/#schools" },
+                        { label: "Top Schools in India", href: "/schools" },
                         { label: "Top Colleges in India", href: "/#colleges" },
                         { label: "Top Universities in India", href: "/#colleges" },
                         { label: "Online Education", href: "/online-education" },

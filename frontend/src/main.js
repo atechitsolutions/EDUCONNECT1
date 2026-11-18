@@ -5,6 +5,7 @@ import { initCommunityPage } from "./assets/js/communityPage.js";
 import { applyRouteSEO } from "./utils/routeSEO.js";
 import { recordCollegeEvent } from "./services/collegePartnerService.js";
 import { initRegionalSchools } from "./components/home/regionalSchools.js";
+import { initSchoolDiscoveryPage } from "./pages/SchoolDiscoveryPage.js";
 
 import initScrollPlane
     from "./assets/js/scrollPlane.js";
@@ -141,6 +142,7 @@ import { initCollegeLoginPage } from "./pages/CollegeLoginPage.js";
 import { initCollegePartnerDashboardPage } from "./pages/CollegePartnerDashboardPage.js";
 import { initCollegeEnquiryPage } from "./pages/CollegeEnquiryPage.js";
 import { initCollegeDiscoveryPage } from "./pages/CollegeDiscoveryPage.js";
+import "./assets/css/schools-discovery.css";
 
 import {
     initInstitutionSearch
@@ -305,6 +307,7 @@ document.addEventListener(
         applyRouteSEO();
         initRegionalSchools();
         initCollegeDiscoveryPage();
+        initSchoolDiscoveryPage();
 
         const primaryNavigation = document.querySelector("#educonnect-primary-navigation");
         const navigationToggles = [...document.querySelectorAll(".navbar-menu-toggle, .mobile-header-menu-toggle")];
@@ -336,7 +339,7 @@ document.addEventListener(
 
             primaryNavigation.addEventListener("click", (event) => {
                 const dropdownLink = event.target.closest(".navbar-dropdown-link");
-                if (dropdownLink && dropdownLink.getAttribute("aria-label") !== "Colleges and Universities" && window.matchMedia("(max-width: 600px)").matches) {
+                if (dropdownLink && dropdownLink.getAttribute("aria-label") !== "Colleges and Universities" && !dropdownLink.hasAttribute("data-school-root") && window.matchMedia("(max-width: 600px)").matches) {
                     const dropdown = dropdownLink.closest(".navbar-dropdown");
                     if (dropdown && !dropdown.classList.contains("is-open")) {
                         event.preventDefault();
