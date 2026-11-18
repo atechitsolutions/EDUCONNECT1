@@ -1,8 +1,77 @@
 import InstitutionCard from "../../components/common/InstitutionCard.js";
 import { API_BASE_URL } from "../../config/api.js";
+import { getRegionalSchoolListings } from "../../components/home/regionalSchools.js";
+import { getBoardingSchoolListings } from "../../components/home/boardingSchoolDirectory.js";
+import { preSchoolListings } from "../../components/home/PreSchoolSection.js";
+import { playSchoolListings } from "../../components/home/PlaySchoolSection.js";
+import { onlineEducationProgrammes } from "../../data/onlineEducationProgrammes.js";
+import { getOnlineEducationProgrammes } from "../../services/onlineEducationService.js";
 
 const MIN_QUERY_LENGTH = 2;
 const SUGGESTION_DELAY_MS = 250;
+let collegeCatalogPromise;
+let onlineCatalogPromise;
+
+const norm = value => String(value ?? "").toLocaleLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+const schoolCatalog = (() => {
+    const records = new Map();
+    const add = (record, category) => {
+        const name = record.name || record.title;
+        if (!name) return;
+        const location = record.location || [record.city, record.state].filter(Boolean).join(", ");
+        const key = `${norm(name)}|${norm(location)}`;
+        if (!records.has(key)) records.set(key, { name, location, category, href: `/schools?q=${encodeURIComponent(name)}&category=${category}` });
+    };
+    getRegionalSchoolListings().forEach(item => add(item, "regular"));
+    getBoardingSchoolListings().forEach(item => add(item, "boarding"));
+    preSchoolListings.forEach(item => add(item, "preschool"));
+    playSchoolListings.forEach(item => add(item, "playschool"));
+    return [...records.values()];
+})();
+
+function getCollegeCatalog() {
+    if (!collegeCatalogPromise) {
+        collegeCatalogPromise = fetch(`${API_BASE_URL}/api/institution/domestic`)
+            .then(response => response.ok ? response.json() : [])
+            .then(items => Array.isArray(items) ? items : [])
+            .catch(() => []);
+    }
+    return collegeCatalogPromise;
+}
+
+function getOnlineCatalog() {
+    if (!onlineCatalogPromise) {
+        onlineCatalogPromise = getOnlineEducationProgrammes().catch(() => onlineEducationProgrammes);
+    }
+    return onlineCatalogPromise;
+}
+
+async function getUnifiedMatches(query) {
+    const term = norm(query);
+    if (!term) return [];
+    const includes = value => norm(value).includes(term);
+    const [collegeItems, onlineItems] = await Promise.all([getCollegeCatalog(), getOnlineCatalog()]);
+    const studyMatches = await fetchSuggestions(query).catch(() => ({ suggestions: [] }));
+    const groups = [
+        (Array.isArray(studyMatches?.suggestions) ? studyMatches.suggestions : []).map(name => ({ name, category: "Study Abroad", href: `/study-abroad/search-results?q=${encodeURIComponent(name)}` })),
+        schoolCatalog.filter(item => includes(`${item.name} ${item.location}`)).map(item => ({ ...item, category: item.category === "boarding" ? "Boarding school" : item.category === "preschool" ? "Preschool" : item.category === "playschool" ? "Play school" : "School" })),
+        collegeItems.filter(item => includes(`${item.name} ${item.city || ""} ${item.state || ""} ${item.popularCourses || ""}`)).map(item => ({ name: item.name, location: [item.city, item.state].filter(Boolean).join(", "), category: "College", href: /^\d+$/.test(String(item.id)) ? `/colleges/${item.id}` : `/colleges/ug?q=${encodeURIComponent(item.name)}` })),
+        onlineItems.filter(item => includes(`${item.title} ${item.providerName} ${item.subject} ${item.educationLevel}`)).map(item => ({ name: item.title, location: item.providerName, category: "Online education", href: `/online-education?q=${encodeURIComponent(item.title)}` }))
+    ];
+    const result = [];
+    for (let index = 0; index < 8; index += 1) groups.forEach(group => { if (group[index]) result.push(group[index]); });
+    return result.slice(0, 24);
+}
+
+function renderUnifiedResults(container, matches) {
+    if (!matches.length) {
+        container.innerHTML = '<p class="institution-search-message">No matching schools, colleges, online programmes or Study Abroad listings were found.</p>';
+        container.hidden = false;
+        return;
+    }
+    container.innerHTML = `<h2 class="institution-search-results-title">Search results</h2><div class="institution-search-unified-list">${matches.map(item => `<a class="institution-search-unified-item" href="${escapeHtml(item.href)}"><span>${escapeHtml(item.name)}</span><small>${escapeHtml(item.category)}${item.location ? ` · ${escapeHtml(item.location)}` : ""}</small><b aria-hidden="true">→</b></a>`).join("")}</div>`;
+    container.hidden = false;
+}
 
 function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, (character) => {
@@ -204,24 +273,22 @@ function initializeSearchForm(form) {
 
         suggestionTimer = window.setTimeout(async () => {
             try {
-                const response = await fetchSuggestions(query);
+                let matchingSuggestions;
+                if (form.closest(".study-abroad-search-widget")) {
+                    const response = await fetchSuggestions(query);
+                    matchingSuggestions = (Array.isArray(response?.suggestions) ? response.suggestions : []).map(name => ({ name, category: "Study Abroad" }));
+                } else matchingSuggestions = await getUnifiedMatches(query);
 
                 if (requestNumber !== latestSuggestionRequest) {
                     return;
                 }
-
-                const matchingSuggestions = Array.isArray(
-                    response?.suggestions
-                )
-                    ? response.suggestions
-                    : [];
 
                 suggestions.replaceChildren();
 
                 if (!matchingSuggestions.length) {
                     setSuggestionMessage(
                         suggestions,
-                        "No matching colleges or universities found."
+                        "No matching schools, colleges, online programmes or Study Abroad listings found."
                     );
                     return;
                 }
@@ -232,8 +299,9 @@ function initializeSearchForm(form) {
                     option.type = "button";
                     option.className = "institution-search-suggestion";
                     option.setAttribute("role", "option");
-                    option.dataset.query = suggestion;
-                    option.textContent = suggestion;
+                    option.dataset.query = suggestion.name;
+                    option.dataset.href = suggestion.href;
+                    option.innerHTML = `<span>${escapeHtml(suggestion.name)}</span><small>${escapeHtml(suggestion.category)}${suggestion.location ? ` · ${escapeHtml(suggestion.location)}` : ""}</small>`;
 
                     suggestions.append(option);
                 });
@@ -268,6 +336,10 @@ function initializeSearchForm(form) {
 
         input.value = option.dataset.query || "";
         closeSuggestions(form, suggestions);
+        if (option.dataset.href && !form.closest(".study-abroad-search-widget")) {
+            window.location.assign(option.dataset.href);
+            return;
+        }
         form.requestSubmit();
     });
 
@@ -295,17 +367,20 @@ function initializeSearchForm(form) {
         }
 
         // Other forms retain their existing inline search behavior.
-        results.innerHTML = `
-            <p class="institution-search-message" role="status">
-                Searching colleges and universities...
-            </p>
-        `;
+        results.innerHTML = '<p class="institution-search-message" role="status">Searching schools, colleges, online education and Study Abroad…</p>';
 
         results.hidden = false;
 
         try {
-            const response = await fetchSearchResults(query);
-            renderSearchResults(results, response);
+            const matches = await getUnifiedMatches(query);
+            const studyResults = await fetchSearchResults(query).catch(() => null);
+            const studyItems = Array.isArray(studyResults?.results) ? studyResults.results : [];
+            const combined = [...matches];
+            studyItems.forEach(item => {
+                if (!item.name || combined.some(match => norm(match.name) === norm(item.name))) return;
+                combined.push({ name: item.name, location: getInstitutionLocation(item), category: "Study Abroad", href: `/study-abroad/search-results?q=${encodeURIComponent(item.name)}` });
+            });
+            renderUnifiedResults(results, combined.slice(0, 24));
         } catch (error) {
             console.error("Unable to search institutions.", error);
 

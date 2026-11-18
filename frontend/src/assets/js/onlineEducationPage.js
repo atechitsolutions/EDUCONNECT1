@@ -2392,6 +2392,10 @@ const openProgrammeDetails = (id) => {
         );
 
         syncStorage();
+        const initialQuery = new URLSearchParams(location.search).get("q");
+        if (initialQuery && byId("oe-hero-query")) {
+            byId("oe-hero-query").value = initialQuery;
+        }
         render();
     } catch (error) {
         console.error(

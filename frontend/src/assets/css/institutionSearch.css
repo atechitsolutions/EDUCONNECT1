@@ -41,6 +41,52 @@
     text-align: left;
 }
 
+.institution-search-suggestion span,
+.institution-search-suggestion small {
+    display: block;
+}
+
+.institution-search-suggestion small {
+    margin-top: 3px;
+    color: #657b91;
+    font-size: 12px;
+}
+
+.institution-search-unified-list {
+    display: grid;
+    gap: 6px;
+}
+
+.institution-search-unified-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 3px 16px;
+    padding: 12px 14px;
+    border: 1px solid #e4ebf2;
+    border-radius: 10px;
+    color: #173b5c;
+    text-decoration: none;
+}
+
+.institution-search-unified-item:hover,
+.institution-search-unified-item:focus-visible {
+    border-color: #9fc6ed;
+    background: #f4f9fe;
+    outline: none;
+}
+
+.institution-search-unified-item small {
+    grid-column: 1;
+    color: #657b91;
+}
+
+.institution-search-unified-item b {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    color: #2563a3;
+}
+
 .institution-search-suggestion:hover,
 .institution-search-suggestion:focus-visible {
     outline: 0;

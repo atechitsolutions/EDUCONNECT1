@@ -222,6 +222,17 @@ export function initSchoolDiscoveryPage() {
     let activeRegion = "";
     let activeFilter = "all";
     let activeSchoolGroup = "boarding";
+    const searchParams = new URLSearchParams(location.search);
+    const requestedCategory = searchParams.get("category");
+    if (["all", "boarding", "preschool", "playschool"].includes(requestedCategory)) {
+        activeSchoolGroup = requestedCategory;
+        schoolGroupSelect.value = requestedCategory;
+    } else if (requestedCategory === "regular") {
+        activeSchoolGroup = "all";
+        schoolGroupSelect.value = "all";
+    }
+    const initialSchoolQuery = searchParams.get("q");
+    if (initialSchoolQuery) queryInput.value = initialSchoolQuery;
     let selected = new Set();
     const byId = new Map(listings.map(record => [record.id, record]));
 
@@ -258,6 +269,7 @@ export function initSchoolDiscoveryPage() {
         activeSchoolGroup = schoolGroupSelect.value;
         render();
     });
+    if (initialSchoolQuery || requestedCategory) render();
     root.querySelector(".sd-extra-school-filters .sd-filter-list").addEventListener("click", event => {
         const button = event.target.closest("[data-school-filter]");
         if (!button) return;
