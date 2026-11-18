@@ -1,0 +1,306 @@
+.home-section-banner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) minmax(160px, 24%);
+    align-items: stretch;
+    gap: 12px;
+    width: min(1700px, calc(100% - 64px));
+    box-sizing: border-box !important;
+    height: 112px !important;
+    min-height: 112px !important;
+    margin: 8px auto 6px;
+    padding: 0 8px !important;
+    overflow: hidden;
+    border: 1px solid #e2e9ff;
+    border-radius: 14px;
+    background:
+        radial-gradient(ellipse at 0 0, rgba(81, 116, 255, .09) 0 13%, transparent 13.2%),
+        linear-gradient(112deg, #fff 0%, #fff 63%, #f4f7ff 100%);
+    box-shadow: 0 16px 34px rgba(32, 56, 126, .12);
+}
+
+/* Legacy section breakpoints force a two-column intro grid with !important.
+   Keep the transformed icon, copy and image in their intended tracks. */
+#main-content .early-learning-intro.home-section-banner {
+    display: grid !important;
+    grid-template-columns: 42px minmax(0, 1fr) minmax(160px, 24%) !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    padding: 0 8px !important;
+    height: 112px !important;
+    min-height: 112px !important;
+    box-sizing: border-box !important;
+}
+
+.home-section-banner-icon {
+    position: relative;
+    align-self: center;
+    justify-self: center;
+    display: grid;
+    place-items: center;
+    width: 30px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    border: 1px solid #e4eaff;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #f1f4ff, #fff);
+    box-shadow: inset 0 -4px 0 rgba(42, 80, 230, .08);
+    color: #244bd5;
+    font-size: 20px;
+}
+
+.home-section-banner-icon::after {
+    display: none;
+}
+
+.home-section-banner-copy {
+    align-self: center;
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    padding: 0;
+    color: #122f62 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.home-section-banner-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0 0 2px;
+    color: #70737c;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .24em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: #70737c !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.home-section-banner-eyebrow i {
+    flex: 0 0 12px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #4169f5;
+}
+
+.home-section-banner-title {
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0;
+    color: #122f62 !important;
+    font-size: clamp(24px, 2.6vw, 36px) !important;
+    font-weight: 800;
+    letter-spacing: -.045em;
+    line-height: 1.08;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+.home-section-banner-title::after {
+    position: absolute;
+    right: 0;
+    bottom: -4px;
+    width: 52px;
+    height: 3px;
+    border-radius: 99px;
+    background: #315cf1;
+    content: "";
+}
+
+.home-section-banner-media {
+    position: relative;
+    align-self: stretch;
+    box-sizing: border-box;
+    height: 112px !important;
+    min-height: 112px !important;
+    margin: 0 -8px 0 0;
+    overflow: hidden;
+    border-radius: 22px 13px 13px 22px;
+    background: linear-gradient(135deg, #d9e9ff, #edf2ff 70%, #fff);
+}
+
+.home-section-banner-media::before {
+    position: absolute;
+    z-index: 1;
+    display: none;
+}
+
+.home-section-banner-media img {
+    display: block;
+    width: 100%;
+    height: 100% !important;
+    min-height: 0 !important;
+    object-fit: cover;
+}
+
+.home-section-banner-media > span {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    min-height: 112px;
+    color: #315cf1;
+    font-size: 42px;
+}
+
+.home-section-banner-actions {
+    width: min(1700px, calc(100% - 64px));
+    margin: 0 auto 8px;
+}
+
+.home-section-banner-actions:empty {
+    display: none;
+}
+
+#school .home-section-banner-actions .school-region-search-inline {
+    width: 100%;
+    margin: 0;
+}
+
+@media (max-width: 800px) {
+    .home-section-banner {
+        grid-template-columns: 36px minmax(0, 1fr) 20%;
+        gap: 10px;
+        width: calc(100% - 32px);
+        height: 88px !important;
+        min-height: 88px !important;
+        margin: 6px auto 4px;
+        padding: 0 6px !important;
+        border-radius: 12px;
+    }
+
+    #main-content .early-learning-intro.home-section-banner {
+        grid-template-columns: 36px minmax(0, 1fr) 20% !important;
+        gap: 10px !important;
+        height: 88px !important;
+        min-height: 88px !important;
+        padding: 0 6px !important;
+    }
+
+    .home-section-banner-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 9px;
+        font-size: 18px;
+    }
+
+    .home-section-banner-icon::after {
+        display: none;
+    }
+
+    .home-section-banner-eyebrow {
+        gap: 7px;
+        margin-bottom: 2px;
+        font-size: 8px;
+        letter-spacing: .16em;
+    }
+
+    .home-section-banner-eyebrow i {
+        flex-basis: 8px;
+        width: 8px;
+        height: 8px;
+    }
+
+    .home-section-banner-title {
+        font-size: clamp(20px, 3.4vw, 29px) !important;
+    }
+
+    .home-section-banner-title::after {
+        bottom: -4px;
+        width: 46px;
+        height: 2px;
+    }
+
+    .home-section-banner-media {
+        height: 88px !important;
+        min-height: 88px !important;
+        margin: 0 -6px 0 0;
+        border-radius: 16px 10px 10px 16px;
+    }
+
+    .home-section-banner-media img,
+    .home-section-banner-media > span {
+        height: 100% !important;
+        min-height: 0 !important;
+    }
+
+    .home-section-banner-actions {
+        width: calc(100% - 32px);
+    }
+}
+
+@media (max-width: 540px) {
+    .home-section-banner {
+        grid-template-columns: 28px minmax(0, 1fr) 40px;
+        gap: 5px;
+        height: 68px !important;
+        min-height: 68px !important;
+        padding: 0 4px !important;
+        border-radius: 10px;
+    }
+
+    #main-content .early-learning-intro.home-section-banner {
+        grid-template-columns: 28px minmax(0, 1fr) 40px !important;
+        gap: 5px !important;
+        height: 68px !important;
+        min-height: 68px !important;
+        padding: 0 4px !important;
+    }
+
+    .home-section-banner-icon {
+        width: 22px;
+        height: 22px;
+        border-radius: 8px;
+        font-size: 15px;
+    }
+
+    .home-section-banner-icon::after {
+        display: none;
+    }
+
+    .home-section-banner-eyebrow {
+        gap: 6px;
+        margin-bottom: 1px;
+        font-size: 6px;
+        letter-spacing: .1em;
+    }
+
+    .home-section-banner-eyebrow i {
+        flex-basis: 6px;
+        width: 6px;
+        height: 6px;
+    }
+
+    .home-section-banner-title {
+        font-size: clamp(16px, 4.5vw, 21px) !important;
+        letter-spacing: -.035em;
+    }
+
+    .home-section-banner-title::after {
+        bottom: -3px;
+        width: 34px;
+        height: 2px;
+    }
+
+    .home-section-banner-media {
+        height: 68px !important;
+        min-height: 68px !important;
+        margin: 0 -4px 0 0;
+        border-radius: 13px 8px 8px 13px;
+    }
+
+    .home-section-banner-media::before { display: none; }
+
+    .home-section-banner-media img,
+    .home-section-banner-media > span {
+        height: 100% !important;
+        min-height: 0 !important;
+    }
+}
