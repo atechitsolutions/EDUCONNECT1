@@ -54,7 +54,7 @@ export function CollegesPage() {
 export function CollegeDirectoryPage(level = "UG") {
     const title = level === "PG" ? "Postgraduate colleges & universities" : "Undergraduate colleges & universities";
     return `<main class="college-discovery-page college-directory-page" data-college-directory data-level="${level}">
-        <section class="college-directory-heading"><a class="college-back-link" href="/colleges">← College discovery</a><div><span class="college-eyebrow">${level === "PG" ? "POSTGRADUATE" : "UNDERGRADUATE"} DIRECTORY</span><h1>${title}</h1><p>Search and compare institutions in the existing EDUCONNECT directory.</p></div></section>
+        <section class="college-directory-heading"><a class="college-back-link" href="/colleges">← College discovery</a><div><span class="college-eyebrow">${level === "PG" ? "POSTGRADUATE" : "UNDERGRADUATE"} DIRECTORY</span><h1>${title}</h1><p>Search and compare institutions in the StepInStudents directory.</p></div></section>
         <nav class="college-level-tabs" aria-label="Study level"><a class="${level === "UG" ? "active" : ""}" href="/colleges/ug">UG Colleges</a><a class="${level === "PG" ? "active" : ""}" href="/colleges/pg">PG Colleges</a></nav>
         <section class="college-filter-panel" aria-label="College search and filters"><form data-college-filter-form>
             <label class="college-search-field"><span>Search</span><input name="q" type="search" placeholder="College, university or course"></label>
@@ -65,7 +65,7 @@ export function CollegeDirectoryPage(level = "UG") {
             <label><span>Ownership</span><select name="ownership"><option value="">All ownership types</option><option value="government">Government</option><option value="private">Private</option></select></label>
             <button class="college-filter-submit" type="submit">Search colleges <span>→</span></button><button class="college-clear-filters" type="reset">Clear filters</button>
         </form><p class="college-filter-note">Ownership and course details are shown only where available in the institution record.</p></section>
-        <section class="college-results-section"><div class="college-results-heading"><div><span class="college-eyebrow">EDUCONNECT DIRECTORY</span><h2>Explore institutions</h2></div><p data-college-results-count>Loading directory…</p></div><div class="college-results-grid" data-college-results aria-live="polite"></div><div class="college-pagination" data-college-pagination></div></section>
+        <section class="college-results-section"><div class="college-results-heading"><div><span class="college-eyebrow">STEPINSTUDENTS DIRECTORY</span><h2>Explore institutions</h2></div><p data-college-results-count>Loading directory…</p></div><div class="college-results-grid" data-college-results aria-live="polite"></div><div class="college-pagination" data-college-pagination></div></section>
         <div class="college-compare-dock" data-college-compare hidden></div>
     </main>`;
 }

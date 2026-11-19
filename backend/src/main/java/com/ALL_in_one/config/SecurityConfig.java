@@ -105,6 +105,18 @@ public class SecurityConfig {
                                         )
                                         .permitAll()
 
+                                        .requestMatchers("/api/admission-partners/register", "/api/admission-partners/referrals/**")
+                                        .permitAll()
+
+                                        .requestMatchers("/api/admin/admission-partners/**")
+                                        .hasRole("ADMIN")
+
+                                        .requestMatchers("/api/admission-partners/me/subpartners")
+                                        .hasRole("DIRECT_PARTNER")
+
+                                        .requestMatchers("/api/admission-partners/me/**")
+                                        .hasAnyRole("DIRECT_PARTNER", "SUBPARTNER")
+
                                         .requestMatchers("/api/college/auth/login", "/api/college/enquiries")
                                         .permitAll()
 

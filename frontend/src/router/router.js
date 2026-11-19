@@ -23,6 +23,9 @@ import CollegeEnquiryPage from "../pages/CollegeEnquiryPage.js";
 import { CollegesPage, CollegeDirectoryPage, CollegeDetailPage } from "../pages/CollegeDiscoveryPage.js";
 import { SchoolDiscoveryPage } from "../pages/SchoolDiscoveryPage.js";
 import { AdminSchoolEnquiriesPage } from "../pages/AdminSchoolEnquiriesPage.js";
+import AdmissionPartnersPage from "../pages/AdmissionPartnersPage.js";
+import AdmissionPartnerDashboardPage from "../pages/AdmissionPartnerDashboardPage.js";
+import AdmissionPartnerAdminPage from "../pages/AdmissionPartnerAdminPage.js";
 
 export function Router() {
     const path =
@@ -50,6 +53,18 @@ export function Router() {
         case "/":
         case "/index.html":
             pageContent = MainLayout();
+            break;
+
+        case "/admission-partners":
+            pageContent = `${Header()}${Navbar()}${AdmissionPartnersPage()}${FooterSection()}`;
+            break;
+
+        case "/admission-partners/dashboard":
+            pageContent = `${Header()}${Navbar()}${AdmissionPartnerDashboardPage()}`;
+            break;
+
+        case "/admin/admission-partners":
+            pageContent = AdmissionPartnerAdminPage();
             break;
 
         // =====================================================
