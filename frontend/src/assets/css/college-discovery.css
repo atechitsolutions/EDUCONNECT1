@@ -60,8 +60,17 @@
 #main-content .institution-card-body{padding:0!important}
 #main-content .institution-card-actions{padding:0!important}
 #main-content .home-directory-actions{padding:0!important}
+/* Give three-action homepage cards enough room for the full Compare row. */
+#main-content .institution-card:has(.home-directory-actions){
+  height:auto!important;
+  min-height:350px!important;
+  max-height:none!important;
+  overflow:visible!important;
+}
+#main-content .home-directory-actions{padding-bottom:15px!important}
 /* Keep the homepage's directory carousels fully readable on small screens. */
 @media(max-width:600px){
+  #main-content .institution-card:has(.home-directory-actions){min-height:480px!important}
   .boarding-schools-intro-badge,
   #top-ug-pg-colleges .ug-pg-stat{
     box-sizing:border-box!important;
