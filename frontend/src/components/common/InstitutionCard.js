@@ -1,4 +1,5 @@
 const escapeAttribute = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+const escapeHtml = value => escapeAttribute(value);
 
 export default function InstitutionCard({
     item,
@@ -142,6 +143,8 @@ export default function InstitutionCard({
                         : ""
                 }
 
+
+                ${overview && !isStudyAbroadSearch ? `<p class="institution-card-overview">${escapeHtml(overview)}</p>` : ""}
 
                 <div class="institution-card-rating-row">
 

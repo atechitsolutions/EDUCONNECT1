@@ -364,10 +364,18 @@ export function initSchoolDiscoveryPage() {
     const requestedSchoolName = normalizeName(searchParams.get("institution") || initialSchoolQuery);
     if (requestedEnquiry && requestedSchoolName) {
         const requestedLocation = normalizeName((searchParams.get("location") || "").split(",")[0]);
-        const requestedSchool = listings.find(record =>
-            [record.name, record.sourceName].some(name => normalizeName(name) === requestedSchoolName)
-            && (!requestedLocation || normalizeName(`${record.city} ${record.state}`).includes(requestedLocation))
+        const candidates = listings.filter(record =>
+            [record.name, record.sourceName].some(name => {
+                const normalizedRecordName = normalizeName(name);
+                return normalizedRecordName === requestedSchoolName
+                    || normalizedRecordName.includes(requestedSchoolName)
+                    || requestedSchoolName.includes(normalizedRecordName);
+            })
         );
+        const requestedSchool = candidates.find(record => !requestedLocation
+            || normalizeName(`${record.name} ${record.city} ${record.state}`).includes(requestedLocation))
+            || candidates.find(record => normalizeName(`${record.city} ${record.state}`).includes(requestedLocation))
+            || candidates[0];
         if (requestedSchool) openSchoolEnquiry(requestedSchool);
     }
 }

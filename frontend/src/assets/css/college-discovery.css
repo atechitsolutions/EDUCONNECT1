@@ -33,11 +33,109 @@
 .home-college-details-photo-source[hidden]{display:none}
 .home-college-details-enquire{display:inline-flex;align-items:center;justify-content:center;margin:14px 0 0;padding:11px 16px;border:1px solid #1769bd;border-radius:11px;background:#1769bd;color:#fff;font-size:13px;font-weight:750;text-decoration:none}
 .home-directory-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important;padding:0 14px 14px!important;margin-top:auto!important}
+.institution-card-overview{display:-webkit-box;min-height:3.9em;overflow:hidden;margin:6px 0 12px;color:#586d84;font-size:13px;line-height:1.5;-webkit-box-orient:vertical;-webkit-line-clamp:3}
 .home-directory-actions>*{box-sizing:border-box;min-width:0!important;height:42px!important;min-height:42px!important;padding:0 12px!important;border:1px solid #ccdaea!important;border-radius:999px!important;background:#fff!important;color:#263e59!important;justify-content:center!important;text-align:center!important;white-space:nowrap;font-size:12px!important;text-decoration:none!important;box-shadow:0 4px 12px #19395812}
 .home-directory-actions>.institution-card-action:nth-child(n+3){grid-column:1/-1}
 .home-directory-actions>.institution-card-enquire{color:#1b65ad!important}
 .home-directory-actions>button:hover,.home-directory-actions>a:hover{border-color:#82aedb!important;background:#f3f8fd!important;color:#124f8d!important;padding-left:12px!important}
 .home-directory-actions>button span,.home-directory-actions>a span{display:none}
 @media(max-width:480px){.home-college-details{padding:18px}.home-college-details dl{grid-template-columns:1fr}}
+/* Use clean, borderless card surfaces throughout the homepage. */
+#main-content .institution-card,
+#main-content .ug-pg-college-card,
+#main-content .premium-card,
+#main-content .compact-category-card,
+#main-content .video-review-card,
+#main-content .loan-mini-card{
+  border:0!important;
+  outline:0!important;
+  box-shadow:none!important;
+}
+/* Remove the legacy outer inset around homepage card images and copy. */
+#main-content .institution-card{
+  box-sizing:border-box!important;
+  margin:0!important;
+  padding:0!important;
+}
+#main-content .institution-card-body{padding:0!important}
+#main-content .institution-card-actions{padding:0!important}
+#main-content .home-directory-actions{padding:0!important}
+/* Keep the homepage's directory carousels fully readable on small screens. */
+@media(max-width:600px){
+  .boarding-schools-intro-badge,
+  #top-ug-pg-colleges .ug-pg-stat{
+    box-sizing:border-box!important;
+    display:flex!important;
+    flex:0 0 auto!important;
+    flex-direction:row!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    align-self:stretch!important;
+    gap:10px!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:auto!important;
+    min-height:48px!important;
+    padding:10px 13px!important;
+    white-space:normal!important;
+  }
+  .boarding-schools-intro-badge strong,
+  #top-ug-pg-colleges .ug-pg-stat strong{
+    flex:0 0 auto!important;
+    font-size:20px!important;
+    line-height:1!important;
+  }
+  .boarding-schools-intro-badge span,
+  #top-ug-pg-colleges .ug-pg-stat span{
+    display:block!important;
+    min-width:0!important;
+    width:auto!important;
+    font-size:11px!important;
+    line-height:1.3!important;
+    white-space:normal!important;
+    word-break:normal!important;
+    overflow-wrap:normal!important;
+  }
+  .boarding-schools-carousel,
+  #top-ug-pg-colleges .ug-pg-carousel{
+    box-sizing:border-box!important;
+    width:calc(100% - 24px)!important;
+    max-width:100%!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    padding:0 12px 8px!important;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    mask-image:none!important;
+    -webkit-mask-image:none!important;
+  }
+  .boarding-schools-track,
+  #top-ug-pg-colleges .ug-pg-track{
+    animation:none!important;
+    transform:none!important;
+    gap:12px!important;
+  }
+  .boarding-schools-track .institution-card,
+  #top-ug-pg-colleges .ug-pg-track .institution-card{
+    box-sizing:border-box!important;
+    flex:0 0 min(310px,calc(100vw - 52px))!important;
+    width:min(310px,calc(100vw - 52px))!important;
+    min-width:min(310px,calc(100vw - 52px))!important;
+    max-width:min(310px,calc(100vw - 52px))!important;
+    scroll-snap-align:start;
+  }
+  .home-directory-actions{
+    box-sizing:border-box!important;
+    width:100%!important;
+    min-width:0!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .home-directory-actions>*{
+    box-sizing:border-box!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+  }
+}
 .college-profile-modal>section{width:min(640px,calc(100vw - 32px));max-height:min(88vh,820px);overflow:auto;padding:25px;background:#fff;border-radius:20px;box-shadow:0 22px 80px #0004}.college-profile-modal h2{margin:10px 38px 3px 0;color:#142f4b;font-size:clamp(22px,3vw,30px)}.college-profile-modal-image{display:block;width:100%;height:220px;margin-bottom:16px;object-fit:cover;border-radius:12px;background:#e7eef5}.college-profile-location,.college-enquiry-intro{margin:0 0 15px;color:#64788d}.college-profile-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:15px 0}.college-profile-facts div{padding:11px;border:1px solid #e2eaf2;border-radius:11px;background:#f7fafe}.college-profile-facts dt{color:#738398;font-size:10px;font-weight:750;text-transform:uppercase;letter-spacing:.05em}.college-profile-facts dd{margin:5px 0 0;color:#2b4058;font-size:13px;font-weight:700}.college-profile-overview{padding:14px;border-radius:12px;background:#f4f8fc}.college-profile-overview h3{margin:0 0 6px;color:#183b5b;font-size:15px}.college-profile-overview p{margin:0;color:#5d7187;font-size:13px;line-height:1.6}.college-profile-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}.college-lead-form{display:grid;gap:10px}.college-lead-form>label,.college-lead-form-row label{display:grid;gap:5px;color:#3e536d;font-size:11px;font-weight:750}.college-lead-form input:not([type=checkbox]),.college-lead-form textarea{width:100%;min-height:40px;padding:9px 11px;border:1px solid #d8e2ee;border-radius:8px;background:#fff;color:#23384f;font:inherit;font-size:12px}.college-lead-form textarea{resize:vertical}.college-lead-form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.college-lead-consent{display:flex!important;align-items:flex-start;gap:8px;color:#5e7086!important;font-size:10px!important;font-weight:500!important;line-height:1.45}.college-lead-consent input{flex:0 0 auto;margin:2px 0 0;accent-color:#1b65ad}.college-lead-feedback{min-height:16px;margin:0;color:#31754e;font-size:11px}.college-lead-feedback:empty{display:none}.college-lead-form button:disabled{opacity:.6;cursor:wait}@media(max-width:520px){.college-profile-modal>section{padding:18px}.college-profile-facts{grid-template-columns:1fr 1fr}.college-lead-form-row{grid-template-columns:1fr}}
 .college-profile-modal>section{box-sizing:border-box;width:min(640px,calc(100vw - 28px));max-width:calc(100vw - 28px)}.college-profile-modal .college-lead-form input:not([type=checkbox]),.college-profile-modal .college-lead-form textarea{box-sizing:border-box;width:100%;max-width:100%;min-width:0}.college-profile-modal .college-lead-form-row{grid-template-columns:repeat(2,minmax(0,1fr));min-width:0}.college-profile-modal .college-lead-consent{display:flex!important;flex-direction:row!important;align-items:flex-start;width:100%;min-width:0;max-width:100%}.college-profile-modal .college-lead-consent input[type=checkbox]{display:block;flex:0 0 16px;width:16px;height:16px;margin:2px 0 0}.college-profile-modal .college-lead-consent span{display:block;flex:1 1 auto;width:auto;min-width:0;max-width:100%;white-space:normal;word-break:normal;overflow-wrap:anywhere;writing-mode:horizontal-tb;line-height:1.5}
