@@ -6,6 +6,7 @@ import { applyRouteSEO } from "./utils/routeSEO.js";
 import { recordCollegeEvent } from "./services/collegePartnerService.js";
 import { initRegionalSchools } from "./components/home/regionalSchools.js";
 import { initSchoolDiscoveryPage } from "./pages/SchoolDiscoveryPage.js";
+import { initAdminSchoolEnquiriesPage } from "./pages/AdminSchoolEnquiriesPage.js";
 import { initHomeSectionBanners } from "./assets/js/homeSectionBanners.js";
 
 import initScrollPlane
@@ -143,6 +144,41 @@ import { initCollegeLoginPage } from "./pages/CollegeLoginPage.js";
 import { initCollegePartnerDashboardPage } from "./pages/CollegePartnerDashboardPage.js";
 import { initCollegeEnquiryPage } from "./pages/CollegeEnquiryPage.js";
 import { initCollegeDiscoveryPage } from "./pages/CollegeDiscoveryPage.js";
+import { initHomeCollegeDetails } from "./components/home/TopUGPGCollegesSection.js";
+
+// Bind at document level so Explore actions still work when the college carousel
+// replaces its cards after the homepage has rendered.
+document.addEventListener("click", (event) => {
+    const closeButton = event.target.closest?.("[data-close-home-college-details]");
+    if (closeButton) {
+        const openDialog = closeButton.closest("[data-home-college-details]");
+        if (openDialog) { openDialog.hidden = true; openDialog.classList.remove("is-open"); }
+        return;
+    }
+    const button = event.target.closest?.('[data-action="college-details"], [data-action="school-details"]');
+    const dialog = document.querySelector("[data-home-college-details]");
+    if (!button || !dialog) return;
+    const set = (selector, value) => { dialog.querySelector(selector).textContent = value || "Information not listed"; };
+    set("[data-college-modal-name]", button.dataset.collegeName);
+    set("[data-college-modal-location]", button.dataset.collegeLocation ? `${button.dataset.collegeLocation}${/india/i.test(button.dataset.collegeLocation) ? "" : ", India"}` : "Location not listed");
+    set("[data-college-modal-category]", button.dataset.collegeCategory);
+    set("[data-college-modal-program]", button.dataset.collegeProgram);
+    set("[data-college-modal-overview]", button.dataset.collegeOverview);
+    const image = dialog.querySelector("[data-college-modal-image]");
+    image.src = button.dataset.collegeImage || "";
+    image.alt = `${button.dataset.collegeName || "Institution"} campus`;
+    image.hidden = !button.dataset.collegeImage;
+    const photoSource = dialog.querySelector("[data-college-modal-photo-source]");
+    photoSource.href = button.dataset.collegePhotoSource || "";
+    photoSource.hidden = !button.dataset.collegePhotoSource;
+    const website = dialog.querySelector("[data-college-modal-website]");
+    website.href = button.dataset.collegeWebsite || "";
+    website.hidden = !button.dataset.collegeWebsite;
+    const enquire = dialog.querySelector("[data-college-modal-enquire]");
+    enquire.href = button.dataset.collegeEnquiry || "#";
+    dialog.hidden = false;
+    dialog.classList.add("is-open");
+}, true);
 import "./assets/css/schools-discovery.css";
 
 import {
@@ -310,7 +346,9 @@ document.addEventListener(
         applyRouteSEO();
         initRegionalSchools();
         initCollegeDiscoveryPage();
+        initHomeCollegeDetails();
         initSchoolDiscoveryPage();
+        initAdminSchoolEnquiriesPage();
 
         const primaryNavigation = document.querySelector("#educonnect-primary-navigation");
         const navigationToggles = [...document.querySelectorAll(".navbar-menu-toggle, .mobile-header-menu-toggle")];

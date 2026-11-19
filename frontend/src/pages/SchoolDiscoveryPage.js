@@ -86,6 +86,7 @@ const earlySchoolListings = [
     return {
         id: `early|${record.schoolTypeGroup}|${index}|${normalizeName(record.name)}`,
         name: verifiedEarlyDetails.name || record.name,
+        sourceName: record.name,
         city,
         state: region === "Nearby NCR options" ? "Haryana" : region || "India",
         region,
@@ -160,12 +161,18 @@ function schoolCard(record) {
             <div class="sd-fact-row"><span class="sd-fact-label">Board</span><strong>${escapeHtml(record.board === "Not verified" ? "Not verified" : record.board)}</strong></div>
             <p class="sd-card-description">${escapeHtml(record.description)}</p>
             <div class="sd-card-actions">
-                <button class="sd-button sd-button-primary" type="button" data-school-action="enquire">Enquire</button>
-                <button class="sd-button" type="button" data-school-action="details">Explore School</button>
+                <button class="sd-button sd-button-primary" type="button" data-school-action="details">Explore School</button>
+                <button class="sd-button" type="button" data-school-action="enquire">Enquire</button>
                 <button class="sd-button sd-compare-button" type="button" data-school-action="compare" aria-pressed="false">Compare</button>
             </div>
         </div>
     </article>`;
+}
+
+function renderSchoolComparison(root, schools) {
+    const rows = [["Location", item => `${item.city}, ${item.state}`], ["Board", item => item.board], ["Day / boarding", item => item.status], ["Category", item => item.schoolType], ["Overview", item => item.description]];
+    const headings = `<tr><th scope="row">School</th>${schools.map(item => `<th scope="col"><strong>${escapeHtml(item.name)}</strong><button type="button" class="sd-compare-remove" data-remove-school="${escapeHtml(item.id)}" aria-label="Remove ${escapeHtml(item.name)} from comparison">Remove</button></th>`).join("")}</tr>`;
+    root.querySelector("#sd-compare-table").innerHTML = headings + rows.map(([label, getValue]) => `<tr><th scope="row">${escapeHtml(label)}</th>${schools.map(item => `<td>${escapeHtml(getValue(item))}</td>`).join("")}</tr>`).join("");
 }
 
 export function SchoolDiscoveryPage() {
@@ -193,9 +200,9 @@ export function SchoolDiscoveryPage() {
         </div>
         <dialog class="sd-dialog" id="sd-details-dialog" aria-labelledby="sd-details-title"><div class="sd-dialog-header"><span class="sd-eyebrow">SCHOOL DETAILS</span><button type="button" class="sd-dialog-close" data-close-dialog aria-label="Close">×</button></div><div id="sd-details-content"></div></dialog>
         <dialog class="sd-dialog sd-enquiry-dialog" id="sd-enquiry-dialog" aria-labelledby="sd-enquiry-title"><div class="sd-dialog-header"><div><span class="sd-eyebrow">SCHOOL ENQUIRY</span><h2 id="sd-enquiry-title">Enquire with this school</h2><p id="sd-enquiry-school"></p></div><button type="button" class="sd-dialog-close" data-close-dialog aria-label="Close">×</button></div>
-            <form id="sd-enquiry-form"><input type="hidden" name="schoolName"><input type="hidden" name="city"><label>Student or parent name<input name="name" maxlength="120" autocomplete="name" required></label><div class="sd-form-row"><label>Email<input name="email" type="email" maxlength="180" autocomplete="email" required></label><label>Phone number<input name="phone" type="tel" maxlength="40" autocomplete="tel" required></label></div><label>Class / grade of interest<input name="grade" maxlength="60" placeholder="e.g. Class 8" required></label><label>Message <small>(optional)</small><textarea name="message" maxlength="2000" rows="3" placeholder="What would you like to know?"></textarea></label><label class="sd-consent"><input type="checkbox" name="consent" value="true" required><span>I agree to share these details with the selected school so it can respond to this enquiry.</span></label><button class="sd-button sd-button-primary" type="submit">Submit enquiry</button><p id="sd-enquiry-feedback" role="status" aria-live="polite"></p></form>
+            <form id="sd-enquiry-form"><input type="hidden" name="schoolId"><input type="hidden" name="schoolName"><input type="hidden" name="city"><label>Student or parent name<input name="name" maxlength="120" autocomplete="name" required></label><div class="sd-form-row"><label>Email<input name="email" type="email" maxlength="180" autocomplete="email" required></label><label>Phone number<input name="phone" type="tel" maxlength="40" autocomplete="tel" required></label></div><label>Class / grade of interest<input name="grade" maxlength="60" placeholder="e.g. Class 8" required></label><label>Message <small>(optional)</small><textarea name="message" maxlength="2000" rows="3" placeholder="What would you like to know?"></textarea></label><label class="sd-consent"><input type="checkbox" name="consent" value="true" required><span>I agree to share these details with the selected school so it can respond to this enquiry.</span></label><button class="sd-button sd-button-primary" type="submit">Submit enquiry</button><p id="sd-enquiry-feedback" role="status" aria-live="polite"></p></form>
         </dialog>
-        <dialog class="sd-dialog sd-compare-dialog" id="sd-compare-dialog" aria-labelledby="sd-compare-title"><div class="sd-dialog-header"><div><span class="sd-eyebrow">SIDE-BY-SIDE</span><h2 id="sd-compare-title">Compare schools</h2></div><button type="button" class="sd-dialog-close" data-close-dialog aria-label="Close">×</button></div><div class="sd-compare-table-wrap"><table class="sd-compare-table"><tbody id="sd-compare-table"></tbody></table></div></dialog>
+        <dialog class="sd-dialog sd-compare-dialog" id="sd-compare-dialog" aria-labelledby="sd-compare-title"><div class="sd-dialog-header"><div><span class="sd-eyebrow">SIDE-BY-SIDE</span><h2 id="sd-compare-title">Compare schools</h2></div><button type="button" class="sd-compare-clear" data-clear-schools>Clear comparison</button><button type="button" class="sd-dialog-close" data-close-dialog aria-label="Close">×</button></div><div class="sd-compare-table-wrap"><table class="sd-compare-table"><tbody id="sd-compare-table"></tbody></table></div></dialog>
     </main>`;
 }
 
@@ -277,6 +284,18 @@ export function initSchoolDiscoveryPage() {
 
     const detailsDialog = root.querySelector("#sd-details-dialog");
     const enquiryDialog = root.querySelector("#sd-enquiry-dialog");
+    const openSchoolEnquiry = school => {
+        const form = root.querySelector("#sd-enquiry-form");
+        form.reset();
+        form.querySelector("[type=submit]").disabled = false;
+        form.querySelector("[type=submit]").textContent = "Submit enquiry";
+        form.elements.schoolId.value = school.id;
+        form.elements.schoolName.value = school.name;
+        form.elements.city.value = school.city;
+        root.querySelector("#sd-enquiry-school").textContent = `${school.name} · ${school.city}, ${school.state}`;
+        root.querySelector("#sd-enquiry-feedback").textContent = "";
+        enquiryDialog.showModal();
+    };
     root.querySelectorAll("[data-close-dialog]").forEach(button => button.addEventListener("click", () => button.closest("dialog").close()));
     [detailsDialog, enquiryDialog, root.querySelector("#sd-compare-dialog")].forEach(dialog => dialog.addEventListener("click", event => { if (event.target === dialog) dialog.close(); }));
 
@@ -287,15 +306,11 @@ export function initSchoolDiscoveryPage() {
         const school = byId.get(card?.dataset.schoolId);
         if (!school) return;
         if (button.dataset.schoolAction === "enquire") {
-            const form = root.querySelector("#sd-enquiry-form");
-            form.reset(); form.elements.schoolName.value = school.name; form.elements.city.value = school.city;
-            root.querySelector("#sd-enquiry-school").textContent = `${school.name} · ${school.city}, ${school.state}`;
-            root.querySelector("#sd-enquiry-feedback").textContent = "";
-            enquiryDialog.showModal();
+            openSchoolEnquiry(school);
         }
         if (button.dataset.schoolAction === "details") {
             root.querySelector("#sd-details-content").innerHTML = `<img class="sd-details-image" src="${escapeHtml(school.image)}" alt="${escapeHtml(school.imageAvailable ? `${school.name} campus` : "School-matched campus photo unavailable")}" onerror="this.onerror=null;this.src='${escapeHtml(school.imageFallback)}'"><h2 id="sd-details-title">${escapeHtml(school.name)}</h2><p class="sd-details-location">${escapeHtml(school.city)}, ${escapeHtml(school.state)}</p><dl class="sd-detail-facts"><div><dt>Board</dt><dd>${escapeHtml(school.board)}</dd></div><div><dt>Day / boarding</dt><dd>${escapeHtml(school.status)}</dd></div><div><dt>School category</dt><dd>${escapeHtml(school.schoolType)}</dd></div></dl><p>${escapeHtml(school.description)}</p>${school.photoSource ? `<p><a class="sd-photo-source" href="${escapeHtml(school.photoSource)}" target="_blank" rel="noopener noreferrer">View campus photo source</a></p>` : `<p class="sd-photo-source sd-photo-missing">No verified campus photo source is available for this listing.</p>`}${school.detailsSource ? `<p><a class="sd-photo-source" href="${escapeHtml(school.detailsSource)}" target="_blank" rel="noopener noreferrer">View school details source</a></p>` : `<p class="sd-photo-source sd-photo-missing">School details have not been independently verified.</p>`}<p class="sd-editorial-note">Approximate editorial listing; not an official ranking. Unverified information is labelled and should be confirmed with the school.</p><div class="sd-card-actions"><button type="button" class="sd-button sd-button-primary" id="sd-details-enquire">Enquire with this school</button></div>`;
-            root.querySelector("#sd-details-enquire").addEventListener("click", () => { detailsDialog.close(); const form = root.querySelector("#sd-enquiry-form"); form.reset(); form.elements.schoolName.value = school.name; form.elements.city.value = school.city; root.querySelector("#sd-enquiry-school").textContent = `${school.name} · ${school.city}, ${school.state}`; root.querySelector("#sd-enquiry-feedback").textContent = ""; enquiryDialog.showModal(); });
+            root.querySelector("#sd-details-enquire").addEventListener("click", () => { detailsDialog.close(); openSchoolEnquiry(school); });
             detailsDialog.showModal();
         }
         if (button.dataset.schoolAction === "compare") {
@@ -305,10 +320,22 @@ export function initSchoolDiscoveryPage() {
             render();
             if (selected.size >= 2) {
                 const selectedSchools = [...selected].map(id => byId.get(id));
-                const rows = [["School", item => item.name], ["Location", item => `${item.city}, ${item.state}`], ["Board", item => item.board], ["Day / boarding", item => item.status], ["Category", item => item.schoolType]];
-                root.querySelector("#sd-compare-table").innerHTML = rows.map(([label, getValue]) => `<tr><th>${escapeHtml(label)}</th>${selectedSchools.map(item => `<td>${escapeHtml(getValue(item))}</td>`).join("")}</tr>`).join("");
+                renderSchoolComparison(root, selectedSchools);
                 root.querySelector("#sd-compare-dialog").showModal();
             }
+        }
+    });
+
+    root.querySelector("#sd-compare-dialog").addEventListener("click", event => {
+        const remove = event.target.closest("[data-remove-school]");
+        if (remove) {
+            selected.delete(remove.dataset.removeSchool);
+            render();
+            if (selected.size < 2) root.querySelector("#sd-compare-dialog").close();
+            else renderSchoolComparison(root, [...selected].map(id => byId.get(id)).filter(Boolean));
+        }
+        if (event.target.closest("[data-clear-schools]")) {
+            selected.clear(); render(); root.querySelector("#sd-compare-dialog").close();
         }
     });
 
@@ -319,16 +346,28 @@ export function initSchoolDiscoveryPage() {
         const feedback = root.querySelector("#sd-enquiry-feedback");
         const data = Object.fromEntries(new FormData(form));
         data.consent = data.consent === "true";
+        let submitted = false;
         button.disabled = true; feedback.textContent = "Sending your enquiry…"; feedback.classList.remove("is-error");
         try {
             const response = await submitSchoolEnquiry(data);
             feedback.textContent = response.message || "Your enquiry has been sent to the school.";
             form.reset();
+            submitted = true; button.textContent = "Enquiry sent";
         } catch (error) {
             feedback.textContent = error.message || "We could not submit this enquiry. Please try again.";
             feedback.classList.add("is-error");
-        } finally { button.disabled = false; }
+        } finally { button.disabled = submitted; }
     });
 
     render();
+    const requestedEnquiry = searchParams.get("enquire") === "1";
+    const requestedSchoolName = normalizeName(searchParams.get("institution") || initialSchoolQuery);
+    if (requestedEnquiry && requestedSchoolName) {
+        const requestedLocation = normalizeName((searchParams.get("location") || "").split(",")[0]);
+        const requestedSchool = listings.find(record =>
+            [record.name, record.sourceName].some(name => normalizeName(name) === requestedSchoolName)
+            && (!requestedLocation || normalizeName(`${record.city} ${record.state}`).includes(requestedLocation))
+        );
+        if (requestedSchool) openSchoolEnquiry(requestedSchool);
+    }
 }

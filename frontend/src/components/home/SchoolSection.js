@@ -1,5 +1,6 @@
 import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
+import { campusPhotos, fallbackImage } from "./regionalSchools.js";
 
 
 export function SchoolSection() {
@@ -30,7 +31,8 @@ export function SchoolSection() {
                 "Strong academics, CBSE school education, activities & student development",
 
             image:
-                "https://images.unsplash.com/photo-1564981797816-1043664bf78d?auto=format&fit=crop&w=1200&q=85"
+                campusPhotos["Delhi Public School, R.K. Puram"]?.image || "",
+            imageSource: campusPhotos["Delhi Public School, R.K. Puram"]?.source || ""
         },
 
 
@@ -54,7 +56,8 @@ export function SchoolSection() {
                 "Academic excellence, ICSE school education, leadership & holistic learning",
 
             image:
-                "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85"
+                campusPhotos["The Doon School"]?.image || "",
+            imageSource: campusPhotos["The Doon School"]?.source || ""
         },
 
 
@@ -78,7 +81,8 @@ export function SchoolSection() {
                 "CBSE academics, sports, co-curricular activities & student development",
 
             image:
-                "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=85"
+                "https://images.indianexpress.com/2022/06/modern-school.jpg?w=1200",
+            imageSource: "https://indianexpress.com/article/cities/delhi/modern-school-asks-ews-children-to-pay-rs-67000-in-fees-7980765/"
         },
 
 
@@ -102,7 +106,8 @@ export function SchoolSection() {
                 "Modern school education, activities & student support",
 
             image:
-                "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1200&q=85"
+                "https://www.ryangroup.org/public/images/front_end/ryan-images/Building_1618580630.jpg",
+            imageSource: "https://www.ryangroup.org/ryaninternational/cbse/mumbai/ryan-international-school-malad-west/about/about-school"
         },
 
 
@@ -126,7 +131,8 @@ export function SchoolSection() {
                 "Academic focus, discipline, CBSE curriculum & co-curricular learning",
 
             image:
-                "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=1200&q=85"
+                "https://bewiseblobprod.blob.core.windows.net/assets/bewise/uploads/excl_bannerytpj14.jpg",
+            imageSource: "https://bewise.in/articles-blogs/best-schools-in-rajajinagar-bangalore"
         },
 
 
@@ -150,7 +156,8 @@ export function SchoolSection() {
                 "IB and IGCSE education, global exposure, modern campus & holistic learning",
 
             image:
-                "https://images.unsplash.com/photo-1590012314607-cda9d9b699ae?auto=format&fit=crop&w=1200&q=85"
+                "https://www.symbiosisinternationalschool.net/assets/images/sis-campus.jpg",
+            imageSource: "https://www.symbiosisinternationalschool.net/overview"
         }
 
     ];
@@ -196,14 +203,23 @@ export function SchoolSection() {
                 highlight:
                     school.highlight,
 
-                image:
-                    school.image,
+                image: school.image,
+                imageSource: school.imageSource,
 
                 imageFallback:
-                    school.imageFallback || "https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1200&q=80",
+                    fallbackImage(school.name),
 
-                actionHref:
-                    school.actionHref || "",
+                actionHref: "",
+
+                actionMode: "school-details",
+                detailsOnCard: false,
+                actionLayout: "home-directory-actions",
+                enquiryHref: `/schools?category=all&q=${encodeURIComponent(school.name)}&institution=${encodeURIComponent(school.name)}&location=${encodeURIComponent(school.location || "")}&enquire=1`,
+                overview: [
+                    school.ranking,
+                    school.highlight,
+                    school.rating ? `Listed rating: ${school.rating}/5${school.reviews ? ` from ${school.reviews} reviews` : ""}.` : ""
+                ].filter(Boolean).join(" "),
 
                 actionLabel:
                     "Explore School"

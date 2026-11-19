@@ -18,6 +18,9 @@ public class SchoolEnquiry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "school_id", length = 240)
+    private String schoolId;
+
     @Column(name = "school_name", nullable = false, length = 180)
     private String schoolName;
 
@@ -41,6 +44,9 @@ public class SchoolEnquiry {
 
     @Column(nullable = false)
     private boolean consent;
+
+    @Column(length = 24)
+    private String status = "NEW";
 
     @Column(nullable = false)
     private LocalDateTime createdAt;

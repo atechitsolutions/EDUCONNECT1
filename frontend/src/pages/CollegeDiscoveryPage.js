@@ -2,6 +2,7 @@ import { API_BASE_URL } from "../config/api.js";
 import siteData from "../data/domestic-institution-site-data.json";
 import photoData from "../data/domestic-college-campus-photos.json";
 import photoSourceData from "../data/domestic-college-photo-sources.json";
+import { submitCollegeEnquiry } from "../services/collegePartnerService.js";
 
 const api = `${API_BASE_URL}/api/institution/domestic`;
 const esc = (v = "") => String(v).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -78,7 +79,7 @@ function card(item, index, level) {
     const location = [item.city, item.state].filter(Boolean).join(", ") || "Location not listed";
     const programs = item.popularCourses || "Programme details not listed";
     const imageMarkup = image ? `<img src="${esc(image)}" loading="lazy" alt="${esc(item.name)} campus" onerror="this.remove()">` : "";
-    return `<article class="college-directory-card"><a class="college-card-media" href="/colleges/${item.id}" aria-label="Explore ${esc(item.name)}">${imageMarkup}<span class="college-card-initials">${esc((item.name || "C").split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase())}</span><span class="college-card-location">⌖ ${esc(location)}</span></a><div class="college-card-content"><div class="college-card-meta"><span>${esc(String(item.type || "Institution").toLowerCase())}</span><span>${level}</span></div><h3><a href="/colleges/${item.id}">${esc(item.name)}</a></h3><p class="college-card-programs">${esc(programs)}</p><p class="college-card-description">${esc(description)}</p>${photoSource?`<a class="college-photo-source" href="${esc(photoSource)}" target="_blank" rel="noopener noreferrer">Campus photo · ${esc(photoSourceLabel)} ↗</a>`:""}<div class="college-card-actions"><a class="college-button college-button-primary" href="/colleges/${item.id}">Explore college <span>↗</span></a>${website ? `<a class="college-button" href="${esc(website)}" target="_blank" rel="noopener noreferrer">Official website <span>↗</span></a>` : `<span class="college-website-unlisted">Official website not listed</span>`}<button class="college-compare-button" type="button" data-compare-id="${item.id}">${index === -1 ? "Compare" : "Compare"} <span>＋</span></button></div></div></article>`;
+    return `<article class="college-directory-card" data-college-id="${esc(item.id)}" data-college-name="${esc(item.name)}" data-college-location="${esc(location)}" data-college-type="${esc(item.type || "Institution")}" data-college-level="${esc(level)}" data-college-programs="${esc(programs)}" data-college-overview="${esc(description)}" data-college-website="${esc(website)}"><div class="college-card-media">${imageMarkup}<span class="college-card-initials">${esc((item.name || "C").split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase())}</span><span class="college-card-location">⌖ ${esc(location)}</span></div><div class="college-card-content"><div class="college-card-meta"><span>${esc(String(item.type || "Institution").toLowerCase())}</span><span>${level}</span></div><h3>${esc(item.name)}</h3><p class="college-card-programs">${esc(programs)}</p><div class="college-card-actions"><button class="college-button college-button-primary" type="button" data-open-college-details>Explore college <span>›</span></button><button class="college-button" type="button" data-open-college-enquiry>Enquiry <span>→</span></button><button class="college-compare-button" type="button" data-compare-id="${esc(item.id)}">Compare <span>＋</span></button></div></div></article>`;
 }
 
 function bindDirectory(root) {
@@ -117,7 +118,8 @@ function bindDirectory(root) {
         pagination.innerHTML = pages > 1 ? `<button data-page="${page-1}" ${page===1?"disabled":""}>← Previous</button><span>Page ${page} of ${pages}</span><button data-page="${page+1}" ${page===pages?"disabled":""}>Next →</button>` : "";
         updateDock();
     };
-    const initialQuery = new URLSearchParams(location.search).get("q"); if(initialQuery) form.elements.q.value=initialQuery;
+    const searchParams = new URLSearchParams(location.search);
+    const initialQuery = searchParams.get("q"); if(initialQuery) form.elements.q.value=initialQuery;
     form.addEventListener("submit",e=>{e.preventDefault();page=1;apply();});
     form.addEventListener("reset",()=>setTimeout(()=>{page=1;apply();},0));
     root.addEventListener("click",e=>{
@@ -126,7 +128,7 @@ function bindDirectory(root) {
         if(e.target.closest("[data-clear-compare]")){chosen.clear();apply();return;}
         if(e.target.closest("[data-show-compare]")){showCompare(colleges.filter(c=>chosen.has(Number(c.id))));}
     });
-    fetch(api).then(r=>{if(!r.ok)throw new Error("The college directory could not be loaded.");return r.json();}).then(data=>{colleges=Array.isArray(data)?data:[];updateOptions();apply();}).catch(()=>{count.textContent="Directory unavailable";grid.innerHTML=`<div class="college-empty-state"><h3>We couldn't load the college directory</h3><p>Check your connection and try again.</p><button type="button" data-retry-colleges>Retry</button></div>`;});
+    fetch(api).then(r=>{if(!r.ok)throw new Error("The college directory could not be loaded.");return r.json();}).then(data=>{colleges=Array.isArray(data)?data:[];updateOptions();apply();if(searchParams.get("enquire")==="1"&&initialQuery){const target=colleges.find(c=>String(c.name||"").trim().toLocaleLowerCase()===initialQuery.trim().toLocaleLowerCase());const targetCard=target&&[...grid.querySelectorAll("[data-college-id]")].find(node=>Number(node.dataset.collegeId)===Number(target.id));targetCard?.querySelector("[data-open-college-enquiry]")?.click();}}).catch(()=>{count.textContent="Directory unavailable";grid.innerHTML=`<div class="college-empty-state"><h3>We couldn't load the college directory</h3><p>Check your connection and try again.</p><button type="button" data-retry-colleges>Retry</button></div>`;});
     root.addEventListener("click",e=>{if(e.target.closest("[data-retry-colleges]")){grid.innerHTML="";count.textContent="Loading directory…";fetch(api).then(r=>r.json()).then(data=>{colleges=Array.isArray(data)?data:[];updateOptions();apply();}).catch(()=>{count.textContent="Directory unavailable";});}});
     function updateDock(){
         const selected=colleges.filter(c=>chosen.has(Number(c.id)));dock.hidden=!selected.length;
@@ -140,6 +142,49 @@ function showCompare(items) {
     const modal=document.createElement("div");modal.className="college-compare-modal";modal.innerHTML=`<section role="dialog" aria-modal="true" aria-label="Compare colleges"><button class="college-modal-close" aria-label="Close">×</button><span class="college-eyebrow">SIDE BY SIDE</span><h2>Compare institutions</h2><div class="college-compare-columns">${items.map(c=>`<article><h3>${esc(c.name)}</h3><p>${esc([c.city,c.state].filter(Boolean).join(", ")||"Location not listed")}</p><p>${esc(c.type||"Institution type not listed")}</p><p>${esc(c.popularCourses||"Courses not listed")}</p>${facts(c).website?`<a href="${esc(facts(c).website)}" target="_blank" rel="noopener noreferrer">Official website ↗</a>`:""}</article>`).join("")}</div></section>`;modal.addEventListener("click",e=>{if(e.target===modal||e.target.closest(".college-modal-close"))modal.remove();});document.body.append(modal);
 }
 
+function openCollegeDetails(cardElement) {
+    const modal = document.createElement("div");
+    modal.className = "college-compare-modal college-profile-modal";
+    const name = cardElement.dataset.collegeName;
+    const image = cardElement.querySelector(".college-card-media img")?.src;
+    const website = cardElement.dataset.collegeWebsite;
+    modal.innerHTML = `<section role="dialog" aria-modal="true" aria-label="${esc(name)} details"><button class="college-modal-close" type="button" aria-label="Close details">×</button>${image ? `<img class="college-profile-modal-image" src="${esc(image)}" alt="${esc(name)} campus">` : ""}<span class="college-eyebrow">COLLEGE PROFILE</span><h2>${esc(name)}</h2><p class="college-profile-location">${esc(cardElement.dataset.collegeLocation)}</p><dl class="college-profile-facts"><div><dt>Institution</dt><dd>${esc(cardElement.dataset.collegeType)}</dd></div><div><dt>Study level</dt><dd>${esc(cardElement.dataset.collegeLevel)}</dd></div><div><dt>Programmes</dt><dd>${esc(cardElement.dataset.collegePrograms)}</dd></div></dl><section class="college-profile-overview"><h3>Overview</h3><p>${esc(cardElement.dataset.collegeOverview)}</p></section><div class="college-profile-actions">${website ? `<a class="college-button" href="${esc(website)}" target="_blank" rel="noopener noreferrer">Official website ↗</a>` : ""}<button class="college-button college-button-primary" type="button" data-profile-enquiry>Enquiry →</button></div></section>`;
+    modal.addEventListener("click", event => { if (event.target === modal || event.target.closest(".college-modal-close")) modal.remove(); });
+    modal.querySelector("[data-profile-enquiry]").addEventListener("click", () => { modal.remove(); openCollegeEnquiry(cardElement); });
+    document.body.append(modal);
+}
+
+function openCollegeEnquiry(cardElement) {
+    const modal = document.createElement("div");
+    modal.className = "college-compare-modal college-profile-modal";
+    modal.innerHTML = `<section role="dialog" aria-modal="true" aria-label="Enquire with ${esc(cardElement.dataset.collegeName)}"><button class="college-modal-close" type="button" aria-label="Close enquiry">×</button><span class="college-eyebrow">STUDENT ENQUIRY</span><h2>Enquire with ${esc(cardElement.dataset.collegeName)}</h2><p class="college-enquiry-intro">Enter your details and the college can respond to your enquiry.</p><form class="college-lead-form" data-college-lead-form><input type="hidden" name="institutionId" value="${esc(cardElement.dataset.collegeId)}"><label>Full name<input name="name" maxlength="120" autocomplete="name" required></label><div class="college-lead-form-row"><label>Email<input name="email" type="email" maxlength="180" autocomplete="email" required></label><label>Phone number<input name="phone" type="tel" maxlength="40" autocomplete="tel" required></label></div><label>Course of interest<input name="course" maxlength="160" placeholder="e.g. Computer Science" required></label><label>Message<textarea name="message" rows="3" maxlength="2000" placeholder="What would you like to know?" required></textarea></label><label class="college-lead-consent"><input name="consent" type="checkbox" value="true" required><span>I agree to share these details and this enquiry with the college so it can respond.</span></label><button class="college-button college-button-primary" type="submit">Submit enquiry</button><p class="college-lead-feedback" role="status" aria-live="polite"></p></form></section>`;
+    modal.addEventListener("click", event => { if (event.target === modal || event.target.closest(".college-modal-close")) modal.remove(); });
+    modal.querySelector("[data-college-lead-form]").addEventListener("submit", async event => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const status = form.querySelector(".college-lead-feedback");
+        const submit = form.querySelector("[type=submit]");
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        data.institutionId = Number(data.institutionId);
+        data.consent = formData.get("consent") === "true";
+        data.contactSharingConsent = false;
+        submit.disabled = true;
+        status.textContent = "Sending your enquiry…";
+        try {
+            const result = await submitCollegeEnquiry(data);
+            status.textContent = result.message || "Your enquiry has been submitted.";
+            form.reset();
+        } catch (error) {
+            status.textContent = error.message || "We couldn't submit your enquiry. Please try again.";
+        } finally {
+            submit.disabled = false;
+        }
+    });
+    document.body.append(modal);
+    modal.querySelector("input[name=name]").focus();
+}
+
 export function initCollegeDiscoveryPage() {
     if (!document.documentElement.dataset.collegeImageFallbackBound) {
         document.documentElement.dataset.collegeImageFallbackBound = "true";
@@ -151,6 +196,18 @@ export function initCollegeDiscoveryPage() {
     const heroForm=document.querySelector("[data-college-search]");heroForm?.addEventListener("submit",e=>{e.preventDefault();const q=new FormData(heroForm).get("q");location.href=`/colleges/ug${q?`?q=${encodeURIComponent(q)}`:""}`;});
     const homeUG=document.querySelector("[data-college-home-ug]");
     const homePG=document.querySelector("[data-college-home-pg]");
+    if (!document.documentElement.dataset.collegeCardActionsBound) {
+        document.documentElement.dataset.collegeCardActionsBound = "true";
+        document.addEventListener("click", event => {
+            const button = event.target.closest?.("[data-open-college-details], [data-open-college-enquiry]");
+            if (button) {
+                const cardElement = button.closest("[data-college-id]");
+                if (!cardElement) return;
+                if (button.hasAttribute("data-open-college-details")) openCollegeDetails(cardElement);
+                else openCollegeEnquiry(cardElement);
+            }
+        });
+    }
     if(homeUG||homePG)fetch(api).then(r=>{if(!r.ok)throw new Error("Directory unavailable");return r.json();}).then(items=>{
         const colleges=Array.isArray(items)?items.filter(isPhysicalInstitution):[];
         const homeLists={};

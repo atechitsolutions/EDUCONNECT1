@@ -2,9 +2,32 @@ import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
 import domesticInstitutionDirectory from "../../data/domestic-college-directory.json";
 import institutionSiteData from "../../data/domestic-institution-site-data.json";
+import domesticCampusPhotos from "../../data/domestic-college-campus-photos.json";
+import domesticPhotoSources from "../../data/domestic-college-photo-sources.json";
 
 
 export function TopUGPGCollegesSection() {
+    const usableCampusImage = value => value && !/(?:blank\.gif|placeholder|no[-_]?image|facebook\.com\/tr|campus[-_]?placement|accreditation|blog\.png|\/logo[-_.?])/i.test(value) ? String(value).replaceAll("&amp;", "&") : "";
+    const campusImagesFor = code => {
+        const site = institutionSiteData[code];
+        return [...new Set([site?.campusImage, domesticCampusPhotos[code], verifiedCampusPhotos[code]].map(usableCampusImage).filter(Boolean))];
+    };
+    const officialWebsiteFor = code => {
+        const mappedDomain = officialInstitutionDomains[code];
+        if (mappedDomain) return `https://${mappedDomain}`;
+        const value = institutionSiteData[code]?.officialDomain;
+        if (!value) return "";
+        try {
+            const url = new URL(/^https?:\/\//i.test(value) ? value : `https://${value}`);
+            if (/\.(?:jpe?g|png|gif|webp|svg)$/i.test(url.pathname) || /collegebatch|collegedunia|shiksha|colleges18|vidyavision|kollegeapply/i.test(url.hostname)) return "";
+            return url.origin;
+        } catch { return ""; }
+    };
+    const directoryOverviewFor = (college, record) => {
+        const category = String(college.category || (record?.type === "UNIVERSITY" ? "University" : record?.type === "COLLEGE" ? "College" : "Education institution")).toLowerCase();
+        const location = [record?.city || college.location, record?.state].filter(Boolean).join(", ") || "India";
+        return `${college.name} is listed as a ${category} in ${location}. Browse its institution profile to review the available study options and campus information. Check the official website for current programmes, eligibility and admissions details.`;
+    };
 
     /* =====================================================
        UNDERGRADUATE COLLEGES
@@ -225,8 +248,8 @@ export function TopUGPGCollegesSection() {
         "EC-IN-COL-UID": "https://image-static.collegedunia.com/public/college_data/images/campusimage/1676183450june-2021-karnavati-university-4955751-1.jpg",
         "EC-IN-COL-IIC-DELHI": "https://iic.ac.in/content/images/2022/12/iic-build-1.png",
         "EC-IN-COL-SKITM": "https://www.collegebatch.com/static/clg-gallery/shivajirao-kadam-institute-of-technology-management-indore-258151.jpg",
-        "EC-IN-UN-AMITY-NOIDA": "https://www.collegebatch.com/static/clg-gallery/amity-university-noida-234972.jpg",
-        "EC-IN-UN-AMITY-MAHARASHTRA": "https://www.collegebatch.com/static/clg-gallery/amity-university-mumbai-354033.jpg",
+        "EC-IN-UN-AMITY-NOIDA": "https://cache.careers360.mobi/media/presets/720X480/colleges/social-media/media-gallery/729/2018/9/29/Campus%20View%20Of%20Amity%20University%20Noida_Campus-View.jpg",
+        "EC-IN-UN-AMITY-MAHARASHTRA": "https://dfhe5ze0n4pxu.cloudfront.net/College/Image/Image-1765618515090.jpg",
         "EC-IN-UN-AMITY-RAJASTHAN": "https://image-static.collegedunia.com/public/reviewPhotos/1132575/WhatsApp%20Image%202025-07-26%20at%208.09.42%20PM%20%282%29.jpeg",
         "EC-IN-UN-AMITY-HARYANA": "https://assets.kollegeapply.com/images/1751550125902-1680077841phpvCebbj.jpeg",
         "EC-IN-UN-AMITY-TELANGANA": "https://image-static.collegedunia.com/public/college_data/images/campusimage/17699382622%20%281%29.jpg",
@@ -250,8 +273,11 @@ export function TopUGPGCollegesSection() {
             type: institution.type,
             category: institution.type === "UNIVERSITY" ? "University" : institution.type === "COLLEGE" ? "College" : "Education Institution",
             location: institution.city ? `${institution.city}, India` : "India",
-            officialDomain: institutionSiteData[institution.code]?.officialDomain || officialInstitutionDomains[institution.code] || "",
-            image: institutionSiteData[institution.code]?.campusImage || verifiedCampusPhotos[institution.code] || "",
+            officialDomain: officialWebsiteFor(institution.code),
+            image: campusImagesFor(institution.code)[0] || "",
+            imageFallback: campusImagesFor(institution.code)[1] || "",
+            imageSource: domesticPhotoSources[institution.code]?.sourceUrl || campusImagesFor(institution.code)[0] || "",
+            imageSourceLabel: domesticPhotoSources[institution.code]?.label || "Campus photo source",
             description: institutionSiteData[institution.code]?.description || "",
             program: institution.type === "UNIVERSITY" ? "Undergraduate & postgraduate programmes" : "Programmes and admissions",
             imageFit: "cover"
@@ -270,10 +296,13 @@ export function TopUGPGCollegesSection() {
         const site = record ? institutionSiteData[record.code] : null;
         return {
             ...college,
-            image: site?.campusImage || verifiedCampusPhotos[record?.code] || "",
+            image: campusImagesFor(record?.code)[0] || college.image || "",
+            imageFallback: campusImagesFor(record?.code)[1] || college.imageFallback || "",
+            imageSource: domesticPhotoSources[record?.code]?.sourceUrl || campusImagesFor(record?.code)[0] || college.imageSource || "",
+            imageSourceLabel: domesticPhotoSources[record?.code]?.label || college.imageSourceLabel || "Campus photo source",
             imageFit: "cover",
-            officialDomain: site?.officialDomain || officialInstitutionDomains[record?.code] || "",
-            description: site?.description || ""
+            officialDomain: officialWebsiteFor(record?.code),
+            description: site?.description?.trim() || college.description?.trim() || directoryOverviewFor(college, record)
         };
     };
     const enrichedUgColleges = ugColleges.map(enrichFeaturedCollege);
@@ -307,11 +336,10 @@ export function TopUGPGCollegesSection() {
                 program:
                     college.program || (level === "UG" ? "Undergraduate programmes" : "Postgraduate programmes"),
 
-                verifiedFacts:
-                    `<p class="institution-card-description">${escapeCardText(college.description || "See the official site for current programmes, eligibility and admissions.")}</p>`,
+                detailsOnCard: false,
 
-                image:
-                    college.image,
+                image: college.image,
+                imageSource: college.imageSource,
 
                 imageFit:
                     college.imageFit,
@@ -319,13 +347,19 @@ export function TopUGPGCollegesSection() {
                 imageFallback:
                     college.imageFallback,
 
-                actionLabel:
-                    college.officialDomain
-                        ? "Official Website"
-                        : level === "UG" ? "Explore UG College" : "Explore PG College",
+                belowActions: "",
 
-                actionHref:
-                    college.officialDomain ? `https://${college.officialDomain}` : ""
+                actionLabel: "Explore College",
+
+                actionMode: "college-details",
+                overview: college.description || directoryOverviewFor(college, null),
+                actionLayout: "home-directory-actions",
+                enquiryHref: `${level === "PG" ? "/colleges/pg" : "/colleges/ug"}?q=${encodeURIComponent(college.name)}&enquire=1`,
+                image: college.image,
+                secondaryActionHref: college.officialDomain ? (/^https?:\/\//i.test(college.officialDomain) ? college.officialDomain : `https://${college.officialDomain}`) : "",
+
+                secondaryActionLabel: "",
+                enquiryLabel: "Enquire",
 
             },
 
@@ -670,6 +704,18 @@ export function TopUGPGCollegesSection() {
 
         </div>
 
+        <div class="home-college-details" data-home-college-details role="dialog" aria-modal="true" aria-labelledby="home-college-details-title" hidden>
+            <div class="home-college-details-header"><span class="ug-pg-eyebrow">INSTITUTION PROFILE</span><button type="button" data-close-home-college-details aria-label="Close details">×</button></div>
+            <img class="home-college-details-image" data-college-modal-image alt="" hidden>
+            <h2 id="home-college-details-title" data-college-modal-name></h2>
+            <p class="home-college-details-location" data-college-modal-location></p>
+            <dl><div><dt>Category</dt><dd data-college-modal-category></dd></div><div><dt>Programmes</dt><dd data-college-modal-program></dd></div></dl>
+            <section><h3>Overview</h3><p data-college-modal-overview></p></section>
+            <a class="home-college-details-photo-source" data-college-modal-photo-source target="_blank" rel="noopener noreferrer" hidden>Campus photo source ↗</a>
+            <a class="home-college-details-website" data-college-modal-website target="_blank" rel="noopener noreferrer" hidden>Official website ↗</a>
+            <a class="home-college-details-enquire" data-college-modal-enquire href="#">Enquire →</a>
+        </div>
+
     `;
 
 
@@ -692,6 +738,43 @@ export function TopUGPGCollegesSection() {
 
     });
 
+}
+
+export function initHomeCollegeDetails() {
+    const root = document.querySelector("#top-ug-pg-colleges");
+    const dialog = root?.querySelector("[data-home-college-details]");
+    if (!root || !dialog) return;
+    window.showHomeCollegeDetails = button => {
+        if (!button || !(root.contains(button) || button.closest("#school"))) return;
+        const text = (selector, value) => { const element = dialog.querySelector(selector); element.textContent = value || "Information not listed"; };
+        text("[data-college-modal-name]", button.dataset.collegeName);
+        text("[data-college-modal-location]", button.dataset.collegeLocation ? `${button.dataset.collegeLocation}${/india/i.test(button.dataset.collegeLocation) ? "" : ", India"}` : "Location not listed");
+        text("[data-college-modal-category]", button.dataset.collegeCategory);
+        text("[data-college-modal-program]", button.dataset.collegeProgram);
+        text("[data-college-modal-overview]", button.dataset.collegeOverview);
+        const website = dialog.querySelector("[data-college-modal-website]");
+        const href = button.dataset.collegeWebsite;
+        website.hidden = !href;
+        if (href) website.href = href;
+        const image = dialog.querySelector("[data-college-modal-image]");
+        image.src = button.dataset.collegeImage || "";
+        image.alt = `${button.dataset.collegeName || "Institution"} campus`;
+        image.hidden = !button.dataset.collegeImage;
+        const photoSource = dialog.querySelector("[data-college-modal-photo-source]");
+        photoSource.href = button.dataset.collegePhotoSource || "";
+        photoSource.hidden = !button.dataset.collegePhotoSource;
+        const enquire = dialog.querySelector("[data-college-modal-enquire]");
+        enquire.href = button.dataset.collegeEnquiry || "#";
+        dialog.hidden = false;
+        dialog.classList.add("is-open");
+    };
+    document.querySelectorAll('#top-ug-pg-colleges [data-action="college-details"], #school [data-action="school-details"]').forEach(button => {
+        if (button.dataset.homeDetailsBound === "true") return;
+        button.dataset.homeDetailsBound = "true";
+        button.addEventListener("click", () => window.showHomeCollegeDetails(button));
+    });
+    dialog.querySelector("[data-close-home-college-details]")?.addEventListener("click", () => { dialog.hidden = true; dialog.classList.remove("is-open"); });
+    dialog.addEventListener("keydown", event => { if (event.key === "Escape") { dialog.hidden = true; dialog.classList.remove("is-open"); } });
 }
 
 

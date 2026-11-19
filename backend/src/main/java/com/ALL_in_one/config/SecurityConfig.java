@@ -111,6 +111,9 @@ public class SecurityConfig {
                                         .requestMatchers("/api/school-enquiries")
                                         .permitAll()
 
+                                        .requestMatchers("/api/school-enquiries/admin/**")
+                                        .hasRole("ADMIN")
+
                                         .requestMatchers("/api/college/enquiries/*/revoke-contact-consent")
                                         .hasRole("STUDENT")
 

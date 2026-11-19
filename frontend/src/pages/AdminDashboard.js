@@ -38,6 +38,12 @@ export default function AdminDashboardPage() {
                 </div>
 
                 <section class="admin-dashboard-grid">
+                    <a class="admin-dashboard-card" href="/admin/school-enquiries">
+                        <span>✉</span>
+                        <h2>School Enquiries</h2>
+                        <p>Review enquiries from families browsing the school directory.</p>
+                        <strong>Manage School Enquiries →</strong>
+                    </a>
                     <!-- NEWS -->
                     <a
                         class="admin-dashboard-card"

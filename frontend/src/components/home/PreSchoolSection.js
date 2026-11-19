@@ -196,6 +196,13 @@ export function PreSchoolSection() {
                 image:
                     school.image,
 
+                imageSource: school.imageSource || "",
+                detailsOnCard: false,
+                actionMode: "school-details",
+                actionLayout: "home-directory-actions",
+                enquiryHref: `/schools?category=preschool&q=${encodeURIComponent(school.name)}&institution=${encodeURIComponent(school.name)}&location=${encodeURIComponent(school.location || "")}&enquire=1`,
+                overview: [school.ranking, school.highlight, school.program].filter(Boolean).join(". "),
+
                 actionLabel:
                     "Explore Pre School"
 

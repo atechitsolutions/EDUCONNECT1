@@ -1,3 +1,5 @@
+const escapeAttribute = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+
 export default function InstitutionCard({
     item,
     type = "college"
@@ -12,6 +14,7 @@ export default function InstitutionCard({
         image = "",
         imageFit = "cover",
         imageFallback = "",
+        imageSource = "",
         logo = "",
         logoAlt = "",
         verifiedFacts = "",
@@ -26,6 +29,15 @@ export default function InstitutionCard({
         category = "",
         actionLabel = "View Details",
         actionHref = "",
+        actionDisabled = false,
+        secondaryActionLabel = "",
+        secondaryActionHref = "",
+        enquiryHref = "",
+        enquiryLabel = "Enquire",
+        actionLayout = "",
+        actionMode = "details",
+        overview = "",
+        detailsOnCard = true,
         rankingCategory = "",
         showCompare = true
     } = item;
@@ -40,6 +52,7 @@ export default function InstitutionCard({
             data-type="${type}"
             ${rankingCategory ? `data-ranking-category="${rankingCategory}"` : ""}
             ${id ? `data-institution-id="${id}"` : ""}
+            ${image ? `data-card-image="${escapeAttribute(image)}"` : ""}
         >
 
             <div class="institution-card-visual">
@@ -69,7 +82,7 @@ export default function InstitutionCard({
 
 
                 ${
-                    score
+                    score && detailsOnCard
                         ? `
                             <span class="institution-card-score">
                                 ${score}/10
@@ -80,7 +93,7 @@ export default function InstitutionCard({
 
 
                 ${
-                    rank
+                    rank && detailsOnCard
                         ? `
                             <span class="institution-card-rank">
                                 #${rank}
@@ -133,7 +146,7 @@ export default function InstitutionCard({
                 <div class="institution-card-rating-row">
 
                     ${
-                        rating
+                        rating && detailsOnCard
                             ? `
                                 <span class="institution-card-rating">
                                     ★ ${rating}/5
@@ -143,7 +156,7 @@ export default function InstitutionCard({
                     }
 
                     ${
-                        reviews
+                        reviews && detailsOnCard
                             ? `
                                 <span class="institution-card-reviews">
                                     ${reviews} reviews
@@ -175,7 +188,7 @@ export default function InstitutionCard({
 
 
                 ${
-                    ranking
+                    ranking && detailsOnCard
                         ? `
                             <div class="institution-card-ranking">
                                 ${ranking}
@@ -185,10 +198,10 @@ export default function InstitutionCard({
                 }
 
 
-                ${verifiedFacts}
+                ${detailsOnCard ? verifiedFacts : ""}
 
                 ${
-                    highlight
+                    highlight && detailsOnCard
                         ? `
                             <div class="institution-card-highlight">
                                 ${highlight}
@@ -198,11 +211,17 @@ export default function InstitutionCard({
                 }
 
 
-                <div class="institution-card-actions">
+                <div class="institution-card-actions ${actionLayout}">
 
-                    ${actionHref
-                        ? `<a class="institution-card-action" href="${actionHref}">${actionLabel}<span>›</span></a>`
-                        : `<button type="button" class="institution-card-action" data-action="details">${actionLabel}<span>›</span></button>`}
+                    ${actionDisabled
+                        ? `<span class="institution-card-action is-disabled" aria-disabled="true">${actionLabel}</span>`
+                        : actionHref
+                            ? `<a class="institution-card-action" href="${actionHref}"${/^https?:\/\//i.test(actionHref) ? ' target="_blank" rel="noopener noreferrer"' : ''}>${actionLabel}<span>${/^https?:\/\//i.test(actionHref) ? "↗" : "›"}</span></a>`
+                    : `<button type="button" class="institution-card-action" data-action="${actionMode}" data-college-name="${escapeAttribute(name)}" data-college-location="${escapeAttribute(location)}" data-college-category="${escapeAttribute(category)}" data-college-program="${escapeAttribute(program)}" data-college-overview="${escapeAttribute(overview)}" data-college-website="${escapeAttribute(secondaryActionHref)}" data-college-image="${escapeAttribute(image)}" data-college-photo-source="${escapeAttribute(imageSource)}" data-college-enquiry="${escapeAttribute(enquiryHref)}">${actionLabel}<span>›</span></button>`}
+
+                    ${secondaryActionLabel ? (secondaryActionHref ? `<a class="institution-card-action" href="${secondaryActionHref}" target="_blank" rel="noopener noreferrer">${secondaryActionLabel}<span>↗</span></a>` : `<span class="institution-card-action is-disabled" aria-disabled="true">${secondaryActionLabel}</span>`) : ""}
+
+                    ${enquiryHref ? `<a class="institution-card-action institution-card-enquire" href="${escapeAttribute(enquiryHref)}">${enquiryLabel}<span>→</span></a>` : ""}
 
 
                     ${
