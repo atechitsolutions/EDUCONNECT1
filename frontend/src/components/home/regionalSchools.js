@@ -357,8 +357,8 @@ export function initRegionalSchools() {
     search.addEventListener("click", () => {
         const region = select.value;
         if (!regionalSchoolNames[region]) { select.focus(); return; }
-        title.textContent = `Top 10 schools in ${region}`;
-        grid.innerHTML = regionalSchoolNames[region].slice(0, 10).map(card).join("");
+        title.textContent = `Schools in ${region}`;
+        grid.innerHTML = regionalSchoolNames[region].map(card).join("");
         results.hidden = false;
         results.scrollIntoView({ behavior: "smooth", block: "start" });
     });

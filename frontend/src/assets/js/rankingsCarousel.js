@@ -11,10 +11,10 @@ export function initRankingsCarousel() {
 
     const categoryCards = Array.from(track.querySelectorAll(".institution-card"));
     const sourceLists = {
-        schools: "#school .early-learning-all-grid .institution-card",
-        preschool: "#pre-school .early-learning-all-grid .institution-card",
-        playschool: "#play-school .early-learning-all-grid .institution-card",
-        boarding: "#top-boarding-schools .boarding-schools-all-grid .institution-card"
+        schools: "#school .early-learning-track .institution-card",
+        preschool: "#pre-school .early-learning-track .institution-card",
+        playschool: "#play-school .early-learning-track .institution-card",
+        boarding: "#top-boarding-schools .boarding-schools-track .institution-card"
     };
     let visibleCards = [];
     let carouselCards = [];

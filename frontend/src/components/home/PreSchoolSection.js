@@ -247,12 +247,7 @@ export function PreSchoolSection() {
        FOR SEAMLESS AUTO-SCROLL
     ====================================================== */
 
-    const schoolCardsDuplicate =
-        visibleSchools
-            .map(
-                createCard
-            )
-            .join("");
+    const schoolCardsDuplicate = "";
 
 
     /* =====================================================
@@ -312,19 +307,7 @@ export function PreSchoolSection() {
                  MOVING CARDS
             ================================================== -->
 
-            <div class="early-learning-carousel">
-
-                <div
-                    class="early-learning-track institution-carousel-track"
-                >
-
-                    ${schoolCards}
-
-                    ${schoolCardsDuplicate}
-
-                </div>
-
-            </div>
+            <div class="early-learning-carousel" aria-label="All preschool listings"><div class="early-learning-track institution-carousel-track">${schoolCards}${schoolCardsDuplicate}</div></div>
 
 
             <!-- =================================================

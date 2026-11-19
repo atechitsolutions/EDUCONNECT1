@@ -1,6 +1,6 @@
 import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
-import { campusPhotos, fallbackImage } from "./regionalSchools.js";
+import { campusPhotos, fallbackImage, getRegionalSchoolListings } from "./regionalSchools.js";
 
 
 export function SchoolSection() {
@@ -162,6 +162,24 @@ export function SchoolSection() {
 
     ];
 
+    const curatedSchoolNames = new Set(schools.map(school => school.name.toLowerCase().replace(/[^a-z0-9]/g, "")));
+    const allHomeSchools = [
+        ...schools,
+        ...getRegionalSchoolListings()
+            .filter(school => !curatedSchoolNames.has(school.name.toLowerCase().replace(/[^a-z0-9]/g, "")))
+            .map((school, index) => ({
+                rank: String(school.rank || index + 1).padStart(2, "0"),
+                name: school.name,
+                category: school.board && school.board !== "Not verified" ? school.board : "School listing",
+                location: [school.city, school.state].filter(Boolean).join(", "),
+                program: school.status || school.schoolType || "School listing",
+                ranking: "Regional school directory listing",
+                highlight: school.description,
+                image: school.image,
+                imageSource: school.photoSource || ""
+            }))
+    ];
+
 
     /* =====================================================
        CREATE SCHOOL CARD
@@ -238,7 +256,7 @@ export function SchoolSection() {
        VISIBLE CARDS
     ====================================================== */
 
-    const visibleSchools = schools;
+    const visibleSchools = allHomeSchools;
 
 
     /* =====================================================
@@ -265,12 +283,7 @@ export function SchoolSection() {
        FOR SEAMLESS AUTO-SCROLL
     ====================================================== */
 
-    const schoolCardsDuplicate =
-        visibleSchools
-            .map(
-                createCard
-            )
-            .join("");
+    const schoolCardsDuplicate = "";
 
 
     /* =====================================================
@@ -336,19 +349,7 @@ export function SchoolSection() {
                 <div class="school-region-results-grid"></div>
             </div>
 
-            <div class="early-learning-carousel">
-
-                <div
-                    class="early-learning-track institution-carousel-track"
-                >
-
-                    ${schoolCards}
-
-                    ${schoolCardsDuplicate}
-
-                </div>
-
-            </div>
+            <div class="early-learning-carousel" aria-label="All school listings"><div class="early-learning-track institution-carousel-track">${schoolCards}${schoolCardsDuplicate}</div></div>
 
 
             <!-- =================================================
