@@ -8,6 +8,7 @@ public interface AdmissionPartnerRepository extends JpaRepository<AdmissionPartn
     Optional<AdmissionPartner> findByReferralCodeAndStatus(String referralCode,String status);
     Optional<AdmissionPartner> findByUser_EmailIgnoreCase(String email);
     boolean existsByEmailIgnoreCase(String email);
+    Optional<AdmissionPartner> findByParent_IdAndCollegeNameIgnoreCase(Long parentId,String collegeName);
     boolean existsByReferralCode(String referralCode);
     List<AdmissionPartner> findByParent_IdOrderByCreatedAtDesc(Long parentId);
     List<AdmissionPartner> findAllByOrderByCreatedAtDesc();

@@ -19,6 +19,10 @@ public class AdmissionPartner {
     @Column(nullable = false, length = 180) private String email;
     @Column(length = 40) private String phone;
     @Column(nullable = false, length = 80) private String experience;
+    @Column(name = "college_name", length = 180) private String collegeName;
+    @Column(name = "consulting_amount", precision = 14, scale = 2) private java.math.BigDecimal consultingAmount;
+    @Column(name = "partner_share_percent", precision = 5, scale = 2) private java.math.BigDecimal partnerSharePercent;
+    @Column(name = "direct_partner_share_percent", precision = 5, scale = 2) private java.math.BigDecimal directPartnerSharePercent;
     @Column(nullable = false, length = 24) private String status = "PENDING";
     @Column(name = "referral_code", length = 32) private String referralCode;
     @Column(name = "subpartners_allowed", nullable = false) private boolean subpartnersAllowed;

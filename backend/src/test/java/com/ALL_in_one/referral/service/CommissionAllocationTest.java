@@ -3,6 +3,7 @@ package com.ALL_in_one.referral.service;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CommissionAllocationTest {
     @Test void allocatesSixtyFortyCommissionInRupeesAndPaise() {
@@ -24,5 +25,9 @@ class CommissionAllocationTest {
         assertEquals(new BigDecimal("3.34"), split.referringPartner());
         assertEquals(new BigDecimal("3.34"), split.directPartner());
         assertEquals(new BigDecimal("3.33"), split.platform());
+    }
+
+    @Test void rejectsPartnerSharesAboveCollegeCommission() {
+        assertThrows(IllegalArgumentException.class, () -> CommissionAllocation.calculate(new BigDecimal("1000.00"), new BigDecimal("70.00"), new BigDecimal("31.00")));
     }
 }
