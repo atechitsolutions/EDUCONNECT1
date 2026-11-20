@@ -25,6 +25,8 @@ public class AdmissionReferralController {
     public Map<String,Object> dashboard(Authentication auth){return service.dashboard(auth.getName());}
     @PostMapping("/api/admission-partners/me/subpartners") @PreAuthorize("hasRole('DIRECT_PARTNER')") @ResponseStatus(HttpStatus.CREATED)
     public Map<String,Object> invite(@RequestBody @Valid PartnerInterestRequest request,Authentication auth){var dashboard=service.dashboard(auth.getName());return service.invite(((Number)dashboard.get("id")).longValue(),auth.getName(),request);}
+    @PutMapping("/api/admission-partners/me/college-terms") @PreAuthorize("hasRole('DIRECT_PARTNER')")
+    public Map<String,Object> collegeTerms(@RequestBody @Valid PartnerTermsRequest request,Authentication auth){return service.setCollegeTerms(auth.getName(),request);}
 
     @GetMapping("/api/admin/admission-partners") @PreAuthorize("hasRole('ADMIN')")
     public List<Map<String,Object>> partners(){return service.adminList();}

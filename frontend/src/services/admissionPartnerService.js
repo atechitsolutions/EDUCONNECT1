@@ -29,6 +29,7 @@ export const getAdmissionPartnerDashboard = () => request("/admission-partners/m
 export const submitPartnerReferral = (code, data) => request(`/admission-partners/referrals?code=${encodeURIComponent(code)}`, { method: "POST", body: JSON.stringify(data) });
 export const validatePartnerReferralCode = code => request(`/admission-partners/referrals/validate?code=${encodeURIComponent(code)}`);
 export const inviteSubpartner = data => request("/admission-partners/me/subpartners", { method: "POST", body: JSON.stringify(data) });
+export const saveCollegeTerms = data => request("/admission-partners/me/college-terms", { method: "PUT", body: JSON.stringify(data) });
 export const getAdminAdmissionPartners = () => request("/admin/admission-partners");
 export const getAdminAdmissionLeads = () => request("/admin/admission-partners/leads");
 export const getAdminReferralAudit = () => request("/admin/admission-partners/audit");
