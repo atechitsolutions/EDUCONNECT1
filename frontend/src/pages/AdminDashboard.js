@@ -38,6 +38,12 @@ export default function AdminDashboardPage() {
                 </div>
 
                 <section class="admin-dashboard-grid">
+                    <a class="admin-dashboard-card" href="/admin/admission-partners">
+                        <span>✦</span>
+                        <h2>Admission Referral Partners</h2>
+                        <p>Review partner applications, track consented referrals, confirm admissions and reconcile documented commissions.</p>
+                        <strong>Manage Admission Partners →</strong>
+                    </a>
                     <a class="admin-dashboard-card" href="/admin/school-enquiries">
                         <span>✉</span>
                         <h2>School Enquiries</h2>

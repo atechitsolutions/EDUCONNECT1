@@ -1,6 +1,16 @@
 const SITE_ORIGIN = "https://stepinstudents.com";
 
 const ROUTE_SEO = {
+    "/admission-partners": {
+        title: "Admission Referral Partners | StepInStudents",
+        description: "Learn about referring prospective students to education opportunities with StepInStudents. Partner applications are reviewed before approval.",
+        image: "/images/banner/education-banner.jpeg",
+        indexable: true,
+        primaryKeyword: "education admission referral partner",
+        secondaryKeywords: ["become an admission partner", "university recruitment partner", "student referral programme"]
+    },
+    "/admission-partners/dashboard": { title: "Admission Partner Dashboard | StepInStudents", description: "View your referred student leads and recorded commission ledger.", indexable: false },
+    "/admin/admission-partners": { title: "Admission Partner Review | StepInStudents", description: "Administrator review of admission referral partner applications, admissions and commissions.", indexable: false },
     "/": {
         title: "Education in India: Schools, Colleges & Courses | StepInStudents",
         description: "Compare schools, colleges and universities in India. Explore courses, scholarships, education rankings and study abroad options on StepInStudents.",
@@ -35,7 +45,7 @@ const ROUTE_SEO = {
     },
     "/colleges": {
         title: "Discover Colleges & Universities in India | StepInStudents",
-        description: "Explore Indian colleges and universities, browse undergraduate and postgraduate options, and search the EDUCONNECT college directory.",
+        description: "Explore Indian colleges and universities, browse undergraduate and postgraduate options, and search the StepInStudents college directory.",
         image: "/images/banner/education-banner.jpeg",
         indexable: true,
         primaryKeyword: "colleges in India",
@@ -51,13 +61,13 @@ const ROUTE_SEO = {
     },
     "/colleges/ug": {
         title: "Undergraduate Colleges in India | StepInStudents",
-        description: "Search undergraduate colleges and universities in the EDUCONNECT directory.",
+        description: "Search undergraduate colleges and universities in the StepInStudents directory.",
         indexable: true,
         primaryKeyword: "undergraduate colleges in India"
     },
     "/colleges/pg": {
         title: "Postgraduate Colleges in India | StepInStudents",
-        description: "Search postgraduate colleges and universities in the EDUCONNECT directory.",
+        description: "Search postgraduate colleges and universities in the StepInStudents directory.",
         indexable: true,
         primaryKeyword: "postgraduate colleges in India"
     },

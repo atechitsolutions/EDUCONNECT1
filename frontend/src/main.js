@@ -4,6 +4,7 @@ import { initWebsiteAssistant } from "./components/WebsiteAssistant.js";
 import { initCommunityPage } from "./assets/js/communityPage.js";
 import { applyRouteSEO } from "./utils/routeSEO.js";
 import { recordCollegeEvent } from "./services/collegePartnerService.js";
+import { getCurrentUser } from "./services/authService.js";
 import { initRegionalSchools } from "./components/home/regionalSchools.js";
 import { initSchoolDiscoveryPage } from "./pages/SchoolDiscoveryPage.js";
 import { initAdminSchoolEnquiriesPage } from "./pages/AdminSchoolEnquiriesPage.js";
@@ -145,6 +146,9 @@ import { initCollegePartnerDashboardPage } from "./pages/CollegePartnerDashboard
 import { initCollegeEnquiryPage } from "./pages/CollegeEnquiryPage.js";
 import { initCollegeDiscoveryPage } from "./pages/CollegeDiscoveryPage.js";
 import { initHomeCollegeDetails } from "./components/home/TopUGPGCollegesSection.js";
+import { initAdmissionPartnersPage } from "./pages/AdmissionPartnersPage.js";
+import { initAdmissionPartnerDashboardPage } from "./pages/AdmissionPartnerDashboardPage.js";
+import { initAdmissionPartnerAdminPage } from "./pages/AdmissionPartnerAdminPage.js";
 
 // Bind at document level so Explore actions still work when the college carousel
 // replaces its cards after the homepage has rendered.
@@ -473,6 +477,11 @@ document.addEventListener(
         initCollegeLoginPage();
         initCollegePartnerDashboardPage();
         initCollegeEnquiryPage();
+        initAdmissionPartnersPage();
+        initAdmissionPartnerDashboardPage();
+        initAdmissionPartnerAdminPage();
+        const partnerDashboardLink = document.querySelector("[data-admission-partner-dashboard]");
+        if (partnerDashboardLink && ["DIRECT_PARTNER", "SUBPARTNER"].includes(getCurrentUser()?.role)) partnerDashboardLink.hidden = false;
 
         /* =====================================================
            COMMUNITY PAGE
