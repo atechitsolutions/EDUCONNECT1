@@ -30,8 +30,26 @@ public class AdmissionReferralService {
     public Map<String,Object> register(PartnerInterestRequest request) {
         String email = request.email().trim().toLowerCase(Locale.ROOT);
         if (partners.existsByEmailIgnoreCase(email)) throw new ResponseStatusException(HttpStatus.CONFLICT,"An enquiry for this email is already recorded. Contact support if you need help.");
-        AdmissionPartner partner = new AdmissionPartner(); partner.setFullName(request.fullName().trim()); partner.setEmail(email); partner.setPhone(clean(request.phone())); partner.setExperience(request.experience().trim()); partner.setCollegeName(clean(request.collegeName())); partner.setConsentAt(LocalDateTime.now());
-        partners.save(partner); audit("PARTNER_INTEREST_SUBMITTED","PARTNER",partner.getId(),email,"Consent recorded."); return Map.of("id",partner.getId(),"status",partner.getStatus(),"message","Your partner interest has been submitted for review.");
+        String experience=request.experience().trim();
+        boolean subpartnerRequest="Subpartner".equalsIgnoreCase(experience);
+        String parentCode=clean(request.parentReferralCode());
+        if(subpartnerRequest&&parentCode==null)throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Enter your super partner's referral code.");
+        if(!subpartnerRequest&&parentCode!=null)throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Select Subpartner to use a super partner referral code.");
+        AdmissionPartner parent=null;
+        if(subpartnerRequest){
+            parent=partners.findByReferralCodeAndStatus(parentCode.toUpperCase(Locale.ROOT),"APPROVED")
+                    .orElseThrow(()->new ResponseStatusException(HttpStatus.BAD_REQUEST,"The super partner referral code is invalid or inactive."));
+            if(parent.getParent()!=null||!parent.isSubpartnersAllowed())throw new ResponseStatusException(HttpStatus.CONFLICT,"This referral code cannot accept subpartner requests.");
+        }
+        AdmissionPartner partner = new AdmissionPartner(); partner.setFullName(request.fullName().trim()); partner.setEmail(email); partner.setPhone(clean(request.phone())); partner.setExperience(subpartnerRequest?"Subpartner":experience); partner.setCollegeName(parent==null?clean(request.collegeName()):parent.getCollegeName()); partner.setParent(parent); partner.setConsentAt(LocalDateTime.now());
+        partners.save(partner);
+        String action=subpartnerRequest?"SUBPARTNER_REQUEST_SUBMITTED":"PARTNER_INTEREST_SUBMITTED";
+        String details=subpartnerRequest?"Consent recorded; super partner id="+parent.getId():"Consent recorded.";
+        audit(action,"PARTNER",partner.getId(),email,details);
+        String message=subpartnerRequest
+                ?"Your subpartner request has been submitted for review. Review may take 24 to 48 hours. If approved, sign in using Partner login with your registered email and the first 4 digits of your phone number."
+                :"Your partner interest has been submitted for review.";
+        return Map.of("id",partner.getId(),"status",partner.getStatus(),"message",message);
     }
 
     @Transactional(readOnly = true)

@@ -90,26 +90,31 @@ export default function initHomeCardSwipe() {
         let startX = 0;
         let startScrollLeft = 0;
         let dragged = false;
+        let activePointerId = null;
 
         viewport.addEventListener("pointerdown", (event) => {
             if (event.pointerType !== "mouse" || event.button !== 0) return;
             startX = event.clientX;
             startScrollLeft = viewport.scrollLeft;
             dragged = false;
-            viewport.classList.add("is-pointer-dragging");
-            viewport.setPointerCapture(event.pointerId);
+            activePointerId = event.pointerId;
         });
 
         viewport.addEventListener("pointermove", (event) => {
-            if (!viewport.hasPointerCapture(event.pointerId)) return;
+            if (activePointerId !== event.pointerId) return;
             const deltaX = event.clientX - startX;
-            if (Math.abs(deltaX) > 4) dragged = true;
+            if (!dragged && Math.abs(deltaX) > 4) {
+                dragged = true;
+                viewport.classList.add("is-pointer-dragging");
+                viewport.setPointerCapture(event.pointerId);
+            }
             if (!dragged) return;
             viewport.scrollLeft = startScrollLeft - deltaX;
             event.preventDefault();
         });
 
         const finishDrag = (event) => {
+            if (activePointerId !== event.pointerId) return;
             if (viewport.hasPointerCapture(event.pointerId)) {
                 viewport.releasePointerCapture(event.pointerId);
             }
@@ -117,6 +122,7 @@ export default function initHomeCardSwipe() {
             if (dragged) {
                 viewport.dataset.suppressCardClickUntil = String(Date.now() + 300);
             }
+            activePointerId = null;
         };
         viewport.addEventListener("pointerup", finishDrag);
         viewport.addEventListener("pointercancel", finishDrag);

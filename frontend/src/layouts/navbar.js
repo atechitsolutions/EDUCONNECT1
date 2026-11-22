@@ -272,11 +272,6 @@ export default function Navbar() {
                 <span class="navbar-mobile-icon" aria-hidden="true">✦</span><span>Admission Partners</span>
             </a>
 
-            <a href="/admission-partners/dashboard" class="navbar-link" data-admission-partner-dashboard hidden aria-label="Admission partner dashboard">
-                <span class="navbar-mobile-icon" aria-hidden="true">◈</span><span>Partner Dashboard</span>
-            </a>
-
-
         </div>
 
     </nav>

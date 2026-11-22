@@ -49,13 +49,14 @@ export default function AdmissionPartnersPage() {
             ${referralCode ? `<section class="ap-interest" id="student-referral" aria-labelledby="ap-student-referral-title"><div class="ap-interest-copy"><p class="ap-eyebrow">STUDENT ENQUIRY</p><h2 id="ap-student-referral-title">Explore an education pathway.</h2><p>You arrived through a partner referral. Share your details only if you agree to be contacted about your education enquiry.</p></div><form class="ap-form" id="ap-student-referral-form"><label>Full name<input name="studentName" autocomplete="name" maxlength="120" required></label><label>Email address<input name="studentEmail" type="email" autocomplete="email" maxlength="180" required></label><label>Phone number<input name="studentPhone" type="tel" autocomplete="tel" maxlength="40"></label><label>Institution interest<input name="institutionInterest" maxlength="180"></label><label class="ap-full-field">Course or programme interest<input name="courseInterest" maxlength="160"></label><label class="ap-consent ap-full-field"><input type="checkbox" name="consent" required><span>I consent to StepInStudents contacting me about this education enquiry and recording this partner referral. See <a href="/privacy-policy">privacy information</a>.</span></label><button class="ap-button ap-button-primary" type="submit">Send student enquiry <span aria-hidden="true">↗</span></button><p class="ap-form-status ap-full-field" id="ap-student-referral-status" role="status"></p></form></section>` : ``}
 
             <section class="ap-interest" id="partner-interest" aria-labelledby="ap-interest-title">
-                <div class="ap-interest-copy"><p class="ap-eyebrow">SIMPLE PARTNER REGISTRATION</p><h2 id="ap-interest-title">Know a college? Join as a partner.</h2><p>Tell us who you are and which college you work with. Our team will check the details and contact you. Once approved, sign in with your registered email and the first 4 digits of your phone number as the password.</p><div class="ap-interest-aside"><span aria-hidden="true">✦</span><p>There are two views: partner for your own work, or super partner to manage your partner team and college terms.</p></div></div>
+                <div class="ap-interest-copy"><p class="ap-eyebrow">SIMPLE PARTNER REGISTRATION</p><h2 id="ap-interest-title">Know a college? Join as a partner.</h2><p>Tell us who you are and which college you work with. If you are applying as a subpartner, select Subpartner and enter your super partner’s referral code. Subpartner requests may take 24 to 48 hours to review. Once approved, sign in with your registered email and the first 4 digits of your phone number as the password.</p><div class="ap-interest-aside"><span aria-hidden="true">✦</span><p>Partners work independently or manage an approved partner team. Subpartners join through an approved super partner.</p></div></div>
                 <form class="ap-form" id="ap-interest-form">
                     <label>Full name<input name="name" autocomplete="name" maxlength="120" required></label>
                     <label>Email address<input name="email" type="email" autocomplete="email" maxlength="180" required></label>
                     <label>Phone number<input name="phone" type="tel" autocomplete="tel" maxlength="40" minlength="4" required></label>
-                    <label>College you work with<input name="collegeName" maxlength="180" required placeholder="College or institution name"></label>
-                    <label>How would you describe your work?<select name="experience" required><option value="" selected disabled>Select one</option><option>Education consultant</option><option>Community or local representative</option><option>Freelancer</option><option>Student or alumni network</option><option>Other</option></select></label>
+                    <label id="ap-college-field">College you work with<input name="collegeName" maxlength="180" required placeholder="College or institution name"></label>
+                    <label>How would you describe your work?<select name="experience" required><option value="" selected disabled>Select one</option><option>Education consultant</option><option>Community or local representative</option><option>Freelancer</option><option>Student or alumni network</option><option>Other</option><option value="Subpartner">Subpartner</option></select></label>
+                    <label id="ap-parent-referral-field" class="ap-full-field" hidden>Your super partner’s referral code<input name="parentReferralCode" maxlength="32" autocomplete="off" placeholder="Enter your super partner’s referral code"></label>
                     <label class="ap-consent"><input type="checkbox" name="consent" required><span>I agree that StepInStudents may contact me about this partner enquiry. I have read the <a href="/privacy-policy">privacy information</a>.</span></label>
                     <button class="ap-button ap-button-primary" type="submit">Send registration <span aria-hidden="true">↗</span></button>
                     <p class="ap-form-status" id="ap-form-status" role="status" aria-live="polite"></p>
@@ -81,6 +82,20 @@ export function initAdmissionPartnersPage() {
     }
     const form = document.querySelector("#ap-interest-form");
     if (!form) return;
+    const experience = form.querySelector('[name="experience"]');
+    const collegeField = document.querySelector("#ap-college-field");
+    const collegeInput = form.querySelector('[name="collegeName"]');
+    const parentReferralField = document.querySelector("#ap-parent-referral-field");
+    const parentReferralInput = form.querySelector('[name="parentReferralCode"]');
+    const syncExperienceFields = () => {
+        const isSubpartner = experience.value === "Subpartner";
+        collegeField.hidden = isSubpartner;
+        collegeInput.required = !isSubpartner;
+        parentReferralField.hidden = !isSubpartner;
+        parentReferralInput.required = isSubpartner;
+    };
+    experience.addEventListener("change", syncExperienceFields);
+    syncExperienceFields();
     form.addEventListener("submit", async event => {
         event.preventDefault();
         if (!form.reportValidity()) return;
@@ -89,9 +104,12 @@ export function initAdmissionPartnersPage() {
         const button = form.querySelector("button[type=submit]");
         button.disabled = true;
         status.textContent = "Submitting your enquiry…";
+        status.classList.remove("is-error");
         try {
-            const result = await submitPartnerInterest({ fullName: values.name, email: values.email, phone: values.phone, experience: values.experience, collegeName: values.collegeName, consent: true });
+            const isSubpartner = values.experience === "Subpartner";
+            const result = await submitPartnerInterest({ fullName: values.name, email: values.email, phone: values.phone, experience: values.experience, collegeName: values.collegeName, parentReferralCode: isSubpartner ? values.parentReferralCode.trim() : null, consent: true });
             form.reset();
+            syncExperienceFields();
             status.textContent = result.message || "Your enquiry has been submitted for review.";
         } catch (error) {
             status.textContent = error.message || "We could not submit the enquiry. Please try again.";

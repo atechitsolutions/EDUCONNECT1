@@ -1,0 +1,19 @@
+[33mcommit 7fa50414dc6950659b405aae2bdb11e2c8a2a8d4[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: nishanttdangi <nishantdangi5555@gmail.com>
+Date:   Sun Nov 22 12:46:07 2026 +0530
+
+    admission partner login and dashboard
+    
+    Create partner accounts on approval, support first-login credentials, and fix local dashboard loading and origin handling.
+    
+    Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+
+ .../referral/dto/PartnerInterestRequest.java       |  2 [32m+[m[31m-[m
+ .../referral/service/AdmissionReferralService.java | 31 [32m+++++++++++++++++++[m[31m---[m
+ backend/src/main/resources/application.properties  |  2 [32m+[m[31m-[m
+ frontend/src/assets/js/auth.js                     |  6 [32m++++[m[31m-[m
+ frontend/src/config/api.js                         |  5 [32m+++[m[31m-[m
+ frontend/src/pages/AdmissionPartnerAdminPage.js    |  2 [32m+[m[31m-[m
+ .../src/pages/AdmissionPartnerDashboardPage.js     |  2 [32m+[m[31m-[m
+ frontend/src/pages/AdmissionPartnersPage.js        |  5 [32m++[m[31m--[m
+ 8 files changed, 43 insertions(+), 12 deletions(-)

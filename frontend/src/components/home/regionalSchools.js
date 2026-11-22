@@ -362,12 +362,4 @@ export function initRegionalSchools() {
         results.hidden = false;
         results.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-    grid.addEventListener("click", (event) => {
-        const button = event.target.closest('[data-action="compare"]');
-        if (!button) return;
-        const item = button.closest(".institution-card");
-        button.textContent = button.dataset.compared ? "Compare" : "Added to compare";
-        button.dataset.compared = button.dataset.compared ? "" : "true";
-        item.classList.toggle("is-selected-for-compare", Boolean(button.dataset.compared));
-    });
 }

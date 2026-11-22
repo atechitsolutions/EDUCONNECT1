@@ -70,7 +70,34 @@
 #main-content .home-directory-actions{padding-bottom:15px!important}
 /* Keep the homepage's directory carousels fully readable on small screens. */
 @media(max-width:600px){
-  #main-content .institution-card:has(.home-directory-actions){min-height:480px!important}
+  #main-content .institution-card:has(.home-directory-actions){height:auto!important;min-height:0!important}
+  #main-content .early-learning-carousel{
+    box-sizing:border-box!important;
+    width:calc(100vw - 24px)!important;
+    max-width:calc(100vw - 24px)!important;
+    left:50%!important;
+    margin:0!important;
+    transform:translateX(-50%)!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    mask-image:none!important;
+    -webkit-mask-image:none!important;
+  }
+  #main-content .early-learning-carousel::before,
+  #main-content .early-learning-carousel::after{display:none!important}
+  #main-content .early-learning-track{animation:none!important;transform:none!important;will-change:auto!important}
+  #main-content .early-learning-carousel .institution-card{
+    box-sizing:border-box!important;
+    flex:0 0 calc(100vw - 36px)!important;
+    width:calc(100vw - 36px)!important;
+    min-width:calc(100vw - 36px)!important;
+    max-width:calc(100vw - 36px)!important;
+    height:auto!important;
+    min-height:0!important;
+    scroll-snap-align:center;
+  }
   .boarding-schools-intro-badge,
   #top-ug-pg-colleges .ug-pg-stat{
     box-sizing:border-box!important;
@@ -108,8 +135,11 @@
   .boarding-schools-carousel,
   #top-ug-pg-colleges .ug-pg-carousel{
     box-sizing:border-box!important;
-    width:calc(100% - 24px)!important;
-    max-width:100%!important;
+    width:calc(100vw - 24px)!important;
+    max-width:calc(100vw - 24px)!important;
+    left:50%!important;
+    margin:0!important;
+    transform:translateX(-50%)!important;
     overflow-x:auto!important;
     overflow-y:hidden!important;
     padding:0 12px 8px!important;
@@ -127,11 +157,13 @@
   .boarding-schools-track .institution-card,
   #top-ug-pg-colleges .ug-pg-track .institution-card{
     box-sizing:border-box!important;
-    flex:0 0 min(310px,calc(100vw - 52px))!important;
-    width:min(310px,calc(100vw - 52px))!important;
-    min-width:min(310px,calc(100vw - 52px))!important;
-    max-width:min(310px,calc(100vw - 52px))!important;
-    scroll-snap-align:start;
+    flex:0 0 calc(100vw - 48px)!important;
+    width:calc(100vw - 48px)!important;
+    min-width:calc(100vw - 48px)!important;
+    max-width:calc(100vw - 48px)!important;
+    height:auto!important;
+    min-height:0!important;
+    scroll-snap-align:center!important;
   }
   .home-directory-actions{
     box-sizing:border-box!important;

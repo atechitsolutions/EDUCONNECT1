@@ -9,6 +9,7 @@ import { initRegionalSchools } from "./components/home/regionalSchools.js";
 import { initSchoolDiscoveryPage } from "./pages/SchoolDiscoveryPage.js";
 import { initAdminSchoolEnquiriesPage } from "./pages/AdminSchoolEnquiriesPage.js";
 import { initHomeSectionBanners } from "./assets/js/homeSectionBanners.js";
+import initHomeSchoolCompare from "./assets/js/homeSchoolCompare.js";
 
 import initScrollPlane
     from "./assets/js/scrollPlane.js";
@@ -157,6 +158,15 @@ document.addEventListener("click", (event) => {
     if (closeButton) {
         const openDialog = closeButton.closest("[data-home-college-details]");
         if (openDialog) { openDialog.hidden = true; openDialog.classList.remove("is-open"); }
+        return;
+    }
+    const compareButton = event.target.closest?.('#top-ug-pg-colleges [data-action="compare"]');
+    if (compareButton) {
+        const isCompared = compareButton.dataset.compared === "true";
+        compareButton.dataset.compared = isCompared ? "" : "true";
+        compareButton.setAttribute("aria-pressed", String(!isCompared));
+        compareButton.innerHTML = `${isCompared ? "Compare" : "Added to compare"}<span>›</span>`;
+        compareButton.closest(".institution-card")?.classList.toggle("is-selected-for-compare", !isCompared);
         return;
     }
     const button = event.target.closest?.('[data-action="college-details"], [data-action="school-details"]');
@@ -351,6 +361,7 @@ document.addEventListener(
         initRegionalSchools();
         initCollegeDiscoveryPage();
         initHomeCollegeDetails();
+        initHomeSchoolCompare();
         initSchoolDiscoveryPage();
         initAdminSchoolEnquiriesPage();
 
@@ -384,7 +395,7 @@ document.addEventListener(
 
             primaryNavigation.addEventListener("click", (event) => {
                 const dropdownLink = event.target.closest(".navbar-dropdown-link");
-                if (dropdownLink && dropdownLink.getAttribute("aria-label") !== "Colleges and Universities" && !dropdownLink.hasAttribute("data-school-root") && window.matchMedia("(max-width: 600px)").matches) {
+                if (dropdownLink && window.matchMedia("(max-width: 768px)").matches) {
                     const dropdown = dropdownLink.closest(".navbar-dropdown");
                     if (dropdown && !dropdown.classList.contains("is-open")) {
                         event.preventDefault();
@@ -480,8 +491,6 @@ document.addEventListener(
         initAdmissionPartnersPage();
         initAdmissionPartnerDashboardPage();
         initAdmissionPartnerAdminPage();
-        const partnerDashboardLink = document.querySelector("[data-admission-partner-dashboard]");
-        if (partnerDashboardLink && ["DIRECT_PARTNER", "SUBPARTNER"].includes(getCurrentUser()?.role)) partnerDashboardLink.hidden = false;
 
         /* =====================================================
            COMMUNITY PAGE
@@ -618,16 +627,6 @@ document.addEventListener(
                 });
                 const directory = boardingSection.querySelector(".boarding-directory-regions");
                 directory?.scrollIntoView({ behavior: "smooth", block: "start" });
-            });
-
-            boardingSection.addEventListener("click", (event) => {
-                const compareButton = event.target.closest('[data-action="compare"]');
-                if (!compareButton || !boardingSection.contains(compareButton)) return;
-                const card = compareButton.closest(".institution-card");
-                const isCompared = compareButton.dataset.compared === "true";
-                compareButton.dataset.compared = isCompared ? "" : "true";
-                compareButton.innerHTML = `${isCompared ? "Compare" : "Added to compare"}<span>›</span>`;
-                card?.classList.toggle("is-selected-for-compare", !isCompared);
             });
 
             const boardingButton =
