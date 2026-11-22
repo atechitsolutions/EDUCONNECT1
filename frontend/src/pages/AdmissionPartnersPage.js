@@ -23,7 +23,7 @@ export default function AdmissionPartnersPage() {
                     <p class="ap-lede">Help prospective students discover education pathways that fit their goals. Make introductions with care, with clear attribution and transparent terms.</p>
                     <div class="ap-actions">
                         <a class="ap-button ap-button-primary" href="#partner-interest">Register as a partner <span aria-hidden="true">↗</span></a>
-                        <button class="ap-button ap-button-secondary" type="button" data-open-login>Partner login</button>
+                        <button class="ap-button ap-button-secondary" type="button" data-open-login>Partner login </button>
                         <a class="ap-button ap-button-secondary" href="#how-it-works">How it works</a>
                     </div>
                     <p class="ap-note">Applications are reviewed individually. Registration does not guarantee approval or earnings.</p>
