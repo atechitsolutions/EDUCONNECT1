@@ -605,11 +605,15 @@ function setupLoginForm() {
 
                     closeAuthModal();
 
-
+                    const currentUser = getCurrentUser();
                     if (destination) {
 
                         window.location.href =
                             destination;
+
+                } else if (["DIRECT_PARTNER", "SUBPARTNER"].includes(currentUser?.role)) {
+
+                    window.location.href = "/admission-partners/dashboard";
 
                     } else if (window.location.pathname.replace(/\/+$/, "") === "/online-education/admin") {
 

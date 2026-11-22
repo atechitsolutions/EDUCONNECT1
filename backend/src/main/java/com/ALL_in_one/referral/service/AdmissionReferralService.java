@@ -8,6 +8,7 @@ import com.ALL_in_one.referral.repository.*;
 import com.ALL_in_one.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -23,6 +24,7 @@ public class AdmissionReferralService {
     private final ReferralCommissionRepository commissions;
     private final ReferralAuditLogRepository auditLogs;
     private final UserRepository users;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Map<String,Object> register(PartnerInterestRequest request) {
@@ -39,13 +41,29 @@ public class AdmissionReferralService {
     public Map<String,Object> decide(Long id, PartnerDecisionRequest request,String admin) {
         AdmissionPartner partner = partner(id); String status=request.status();
         if ("APPROVED".equals(status)) {
-            if (request.userEmail()==null || request.userEmail().isBlank()) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"An existing user email is required to approve access.");
-            User user=users.findByEmail(request.userEmail().trim()).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"No existing account was found for that email."));
-            if (!user.getEmail().equalsIgnoreCase(partner.getEmail())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"The assigned account email must match the applicant email.");
+            String accountEmail=(request.userEmail()==null||request.userEmail().isBlank())?partner.getEmail():request.userEmail().trim().toLowerCase(Locale.ROOT);
+            if (!accountEmail.equalsIgnoreCase(partner.getEmail())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"The partner account email must match the applicant email.");
+            String initialPassword=firstFourPhoneDigits(partner.getPhone());
             String expectedRole=partner.getParent()==null?"DIRECT_PARTNER":"SUBPARTNER";
+            Optional<User> existing=users.findByEmail(accountEmail);
+            User user;
+            if (existing.isPresent()) {
+                user=existing.get();
+            } else {
+                user=new User();
+                user.setFullName(partner.getFullName());
+                user.setEmail(accountEmail);
+                user.setPassword(passwordEncoder.encode(initialPassword));
+                user.setRole(expectedRole);
+                user.setCreatedAt(LocalDateTime.now());
+                user=users.save(user);
+            }
             if (!"STUDENT".equals(user.getRole()) && !expectedRole.equals(user.getRole())) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"That account has a role that cannot be assigned to this partner relationship.");
             if (partner.getParent()!=null && (!"APPROVED".equals(partner.getParent().getStatus()) || !partner.getParent().isSubpartnersAllowed())) throw new ResponseStatusException(HttpStatus.CONFLICT,"The direct partner is not authorised to manage this subpartner relationship.");
-            if (user.getRole().equals("STUDENT")) user.setRole(expectedRole);
+            if (user.getRole().equals("STUDENT")) {
+                user.setPassword(passwordEncoder.encode(initialPassword));
+                user.setRole(expectedRole);
+            }
             partner.setUser(user); partner.setReferralCode(partner.getReferralCode()==null?newCode():partner.getReferralCode());
             partner.setSubpartnersAllowed(Boolean.TRUE.equals(request.subpartnersAllowed()));
         }
@@ -153,6 +171,11 @@ public class AdmissionReferralService {
     private AdmissionPartner partner(Long id){return partners.findById(id).orElseThrow(()->new ResponseStatusException(HttpStatus.NOT_FOUND,"Partner enquiry not found."));}
     private String newCode(){String code;do{code="EC"+UUID.randomUUID().toString().replace("-","").substring(0,10).toUpperCase(Locale.ROOT);}while(partners.existsByReferralCode(code));return code;}
     private String clean(String value){return value==null||value.isBlank()?null:value.trim();}
+    private String firstFourPhoneDigits(String phone){
+        String digits=phone==null?"":phone.replaceAll("\\D","");
+        if(digits.length()<4) throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"The partner phone number must contain at least 4 digits.");
+        return digits.substring(0,4);
+    }
     private void audit(String action,String type,Long id,String actor,String details){ReferralAuditLog row=new ReferralAuditLog();row.setAction(action);row.setEntityType(type);row.setEntityId(id);row.setActor(actor);row.setDetails(details);auditLogs.save(row);}
     private Map<String,Object> partnerView(AdmissionPartner p){Map<String,Object> row=new LinkedHashMap<>();row.put("id",p.getId());row.put("fullName",p.getFullName());row.put("email",p.getEmail());row.put("phone",p.getPhone());row.put("experience",p.getExperience());row.put("collegeName",p.getCollegeName());row.put("consultingAmount",p.getConsultingAmount());row.put("partnerSharePercent",p.getPartnerSharePercent());row.put("directPartnerSharePercent",p.getDirectPartnerSharePercent());row.put("status",p.getStatus());row.put("referralCode",p.getReferralCode());row.put("userEmail",p.getUser()==null?null:p.getUser().getEmail());row.put("parentId",p.getParent()==null?null:p.getParent().getId());row.put("subpartnersAllowed",p.isSubpartnersAllowed());row.put("createdAt",p.getCreatedAt());return row;}
     private Map<String,Object> leadView(ReferralLead l){Map<String,Object> row=new LinkedHashMap<>();row.put("id",l.getId());row.put("studentName",l.getStudentName());row.put("studentEmail",l.getStudentEmail());row.put("studentPhone",l.getStudentPhone());row.put("institutionInterest",l.getInstitutionInterest());row.put("courseInterest",l.getCourseInterest());row.put("status",l.getStatus());row.put("createdAt",l.getCreatedAt());return row;}
