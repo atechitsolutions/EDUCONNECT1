@@ -164,11 +164,12 @@ function matchesSchoolGroup(record, group) {
 }
 
 function schoolCard(record) {
+    const showPhotoCreditOnCard = !["preschool", "playschool"].includes(record.schoolTypeGroup);
     return `<article class="sd-school-card" data-school-id="${escapeHtml(record.id)}">
         <div class="sd-card-image-wrap">
             <img class="sd-card-image" src="${escapeHtml(record.image)}" alt="${escapeHtml(record.imageLabel || (record.imageAvailable ? `${record.name} photo` : `${record.name} campus photo unavailable`))}" loading="lazy" onerror="this.onerror=null;this.src='${escapeHtml(record.imageFallback)}'">
-            ${record.imageLabel ? `<span class="sd-card-image-label">${escapeHtml(record.imageLabel)}</span>` : ""}
-            ${record.photoSource ? `<a class="sd-card-image-credit" href="${escapeHtml(record.photoSource)}" target="_blank" rel="noopener noreferrer">Photo: ${escapeHtml(record.imageAttribution || "Source")} · ${escapeHtml(record.imageLicense || "License details")}</a>` : ""}
+            ${showPhotoCreditOnCard && record.imageLabel ? `<span class="sd-card-image-label">${escapeHtml(record.imageLabel)}</span>` : ""}
+            ${showPhotoCreditOnCard && record.photoSource ? `<a class="sd-card-image-credit" href="${escapeHtml(record.photoSource)}" target="_blank" rel="noopener noreferrer">Photo: ${escapeHtml(record.imageAttribution || "Source")} · ${escapeHtml(record.imageLicense || "License details")}</a>` : ""}
             <div class="sd-card-image-shade"></div>
             <div class="sd-card-heading"><h3>${escapeHtml(record.name)}</h3><p>⌖ ${escapeHtml(record.city)}, ${escapeHtml(record.state)}</p></div>
         </div>
