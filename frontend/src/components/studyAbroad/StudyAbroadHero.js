@@ -371,10 +371,10 @@ export default function StudyAbroadHero() {
                                     </strong>
                                 </div>
 
-                                <div class="study-abroad-card-status">
+                                <a class="study-abroad-card-status" href="#study-abroad-destination-explorer">
                                     <span></span>
                                     Explore
-                                </div>
+                                </a>
 
                             </div>
 
@@ -406,7 +406,7 @@ export default function StudyAbroadHero() {
 
                             <div class="study-abroad-plan-list">
 
-                                <div class="study-abroad-plan-item active">
+                                <a class="study-abroad-plan-item active" href="#study-abroad-destination-explorer" aria-label="Choose your destination">
 
                                     <div class="study-abroad-plan-number">
                                         01
@@ -428,10 +428,10 @@ export default function StudyAbroadHero() {
                                         ✓
                                     </div>
 
-                                </div>
+                                </a>
 
 
-                                <div class="study-abroad-plan-item">
+                                <a class="study-abroad-plan-item" href="#study-abroad-search-form" aria-label="Find your course">
 
                                     <div class="study-abroad-plan-number">
                                         02
@@ -449,10 +449,10 @@ export default function StudyAbroadHero() {
 
                                     </div>
 
-                                </div>
+                                </a>
 
 
-                                <div class="study-abroad-plan-item">
+                                <a class="study-abroad-plan-item" href="#study-abroad-universities" aria-label="Browse universities by destination">
 
                                     <div class="study-abroad-plan-number">
                                         03
@@ -461,19 +461,19 @@ export default function StudyAbroadHero() {
                                     <div class="study-abroad-plan-content">
 
                                         <strong>
-                                            Shortlist universities
+                                            Browse universities by destination
                                         </strong>
 
                                         <span>
-                                            Compare institutions and requirements
+                                            Explore listed university profiles by country
                                         </span>
 
                                     </div>
 
-                                </div>
+                                </a>
 
 
-                                <div class="study-abroad-plan-item">
+                                <a class="study-abroad-plan-item" href="#study-abroad-lead-form" aria-label="Prepare your application">
 
                                     <div class="study-abroad-plan-number">
                                         04
@@ -491,7 +491,7 @@ export default function StudyAbroadHero() {
 
                                     </div>
 
-                                </div>
+                                </a>
 
                             </div>
 

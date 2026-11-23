@@ -78,17 +78,23 @@ const earlySchoolListings = [
     }[record.name] || {};
     const location = verifiedEarlyDetails.location || record.location || "Location not verified";
     const locationLower = location.toLowerCase();
-    const region = locationLower.includes("jaipur") || locationLower.includes("rajasthan") ? "Rajasthan"
+    const inferredRegion = locationLower.includes("jaipur") || locationLower.includes("rajasthan") ? "Rajasthan"
         : locationLower.includes("new delhi") || locationLower.includes("delhi") ? "Delhi"
         : locationLower.includes("gurugram") || locationLower.includes("gurgaon") ? "Nearby NCR options" : "";
-    const city = location;
+    const city = verifiedEarlyDetails.location || record.city || location;
+    const state = record.state || (inferredRegion === "Nearby NCR options" ? "Haryana" : inferredRegion || "India");
+    const region = record.state || inferredRegion;
     const fallback = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600"><rect width="1200" height="600" fill="#e8f3ff"/><text x="600" y="310" text-anchor="middle" fill="#49627e" font-family="Arial" font-size="34">Campus photo unavailable</text></svg>`)}`;
+    const image = verifiedEarlyDetails.image || record.image || fallback;
+    const imageLabel = verifiedEarlyDetails.image
+        ? verifiedEarlyDetails.photoSource ? "Photo from linked school listing" : "Representative photo - not verified as this school's campus"
+        : record.imageLabel || (record.image ? "Representative photo - not this institution's campus" : "");
     return {
         id: `early|${record.schoolTypeGroup}|${index}|${normalizeName(record.name)}`,
         name: verifiedEarlyDetails.name || record.name,
         sourceName: record.name,
         city,
-        state: region === "Nearby NCR options" ? "Haryana" : region || "India",
+        state,
         region,
         regions: region && region !== "Nearby NCR options" ? [region] : [],
         rank: Number(record.rank) || index + 1,
@@ -98,24 +104,30 @@ const earlySchoolListings = [
         schoolType: verifiedEarlyDetails.schoolType || record.category || (record.schoolTypeGroup === "preschool" ? "Preschool" : "Play school"),
         schoolTypeGroup: record.schoolTypeGroup,
         program: verifiedEarlyDetails.program || record.program || "Not verified",
-        description: verifiedEarlyDetails.description || `${record.name} appears in the existing home ${record.schoolTypeGroup === "preschool" ? "preschool" : "play-school"} listings. Its programme, location, board and current admissions information have not been independently verified. No school-matched campus image or reliable source has been found for this listing.`,
-        image: verifiedEarlyDetails.image || fallback,
+        description: verifiedEarlyDetails.description || [record.overview || record.highlight || record.note, record.rankingNote].filter(Boolean).join(" "),
+        image,
         imageFallback: fallback,
-        imageAvailable: Boolean(verifiedEarlyDetails.image),
-        photoSource: verifiedEarlyDetails.photoSource || "",
+        imageAvailable: Boolean(verifiedEarlyDetails.image || record.image),
+        imageLabel,
+        imageAttribution: record.imageAttribution || "",
+        imageLicense: record.imageLicense || "",
+        photoSource: verifiedEarlyDetails.photoSource || record.imageSource || "",
         officialWebsite: verifiedEarlyDetails.officialWebsite || "",
         detailsSource: verifiedEarlyDetails.detailsSource || ""
     };
 });
 listings.push(...earlySchoolListings);
-const regions = Object.keys(regionalSchoolNames);
+const regions = [...new Set([
+    ...Object.keys(regionalSchoolNames),
+    ...earlySchoolListings.map(record => record.region).filter(region => region && region !== "Nearby NCR options")
+])];
 const filters = [
     ["all", "All Schools"], ["day", "Day Schools"], ["boarding", "Boarding Schools"],
     ["boys", "Boys Schools"], ["girls", "Girls Schools"], ["coed", "Co-educational Schools"],
     ["CBSE", "CBSE"], ["ICSE", "ICSE"], ["IB", "IB"], ["IGCSE", "IGCSE"], ["State Board", "State Board"]
 ];
 const schoolGroups = [
-    ["boarding", "Boarding Schools"], ["all", "Regular Schools"],
+    ["all", "All Schools"], ["regular", "Regular Schools"], ["boarding", "Boarding Schools"],
     ["preschool", "Preschools"], ["playschool", "Play Schools"]
 ];
 
@@ -133,7 +145,8 @@ function matches(record, filter) {
 }
 
 function matchesSchoolGroup(record, group) {
-    if (group === "all") return Boolean(record.isCoreSchool);
+    if (group === "all") return true;
+    if (group === "regular") return Boolean(record.isCoreSchool);
     const status = `${record.status} ${record.description}`.toLowerCase();
     if (group === "boarding") {
         // Only include an explicit boarding-directory entry or a school whose
@@ -145,15 +158,17 @@ function matchesSchoolGroup(record, group) {
             && !/not verified|not stated|check school website|confirm current/.test(String(record.status || "").toLowerCase());
         return explicitlyListed || verifiedBoarding;
     }
-    if (group === "preschool") return record.schoolTypeGroup === "preschool" || /(pre[ -]?school|pre-primary|nursery|kindergarten|early years)/.test(status);
-    if (group === "playschool") return record.schoolTypeGroup === "playschool" || /(play[ -]?school|playgroup)/.test(status);
+    if (group === "preschool") return record.schoolTypeGroup === "preschool";
+    if (group === "playschool") return record.schoolTypeGroup === "playschool";
     return true;
 }
 
 function schoolCard(record) {
     return `<article class="sd-school-card" data-school-id="${escapeHtml(record.id)}">
         <div class="sd-card-image-wrap">
-            <img class="sd-card-image" src="${escapeHtml(record.image)}" alt="${escapeHtml(record.imageAvailable ? `${record.name} campus` : `${record.name} campus photo unavailable`)}" loading="lazy" onerror="this.onerror=null;this.src='${escapeHtml(record.imageFallback)}'">
+            <img class="sd-card-image" src="${escapeHtml(record.image)}" alt="${escapeHtml(record.imageLabel || (record.imageAvailable ? `${record.name} photo` : `${record.name} campus photo unavailable`))}" loading="lazy" onerror="this.onerror=null;this.src='${escapeHtml(record.imageFallback)}'">
+            ${record.imageLabel ? `<span class="sd-card-image-label">${escapeHtml(record.imageLabel)}</span>` : ""}
+            ${record.photoSource ? `<a class="sd-card-image-credit" href="${escapeHtml(record.photoSource)}" target="_blank" rel="noopener noreferrer">Photo: ${escapeHtml(record.imageAttribution || "Source")} · ${escapeHtml(record.imageLicense || "License details")}</a>` : ""}
             <div class="sd-card-image-shade"></div>
             <div class="sd-card-heading"><h3>${escapeHtml(record.name)}</h3><p>⌖ ${escapeHtml(record.city)}, ${escapeHtml(record.state)}</p></div>
         </div>
@@ -184,17 +199,17 @@ export function SchoolDiscoveryPage() {
     }).join("");
     return `<main id="schools-discovery" class="sd-page">
         <div class="sd-container">
-            <header class="sd-page-heading"><div><span class="sd-eyebrow">SCHOOL DIRECTORY</span><h1>Top Schools in India</h1><p>Browse schools by region and compare the details we can verify.</p></div><span class="sd-directory-badge">${coreSchoolListings.length} listings</span></header>
+            <header class="sd-page-heading"><div><span class="sd-eyebrow">SCHOOL DIRECTORY</span><h1>Top Schools in India</h1><p>Browse schools by region and compare the details we can verify.</p></div><span class="sd-directory-badge">${listings.length} listings</span></header>
             <section class="sd-search-panel" aria-label="Search schools by region">
                 <div class="sd-search-fields"><label class="sd-select-field"><span>Region</span><select id="sd-region"><option value="">All India</option>${options}</select></label><label class="sd-category-field"><span>School category</span><select id="sd-school-group">${schoolGroupOptions}</select></label><label class="sd-query-field"><span>School or city</span><input id="sd-query" type="search" placeholder="Search school or city" autocomplete="off"></label><button id="sd-search-button" class="sd-button sd-button-primary" type="button">Search</button></div>
-                <div class="sd-results-summary" aria-live="polite"><strong id="sd-selected-region">All India</strong><span><b id="sd-result-count">${coreSchoolListings.length}</b> schools</span><span>Rankings are approximate editorial listings.</span></div>
+                <div class="sd-results-summary" aria-live="polite"><strong id="sd-selected-region">All India</strong><span><b id="sd-result-count">${listings.length}</b> schools</span><span>Rankings are approximate editorial listings.</span></div>
             </section>
             <section class="sd-directory" aria-label="School directory">
                 <div class="sd-directory-toolbar"><div><span class="sd-eyebrow">DISCOVER</span><h2>Find your school</h2></div><button id="sd-clear-filters" class="sd-clear-button" type="button">Clear filters</button></div>
                 <div class="sd-extra-school-filters" role="group" aria-label="More school filters"><span class="sd-filter-heading">More filters</span>
                 <div class="sd-filter-list" role="group" aria-label="Filter schools">${filterButtons}</div>
                 </div>
-                <div id="sd-school-grid" class="sd-school-grid">${coreSchoolListings.map((record, index) => schoolCard(record, index, "")).join("")}</div>
+                <div id="sd-school-grid" class="sd-school-grid">${listings.map((record, index) => schoolCard(record, index, "")).join("")}</div>
                 <div id="sd-empty-state" class="sd-empty-state" hidden><strong id="sd-empty-title">No schools match these filters.</strong><span id="sd-empty-description">Try clearing a filter or choosing another region.</span></div>
             </section>
         </div>
@@ -220,15 +235,12 @@ export function initSchoolDiscoveryPage() {
     const emptyDescription = root.querySelector("#sd-empty-description");
     let activeRegion = "";
     let activeFilter = "all";
-    let activeSchoolGroup = "boarding";
+    let activeSchoolGroup = "all";
     const searchParams = new URLSearchParams(location.search);
     const requestedCategory = searchParams.get("category");
-    if (["all", "boarding", "preschool", "playschool"].includes(requestedCategory)) {
+    if (["all", "regular", "boarding", "preschool", "playschool"].includes(requestedCategory)) {
         activeSchoolGroup = requestedCategory;
         schoolGroupSelect.value = requestedCategory;
-    } else if (requestedCategory === "regular") {
-        activeSchoolGroup = "all";
-        schoolGroupSelect.value = "all";
     }
     const initialSchoolQuery = searchParams.get("q");
     if (initialSchoolQuery) queryInput.value = initialSchoolQuery;
@@ -277,7 +289,7 @@ export function initSchoolDiscoveryPage() {
         render();
     });
     root.querySelector("#sd-clear-filters").addEventListener("click", () => {
-        activeFilter = "all"; activeSchoolGroup = "boarding"; activeRegion = ""; regionSelect.value = ""; schoolGroupSelect.value = "boarding"; queryInput.value = "";
+        activeFilter = "all"; activeSchoolGroup = "all"; activeRegion = ""; regionSelect.value = ""; schoolGroupSelect.value = "all"; queryInput.value = "";
         root.querySelectorAll("[data-school-filter]").forEach(item => { const active = item.dataset.schoolFilter === "all"; item.classList.toggle("is-active", active); item.setAttribute("aria-pressed", String(active)); });
         render();
     });
@@ -292,6 +304,9 @@ export function initSchoolDiscoveryPage() {
         form.elements.schoolId.value = school.id;
         form.elements.schoolName.value = school.name;
         form.elements.city.value = school.city;
+        form.elements.grade.placeholder = school.schoolTypeGroup
+            ? "e.g. Playgroup, Nursery or LKG"
+            : "e.g. Class 8";
         root.querySelector("#sd-enquiry-school").textContent = `${school.name} · ${school.city}, ${school.state}`;
         root.querySelector("#sd-enquiry-feedback").textContent = "";
         enquiryDialog.showModal();
@@ -310,6 +325,15 @@ export function initSchoolDiscoveryPage() {
         }
         if (button.dataset.schoolAction === "details") {
             root.querySelector("#sd-details-content").innerHTML = `<img class="sd-details-image" src="${escapeHtml(school.image)}" alt="${escapeHtml(school.imageAvailable ? `${school.name} campus` : "School-matched campus photo unavailable")}" onerror="this.onerror=null;this.src='${escapeHtml(school.imageFallback)}'"><h2 id="sd-details-title">${escapeHtml(school.name)}</h2><p class="sd-details-location">${escapeHtml(school.city)}, ${escapeHtml(school.state)}</p><dl class="sd-detail-facts"><div><dt>Board</dt><dd>${escapeHtml(school.board)}</dd></div><div><dt>Day / boarding</dt><dd>${escapeHtml(school.status)}</dd></div><div><dt>School category</dt><dd>${escapeHtml(school.schoolType)}</dd></div></dl><p>${escapeHtml(school.description)}</p>${school.photoSource ? `<p><a class="sd-photo-source" href="${escapeHtml(school.photoSource)}" target="_blank" rel="noopener noreferrer">View campus photo source</a></p>` : `<p class="sd-photo-source sd-photo-missing">No verified campus photo source is available for this listing.</p>`}${school.detailsSource ? `<p><a class="sd-photo-source" href="${escapeHtml(school.detailsSource)}" target="_blank" rel="noopener noreferrer">View school details source</a></p>` : `<p class="sd-photo-source sd-photo-missing">School details have not been independently verified.</p>`}<p class="sd-editorial-note">Approximate editorial listing; not an official ranking. Unverified information is labelled and should be confirmed with the school.</p><div class="sd-card-actions"><button type="button" class="sd-button sd-button-primary" id="sd-details-enquire">Enquire with this school</button></div>`;
+            const detailsImage = root.querySelector("#sd-details-content .sd-details-image");
+            detailsImage.alt = school.imageLabel || (school.imageAvailable ? `${school.name} photo` : "School-matched campus photo unavailable");
+            if (school.imageLabel || school.imageAttribution || school.imageLicense) {
+                const credit = document.createElement("p");
+                credit.className = "sd-photo-source";
+                credit.textContent = [school.imageLabel, school.imageAttribution && `Photo: ${school.imageAttribution}`, school.imageLicense].filter(Boolean).join(" · ");
+                detailsImage.after(credit);
+            }
+            if (school.photoSource) root.querySelector("#sd-details-content a").textContent = "View photo source";
             root.querySelector("#sd-details-enquire").addEventListener("click", () => { detailsDialog.close(); openSchoolEnquiry(school); });
             detailsDialog.showModal();
         }

@@ -51,6 +51,45 @@
     width: 100%;
 }
 
+.institution-card-image-note,
+.sd-card-image-label,
+.institution-card-image-credit,
+.sd-card-image-credit {
+    position: absolute;
+    z-index: 3;
+    max-width: calc(100% - 20px);
+    padding: 5px 8px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 999px;
+    background: rgba(15, 40, 66, 0.78);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.institution-card-image-note,
+.sd-card-image-label {
+    top: 10px;
+    left: 10px;
+}
+
+.institution-card-image-credit,
+.sd-card-image-credit {
+    bottom: 8px;
+    left: 10px;
+    overflow: hidden;
+    color: #fff;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.institution-card-image-credit:hover,
+.sd-card-image-credit:hover {
+    text-decoration: underline;
+}
+
 
 /* =========================================================
    INTRO CARD

@@ -16,6 +16,9 @@ export default function InstitutionCard({
         imageFit = "cover",
         imageFallback = "",
         imageSource = "",
+        imageLabel = "",
+        imageAttribution = "",
+        imageLicense = "",
         logo = "",
         logoAlt = "",
         verifiedFacts = "",
@@ -65,7 +68,7 @@ export default function InstitutionCard({
                                 class="${imageFit === "contain" ? "institution-card-brand-image" : ""}"
                                 src="${image}"
                                 data-fallback-src="${imageFallback}"
-                                alt="${name}"
+                                alt="${escapeHtml(imageLabel ? `${name} — ${imageLabel}` : name)}"
                                 loading="lazy"
                                 onerror="if(this.dataset.fallbackSrc && this.src !== this.dataset.fallbackSrc){this.src=this.dataset.fallbackSrc}else{this.hidden=true}"
                             >
@@ -73,6 +76,8 @@ export default function InstitutionCard({
                         : ""
                 }
 
+                ${imageLabel ? `<span class="institution-card-image-note">${escapeHtml(imageLabel)}</span>` : ""}
+                ${imageSource ? `<a class="institution-card-image-credit" href="${escapeAttribute(imageSource)}" target="_blank" rel="noopener noreferrer">Photo: ${escapeHtml(imageAttribution || "Source")} · ${escapeHtml(imageLicense || "License details")}</a>` : ""}
 
                 <div class="institution-card-overlay"></div>
 
@@ -220,7 +225,7 @@ export default function InstitutionCard({
                         ? `<span class="institution-card-action is-disabled" aria-disabled="true">${actionLabel}</span>`
                         : actionHref
                             ? `<a class="institution-card-action" href="${actionHref}"${/^https?:\/\//i.test(actionHref) ? ' target="_blank" rel="noopener noreferrer"' : ''}>${actionLabel}<span>${/^https?:\/\//i.test(actionHref) ? "↗" : "›"}</span></a>`
-                    : `<button type="button" class="institution-card-action" data-action="${actionMode}" data-college-name="${escapeAttribute(name)}" data-college-location="${escapeAttribute(location)}" data-college-category="${escapeAttribute(category)}" data-college-program="${escapeAttribute(program)}" data-college-overview="${escapeAttribute(overview)}" data-college-website="${escapeAttribute(secondaryActionHref)}" data-college-image="${escapeAttribute(image)}" data-college-photo-source="${escapeAttribute(imageSource)}" data-college-enquiry="${escapeAttribute(enquiryHref)}">${actionLabel}<span>›</span></button>`}
+                    : `<button type="button" class="institution-card-action" data-action="${actionMode}" data-college-name="${escapeAttribute(name)}" data-college-location="${escapeAttribute(location)}" data-college-category="${escapeAttribute(category)}" data-college-program="${escapeAttribute(program)}" data-college-overview="${escapeAttribute(overview)}" data-college-website="${escapeAttribute(secondaryActionHref)}" data-college-image="${escapeAttribute(image)}" data-college-image-label="${escapeAttribute(imageLabel)}" data-college-photo-source="${escapeAttribute(imageSource)}" data-college-enquiry="${escapeAttribute(enquiryHref)}">${actionLabel}<span>›</span></button>`}
 
                     ${secondaryActionLabel ? (secondaryActionHref ? `<a class="institution-card-action" href="${secondaryActionHref}" target="_blank" rel="noopener noreferrer">${secondaryActionLabel}<span>↗</span></a>` : `<span class="institution-card-action is-disabled" aria-disabled="true">${secondaryActionLabel}</span>`) : ""}
 

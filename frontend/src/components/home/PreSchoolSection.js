@@ -1,8 +1,9 @@
 import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
+import { getLegacyEarlyLearningImage, getProvidedEarlyLearningListings } from "../../data/earlyLearningListings.js";
 
 
-export const preSchoolListings = [
+const featuredPreSchoolListings = [
 
         {
             rank: "01",
@@ -147,7 +148,22 @@ export const preSchoolListings = [
                 "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1200&q=85"
         }
 
-    ];
+    ].map(school => {
+        const id = school.name === "Growing Minds Pre School"
+            ? "home-preschool-growing-minds"
+            : `home-preschool-${school.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
+        return {
+            ...school,
+            id,
+            imageLabel: "Representative photo - not this institution's campus",
+            ...getLegacyEarlyLearningImage(id)
+        };
+    });
+
+export const preSchoolListings = [
+    ...featuredPreSchoolListings,
+    ...getProvidedEarlyLearningListings("preschool")
+];
 
 export function PreSchoolSection() {
     const preSchools = preSchoolListings;
@@ -197,11 +213,15 @@ export function PreSchoolSection() {
                     school.image,
 
                 imageSource: school.imageSource || "",
+                imageLabel: school.imageLabel || "",
+                imageAttribution: school.imageAttribution || "",
+                imageLicense: school.imageLicense || "",
+                imageFallback: school.imageFallback || "",
                 detailsOnCard: false,
                 actionMode: "school-details",
                 actionLayout: "home-directory-actions",
                 enquiryHref: `/schools?category=preschool&q=${encodeURIComponent(school.name)}&institution=${encodeURIComponent(school.name)}&location=${encodeURIComponent(school.location || "")}&enquire=1`,
-                overview: [school.ranking, school.highlight, school.program].filter(Boolean).join(". "),
+                overview: school.highlight || school.ranking || school.program || "",
 
                 actionLabel:
                     "Explore Pre School"
@@ -294,7 +314,7 @@ export function PreSchoolSection() {
                     </strong>
 
                     <span>
-                        Featured<br>
+                        Listed<br>
                         Pre Schools
                     </span>
 

@@ -1,5 +1,5 @@
-const SCHOOL_CARD_SELECTOR = "#top-boarding-schools .regional-school-card, #school .regional-school-card";
-const SCHOOL_COMPARE_BUTTON_SELECTOR = "#top-boarding-schools .regional-school-card [data-action=\"compare\"], #school .regional-school-card [data-action=\"compare\"]";
+const SCHOOL_CARD_SELECTOR = "#top-boarding-schools .regional-school-card, #school .regional-school-card, #pre-school .institution-card, #play-school .institution-card";
+const SCHOOL_COMPARE_BUTTON_SELECTOR = "#top-boarding-schools .regional-school-card [data-action=\"compare\"], #school .regional-school-card [data-action=\"compare\"], #pre-school .institution-card [data-action=\"compare\"], #play-school .institution-card [data-action=\"compare\"]";
 
 function getSchoolRecord(card) {
     const name = card.querySelector(".institution-card-title h3")?.textContent.trim();
@@ -8,13 +8,17 @@ function getSchoolRecord(card) {
     const location = (card.querySelector(".institution-card-title p")?.textContent || "")
         .replace(/^[\s📍⌖]+/u, "")
         .trim();
+    const category = card.querySelector(".institution-card-category")?.textContent.trim() || "Not listed";
+    const isEarlyLearning = ["pre-school", "play-school"].includes(card.dataset.type);
 
     return {
-        id: `${name.toLocaleLowerCase()}|${location.toLocaleLowerCase()}`,
+        id: `${card.dataset.type}|${name.toLocaleLowerCase()}|${location.toLocaleLowerCase()}`,
         name,
         location: location || "Not listed",
-        board: card.querySelector(".institution-card-category")?.textContent.trim() || "Not listed",
-        status: card.querySelector(".institution-card-program")?.textContent.trim() || "Not listed",
+        category,
+        board: isEarlyLearning ? "Not applicable" : category,
+        status: isEarlyLearning ? "Not applicable" : card.querySelector(".institution-card-program")?.textContent.trim() || "Not listed",
+        programme: isEarlyLearning ? card.querySelector(".institution-card-program")?.textContent.trim() || "Not listed" : "Not listed",
         overview: card.querySelector(".institution-card-overview, .institution-card-highlight")?.textContent.trim() || "Not listed"
     };
 }
@@ -47,7 +51,7 @@ export default function initHomeSchoolCompare() {
 
     const syncButtons = () => {
         document.querySelectorAll(SCHOOL_COMPARE_BUTTON_SELECTOR).forEach(button => {
-            const card = button.closest(".regional-school-card");
+            const card = button.closest(SCHOOL_CARD_SELECTOR);
             const school = card && getSchoolRecord(card);
             if (!school) return;
 
@@ -89,6 +93,8 @@ export default function initHomeSchoolCompare() {
             ["Location", "location"],
             ["Board", "board"],
             ["Day / boarding", "status"],
+            ["Category", "category"],
+            ["Programme", "programme"],
             ["Overview", "overview"]
         ].forEach(([label, key]) => {
             const row = document.createElement("tr");
@@ -102,7 +108,7 @@ export default function initHomeSchoolCompare() {
         const button = event.target.closest?.('[data-action="compare"]');
         if (!button || !button.closest(SCHOOL_CARD_SELECTOR)) return;
 
-        const school = getSchoolRecord(button.closest(".regional-school-card"));
+        const school = getSchoolRecord(button.closest(SCHOOL_CARD_SELECTOR));
         if (!school) return;
 
         if (selected.has(school.id)) {

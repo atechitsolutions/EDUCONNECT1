@@ -1,8 +1,9 @@
 import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
+import { getLegacyEarlyLearningImage, getProvidedEarlyLearningListings } from "../../data/earlyLearningListings.js";
 
 
-export const playSchoolListings = [
+const featuredPlaySchoolListings = [
 
         {
             rank: "01",
@@ -147,7 +148,28 @@ export const playSchoolListings = [
                 "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1200&q=85"
         }
 
-    ];
+    ].map(school => {
+        const ids = {
+            "Little Stars Play School": "home-playschool-little-stars",
+            "Bright Kids Play School": "home-playschool-bright-kids",
+            "Happy Hearts Play School": "home-playschool-happy-hearts",
+            "Tiny Tots Play School": "home-playschool-tiny-tots",
+            "Growing Stars Play School": "home-playschool-growing-stars",
+            "Little Angels Play School": "home-playschool-little-angels"
+        };
+        const id = ids[school.name];
+        return {
+            ...school,
+            id,
+            imageLabel: "Representative photo - not this institution's campus",
+            ...getLegacyEarlyLearningImage(id)
+        };
+    });
+
+export const playSchoolListings = [
+    ...featuredPlaySchoolListings,
+    ...getProvidedEarlyLearningListings("playschool")
+];
 
 export function PlaySchoolSection() {
     const playSchools = playSchoolListings;
@@ -197,11 +219,15 @@ export function PlaySchoolSection() {
                     school.image,
 
                 imageSource: school.imageSource || "",
+                imageLabel: school.imageLabel || "",
+                imageAttribution: school.imageAttribution || "",
+                imageLicense: school.imageLicense || "",
+                imageFallback: school.imageFallback || "",
                 detailsOnCard: false,
                 actionMode: "school-details",
                 actionLayout: "home-directory-actions",
                 enquiryHref: `/schools?category=playschool&q=${encodeURIComponent(school.name)}&institution=${encodeURIComponent(school.name)}&location=${encodeURIComponent(school.location || "")}&enquire=1`,
-                overview: [school.ranking, school.highlight, school.program].filter(Boolean).join(". "),
+                overview: school.highlight || school.ranking || school.program || "",
 
                 actionLabel:
                     "Explore Play School"
@@ -292,7 +318,7 @@ export function PlaySchoolSection() {
                     </strong>
 
                     <span>
-                        Featured<br>
+                        Listed<br>
                         Play Schools
                     </span>
 

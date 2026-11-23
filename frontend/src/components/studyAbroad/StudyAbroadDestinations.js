@@ -174,6 +174,7 @@ export default function StudyAbroadDestinations() {
 
                 <div
                     class="study-abroad-destination-grid"
+                    id="study-abroad-universities"
                     data-study-abroad-destinations
                     aria-live="polite"
                 >

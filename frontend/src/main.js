@@ -180,7 +180,9 @@ document.addEventListener("click", (event) => {
     set("[data-college-modal-overview]", button.dataset.collegeOverview);
     const image = dialog.querySelector("[data-college-modal-image]");
     image.src = button.dataset.collegeImage || "";
-    image.alt = `${button.dataset.collegeName || "Institution"} campus`;
+    image.alt = button.dataset.collegeImageLabel
+        ? `${button.dataset.collegeName || "Institution"} — ${button.dataset.collegeImageLabel}`
+        : `${button.dataset.collegeName || "Institution"} campus`;
     image.hidden = !button.dataset.collegeImage;
     const photoSource = dialog.querySelector("[data-college-modal-photo-source]");
     photoSource.href = button.dataset.collegePhotoSource || "";

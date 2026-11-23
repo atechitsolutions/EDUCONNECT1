@@ -71,6 +71,10 @@
 /* Keep the homepage's directory carousels fully readable on small screens. */
 @media(max-width:600px){
   #main-content .institution-card:has(.home-directory-actions){height:auto!important;min-height:0!important}
+  #main-content #study-abroad-section>.container{box-sizing:border-box!important;width:calc(100% - 20px)!important;max-width:none!important;padding:0!important}
+  #main-content #study-abroad-section .section-body{box-sizing:border-box!important;width:100%!important;max-width:100%!important;margin:0!important;padding:0!important}
+  #main-content #study-abroad-destinations .study-abroad-carousel{width:calc(100% - 20px)!important;max-width:100%!important}
+  #main-content #study-abroad-destinations .study-abroad-track .institution-card{flex:0 0 min(370px,calc(100vw - 56px))!important;width:min(370px,calc(100vw - 56px))!important;min-width:min(370px,calc(100vw - 56px))!important;max-width:min(370px,calc(100vw - 56px))!important}
   #main-content .early-learning-carousel{
     box-sizing:border-box!important;
     width:calc(100vw - 24px)!important;
