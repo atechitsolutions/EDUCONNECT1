@@ -5,6 +5,7 @@ import { playSchoolListings } from "../components/home/PlaySchoolSection.js";
 import { submitSchoolEnquiry } from "../services/schoolService.js";
 
 const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+const representativeSchoolBuildingImage = "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=85";
 const coreSchoolListings = getRegionalSchoolListings().map(record => ({ ...record, isCoreSchool: true }));
 const normalizeName = value => String(value || "").toLowerCase().replace(/\bthe\b/g, " ").replace(/[^a-z0-9]+/g, " ").trim().replace(/\s+/g, " ");
 const listings = [...coreSchoolListings];
@@ -117,6 +118,19 @@ const earlySchoolListings = [
     };
 });
 listings.push(...earlySchoolListings);
+const firstImageLessSchoolId = listings.find(record => !record.imageAvailable)?.id;
+listings.forEach(record => {
+    record.imageFallback = representativeSchoolBuildingImage;
+    if (record.imageAvailable) return;
+    if (record.id === firstImageLessSchoolId) {
+        record.image = "";
+        record.imageFallback = "";
+        record.imageLabel = "";
+        return;
+    }
+    record.image = representativeSchoolBuildingImage;
+    record.imageLabel = "Representative school-building photo - not this institution's campus";
+});
 const regions = [...new Set([
     ...Object.keys(regionalSchoolNames),
     ...earlySchoolListings.map(record => record.region).filter(region => region && region !== "Nearby NCR options")
@@ -164,12 +178,9 @@ function matchesSchoolGroup(record, group) {
 }
 
 function schoolCard(record) {
-    const showPhotoCreditOnCard = !["preschool", "playschool"].includes(record.schoolTypeGroup);
     return `<article class="sd-school-card" data-school-id="${escapeHtml(record.id)}">
         <div class="sd-card-image-wrap">
-            <img class="sd-card-image" src="${escapeHtml(record.image)}" alt="${escapeHtml(record.imageLabel || (record.imageAvailable ? `${record.name} photo` : `${record.name} campus photo unavailable`))}" loading="lazy" onerror="this.onerror=null;this.src='${escapeHtml(record.imageFallback)}'">
-            ${showPhotoCreditOnCard && record.imageLabel ? `<span class="sd-card-image-label">${escapeHtml(record.imageLabel)}</span>` : ""}
-            ${showPhotoCreditOnCard && record.photoSource ? `<a class="sd-card-image-credit" href="${escapeHtml(record.photoSource)}" target="_blank" rel="noopener noreferrer">Photo: ${escapeHtml(record.imageAttribution || "Source")} · ${escapeHtml(record.imageLicense || "License details")}</a>` : ""}
+            ${record.image ? `<img class="sd-card-image" src="${escapeHtml(record.image)}" alt="${escapeHtml(record.imageLabel || (record.imageAvailable ? `${record.name} photo` : `${record.name} campus photo unavailable`))}" loading="lazy" onerror="this.onerror=null;this.src='${escapeHtml(record.imageFallback)}'">` : ""}
             <div class="sd-card-image-shade"></div>
             <div class="sd-card-heading"><h3>${escapeHtml(record.name)}</h3><p>⌖ ${escapeHtml(record.city)}, ${escapeHtml(record.state)}</p></div>
         </div>
@@ -327,8 +338,9 @@ export function initSchoolDiscoveryPage() {
         if (button.dataset.schoolAction === "details") {
             root.querySelector("#sd-details-content").innerHTML = `<img class="sd-details-image" src="${escapeHtml(school.image)}" alt="${escapeHtml(school.imageAvailable ? `${school.name} campus` : "School-matched campus photo unavailable")}" onerror="this.onerror=null;this.src='${escapeHtml(school.imageFallback)}'"><h2 id="sd-details-title">${escapeHtml(school.name)}</h2><p class="sd-details-location">${escapeHtml(school.city)}, ${escapeHtml(school.state)}</p><dl class="sd-detail-facts"><div><dt>Board</dt><dd>${escapeHtml(school.board)}</dd></div><div><dt>Day / boarding</dt><dd>${escapeHtml(school.status)}</dd></div><div><dt>School category</dt><dd>${escapeHtml(school.schoolType)}</dd></div></dl><p>${escapeHtml(school.description)}</p>${school.photoSource ? `<p><a class="sd-photo-source" href="${escapeHtml(school.photoSource)}" target="_blank" rel="noopener noreferrer">View campus photo source</a></p>` : `<p class="sd-photo-source sd-photo-missing">No verified campus photo source is available for this listing.</p>`}${school.detailsSource ? `<p><a class="sd-photo-source" href="${escapeHtml(school.detailsSource)}" target="_blank" rel="noopener noreferrer">View school details source</a></p>` : `<p class="sd-photo-source sd-photo-missing">School details have not been independently verified.</p>`}<p class="sd-editorial-note">Approximate editorial listing; not an official ranking. Unverified information is labelled and should be confirmed with the school.</p><div class="sd-card-actions"><button type="button" class="sd-button sd-button-primary" id="sd-details-enquire">Enquire with this school</button></div>`;
             const detailsImage = root.querySelector("#sd-details-content .sd-details-image");
-            detailsImage.alt = school.imageLabel || (school.imageAvailable ? `${school.name} photo` : "School-matched campus photo unavailable");
-            if (school.imageLabel || school.imageAttribution || school.imageLicense) {
+            if (!school.image) detailsImage.remove();
+            else detailsImage.alt = school.imageLabel || (school.imageAvailable ? `${school.name} photo` : "School-matched campus photo unavailable");
+            if (school.image && (school.imageLabel || school.imageAttribution || school.imageLicense)) {
                 const credit = document.createElement("p");
                 credit.className = "sd-photo-source";
                 credit.textContent = [school.imageLabel, school.imageAttribution && `Photo: ${school.imageAttribution}`, school.imageLicense].filter(Boolean).join(" · ");

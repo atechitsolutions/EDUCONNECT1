@@ -17,8 +17,6 @@ export default function InstitutionCard({
         imageFallback = "",
         imageSource = "",
         imageLabel = "",
-        imageAttribution = "",
-        imageLicense = "",
         logo = "",
         logoAlt = "",
         verifiedFacts = "",
@@ -47,7 +45,7 @@ export default function InstitutionCard({
     } = item;
 
     const isStudyAbroadSearch = type === "study-abroad-search-result";
-    const showPhotoCreditOnCard = !["pre-school", "play-school"].includes(type);
+    const showPhotoLabelOnCard = !["pre-school", "play-school"].includes(type);
     const logoInitials = String(name).split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
     const logoMarkup = `<div class="institution-card-logo">${logo ? `<img src="${logo}" alt="${logoAlt || `${name} official logo`}" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">` : ""}<span class="institution-card-logo-fallback" ${logo ? "hidden" : ""}>${logoInitials}</span></div>`;
 
@@ -77,8 +75,7 @@ export default function InstitutionCard({
                         : ""
                 }
 
-                ${showPhotoCreditOnCard && imageLabel ? `<span class="institution-card-image-note">${escapeHtml(imageLabel)}</span>` : ""}
-                ${showPhotoCreditOnCard && imageSource ? `<a class="institution-card-image-credit" href="${escapeAttribute(imageSource)}" target="_blank" rel="noopener noreferrer">Photo: ${escapeHtml(imageAttribution || "Source")} · ${escapeHtml(imageLicense || "License details")}</a>` : ""}
+                ${showPhotoLabelOnCard && imageLabel ? `<span class="institution-card-image-note">${escapeHtml(imageLabel)}</span>` : ""}
 
                 <div class="institution-card-overlay"></div>
 

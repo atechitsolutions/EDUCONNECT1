@@ -560,17 +560,14 @@ export function TopUGPGCollegesSection() {
 
 
                     <h2>
-                        Top PG Universities & Colleges in India
+                        Top PG Colleges & Universities
                     </h2>
 
                 </div>
 
 
                 <p>
-                    Explore postgraduate colleges in India
-                    offering PG courses, advanced degree
-                    programs, higher education and professional
-                    learning opportunities.
+                    Explore PG courses and admissions.
                 </p>
 
             </div>
@@ -604,12 +601,12 @@ export function TopUGPGCollegesSection() {
                 <div>
 
                     <span>
-                        Looking for the right college?
+                        Looking for a college?
                     </span>
 
 
                     <strong>
-                        Compare colleges, UG & PG courses, fees and admissions in India.
+                        Compare courses, fees and colleges.
                     </strong>
 
                 </div>
@@ -621,7 +618,7 @@ export function TopUGPGCollegesSection() {
                 >
 
                     <span class="ug-pg-view-all-text">
-                        View All Universities & Colleges
+                        Browse Colleges & Universities
                     </span>
 
 

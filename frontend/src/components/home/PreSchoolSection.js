@@ -362,12 +362,12 @@ export function PreSchoolSection() {
                 <div>
 
                     <span>
-                        Looking for the right pre school?
+                        Looking for a preschool?
                     </span>
 
 
                     <strong>
-                        Explore pre schools and early childhood education options across India.
+                        Find a preschool near you.
                     </strong>
 
                 </div>

@@ -22,8 +22,8 @@ export function TopBoardingSchoolsSection() {
             </div>
             <div class="boarding-schools-carousel" aria-label="All boarding school listings"><div class="boarding-schools-track institution-carousel-track">${featuredCards.join("")}</div></div>
             <div class="boarding-schools-bottom">
-                <div class="boarding-schools-bottom-text"><span>Looking for more schools?</span><strong>Browse the regional boarding school directory.</strong></div>
-                <a class="boarding-schools-explore-btn" href="/schools?category=boarding"><span class="boarding-view-all-text">View All Boarding Schools in India</span><span>→</span></a>
+                <div class="boarding-schools-bottom-text"><span>Need a boarding school?</span><strong>Find schools by region.</strong></div>
+                <a class="boarding-schools-explore-btn" href="/schools?category=boarding"><span class="boarding-view-all-text">Browse Boarding Schools</span><span>→</span></a>
             </div>
         </div>`;
     return Section({ id: "top-boarding-schools", title: "", subtitle: "", content });

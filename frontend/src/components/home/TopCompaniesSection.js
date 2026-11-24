@@ -413,11 +413,11 @@ export function TopCompaniesSection() {
                 <div class="top-companies-bottom-text">
 
                     <span>
-                        Looking for your next opportunity?
+                        Looking for a job?
                     </span>
 
                     <strong>
-                        Explore jobs, internships and career opportunities from top companies in India.
+                        Find jobs and internships from leading companies.
                     </strong>
 
                 </div>
@@ -429,7 +429,7 @@ export function TopCompaniesSection() {
                 >
 
                     <span class="top-companies-view-all-text">
-                        View All Top Companies in India
+                        Browse Top Companies
                     </span>
 
                     <span>

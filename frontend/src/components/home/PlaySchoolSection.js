@@ -364,12 +364,12 @@ export function PlaySchoolSection() {
                 <div>
 
                     <span>
-                        Looking for the right play school?
+                        Looking for a play school?
                     </span>
 
 
                     <strong>
-                        Explore play schools across India for early childhood education.
+                        Find a play school near you.
                     </strong>
 
                 </div>

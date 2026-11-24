@@ -384,12 +384,12 @@ export function SchoolSection() {
                 <div>
 
                     <span>
-                        Looking for the right school?
+                        Looking for a school?
                     </span>
 
 
                     <strong>
-                        Explore schools, school boards and education options across India.
+                        Find a school near you.
                     </strong>
 
                 </div>
