@@ -25,12 +25,10 @@
 .home-college-details section{padding:15px;border-radius:12px;background:#f4f8fc}
 .home-college-details section h3{margin:0 0 7px;color:#173958;font-size:15px}
 .home-college-details section p{margin:0;color:#536981;font-size:14px;line-height:1.65}
-.home-college-details-website{display:inline-flex;margin-top:16px;padding:11px 15px;border-radius:10px;background:#1769bd;color:#fff;font-size:13px;font-weight:750;text-decoration:none}
-.home-college-details-website[hidden]{display:none}
+
 .home-college-details-image{display:block;width:100%;height:210px;margin:14px 0 0;border-radius:12px;object-fit:cover;background:#edf3f8}
 .home-college-details-image[hidden]{display:none}
-.home-college-details-photo-source{display:inline-flex;margin:12px 12px 0 0;color:#2466a2;font-size:12px;font-weight:700;text-decoration:underline;text-underline-offset:2px}
-.home-college-details-photo-source[hidden]{display:none}
+
 .home-college-details-enquire{display:inline-flex;align-items:center;justify-content:center;margin:14px 0 0;padding:11px 16px;border:1px solid #1769bd;border-radius:11px;background:#1769bd;color:#fff;font-size:13px;font-weight:750;text-decoration:none}
 .home-directory-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important;padding:0 14px 14px!important;margin-top:auto!important}
 .institution-card-overview{display:-webkit-box;min-height:3.9em;overflow:hidden;margin:6px 0 12px;color:#586d84;font-size:13px;line-height:1.5;-webkit-box-orient:vertical;-webkit-line-clamp:3}

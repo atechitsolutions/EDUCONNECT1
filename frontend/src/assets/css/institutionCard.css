@@ -22,12 +22,10 @@
 
     overflow: hidden;
 
-    box-shadow:
-        0 4px 16px rgba(15, 76, 129, 0.08);
+    box-shadow: none;
 
     transition:
         transform .25s ease,
-        box-shadow .25s ease,
         border-color .25s ease;
 }
 
@@ -40,9 +38,7 @@
     border-color:
         rgba(29, 116, 201, 0.28);
 
-    box-shadow:
-        0 12px 30px
-        rgba(15, 76, 129, 0.13);
+    box-shadow: none;
 }
 
 

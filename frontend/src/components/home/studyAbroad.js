@@ -141,57 +141,47 @@ export function StudyAbroadSection() {
     setTimeout(async () => {
         try {
             const institutions = await getInstitutions();
-
             const visibleInstitutions = institutions.filter(
                 (institution) =>
-                    institution.active === true && institution.studyAbroadEnabled === true,
+                    institution.active === true &&
+                    institution.studyAbroadEnabled === true &&
+                    String(institution.name || "")
+                        .trim()
+                        .toLowerCase() !== "nishant",
             );
-
             const track = document.querySelector("#study-abroad-destinations .study-abroad-track");
-
             const countElement = document.querySelector(
                 "#study-abroad-destinations .study-abroad-institution-count",
             );
+            if (!track) return;
 
-            if (!track) {
-                return;
-            }
-
-            if (countElement) {
-                countElement.textContent = visibleInstitutions.length;
-            }
+            if (countElement) countElement.textContent = visibleInstitutions.length;
 
             if (!visibleInstitutions.length) {
                 track.innerHTML = `
-                        <div class="study-abroad-loading">
-                            No Study Abroad institutions have been listed yet.
-                        </div>
-                    `;
-
+                    <div class="study-abroad-loading">
+                        No Study Abroad institutions have been listed yet.
+                    </div>
+                `;
                 return;
             }
 
             const institutionMap = new Map(
                 visibleInstitutions.map((institution) => [String(institution.id), institution]),
             );
-
             track.innerHTML = visibleInstitutions.map(createInstitutionCard).join("");
-
             bindInstitutionDetailButtons(track, institutionMap);
             bindInstitutionCompare(track, institutionMap);
-
             window.dispatchEvent(new CustomEvent("educonnect:studyabroad-cards-ready"));
         } catch (error) {
             console.error("Failed to load Study Abroad institutions:", error);
-
             const track = document.querySelector("#study-abroad-destinations .study-abroad-track");
-
             if (track) {
                 track.innerHTML = `
-                        <div class="study-abroad-loading">
-                            Unable to load Study Abroad institutions.
-                        </div>
-                    `;
+                    <div class="study-abroad-loading">
+                        Unable to load Study Abroad institutions.
+                    </div>
+                `;
             }
         }
     }, 0);

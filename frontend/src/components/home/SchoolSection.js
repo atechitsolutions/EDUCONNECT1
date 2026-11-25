@@ -262,9 +262,7 @@ export function SchoolSection() {
                             <option>Gujarat</option><option>Madhya Pradesh</option><option>Telangana</option><option>Andhra Pradesh</option>
                         </select>
                         <button type="button" class="school-region-search-button">Search</button>
-                    </div>
-                    <p>Approximate editorial listings; not official rankings. Confirm school details and campus photos through the linked sources.</p>
-                </div>
+
 
             </div>
 

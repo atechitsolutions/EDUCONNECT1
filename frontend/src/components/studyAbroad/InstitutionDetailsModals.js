@@ -144,18 +144,7 @@ function createModalMarkup(institution) {
                     ${section("Costs", costs)}
                     ${section("Scholarships", scholarships)}
                     ${institution.postStudyWork ? section("Post-study work (country guidance)", field("Directory note", institution.postStudyWork)) : ""}
-                    <aside class="study-abroad-details-data-note">
-                        <strong>About these figures</strong>
-                        <p>${escapeHtml(
-                            institution.dataNote ||
-                                "Directory tuition, ranking and " +
-                                    "scholarship figures are unverified " +
-                                    "examples. Confirm current details with " +
-                                    "the institution and relevant official " +
-                                    "authorities.",
-                        )}</p>
-                        ${institution.directoryCode ? `<span>Directory record: ${escapeHtml(institution.directoryCode)} · Not independently verified</span>` : ""}
-                    </aside>
+
                     <div class="study-abroad-details-actions">
                         <a class="study-abroad-details-button" href="#study-abroad-counselling" data-study-abroad-consultation>Free consulting ↗</a>
                         ${Number.isInteger(partnerRecordId) && partnerRecordId > 0 ? `<a class="study-abroad-details-button secondary" href="/college/enquire?institutionId=${partnerRecordId}" data-college-enquiry-link>Enquire with this college</a>` : ""}

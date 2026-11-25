@@ -50,6 +50,142 @@ function bindNewsNavigation(container) {
     });
 }
 
+const MIT = "https://news.mit.edu";
+
+// Hand-picked stories shown before the ones published from the admin panel.
+const CURRENT_STORIES = [
+    {
+        title: "Electric seaglider created by MIT alumni takes flight",
+        subtitle: "November 25, 2026 · MIT News",
+        description:
+            "Regent Craft, founded by two MIT alumni, has built a seaglider " +
+            "that floats, hydrofoils and flies just above the ocean surface.",
+        category: "Alumni & innovation",
+        country: "United States",
+        imageUrl: `${MIT}/sites/default/files/images/202611/MIT-Regent-Seaglider-01.jpg`,
+        sourceUrl: `${MIT}/2026/electric-seaglider-from-mit-alumni-takes-flight-1125`,
+        actionLabel: "Read more ",
+
+    },
+    {
+        title: "Arianna Doss: Prescribing change",
+        subtitle: "November 24, 2026 · MIT News",
+        description:
+            "MIT senior and 2027 Rhodes Scholar Arianna Doss is preparing " +
+            "for a career as a physician and policymaker focused on health equity.",
+        category: "Scholarships & awards",
+        country: "United States",
+        imageUrl: `${MIT}/sites/default/files/images/202611/MIT-AriannaDoss-A1-Press.jpg`,
+        sourceUrl: `${MIT}/2026/arianna-doss-prescribes-change-1124`,
+        actionLabel: "Read more ",
+
+    },
+    {
+        title: "AI technique helps engineers design analog chips faster and cheaper",
+        subtitle: "November 23, 2026 · MIT News",
+        description:
+            "A new training method called SLIC lets a small language model " +
+            "design analog circuits about as well as much larger AI models.",
+        category: "University research",
+        country: "United States",
+        imageUrl: `${MIT}/sites/default/files/images/202611/MIT-AnalogOptimize-01-Press.jpg`,
+        sourceUrl: `${MIT}/2026/ai-driven-technique-could-help-engineers-design-analog-chips-faster-and-less-expensive-1123`,
+        actionLabel: "Read more ",
+
+    },
+    {
+        title: "Student leaders: Q&A with peer advisor Stephanie Han",
+        subtitle: "November 23, 2026 · MIT News",
+        description:
+            "A senior in the Undergraduate Advising Center explains how " +
+            "peer advisors help first-year students plan their academic paths.",
+        category: "Student life",
+        country: "United States",
+        imageUrl: `${MIT}/sites/default/files/images/202611/stephanie-han-mit-A1.jpg`,
+        sourceUrl: `${MIT}/2026/mit-student-leaders-qa-peer-advisor-stephanie-han-1123`,
+        actionLabel: "Read more ",
+
+    },
+    {
+        title: "Following the “mathocalypse,” mathematicians consider the future",
+        subtitle: "November 20, 2026 · MIT News",
+        description:
+            "Leading mathematicians discussed how AI is changing research " +
+            "norms and what it means for the people who do mathematics.",
+        category: "Higher education",
+        country: "United States",
+        imageUrl: `${MIT}/sites/default/files/images/202611/MIT-Math-AI-01-press.jpg`,
+        sourceUrl: `${MIT}/2026/following-mathocalypse-mathematicians-consider-future-1120`,
+        actionLabel: "Read more ",
+
+    },
+    {
+        title: "Designing the next chapter for professional athletes",
+        subtitle: "November 18, 2026 · MIT News",
+        description:
+            "MIT Sloan student Collin Johnson worked with DesignX faculty " +
+            "to create Founders Academy, a venture-building program for athletes.",
+        category: "Executive education",
+        country: "United States",
+        imageUrl: `${MIT}/sites/default/files/images/202611/mit-designx-Founders-Academy.JPG`,
+        sourceUrl: `${MIT}/2026/founders-academy-designing-next-chapter-professional-athletes-1118`,
+        actionLabel: "Read more ",
+
+    },
+    {
+        title: "Building blocks for a greener skyline",
+        subtitle: "November 18, 2026 · MIT News",
+        description:
+            "Recent MIT graduate Miana Smith designs self-correcting blocks " +
+            "that simple robots can use to build large, sustainable structures.",
+        category: "Student research",
+        country: "United States",
+        imageUrl: `${MIT}/sites/default/files/images/202610/mit-meche-miana-smith.jpg`,
+        sourceUrl: `${MIT}/2026/building-blocks-for-greener-skyline-miana-smith-1118`,
+        actionLabel: "Read more ",
+
+    },
+    {
+        title: "Putting a spotlight on AI, society, and humanity",
+        subtitle: "November 17, 2026 · MIT News",
+        description:
+            "MIT scholars are studying how AI is reshaping the human " +
+            "experience, classroom learning and higher education.",
+        category: "AI in education",
+        country: "United States",
+        imageUrl: `${MIT}/sites/default/files/images/202610/mithic-ai-brain.jpg`,
+        sourceUrl: `${MIT}/2026/putting-spotlight-ai-society-humanity-1117`,
+        actionLabel: "Read more ",
+
+    },
+    {
+        title: "“Somebody’s got to do it. Why not me?”",
+        subtitle: "November 10, 2026 · MIT News",
+        description:
+            "Senior Andrew Voelsing studies climate system science and " +
+            "engineering while training to become a Navy officer through NROTC.",
+        category: "Campus & careers",
+        country: "United States",
+        imageUrl: "https://web.mit.edu/files/images/202611/MITAndrew-Voelsing-A1-Press.jpg",
+        sourceUrl: `${MIT}/2026/somebodys-got-to-do-it-why-not-me-andrew-voelsing-1110`,
+        actionLabel: "Read more ",
+
+    },
+    {
+        title: "A home a world away from home",
+        subtitle: "September 21, 2026 · MIT News",
+        description:
+            "An international graduate student family describes the " +
+            "community they found with other MIT student parents.",
+        category: "Graduate student life",
+        country: "United States",
+        imageUrl: `${MIT}/sites/default/files/images/202609/mit-grad-student-maurer.jpg`,
+        sourceUrl: `${MIT}/2026/home-world-away-home-0921`,
+        actionLabel: "Read more ",
+
+    },
+];
+
 export function NewsSection() {
     const content = `
         <div class="news-section">
@@ -104,74 +240,7 @@ export function NewsSection() {
         try {
             const response = await getPublishedNews();
             const publishedItems = Array.isArray(response) ? response : [];
-            const currentStories = [
-                {
-                    title: "MIT develops faster, more reliable AI models for climate prediction",
-                    subtitle: "November 12, 2026 · MIT News",
-                    description:
-                        "A new training method helps climate " +
-                        "emulators adapt to scenarios they did " +
-                        "not see during training, using far less " +
-                        "data.",
-                    category: "Research & technology",
-                    country: "United States",
-                    imageUrl:
-                        "https://news.mit.edu/sites/default/files" +
-                        "/styles/news_article__image_gallery/publ" +
-                        "ic/images/202611/MIT-Climate-Emulation-0" +
-                        "1_0.jpg?itok=G0a7yGB9",
-                    sourceUrl:
-                        "https://news.mit.edu/2026/new-research-c" +
-                        "ould-lead-faster-trustworthy-ai-models-c" +
-                        "limate-prediction-1112",
-                    actionLabel: "Read at MIT News",
-                    imageCredit: "Image: UCAR; MIT News",
-                },
-                {
-                    title: "MIT and Northeastern researchers design tougher nature-inspired materials",
-                    subtitle: "November 11, 2026 · MIT News",
-                    description:
-                        "A network-inspired material design " +
-                        "could improve impact absorption in " +
-                        "products such as helmets, packaging, " +
-                        "and armor.",
-                    category: "University research",
-                    country: "United States",
-                    imageUrl:
-                        "https://news.mit.edu/sites/default/files" +
-                        "/download/202611/MIT-MultiMeta-01-Press." +
-                        "jpg",
-                    sourceUrl:
-                        "https://news.mit.edu/2026/engineers-desi" +
-                        "gn-stronger-resilient-nature-inspired-me" +
-                        "tamaterials-1111",
-                    actionLabel: "Read at MIT News",
-                    imageCredit: "Photo: Rishi Kommalapati / MIT",
-                },
-                {
-                    title: "MIT welcomes seven new faculty to its College of Computing",
-                    subtitle: "November 10, 2026 · MIT News",
-                    description:
-                        "New faculty will work across AI, " +
-                        "quantum computing, environmental " +
-                        "science, human-AI interaction, and " +
-                        "economics.",
-                    category: "Campus & education",
-                    country: "United States",
-                    imageUrl:
-                        "https://news.mit.edu/sites/default/files" +
-                        "/styles/news_article__image_gallery/publ" +
-                        "ic/images/202610/26-27%20SCC%20Faculty%2" +
-                        "0copy.png?itok=cxHnBrCa",
-                    sourceUrl:
-                        "https://news.mit.edu/2026/mit-schwarzman" +
-                        "-college-computing-welcomes-new-faculty-" +
-                        "1110",
-                    actionLabel: "Read at MIT News",
-                    imageCredit: "Photos courtesy of the faculty / MIT",
-                },
-            ];
-            const items = [...currentStories, ...publishedItems];
+            const items = [...CURRENT_STORIES, ...publishedItems];
 
             if (count) {
                 count.textContent = String(items.length);

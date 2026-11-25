@@ -513,7 +513,7 @@ export function TopUGPGCollegesSection() {
                 campusImagesFor(institution.code)[0] ||
                 "",
             imageSourceLabel:
-                domesticPhotoSources[institution.code]?.label || "Campus photo source",
+                domesticPhotoSources[institution.code]?.label || "",
             description: institutionSiteData[institution.code]?.description || "",
             program:
                 institution.type === "UNIVERSITY"
@@ -553,7 +553,7 @@ export function TopUGPGCollegesSection() {
             imageSourceLabel:
                 domesticPhotoSources[record?.code]?.label ||
                 college.imageSourceLabel ||
-                "Campus photo source",
+                "",
             imageFit: "cover",
             officialDomain: officialWebsiteFor(record?.code),
             description:
@@ -852,8 +852,6 @@ export function TopUGPGCollegesSection() {
             <p class="home-college-details-location" data-college-modal-location></p>
             <dl><div><dt>Category</dt><dd data-college-modal-category></dd></div><div><dt>Programmes</dt><dd data-college-modal-program></dd></div></dl>
             <section><h3>Overview</h3><p data-college-modal-overview></p></section>
-            <a class="home-college-details-photo-source" data-college-modal-photo-source target="_blank" rel="noopener noreferrer" hidden>Campus photo source ↗</a>
-            <a class="home-college-details-website" data-college-modal-website target="_blank" rel="noopener noreferrer" hidden>Official website ↗</a>
             <a class="home-college-details-enquire" data-college-modal-enquire href="#">Enquire →</a>
         </div>
 
@@ -890,17 +888,10 @@ export function initHomeCollegeDetails() {
         text("[data-college-modal-category]", button.dataset.collegeCategory);
         text("[data-college-modal-program]", button.dataset.collegeProgram);
         text("[data-college-modal-overview]", button.dataset.collegeOverview);
-        const website = dialog.querySelector("[data-college-modal-website]");
-        const href = button.dataset.collegeWebsite;
-        website.hidden = !href;
-        if (href) website.href = href;
         const image = dialog.querySelector("[data-college-modal-image]");
         image.src = button.dataset.collegeImage || "";
         image.alt = `${button.dataset.collegeName || "Institution"} campus`;
         image.hidden = !button.dataset.collegeImage;
-        const photoSource = dialog.querySelector("[data-college-modal-photo-source]");
-        photoSource.href = button.dataset.collegePhotoSource || "";
-        photoSource.hidden = !button.dataset.collegePhotoSource;
         const enquire = dialog.querySelector("[data-college-modal-enquire]");
         enquire.href = button.dataset.collegeEnquiry || "#";
         dialog.hidden = false;

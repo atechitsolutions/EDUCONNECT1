@@ -2010,17 +2010,27 @@ export const campusPhotos = {
     },
 };
 
+// Fallback campus images used when a school has no photo of its own.
+// These are public school building photos from Wikimedia Commons so no card
+// is left blank; a different building is shown per school (stable per school).
+const schoolBuildingImages = [
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Old_School_001.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Joseph_J._Bingham_Indianapolis_Public_School_No._84.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Bishop_James_Mahoney_High_School_(Saskatoon).jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/School_Buildings.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Oyler_School,_Lower_Price_Hill,_Cincinnati,_OH_(40240832413).jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/J._Graham_Brown_School.jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/The_Cathedral_School_(Llandaff).jpg?width=1200",
+    "https://commons.wikimedia.org/wiki/Special:FilePath/Hong_Kong_Cantonese_school.jpg?width=1200",
+];
+
 export function fallbackImage(name) {
-    const initials = esc(
-        name
-            .split(/\s+/)
-            .slice(0, 2)
-            .map((part) => part[0])
-            .join("")
-            .toUpperCase(),
-    );
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600"><defs><linearGradient id="g" x2="1" y2="1"><stop stop-color="#e8f3ff"/><stop offset="1" stop-color="#c5def3"/></linearGradient></defs><rect width="1200" height="600" fill="url(#g)"/><path d="M420 360V235l180-110 180 110v125h-95v-95H515v95z" fill="#1768a9" opacity=".82"/><rect x="0" y="430" width="1200" height="170" fill="#ffffff" opacity=".72"/><text x="600" y="505" text-anchor="middle" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#12385b">${initials} · photo not available</text></svg>`;
-    return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+        hash = ((hash << 5) - hash + name.charCodeAt(i)) | 0;
+    }
+    const index = Math.abs(hash) % schoolBuildingImages.length;
+    return schoolBuildingImages[index];
 }
 
 function card([name, city], index) {

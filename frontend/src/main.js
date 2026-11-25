@@ -141,12 +141,6 @@ document.addEventListener(
             ? `${button.dataset.collegeName || "Institution"} — ${button.dataset.collegeImageLabel}`
             : `${button.dataset.collegeName || "Institution"} campus`;
         image.hidden = !button.dataset.collegeImage;
-        const photoSource = dialog.querySelector("[data-college-modal-photo-source]");
-        photoSource.href = button.dataset.collegePhotoSource || "";
-        photoSource.hidden = !button.dataset.collegePhotoSource;
-        const website = dialog.querySelector("[data-college-modal-website]");
-        website.href = button.dataset.collegeWebsite || "";
-        website.hidden = !button.dataset.collegeWebsite;
         const enquire = dialog.querySelector("[data-college-modal-enquire]");
         enquire.href = button.dataset.collegeEnquiry || "#";
         dialog.hidden = false;

@@ -1407,11 +1407,7 @@ export default function OnlineEducationPage() {
                                     : ""
                           }
 
-                          ${
-                              institution.imageVerificationStatus
-                                  ? `<p class="oe-institution-review-note">${institution.imageVerificationStatus === "awaiting-authentic-photo" ? "Authentic campus photo pending verification" : "Campus photo source identified · reuse terms under review"}</p>`
-                                  : ""
-                          }
+
 
 
 

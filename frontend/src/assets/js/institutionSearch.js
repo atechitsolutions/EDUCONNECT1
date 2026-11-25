@@ -459,7 +459,10 @@ export async function loadStudyAbroadInstitutions() {
     }
 
     const institutions = allInstitutions.filter(
-        (institution) => institution.active === true && institution.studyAbroadEnabled === true,
+        (institution) =>
+            institution.active === true &&
+            institution.studyAbroadEnabled === true &&
+            String(institution.name || "").trim().toLowerCase() !== "nishant",
     );
 
     const homeTrack = document.querySelector("#study-abroad .study-abroad-track");
