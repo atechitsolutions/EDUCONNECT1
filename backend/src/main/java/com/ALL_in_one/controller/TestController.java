@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TestController {
-@GetMapping("/api/test")
-    public String testresponse(){
+  @GetMapping("/api/test")
+  public String testresponse() {
     return "backend is running";
-    }
-
+  }
 }

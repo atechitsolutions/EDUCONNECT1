@@ -1,11 +1,5 @@
-/* =========================================================
-   STUDY ABROAD — STUDENT REVIEWS
-========================================================= */
-
 export default function AbroadStudentReviews() {
-
     const reviews = [
-
         {
             name: "Aarav Sharma",
             country: "United Kingdom",
@@ -13,7 +7,11 @@ export default function AbroadStudentReviews() {
             course: "MSc Computer Science",
             rating: "5.0",
             review:
-                "The guidance throughout my study abroad journey was clear and helpful. I received support with university selection, applications and the overall process."
+                "The guidance throughout my study abroad " +
+                "journey was clear and helpful. I " +
+                "received support with university " +
+                "selection, applications and the overall " +
+                "process.",
         },
 
         {
@@ -23,7 +21,10 @@ export default function AbroadStudentReviews() {
             course: "Master of Business Administration",
             rating: "4.9",
             review:
-                "The information about universities, courses and admission requirements made it easier to understand my options and plan my application."
+                "The information about universities, " +
+                "courses and admission requirements made " +
+                "it easier to understand my options and " +
+                "plan my application.",
         },
 
         {
@@ -33,7 +34,11 @@ export default function AbroadStudentReviews() {
             course: "Master of Information Technology",
             rating: "4.8",
             review:
-                "I was able to compare different study destinations and understand the application process better. The overall experience was smooth and well organised."
+                "I was able to compare different study " +
+                "destinations and understand the " +
+                "application process better. The overall " +
+                "experience was smooth and well " +
+                "organised.",
         },
 
         {
@@ -43,16 +48,15 @@ export default function AbroadStudentReviews() {
             course: "MSc Data Science",
             rating: "4.9",
             review:
-                "The guidance helped me understand course options, university requirements and the steps involved in applying to study in Germany."
-        }
-
+                "The guidance helped me understand " +
+                "course options, university requirements " +
+                "and the steps involved in applying to " +
+                "study in Germany.",
+        },
     ];
 
     return `
 
-        <!-- =====================================================
-             STUDENT REVIEWS SECTION
-        ====================================================== -->
 
         <section
             class="abroad-student-reviews"
@@ -61,9 +65,6 @@ export default function AbroadStudentReviews() {
 
             <div class="abroad-student-reviews-container">
 
-                <!-- =====================================================
-                     SECTION HEADER
-                ====================================================== -->
 
                 <div class="abroad-student-reviews-header">
 
@@ -80,21 +81,17 @@ export default function AbroadStudentReviews() {
                 </div>
 
 
-                <!-- =====================================================
-                     REVIEWS GRID
-                ====================================================== -->
 
                 <div class="abroad-student-reviews-grid">
 
-                    ${reviews.map((review) => `
+                    ${reviews
+                        .map(
+                            (review) => `
 
                         <article
                             class="abroad-student-review-card"
                         >
 
-                            <!-- =================================================
-                                 REVIEW TOP
-                            ================================================== -->
 
                             <div class="abroad-student-review-top">
 
@@ -117,9 +114,6 @@ export default function AbroadStudentReviews() {
                             </div>
 
 
-                            <!-- =================================================
-                                 RATING
-                            ================================================== -->
 
                             <div class="abroad-student-review-rating">
 
@@ -134,18 +128,12 @@ export default function AbroadStudentReviews() {
                             </div>
 
 
-                            <!-- =================================================
-                                 REVIEW CONTENT
-                            ================================================== -->
 
                             <p class="abroad-student-review-text">
                                 ${review.review}
                             </p>
 
 
-                            <!-- =================================================
-                                 STUDY DETAILS
-                            ================================================== -->
 
                             <div class="abroad-student-review-details">
 
@@ -173,14 +161,13 @@ export default function AbroadStudentReviews() {
 
                         </article>
 
-                    `).join("")}
+                    `,
+                        )
+                        .join("")}
 
                 </div>
 
 
-                <!-- =====================================================
-                     FOOTER CTA
-                ====================================================== -->
 
 
 

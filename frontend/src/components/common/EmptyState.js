@@ -5,9 +5,8 @@ export default function EmptyState({
     description = "There is nothing to display right now.",
     buttonText = "",
     buttonLink = "#",
-    icon = "📂"
+    icon = "📂",
 } = {}) {
-
     return `
         <div class="empty-state">
 
@@ -26,10 +25,10 @@ export default function EmptyState({
             ${
                 buttonText
                     ? Button({
-                        text: buttonText,
-                        href: buttonLink,
-                        variant: "primary"
-                    })
+                          text: buttonText,
+                          href: buttonLink,
+                          variant: "primary",
+                      })
                     : ""
             }
 

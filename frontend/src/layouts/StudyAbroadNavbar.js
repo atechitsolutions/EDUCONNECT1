@@ -4,44 +4,312 @@ import universityDirectory from "../data/study-abroad-university-directory.json"
 import { getInstitutionLogoUrl } from "../utils/institutionLogo.js";
 import { openInstitutionDetails } from "../components/studyAbroad/InstitutionDetailsModals.js";
 
-/* =========================================================
-   STEPINSTUDENTS — STUDY ABROAD NAVBAR
-   Complete standalone navbar
-   Includes:
-   - Mega menu clicks
-   - Country switching
-   - Destination switching
-   - Exam switching
-   - Resource switching
-   - More switching
-   - Mobile menu
-   - Outside click
-   - ESC close
-========================================================= */
-
-
-/* =========================================================
-   UNIVERSITY CARD DATA
-========================================================= */
-
 const UPGRAD_CS_CATALOG_SOURCE =
     "https://www.upgrad.com/study-abroad/abroad/courses/computer-science/";
-const UPGRAD_STUDY_ABROAD_SOURCE =
-    "https://www.upgrad.com/study-abroad/";
+const UPGRAD_STUDY_ABROAD_SOURCE = "https://www.upgrad.com/study-abroad/";
 
 // Local discovery content for the country switcher. These are topic prompts
 // and illustrative university names, not a live catalogue or ranking.
 const DESTINATION_MENU_DATA = {
-    USA: { label: "United States", streams: ["Computer Science", "Data Science", "Artificial Intelligence", "Business & Management", "Healthcare", "Engineering", "Cybersecurity", "Finance"], specializations: ["Computer Science", "Business Analytics", "Public Health", "Cybersecurity", "Engineering Management", "Finance", "Psychology", "Information Technology"], universities: ["Yeshiva University", "Washington State University", "Troy University", "DePaul University", "Northeastern University", "New York University" ] },
-    Australia: { label: "Australia", streams: ["Computer Science", "Business", "Engineering", "Data Science", "Information Technology", "Healthcare", "Education", "Management"], specializations: ["Data Science", "Business Analytics", "Public Health", "Information Technology", "Project Management", "Engineering", "Education", "Finance"], universities: ["Macquarie University", "University of Sydney", "UNSW Sydney", "Monash University", "University of Melbourne"] },
-    Canada: { label: "Canada", streams: ["Computer Science", "Business", "Engineering", "Data Science", "Healthcare", "Management", "Education", "Technology"], specializations: ["Computer Science", "Data Science", "Business Analytics", "Public Health", "Engineering", "Management", "Psychology", "Finance"], universities: ["Algoma University", "University of Waterloo", "University of Toronto", "University of British Columbia", "McGill University"] },
-    UK: { label: "United Kingdom", streams: ["Computer Science", "Business", "Data Science", "Engineering", "Finance", "Healthcare", "Law", "Management"], specializations: ["Computer Science", "Data Science", "Finance", "Public Health", "Business Analytics", "Law", "Psychology", "Engineering"], universities: ["University of Sussex", "University of Manchester", "King's College London", "London School of Economics", "University College London"] },
-    Germany: { label: "Germany", streams: ["Computer Science", "Engineering", "Data Science", "Business", "Artificial Intelligence", "Technology", "Management", "Finance"], specializations: ["Computer Science", "Software Engineering", "Artificial Intelligence", "Data Science", "Engineering", "Business", "Technology", "Management"], universities: ["Technical University of Munich", "RWTH Aachen University", "Free University of Berlin", "TU Berlin"] },
-    Ireland: { label: "Ireland", streams: ["Computer Science", "Technology", "Business", "Data Science", "Engineering", "Finance", "Healthcare", "Management"], specializations: ["Computing", "Data Science", "Finance", "Business Analytics", "Public Health", "Engineering", "Cybersecurity", "Management"], universities: ["University College Cork", "Trinity College Dublin", "University College Dublin", "Dublin City University", "University of Galway"] },
-    France: { label: "France", streams: ["Business", "Management", "Engineering", "Computer Science", "Finance", "Technology", "Arts & Humanities", "Data Science"], specializations: ["Business Analytics", "Finance", "Computer Science", "Engineering", "Management", "Luxury Management", "Data Science", "International Business"], universities: ["Paris School of Business", "PSL University", "HEC Paris", "Institut Polytechnique de Paris", "Sorbonne University"] },
-    Finland: { label: "Finland", streams: ["Computer Science", "Technology", "Engineering", "Data Science", "Business", "Artificial Intelligence", "Education", "Design"], specializations: ["Computer Science", "Artificial Intelligence", "Data Science", "Software Engineering", "Education", "Business", "Technology", "Design"], universities: ["Haaga-Helia University of Applied Sciences", "Seinäjoki University of Applied Sciences", "Aalto University", "University of Helsinki", "University of Turku", "Tampere University"] },
-    UAE: { label: "United Arab Emirates", streams: ["Business", "Computer Science", "Engineering", "Management", "Technology", "Finance", "Healthcare", "Artificial Intelligence"], specializations: ["Business Administration", "Computer Science", "Finance", "Artificial Intelligence", "Engineering", "Management", "Cybersecurity", "Data Science"], universities: ["Khalifa University", "American University in Dubai", "NYU Abu Dhabi", "University of Sharjah"] },
-    Hungary: { label: "Hungary", streams: ["Computer Science", "Engineering", "Business", "Technology", "Data Science", "Management", "Healthcare", "Finance"], specializations: ["Computer Science", "Engineering", "Data Science", "Business", "Technology", "Management", "Finance", "Healthcare"], universities: ["Budapest University of Technology", "Eötvös Loránd University", "University of Szeged", "University of Debrecen"] }
+    USA: {
+        label: "United States",
+        streams: [
+            "Computer Science",
+            "Data Science",
+            "Artificial Intelligence",
+            "Business & Management",
+            "Healthcare",
+            "Engineering",
+            "Cybersecurity",
+            "Finance",
+        ],
+        specializations: [
+            "Computer Science",
+            "Business Analytics",
+            "Public Health",
+            "Cybersecurity",
+            "Engineering Management",
+            "Finance",
+            "Psychology",
+            "Information Technology",
+        ],
+        universities: [
+            "Yeshiva University",
+            "Washington State University",
+            "Troy University",
+            "DePaul University",
+            "Northeastern University",
+            "New York University",
+        ],
+    },
+    Australia: {
+        label: "Australia",
+        streams: [
+            "Computer Science",
+            "Business",
+            "Engineering",
+            "Data Science",
+            "Information Technology",
+            "Healthcare",
+            "Education",
+            "Management",
+        ],
+        specializations: [
+            "Data Science",
+            "Business Analytics",
+            "Public Health",
+            "Information Technology",
+            "Project Management",
+            "Engineering",
+            "Education",
+            "Finance",
+        ],
+        universities: [
+            "Macquarie University",
+            "University of Sydney",
+            "UNSW Sydney",
+            "Monash University",
+            "University of Melbourne",
+        ],
+    },
+    Canada: {
+        label: "Canada",
+        streams: [
+            "Computer Science",
+            "Business",
+            "Engineering",
+            "Data Science",
+            "Healthcare",
+            "Management",
+            "Education",
+            "Technology",
+        ],
+        specializations: [
+            "Computer Science",
+            "Data Science",
+            "Business Analytics",
+            "Public Health",
+            "Engineering",
+            "Management",
+            "Psychology",
+            "Finance",
+        ],
+        universities: [
+            "Algoma University",
+            "University of Waterloo",
+            "University of Toronto",
+            "University of British Columbia",
+            "McGill University",
+        ],
+    },
+    UK: {
+        label: "United Kingdom",
+        streams: [
+            "Computer Science",
+            "Business",
+            "Data Science",
+            "Engineering",
+            "Finance",
+            "Healthcare",
+            "Law",
+            "Management",
+        ],
+        specializations: [
+            "Computer Science",
+            "Data Science",
+            "Finance",
+            "Public Health",
+            "Business Analytics",
+            "Law",
+            "Psychology",
+            "Engineering",
+        ],
+        universities: [
+            "University of Sussex",
+            "University of Manchester",
+            "King's College London",
+            "London School of Economics",
+            "University College London",
+        ],
+    },
+    Germany: {
+        label: "Germany",
+        streams: [
+            "Computer Science",
+            "Engineering",
+            "Data Science",
+            "Business",
+            "Artificial Intelligence",
+            "Technology",
+            "Management",
+            "Finance",
+        ],
+        specializations: [
+            "Computer Science",
+            "Software Engineering",
+            "Artificial Intelligence",
+            "Data Science",
+            "Engineering",
+            "Business",
+            "Technology",
+            "Management",
+        ],
+        universities: [
+            "Technical University of Munich",
+            "RWTH Aachen University",
+            "Free University of Berlin",
+            "TU Berlin",
+        ],
+    },
+    Ireland: {
+        label: "Ireland",
+        streams: [
+            "Computer Science",
+            "Technology",
+            "Business",
+            "Data Science",
+            "Engineering",
+            "Finance",
+            "Healthcare",
+            "Management",
+        ],
+        specializations: [
+            "Computing",
+            "Data Science",
+            "Finance",
+            "Business Analytics",
+            "Public Health",
+            "Engineering",
+            "Cybersecurity",
+            "Management",
+        ],
+        universities: [
+            "University College Cork",
+            "Trinity College Dublin",
+            "University College Dublin",
+            "Dublin City University",
+            "University of Galway",
+        ],
+    },
+    France: {
+        label: "France",
+        streams: [
+            "Business",
+            "Management",
+            "Engineering",
+            "Computer Science",
+            "Finance",
+            "Technology",
+            "Arts & Humanities",
+            "Data Science",
+        ],
+        specializations: [
+            "Business Analytics",
+            "Finance",
+            "Computer Science",
+            "Engineering",
+            "Management",
+            "Luxury Management",
+            "Data Science",
+            "International Business",
+        ],
+        universities: [
+            "Paris School of Business",
+            "PSL University",
+            "HEC Paris",
+            "Institut Polytechnique de Paris",
+            "Sorbonne University",
+        ],
+    },
+    Finland: {
+        label: "Finland",
+        streams: [
+            "Computer Science",
+            "Technology",
+            "Engineering",
+            "Data Science",
+            "Business",
+            "Artificial Intelligence",
+            "Education",
+            "Design",
+        ],
+        specializations: [
+            "Computer Science",
+            "Artificial Intelligence",
+            "Data Science",
+            "Software Engineering",
+            "Education",
+            "Business",
+            "Technology",
+            "Design",
+        ],
+        universities: [
+            "Haaga-Helia University of Applied Sciences",
+            "Seinäjoki University of Applied Sciences",
+            "Aalto University",
+            "University of Helsinki",
+            "University of Turku",
+            "Tampere University",
+        ],
+    },
+    UAE: {
+        label: "United Arab Emirates",
+        streams: [
+            "Business",
+            "Computer Science",
+            "Engineering",
+            "Management",
+            "Technology",
+            "Finance",
+            "Healthcare",
+            "Artificial Intelligence",
+        ],
+        specializations: [
+            "Business Administration",
+            "Computer Science",
+            "Finance",
+            "Artificial Intelligence",
+            "Engineering",
+            "Management",
+            "Cybersecurity",
+            "Data Science",
+        ],
+        universities: [
+            "Khalifa University",
+            "American University in Dubai",
+            "NYU Abu Dhabi",
+            "University of Sharjah",
+        ],
+    },
+    Hungary: {
+        label: "Hungary",
+        streams: [
+            "Computer Science",
+            "Engineering",
+            "Business",
+            "Technology",
+            "Data Science",
+            "Management",
+            "Healthcare",
+            "Finance",
+        ],
+        specializations: [
+            "Computer Science",
+            "Engineering",
+            "Data Science",
+            "Business",
+            "Technology",
+            "Management",
+            "Finance",
+            "Healthcare",
+        ],
+        universities: [
+            "Budapest University of Technology",
+            "Eötvös Loránd University",
+            "University of Szeged",
+            "University of Debrecen",
+        ],
+    },
 };
 
 const DESTINATION_GUIDES = [
@@ -49,7 +317,7 @@ const DESTINATION_GUIDES = [
     ["Admission requirements", "#admission-requirements"],
     ["Scholarship guidance", "#abroad-scholarships"],
     ["Application planning", "#study-abroad-application"],
-    ["Frequently asked questions", "#study-abroad-faq"]
+    ["Frequently asked questions", "#study-abroad-faq"],
 ];
 
 function destinationCountryPanel(country) {
@@ -69,9 +337,7 @@ function destinationCountryPanel(country) {
 }
 
 function countryUniversityCards(country) {
-
     const universities = {
-
         USA: [
             {
                 logo: "YU",
@@ -82,7 +348,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "USA",
                 sourceUrl: UPGRAD_CS_CATALOG_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "WSU",
@@ -93,7 +359,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "USA",
                 sourceUrl: UPGRAD_CS_CATALOG_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "TROY",
@@ -104,7 +370,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "USA",
                 sourceUrl: UPGRAD_CS_CATALOG_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "DEP",
@@ -115,7 +381,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "USA",
                 sourceUrl: UPGRAD_STUDY_ABROAD_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "NU",
@@ -124,7 +390,7 @@ function countryUniversityCards(country) {
                 title: "MBA",
                 university: "Northeastern University",
                 meta1: "Boston",
-                meta2: "USA"
+                meta2: "USA",
             },
             {
                 logo: "NU",
@@ -133,7 +399,7 @@ function countryUniversityCards(country) {
                 title: "MPS in Applied AI",
                 university: "Northeastern University",
                 meta1: "Boston",
-                meta2: "USA"
+                meta2: "USA",
             },
             {
                 logo: "NYU",
@@ -142,7 +408,7 @@ function countryUniversityCards(country) {
                 title: "BS Information Systems & Technology",
                 university: "New York University",
                 meta1: "New York",
-                meta2: "USA"
+                meta2: "USA",
             },
             {
                 logo: "NYU",
@@ -151,8 +417,8 @@ function countryUniversityCards(country) {
                 title: "BS Leadership and Management",
                 university: "New York University",
                 meta1: "New York",
-                meta2: "USA"
-            }
+                meta2: "USA",
+            },
         ],
 
         Germany: [
@@ -165,7 +431,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "Germany",
                 sourceUrl: UPGRAD_CS_CATALOG_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "CODE",
@@ -176,7 +442,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "Germany",
                 sourceUrl: UPGRAD_CS_CATALOG_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "UAM",
@@ -187,7 +453,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "Germany",
                 sourceUrl: UPGRAD_STUDY_ABROAD_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "TU",
@@ -198,7 +464,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "Germany",
                 sourceUrl: UPGRAD_STUDY_ABROAD_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "TUM",
@@ -207,7 +473,7 @@ function countryUniversityCards(country) {
                 title: "MSc Computer Science",
                 university: "Technical University of Munich",
                 meta1: "Munich",
-                meta2: "Germany"
+                meta2: "Germany",
             },
             {
                 logo: "RWTH",
@@ -216,7 +482,7 @@ function countryUniversityCards(country) {
                 title: "MSc Data Science",
                 university: "RWTH Aachen University",
                 meta1: "Aachen",
-                meta2: "Germany"
+                meta2: "Germany",
             },
             {
                 logo: "FU",
@@ -225,7 +491,7 @@ function countryUniversityCards(country) {
                 title: "MSc Artificial Intelligence",
                 university: "Free University of Berlin",
                 meta1: "Berlin",
-                meta2: "Germany"
+                meta2: "Germany",
             },
             {
                 logo: "TU",
@@ -234,8 +500,8 @@ function countryUniversityCards(country) {
                 title: "MSc Mechanical Engineering",
                 university: "TU Berlin",
                 meta1: "Berlin",
-                meta2: "Germany"
-            }
+                meta2: "Germany",
+            },
         ],
 
         France: [
@@ -248,7 +514,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "France",
                 sourceUrl: UPGRAD_STUDY_ABROAD_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "PSL",
@@ -257,7 +523,7 @@ function countryUniversityCards(country) {
                 title: "MSc Management",
                 university: "PSL University",
                 meta1: "Paris",
-                meta2: "France"
+                meta2: "France",
             },
             {
                 logo: "HEC",
@@ -266,7 +532,7 @@ function countryUniversityCards(country) {
                 title: "Master in Management",
                 university: "HEC Paris",
                 meta1: "Paris",
-                meta2: "France"
+                meta2: "France",
             },
             {
                 logo: "IP",
@@ -275,7 +541,7 @@ function countryUniversityCards(country) {
                 title: "MSc Engineering",
                 university: "Institut Polytechnique de Paris",
                 meta1: "Paris",
-                meta2: "France"
+                meta2: "France",
             },
             {
                 logo: "SOR",
@@ -284,8 +550,8 @@ function countryUniversityCards(country) {
                 title: "MSc Computer Science",
                 university: "Sorbonne University",
                 meta1: "Paris",
-                meta2: "France"
-            }
+                meta2: "France",
+            },
         ],
 
         UK: [
@@ -298,7 +564,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "UK",
                 sourceUrl: UPGRAD_CS_CATALOG_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "SUS",
@@ -309,7 +575,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "UK",
                 sourceUrl: UPGRAD_STUDY_ABROAD_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "MAN",
@@ -318,7 +584,7 @@ function countryUniversityCards(country) {
                 title: "MSc Computer Science",
                 university: "University of Manchester",
                 meta1: "Manchester",
-                meta2: "UK"
+                meta2: "UK",
             },
             {
                 logo: "KCL",
@@ -327,7 +593,7 @@ function countryUniversityCards(country) {
                 title: "MSc Data Science",
                 university: "King's College London",
                 meta1: "London",
-                meta2: "UK"
+                meta2: "UK",
             },
             {
                 logo: "LSE",
@@ -336,7 +602,7 @@ function countryUniversityCards(country) {
                 title: "MSc Business Analytics",
                 university: "London School of Economics",
                 meta1: "London",
-                meta2: "UK"
+                meta2: "UK",
             },
             {
                 logo: "UCL",
@@ -345,8 +611,8 @@ function countryUniversityCards(country) {
                 title: "MSc Information Technology",
                 university: "University College London",
                 meta1: "London",
-                meta2: "UK"
-            }
+                meta2: "UK",
+            },
         ],
 
         Australia: [
@@ -359,7 +625,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "Australia",
                 sourceUrl: UPGRAD_CS_CATALOG_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "USYD",
@@ -368,7 +634,7 @@ function countryUniversityCards(country) {
                 title: "Master of Computer Science",
                 university: "University of Sydney",
                 meta1: "Sydney",
-                meta2: "Australia"
+                meta2: "Australia",
             },
             {
                 logo: "UNSW",
@@ -377,7 +643,7 @@ function countryUniversityCards(country) {
                 title: "Master of IT",
                 university: "UNSW Sydney",
                 meta1: "Sydney",
-                meta2: "Australia"
+                meta2: "Australia",
             },
             {
                 logo: "MON",
@@ -386,7 +652,7 @@ function countryUniversityCards(country) {
                 title: "Master of Business Analytics",
                 university: "Monash University",
                 meta1: "Melbourne",
-                meta2: "Australia"
+                meta2: "Australia",
             },
             {
                 logo: "MEL",
@@ -395,8 +661,8 @@ function countryUniversityCards(country) {
                 title: "Master of Engineering",
                 university: "University of Melbourne",
                 meta1: "Melbourne",
-                meta2: "Australia"
-            }
+                meta2: "Australia",
+            },
         ],
 
         Finland: [
@@ -409,7 +675,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "Finland",
                 sourceUrl: UPGRAD_CS_CATALOG_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "SEAMK",
@@ -420,7 +686,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "Finland",
                 sourceUrl: UPGRAD_STUDY_ABROAD_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "AAL",
@@ -429,7 +695,7 @@ function countryUniversityCards(country) {
                 title: "MSc Computer Science",
                 university: "Aalto University",
                 meta1: "Espoo",
-                meta2: "Finland"
+                meta2: "Finland",
             },
             {
                 logo: "HEL",
@@ -438,7 +704,7 @@ function countryUniversityCards(country) {
                 title: "MSc Data Science",
                 university: "University of Helsinki",
                 meta1: "Helsinki",
-                meta2: "Finland"
+                meta2: "Finland",
             },
             {
                 logo: "TUR",
@@ -447,7 +713,7 @@ function countryUniversityCards(country) {
                 title: "MSc Technology",
                 university: "University of Turku",
                 meta1: "Turku",
-                meta2: "Finland"
+                meta2: "Finland",
             },
             {
                 logo: "TAM",
@@ -456,8 +722,8 @@ function countryUniversityCards(country) {
                 title: "MSc Computing Sciences",
                 university: "Tampere University",
                 meta1: "Tampere",
-                meta2: "Finland"
-            }
+                meta2: "Finland",
+            },
         ],
 
         UAE: [
@@ -468,7 +734,7 @@ function countryUniversityCards(country) {
                 title: "Computer Science",
                 university: "Khalifa University",
                 meta1: "Abu Dhabi",
-                meta2: "UAE"
+                meta2: "UAE",
             },
             {
                 logo: "AUD",
@@ -477,7 +743,7 @@ function countryUniversityCards(country) {
                 title: "Business Administration",
                 university: "American University in Dubai",
                 meta1: "Dubai",
-                meta2: "UAE"
+                meta2: "UAE",
             },
             {
                 logo: "NYU",
@@ -486,7 +752,7 @@ function countryUniversityCards(country) {
                 title: "MSc Management",
                 university: "NYU Abu Dhabi",
                 meta1: "Abu Dhabi",
-                meta2: "UAE"
+                meta2: "UAE",
             },
             {
                 logo: "UOS",
@@ -495,8 +761,8 @@ function countryUniversityCards(country) {
                 title: "MSc Computer Science",
                 university: "University of Sharjah",
                 meta1: "Sharjah",
-                meta2: "UAE"
-            }
+                meta2: "UAE",
+            },
         ],
 
         Canada: [
@@ -509,7 +775,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "Canada",
                 sourceUrl: UPGRAD_CS_CATALOG_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "WAT",
@@ -520,7 +786,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "Canada",
                 sourceUrl: UPGRAD_STUDY_ABROAD_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "UOT",
@@ -529,7 +795,7 @@ function countryUniversityCards(country) {
                 title: "Master of Computer Science",
                 university: "University of Toronto",
                 meta1: "Toronto",
-                meta2: "Canada"
+                meta2: "Canada",
             },
             {
                 logo: "UBC",
@@ -538,7 +804,7 @@ function countryUniversityCards(country) {
                 title: "Master of Data Science",
                 university: "University of British Columbia",
                 meta1: "Vancouver",
-                meta2: "Canada"
+                meta2: "Canada",
             },
             {
                 logo: "WAT",
@@ -547,7 +813,7 @@ function countryUniversityCards(country) {
                 title: "Master of Data Science",
                 university: "University of Waterloo",
                 meta1: "Waterloo",
-                meta2: "Canada"
+                meta2: "Canada",
             },
             {
                 logo: "MCG",
@@ -556,8 +822,8 @@ function countryUniversityCards(country) {
                 title: "MSc Computer Science",
                 university: "McGill University",
                 meta1: "Montreal",
-                meta2: "Canada"
-            }
+                meta2: "Canada",
+            },
         ],
 
         Hungary: [
@@ -568,7 +834,7 @@ function countryUniversityCards(country) {
                 title: "MSc Computer Science",
                 university: "Budapest University of Technology",
                 meta1: "Budapest",
-                meta2: "Hungary"
+                meta2: "Hungary",
             },
             {
                 logo: "ELTE",
@@ -577,7 +843,7 @@ function countryUniversityCards(country) {
                 title: "MSc Data Science",
                 university: "Eötvös Loránd University",
                 meta1: "Budapest",
-                meta2: "Hungary"
+                meta2: "Hungary",
             },
             {
                 logo: "SZEG",
@@ -586,7 +852,7 @@ function countryUniversityCards(country) {
                 title: "MSc Engineering",
                 university: "University of Szeged",
                 meta1: "Szeged",
-                meta2: "Hungary"
+                meta2: "Hungary",
             },
             {
                 logo: "DEB",
@@ -595,8 +861,8 @@ function countryUniversityCards(country) {
                 title: "MSc Computer Science",
                 university: "University of Debrecen",
                 meta1: "Debrecen",
-                meta2: "Hungary"
-            }
+                meta2: "Hungary",
+            },
         ],
 
         Ireland: [
@@ -609,7 +875,7 @@ function countryUniversityCards(country) {
                 meta1: "",
                 meta2: "Ireland",
                 sourceUrl: UPGRAD_STUDY_ABROAD_SOURCE,
-                lastVerifiedAt: "2026-10-11"
+                lastVerifiedAt: "2026-10-11",
             },
             {
                 logo: "TCD",
@@ -618,7 +884,7 @@ function countryUniversityCards(country) {
                 title: "MSc Computer Science",
                 university: "Trinity College Dublin",
                 meta1: "Dublin",
-                meta2: "Ireland"
+                meta2: "Ireland",
             },
             {
                 logo: "UCD",
@@ -627,7 +893,7 @@ function countryUniversityCards(country) {
                 title: "MSc Data & Computational Science",
                 university: "University College Dublin",
                 meta1: "Dublin",
-                meta2: "Ireland"
+                meta2: "Ireland",
             },
             {
                 logo: "DCU",
@@ -636,7 +902,7 @@ function countryUniversityCards(country) {
                 title: "MSc Computing",
                 university: "Dublin City University",
                 meta1: "Dublin",
-                meta2: "Ireland"
+                meta2: "Ireland",
             },
             {
                 logo: "UG",
@@ -645,19 +911,16 @@ function countryUniversityCards(country) {
                 title: "MSc Computer Science",
                 university: "University of Galway",
                 meta1: "Galway",
-                meta2: "Ireland"
-            }
-        ]
-
+                meta2: "Ireland",
+            },
+        ],
     };
-
 
     const list = universities[country] || universities.USA;
 
-
-    return list.map((item) => {
-
-        return `
+    return list
+        .map((item) => {
+            return `
             <article class="edu-university-card" data-program-country="${item.meta2}">
 
                 <div class="edu-university-card-top">
@@ -697,57 +960,80 @@ function countryUniversityCards(country) {
 
             </article>
         `;
-
-    }).join("");
-
+        })
+        .join("");
 }
-
 
 /* Filter the local discovery sample by subject and programme level. */
 function applyProgramFilters(panel, subject = "", level = "") {
     if (!panel) return;
     const subjects = {
-        "Computer Science": /computer science|computing|software|informatics|information technology|cyber\s?security/i,
-        "Business": /business|management|mba|entrepreneur|finance|accounting/i,
+        "Computer Science":
+            /computer science|computing|software|informatics|information technology|cyber\s?security/i,
+        Business: /business|management|mba|entrepreneur|finance|accounting/i,
         "Business & Management": /business|management|mba|entrepreneur|finance|accounting/i,
-        "Engineering": /engineering|engineer/i, "Data Science": /data science|analytics/i,
-        "MBA": /\bmba\b|master of business administration/i,
+        Engineering: /engineering|engineer/i,
+        "Data Science": /data science|analytics/i,
+        MBA: /\bmba\b|master of business administration/i,
         "Information Technology": /information technology|\bIT\b|computing/i,
         "AI & Machine Learning": /artificial intelligence|\bAI\b|machine learning/i,
-        "Technology": /technology|computing|computer science|information technology/i,
-        "Management": /management|business administration/i, "Finance": /finance|accounting/i,
-        "Healthcare": /health|medical|nursing|public health/i, "Education": /education|teaching/i,
-        "Arts & Humanities": /arts|humanities|history|literature/i, "Law": /\blaw\b|legal/i,
-        "Cybersecurity": /cyber\s?security|information security/i, "Marketing": /marketing/i,
-        "Psychology": /psychology/i, "Design": /design|media/i, "Economics": /economics/i,
-        "Public Health": /public health|health/i, "Digital Marketing": /digital marketing|marketing/i,
-        "Software Engineering": /software|engineering|computing/i, "Business Analytics": /business|analytics/i,
+        Technology: /technology|computing|computer science|information technology/i,
+        Management: /management|business administration/i,
+        Finance: /finance|accounting/i,
+        Healthcare: /health|medical|nursing|public health/i,
+        Education: /education|teaching/i,
+        "Arts & Humanities": /arts|humanities|history|literature/i,
+        Law: /\blaw\b|legal/i,
+        Cybersecurity: /cyber\s?security|information security/i,
+        Marketing: /marketing/i,
+        Psychology: /psychology/i,
+        Design: /design|media/i,
+        Economics: /economics/i,
+        "Public Health": /public health|health/i,
+        "Digital Marketing": /digital marketing|marketing/i,
+        "Software Engineering": /software|engineering|computing/i,
+        "Business Analytics": /business|analytics/i,
         "International Business": /international business|business|management/i,
-        "Nursing": /nursing/i, "IT": /information technology|\bIT\b/i,
-        "AI": /artificial intelligence|\bAI\b|machine learning/i
+        Nursing: /nursing/i,
+        IT: /information technology|\bIT\b/i,
+        AI: /artificial intelligence|\bAI\b|machine learning/i,
     };
     const levels = {
-        "Undergraduate": /bachelor|undergraduate|\bBSc\b|\bBA\b|\bBBA\b|\bBS\b/i,
-        "Postgraduate": /master|postgraduate|\bMSc\b|\bMS\b|\bMPS\b|MBA|doctorate|ph\.?d/i,
-        "MBA": /\bmba\b|master of business administration/i,
-        "PhD": /ph\.?d|doctorate|doctoral/i
+        Undergraduate: /bachelor|undergraduate|\bBSc\b|\bBA\b|\bBBA\b|\bBS\b/i,
+        Postgraduate: /master|postgraduate|\bMSc\b|\bMS\b|\bMPS\b|MBA|doctorate|ph\.?d/i,
+        MBA: /\bmba\b|master of business administration/i,
+        PhD: /ph\.?d|doctorate|doctoral/i,
     };
-    const subjectPattern = subjects[subject] || (subject ? new RegExp(subject.split(/\s*&\s*/).join("|"), "i") : null);
+    const subjectPattern =
+        subjects[subject] || (subject ? new RegExp(subject.split(/\s*&\s*/).join("|"), "i") : null);
     const levelPattern = levels[level];
     const cards = Array.from(panel.querySelectorAll(".edu-university-card"));
     let count = 0;
     cards.forEach((card) => {
         const text = card.textContent || "";
-        card.hidden = Boolean((subjectPattern && !subjectPattern.test(text)) || (levelPattern && !levelPattern.test(text)));
+        card.hidden = Boolean(
+            (subjectPattern && !subjectPattern.test(text)) ||
+            (levelPattern && !levelPattern.test(text)),
+        );
         if (!card.hidden) count += 1;
     });
     const status = panel.querySelector("[data-program-status]");
     if (status) {
         const active = [subject, level].filter(Boolean);
-        const countryName = panel.querySelector(".edu-country-heading h3")?.childNodes[0]?.textContent?.trim() || "this country";
+        const countryName =
+            panel.querySelector(".edu-country-heading h3")?.childNodes[0]?.textContent?.trim() ||
+            "this country";
         status.textContent = active.length
-            ? count + " matching sample listings for " + active.join(" · ") + " in " + countryName + "."
-            : count + " sample listings for " + countryName + "; this local view is not a complete catalogue.";
+            ? count +
+              " matching sample listings for " +
+              active.join(" · ") +
+              " in " +
+              countryName +
+              "."
+            : count +
+              " sample listings for " +
+              countryName +
+              "; this local view is not a complete catalogue.";
     }
     const empty = panel.querySelector("[data-program-empty]");
     if (empty) empty.hidden = count !== 0;
@@ -760,19 +1046,31 @@ function applyProgramFilters(panel, subject = "", level = "") {
 
 function openSelectedCountryResults(navbar, { subject = "", level = "", country = "" } = {}) {
     const mega = navbar?.querySelector(".edu-country-mega");
-    const activeDestination = navbar?.querySelector('[data-mega-menu="destinations"] .edu-study-side-item.active')?.dataset.megaPanel;
-    const selectedCountry = country || (DESTINATION_MENU_DATA[activeDestination] ? activeDestination : "USA");
-    const selectedPanel = mega?.querySelector(`[data-country-panel="${selectedCountry}"]`)
-        || mega?.querySelector(".edu-country-panel.active")
-        || mega?.querySelector('[data-country-panel="USA"]');
+    const activeDestination = navbar?.querySelector(
+        '[data-mega-menu="destinations"] .edu-study-side-item.active',
+    )?.dataset.megaPanel;
+    const selectedCountry =
+        country || (DESTINATION_MENU_DATA[activeDestination] ? activeDestination : "USA");
+    const selectedPanel =
+        mega?.querySelector(`[data-country-panel="${selectedCountry}"]`) ||
+        mega?.querySelector(".edu-country-panel.active") ||
+        mega?.querySelector('[data-country-panel="USA"]');
     if (!mega || !selectedPanel) return;
-    mega.querySelectorAll(".edu-country-item").forEach((item) => item.classList.toggle("active", item.dataset.country === selectedCountry));
-    mega.querySelectorAll(".edu-country-panel").forEach((panel) => panel.classList.toggle("active", panel === selectedPanel));
-    // The Explore Countries panel shows institution listings, not sample programme cards.
+    mega.querySelectorAll(".edu-country-item").forEach((item) =>
+        item.classList.toggle("active", item.dataset.country === selectedCountry),
+    );
+    mega.querySelectorAll(".edu-country-panel").forEach((panel) =>
+        panel.classList.toggle("active", panel === selectedPanel),
+    );
+    // These are institution examples, not programme cards.
     const menu = navbar.querySelector('[data-mega-menu="countries"]');
     const trigger = navbar.querySelector('[data-mega-trigger="countries"]');
-    navbar.querySelectorAll(".edu-study-mega.is-open").forEach((item) => item.classList.remove("is-open"));
-    navbar.querySelectorAll(".edu-study-nav-item.is-open").forEach((item) => item.classList.remove("is-open"));
+    navbar
+        .querySelectorAll(".edu-study-mega.is-open")
+        .forEach((item) => item.classList.remove("is-open"));
+    navbar
+        .querySelectorAll(".edu-study-nav-item.is-open")
+        .forEach((item) => item.classList.remove("is-open"));
     navbar.querySelectorAll(".edu-study-nav-button.is-open").forEach((item) => {
         item.classList.remove("is-open");
         item.setAttribute("aria-expanded", "false");
@@ -783,9 +1081,6 @@ function openSelectedCountryResults(navbar, { subject = "", level = "", country 
     trigger?.closest(".edu-study-nav-item")?.classList.add("is-open");
     navbar.querySelector(".edu-study-menu")?.classList.add("is-open");
 }
-/* =========================================================
-   COUNTRY PANEL
-========================================================= */
 
 function countryPanel(country) {
     const label = DESTINATION_MENU_DATA[country]?.label || country;
@@ -802,11 +1097,18 @@ function countryPanel(country) {
     `;
 }
 
-
 function escapeCountryMenuText(value) {
-    return String(value ?? "").replace(/[&<>"']/g, (character) => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"
-    })[character]);
+    return String(value ?? "").replace(
+        /[&<>"']/g,
+        (character) =>
+            ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+            })[character],
+    );
 }
 
 const COUNTRY_MENU_LABELS = {
@@ -821,19 +1123,27 @@ const COUNTRY_MENU_LABELS = {
     Hungary: { country: "Hungary", aliases: ["hungary", "hu"] },
     Ireland: { country: "Ireland", aliases: ["ireland", "ie"] },
     Netherlands: { country: "Netherlands", aliases: ["netherlands", "nl"] },
-    Italy: { country: "Italy", aliases: ["italy", "it"] }
+    Italy: { country: "Italy", aliases: ["italy", "it"] },
 };
 
 async function loadCountryMenuInstitutions() {
     const nav = document.querySelector("#edu-study-nav");
-    if (!nav || nav.dataset.countryListingsLoaded === "true" || nav.dataset.countryListingsLoading === "true") return;
+    if (
+        !nav ||
+        nav.dataset.countryListingsLoaded === "true" ||
+        nav.dataset.countryListingsLoading === "true"
+    )
+        return;
     nav.dataset.countryListingsLoading = "true";
     nav.dataset.countryListingsLoaded = "true";
     try {
         const response = await getInstitutions();
-        const institutions = Array.isArray(response) && response.length ? response.filter((item) =>
-            item.active === true && item.studyAbroadEnabled === true
-        ) : localInstitutions;
+        const institutions =
+            Array.isArray(response) && response.length
+                ? response.filter(
+                      (item) => item.active === true && item.studyAbroadEnabled === true,
+                  )
+                : localInstitutions;
         renderCountryMenuInstitutions(nav, institutions);
         if (nav.dataset.countryDetailsBound !== "true") {
             nav.dataset.countryDetailsBound = "true";
@@ -841,7 +1151,9 @@ async function loadCountryMenuInstitutions() {
                 const button = event.target.closest("[data-country-institution-details]");
                 if (!button || !nav.contains(button)) return;
                 const card = button.closest("[data-country-institution-id]");
-                const institution = institutions.find((item) => String(item.id) === card?.dataset.countryInstitutionId);
+                const institution = institutions.find(
+                    (item) => String(item.id) === card?.dataset.countryInstitutionId,
+                );
                 if (institution) openInstitutionDetails(institution);
             });
         }
@@ -850,7 +1162,12 @@ async function loadCountryMenuInstitutions() {
         nav.querySelectorAll("[data-country-list-count]").forEach((count) => {
             count.dataset.source = "local";
         });
-        console.info("Showing local Explore Countries institution data because the backend is unavailable.", error);
+        console.info(
+            "Showing local Explore Countries " +
+                "institution data because the backend is " +
+                "unavailable.",
+            error,
+        );
     } finally {
         nav.dataset.countryListingsLoading = "false";
     }
@@ -865,52 +1182,81 @@ const VERIFIED_UNIVERSITY_FACTS = (universityDirectory.countries || [])
     }, new Map());
 
 function countryListingMetadata(item) {
-    return VERIFIED_UNIVERSITY_FACTS.get(`${String(item.name || "").trim().toLowerCase()}::${String(item.country || "").trim().toLowerCase()}`);
+    return VERIFIED_UNIVERSITY_FACTS.get(
+        `${String(item.name || "")
+            .trim()
+            .toLowerCase()}::${String(item.country || "")
+            .trim()
+            .toLowerCase()}`,
+    );
 }
 
 function countryListingFacts(metadata) {
-    const rank = metadata?.ranking ? `${metadata.rankingOrganization} ${metadata.rankingYear}: ${metadata.ranking}` : "Ranking unavailable";
+    const rank = metadata?.ranking
+        ? `${metadata.rankingOrganization} ${metadata.rankingYear}: ${metadata.ranking}`
+        : "Ranking unavailable";
     const fee = metadata?.tuitionInrMin
         ? `Annual undergraduate tuition: ₹${(metadata.tuitionInrMin / 100000).toFixed(2)} lakh (2026–27)`
         : "Check official fees";
     const sources = [metadata?.rankingSourceUrl, metadata?.feeSourceUrl].filter(Boolean);
-    const sourceLinks = sources.map((url, index) => `<a href="${escapeCountryMenuText(url)}" target="_blank" rel="noopener noreferrer">${index === 0 ? "Ranking source" : "Tuition source"} ↗</a>`).join("");
+    const sourceLinks = sources
+        .map(
+            (url, index) =>
+                `<a href="${escapeCountryMenuText(url)}" target="_blank" rel="noopener noreferrer">${index === 0 ? "Ranking source" : "Tuition source"} ↗</a>`,
+        )
+        .join("");
     return `<div class="edu-university-verified-facts"><div class="edu-university-fact"><span>World ranking</span><strong>${escapeCountryMenuText(rank)}</strong></div><div class="edu-university-fact"><span>Annual tuition</span><strong>${escapeCountryMenuText(fee.replace("Annual undergraduate tuition: ", ""))}</strong></div></div>`;
 }
 function renderCountryMenuInstitutions(nav, institutions) {
-        Object.entries(COUNTRY_MENU_LABELS).forEach(([key, destination]) => {
-            const matches = institutions.filter((item) => destination.aliases.includes(
-                String(item.country || item.countryCode || "").trim().toLowerCase()
-            ));
-            const grid = nav.querySelector(`[data-country-institutions="${key}"]`);
-            const count = nav.querySelector(`[data-country-list-count="${key}"]`);
-            if (count) count.textContent = `${matches.length} listed`;
-            if (!grid) return;
-            grid.innerHTML = matches.length ? matches.map((item) => {
-                const name = escapeCountryMenuText(item.name || "Institution");
-                const type = String(item.type || "").toUpperCase();
-                const typeLabel = type === "UNIVERSITY" ? "University" : type === "COLLEGE" ? "College" : "Institution";
-                const initials = name.split(/\s+/).slice(0, 2).map((word) => word[0] || "").join("").toUpperCase();
-                const metadata = countryListingMetadata(item);
-                const logoUrl = getInstitutionLogoUrl({ ...item, logoUrl: metadata?.logoUrl });
-                const logo = logoUrl
-                    ? `<span class="edu-university-logo"><img src="${escapeCountryMenuText(logoUrl)}" alt="${name} logo" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span hidden>${initials}</span></span>`
-                    : `<span class="edu-university-logo">${initials}</span>`;
-                return `<article class="edu-university-card" data-country-institution-id="${escapeCountryMenuText(item.id)}"><div class="edu-university-card-top">${logo}<span class="edu-university-tag blue">${typeLabel}</span></div><h4>${name}</h4><p>${escapeCountryMenuText(destination.country)}</p>${countryListingFacts(metadata)}<button type="button" class="edu-university-card-details" data-country-institution-details>View details <span>→</span></button></article>`;
-            }).join("") : `<p class="edu-country-list-empty">No institutions are listed for ${escapeCountryMenuText(destination.country)} yet.</p>`;
-        });
+    Object.entries(COUNTRY_MENU_LABELS).forEach(([key, destination]) => {
+        const matches = institutions.filter((item) =>
+            destination.aliases.includes(
+                String(item.country || item.countryCode || "")
+                    .trim()
+                    .toLowerCase(),
+            ),
+        );
+        const grid = nav.querySelector(`[data-country-institutions="${key}"]`);
+        const count = nav.querySelector(`[data-country-list-count="${key}"]`);
+        if (count) count.textContent = `${matches.length} listed`;
+        if (!grid) return;
+        grid.innerHTML = matches.length
+            ? matches
+                  .map((item) => {
+                      const name = escapeCountryMenuText(item.name || "Institution");
+                      const type = String(item.type || "").toUpperCase();
+                      const typeLabel =
+                          type === "UNIVERSITY"
+                              ? "University"
+                              : type === "COLLEGE"
+                                ? "College"
+                                : "Institution";
+                      const initials = name
+                          .split(/\s+/)
+                          .slice(0, 2)
+                          .map((word) => word[0] || "")
+                          .join("")
+                          .toUpperCase();
+                      const metadata = countryListingMetadata(item);
+                      const logoUrl = getInstitutionLogoUrl({
+                          ...item,
+                          logoUrl: metadata?.logoUrl,
+                      });
+                      const logo = logoUrl
+                          ? `<span class="edu-university-logo"><img src="${escapeCountryMenuText(logoUrl)}" alt="${name} logo" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><span hidden>${initials}</span></span>`
+                          : `<span class="edu-university-logo">${initials}</span>`;
+                      return `<article class="edu-university-card" data-country-institution-id="${escapeCountryMenuText(item.id)}"><div class="edu-university-card-top">${logo}<span class="edu-university-tag blue">${typeLabel}</span></div><h4>${name}</h4><p>${escapeCountryMenuText(destination.country)}</p>${countryListingFacts(metadata)}<button type="button" class="edu-university-card-details" data-country-institution-details>View details <span>→</span></button></article>`;
+                  })
+                  .join("")
+            : `<p class="edu-country-list-empty">No institutions are listed for ${escapeCountryMenuText(destination.country)} yet.</p>`;
+    });
 }
 
 export function initStudyAbroadCountryMenu() {
     loadCountryMenuInstitutions();
 }
 
-/* =========================================================
-   NAVBAR
-========================================================= */
-
 export default function StudyAbroadNavbar() {
-
     /*
        IMPORTANT:
 
@@ -923,59 +1269,55 @@ export default function StudyAbroadNavbar() {
     */
 
     if (!window.__eduStudyNavbarController) {
-
         window.__eduStudyNavbarController = true;
-
 
         document.addEventListener(
             "click",
             (event) => {
-
                 const retryButton = event.target.closest("[data-country-list-retry]");
                 if (retryButton) {
                     const nav = retryButton.closest("#edu-study-nav");
                     if (!nav) return;
                     nav.dataset.countryListingsLoaded = "false";
-                    nav.querySelectorAll("[data-country-list-count]").forEach((count) => count.textContent = "Loading…");
-                    nav.querySelectorAll("[data-country-institutions]").forEach((grid) => grid.innerHTML = '<p class="edu-country-list-loading">Loading listed institutions…</p>');
+                    nav.querySelectorAll("[data-country-list-count]").forEach(
+                        (count) => (count.textContent = "Loading…"),
+                    );
+                    nav.querySelectorAll("[data-country-institutions]").forEach(
+                        (grid) =>
+                            (grid.innerHTML =
+                                '<p class="edu-country-list-loading">Loading listed institutions…</p>'),
+                    );
                     loadCountryMenuInstitutions();
                     return;
                 }
 
-                const courseFilterLink = event.target.closest("[data-explore-subject], [data-explore-level]");
+                const courseFilterLink = event.target.closest(
+                    "[data-explore-subject], [data-explore-level]",
+                );
                 if (courseFilterLink) {
-                    event.preventDefault(); event.stopPropagation();
+                    event.preventDefault();
+                    event.stopPropagation();
                     const nav = document.querySelector("#edu-study-nav");
                     if (!nav) return;
-                    openSelectedCountryResults(nav, { subject: courseFilterLink.dataset.exploreSubject || "", level: courseFilterLink.dataset.exploreLevel || "", country: courseFilterLink.dataset.destinationCountry || "" });
+                    openSelectedCountryResults(nav, {
+                        subject: courseFilterLink.dataset.exploreSubject || "",
+                        level: courseFilterLink.dataset.exploreLevel || "",
+                        country: courseFilterLink.dataset.destinationCountry || "",
+                    });
                     return;
                 }
 
-                const destinationsLink =
-                    event.target.closest(
-                        "[data-open-destinations]"
-                    );
-
+                const destinationsLink = event.target.closest("[data-open-destinations]");
 
                 if (destinationsLink) {
-
                     event.preventDefault();
                     event.stopPropagation();
 
-                    const navbar =
-                        document.querySelector(
-                            "#edu-study-nav"
-                        );
+                    const navbar = document.querySelector("#edu-study-nav");
 
-                    const menu =
-                        navbar?.querySelector(
-                            '[data-mega-menu="destinations"]'
-                        );
+                    const menu = navbar?.querySelector('[data-mega-menu="destinations"]');
 
-                    const trigger =
-                        navbar?.querySelector(
-                            '[data-mega-trigger="destinations"]'
-                        );
+                    const trigger = navbar?.querySelector('[data-mega-trigger="destinations"]');
 
                     if (!navbar || !menu || !trigger) {
                         return;
@@ -983,214 +1325,102 @@ export default function StudyAbroadNavbar() {
 
                     navbar.scrollIntoView({
                         behavior: "smooth",
-                        block: "start"
+                        block: "start",
+                    });
+
+                    navbar.querySelectorAll(".edu-study-mega.is-open").forEach((openMenu) => {
+                        openMenu.classList.remove("is-open");
+                    });
+
+                    navbar.querySelectorAll(".edu-study-nav-item.is-open").forEach((openItem) => {
+                        openItem.classList.remove("is-open");
                     });
 
                     navbar
-                        .querySelectorAll(
-                            ".edu-study-mega.is-open"
-                        )
-                        .forEach((openMenu) => {
-                            openMenu.classList.remove("is-open");
-                        });
-
-                    navbar
-                        .querySelectorAll(
-                            ".edu-study-nav-item.is-open"
-                        )
-                        .forEach((openItem) => {
-                            openItem.classList.remove("is-open");
-                        });
-
-                    navbar
-                        .querySelectorAll(
-                            ".edu-study-nav-button.is-open"
-                        )
+                        .querySelectorAll(".edu-study-nav-button.is-open")
                         .forEach((openButton) => {
                             openButton.classList.remove("is-open");
-                            openButton.setAttribute(
-                                "aria-expanded",
-                                "false"
-                            );
+                            openButton.setAttribute("aria-expanded", "false");
                         });
 
                     menu.classList.add("is-open");
                     trigger.classList.add("is-open");
-                    trigger.setAttribute(
-                        "aria-expanded",
-                        "true"
-                    );
+                    trigger.setAttribute("aria-expanded", "true");
 
-                    trigger
-                        .closest(".edu-study-nav-item")
-                        ?.classList.add("is-open");
+                    trigger.closest(".edu-study-nav-item")?.classList.add("is-open");
 
-                    navbar
-                        .querySelector(".edu-study-menu")
-                        ?.classList.add("is-open");
+                    navbar.querySelector(".edu-study-menu")?.classList.add("is-open");
 
-                    menu
-                        .querySelectorAll("[data-mega-content]")
-                        .forEach((panel) => {
-                            panel.classList.toggle(
-                                "active",
-                                panel.dataset.megaContent === "USA"
-                            );
-                        });
+                    menu.querySelectorAll("[data-mega-content]").forEach((panel) => {
+                        panel.classList.toggle("active", panel.dataset.megaContent === "USA");
+                    });
 
-                    menu
-                        .querySelectorAll("[data-mega-panel]")
-                        .forEach((panelButton) => {
-                            panelButton.classList.toggle(
-                                "active",
-                                panelButton.dataset.megaPanel === "USA"
-                            );
-                        });
+                    menu.querySelectorAll("[data-mega-panel]").forEach((panelButton) => {
+                        panelButton.classList.toggle(
+                            "active",
+                            panelButton.dataset.megaPanel === "USA",
+                        );
+                    });
 
                     return;
                 }
 
-                const navbar =
-                    event.target.closest(
-                        "#edu-study-nav"
-                    );
-
-
-                /* =========================================
-                   OUTSIDE CLICK
-                ========================================== */
+                const navbar = event.target.closest("#edu-study-nav");
 
                 if (!navbar) {
+                    document.querySelectorAll(".edu-study-mega.is-open").forEach((menu) => {
+                        menu.classList.remove("is-open");
+                    });
 
-                    document
-                        .querySelectorAll(
-                            ".edu-study-mega.is-open"
-                        )
-                        .forEach((menu) => {
-
-                            menu.classList.remove(
-                                "is-open"
-                            );
-
-                        });
-
-
-                    document
-                        .querySelectorAll(
-                            ".edu-study-nav-item.is-open"
-                        )
-                        .forEach((item) => {
-
-                            item.classList.remove(
-                                "is-open"
-                            );
-
-                        });
-
+                    document.querySelectorAll(".edu-study-nav-item.is-open").forEach((item) => {
+                        item.classList.remove("is-open");
+                    });
 
                     return;
                 }
 
-
-                /* =========================================
-                   MAIN NAV BUTTON
-                ========================================== */
-
-                const navButton =
-                    event.target.closest(
-                        "[data-mega-trigger]"
-                    );
-
+                const navButton = event.target.closest("[data-mega-trigger]");
 
                 if (navButton) {
-
                     event.preventDefault();
                     event.stopPropagation();
 
+                    const menuName = navButton.dataset.megaTrigger;
 
-                    const menuName =
-                        navButton.dataset.megaTrigger;
-
-
-                    const megaMenu =
-                        navbar.querySelector(
-                            `[data-mega-menu="${menuName}"]`
-                        );
-
+                    const megaMenu = navbar.querySelector(`[data-mega-menu="${menuName}"]`);
 
                     if (!megaMenu) {
                         return;
                     }
 
-
-                    const wasOpen =
-                        megaMenu.classList.contains(
-                            "is-open"
-                        );
-
+                    const wasOpen = megaMenu.classList.contains("is-open");
 
                     /* Close every menu */
 
-                    navbar
-                        .querySelectorAll(
-                            ".edu-study-mega.is-open"
-                        )
-                        .forEach((menu) => {
+                    navbar.querySelectorAll(".edu-study-mega.is-open").forEach((menu) => {
+                        menu.classList.remove("is-open");
+                    });
 
-                            menu.classList.remove(
-                                "is-open"
-                            );
-
-                        });
-
-
-                    navbar
-                        .querySelectorAll(
-                            ".edu-study-nav-item.is-open"
-                        )
-                        .forEach((item) => {
-
-                            item.classList.remove(
-                                "is-open"
-                            );
-
-                        });
-
+                    navbar.querySelectorAll(".edu-study-nav-item.is-open").forEach((item) => {
+                        item.classList.remove("is-open");
+                    });
 
                     /* Open selected */
 
                     if (!wasOpen) {
+                        megaMenu.classList.add("is-open");
 
-                        megaMenu.classList.add(
-                            "is-open"
-                        );
+                        navButton.classList.add("is-open");
 
-                        navButton.classList.add(
-                            "is-open"
-                        );
-
-                        const navItem =
-                            navButton.closest(
-                                ".edu-study-nav-item"
-                            );
+                        const navItem = navButton.closest(".edu-study-nav-item");
 
                         if (navItem) {
-
-                            navItem.classList.add(
-                                "is-open"
-                            );
-
+                            navItem.classList.add("is-open");
                         }
-
                     }
 
                     return;
                 }
-
-
-                /* =========================================
-                   COUNTRY SWITCHING
-                ========================================== */
 
                 const countryListToggle = event.target.closest("[data-country-list-toggle]");
                 if (countryListToggle && window.matchMedia("(max-width: 600px)").matches) {
@@ -1201,27 +1431,15 @@ export default function StudyAbroadNavbar() {
                     return;
                 }
 
-                const countryButton =
-                    event.target.closest(
-                        ".edu-country-item"
-                    );
-
+                const countryButton = event.target.closest(".edu-country-item");
 
                 if (countryButton) {
-
                     event.preventDefault();
                     event.stopPropagation();
 
+                    const country = countryButton.dataset.country;
 
-                    const country =
-                        countryButton.dataset.country;
-
-
-                    const mega =
-                        countryButton.closest(
-                            ".edu-country-mega"
-                        );
-
+                    const mega = countryButton.closest(".edu-country-mega");
 
                     if (!mega) {
                         return;
@@ -1229,7 +1447,9 @@ export default function StudyAbroadNavbar() {
 
                     if (window.matchMedia("(max-width: 600px)").matches) {
                         const listToggle = mega.querySelector("[data-country-list-toggle]");
-                        const countryLabel = countryButton.querySelector("span:first-child")?.textContent?.trim();
+                        const countryLabel = countryButton
+                            .querySelector("span:first-child")
+                            ?.textContent?.trim();
                         mega.classList.add("country-list-collapsed");
                         if (listToggle) {
                             listToggle.setAttribute("aria-expanded", "false");
@@ -1237,49 +1457,23 @@ export default function StudyAbroadNavbar() {
                         }
                     }
 
-
                     /* Remove active countries */
 
-                    mega
-                        .querySelectorAll(
-                            ".edu-country-item.active"
-                        )
-                        .forEach((item) => {
+                    mega.querySelectorAll(".edu-country-item.active").forEach((item) => {
+                        item.classList.remove("active");
+                    });
 
-                            item.classList.remove(
-                                "active"
-                            );
-
-                        });
-
-
-                    countryButton.classList.add(
-                        "active"
-                    );
-
+                    countryButton.classList.add("active");
 
                     /* Hide panels */
 
-                    mega
-                        .querySelectorAll(
-                            ".edu-country-panel.active"
-                        )
-                        .forEach((panel) => {
-
-                            panel.classList.remove(
-                                "active"
-                            );
-
-                        });
-
+                    mega.querySelectorAll(".edu-country-panel.active").forEach((panel) => {
+                        panel.classList.remove("active");
+                    });
 
                     /* Show selected panel */
 
-                    const selectedPanel =
-                        mega.querySelector(
-                            `[data-country-panel="${country}"]`
-                        );
-
+                    const selectedPanel = mega.querySelector(`[data-country-panel="${country}"]`);
 
                     if (selectedPanel) {
                         selectedPanel.classList.add("active");
@@ -1289,15 +1483,11 @@ export default function StudyAbroadNavbar() {
                     return;
                 }
 
-
-                /* =========================================
-                   SUBJECT CHIP
-                ========================================== */
-
                 const subjectButton = event.target.closest("[data-country-subject]");
 
                 if (subjectButton) {
-                    event.preventDefault(); event.stopPropagation();
+                    event.preventDefault();
+                    event.stopPropagation();
                     const panel = subjectButton.closest(".edu-country-panel");
                     if (!panel) return;
                     const selected = subjectButton.dataset.countrySubject;
@@ -1305,196 +1495,85 @@ export default function StudyAbroadNavbar() {
                     return;
                 }
 
-                /* =========================================
-                   SIDEBAR MENU
-                ========================================== */
-
-                const sideButton =
-                    event.target.closest(
-                        ".edu-study-side-item"
-                    );
-
+                const sideButton = event.target.closest(".edu-study-side-item");
 
                 if (sideButton) {
-
                     event.preventDefault();
                     event.stopPropagation();
 
-
-                    const mega =
-                        sideButton.closest(
-                            ".edu-study-mega"
-                        );
-
+                    const mega = sideButton.closest(".edu-study-mega");
 
                     if (!mega) {
                         return;
                     }
 
-
-                    mega
-                        .querySelectorAll(
-                            ".edu-study-side-item.active"
-                        )
-                        .forEach((item) => {
-
-                            item.classList.remove(
-                                "active"
-                            );
-
-                        });
+                    mega.querySelectorAll(".edu-study-side-item.active").forEach((item) => {
+                        item.classList.remove("active");
+                    });
 
                     mega.querySelectorAll(".edu-study-side-item[aria-pressed]").forEach((item) => {
                         item.setAttribute("aria-pressed", String(item === sideButton));
                     });
 
+                    sideButton.classList.add("active");
 
-                    sideButton.classList.add(
-                        "active"
-                    );
-
-
-                    const panelName =
-                        sideButton.dataset.megaPanel;
-
+                    const panelName = sideButton.dataset.megaPanel;
 
                     if (!panelName) {
                         return;
                     }
 
+                    mega.querySelectorAll(".edu-study-panel.active").forEach((panel) => {
+                        panel.classList.remove("active");
+                    });
 
-                    mega
-                        .querySelectorAll(
-                            ".edu-study-panel.active"
-                        )
-                        .forEach((panel) => {
-
-                            panel.classList.remove(
-                                "active"
-                            );
-
-                        });
-
-
-                    const panel =
-                        mega.querySelector(
-                            `[data-mega-content="${panelName}"]`
-                        );
-
+                    const panel = mega.querySelector(`[data-mega-content="${panelName}"]`);
 
                     if (panel) {
-
-                        panel.classList.add(
-                            "active"
-                        );
-
+                        panel.classList.add("active");
                     }
 
                     return;
                 }
 
-
-                /* =========================================
-                   MOBILE BUTTON
-                ========================================== */
-
-                const mobileButton =
-                    event.target.closest(
-                        ".edu-study-mobile-button"
-                    );
-
+                const mobileButton = event.target.closest(".edu-study-mobile-button");
 
                 if (mobileButton) {
-
                     event.preventDefault();
                     event.stopPropagation();
 
-
-                    const menu =
-                        navbar.querySelector(
-                            ".edu-study-menu"
-                        );
-
+                    const menu = navbar.querySelector(".edu-study-menu");
 
                     if (!menu) {
                         return;
                     }
 
+                    menu.classList.toggle("is-open");
 
-                    menu.classList.toggle(
-                        "is-open"
-                    );
+                    const expanded = menu.classList.contains("is-open");
 
-
-                    const expanded =
-                        menu.classList.contains(
-                            "is-open"
-                        );
-
-
-                    mobileButton.setAttribute(
-                        "aria-expanded",
-                        String(expanded)
-                    );
-
+                    mobileButton.setAttribute("aria-expanded", String(expanded));
 
                     return;
                 }
-
             },
-            true
+            true,
         );
 
-
-        /* ================================================
-           ESC KEY
-        ================================================= */
-
-        document.addEventListener(
-            "keydown",
-            (event) => {
-
-                if (
-                    event.key !== "Escape"
-                ) {
-                    return;
-                }
-
-
-                document
-                    .querySelectorAll(
-                        ".edu-study-mega.is-open"
-                    )
-                    .forEach((menu) => {
-
-                        menu.classList.remove(
-                            "is-open"
-                        );
-
-                    });
-
-
-                document
-                    .querySelectorAll(
-                        ".edu-study-nav-item.is-open"
-                    )
-                    .forEach((item) => {
-
-                        item.classList.remove(
-                            "is-open"
-                        );
-
-                    });
-
+        document.addEventListener("keydown", (event) => {
+            if (event.key !== "Escape") {
+                return;
             }
-        );
 
+            document.querySelectorAll(".edu-study-mega.is-open").forEach((menu) => {
+                menu.classList.remove("is-open");
+            });
+
+            document.querySelectorAll(".edu-study-nav-item.is-open").forEach((item) => {
+                item.classList.remove("is-open");
+            });
+        });
     }
-
-
-    /* =====================================================
-       NAVBAR HTML
-    ====================================================== */
 
     return `
 
@@ -1506,7 +1585,6 @@ export default function StudyAbroadNavbar() {
             <div class="edu-study-nav-inner">
 
 
-                <!-- BRAND -->
 
                 <a
                     href="/"
@@ -1524,7 +1602,6 @@ export default function StudyAbroadNavbar() {
                 </a>
 
 
-                <!-- MAIN MENU -->
 
                 <nav
                     class="edu-study-menu"
@@ -1532,9 +1609,6 @@ export default function StudyAbroadNavbar() {
                 >
 
 
-                    <!-- ===================================
-                         EXPLORE COUNTRIES
-                    ==================================== -->
 
                     <div
                         class="edu-study-nav-item"
@@ -1564,7 +1638,6 @@ export default function StudyAbroadNavbar() {
                             >
 
 
-                                <!-- COUNTRY SIDEBAR -->
 
                                 <aside
                                     class="edu-country-sidebar"
@@ -1767,153 +1840,112 @@ export default function StudyAbroadNavbar() {
                                 </aside>
 
 
-                                <!-- COUNTRY CONTENT -->
 
                                 <div
                                     class="edu-country-content"
                                 >
 
-                                    ${countryPanel(
-                                        "USA",
-                                        "1,000+",
-                                        [
-                                            "Computer Science",
-                                            "Business",
-                                            "Engineering",
-                                            "Data Science",
-                                            "MBA",
-                                            "Information Technology"
-                                        ]
-                                    )}
+                                    ${countryPanel("USA", "1,000+", [
+                                        "Computer Science",
+                                        "Business",
+                                        "Engineering",
+                                        "Data Science",
+                                        "MBA",
+                                        "Information Technology",
+                                    ])}
 
 
-                                    ${countryPanel(
-                                        "Germany",
-                                        "500+",
-                                        [
-                                            "Computer Science",
-                                            "Engineering",
-                                            "Data Science",
-                                            "Business",
-                                            "AI & Machine Learning",
-                                            "Technology"
-                                        ]
-                                    )}
+                                    ${countryPanel("Germany", "500+", [
+                                        "Computer Science",
+                                        "Engineering",
+                                        "Data Science",
+                                        "Business",
+                                        "AI & Machine Learning",
+                                        "Technology",
+                                    ])}
 
 
-                                    ${countryPanel(
-                                        "France",
-                                        "400+",
-                                        [
-                                            "Business",
-                                            "Management",
-                                            "Engineering",
-                                            "Computer Science",
-                                            "Finance",
-                                            "Technology"
-                                        ]
-                                    )}
+                                    ${countryPanel("France", "400+", [
+                                        "Business",
+                                        "Management",
+                                        "Engineering",
+                                        "Computer Science",
+                                        "Finance",
+                                        "Technology",
+                                    ])}
 
 
-                                    ${countryPanel(
-                                        "UK",
-                                        "800+",
-                                        [
-                                            "Computer Science",
-                                            "Business",
-                                            "Data Science",
-                                            "Engineering",
-                                            "Finance",
-                                            "Management"
-                                        ]
-                                    )}
+                                    ${countryPanel("UK", "800+", [
+                                        "Computer Science",
+                                        "Business",
+                                        "Data Science",
+                                        "Engineering",
+                                        "Finance",
+                                        "Management",
+                                    ])}
 
 
-                                    ${countryPanel(
-                                        "Australia",
-                                        "600+",
-                                        [
-                                            "Computer Science",
-                                            "Business",
-                                            "Engineering",
-                                            "Data Science",
-                                            "IT",
-                                            "Management"
-                                        ]
-                                    )}
+                                    ${countryPanel("Australia", "600+", [
+                                        "Computer Science",
+                                        "Business",
+                                        "Engineering",
+                                        "Data Science",
+                                        "IT",
+                                        "Management",
+                                    ])}
 
 
-                                    ${countryPanel(
-                                        "Finland",
-                                        "200+",
-                                        [
-                                            "Computer Science",
-                                            "Technology",
-                                            "Engineering",
-                                            "Data Science",
-                                            "Business",
-                                            "AI"
-                                        ]
-                                    )}
+                                    ${countryPanel("Finland", "200+", [
+                                        "Computer Science",
+                                        "Technology",
+                                        "Engineering",
+                                        "Data Science",
+                                        "Business",
+                                        "AI",
+                                    ])}
 
 
-                                    ${countryPanel(
-                                        "UAE",
-                                        "150+",
-                                        [
-                                            "Business",
-                                            "Computer Science",
-                                            "Engineering",
-                                            "Management",
-                                            "Technology",
-                                            "Finance"
-                                        ]
-                                    )}
+                                    ${countryPanel("UAE", "150+", [
+                                        "Business",
+                                        "Computer Science",
+                                        "Engineering",
+                                        "Management",
+                                        "Technology",
+                                        "Finance",
+                                    ])}
 
 
-                                    ${countryPanel(
-                                        "Canada",
-                                        "700+",
-                                        [
-                                            "Computer Science",
-                                            "Business",
-                                            "Engineering",
-                                            "Data Science",
-                                            "Management",
-                                            "Technology"
-                                        ]
-                                    )}
+                                    ${countryPanel("Canada", "700+", [
+                                        "Computer Science",
+                                        "Business",
+                                        "Engineering",
+                                        "Data Science",
+                                        "Management",
+                                        "Technology",
+                                    ])}
 
 
-                                    ${countryPanel(
-                                        "Hungary",
-                                        "150+",
-                                        [
-                                            "Computer Science",
-                                            "Engineering",
-                                            "Business",
-                                            "Technology",
-                                            "Data Science",
-                                            "Management"
-                                        ]
-                                    )}
+                                    ${countryPanel("Hungary", "150+", [
+                                        "Computer Science",
+                                        "Engineering",
+                                        "Business",
+                                        "Technology",
+                                        "Data Science",
+                                        "Management",
+                                    ])}
 
 
                                     ${countryPanel("Netherlands")}
                                     ${countryPanel("Italy")}
 
-                                    ${countryPanel(
-                                        "Ireland",
-                                        "250+",
-                                        [
-                                            "Computer Science",
-                                            "Technology",
-                                            "Business",
-                                            "Data Science",
-                                            "Engineering",
-                                            "Finance"
-                                        ]
-                                    )}
+                                    ${countryPanel("Ireland", "250+", [
+                                        "Computer Science",
+                                        "Technology",
+                                        "Business",
+                                        "Data Science",
+                                        "Engineering",
+                                        "Finance",
+                                    ])}
 
                                 </div>
 
@@ -1924,9 +1956,6 @@ export default function StudyAbroadNavbar() {
                     </div>
 
 
-                    <!-- ===================================
-                         DESTINATIONS
-                    ==================================== -->
                     <div class="edu-study-nav-item">
                         <button type="button" class="edu-study-nav-button" data-mega-trigger="destinations" aria-expanded="false">
                             Destinations <span>⌄</span>
@@ -1935,11 +1964,15 @@ export default function StudyAbroadNavbar() {
                             <div class="edu-study-mega-inner edu-destination-mega-inner">
                                 <aside class="edu-study-mega-sidebar edu-destination-sidebar" aria-label="Choose a destination">
                                     <div class="edu-destination-sidebar-title">Explore countries</div>
-                                    ${Object.entries(DESTINATION_MENU_DATA).map(([country, data]) => `
+                                    ${Object.entries(DESTINATION_MENU_DATA)
+                                        .map(
+                                            ([country, data]) => `
                                         <button type="button" class="edu-study-side-item ${country === "USA" ? "active" : ""}" data-mega-panel="${country}" aria-pressed="${country === "USA" ? "true" : "false"}">
                                             <span>${data.label}</span><span aria-hidden="true">→</span>
                                         </button>
-                                    `).join("")}
+                                    `,
+                                        )
+                                        .join("")}
                                 </aside>
                                 <div class="edu-study-mega-content edu-destination-content" aria-live="polite">
                                     ${Object.keys(DESTINATION_MENU_DATA).map(destinationCountryPanel).join("")}
@@ -1948,9 +1981,6 @@ export default function StudyAbroadNavbar() {
                         </div>
                     </div>
 
-                    <!-- ===================================
-                         EXAMS
-                    ==================================== -->
 
                     <div
                         class="edu-study-nav-item"
@@ -2192,9 +2222,6 @@ export default function StudyAbroadNavbar() {
                     </div>
 
 
-                    <!-- ===================================
-                         RESOURCES
-                    ==================================== -->
 
                     <div
                         class="edu-study-nav-item"
@@ -2514,9 +2541,6 @@ export default function StudyAbroadNavbar() {
                     </div>
 
 
-                    <!-- ===================================
-                         MORE
-                    ==================================== -->
 
                     <div
                         class="edu-study-nav-item"
@@ -2729,7 +2753,6 @@ export default function StudyAbroadNavbar() {
                 </nav>
 
 
-                <!-- RIGHT ACTIONS -->
 
                 <div
                     class="edu-study-nav-actions"
@@ -2763,9 +2786,4 @@ export default function StudyAbroadNavbar() {
         </section>
 
     `;
-
 }
-
-
-
-

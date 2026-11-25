@@ -1,19 +1,14 @@
-/* =========================================================
-   STUDY ABROAD — ADMISSION REQUIREMENTS
-========================================================= */
-
 export default function AdmissionRequirements() {
-
     const requirements = [
-
         {
             number: "01",
             icon: "🎓",
             title: "Academic Qualifications",
             description:
-                "Meet the academic eligibility requirements specified by your chosen university and course.",
-            examples:
-                "School certificates • Bachelor's degree • Academic transcripts"
+                "Meet the academic eligibility " +
+                "requirements specified by your chosen " +
+                "university and course.",
+            examples: "School certificates • Bachelor's degree • Academic transcripts",
         },
 
         {
@@ -21,9 +16,10 @@ export default function AdmissionRequirements() {
             icon: "🌐",
             title: "English Language Proficiency",
             description:
-                "Many international universities require proof of English language proficiency as part of the admission process.",
-            examples:
-                "IELTS • TOEFL • PTE Academic"
+                "Many international universities require " +
+                "proof of English language proficiency " +
+                "as part of the admission process.",
+            examples: "IELTS • TOEFL • PTE Academic",
         },
 
         {
@@ -31,9 +27,10 @@ export default function AdmissionRequirements() {
             icon: "📝",
             title: "Entrance Exams",
             description:
-                "Some universities and programs may require additional standardized or entrance examinations.",
-            examples:
-                "GRE • GMAT • SAT • Program-specific tests"
+                "Some universities and programs may " +
+                "require additional standardized or " +
+                "entrance examinations.",
+            examples: "GRE • GMAT • SAT • Program-specific tests",
         },
 
         {
@@ -41,9 +38,11 @@ export default function AdmissionRequirements() {
             icon: "📄",
             title: "Statement of Purpose",
             description:
-                "A statement of purpose may be required to explain your academic interests, goals and reasons for choosing the program.",
-            examples:
-                "Academic goals • Career plans • Study motivation"
+                "A statement of purpose may be required " +
+                "to explain your academic interests, " +
+                "goals and reasons for choosing the " +
+                "program.",
+            examples: "Academic goals • Career plans • Study motivation",
         },
 
         {
@@ -51,9 +50,10 @@ export default function AdmissionRequirements() {
             icon: "👥",
             title: "Recommendation Letters",
             description:
-                "Certain universities and programs may request academic or professional recommendation letters.",
-            examples:
-                "Professor recommendations • Employer recommendations"
+                "Certain universities and programs may " +
+                "request academic or professional " +
+                "recommendation letters.",
+            examples: "Professor recommendations • Employer recommendations",
         },
 
         {
@@ -61,9 +61,10 @@ export default function AdmissionRequirements() {
             icon: "💼",
             title: "Resume / CV",
             description:
-                "A resume or CV may be required, particularly for postgraduate, professional and business programs.",
-            examples:
-                "Education • Experience • Skills • Achievements"
+                "A resume or CV may be required, " +
+                "particularly for postgraduate, " +
+                "professional and business programs.",
+            examples: "Education • Experience • Skills • Achievements",
         },
 
         {
@@ -71,9 +72,11 @@ export default function AdmissionRequirements() {
             icon: "💰",
             title: "Financial Documents",
             description:
-                "Applicants may need to demonstrate that they can meet the financial requirements associated with their study plans.",
-            examples:
-                "Bank statements • Financial documents • Funding information"
+                "Applicants may need to demonstrate that " +
+                "they can meet the financial " +
+                "requirements associated with their " +
+                "study plans.",
+            examples: "Bank statements • Financial documents • Funding information",
         },
 
         {
@@ -81,19 +84,15 @@ export default function AdmissionRequirements() {
             icon: "🛂",
             title: "Passport & Identification",
             description:
-                "A valid passport and identification documents are commonly required during the international application process.",
-            examples:
-                "Valid passport • Identity documents • Photographs"
-        }
-
+                "A valid passport and identification " +
+                "documents are commonly required during " +
+                "the international application process.",
+            examples: "Valid passport • Identity documents • Photographs",
+        },
     ];
-
 
     return `
 
-        <!-- =====================================================
-             ADMISSION REQUIREMENTS
-        ====================================================== -->
 
         <section
             class="study-abroad-admission-requirements"
@@ -104,9 +103,6 @@ export default function AdmissionRequirements() {
             <div class="study-abroad-admission-requirements-container">
 
 
-                <!-- =================================================
-                     SECTION HEADER
-                ================================================== -->
 
                 <div class="study-abroad-admission-requirements-header">
 
@@ -136,23 +132,19 @@ export default function AdmissionRequirements() {
                 </div>
 
 
-                <!-- =================================================
-                     REQUIREMENTS GRID
-                ================================================== -->
 
                 <div class="study-abroad-admission-requirements-grid">
 
 
-                    ${requirements.map((requirement) => `
+                    ${requirements
+                        .map(
+                            (requirement) => `
 
                         <article
                             class="study-abroad-admission-requirement-card"
                         >
 
 
-                            <!-- =================================================
-                                 CARD HEADER
-                            ================================================== -->
 
                             <div class="admission-requirement-card-header">
 
@@ -173,9 +165,6 @@ export default function AdmissionRequirements() {
                             </div>
 
 
-                            <!-- =================================================
-                                 CARD CONTENT
-                            ================================================== -->
 
                             <div class="admission-requirement-card-content">
 
@@ -190,9 +179,6 @@ export default function AdmissionRequirements() {
                                 </p>
 
 
-                                <!-- =================================================
-                                     REQUIREMENT EXAMPLES
-                                ================================================== -->
 
                                 <div class="admission-requirement-examples">
 
@@ -210,9 +196,6 @@ export default function AdmissionRequirements() {
                                 </div>
 
 
-                                <!-- =================================================
-                                     CARD ACTION
-                                ================================================== -->
 
                                 <button
                                     type="button"
@@ -233,15 +216,14 @@ export default function AdmissionRequirements() {
 
                         </article>
 
-                    `).join("")}
+                    `,
+                        )
+                        .join("")}
 
 
                 </div>
 
 
-                <!-- =================================================
-                     REQUIREMENTS NOTE
-                ================================================== -->
 
                 <div class="study-abroad-admission-note">
 
@@ -275,9 +257,6 @@ export default function AdmissionRequirements() {
                 </div>
 
 
-                <!-- =================================================
-                     ADMISSION CTA
-                ================================================== -->
 
                 <div class="study-abroad-admission-footer">
 

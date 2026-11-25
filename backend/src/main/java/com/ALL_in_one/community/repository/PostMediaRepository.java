@@ -5,14 +5,11 @@ import java.util.Collection;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PostMediaRepository
-        extends JpaRepository<PostMedia, Long> {
+public interface PostMediaRepository extends JpaRepository<PostMedia, Long> {
 
-    List<PostMedia> findByPost_IdInOrderByIdAsc(
-            Collection<Long> postIds
-    );
+  List<PostMedia> findByPost_IdInOrderByIdAsc(Collection<Long> postIds);
 
-    List<PostMedia> findByPost_IdOrderByIdAsc(Long postId);
+  List<PostMedia> findByPost_IdOrderByIdAsc(Long postId);
 
-    void deleteByPost_Id(Long postId);
+  void deleteByPost_Id(Long postId);
 }

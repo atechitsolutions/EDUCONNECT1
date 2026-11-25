@@ -10,17 +10,21 @@ async function call(path, options = {}) {
         headers: {
             ...(options.body ? { "Content-Type": "application/json" } : {}),
             ...(token ? { Authorization: `Bearer ${token}` } : {}),
-            ...options.headers
-        }
+            ...options.headers,
+        },
     });
     if (response.status === 204) return null;
     const body = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(body.message || `Community request failed (${response.status}).`);
+    if (!response.ok)
+        throw new Error(body.message || `Community request failed (${response.status}).`);
     return body;
 }
 
 const json = (method, body) => ({ method, body: JSON.stringify(body) });
-const params = (values) => new URLSearchParams(Object.entries(values).filter(([, value]) => value !== "" && value != null)).toString();
+const params = (values) =>
+    new URLSearchParams(
+        Object.entries(values).filter(([, value]) => value !== "" && value != null),
+    ).toString();
 
 export const communityApi = {
     myProfile: () => call("/me/profile"),
@@ -40,10 +44,14 @@ export const communityApi = {
         const suffix = query.size ? `?${query.toString()}` : "";
         return call(`/community-chat/messages${suffix}`);
     },
-    sendCommunityChatMessage: (content, imageData) => call("/community-chat/messages", json("POST", { content, imageData })),
-    reactToCommunityChatMessage: (id, emoji) => call(`/community-chat/messages/${id}/reactions`, json("PATCH", { emoji })),
-    deleteCommunityChatMessage: (id) => call(`/community-chat/messages/${id}`, { method: "DELETE" }),
-    reportCommunityChatMessage: (id, reason) => call(`/community-chat/messages/${id}/reports`, json("POST", { reason })),
+    sendCommunityChatMessage: (content, imageData) =>
+        call("/community-chat/messages", json("POST", { content, imageData })),
+    reactToCommunityChatMessage: (id, emoji) =>
+        call(`/community-chat/messages/${id}/reactions`, json("PATCH", { emoji })),
+    deleteCommunityChatMessage: (id) =>
+        call(`/community-chat/messages/${id}`, { method: "DELETE" }),
+    reportCommunityChatMessage: (id, reason) =>
+        call(`/community-chat/messages/${id}/reports`, json("POST", { reason })),
     conversations: () => call("/conversations"),
     openConversation: (userId) => call(`/conversations/${userId}`, { method: "POST" }),
     messages: (id, afterId, beforeId) => {
@@ -60,5 +68,5 @@ export const communityApi = {
     markAllRead: () => call("/notifications/read-all", { method: "PATCH" }),
     block: (userId) => call(`/blocks/${userId}`, { method: "POST" }),
     unblock: (userId) => call(`/blocks/${userId}`, { method: "DELETE" }),
-    report: (userId, reason) => call("/reports", json("POST", { userId, reason }))
+    report: (userId, reason) => call("/reports", json("POST", { userId, reason })),
 };

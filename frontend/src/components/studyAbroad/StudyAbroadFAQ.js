@@ -1,75 +1,85 @@
-/**
- * ============================================================
- * STEPINSTUDENTS — STUDY ABROAD FAQ
- * ============================================================
- *
- * Purpose:
- * - Frequently asked questions
- * - Search-intent content
- * - Accessible FAQ interaction
- * - SEO-friendly semantic structure
- *
- * Framework:
- * Vanilla JavaScript + Vite
- * ============================================================
- */
-
 export default function StudyAbroadFaq() {
-
     const faqs = [
         {
-            question:
-                "When should I start planning to study abroad from India?",
+            question: "When should I start planning to study abroad from India?",
 
             answer:
-                "It is generally useful to start planning well before your intended intake so you have time to research destinations and universities, prepare required tests and documents, review deadlines and organize your finances. The appropriate timeline varies by country, university and program."
+                "It is generally useful to start " +
+                "planning well before your intended " +
+                "intake so you have time to research " +
+                "destinations and universities, prepare " +
+                "required tests and documents, review " +
+                "deadlines and organize your finances. " +
+                "The appropriate timeline varies by " +
+                "country, university and program.",
         },
 
         {
-            question:
-                "How do I choose the right country to study abroad?",
+            question: "How do I choose the right country to study abroad?",
 
             answer:
-                "Consider the availability of your preferred course, universities, admission requirements, tuition fees, living costs, scholarships, application timelines and your personal priorities. Comparing these factors can help you create a more informed shortlist."
+                "Consider the availability of your " +
+                "preferred course, universities, " +
+                "admission requirements, tuition fees, " +
+                "living costs, scholarships, application " +
+                "timelines and your personal priorities. " +
+                "Comparing these factors can help you " +
+                "create a more informed shortlist.",
         },
 
         {
-            question:
-                "How do I choose a university for studying abroad?",
+            question: "How do I choose a university for studying abroad?",
 
             answer:
-                "Start by identifying programs that match your academic goals. Then compare the curriculum, admission requirements, tuition, location, available facilities, application deadlines and other factors that matter to you. Always verify current information directly with the university before applying."
+                "Start by identifying programs that " +
+                "match your academic goals. Then compare " +
+                "the curriculum, admission requirements, " +
+                "tuition, location, available " +
+                "facilities, application deadlines and " +
+                "other factors that matter to you. " +
+                "Always verify current information " +
+                "directly with the university before " +
+                "applying.",
         },
 
         {
-            question:
-                "What are the common requirements for studying abroad?",
+            question: "What are the common requirements for studying abroad?",
 
             answer:
-                "Requirements vary by destination, institution, program and applicant. Depending on your situation, you may need academic records, identification documents, language-test results, a statement of purpose, recommendation letters, financial documentation and other supporting documents."
+                "Requirements vary by destination, " +
+                "institution, program and applicant. " +
+                "Depending on your situation, you may " +
+                "need academic records, identification " +
+                "documents, language-test results, a " +
+                "statement of purpose, recommendation " +
+                "letters, financial documentation and " +
+                "other supporting documents.",
         },
 
         {
-            question:
-                "Do I need IELTS or TOEFL to study abroad?",
+            question: "Do I need IELTS or TOEFL to study abroad?",
 
             answer:
-                "Some universities and programs require proof of English-language proficiency, while requirements and accepted tests can differ. Check the official requirements of each university and program you are considering."
+                "Some universities and programs require " +
+                "proof of English-language proficiency, " +
+                "while requirements and accepted tests " +
+                "can differ. Check the official " +
+                "requirements of each university and " +
+                "program you are considering.",
         },
 
         {
-            question:
-                "How much does it cost to study abroad from India?",
+            question: "How much does it cost to study abroad from India?",
 
             answer:
-                "Costs vary by destination, city, university, course and study duration. Compare tuition and living expenses, then confirm current fees with the university and consult official sources before setting your budget."
-        }
-
-
-
-
+                "Costs vary by destination, city, " +
+                "university, course and study duration. " +
+                "Compare tuition and living expenses, " +
+                "then confirm current fees with the " +
+                "university and consult official sources " +
+                "before setting your budget.",
+        },
     ];
-
 
     return `
         <section
@@ -81,9 +91,6 @@ export default function StudyAbroadFaq() {
             <div class="study-abroad-container">
 
 
-                <!-- ==================================================
-                     HEADER
-                =================================================== -->
 
                 <div class="study-abroad-faq-header">
 
@@ -114,14 +121,10 @@ export default function StudyAbroadFaq() {
                 </div>
 
 
-                <!-- ==================================================
-                     FAQ LAYOUT
-                =================================================== -->
 
 
 
 
-                    <!-- QUESTIONS -->
 
                     <div
                         class="study-abroad-faq-list"
@@ -160,7 +163,7 @@ export default function StudyAbroadFaq() {
                                         </div>
 
                                     </details>
-                                `
+                                `,
                             )
                             .join("")}
 
@@ -169,9 +172,6 @@ export default function StudyAbroadFaq() {
                 </div>
 
 
-                <!-- ==================================================
-                     FAQ CTA
-                =================================================== -->
 
                 <div class="study-abroad-faq-cta">
 
@@ -215,9 +215,6 @@ export default function StudyAbroadFaq() {
                 </div>
 
 
-                <!-- ==================================================
-                     SEO CONTENT
-                =================================================== -->
 
                 <div class="study-abroad-faq-seo">
 
@@ -241,29 +238,19 @@ export default function StudyAbroadFaq() {
             </div>
 
 
-            <!-- ==================================================
-                 FAQ STRUCTURED DATA
-                 ==================================================
-
-                 This JSON-LD is generated from the visible FAQ
-                 content above.
-
-                 Search engines determine independently whether
-                 FAQ rich results are eligible to appear.
-            =================================================== -->
 
             <script type="application/ld+json">
                 ${JSON.stringify({
                     "@context": "https://schema.org",
                     "@type": "FAQPage",
-                    "mainEntity": faqs.map((faq) => ({
+                    mainEntity: faqs.map((faq) => ({
                         "@type": "Question",
-                        "name": faq.question,
-                        "acceptedAnswer": {
+                        name: faq.question,
+                        acceptedAnswer: {
                             "@type": "Answer",
-                            "text": faq.answer
-                        }
-                    }))
+                            text: faq.answer,
+                        },
+                    })),
                 })}
             </script>
 

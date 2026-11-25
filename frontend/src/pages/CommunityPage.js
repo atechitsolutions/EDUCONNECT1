@@ -48,7 +48,6 @@ export function CommunityPage() {
     return `
         <main id="community-page" class="community-page">
 
-            <!-- COMMUNITY HERO -->
             <section class="community-hero" aria-labelledby="community-title">
 
                 <div class="community-hero-copy">
@@ -108,10 +107,8 @@ export function CommunityPage() {
 
             </section>
 
-            <!-- COMMUNITY DASHBOARD -->
             <div class="community-dashboard">
 
-                <!-- SIDEBAR -->
                 <aside class="community-sidebar">
 
                     <div class="community-side-profile">
@@ -133,7 +130,6 @@ export function CommunityPage() {
                         ></span>
                     </div>
 
-                    <!-- COMMUNITY NAVIGATION -->
                     <nav
                         class="community-tabs"
                         aria-label="Community sections"
@@ -189,10 +185,8 @@ export function CommunityPage() {
 
                 </aside>
 
-                <!-- MAIN CONTENT -->
                 <div class="community-content">
 
-                    <!-- COMMUNITY GROUP CHAT -->
                     <section
                         class="community-panel is-active community-group-panel"
                         data-panel="community-chat"
@@ -257,7 +251,6 @@ export function CommunityPage() {
                                 </div>
                             </div>
 
-                            <!-- GROUP MESSAGE FORM -->
                             <form
                                 class="community-group-message-form"
                                 data-community-chat-form
@@ -303,8 +296,10 @@ export function CommunityPage() {
                                                 "🤔",
                                                 "👏",
                                                 "🙏",
-                                                "✨"
-                                            ].map(emoji => `
+                                                "✨",
+                                            ]
+                                                .map(
+                                                    (emoji) => `
                                                 <button
                                                     type="button"
                                                     data-chat-emoji="${emoji}"
@@ -312,7 +307,9 @@ export function CommunityPage() {
                                                 >
                                                     ${emoji}
                                                 </button>
-                                            `).join("")}
+                                            `,
+                                                )
+                                                .join("")}
                                         </div>
                                     </div>
 
@@ -375,7 +372,6 @@ export function CommunityPage() {
                         </section>
                     </section>
 
-                    <!-- GLOBAL FEED -->
                     <section
                         class="community-panel"
                         data-panel="feed"
@@ -385,7 +381,6 @@ export function CommunityPage() {
                         <div data-feed-root></div>
                     </section>
 
-                    <!-- DISCOVER STUDENTS -->
                     <section
                         class="community-panel"
                         data-panel="discover"
@@ -490,7 +485,6 @@ export function CommunityPage() {
 
                     </section>
 
-                    <!-- MY FRIENDS -->
                     <section
                         class="community-panel"
                         data-panel="friends"
@@ -520,7 +514,6 @@ export function CommunityPage() {
 
                     </section>
 
-                    <!-- FRIEND REQUESTS -->
                     <section
                         class="community-panel"
                         data-panel="requests"
@@ -558,7 +551,6 @@ export function CommunityPage() {
 
                     </section>
 
-                    <!-- PRIVATE MESSAGES -->
                     <section
                         class="community-panel"
                         data-panel="messages"
@@ -633,7 +625,6 @@ export function CommunityPage() {
 
                     </section>
 
-                    <!-- NOTIFICATIONS -->
                     <section
                         class="community-panel"
                         data-panel="notifications"
@@ -672,7 +663,6 @@ export function CommunityPage() {
 
                     </section>
 
-                    <!-- MY PROFILE -->
                     <section
                         class="community-panel"
                         data-panel="profile"
@@ -824,7 +814,6 @@ export function CommunityPage() {
 
                     </section>
 
-                    <!-- GLOBAL TOAST -->
                     <div
                         class="community-toast"
                         data-community-toast
@@ -835,7 +824,6 @@ export function CommunityPage() {
                 </div>
             </div>
 
-            <!-- PROFILE DETAILS DIALOG -->
             <dialog
                 class="community-profile-dialog"
                 data-profile-dialog

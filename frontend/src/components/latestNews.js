@@ -36,21 +36,37 @@ function setMeta(selector, key, value) {
 
 function setNewsMetadata(news, id) {
     const title = String(news?.title || "").trim();
-    const body = String(news?.description || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    const body = String(news?.description || "")
+        .replace(/<[^>]*>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
     const summary = [news?.subtitle, body].filter(Boolean).join(" — ");
-    const description = summary.length > 160 ? `${summary.slice(0, 157).replace(/\s+\S*$/, "")}…` : summary;
+    const description =
+        summary.length > 160 ? `${summary.slice(0, 157).replace(/\s+\S*$/, "")}…` : summary;
     const canonical = `${SEO_ORIGIN}/latest-news/${encodeURIComponent(id)}/`;
     const valid = Boolean(news?.published && title && body.length >= 100);
     const image = (() => {
         try {
             const url = new URL(String(news?.imageUrl || ""), SEO_ORIGIN);
             return ["http:", "https:"].includes(url.protocol) ? url.href : "";
-        } catch { return ""; }
+        } catch {
+            return "";
+        }
     })();
 
-    document.title = title ? `${title} | StepInStudents News` : "Education News Not Found | StepInStudents";
-    setMeta('meta[name="description"]', "name", description || "Published education news from StepInStudents.");
-    setMeta('meta[name="robots"]', "name", valid ? "index, follow, max-image-preview:large" : "noindex, nofollow");
+    document.title = title
+        ? `${title} | StepInStudents News`
+        : "Education News Not Found | StepInStudents";
+    setMeta(
+        'meta[name="description"]',
+        "name",
+        description || "Published education news from StepInStudents.",
+    );
+    setMeta(
+        'meta[name="robots"]',
+        "name",
+        valid ? "index, follow, max-image-preview:large" : "noindex, nofollow",
+    );
     setMeta('meta[property="og:type"]', "property", "article");
     setMeta('meta[property="og:site_name"]', "property", "StepInStudents");
     setMeta('meta[property="og:title"]', "property", document.title);
@@ -67,7 +83,13 @@ function setNewsMetadata(news, id) {
         link.href = canonical;
         document.head.append(link);
     }
-    for (const selector of ['meta[property="og:image"]','meta[property="og:image:alt"]','meta[name="twitter:image"]','meta[name="twitter:image:alt"]']) document.head.querySelector(selector)?.remove();
+    for (const selector of [
+        'meta[property="og:image"]',
+        'meta[property="og:image:alt"]',
+        'meta[name="twitter:image"]',
+        'meta[name="twitter:image:alt"]',
+    ])
+        document.head.querySelector(selector)?.remove();
     if (image) {
         setMeta('meta[property="og:image"]', "property", image);
         setMeta('meta[property="og:image:alt"]', "property", title);
@@ -88,8 +110,12 @@ function setNewsMetadata(news, id) {
             publisher: { "@type": "Organization", name: "StepInStudents", url: `${SEO_ORIGIN}/` },
             ...(news.category ? { articleSection: String(news.category) } : {}),
             ...(image ? { image: [image] } : {}),
-            ...(publishedAt && !Number.isNaN(publishedAt.getTime()) ? { datePublished: publishedAt.toISOString() } : {}),
-            ...(updatedAt && !Number.isNaN(updatedAt.getTime()) ? { dateModified: updatedAt.toISOString() } : {})
+            ...(publishedAt && !Number.isNaN(publishedAt.getTime())
+                ? { datePublished: publishedAt.toISOString() }
+                : {}),
+            ...(updatedAt && !Number.isNaN(updatedAt.getTime())
+                ? { dateModified: updatedAt.toISOString() }
+                : {}),
         };
         const script = document.createElement("script");
         script.id = "route-seo-page-schema";
@@ -103,15 +129,38 @@ function setNewsListMetadata(items) {
     const available = Array.isArray(items) && items.some((item) => item?.published !== false);
     const canonical = `${SEO_ORIGIN}/latest-news/`;
     document.title = "Latest Education News & Updates | StepInStudents";
-    setMeta('meta[name="description"]', "name", "Read published education news and updates from StepInStudents, with links to related university, course and study-abroad information.");
-    setMeta('meta[name="robots"]', "name", available ? "index, follow, max-image-preview:large" : "noindex, nofollow");
+    setMeta(
+        'meta[name="description"]',
+        "name",
+        "Read published education news and " +
+            "updates from StepInStudents, with links " +
+            "to related university, course and " +
+            "study-abroad information.",
+    );
+    setMeta(
+        'meta[name="robots"]',
+        "name",
+        available ? "index, follow, max-image-preview:large" : "noindex, nofollow",
+    );
     setMeta('meta[property="og:title"]', "property", document.title);
-    setMeta('meta[property="og:description"]', "property", "Read published education news and updates from StepInStudents.");
+    setMeta(
+        'meta[property="og:description"]',
+        "property",
+        "Read published education news and updates from StepInStudents.",
+    );
     setMeta('meta[property="og:url"]', "property", canonical);
-    setMeta('meta[property="og:image"]', "property", `${SEO_ORIGIN}/images/banner/news-banner.jpeg`);
+    setMeta(
+        'meta[property="og:image"]',
+        "property",
+        `${SEO_ORIGIN}/images/banner/news-banner.jpeg`,
+    );
     setMeta('meta[property="og:image:alt"]', "property", "Education news and updates");
     setMeta('meta[name="twitter:title"]', "name", document.title);
-    setMeta('meta[name="twitter:description"]', "name", "Read published education news and updates from StepInStudents.");
+    setMeta(
+        'meta[name="twitter:description"]',
+        "name",
+        "Read published education news and updates from StepInStudents.",
+    );
     setMeta('meta[name="twitter:card"]', "name", "summary_large_image");
     setMeta('meta[name="twitter:image"]', "name", `${SEO_ORIGIN}/images/banner/news-banner.jpeg`);
     document.querySelector('link[rel="canonical"]')?.remove();
@@ -132,7 +181,7 @@ function setNewsListMetadata(items) {
             name: document.title,
             description: "Read published education news and updates from StepInStudents.",
             url: canonical,
-            isPartOf: { "@type": "WebSite", name: "StepInStudents", url: `${SEO_ORIGIN}/` }
+            isPartOf: { "@type": "WebSite", name: "StepInStudents", url: `${SEO_ORIGIN}/` },
         });
         document.head.append(script);
     }
@@ -141,7 +190,9 @@ function setNewsListMetadata(items) {
 function renderNewsCard(news) {
     return `
         <article class="latest-news-summary-card">
-            ${news.imageUrl ? `
+            ${
+                news.imageUrl
+                    ? `
                 <div class="latest-news-summary-image">
                     <img
                         src="${escapeHtml(news.imageUrl)}"
@@ -149,7 +200,9 @@ function renderNewsCard(news) {
                         loading="lazy"
                     >
                 </div>
-            ` : ""}
+            `
+                    : ""
+            }
 
             <div class="latest-news-summary-body">
                 <span class="latest-news-summary-category">
@@ -166,17 +219,23 @@ function renderNewsCard(news) {
 }
 
 function renderDetail(news) {
-    const sourceUrl = /^https?:\/\//i.test(String(news.sourceUrl || "")) ? String(news.sourceUrl) : "";
+    const sourceUrl = /^https?:\/\//i.test(String(news.sourceUrl || ""))
+        ? String(news.sourceUrl)
+        : "";
     return `
         <article class="latest-news-detail">
-            ${news.imageUrl ? `
+            ${
+                news.imageUrl
+                    ? `
                 <div class="latest-news-detail-image">
                     <img
                         src="${escapeHtml(news.imageUrl)}"
                         alt="${escapeHtml(news.title)}"
                     >
                 </div>
-            ` : ""}
+            `
+                    : ""
+            }
 
             <span class="latest-news-summary-category">
                 ${escapeHtml(news.category || "News")}
@@ -184,11 +243,15 @@ function renderDetail(news) {
 
             <h1>${escapeHtml(news.title)}</h1>
 
-            ${news.subtitle ? `
+            ${
+                news.subtitle
+                    ? `
                 <p class="latest-news-subtitle">
                     ${escapeHtml(news.subtitle)}
                 </p>
-            ` : ""}
+            `
+                    : ""
+            }
 
             <p class="latest-news-meta">
                 ${escapeHtml(news.country || "")}
@@ -222,9 +285,7 @@ export default function LatestNewsPage(newsId = "") {
                 document.documentElement.dataset.routeStatus = "200";
                 container.innerHTML = renderDetail(selected);
 
-                const others = allNews.filter(
-                    (item) => String(item.id) !== String(newsId)
-                );
+                const others = allNews.filter((item) => String(item.id) !== String(newsId));
 
                 moreContainer.innerHTML = others.length
                     ? others.map(renderNewsCard).join("")

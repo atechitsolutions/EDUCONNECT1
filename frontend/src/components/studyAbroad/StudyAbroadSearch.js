@@ -1,14 +1,6 @@
-/* =========================================================
-   STUDY ABROAD — SEARCH SECTION
-========================================================= */
-
 export default function StudyAbroadSearch() {
-
     return `
 
-        <!-- =====================================================
-             STUDY ABROAD SEARCH
-        ====================================================== -->
 
         <section
             class="study-abroad-search-section"
@@ -16,16 +8,10 @@ export default function StudyAbroadSearch() {
         >
 
 
-            <!-- =================================================
-                 SEARCH CONTAINER
-            ================================================== -->
 
             <div class="study-abroad-search-container">
 
 
-                <!-- =================================================
-                     SECTION HEADER
-                ================================================== -->
 
                 <div class="study-abroad-search-header">
 
@@ -55,9 +41,6 @@ export default function StudyAbroadSearch() {
                 </div>
 
 
-                <!-- =================================================
-                     SEARCH BOX
-                ================================================== -->
 
                 <div class="study-abroad-search-box">
 
@@ -100,9 +83,6 @@ export default function StudyAbroadSearch() {
                 </div>
 
 
-                <!-- =================================================
-                     SEARCH CATEGORIES
-                ================================================== -->
 
                 <div class="study-abroad-search-categories">
 
@@ -165,9 +145,6 @@ export default function StudyAbroadSearch() {
                 </div>
 
 
-                <!-- =================================================
-                     QUICK SEARCH OPTIONS
-                ================================================== -->
 
                 <div class="study-abroad-search-quick">
 

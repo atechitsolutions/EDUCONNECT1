@@ -5,35 +5,39 @@ const loanCards = [
         icon: "✈",
         title: "Study abroad",
         text: "Explore funding for tuition and eligible study costs overseas.",
-        tag: "Up to ₹3 crore*"
+        tag: "Up to ₹3 crore*",
     },
     {
         icon: "⌘",
         title: "Online degrees",
         text: "Ask lenders about your exact online course and institution.",
-        tag: "Course eligibility varies"
+        tag: "Course eligibility varies",
     },
     {
         icon: "◇",
         title: "With collateral",
         text: "A secured loan may offer higher limits, subject to lender review.",
-        tag: "Property / approved security"
+        tag: "Property / approved security",
     },
     {
         icon: "↗",
         title: "Collateral-free",
         text: "Some lenders offer unsecured options; a co-applicant may be needed.",
-        tag: "Profile-based approval"
-    }
+        tag: "Profile-based approval",
+    },
 ];
 
 export function EducationLoanSection() {
-    const cards = loanCards.map((card, index) => `
+    const cards = loanCards
+        .map(
+            (card, index) => `
         <article class="loan-mini-card" style="--loan-card-index:${index}" tabindex="0">
             <span class="loan-mini-icon" aria-hidden="true">${card.icon}</span>
             <div class="loan-mini-copy"><h3>${card.title}</h3><p>${card.text}</p><span class="loan-mini-tag">${card.tag}</span></div>
         </article>
-    `).join("");
+    `,
+        )
+        .join("");
 
     const content = `
         <div class="education-loan-section">
@@ -138,7 +142,9 @@ export function initEducationLoanSection(root = document) {
     calculatorCta?.addEventListener("click", () => {
         if (calculatorDialog && !calculatorDialog.open) calculatorDialog.showModal();
     });
-    calculatorDialog?.querySelector(".loan-calc-close")?.addEventListener("click", () => calculatorDialog.close());
+    calculatorDialog
+        ?.querySelector(".loan-calc-close")
+        ?.addEventListener("click", () => calculatorDialog.close());
     calculatorDialog?.addEventListener("click", (event) => {
         if (event.target === calculatorDialog) calculatorDialog.close();
     });
@@ -147,7 +153,15 @@ export function initEducationLoanSection(root = document) {
         const annualRate = Number(calculator.querySelector(".loan-calc-rate").value);
         const years = Number(calculator.querySelector(".loan-calc-years").value);
         const moratoriumMonths = Number(calculator.querySelector(".loan-calc-moratorium").value);
-        const valid = principal >= 50000 && principal <= 30000000 && annualRate > 0 && annualRate <= 30 && years >= 1 && years <= 20 && moratoriumMonths >= 0 && moratoriumMonths <= 120;
+        const valid =
+            principal >= 50000 &&
+            principal <= 30000000 &&
+            annualRate > 0 &&
+            annualRate <= 30 &&
+            years >= 1 &&
+            years <= 20 &&
+            moratoriumMonths >= 0 &&
+            moratoriumMonths <= 120;
         const output = (selector) => calculator.querySelector(selector);
         if (!valid) {
             output(".loan-calc-emi").textContent = "Check inputs";
@@ -156,23 +170,33 @@ export function initEducationLoanSection(root = document) {
             return;
         }
         const monthlyRate = annualRate / 1200;
-        const adjustedPrincipal = principal * (1 + annualRate / 1200 * moratoriumMonths);
+        const adjustedPrincipal = principal * (1 + (annualRate / 1200) * moratoriumMonths);
         const numberOfPayments = years * 12;
         const growth = (1 + monthlyRate) ** numberOfPayments;
-        const emi = adjustedPrincipal * monthlyRate * growth / (growth - 1);
+        const emi = (adjustedPrincipal * monthlyRate * growth) / (growth - 1);
         const total = emi * numberOfPayments;
-        const currency = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 });
+        const currency = new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "INR",
+            maximumFractionDigits: 0,
+        });
         output(".loan-calc-emi").textContent = currency.format(emi);
         output(".loan-calc-total").textContent = currency.format(total);
         output(".loan-calc-interest").textContent = currency.format(total - principal);
     };
-    calculator?.querySelectorAll("input").forEach((input) => input.addEventListener("input", calculateLoan));
+    calculator
+        ?.querySelectorAll("input")
+        .forEach((input) => input.addEventListener("input", calculateLoan));
     if (calculator) calculateLoan();
     form.addEventListener("submit", (event) => {
         event.preventDefault();
         if (!form.reportValidity()) return;
         const feedback = form.querySelector(".loan-form-feedback");
-        feedback.textContent = "Your details are complete. Use the official lender or PM-Vidyalaxmi portal above to submit an application; this demo has not sent your information.";
+        feedback.textContent =
+            "Your details are complete. Use the " +
+            "official lender or PM-Vidyalaxmi portal " +
+            "above to submit an application; this " +
+            "demo has not sent your information.";
         feedback.classList.add("is-visible");
     });
 }

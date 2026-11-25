@@ -1,274 +1,101 @@
-/* =========================================================
-   STEPINSTUDENTS — SCHOLARSHIP INFINITE CAROUSEL
-========================================================= */
-
 export function initScholarshipCarousel() {
-
-    const carousel =
-        document.querySelector(
-            "#scholarship .scholarship-carousel"
-        );
-
+    const carousel = document.querySelector("#scholarship .scholarship-carousel");
 
     if (!carousel) {
         return;
     }
 
+    const viewport = carousel.querySelector(".scholarship-viewport");
 
-    const viewport =
-        carousel.querySelector(
-            ".scholarship-viewport"
-        );
+    const track = carousel.querySelector(".scholarship-track");
 
+    const nextButton = carousel.querySelector(".scholarship-next");
 
-    const track =
-        carousel.querySelector(
-            ".scholarship-track"
-        );
-
-
-    const nextButton =
-        carousel.querySelector(
-            ".scholarship-next"
-        );
-
-
-    if (
-        !viewport ||
-        !track ||
-        !nextButton
-    ) {
+    if (!viewport || !track || !nextButton) {
         return;
     }
 
-
-    /* =====================================================
-       ORIGINAL CARDS
-    ====================================================== */
-
-    const originalCards =
-        Array.from(
-            track.querySelectorAll(
-                ".institution-card"
-            )
-        );
-
+    const originalCards = Array.from(track.querySelectorAll(".institution-card"));
 
     if (!originalCards.length) {
         return;
     }
 
+    const originalCount = originalCards.length;
 
-    const originalCount =
-        originalCards.length;
+    originalCards.forEach((card) => {
+        const clone = card.cloneNode(true);
 
+        clone.dataset.carouselClone = "true";
 
-    /* =====================================================
-       CREATE CLONES
-    ====================================================== */
+        track.appendChild(clone);
+    });
 
-    originalCards.forEach(
-        (card) => {
+    const allCards = Array.from(track.querySelectorAll(".institution-card"));
 
-            const clone =
-                card.cloneNode(true);
+    let currentIndex = 0;
 
-            clone.dataset.carouselClone =
-                "true";
-
-            track.appendChild(
-                clone
-            );
-
-        }
-    );
-
-
-    const allCards =
-        Array.from(
-            track.querySelectorAll(
-                ".institution-card"
-            )
-        );
-
-
-    let currentIndex =
-        0;
-
-
-    let isAnimating =
-        false;
-
-
-    /* =====================================================
-       GET STEP
-    ====================================================== */
+    let isAnimating = false;
 
     function getStep() {
-
-        if (
-            allCards.length < 2
-        ) {
-
-            return (
-                allCards[0]
-                    .getBoundingClientRect()
-                    .width
-            );
-
+        if (allCards.length < 2) {
+            return allCards[0].getBoundingClientRect().width;
         }
 
+        const first = allCards[0].getBoundingClientRect();
 
-        const first =
-            allCards[0]
-                .getBoundingClientRect();
+        const second = allCards[1].getBoundingClientRect();
 
-
-        const second =
-            allCards[1]
-                .getBoundingClientRect();
-
-
-        return (
-            second.left -
-            first.left
-        );
-
+        return second.left - first.left;
     }
 
+    function moveTrack(animate = true) {
+        const step = getStep();
 
-    /* =====================================================
-       MOVE TRACK
-    ====================================================== */
+        track.style.transition = animate ? "transform 0.45s cubic-bezier(.2,.8,.2,1)" : "none";
 
-    function moveTrack(
-        animate = true
-    ) {
-
-        const step =
-            getStep();
-
-
-        track.style.transition =
-            animate
-                ? "transform 0.45s cubic-bezier(.2,.8,.2,1)"
-                : "none";
-
-
-        track.style.transform =
-            `translate3d(
+        track.style.transform = `translate3d(
                 -${currentIndex * step}px,
                 0,
                 0
             )`;
-
     }
 
-
-    /* =====================================================
-       NEXT
-    ====================================================== */
-
-    nextButton.addEventListener(
-        "click",
-        () => {
-
-            if (isAnimating) {
-                return;
-            }
-
-
-            isAnimating =
-                true;
-
-
-            currentIndex +=
-                1;
-
-
-            moveTrack(
-                true
-            );
-
+    nextButton.addEventListener("click", () => {
+        if (isAnimating) {
+            return;
         }
-    );
 
+        isAnimating = true;
 
-    /* =====================================================
-       INFINITE LOOP
-    ====================================================== */
+        currentIndex += 1;
 
-    track.addEventListener(
-        "transitionend",
-        (event) => {
+        moveTrack(true);
+    });
 
-            if (
-                event.propertyName !==
-                "transform"
-            ) {
-                return;
-            }
-
-
-            if (
-                currentIndex >=
-                originalCount
-            ) {
-
-                currentIndex =
-                    currentIndex -
-                    originalCount;
-
-
-                moveTrack(
-                    false
-                );
-
-            }
-
-
-            requestAnimationFrame(
-                () => {
-
-                    isAnimating =
-                        false;
-
-                }
-            );
-
+    track.addEventListener("transitionend", (event) => {
+        if (event.propertyName !== "transform") {
+            return;
         }
-    );
 
+        if (currentIndex >= originalCount) {
+            currentIndex = currentIndex - originalCount;
 
-    /* =====================================================
-       RESIZE
-    ====================================================== */
-
-    window.addEventListener(
-        "resize",
-        () => {
-
-            moveTrack(
-                false
-            );
-
+            moveTrack(false);
         }
-    );
 
+        requestAnimationFrame(() => {
+            isAnimating = false;
+        });
+    });
 
-    /* =====================================================
-       INITIALIZE
-    ====================================================== */
+    window.addEventListener("resize", () => {
+        moveTrack(false);
+    });
 
-    nextButton.disabled =
-        false;
+    nextButton.disabled = false;
 
-
-    moveTrack(
-        false
-    );
-
+    moveTrack(false);
 }
-
 
 export default initScholarshipCarousel;

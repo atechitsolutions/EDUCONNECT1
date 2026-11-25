@@ -24,9 +24,8 @@ function normalizeMatch(value) {
 function getSuppliedOverview(institution) {
     const name = normalizeMatch(institution.name);
     const country = normalizeMatch(institution.country);
-    return institutionOverviews.find((entry) =>
-        normalizeMatch(entry.name) === name &&
-        normalizeMatch(entry.country) === country
+    return institutionOverviews.find(
+        (entry) => normalizeMatch(entry.name) === name && normalizeMatch(entry.country) === country,
     );
 }
 function displayValue(value) {
@@ -92,24 +91,26 @@ function createModalMarkup(institution) {
 
     const academic = [
         listField("Popular courses in the supplied directory", institution.popularCourses),
-        field("Directory ranking examples", institution.rankings)
+        field("Directory ranking examples", institution.rankings),
     ].join("");
     const admissions = [
         field("Typical intakes", institution.intakes),
-        field("English test examples", institution.englishTests)
+        field("English test examples", institution.englishTests),
     ].join("");
     const costs = [
         field("Tuition range listed", institution.tuition),
-        field("Estimated living costs", institution.livingCost)
+        field("Estimated living costs", institution.livingCost),
     ].join("");
     const scholarships = listField("Scholarships listed", institution.scholarships);
     const imageCredit = image
         ? `
             <div class="study-abroad-details-image-credit">
                 <span>Photo: ${escapeHtml(institution.imageAttribution || "Wikimedia Commons contributor")}</span>
-                ${institution.imageLicense
-                    ? `<span>License: ${escapeHtml(institution.imageLicense)}${licenseUrl ? ` · <a href="${escapeHtml(licenseUrl)}" target="_blank" rel="noopener noreferrer">license terms</a>` : ""}</span>`
-                    : ""}
+                ${
+                    institution.imageLicense
+                        ? `<span>License: ${escapeHtml(institution.imageLicense)}${licenseUrl ? ` · <a href="${escapeHtml(licenseUrl)}" target="_blank" rel="noopener noreferrer">license terms</a>` : ""}</span>`
+                        : ""
+                }
                 ${imageSource ? `<a href="${escapeHtml(imageSource)}" target="_blank" rel="noopener noreferrer">Photo source ↗</a>` : ""}
             </div>
         `
@@ -125,9 +126,19 @@ function createModalMarkup(institution) {
                     <span class="study-abroad-details-type">${escapeHtml(institution.type || "Institution")}</span>
                     <h2 id="study-abroad-details-title">${escapeHtml(institution.name || "Institution")}</h2>
                     ${location ? `<p class="study-abroad-details-location">📍 ${escapeHtml(location)}</p>` : ""}
-                    ${suppliedOverview
-                        ? section("Institution overview", `<p class="study-abroad-details-overview-copy">${escapeHtml(suppliedOverview.overview)}</p><span class="study-abroad-details-confidence">Source confidence: ${escapeHtml(suppliedOverview.confidence)}</span>`)
-                        : institution.description ? section("Institution overview", `<p class="study-abroad-details-overview-copy">${escapeHtml(institution.description)}</p>`) : ""}
+                    ${
+                        suppliedOverview
+                            ? section(
+                                  "Institution overview",
+                                  `<p class="study-abroad-details-overview-copy">${escapeHtml(suppliedOverview.overview)}</p><span class="study-abroad-details-confidence">Source confidence: ${escapeHtml(suppliedOverview.confidence)}</span>`,
+                              )
+                            : institution.description
+                              ? section(
+                                    "Institution overview",
+                                    `<p class="study-abroad-details-overview-copy">${escapeHtml(institution.description)}</p>`,
+                                )
+                              : ""
+                    }
                     ${section("Academics", academic)}
                     ${section("Admissions", admissions)}
                     ${section("Costs", costs)}
@@ -135,7 +146,14 @@ function createModalMarkup(institution) {
                     ${institution.postStudyWork ? section("Post-study work (country guidance)", field("Directory note", institution.postStudyWork)) : ""}
                     <aside class="study-abroad-details-data-note">
                         <strong>About these figures</strong>
-                        <p>${escapeHtml(institution.dataNote || "Directory tuition, ranking and scholarship figures are unverified examples. Confirm current details with the institution and relevant official authorities.")}</p>
+                        <p>${escapeHtml(
+                            institution.dataNote ||
+                                "Directory tuition, ranking and " +
+                                    "scholarship figures are unverified " +
+                                    "examples. Confirm current details with " +
+                                    "the institution and relevant official " +
+                                    "authorities.",
+                        )}</p>
                         ${institution.directoryCode ? `<span>Directory record: ${escapeHtml(institution.directoryCode)} · Not independently verified</span>` : ""}
                     </aside>
                     <div class="study-abroad-details-actions">
@@ -159,23 +177,33 @@ export function openInstitutionDetails(institution) {
         // Card launches are tracked by the single delegated click handler.
         // Direct programmatic opens still count as profile views.
         const openedFromCard = Boolean(document.activeElement?.closest?.(".institution-card"));
-        if (!openedFromCard) recordCollegeEvent(Number(institution.id), "PROFILE_VIEW").catch(() => {});
+        if (!openedFromCard)
+            recordCollegeEvent(Number(institution.id), "PROFILE_VIEW").catch(() => {});
     }
     overlay.querySelector("[data-college-enquiry-link]")?.addEventListener("click", (event) => {
         event.preventDefault();
         const destination = event.currentTarget.href;
-        recordCollegeEvent(Number(institution.id), "ENQUIRY_CLICK").catch(() => {}).finally(() => window.location.assign(destination));
+        recordCollegeEvent(Number(institution.id), "ENQUIRY_CLICK")
+            .catch(() => {})
+            .finally(() => window.location.assign(destination));
     });
     overlay.querySelectorAll("[data-study-abroad-details-close]").forEach((element) => {
         element.addEventListener("click", closeInstitutionDetails);
     });
     document.body.classList.add("study-abroad-details-open");
-    overlay.querySelector("[data-study-abroad-consultation]")?.addEventListener("click", (event) => {
-        event.preventDefault();
-        closeInstitutionDetails();
-        window.location.hash = "study-abroad-counselling";
-        requestAnimationFrame(() => document.getElementById("study-abroad-counselling")?.scrollIntoView({ behavior: "smooth", block: "start" }));
-    });    overlay.querySelector(".study-abroad-details-close")?.focus();
+    overlay
+        .querySelector("[data-study-abroad-consultation]")
+        ?.addEventListener("click", (event) => {
+            event.preventDefault();
+            closeInstitutionDetails();
+            window.location.hash = "study-abroad-counselling";
+            requestAnimationFrame(() =>
+                document
+                    .getElementById("study-abroad-counselling")
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" }),
+            );
+        });
+    overlay.querySelector(".study-abroad-details-close")?.focus();
 }
 
 export function closeInstitutionDetails() {
@@ -202,7 +230,3 @@ export function bindInstitutionDetailButtons(container, institutionMap) {
         if (event.key === "Escape") closeInstitutionDetails();
     });
 }
-
-
-
-

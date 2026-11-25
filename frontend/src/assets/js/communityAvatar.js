@@ -1,22 +1,38 @@
 import { feedApi } from "../../services/feedService.js";
 import { getCurrentUser } from "../../services/authService.js";
 
-const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
-}[char]));
+const escapeHtml = (value) =>
+    String(value ?? "").replace(
+        /[&<>"']/g,
+        (char) =>
+            ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+            })[char],
+    );
 
-const initials = name => String(name || "Student").trim().split(/\s+/).slice(0, 2)
-    .map(part => part[0] || "").join("").toUpperCase() || "S";
+const initials = (name) =>
+    String(name || "Student")
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map((part) => part[0] || "")
+        .join("")
+        .toUpperCase() || "S";
 
 const profileCache = new Map();
 const imageCache = new Map();
 const pendingImages = new Map();
 
-const profileUsername = person => {
+const profileUsername = (person) => {
     if (person?.username) return String(person.username);
     const current = getCurrentUser();
-    return person?.userId && current?.userId &&
-        String(person.userId) === String(current.userId) ? "me" : "";
+    return person?.userId && current?.userId && String(person.userId) === String(current.userId)
+        ? "me"
+        : "";
 };
 
 export function communityAvatarHtml(person = {}, large = false, extraClass = "") {
@@ -24,9 +40,10 @@ export function communityAvatarHtml(person = {}, large = false, extraClass = "")
     const username = profileUsername(person);
     const userId = person.userId ?? person.senderId ?? "";
     const tag = username || userId ? "button" : "span";
-    const profileAttrs = tag === "button"
-        ? `type="button" data-view-profile="${escapeHtml(username)}" data-view-profile-id="${escapeHtml(userId)}" data-view-profile-name="${escapeHtml(name)}" aria-label="Open ${escapeHtml(name)}'s profile"`
-        : `aria-hidden="true"`;
+    const profileAttrs =
+        tag === "button"
+            ? `type="button" data-view-profile="${escapeHtml(username)}" data-view-profile-id="${escapeHtml(userId)}" data-view-profile-name="${escapeHtml(name)}" aria-label="Open ${escapeHtml(name)}'s profile"`
+            : `aria-hidden="true"`;
     return `<${tag} class="community-avatar community-avatar-photo${large ? " community-avatar-large" : ""}${person.online ? " is-online" : ""}${extraClass ? ` ${escapeHtml(extraClass)}` : ""}" ${profileAttrs} data-avatar-username="${escapeHtml(username)}" data-avatar-user-id="${escapeHtml(userId)}" data-avatar-name="${escapeHtml(name)}"><span class="community-avatar-fallback">${escapeHtml(initials(name))}</span></${tag}>`;
 }
 
@@ -37,7 +54,7 @@ async function loadPhoto(username) {
 
     const request = (async () => {
         try {
-            const profile = profileCache.get(username) || await feedApi.profile(username);
+            const profile = profileCache.get(username) || (await feedApi.profile(username));
             profileCache.set(username, profile);
             if (!profile?.avatarUrl) {
                 imageCache.set(username, null);
@@ -60,39 +77,51 @@ export async function hydrateCommunityAvatars(scope, resolveUsername) {
     if (!scope) return;
     const nodes = [];
     if (scope.matches?.("[data-avatar-username], [data-avatar-user-id]")) nodes.push(scope);
-    nodes.push(...(scope.querySelectorAll?.("[data-avatar-username], [data-avatar-user-id]") || []));
+    nodes.push(
+        ...(scope.querySelectorAll?.("[data-avatar-username], [data-avatar-user-id]") || []),
+    );
 
-    await Promise.all(nodes.map(async node => {
-        let username = node.dataset.avatarUsername || "";
-        const userId = node.dataset.avatarUserId || "";
-        const current = getCurrentUser();
-        if (!username && userId && current?.userId && String(userId) === String(current.userId)) {
-            username = "me";
-        }
-        if (!username && userId && resolveUsername) {
-            try { username = await resolveUsername(userId, node.dataset.avatarName || "") || ""; }
-            catch { username = ""; }
-        }
-        if (!username) return;
-        node.dataset.avatarUsername = username;
-        if (node.tagName === "BUTTON") node.dataset.viewProfile = username;
+    await Promise.all(
+        nodes.map(async (node) => {
+            let username = node.dataset.avatarUsername || "";
+            const userId = node.dataset.avatarUserId || "";
+            const current = getCurrentUser();
+            if (
+                !username &&
+                userId &&
+                current?.userId &&
+                String(userId) === String(current.userId)
+            ) {
+                username = "me";
+            }
+            if (!username && userId && resolveUsername) {
+                try {
+                    username = (await resolveUsername(userId, node.dataset.avatarName || "")) || "";
+                } catch {
+                    username = "";
+                }
+            }
+            if (!username) return;
+            node.dataset.avatarUsername = username;
+            if (node.tagName === "BUTTON") node.dataset.viewProfile = username;
 
-        const url = await loadPhoto(username);
-        if (!url || !node.isConnected) return;
-        const existing = node.querySelector("img.community-avatar-image");
-        if (existing) {
-            existing.src = url;
-            node.classList.add("has-profile-photo");
-            return;
-        }
-        const image = document.createElement("img");
-        image.className = "community-avatar-image";
-        image.alt = "";
-        image.onload = () => node.classList.add("has-profile-photo");
-        image.onerror = () => image.remove();
-        image.src = url;
-        node.append(image);
-    }));
+            const url = await loadPhoto(username);
+            if (!url || !node.isConnected) return;
+            const existing = node.querySelector("img.community-avatar-image");
+            if (existing) {
+                existing.src = url;
+                node.classList.add("has-profile-photo");
+                return;
+            }
+            const image = document.createElement("img");
+            image.className = "community-avatar-image";
+            image.alt = "";
+            image.onload = () => node.classList.add("has-profile-photo");
+            image.onerror = () => image.remove();
+            image.src = url;
+            node.append(image);
+        }),
+    );
 }
 
 export function refreshCommunityAvatar(node, person = {}) {

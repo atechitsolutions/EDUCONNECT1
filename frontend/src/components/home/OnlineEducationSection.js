@@ -2,342 +2,250 @@ import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
 
 export function OnlineEducationSection() {
-
-    /* =====================================================
-       ONLINE EDUCATION PROGRAMS
-    ====================================================== */
-
     const onlinePrograms = [
-
         {
             rank: "01",
 
             name: "Online MBA",
 
-            category:
-                "Online MBA Degree",
+            category: "Online MBA Degree",
 
-            location:
-                "India",
+            location: "India",
 
-            program:
-                "Online MBA • Management • Business Administration",
+            program: "Online MBA • Management • Business Administration",
 
-            rating:
-                "4.8",
+            rating: "4.8",
 
-            reviews:
-                "2,140",
+            reviews: "2,140",
 
-            score:
-                "9.2",
+            score: "9.2",
 
             ranking:
-                "Popular online MBA degree and online management program from leading universities in India",
+                "Popular online MBA degree and online " +
+                "management program from leading " +
+                "universities in India",
 
             highlight:
-                "UGC-approved online learning, flexible study options & career-focused management education",
+                "UGC-approved online learning, flexible " +
+                "study options & career-focused " +
+                "management education",
 
             image:
-                "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-155676" +
+                "1175-b413da4baf72?auto=format&fit=crop&w" +
+                "=1200&q=85",
 
-            actionLabel:
-                "Explore Online MBA"
-
+            actionLabel: "Explore Online MBA",
         },
-
 
         {
             rank: "02",
 
             name: "Online BCA",
 
-            category:
-                "Online BCA Degree",
+            category: "Online BCA Degree",
 
-            location:
-                "India",
+            location: "India",
 
-            program:
-                "Online BCA • Computer Applications • IT",
+            program: "Online BCA • Computer Applications • IT",
 
-            rating:
-                "4.7",
+            rating: "4.7",
 
-            reviews:
-                "1,760",
+            reviews: "1,760",
 
-            score:
-                "9.0",
+            score: "9.0",
 
             ranking:
-                "Popular online BCA degree program for computer applications, information technology and digital careers in India",
+                "Popular online BCA degree program for " +
+                "computer applications, information " +
+                "technology and digital careers in India",
 
             highlight:
-                "Industry-oriented online curriculum, flexible learning & computer application education",
+                "Industry-oriented online curriculum, " +
+                "flexible learning & computer " +
+                "application education",
 
             image:
-                "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-151632" +
+                "1318423-f06f85e504b3?auto=format&fit=cro" +
+                "p&w=1200&q=85",
 
-            actionLabel:
-                "Explore Online BCA"
-
+            actionLabel: "Explore Online BCA",
         },
-
 
         {
             rank: "03",
 
             name: "Certification Courses",
 
-            category:
-                "Online Certification Courses",
+            category: "Online Certification Courses",
 
-            location:
-                "Online",
+            location: "Online",
 
-            program:
-                "Online Certification Courses • AI • Data Science • Cloud • Digital Skills",
+            program: "Online Certification Courses • AI • Data Science • Cloud • Digital Skills",
 
-            rating:
-                "4.6",
+            rating: "4.6",
 
-            reviews:
-                "1,420",
+            reviews: "1,420",
 
-            score:
-                "8.8",
+            score: "8.8",
 
             ranking:
-                "Short-term online certification courses in AI, data science, cloud computing and other in-demand professional skills",
+                "Short-term online certification courses " +
+                "in AI, data science, cloud computing " +
+                "and other in-demand professional skills",
 
             highlight:
                 "Practical projects, professional certifications & career-focused online learning",
 
             image:
-                "https://images.unsplash.com/photo-1516321165247-4aa89a48be28?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-151632" +
+                "1165247-4aa89a48be28?auto=format&fit=cro" +
+                "p&w=1200&q=85",
 
-            actionLabel:
-                "Explore Certifications"
-
-        }
-
+            actionLabel: "Explore Certifications",
+        },
     ];
 
-
-    /* =====================================================
-       DISTANCE EDUCATION PROGRAMS
-    ====================================================== */
-
     const distancePrograms = [
-
         {
             rank: "04",
 
             name: "Distance MBA",
 
-            category:
-                "Distance MBA Degree",
+            category: "Distance MBA Degree",
 
-            location:
-                "India",
+            location: "India",
 
-            program:
-                "Distance MBA • Management • Business Administration",
+            program: "Distance MBA • Management • Business Administration",
 
-            rating:
-                "4.6",
+            rating: "4.6",
 
-            reviews:
-                "1,320",
+            reviews: "1,320",
 
-            score:
-                "8.8",
+            score: "8.8",
 
             ranking:
-                "Flexible distance MBA degree and management education for learners and working professionals in India",
+                "Flexible distance MBA degree and " +
+                "management education for learners and " +
+                "working professionals in India",
 
-            highlight:
-                "Affordable distance education, flexible schedules & management learning",
+            highlight: "Affordable distance education, flexible schedules & management learning",
 
             image:
-                "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-152173" +
+                "7711867-e3b97375f902?auto=format&fit=cro" +
+                "p&w=1200&q=85",
 
-            actionLabel:
-                "Explore Distance MBA"
-
+            actionLabel: "Explore Distance MBA",
         },
-
 
         {
             rank: "05",
 
             name: "Distance B.Com",
 
-            category:
-                "Distance B.Com Degree",
+            category: "Distance B.Com Degree",
 
-            location:
-                "India",
+            location: "India",
 
-            program:
-                "Distance B.Com • Commerce • Accounting • Finance",
+            program: "Distance B.Com • Commerce • Accounting • Finance",
 
-            rating:
-                "4.5",
+            rating: "4.5",
 
-            reviews:
-                "1,080",
+            reviews: "1,080",
 
-            score:
-                "8.6",
+            score: "8.6",
 
             ranking:
-                "Flexible distance B.Com degree in commerce, accounting and finance for students and working learners",
+                "Flexible distance B.Com degree in " +
+                "commerce, accounting and finance for " +
+                "students and working learners",
 
-            highlight:
-                "Distance commerce education, flexible schedules & study-from-home learning",
+            highlight: "Distance commerce education, flexible schedules & study-from-home learning",
 
             image:
-                "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-155183" +
+                "6022-d5d88e9218df?auto=format&fit=crop&w" +
+                "=1200&q=85",
 
-            actionLabel:
-                "Explore Distance B.Com"
-
+            actionLabel: "Explore Distance B.Com",
         },
-
 
         {
             rank: "06",
 
             name: "Distance M.A",
 
-            category:
-                "Distance Postgraduate Degree",
+            category: "Distance Postgraduate Degree",
 
-            location:
-                "India",
+            location: "India",
 
-            program:
-                "Distance M.A. • Humanities • Social Sciences",
+            program: "Distance M.A. • Humanities • Social Sciences",
 
-            rating:
-                "4.5",
+            rating: "4.5",
 
-            reviews:
-                "940",
+            reviews: "940",
 
-            score:
-                "8.5",
+            score: "8.5",
 
             ranking:
-                "Flexible distance M.A. and postgraduate degree programs from recognized universities in India",
+                "Flexible distance M.A. and postgraduate " +
+                "degree programs from recognized " +
+                "universities in India",
 
-            highlight:
-                "Flexible schedules, distance education & accessible postgraduate learning",
+            highlight: "Flexible schedules, distance education & accessible postgraduate learning",
 
             image:
-                "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-149544" +
+                "6815901-a7297e633e8d?auto=format&fit=cro" +
+                "p&w=1200&q=85",
 
-            actionLabel:
-                "Explore Distance M.A."
-
-        }
-
+            actionLabel: "Explore Distance M.A.",
+        },
     ];
 
-
-    /* =====================================================
-       COMBINE ALL PROGRAMS
-    ====================================================== */
-
-    const allPrograms = [
-
-        ...onlinePrograms,
-
-        ...distancePrograms
-
-    ];
-
-
-    /* =====================================================
-       CREATE PROGRAM CARD
-    ====================================================== */
+    const allPrograms = [...onlinePrograms, ...distancePrograms];
 
     function createProgramCard(program) {
-
         return InstitutionCard({
-
             item: {
+                rank: program.rank,
 
-                rank:
-                    program.rank,
+                name: program.name,
 
-                name:
-                    program.name,
+                category: program.category,
 
-                category:
-                    program.category,
+                location: program.location,
 
-                location:
-                    program.location,
+                program: program.program,
 
-                program:
-                    program.program,
+                rating: program.rating,
 
-                rating:
-                    program.rating,
+                reviews: program.reviews,
 
-                reviews:
-                    program.reviews,
+                score: program.score,
 
-                score:
-                    program.score,
+                ranking: program.ranking,
 
-                ranking:
-                    program.ranking,
+                highlight: program.highlight,
 
-                highlight:
-                    program.highlight,
+                image: program.image,
 
-                image:
-                    program.image,
-
-                actionLabel:
-                    program.actionLabel
-
+                actionLabel: program.actionLabel,
             },
 
-            type:
-                "online-education"
-
+            type: "online-education",
         });
-
     }
 
-
-    /* =====================================================
-       CREATE ALL SIX CARDS
-    ====================================================== */
-
-    const programCards =
-        allPrograms
-            .map(createProgramCard)
-            .join("");
-
-
-    /* =====================================================
-       CONTENT
-    ====================================================== */
+    const programCards = allPrograms.map(createProgramCard).join("");
 
     const content = `
 
         <div class="online-education-section">
 
 
-            <!-- =================================================
-                 INTRO
-            ================================================== -->
 
             <div class="online-education-intro">
 
@@ -379,9 +287,6 @@ export function OnlineEducationSection() {
             </div>
 
 
-            <!-- =================================================
-                 HORIZONTAL CAROUSEL
-            ================================================== -->
 
             <div class="online-education-carousel">
 
@@ -397,9 +302,6 @@ export function OnlineEducationSection() {
                 </div>
 
 
-                <!-- =================================================
-                     NEXT BUTTON
-                ================================================== -->
 
                 <button
                     type="button"
@@ -419,27 +321,15 @@ export function OnlineEducationSection() {
 
     `;
 
-
-    /* =====================================================
-       RETURN SECTION
-    ====================================================== */
-
     return Section({
+        id: "online-education",
 
-        id:
-            "online-education",
+        title: "",
 
-        title:
-            "",
+        subtitle: "",
 
-        subtitle:
-            "",
-
-        content
-
+        content,
     });
-
 }
-
 
 export default OnlineEducationSection;

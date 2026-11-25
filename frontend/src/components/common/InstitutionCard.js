@@ -1,11 +1,11 @@
-const escapeAttribute = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
-const escapeHtml = value => escapeAttribute(value);
+const escapeAttribute = (value) =>
+    String(value ?? "").replace(
+        /[&<>"']/g,
+        (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char],
+    );
+const escapeHtml = (value) => escapeAttribute(value);
 
-export default function InstitutionCard({
-    item,
-    type = "college"
-}) {
-
+export default function InstitutionCard({ item, type = "college" }) {
     const {
         id = "",
         rank = "",
@@ -41,12 +41,18 @@ export default function InstitutionCard({
         overview = "",
         detailsOnCard = true,
         rankingCategory = "",
-        showCompare = true
+        showCompare = true,
     } = item;
 
     const isStudyAbroadSearch = type === "study-abroad-search-result";
     const showPhotoLabelOnCard = !["pre-school", "play-school"].includes(type);
-    const logoInitials = String(name).split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+    const logoInitials = String(name)
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part[0])
+        .join("")
+        .toUpperCase();
     const logoMarkup = `<div class="institution-card-logo">${logo ? `<img src="${logo}" alt="${logoAlt || `${name} official logo`}" loading="lazy" onerror="this.hidden=true;this.nextElementSibling.hidden=false">` : ""}<span class="institution-card-logo-fallback" ${logo ? "hidden" : ""}>${logoInitials}</span></div>`;
 
     return `
@@ -80,9 +86,7 @@ export default function InstitutionCard({
                 <div class="institution-card-overlay"></div>
 
 
-                ${
-                    logo && !isStudyAbroadSearch ? logoMarkup : ""
-                }
+                ${logo && !isStudyAbroadSearch ? logoMarkup : ""}
 
 
                 ${
@@ -107,24 +111,32 @@ export default function InstitutionCard({
                 }
 
 
-                ${isStudyAbroadSearch ? "" : `
+                ${
+                    isStudyAbroadSearch
+                        ? ""
+                        : `
                     <div class="institution-card-title">
                         <h3>${name}</h3>
                         ${location ? `<p>📍 ${location}</p>` : ""}
                     </div>
-                `}
+                `
+                }
 
             </div>
 
 
             <div class="institution-card-body">
 
-                ${isStudyAbroadSearch ? `
+                ${
+                    isStudyAbroadSearch
+                        ? `
                     <div class="study-abroad-search-heading">
                         ${logoMarkup}
                         <div><h3>${name}</h3><p>${country || location}</p></div>
                     </div>
-                ` : ""}
+                `
+                        : ""
+                }
                 ${
                     category && !isStudyAbroadSearch
                         ? `
@@ -219,11 +231,13 @@ export default function InstitutionCard({
 
                 <div class="institution-card-actions ${actionLayout}">
 
-                    ${actionDisabled
-                        ? `<span class="institution-card-action is-disabled" aria-disabled="true">${actionLabel}</span>`
-                        : actionHref
-                            ? `<a class="institution-card-action" href="${actionHref}"${/^https?:\/\//i.test(actionHref) ? ' target="_blank" rel="noopener noreferrer"' : ''}>${actionLabel}<span>${/^https?:\/\//i.test(actionHref) ? "↗" : "›"}</span></a>`
-                    : `<button type="button" class="institution-card-action" data-action="${actionMode}" data-college-name="${escapeAttribute(name)}" data-college-location="${escapeAttribute(location)}" data-college-category="${escapeAttribute(category)}" data-college-program="${escapeAttribute(program)}" data-college-overview="${escapeAttribute(overview)}" data-college-website="${escapeAttribute(secondaryActionHref)}" data-college-image="${escapeAttribute(image)}" data-college-image-label="${escapeAttribute(imageLabel)}" data-college-photo-source="${escapeAttribute(imageSource)}" data-college-enquiry="${escapeAttribute(enquiryHref)}">${actionLabel}<span>›</span></button>`}
+                    ${
+                        actionDisabled
+                            ? `<span class="institution-card-action is-disabled" aria-disabled="true">${actionLabel}</span>`
+                            : actionHref
+                              ? `<a class="institution-card-action" href="${actionHref}"${/^https?:\/\//i.test(actionHref) ? ' target="_blank" rel="noopener noreferrer"' : ""}>${actionLabel}<span>${/^https?:\/\//i.test(actionHref) ? "↗" : "›"}</span></a>`
+                              : `<button type="button" class="institution-card-action" data-action="${actionMode}" data-college-name="${escapeAttribute(name)}" data-college-location="${escapeAttribute(location)}" data-college-category="${escapeAttribute(category)}" data-college-program="${escapeAttribute(program)}" data-college-overview="${escapeAttribute(overview)}" data-college-website="${escapeAttribute(secondaryActionHref)}" data-college-image="${escapeAttribute(image)}" data-college-image-label="${escapeAttribute(imageLabel)}" data-college-photo-source="${escapeAttribute(imageSource)}" data-college-enquiry="${escapeAttribute(enquiryHref)}">${actionLabel}<span>›</span></button>`
+                    }
 
                     ${secondaryActionLabel ? (secondaryActionHref ? `<a class="institution-card-action" href="${secondaryActionHref}" target="_blank" rel="noopener noreferrer">${secondaryActionLabel}<span>↗</span></a>` : `<span class="institution-card-action is-disabled" aria-disabled="true">${secondaryActionLabel}</span>`) : ""}
 
@@ -270,4 +284,3 @@ export default function InstitutionCard({
         </article>
     `;
 }
-

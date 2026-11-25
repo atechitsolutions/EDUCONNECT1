@@ -1,27 +1,4 @@
-/**
- * ============================================================
- * STEPINSTUDENTS — STUDY ABROAD TOOLS
- * ============================================================
- *
- * Purpose:
- * - Study abroad cost planning
- * - Tuition + living cost estimation
- * - Intake planning
- * - Student profile checklist
- * - Interactive planning utilities
- *
- * Important:
- * These are planning estimates only.
- * Actual costs and deadlines must be verified with
- * the relevant university / official source.
- *
- * Framework:
- * Vanilla JavaScript + Vite
- * ============================================================
- */
-
 export default function StudyAbroadTools() {
-
     return `
         <section
             class="study-abroad-tools"
@@ -32,9 +9,6 @@ export default function StudyAbroadTools() {
             <div class="study-abroad-container">
 
 
-                <!-- ==================================================
-                     HEADER
-                =================================================== -->
 
                 <div class="study-abroad-section-header">
 
@@ -59,9 +33,6 @@ export default function StudyAbroadTools() {
                 </div>
 
 
-                <!-- ==================================================
-                     TOOL NAVIGATION
-                =================================================== -->
 
                 <div
                     class="study-abroad-tools-navigation"
@@ -108,9 +79,6 @@ export default function StudyAbroadTools() {
                 </div>
 
 
-                <!-- ==================================================
-                     COST PLANNER
-                =================================================== -->
 
                 <div
                     class="study-abroad-tool-panel active"
@@ -122,7 +90,6 @@ export default function StudyAbroadTools() {
                     <div class="study-abroad-tool-panel-grid">
 
 
-                        <!-- INPUT SIDE -->
 
                         <div class="study-abroad-tool-form">
 
@@ -142,7 +109,6 @@ export default function StudyAbroadTools() {
                             </p>
 
 
-                            <!-- DESTINATION -->
 
                             <div class="study-abroad-tool-field">
 
@@ -181,7 +147,6 @@ export default function StudyAbroadTools() {
                             </div>
 
 
-                            <!-- TUITION -->
 
                             <div class="study-abroad-tool-field">
 
@@ -209,7 +174,6 @@ export default function StudyAbroadTools() {
                             </div>
 
 
-                            <!-- MONTHLY LIVING -->
 
                             <div class="study-abroad-tool-field">
 
@@ -237,7 +201,6 @@ export default function StudyAbroadTools() {
                             </div>
 
 
-                            <!-- COURSE DURATION -->
 
                             <div class="study-abroad-tool-field">
 
@@ -280,7 +243,6 @@ export default function StudyAbroadTools() {
                         </div>
 
 
-                        <!-- RESULT SIDE -->
 
                         <div class="study-abroad-cost-result">
 
@@ -380,9 +342,6 @@ export default function StudyAbroadTools() {
                 </div>
 
 
-                <!-- ==================================================
-                     TIMELINE TOOL
-                =================================================== -->
 
                 <div
                     class="study-abroad-tool-panel"
@@ -552,9 +511,6 @@ export default function StudyAbroadTools() {
                 </div>
 
 
-                <!-- ==================================================
-                     PROFILE CHECKLIST
-                =================================================== -->
 
                 <div
                     class="study-abroad-tool-panel"
@@ -739,9 +695,6 @@ export default function StudyAbroadTools() {
                 </div>
 
 
-                <!-- ==================================================
-                     TOOL CTA
-                =================================================== -->
 
                 <div class="study-abroad-tools-cta">
 
@@ -774,9 +727,6 @@ export default function StudyAbroadTools() {
                 </div>
 
 
-                <!-- ==================================================
-                     SEO CONTENT
-                =================================================== -->
 
                 <div class="study-abroad-tools-seo">
 

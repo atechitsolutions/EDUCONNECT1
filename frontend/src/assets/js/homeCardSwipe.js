@@ -11,20 +11,18 @@ const HOMEPAGE_CAROUSEL_VIEWPORTS = [
     "#student-reviews .student-reviews-viewport",
     "#top-lists .top-lists-viewport",
     "#compare-college .compare-college-viewport",
-    "#education-loan .education-loan-viewport"
+    "#education-loan .education-loan-viewport",
 ].join(",");
 
 const LOOPED_MARKUP_TRACKS = new Set([
     "early-learning-track",
     "boarding-schools-track",
     "top-companies-track",
-    "ug-pg-track"
+    "ug-pg-track",
 ]);
 
 function cardSignature(card) {
-    return (card.dataset.institutionId || card.innerText || "")
-        .replace(/\s+/g, " ")
-        .trim();
+    return (card.dataset.institutionId || card.innerText || "").replace(/\s+/g, " ").trim();
 }
 
 function removeRepeatedMarkupCards(track) {
@@ -37,7 +35,7 @@ function removeRepeatedMarkupCards(track) {
     const firstSet = cards.slice(0, half);
     const secondSet = cards.slice(half);
     const repeatsFirstSet = firstSet.every(
-        (card, index) => cardSignature(card) === cardSignature(secondSet[index])
+        (card, index) => cardSignature(card) === cardSignature(secondSet[index]),
     );
 
     if (repeatsFirstSet) secondSet.forEach((card) => card.remove());
@@ -56,8 +54,9 @@ function getCardStep(viewport) {
 export default function initHomeCardSwipe() {
     if (window.location.pathname !== "/") return;
 
-    const viewports = [...document.querySelectorAll(HOMEPAGE_CAROUSEL_VIEWPORTS)]
-        .filter((viewport) => viewport.closest("#main-content"));
+    const viewports = [...document.querySelectorAll(HOMEPAGE_CAROUSEL_VIEWPORTS)].filter(
+        (viewport) => viewport.closest("#main-content"),
+    );
 
     viewports.forEach((viewport) => {
         if (viewport.dataset.homeSwipeReady === "true") return;
@@ -75,7 +74,7 @@ export default function initHomeCardSwipe() {
                 "aria-label",
                 heading?.textContent?.trim()
                     ? `${heading.textContent.trim()} cards`
-                    : "Swipe to browse cards"
+                    : "Swipe to browse cards",
             );
         }
 
@@ -84,7 +83,9 @@ export default function initHomeCardSwipe() {
         removeRepeatedMarkupCards(track);
 
         [...track.children]
-            .filter((card) => card.matches(".institution-card, .video-review-card, [class*='-card']"))
+            .filter((card) =>
+                card.matches(".institution-card, .video-review-card, [class*='-card']"),
+            )
             .forEach((card) => card.classList.add("home-card-swipe-item"));
 
         let startX = 0;
@@ -136,25 +137,34 @@ export default function initHomeCardSwipe() {
         if (!viewport || button.dataset.homeSwipeArrowReady === "true") return;
 
         button.dataset.homeSwipeArrowReady = "true";
-        button.addEventListener("click", (event) => {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            const step = getCardStep(viewport);
-            const atEnd = viewport.scrollLeft + viewport.clientWidth >= viewport.scrollWidth - 4;
-            viewport.scrollTo({
-                left: atEnd ? 0 : viewport.scrollLeft + step,
-                behavior: "smooth"
-            });
-        }, true);
+        button.addEventListener(
+            "click",
+            (event) => {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+                const step = getCardStep(viewport);
+                const atEnd =
+                    viewport.scrollLeft + viewport.clientWidth >= viewport.scrollWidth - 4;
+                viewport.scrollTo({
+                    left: atEnd ? 0 : viewport.scrollLeft + step,
+                    behavior: "smooth",
+                });
+            },
+            true,
+        );
     });
 
-    document.addEventListener("click", (event) => {
-        const target = event.target instanceof Element ? event.target : event.target?.parentElement;
-        const viewport = target?.closest(".home-card-swipe");
-        const suppressUntil = Number(viewport?.dataset.suppressCardClickUntil || 0);
-        if (!viewport || Date.now() > suppressUntil) return;
-        event.preventDefault();
-        event.stopImmediatePropagation();
-    }, true);
+    document.addEventListener(
+        "click",
+        (event) => {
+            const target =
+                event.target instanceof Element ? event.target : event.target?.parentElement;
+            const viewport = target?.closest(".home-card-swipe");
+            const suppressUntil = Number(viewport?.dataset.suppressCardClickUntil || 0);
+            if (!viewport || Date.now() > suppressUntil) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        },
+        true,
+    );
 }
-

@@ -1,9 +1,4 @@
-export function Banner({
-    image = "",
-    title = "",
-    subtitle = "",
-    height = "100%"
-}) {
+export function Banner({ image = "", title = "", subtitle = "", height = "100%" }) {
     return `
         <div
             class="premium-banner"
@@ -15,17 +10,25 @@ export function Banner({
             <div class="premium-banner-overlay"></div>
 
             <div class="premium-banner-content">
-                ${title ? `
+                ${
+                    title
+                        ? `
                     <h2 class="premium-banner-title">
                         ${title}
                     </h2>
-                ` : ""}
+                `
+                        : ""
+                }
 
-                ${subtitle ? `
+                ${
+                    subtitle
+                        ? `
                     <p class="premium-banner-subtitle">
                         ${subtitle}
                     </p>
-                ` : ""}
+                `
+                        : ""
+                }
             </div>
         </div>
     `;

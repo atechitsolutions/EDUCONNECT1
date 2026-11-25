@@ -3,12 +3,8 @@ import {
     createCurrentAffair,
     deleteCurrentAffair,
     getAdminCurrentAffairs,
-    updateCurrentAffair
+    updateCurrentAffair,
 } from "../services/homeContent.js";
-
-/* =========================
-   HELPERS
-========================= */
 
 function escapeHtml(value) {
     return String(value ?? "")
@@ -28,9 +24,7 @@ function checked(id) {
 }
 
 function setMessage(message, type = "") {
-    const element = document.querySelector(
-        "[data-admin-current-affairs-message]"
-    );
+    const element = document.querySelector("[data-admin-current-affairs-message]");
 
     if (!element) return;
 
@@ -39,75 +33,47 @@ function setMessage(message, type = "") {
 }
 
 function resetForm() {
-    document.getElementById(
-        "admin-current-affairs-form"
-    )?.reset();
+    document.getElementById("admin-current-affairs-form")?.reset();
 
-    const id = document.getElementById(
-        "admin-current-affairs-id"
-    );
+    const id = document.getElementById("admin-current-affairs-id");
 
     if (id) id.value = "";
 
-    const button = document.getElementById(
-        "admin-current-affairs-submit"
-    );
+    const button = document.getElementById("admin-current-affairs-submit");
 
     if (button) button.textContent = "Add Current Affair";
 
-    const active = document.getElementById(
-        "admin-current-affairs-active"
-    );
+    const active = document.getElementById("admin-current-affairs-active");
 
     if (active) active.checked = true;
 
-    const order = document.getElementById(
-        "admin-current-affairs-sort-order"
-    );
+    const order = document.getElementById("admin-current-affairs-sort-order");
 
     if (order) order.value = "0";
 }
 
 function fillForm(item) {
-    document.getElementById(
-        "admin-current-affairs-id"
-    ).value = item.id ?? "";
+    document.getElementById("admin-current-affairs-id").value = item.id ?? "";
 
-    document.getElementById(
-        "admin-current-affairs-title"
-    ).value = item.title ?? "";
+    document.getElementById("admin-current-affairs-title").value = item.title ?? "";
 
-    document.getElementById(
-        "admin-current-affairs-subtitle"
-    ).value = item.subtitle ?? "";
+    document.getElementById("admin-current-affairs-subtitle").value = item.subtitle ?? "";
 
-    document.getElementById(
-        "admin-current-affairs-description"
-    ).value = item.description ?? "";
+    document.getElementById("admin-current-affairs-description").value = item.description ?? "";
 
-    document.getElementById(
-        "admin-current-affairs-icon"
-    ).value = item.icon ?? "";
+    document.getElementById("admin-current-affairs-icon").value = item.icon ?? "";
 
-    document.getElementById(
-        "admin-current-affairs-target-url"
-    ).value = item.targetUrl ?? "";
+    document.getElementById("admin-current-affairs-target-url").value = item.targetUrl ?? "";
 
-    document.getElementById(
-        "admin-current-affairs-active"
-    ).checked = item.active === true;
+    document.getElementById("admin-current-affairs-active").checked = item.active === true;
 
-    document.getElementById(
-        "admin-current-affairs-sort-order"
-    ).value = item.sortOrder ?? 0;
+    document.getElementById("admin-current-affairs-sort-order").value = item.sortOrder ?? 0;
 
-    document.getElementById(
-        "admin-current-affairs-submit"
-    ).textContent = "Update Current Affair";
+    document.getElementById("admin-current-affairs-submit").textContent = "Update Current Affair";
 
     window.scrollTo({
         top: 0,
-        behavior: "smooth"
+        behavior: "smooth",
     });
 }
 
@@ -120,20 +86,12 @@ function formData() {
         icon: field("admin-current-affairs-icon"),
         targetUrl: field("admin-current-affairs-target-url"),
         active: checked("admin-current-affairs-active"),
-        sortOrder: Number(
-            field("admin-current-affairs-sort-order") || 0
-        )
+        sortOrder: Number(field("admin-current-affairs-sort-order") || 0),
     };
 }
 
-/* =========================
-   RENDER CURRENT AFFAIRS
-========================= */
-
 function renderList(items) {
-    const container = document.querySelector(
-        "[data-admin-current-affairs-list]"
-    );
+    const container = document.querySelector("[data-admin-current-affairs-list]");
 
     if (!container) return;
 
@@ -146,7 +104,9 @@ function renderList(items) {
         return;
     }
 
-    container.innerHTML = items.map(item => `
+    container.innerHTML = items
+        .map(
+            (item) => `
         <article class="admin-content-item">
             <div class="admin-content-item-main">
                 <div>
@@ -199,17 +159,13 @@ function renderList(items) {
                 </button>
             </div>
         </article>
-    `).join("");
+    `,
+        )
+        .join("");
 }
 
-/* =========================
-   INITIALIZE PAGE
-========================= */
-
 function initialize() {
-    const form = document.getElementById(
-        "admin-current-affairs-form"
-    );
+    const form = document.getElementById("admin-current-affairs-form");
 
     if (!form || form.dataset.initialized === "true") return;
 
@@ -221,18 +177,13 @@ function initialize() {
         try {
             currentItems = await getAdminCurrentAffairs();
 
-            renderList(
-                Array.isArray(currentItems) ? currentItems : []
-            );
+            renderList(Array.isArray(currentItems) ? currentItems : []);
         } catch (error) {
-            setMessage(
-                error.message || "Unable to load current affairs.",
-                "error"
-            );
+            setMessage(error.message || "Unable to load current affairs.", "error");
         }
     }
 
-    form.addEventListener("submit", async event => {
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         const id = field("admin-current-affairs-id");
@@ -243,87 +194,60 @@ function initialize() {
             if (id) {
                 await updateCurrentAffair(id, data);
 
-                setMessage(
-                    "Current affair updated successfully.",
-                    "success"
-                );
+                setMessage("Current affair updated successfully.", "success");
             } else {
                 await createCurrentAffair(data);
 
-                setMessage(
-                    "Current affair added successfully.",
-                    "success"
-                );
+                setMessage("Current affair added successfully.", "success");
             }
 
             resetForm();
             await load();
         } catch (error) {
-            setMessage(
-                error.message || "Unable to save current affair.",
-                "error"
-            );
+            setMessage(error.message || "Unable to save current affair.", "error");
         }
     });
 
     // Keep event handling limited to this page.
-  document.addEventListener("click", async event => {
-      if (!(event.target instanceof Element)) return;
+    document.addEventListener("click", async (event) => {
+        if (!(event.target instanceof Element)) return;
 
-      const edit = event.target.closest(
-          "[data-current-affair-edit]"
-      );
+        const edit = event.target.closest("[data-current-affair-edit]");
 
-      if (edit) {
-          const item = currentItems.find(
-              entry =>
-                  String(entry.id) ===
-                  String(edit.dataset.currentAffairEdit)
-          );
+        if (edit) {
+            const item = currentItems.find(
+                (entry) => String(entry.id) === String(edit.dataset.currentAffairEdit),
+            );
 
-          if (item) {
-              fillForm(item);
-          }
+            if (item) {
+                fillForm(item);
+            }
 
-          return;
-      }
+            return;
+        }
 
-      const remove = event.target.closest(
-          "[data-current-affair-delete]"
-      );
+        const remove = event.target.closest("[data-current-affair-delete]");
 
-      if (!remove) return;
+        if (!remove) return;
 
-      if (!window.confirm("Delete this current affair?")) return;
+        if (!window.confirm("Delete this current affair?")) return;
 
-      try {
-          await deleteCurrentAffair(
-              remove.dataset.currentAffairDelete
-          );
+        try {
+            await deleteCurrentAffair(remove.dataset.currentAffairDelete);
 
-          setMessage(
-              "Current affair deleted successfully.",
-              "success"
-          );
+            setMessage("Current affair deleted successfully.", "success");
 
-          await load();
-      } catch (error) {
-          setMessage(
-              error.message || "Unable to delete current affair.",
-              "error"
-          );
-      }
-  });
+            await load();
+        } catch (error) {
+            setMessage(error.message || "Unable to delete current affair.", "error");
+        }
+    });
     document
         .querySelector("[data-admin-current-affairs-clear]")
         ?.addEventListener("click", resetForm);
 
     load();
 }
-
-/* =========================
-   PAGE COMPONENT
-========================= */
 
 export default function AdminCurrentAffairsPage() {
     const user = getCurrentUser();

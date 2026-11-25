@@ -1,15 +1,70 @@
 const answerFor = (question) => {
     const text = question.toLowerCase();
-    if (/scholar|funding|grant|financial aid/.test(text)) return { text: "Explore scholarship options for international study, then confirm eligibility and deadlines with each university or provider.", label: "Explore study abroad", href: "/study-abroad#study-abroad-scholarships" };
-    if (/abroad|oversea|country|destination|visa|study in/.test(text)) return { text: "Compare study destinations, universities, courses, scholarships and application steps in StepInStudents’s Study Abroad guide.", label: "Explore study abroad", href: "/study-abroad" };
-    if (/online|course|degree|certificate|diploma|subject|learn/.test(text)) return { text: "Browse online courses, certificates, diplomas and degree programmes by subject and education level.", label: "Explore online education", href: "/online-education" };
-    if (/university|universities|college/.test(text)) return { text: "Compare university options in the Study Abroad section. Confirm entry requirements and fees directly with each institution.", label: "Compare destinations", href: "/study-abroad#study-abroad-destinations" };
-    if (/application|apply|admission|requirement|deadline/.test(text)) return { text: "The Study Abroad guide covers common application steps. Requirements and deadlines vary, so verify them with your chosen institution.", label: "View application guide", href: "/study-abroad#study-abroad-application-process" };
-    return { text: "I can help you find online courses, study-abroad destinations, universities and scholarships. This preview uses StepInStudents page guidance; an AI service is not connected yet." };
+    if (/scholar|funding|grant|financial aid/.test(text))
+        return {
+            text:
+                "Explore scholarship options for " +
+                "international study, then confirm " +
+                "eligibility and deadlines with each " +
+                "university or provider.",
+            label: "Explore study abroad",
+            href: "/study-abroad#study-abroad-scholarships",
+        };
+    if (/abroad|oversea|country|destination|visa|study in/.test(text))
+        return {
+            text:
+                "Compare study destinations, " +
+                "universities, courses, scholarships and " +
+                "application steps in StepInStudents’s " +
+                "Study Abroad guide.",
+            label: "Explore study abroad",
+            href: "/study-abroad",
+        };
+    if (/online|course|degree|certificate|diploma|subject|learn/.test(text))
+        return {
+            text:
+                "Browse online courses, certificates, " +
+                "diplomas and degree programmes by " +
+                "subject and education level.",
+            label: "Explore online education",
+            href: "/online-education",
+        };
+    if (/university|universities|college/.test(text))
+        return {
+            text:
+                "Compare university options in the Study " +
+                "Abroad section. Confirm entry " +
+                "requirements and fees directly with " +
+                "each institution.",
+            label: "Compare destinations",
+            href: "/study-abroad#study-abroad-destinations",
+        };
+    if (/application|apply|admission|requirement|deadline/.test(text))
+        return {
+            text:
+                "The Study Abroad guide covers common " +
+                "application steps. Requirements and " +
+                "deadlines vary, so verify them with " +
+                "your chosen institution.",
+            label: "View application guide",
+            href: "/study-abroad#study-abroad-application-process",
+        };
+    return {
+        text:
+            "I can help you find online courses, " +
+            "study-abroad destinations, universities " +
+            "and scholarships. This preview uses " +
+            "StepInStudents page guidance; an AI " +
+            "service is not connected yet.",
+    };
 };
 
 export function initWebsiteAssistant() {
-    if (/\/admin(?:\/|$)/i.test(window.location.pathname) || document.querySelector(".edu-assistant")) return;
+    if (
+        /\/admin(?:\/|$)/i.test(window.location.pathname) ||
+        document.querySelector(".edu-assistant")
+    )
+        return;
 
     const widget = document.createElement("section");
     widget.className = "edu-assistant";
@@ -48,7 +103,10 @@ export function initWebsiteAssistant() {
     const setOpen = (open) => {
         panel.hidden = !open;
         launcher.setAttribute("aria-expanded", String(open));
-        launcher.setAttribute("aria-label", open ? "Close StepInStudents chat" : "Open StepInStudents chat");
+        launcher.setAttribute(
+            "aria-label",
+            open ? "Close StepInStudents chat" : "Open StepInStudents chat",
+        );
         widget.classList.toggle("is-open", open);
         if (open) input.focus();
     };
@@ -83,7 +141,11 @@ export function initWebsiteAssistant() {
         input.value = "";
         input.focus();
     });
-    widget.querySelectorAll("[data-question]").forEach((button) => button.addEventListener("click", () => sendMessage(button.dataset.question)));
+    widget
+        .querySelectorAll("[data-question]")
+        .forEach((button) =>
+            button.addEventListener("click", () => sendMessage(button.dataset.question)),
+        );
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" && !panel.hidden) {
             setOpen(false);

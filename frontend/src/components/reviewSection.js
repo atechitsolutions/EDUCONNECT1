@@ -1,14 +1,5 @@
-// ============================================================
-// StepInStudents - Reusable Premium Card Component
-// File: frontend/src/components/ui/Card.js
-// ============================================================
-
 let cardStylesLoaded = false;
 
-/**
- * Loads the card styles only once.
- * This keeps the Card component self-contained and reusable.
- */
 function loadCardStyles() {
     if (cardStylesLoaded) {
         return;
@@ -21,9 +12,6 @@ function loadCardStyles() {
     style.id = "educonnect-premium-card-styles";
 
     style.textContent = `
-        /* =====================================================
-           PREMIUM STEPINSTUDENTS CARD
-           ===================================================== */
 
         .edu-card {
             position: relative;
@@ -64,9 +52,6 @@ function loadCardStyles() {
         }
 
 
-        /* -----------------------------------------------------
-           Decorative glow
-           ----------------------------------------------------- */
 
         .edu-card::before {
             content: "";
@@ -96,9 +81,6 @@ function loadCardStyles() {
         }
 
 
-        /* -----------------------------------------------------
-           Bottom accent line
-           ----------------------------------------------------- */
 
         .edu-card::after {
             content: "";
@@ -125,9 +107,6 @@ function loadCardStyles() {
         }
 
 
-        /* -----------------------------------------------------
-           Hover
-           ----------------------------------------------------- */
 
         .edu-card:hover {
             transform: translateY(-8px);
@@ -158,9 +137,6 @@ function loadCardStyles() {
         }
 
 
-        /* -----------------------------------------------------
-           Badge
-           ----------------------------------------------------- */
 
         .edu-card-badge {
             align-self: flex-start;
@@ -208,9 +184,6 @@ function loadCardStyles() {
         }
 
 
-        /* -----------------------------------------------------
-           Title
-           ----------------------------------------------------- */
 
         .edu-card-title {
             position: relative;
@@ -240,9 +213,6 @@ function loadCardStyles() {
         }
 
 
-        /* -----------------------------------------------------
-           Subtitle
-           ----------------------------------------------------- */
 
         .edu-card-subtitle {
             position: relative;
@@ -267,9 +237,6 @@ function loadCardStyles() {
         }
 
 
-        /* -----------------------------------------------------
-           Description
-           ----------------------------------------------------- */
 
         .edu-card-description {
             position: relative;
@@ -294,9 +261,6 @@ function loadCardStyles() {
         }
 
 
-        /* -----------------------------------------------------
-           Optional action area
-           ----------------------------------------------------- */
 
         .edu-card-action {
             position: relative;
@@ -343,9 +307,6 @@ function loadCardStyles() {
         }
 
 
-        /* -----------------------------------------------------
-           Focus accessibility
-           ----------------------------------------------------- */
 
         .edu-card:focus-within {
             outline: 3px solid rgba(29, 116, 201, 0.20);
@@ -354,9 +315,6 @@ function loadCardStyles() {
         }
 
 
-        /* -----------------------------------------------------
-           Responsive - Tablet
-           ----------------------------------------------------- */
 
         @media (max-width: 900px) {
 
@@ -379,9 +337,6 @@ function loadCardStyles() {
         }
 
 
-        /* -----------------------------------------------------
-           Responsive - Mobile
-           ----------------------------------------------------- */
 
         @media (max-width: 600px) {
 
@@ -413,9 +368,6 @@ function loadCardStyles() {
         }
 
 
-        /* -----------------------------------------------------
-           Reduced motion accessibility
-           ----------------------------------------------------- */
 
         @media (prefers-reduced-motion: reduce) {
 
@@ -436,7 +388,6 @@ function loadCardStyles() {
     document.head.appendChild(style);
 }
 
-
 /**
  * Reusable Card
  *
@@ -453,9 +404,8 @@ export function Card({
     subtitle = "",
     description = "",
     badge = "",
-    action = ""
+    action = "",
 } = {}) {
-
     loadCardStyles();
 
     return `
@@ -515,6 +465,5 @@ export function Card({
         </article>
     `;
 }
-
 
 export default Card;

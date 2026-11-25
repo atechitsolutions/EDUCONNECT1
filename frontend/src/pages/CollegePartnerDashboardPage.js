@@ -1,22 +1,49 @@
 import { getCurrentUser, logoutUser } from "../services/authService.js";
-import { changePartnerPassword, getPartnerDashboard, getPartnerEnquiry, getPartnerEnquiries, updatePartnerEnquiryStatus, getPartnerAlerts, markPartnerAlertRead, archivePartnerAlert, getPartnerWallet, submitPartnerWalletDeposit, unlockPartnerEnquiries } from "../services/collegePartnerService.js";
+import {
+    changePartnerPassword,
+    getPartnerDashboard,
+    getPartnerEnquiry,
+    getPartnerEnquiries,
+    updatePartnerEnquiryStatus,
+    getPartnerAlerts,
+    markPartnerAlertRead,
+    archivePartnerAlert,
+    getPartnerWallet,
+    submitPartnerWalletDeposit,
+    unlockPartnerEnquiries,
+} from "../services/collegePartnerService.js";
 import "../assets/css/college-partner.css";
 
-const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" })[char]);
-const date = value => value ? new Date(value).toLocaleString(undefined, { dateStyle: "medium" }) : "—";
-const dateTime = value => value ? new Date(value).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" }) : "—";
-const money = value => new Intl.NumberFormat("en-IN", { style:"currency", currency:"INR", minimumFractionDigits:2 }).format(Number(value || 0));
+const esc = (value) =>
+    String(value ?? "").replace(
+        /[&<>"']/g,
+        (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char],
+    );
+const date = (value) =>
+    value ? new Date(value).toLocaleString(undefined, { dateStyle: "medium" }) : "—";
+const dateTime = (value) =>
+    value
+        ? new Date(value).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" })
+        : "—";
+const money = (value) =>
+    new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        minimumFractionDigits: 2,
+    }).format(Number(value || 0));
 const statuses = ["NEW", "CONTACTED", "FOLLOW_UP", "INTERESTED", "CONVERTED", "CLOSED"];
-const statusControl = lead => `<select data-status="${esc(lead.id)}" aria-label="Enquiry status">${statuses.map(s=>`<option value="${s}" ${s===lead.status?"selected":""}>${s.replaceAll("_"," ")}</option>`).join("")}</select>`;
+const statusControl = (lead) =>
+    `<select data-status="${esc(lead.id)}" aria-label="Enquiry status">${statuses.map((s) => `<option value="${s}" ${s === lead.status ? "selected" : ""}>${s.replaceAll("_", " ")}</option>`).join("")}</select>`;
 
 export default function CollegePartnerDashboardPage() {
     const user = getCurrentUser();
-    if (!user || user.role !== "COLLEGE") return `<main class="cp-denied"><h1>College partner sign-in required</h1><p>Sign in with the account created by your StepInStudents administrator.</p><a href="/college/login" class="cp-button cp-button-gold">Go to partner sign in</a></main>`;
-    return `<main class="cp-dashboard"><aside class="cp-sidebar"><a class="cp-brand" href="/college/dashboard">StepInStudents<span>PARTNER WORKSPACE</span></a><div class="cp-side-label">WORKSPACE</div><a class="cp-side-link is-current" href="#cp-overview">◫ Overview</a><a class="cp-side-link" href="#cp-leads">◉ Recent enquiries</a><a class="cp-side-link" href="#cp-wallet">◈ Wallet</a><a class="cp-side-link" href="#cp-alerts">◷ Alerts</a><div class="cp-side-bottom"><div class="cp-user-chip"><span class="cp-avatar">${esc((user.fullName||"C").slice(0,1))}</span><div><strong>${esc(user.fullName||"College partner")}</strong><small>College partner</small></div></div><button id="cp-signout" class="cp-side-link cp-logout">↪ Sign out</button></div></aside>
+    if (!user || user.role !== "COLLEGE")
+        return `<main class="cp-denied"><h1>College partner sign-in required</h1><p>Sign in with the account created by your StepInStudents administrator.</p><a href="/college/login" class="cp-button cp-button-gold">Go to partner sign in</a></main>`;
+    return `<main class="cp-dashboard"><aside class="cp-sidebar"><a class="cp-brand" href="/college/dashboard">StepInStudents<span>PARTNER WORKSPACE</span></a><div class="cp-side-label">WORKSPACE</div><a class="cp-side-link is-current" href="#cp-overview">◫ Overview</a><a class="cp-side-link" href="#cp-leads">◉ Recent enquiries</a><a class="cp-side-link" href="#cp-wallet">◈ Wallet</a><a class="cp-side-link" href="#cp-alerts">◷ Alerts</a><div class="cp-side-bottom"><div class="cp-user-chip"><span class="cp-avatar">${esc((user.fullName || "C").slice(0, 1))}</span><div><strong>${esc(user.fullName || "College partner")}</strong><small>College partner</small></div></div><button id="cp-signout" class="cp-side-link cp-logout">↪ Sign out</button></div></aside>
       <section class="cp-main"><header class="cp-topbar" id="cp-overview"><div><span class="cp-kicker">PARTNER WORKSPACE</span><h1 id="cp-college-name">Your institution</h1><p>Live student interest, assigned leads, and pay-per-enquiry wallet.</p></div><span class="cp-live-dot">PRIVATE PORTAL</span></header><div class="cp-content">
         <div class="cp-kpis cp-partner-kpis" id="cp-analytics-kpis"><div class="cp-kpi"><span>Page visits · 30 days</span><strong id="cp-visits">—</strong><small>Recorded institution page visits</small></div><div class="cp-kpi"><span>Profile views · 30 days</span><strong id="cp-profile-views">—</strong><small>Recorded institution detail views</small></div><div class="cp-kpi"><span>Unique visitors · 30 days</span><strong id="cp-unique">—</strong><small>Where visitor IDs are available</small></div><div class="cp-kpi"><span>Authenticated students</span><strong id="cp-authenticated">—</strong><small>Verified student accounts</small></div><div class="cp-kpi"><span>Submitted enquiries · 30 days</span><strong id="cp-enquiries-count">—</strong><small>Saved student enquiries</small></div></div>
         <section class="cp-panel cp-analytics-panel" id="cp-analytics"><div class="cp-panel-head"><div><span class="cp-kicker">LIVE INSTITUTION ANALYTICS</span><h2>Institution engagement</h2><p>Counts reflect saved backend events and enquiries.</p></div><span class="cp-muted">Refreshes automatically</span></div><div class="cp-analytics-summary"><article><span>Last 7 days</span><strong id="cp-weekly-visits">—</strong></article><article><span>Last 30 days</span><strong id="cp-monthly-visits">—</strong></article><article><span>Recent enquiries</span><strong id="cp-recent-count">—</strong></article></div><div id="cp-daily-trend" class="cp-daily-trend"></div></section>
-        <section class="cp-panel" id="cp-leads"><div class="cp-panel-head"><div><span class="cp-kicker">STUDENT INTEREST</span><h2>Recent enquiries</h2><p>Names, contact details, course and message are returned only after a paid unlock. Every lead shows its tier price.</p></div><span class="cp-muted" id="cp-leads-helper"></span></div><div class="cp-lead-toolbar"><input id="cp-enquiry-search" type="search" placeholder="Search unlocked enquiries"><select id="cp-enquiry-status"><option value="">All statuses</option>${statuses.map(s=>`<option value="${s}">${s.replaceAll("_"," ")}</option>`).join("")}</select><input id="cp-enquiry-date" type="date" aria-label="Filter enquiry date"><button class="cp-button cp-button-muted" id="cp-unlock-selected" type="button" disabled>Unlock selected</button></div><p class="cp-feedback" id="cp-unlock-feedback" role="status"></p><div class="cp-table-wrap"><table class="cp-table"><thead><tr><th><input id="cp-select-all" type="checkbox" aria-label="Select unlockable enquiries"></th><th>Student</th><th>Email</th><th>Contact</th><th>Course</th><th>Lead type · price</th><th>Date &amp; time</th><th>Unlock</th></tr></thead><tbody id="cp-leads-body"><tr><td colspan="8">Loading enquiry activity…</td></tr></tbody></table></div><div class="cp-mobile-leads" id="cp-mobile-leads"></div></section>
+        <section class="cp-panel" id="cp-leads"><div class="cp-panel-head"><div><span class="cp-kicker">STUDENT INTEREST</span><h2>Recent enquiries</h2><p>Names, contact details, course and message are returned only after a paid unlock. Every lead shows its tier price.</p></div><span class="cp-muted" id="cp-leads-helper"></span></div><div class="cp-lead-toolbar"><input id="cp-enquiry-search" type="search" placeholder="Search unlocked enquiries"><select id="cp-enquiry-status"><option value="">All statuses</option>${statuses.map((s) => `<option value="${s}">${s.replaceAll("_", " ")}</option>`).join("")}</select><input id="cp-enquiry-date" type="date" aria-label="Filter enquiry date"><button class="cp-button cp-button-muted" id="cp-unlock-selected" type="button" disabled>Unlock selected</button></div><p class="cp-feedback" id="cp-unlock-feedback" role="status"></p><div class="cp-table-wrap"><table class="cp-table"><thead><tr><th><input id="cp-select-all" type="checkbox" aria-label="Select unlockable enquiries"></th><th>Student</th><th>Email</th><th>Contact</th><th>Course</th><th>Lead type · price</th><th>Date &amp; time</th><th>Unlock</th></tr></thead><tbody id="cp-leads-body"><tr><td colspan="8">Loading enquiry activity…</td></tr></tbody></table></div><div class="cp-mobile-leads" id="cp-mobile-leads"></div></section>
         <section class="cp-panel" id="cp-alerts"><div class="cp-panel-head"><div><span class="cp-kicker">INSTITUTIONAL ALERTS</span><h2>Student Opportunity Alerts</h2><p>Read-only notices from StepInStudents administrators. Contact details remain protected.</p></div></div><div id="cp-alert-list"><p>Loading alerts…</p></div></section>
         <section class="cp-panel" id="cp-wallet"><div class="cp-panel-head"><div><span class="cp-kicker">PAY-PER-ENQUIRY WALLET</span><h2>Wallet</h2><p>Unlock only the student enquiries you want. Charges are recorded in your wallet ledger.</p></div><button class="cp-button cp-button-muted" id="cp-wallet-refresh" type="button">Refresh wallet</button></div><div class="cp-analytics-summary cp-wallet-summary"><article><span>Available balance</span><strong id="cp-wallet-balance">—</strong></article><article><span>Total amount added</span><strong id="cp-wallet-added">—</strong></article><article><span>Total amount spent</span><strong id="cp-wallet-spent">—</strong></article><article><span>Unlocked leads</span><strong id="cp-wallet-unlocked">—</strong></article><article><span>Price per enquiry</span><strong id="cp-wallet-price">—</strong></article></div><div class="cp-wallet-grid"><div class="cp-wallet-payment"><h3>Add funds</h3><div id="cp-wallet-qr" class="cp-wallet-qr"><p>The administrator has not added payment instructions yet.</p></div><p id="cp-wallet-instructions" class="cp-muted"></p><form id="cp-deposit-form" class="cp-wallet-deposit-form"><label>Amount (₹)<input name="amount" type="number" min="100" max="500000" step="0.01" required></label><label>UPI / bank transaction reference<input name="paymentReference" maxlength="120" required></label><label>Note (optional)<input name="note" maxlength="1000"></label><button id="cp-deposit-submit" class="cp-button cp-button-gold" type="submit" disabled>Submit for verification</button><p class="cp-feedback" id="cp-deposit-feedback" role="status">Funds are added only after an administrator verifies the payment.</p></form></div><div><h3>Wallet transaction history</h3><div class="cp-table-wrap"><table class="cp-table"><thead><tr><th>Transaction</th><th>Amount</th><th>Reference / note</th><th>Status</th><th>Date</th></tr></thead><tbody id="cp-wallet-history"><tr><td colspan="5">Loading wallet history…</td></tr></tbody></table></div></div></div></section>
         <section class="cp-password-panel" id="cp-first-password" hidden><div><span class="cp-kicker">SECURE YOUR ACCOUNT</span><h2>Change your temporary password</h2><p>Choose a new password with at least 12 characters before continuing.</p></div><form id="cp-password-form"><label>Current password<input type="password" name="currentPassword" autocomplete="current-password" required></label><label>New password<input type="password" name="newPassword" minlength="12" autocomplete="new-password" required></label><button class="cp-button cp-button-gold">Update password</button><p class="cp-feedback" id="cp-password-feedback" role="status"></p></form></section>
@@ -24,46 +51,334 @@ export default function CollegePartnerDashboardPage() {
 }
 
 export function initCollegePartnerDashboardPage() {
-    const root=document.querySelector(".cp-dashboard"); if(!root)return;
-    const currentUser=getCurrentUser(); let wallet={}, enquiries=[];
-    const signout=()=>{logoutUser();location.assign("/college/login");};
-    root.querySelector("#cp-signout").addEventListener("click",signout);
-    const feedback=root.querySelector("#cp-unlock-feedback"), dialog=root.querySelector("#cp-lead-dialog");
-    root.querySelectorAll("[data-lead-close]").forEach(button=>button.addEventListener("click",()=>dialog.close()));
-    if(currentUser?.mustChangePassword)root.querySelector("#cp-first-password").hidden=false;
-    root.querySelector("#cp-password-form").addEventListener("submit",async event=>{event.preventDefault();const status=root.querySelector("#cp-password-feedback");try{await changePartnerPassword(Object.fromEntries(new FormData(event.currentTarget)));currentUser.mustChangePassword=false;localStorage.setItem("educonnect_user",JSON.stringify(currentUser));root.querySelector("#cp-first-password").hidden=true;status.textContent="Password updated.";}catch(error){status.textContent=error.message;status.classList.add("is-error");}});
-    const renderWallet=()=>{
-        root.querySelector("#cp-wallet-balance").textContent=money(wallet.balance);root.querySelector("#cp-wallet-added").textContent=money(wallet.totalAdded);root.querySelector("#cp-wallet-spent").textContent=money(wallet.totalSpent);root.querySelector("#cp-wallet-unlocked").textContent=wallet.totalUnlocked??0;
-        const products=wallet.leadProducts||[];root.querySelector("#cp-wallet-price").textContent=products.map(p=>`${p.name}: ${money(p.unitPrice)}`).join(" · ")||money(wallet.pricePerEnquiry);
-        const qr=root.querySelector("#cp-wallet-qr");qr.innerHTML=wallet.qrImageData?`<img src="${esc(wallet.qrImageData)}" alt="Institution wallet payment QR code"><p>${wallet.upiId?`UPI ID: <strong>${esc(wallet.upiId)}</strong>`:"Scan to pay"}</p>`:`<p>Payment QR will appear here when configured by the administrator.</p>`;
-        root.querySelector("#cp-deposit-submit").disabled=!(wallet.qrImageData||wallet.upiId);
-        root.querySelector("#cp-wallet-instructions").textContent=wallet.paymentInstructions||"Submit the bank or UPI transaction reference after payment. Deposits stay pending until verified.";
-        const history=wallet.transactions||[];root.querySelector("#cp-wallet-history").innerHTML=history.length?history.map(t=>`<tr><td>${esc(String(t.transactionType||"").replaceAll("_"," "))}</td><td>${money(t.amount)}</td><td>${esc(t.paymentReference||t.note||"—")}</td><td><span class="cp-pill ${t.status==="APPROVED"||t.status==="COMPLETED"?"is-active":"is-muted"}">${esc(t.status)}</span></td><td>${date(t.date)}</td></tr>`).join(""):`<tr><td colspan="5" class="cp-empty">No wallet transactions yet.</td></tr>`;
+    const root = document.querySelector(".cp-dashboard");
+    if (!root) return;
+    const currentUser = getCurrentUser();
+    let wallet = {},
+        enquiries = [];
+    const signout = () => {
+        logoutUser();
+        location.assign("/college/login");
     };
-    const refreshWallet=async()=>{wallet=await getPartnerWallet();renderWallet();};
-    const lockedText=(lead,field)=>lead.unlocked?esc(lead[field]||"—"): `<span class="cp-private" aria-label="Locked until wallet unlock">${field==="course"?"Unlock to view":field==="email"?"••••••@•••••":"••••••••"}</span>`;
-    const unlockButton=lead=>lead.unlocked?`<span class="cp-pill is-active">Already unlocked</span>`:lead.eligibleForUnlock&&Number(lead.unitPrice)>0?`<button class="cp-button cp-button-gold cp-row-unlock" type="button" data-unlock="${esc(lead.id)}">Unlock · ${money(lead.unitPrice)}</button>`:lead.eligibleForUnlock?`<span class="cp-lock">Price not configured</span>`:`<span class="cp-lock">Consent unavailable</span>`;
-    const filterRows=(rows,prefix)=>{const term=root.querySelector(`${prefix}-search`).value.trim().toLowerCase(),status=root.querySelector(`${prefix}-status`).value,dateValue=root.querySelector(`${prefix}-date`).value;return rows.filter(l=>(!term||`${l.student} ${l.course} ${l.source} ${l.contact} ${l.email}`.toLowerCase().includes(term))&&(!status||l.status===status)&&(!dateValue||String(l.date||"").slice(0,10)===dateValue));};
-    const renderEnquiries=()=>{const list=filterRows(enquiries,"#cp-enquiry");root.querySelector("#cp-recent-count").textContent=list.length;root.querySelector("#cp-leads-helper").textContent=`${list.length} leads · pricing shown per lead`;
-        root.querySelector("#cp-leads-body").innerHTML=list.length?list.map(l=>`<tr><td><input type="checkbox" data-select-enquiry="${esc(l.id)}" ${l.eligibleForUnlock&&Number(l.unitPrice)>0?"":"disabled"} aria-label="Select enquiry"></td><td><strong>${lockedText(l,"student")}</strong></td><td>${lockedText(l,"email")}</td><td>${lockedText(l,"contact")}</td><td>${lockedText(l,"course")}</td><td><span class="cp-pill">${esc(l.leadProductName||"Exclusive Lead")}</span><small>${money(l.unitPrice)} per lead</small></td><td>${dateTime(l.date)}</td><td>${unlockButton(l)}</td></tr>`).join(""):`<tr><td colspan="8" class="cp-empty">No recent enquiries have been assigned or submitted to your institution.</td></tr>`;
-        root.querySelector("#cp-mobile-leads").innerHTML=list.map(l=>`<article class="cp-lead-card"><div><strong>${lockedText(l,"student")}</strong><span>${dateTime(l.date)}</span></div><p>${esc(l.leadProductName||"Exclusive Lead")} · ${money(l.unitPrice)}</p><p>Email: ${lockedText(l,"email")}</p><p>Course: ${lockedText(l,"course")}</p>${unlockButton(l)}</article>`).join("");
+    root.querySelector("#cp-signout").addEventListener("click", signout);
+    const feedback = root.querySelector("#cp-unlock-feedback"),
+        dialog = root.querySelector("#cp-lead-dialog");
+    root.querySelectorAll("[data-lead-close]").forEach((button) =>
+        button.addEventListener("click", () => dialog.close()),
+    );
+    if (currentUser?.mustChangePassword) root.querySelector("#cp-first-password").hidden = false;
+    root.querySelector("#cp-password-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const status = root.querySelector("#cp-password-feedback");
+        try {
+            await changePartnerPassword(Object.fromEntries(new FormData(event.currentTarget)));
+            currentUser.mustChangePassword = false;
+            localStorage.setItem("educonnect_user", JSON.stringify(currentUser));
+            root.querySelector("#cp-first-password").hidden = true;
+            status.textContent = "Password updated.";
+        } catch (error) {
+            status.textContent = error.message;
+            status.classList.add("is-error");
+        }
+    });
+    const renderWallet = () => {
+        root.querySelector("#cp-wallet-balance").textContent = money(wallet.balance);
+        root.querySelector("#cp-wallet-added").textContent = money(wallet.totalAdded);
+        root.querySelector("#cp-wallet-spent").textContent = money(wallet.totalSpent);
+        root.querySelector("#cp-wallet-unlocked").textContent = wallet.totalUnlocked ?? 0;
+        const products = wallet.leadProducts || [];
+        root.querySelector("#cp-wallet-price").textContent =
+            products.map((p) => `${p.name}: ${money(p.unitPrice)}`).join(" · ") ||
+            money(wallet.pricePerEnquiry);
+        const qr = root.querySelector("#cp-wallet-qr");
+        qr.innerHTML = wallet.qrImageData
+            ? `<img src="${esc(wallet.qrImageData)}" alt="Institution wallet payment QR code"><p>${wallet.upiId ? `UPI ID: <strong>${esc(wallet.upiId)}</strong>` : "Scan to pay"}</p>`
+            : `<p>Payment QR will appear here when configured by the administrator.</p>`;
+        root.querySelector("#cp-deposit-submit").disabled = !(wallet.qrImageData || wallet.upiId);
+        root.querySelector("#cp-wallet-instructions").textContent =
+            wallet.paymentInstructions ||
+            "Submit the bank or UPI transaction " +
+                "reference after payment. Deposits stay " +
+                "pending until verified.";
+        const history = wallet.transactions || [];
+        root.querySelector("#cp-wallet-history").innerHTML = history.length
+            ? history
+                  .map(
+                      (t) =>
+                          `<tr><td>${esc(String(t.transactionType || "").replaceAll("_", " "))}</td><td>${money(t.amount)}</td><td>${esc(t.paymentReference || t.note || "—")}</td><td><span class="cp-pill ${t.status === "APPROVED" || t.status === "COMPLETED" ? "is-active" : "is-muted"}">${esc(t.status)}</span></td><td>${date(t.date)}</td></tr>`,
+                  )
+                  .join("")
+            : `<tr><td colspan="5" class="cp-empty">No wallet transactions yet.</td></tr>`;
+    };
+    const refreshWallet = async () => {
+        wallet = await getPartnerWallet();
+        renderWallet();
+    };
+    const lockedText = (lead, field) =>
+        lead.unlocked
+            ? esc(lead[field] || "—")
+            : `<span class="cp-private" aria-label="Locked until wallet unlock">${field === "course" ? "Unlock to view" : field === "email" ? "••••••@•••••" : "••••••••"}</span>`;
+    const unlockButton = (lead) =>
+        lead.unlocked
+            ? `<span class="cp-pill is-active">Already unlocked</span>`
+            : lead.eligibleForUnlock && Number(lead.unitPrice) > 0
+              ? `<button class="cp-button cp-button-gold cp-row-unlock" type="button" data-unlock="${esc(lead.id)}">Unlock · ${money(lead.unitPrice)}</button>`
+              : lead.eligibleForUnlock
+                ? `<span class="cp-lock">Price not configured</span>`
+                : `<span class="cp-lock">Consent unavailable</span>`;
+    const filterRows = (rows, prefix) => {
+        const term = root.querySelector(`${prefix}-search`).value.trim().toLowerCase(),
+            status = root.querySelector(`${prefix}-status`).value,
+            dateValue = root.querySelector(`${prefix}-date`).value;
+        return rows.filter(
+            (l) =>
+                (!term ||
+                    `${l.student} ${l.course} ${l.source} ${l.contact} ${l.email}`
+                        .toLowerCase()
+                        .includes(term)) &&
+                (!status || l.status === status) &&
+                (!dateValue || String(l.date || "").slice(0, 10) === dateValue),
+        );
+    };
+    const renderEnquiries = () => {
+        const list = filterRows(enquiries, "#cp-enquiry");
+        root.querySelector("#cp-recent-count").textContent = list.length;
+        root.querySelector("#cp-leads-helper").textContent =
+            `${list.length} leads · pricing shown per lead`;
+        root.querySelector("#cp-leads-body").innerHTML = list.length
+            ? list
+                  .map(
+                      (l) =>
+                          `<tr><td><input type="checkbox" data-select-enquiry="${esc(l.id)}" ${l.eligibleForUnlock && Number(l.unitPrice) > 0 ? "" : "disabled"} aria-label="Select enquiry"></td><td><strong>${lockedText(l, "student")}</strong></td><td>${lockedText(l, "email")}</td><td>${lockedText(l, "contact")}</td><td>${lockedText(l, "course")}</td><td><span class="cp-pill">${esc(l.leadProductName || "Exclusive Lead")}</span><small>${money(l.unitPrice)} per lead</small></td><td>${dateTime(l.date)}</td><td>${unlockButton(l)}</td></tr>`,
+                  )
+                  .join("")
+            : `<tr><td colspan="8" class="cp-empty">No recent enquiries have been assigned or submitted to your institution.</td></tr>`;
+        root.querySelector("#cp-mobile-leads").innerHTML = list
+            .map(
+                (l) =>
+                    `<article class="cp-lead-card"><div><strong>${lockedText(l, "student")}</strong><span>${dateTime(l.date)}</span></div><p>${esc(l.leadProductName || "Exclusive Lead")} · ${money(l.unitPrice)}</p><p>Email: ${lockedText(l, "email")}</p><p>Course: ${lockedText(l, "course")}</p>${unlockButton(l)}</article>`,
+            )
+            .join("");
         updateUnlockTotal();
     };
-    const updateUnlockTotal=()=>{const selected=[...root.querySelectorAll("[data-select-enquiry]:checked")].map(el=>Number(el.dataset.selectEnquiry)),cost=selected.reduce((sum,id)=>sum+Number(enquiries.find(l=>Number(l.id)===id)?.unitPrice||0),0),button=root.querySelector("#cp-unlock-selected");button.disabled=!selected.length;button.textContent=selected.length?`Unlock ${selected.length} selected · ${money(cost)}`:"Unlock selected";};
-    const refreshEnquiries=async()=>{enquiries=await getPartnerEnquiries();renderEnquiries();};
-    const refreshAnalytics=async()=>{try{const stats=await getPartnerDashboard();root.querySelector("#cp-college-name").textContent=stats.collegeName;for(const [id,value] of [["cp-visits",stats.pageVisits30d],["cp-profile-views",stats.profileViews30d],["cp-unique",stats.uniqueVisitors30d],["cp-authenticated",stats.authenticatedStudents30d],["cp-enquiries-count",stats.enquiries30d],["cp-weekly-visits",stats.weeklyVisits],["cp-monthly-visits",stats.monthlyVisits]])root.querySelector(`#${id}`).textContent=value??0;
-        const days=stats.dailyVisits30d||[],max=Math.max(1,...days.map(day=>Number(day.visits)||0));root.querySelector("#cp-daily-trend").innerHTML=days.length?days.map(day=>`<div class="cp-trend-day" title="${esc(day.date)} · ${esc(day.visits)} visits"><span style="--bar:${Math.max(4,Math.round(Number(day.visits)/max*100))}%"></span><small>${esc(day.date.slice(5))}</small><b>${esc(day.visits)}</b></div>`).join(""):`<p class="cp-empty">No institution page activity recorded in the last 30 days.</p>`;}catch(error){for(const id of ["cp-visits","cp-profile-views","cp-unique","cp-authenticated","cp-enquiries-count","cp-weekly-visits","cp-monthly-visits","cp-recent-count"])root.querySelector(`#${id}`).textContent="Unavailable";root.querySelector("#cp-daily-trend").innerHTML=`<p class="cp-empty">Analytics could not load: ${esc(error.message||"Request failed")}</p>`;throw error;}};
-    const renderAlerts=alerts=>{root.querySelector("#cp-alert-list").innerHTML=alerts.length?alerts.map(a=>`<article class="cp-alert-card"><span class="cp-pill ${a.status==="NEW"?"is-active":"is-muted"}">${esc(a.status)}</span><h3>${esc(a.title)}</h3><p>${esc(a.content)}</p><small>${date(a.createdAt)} · student identity protected</small><div class="cp-dialog-actions"><button class="cp-button cp-button-muted" data-alert-read="${esc(a.id)}">Mark read</button><button class="cp-button cp-button-muted" data-alert-archive="${esc(a.id)}">Archive</button></div></article>`).join(""):`<p class="cp-empty">No opportunity alerts yet.</p>`;};
-    const refreshAll=async()=>{const jobs=await Promise.allSettled([refreshAnalytics(),refreshWallet(),refreshEnquiries(),getPartnerAlerts()]);const labels=["analytics","wallet","enquiries","alerts"];const failures=jobs.flatMap((job,index)=>job.status==="rejected"?[`${labels[index]}: ${job.reason?.message||"unavailable"}`]:[]);if(jobs[3].status==="fulfilled")renderAlerts(jobs[3].value);else root.querySelector("#cp-alert-list").innerHTML=`<p class="cp-empty">Alerts could not load: ${esc(jobs[3].reason?.message||"Request failed")}</p>`;if(jobs[1].status==="rejected")root.querySelector("#cp-wallet-qr").innerHTML=`<p class="cp-empty">Wallet could not load: ${esc(jobs[1].reason?.message||"Request failed")}</p>`;feedback.textContent=failures.length?`Some dashboard data could not load (${failures.join(" · ")}).`:"";feedback.classList.toggle("is-error",failures.length>0);};
-    root.querySelector("#cp-wallet-refresh").addEventListener("click",()=>refreshWallet().catch(e=>root.querySelector("#cp-deposit-feedback").textContent=e.message));
-    root.querySelector("#cp-deposit-form").addEventListener("submit",async event=>{event.preventDefault();const form=event.currentTarget,status=root.querySelector("#cp-deposit-feedback");try{await submitPartnerWalletDeposit(Object.fromEntries(new FormData(form)));status.textContent="Deposit request submitted. Your balance changes after administrator verification.";form.reset();await refreshWallet();}catch(error){status.textContent=error.message;status.classList.add("is-error");}});
-    ["#cp-enquiry-search","#cp-enquiry-status","#cp-enquiry-date"].forEach(sel=>root.querySelector(sel).addEventListener("input",renderEnquiries));
-    root.querySelector("#cp-select-all").addEventListener("change",event=>{root.querySelectorAll("[data-select-enquiry]").forEach(box=>{if(!box.disabled)box.checked=event.target.checked;});updateUnlockTotal();});
-    root.querySelector("#cp-leads-body").addEventListener("change",event=>{if(event.target.matches("[data-select-enquiry]"))updateUnlockTotal();});
-    const doUnlock=async ids=>{if(!ids.length)return;const selected=ids.map(id=>enquiries.find(l=>Number(l.id)===Number(id))).filter(l=>l?.eligibleForUnlock),cost=selected.reduce((sum,lead)=>sum+Number(lead.unitPrice||0),0),groups=selected.reduce((all,lead)=>{const key=`${lead.leadProductName||"Lead"} · ${money(lead.unitPrice)}`;all.set(key,(all.get(key)||0)+1);return all;},new Map()),breakdown=[...groups].map(([name,count])=>`${count} × ${name}`).join("\n");if(!confirm(`Unlock ${selected.length} lead(s)?\n${breakdown}\nTotal: ${money(cost)}\nPreviously unlocked leads are not charged again.`))return;try{const result=await unlockPartnerEnquiries(ids);feedback.textContent=`Unlocked ${result.newlyUnlocked} lead(s) for ${money(result.charged)}. New balance: ${money(result.balance)}.`;feedback.classList.remove("is-error");await Promise.all([refreshWallet(),refreshEnquiries()]);}catch(error){feedback.textContent=error.message;feedback.classList.add("is-error");}};
-    root.querySelector("#cp-unlock-selected").addEventListener("click",()=>doUnlock([...root.querySelectorAll("[data-select-enquiry]:checked")].map(box=>Number(box.dataset.selectEnquiry))));
-    root.addEventListener("click",async event=>{const unlock=event.target.closest("[data-unlock]"),view=event.target.closest("[data-view]"),read=event.target.closest("[data-alert-read]"),archive=event.target.closest("[data-alert-archive]");try{if(unlock)await doUnlock([Number(unlock.dataset.unlock)]);if(view){const lead=await getPartnerEnquiry(view.dataset.view),slot=root.querySelector("#cp-lead-detail");slot.innerHTML=lead.locked?`<p>This enquiry has not been unlocked or contact consent is unavailable.</p>`:`<dl><dt>Student</dt><dd>${esc(lead.student)}</dd><dt>Phone</dt><dd>${esc(lead.contact||"—")}</dd><dt>Email</dt><dd>${esc(lead.email)}</dd><dt>Course</dt><dd>${esc(lead.course||"—")}</dd><dt>Date</dt><dd>${date(lead.date)}</dd><dt>Message</dt><dd>${esc(lead.message||"—")}</dd><dt>Qualification</dt><dd>${esc(lead.qualification||"—")}</dd><dt>Location</dt><dd>${esc([lead.city,lead.state].filter(Boolean).join(", ")||"—")}</dd><dt>Consent</dt><dd>Recorded</dd></dl>`;dialog.showModal();}if(read||archive){if(read)await markPartnerAlertRead(read.dataset.alertRead);if(archive)await archivePartnerAlert(archive.dataset.alertArchive);renderAlerts(await getPartnerAlerts());}}catch(error){feedback.textContent=error.message;feedback.classList.add("is-error");}});
-    root.addEventListener("change",async event=>{const select=event.target.closest("select[data-status]");if(!select)return;const id=select.dataset.status,lead=enquiries.find(x=>String(x.id)===String(id)),previous=lead?.status;select.disabled=true;try{await updatePartnerEnquiryStatus(id,select.value);if(lead)lead.status=select.value;renderEnquiries();feedback.textContent="Enquiry status saved.";feedback.classList.remove("is-error");}catch(error){select.value=previous;feedback.textContent=error.message;feedback.classList.add("is-error");}finally{select.disabled=false;}});
+    const updateUnlockTotal = () => {
+        const selected = [...root.querySelectorAll("[data-select-enquiry]:checked")].map((el) =>
+                Number(el.dataset.selectEnquiry),
+            ),
+            cost = selected.reduce(
+                (sum, id) =>
+                    sum + Number(enquiries.find((l) => Number(l.id) === id)?.unitPrice || 0),
+                0,
+            ),
+            button = root.querySelector("#cp-unlock-selected");
+        button.disabled = !selected.length;
+        button.textContent = selected.length
+            ? `Unlock ${selected.length} selected · ${money(cost)}`
+            : "Unlock selected";
+    };
+    const refreshEnquiries = async () => {
+        enquiries = await getPartnerEnquiries();
+        renderEnquiries();
+    };
+    const refreshAnalytics = async () => {
+        try {
+            const stats = await getPartnerDashboard();
+            root.querySelector("#cp-college-name").textContent = stats.collegeName;
+            for (const [id, value] of [
+                ["cp-visits", stats.pageVisits30d],
+                ["cp-profile-views", stats.profileViews30d],
+                ["cp-unique", stats.uniqueVisitors30d],
+                ["cp-authenticated", stats.authenticatedStudents30d],
+                ["cp-enquiries-count", stats.enquiries30d],
+                ["cp-weekly-visits", stats.weeklyVisits],
+                ["cp-monthly-visits", stats.monthlyVisits],
+            ])
+                root.querySelector(`#${id}`).textContent = value ?? 0;
+            const days = stats.dailyVisits30d || [],
+                max = Math.max(1, ...days.map((day) => Number(day.visits) || 0));
+            root.querySelector("#cp-daily-trend").innerHTML = days.length
+                ? days
+                      .map(
+                          (day) =>
+                              `<div class="cp-trend-day" title="${esc(day.date)} · ${esc(day.visits)} visits"><span style="--bar:${Math.max(4, Math.round((Number(day.visits) / max) * 100))}%"></span><small>${esc(day.date.slice(5))}</small><b>${esc(day.visits)}</b></div>`,
+                      )
+                      .join("")
+                : `<p class="cp-empty">No institution page activity recorded in the last 30 days.</p>`;
+        } catch (error) {
+            for (const id of [
+                "cp-visits",
+                "cp-profile-views",
+                "cp-unique",
+                "cp-authenticated",
+                "cp-enquiries-count",
+                "cp-weekly-visits",
+                "cp-monthly-visits",
+                "cp-recent-count",
+            ])
+                root.querySelector(`#${id}`).textContent = "Unavailable";
+            root.querySelector("#cp-daily-trend").innerHTML =
+                `<p class="cp-empty">Analytics could not load: ${esc(error.message || "Request failed")}</p>`;
+            throw error;
+        }
+    };
+    const renderAlerts = (alerts) => {
+        root.querySelector("#cp-alert-list").innerHTML = alerts.length
+            ? alerts
+                  .map(
+                      (a) =>
+                          `<article class="cp-alert-card"><span class="cp-pill ${a.status === "NEW" ? "is-active" : "is-muted"}">${esc(a.status)}</span><h3>${esc(a.title)}</h3><p>${esc(a.content)}</p><small>${date(a.createdAt)} · student identity protected</small><div class="cp-dialog-actions"><button class="cp-button cp-button-muted" data-alert-read="${esc(a.id)}">Mark read</button><button class="cp-button cp-button-muted" data-alert-archive="${esc(a.id)}">Archive</button></div></article>`,
+                  )
+                  .join("")
+            : `<p class="cp-empty">No opportunity alerts yet.</p>`;
+    };
+    const refreshAll = async () => {
+        const jobs = await Promise.allSettled([
+            refreshAnalytics(),
+            refreshWallet(),
+            refreshEnquiries(),
+            getPartnerAlerts(),
+        ]);
+        const labels = ["analytics", "wallet", "enquiries", "alerts"];
+        const failures = jobs.flatMap((job, index) =>
+            job.status === "rejected"
+                ? [`${labels[index]}: ${job.reason?.message || "unavailable"}`]
+                : [],
+        );
+        if (jobs[3].status === "fulfilled") renderAlerts(jobs[3].value);
+        else
+            root.querySelector("#cp-alert-list").innerHTML =
+                `<p class="cp-empty">Alerts could not load: ${esc(jobs[3].reason?.message || "Request failed")}</p>`;
+        if (jobs[1].status === "rejected")
+            root.querySelector("#cp-wallet-qr").innerHTML =
+                `<p class="cp-empty">Wallet could not load: ${esc(jobs[1].reason?.message || "Request failed")}</p>`;
+        feedback.textContent = failures.length
+            ? `Some dashboard data could not load (${failures.join(" · ")}).`
+            : "";
+        feedback.classList.toggle("is-error", failures.length > 0);
+    };
+    root.querySelector("#cp-wallet-refresh").addEventListener("click", () =>
+        refreshWallet().catch(
+            (e) => (root.querySelector("#cp-deposit-feedback").textContent = e.message),
+        ),
+    );
+    root.querySelector("#cp-deposit-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const form = event.currentTarget,
+            status = root.querySelector("#cp-deposit-feedback");
+        try {
+            await submitPartnerWalletDeposit(Object.fromEntries(new FormData(form)));
+            status.textContent =
+                "Deposit request submitted. Your balance " +
+                "changes after administrator " +
+                "verification.";
+            form.reset();
+            await refreshWallet();
+        } catch (error) {
+            status.textContent = error.message;
+            status.classList.add("is-error");
+        }
+    });
+    ["#cp-enquiry-search", "#cp-enquiry-status", "#cp-enquiry-date"].forEach((sel) =>
+        root.querySelector(sel).addEventListener("input", renderEnquiries),
+    );
+    root.querySelector("#cp-select-all").addEventListener("change", (event) => {
+        root.querySelectorAll("[data-select-enquiry]").forEach((box) => {
+            if (!box.disabled) box.checked = event.target.checked;
+        });
+        updateUnlockTotal();
+    });
+    root.querySelector("#cp-leads-body").addEventListener("change", (event) => {
+        if (event.target.matches("[data-select-enquiry]")) updateUnlockTotal();
+    });
+    const doUnlock = async (ids) => {
+        if (!ids.length) return;
+        const selected = ids
+                .map((id) => enquiries.find((l) => Number(l.id) === Number(id)))
+                .filter((l) => l?.eligibleForUnlock),
+            cost = selected.reduce((sum, lead) => sum + Number(lead.unitPrice || 0), 0),
+            groups = selected.reduce((all, lead) => {
+                const key = `${lead.leadProductName || "Lead"} · ${money(lead.unitPrice)}`;
+                all.set(key, (all.get(key) || 0) + 1);
+                return all;
+            }, new Map()),
+            breakdown = [...groups].map(([name, count]) => `${count} × ${name}`).join("\n");
+        if (
+            !confirm(
+                `Unlock ${selected.length} lead(s)?\n${breakdown}\nTotal: ${money(cost)}\nPreviously unlocked leads are not charged again.`,
+            )
+        )
+            return;
+        try {
+            const result = await unlockPartnerEnquiries(ids);
+            feedback.textContent = `Unlocked ${result.newlyUnlocked} lead(s) for ${money(result.charged)}. New balance: ${money(result.balance)}.`;
+            feedback.classList.remove("is-error");
+            await Promise.all([refreshWallet(), refreshEnquiries()]);
+        } catch (error) {
+            feedback.textContent = error.message;
+            feedback.classList.add("is-error");
+        }
+    };
+    root.querySelector("#cp-unlock-selected").addEventListener("click", () =>
+        doUnlock(
+            [...root.querySelectorAll("[data-select-enquiry]:checked")].map((box) =>
+                Number(box.dataset.selectEnquiry),
+            ),
+        ),
+    );
+    root.addEventListener("click", async (event) => {
+        const unlock = event.target.closest("[data-unlock]"),
+            view = event.target.closest("[data-view]"),
+            read = event.target.closest("[data-alert-read]"),
+            archive = event.target.closest("[data-alert-archive]");
+        try {
+            if (unlock) await doUnlock([Number(unlock.dataset.unlock)]);
+            if (view) {
+                const lead = await getPartnerEnquiry(view.dataset.view),
+                    slot = root.querySelector("#cp-lead-detail");
+                slot.innerHTML = lead.locked
+                    ? `<p>This enquiry has not been unlocked or contact consent is unavailable.</p>`
+                    : `<dl><dt>Student</dt><dd>${esc(lead.student)}</dd><dt>Phone</dt><dd>${esc(lead.contact || "—")}</dd><dt>Email</dt><dd>${esc(lead.email)}</dd><dt>Course</dt><dd>${esc(lead.course || "—")}</dd><dt>Date</dt><dd>${date(lead.date)}</dd><dt>Message</dt><dd>${esc(lead.message || "—")}</dd><dt>Qualification</dt><dd>${esc(lead.qualification || "—")}</dd><dt>Location</dt><dd>${esc([lead.city, lead.state].filter(Boolean).join(", ") || "—")}</dd><dt>Consent</dt><dd>Recorded</dd></dl>`;
+                dialog.showModal();
+            }
+            if (read || archive) {
+                if (read) await markPartnerAlertRead(read.dataset.alertRead);
+                if (archive) await archivePartnerAlert(archive.dataset.alertArchive);
+                renderAlerts(await getPartnerAlerts());
+            }
+        } catch (error) {
+            feedback.textContent = error.message;
+            feedback.classList.add("is-error");
+        }
+    });
+    root.addEventListener("change", async (event) => {
+        const select = event.target.closest("select[data-status]");
+        if (!select) return;
+        const id = select.dataset.status,
+            lead = enquiries.find((x) => String(x.id) === String(id)),
+            previous = lead?.status;
+        select.disabled = true;
+        try {
+            await updatePartnerEnquiryStatus(id, select.value);
+            if (lead) lead.status = select.value;
+            renderEnquiries();
+            feedback.textContent = "Enquiry status saved.";
+            feedback.classList.remove("is-error");
+        } catch (error) {
+            select.value = previous;
+            feedback.textContent = error.message;
+            feedback.classList.add("is-error");
+        } finally {
+            select.disabled = false;
+        }
+    });
     refreshAll();
-    if(!root.dataset.refreshBound){const refresh=()=>{if(!document.hidden)refreshAll();};window.addEventListener("focus",refresh);document.addEventListener("visibilitychange",refresh);root.dataset.refreshTimer=String(window.setInterval(refresh,15000));root.dataset.refreshBound="true";}
+    if (!root.dataset.refreshBound) {
+        const refresh = () => {
+            if (!document.hidden) refreshAll();
+        };
+        window.addEventListener("focus", refresh);
+        document.addEventListener("visibilitychange", refresh);
+        root.dataset.refreshTimer = String(window.setInterval(refresh, 15000));
+        root.dataset.refreshBound = "true";
+    }
 }

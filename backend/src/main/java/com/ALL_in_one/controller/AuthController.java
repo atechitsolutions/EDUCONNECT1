@@ -3,185 +3,80 @@ package com.ALL_in_one.controller;
 import com.ALL_in_one.dto.*;
 import com.ALL_in_one.service.AuthService;
 import com.ALL_in_one.service.PasswordResetService;
-
 import jakarta.validation.Valid;
-
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
-
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+  private final AuthService authService;
 
-    private final PasswordResetService passwordResetService;
+  private final PasswordResetService passwordResetService;
 
+  @PostMapping("/register")
+  public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
 
-    /* =====================================================
-       REGISTER
-       POST /api/auth/register
-    ====================================================== */
+    try {
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(
-            @Valid
-            @RequestBody
-            RegisterRequest request
-    ) {
+      AuthResponse response = authService.register(request);
 
-        try {
+      return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
-            AuthResponse response =
-                    authService.register(request);
+    } catch (IllegalArgumentException exception) {
 
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(response);
-
-        }
-        catch (IllegalArgumentException exception) {
-
-            return ResponseEntity
-                    .badRequest()
-                    .body(
-                            Map.of(
-                                    "message",
-                                    exception.getMessage()
-                            )
-                    );
-
-        }
-
+      return ResponseEntity.badRequest().body(Map.of("message", exception.getMessage()));
     }
+  }
 
+  @PostMapping("/forgot-password")
+  public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
 
-    /* =====================================================
-       FORGOT PASSWORD
-       POST /api/auth/forgot-password
-    ====================================================== */
+    try {
 
-    @PostMapping("/forgot-password")
-    public ResponseEntity<?> forgotPassword(
-            @Valid
-            @RequestBody
-            ForgotPasswordRequest request
-    ) {
+      passwordResetService.sendResetLink(request.getEmail());
 
-        try {
+      return ResponseEntity.ok(Map.of("message", "Password reset request processed."));
 
-            passwordResetService.sendResetLink(
-                    request.getEmail()
-            );
+    } catch (Exception exception) {
 
-            return ResponseEntity.ok(
-                    Map.of(
-                            "message",
-                            "Password reset request processed."
-                    )
-            );
-
-        }
-        catch (Exception exception) {
-
-            return ResponseEntity
-                    .badRequest()
-                    .body(
-                            Map.of(
-                                    "message",
-                                    exception.getMessage()
-                            )
-                    );
-
-        }
-
+      return ResponseEntity.badRequest().body(Map.of("message", exception.getMessage()));
     }
+  }
 
+  @PostMapping("/reset-password")
+  public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordRequest request) {
 
-    /* =====================================================
-       RESET PASSWORD
-       POST /api/auth/reset-password
-    ====================================================== */
+    try {
 
-    @PostMapping("/reset-password")
-    public ResponseEntity<?> resetPassword(
-            @Valid
-            @RequestBody
-            ResetPasswordRequest request
-    ) {
+      passwordResetService.resetPassword(request.getToken(), request.getNewPassword());
 
-        try {
+      return ResponseEntity.ok(Map.of("message", "Password reset successfully."));
 
-            passwordResetService.resetPassword(
-                    request.getToken(),
-                    request.getNewPassword()
-            );
+    } catch (Exception exception) {
 
-            return ResponseEntity.ok(
-                    Map.of(
-                            "message",
-                            "Password reset successfully."
-                    )
-            );
-
-        }
-        catch (Exception exception) {
-
-            return ResponseEntity
-                    .badRequest()
-                    .body(
-                            Map.of(
-                                    "message",
-                                    exception.getMessage()
-                            )
-                    );
-
-        }
-
+      return ResponseEntity.badRequest().body(Map.of("message", exception.getMessage()));
     }
+  }
 
+  @PostMapping("/login")
+  public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
 
-    /* =====================================================
-       LOGIN
-       POST /api/auth/login
-    ====================================================== */
+    try {
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(
-            @Valid
-            @RequestBody
-            LoginRequest request
-    ) {
+      AuthResponse response = authService.login(request);
 
-        try {
+      return ResponseEntity.ok(response);
 
-            AuthResponse response =
-                    authService.login(request);
+    } catch (IllegalArgumentException exception) {
 
-            return ResponseEntity.ok(response);
-
-        }
-        catch (IllegalArgumentException exception) {
-
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body(
-                            Map.of(
-                                    "message",
-                                    exception.getMessage()
-                            )
-                    );
-
-        }
-
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+          .body(Map.of("message", exception.getMessage()));
     }
-
+  }
 }

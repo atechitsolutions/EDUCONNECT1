@@ -1,222 +1,192 @@
 import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
-import { getLegacyEarlyLearningImage, getProvidedEarlyLearningListings } from "../../data/earlyLearningListings.js";
-
+import {
+    getLegacyEarlyLearningImage,
+    getProvidedEarlyLearningListings,
+} from "../../data/earlyLearningListings.js";
 
 const featuredPlaySchoolListings = [
+    {
+        rank: "01",
+        name: "Little Stars Play School",
+        category: "Play School",
+        location: "Dwarka, New Delhi",
 
-        {
-            rank: "01",
-            name: "Little Stars Play School",
-            category: "Play School",
-            location: "Dwarka, New Delhi",
+        program: "Playgroup • Nursery • Early Learning",
 
-            program:
-                "Playgroup • Nursery • Early Learning",
+        rating: "4.7",
+        reviews: "1,180",
+        score: "9.1",
 
-            rating: "4.7",
-            reviews: "1,180",
-            score: "9.1",
+        ranking: "Popular early-learning option in New Delhi",
 
-            ranking:
-                "Popular early-learning option in New Delhi",
+        highlight: "Creative learning, play activities & social development",
 
-            highlight:
-                "Creative learning, play activities & social development",
+        image:
+            "https://images.unsplash.com/photo-150345" +
+            "4537195-1dcabb73ffb9?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
 
-            image:
-                "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1200&q=85"
-        },
+    {
+        rank: "02",
+        name: "Bright Kids Play School",
+        category: "Play School",
+        location: "Andheri, Mumbai",
 
+        program: "Playgroup • Nursery • Early Learning",
 
-        {
-            rank: "02",
-            name: "Bright Kids Play School",
-            category: "Play School",
-            location: "Andheri, Mumbai",
+        rating: "4.6",
+        reviews: "1,020",
+        score: "8.9",
 
-            program:
-                "Playgroup • Nursery • Early Learning",
+        ranking: "Popular play-school choice in Mumbai",
 
-            rating: "4.6",
-            reviews: "1,020",
-            score: "8.9",
+        highlight: "Activity-based learning & child-focused environment",
 
-            ranking:
-                "Popular play-school choice in Mumbai",
+        image:
+            "https://images.unsplash.com/photo-158765" +
+            "4780291-39c9404d746b?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
 
-            highlight:
-                "Activity-based learning & child-focused environment",
+    {
+        rank: "03",
+        name: "Happy Hearts Play School",
+        category: "Play School",
+        location: "Whitefield, Bengaluru",
 
-            image:
-                "https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1200&q=85"
-        },
+        program: "Playgroup • Nursery • Kindergarten",
 
+        rating: "4.8",
+        reviews: "940",
+        score: "9.2",
 
-        {
-            rank: "03",
-            name: "Happy Hearts Play School",
-            category: "Play School",
-            location: "Whitefield, Bengaluru",
+        ranking: "Highly rated early-learning centre in Bengaluru",
 
-            program:
-                "Playgroup • Nursery • Kindergarten",
+        highlight: "Play-based learning & holistic child development",
 
-            rating: "4.8",
-            reviews: "940",
-            score: "9.2",
+        image:
+            "https://images.unsplash.com/photo-159646" +
+            "4716127-f2a82984de30?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
 
-            ranking:
-                "Highly rated early-learning centre in Bengaluru",
+    {
+        rank: "04",
+        name: "Tiny Tots Play School",
+        category: "Play School",
+        location: "Baner, Pune",
 
-            highlight:
-                "Play-based learning & holistic child development",
+        program: "Playgroup • Nursery • Kindergarten",
 
-            image:
-                "https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&w=1200&q=85"
-        },
+        rating: "4.5",
+        reviews: "830",
+        score: "8.7",
 
+        ranking: "Child-friendly early education centre in Pune",
 
-        {
-            rank: "04",
-            name: "Tiny Tots Play School",
-            category: "Play School",
-            location: "Baner, Pune",
+        highlight: "Foundational learning & engaging activities",
 
-            program:
-                "Playgroup • Nursery • Kindergarten",
+        image:
+            "https://images.unsplash.com/photo-150345" +
+            "4537195-1dcabb73ffb9?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
 
-            rating: "4.5",
-            reviews: "830",
-            score: "8.7",
+    {
+        rank: "05",
+        name: "Growing Stars Play School",
+        category: "Play School",
+        location: "Gurugram, Haryana",
 
-            ranking:
-                "Child-friendly early education centre in Pune",
+        program: "Playgroup • Nursery • Early Learning",
 
-            highlight:
-                "Foundational learning & engaging activities",
+        rating: "4.6",
+        reviews: "760",
+        score: "8.8",
 
-            image:
-                "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1200&q=85",
-        },
+        ranking: "Growing early-learning option in the NCR region",
 
+        highlight: "Early skills, creativity & confidence building",
 
-        {
-            rank: "05",
-            name: "Growing Stars Play School",
-            category: "Play School",
-            location: "Gurugram, Haryana",
+        image:
+            "https://images.unsplash.com/photo-150906" +
+            "2522246-3755977927d7?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
 
-            program:
-                "Playgroup • Nursery • Early Learning",
+    {
+        rank: "06",
+        name: "Little Angels Play School",
+        category: "Play School",
+        location: "Bandra, Mumbai",
 
-            rating: "4.6",
-            reviews: "760",
-            score: "8.8",
+        program: "Playgroup • Nursery • Early Learning",
 
-            ranking:
-                "Growing early-learning option in the NCR region",
+        rating: "4.7",
+        reviews: "690",
+        score: "8.9",
 
-            highlight:
-                "Early skills, creativity & confidence building",
+        ranking: "Popular early-learning centre in Mumbai",
 
-            image:
-                "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85"
-        },
+        highlight: "Child-friendly learning & social development",
 
-
-        {
-            rank: "06",
-            name: "Little Angels Play School",
-            category: "Play School",
-            location: "Bandra, Mumbai",
-
-            program:
-                "Playgroup • Nursery • Early Learning",
-
-            rating: "4.7",
-            reviews: "690",
-            score: "8.9",
-
-            ranking:
-                "Popular early-learning centre in Mumbai",
-
-            highlight:
-                "Child-friendly learning & social development",
-
-            image:
-                "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1200&q=85"
-        }
-
-    ].map(school => {
-        const ids = {
-            "Little Stars Play School": "home-playschool-little-stars",
-            "Bright Kids Play School": "home-playschool-bright-kids",
-            "Happy Hearts Play School": "home-playschool-happy-hearts",
-            "Tiny Tots Play School": "home-playschool-tiny-tots",
-            "Growing Stars Play School": "home-playschool-growing-stars",
-            "Little Angels Play School": "home-playschool-little-angels"
-        };
-        const id = ids[school.name];
-        return {
-            ...school,
-            id,
-            imageLabel: "Representative photo - not this institution's campus",
-            ...getLegacyEarlyLearningImage(id)
-        };
-    });
+        image:
+            "https://images.unsplash.com/photo-157789" +
+            "6851231-70ef18881754?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
+].map((school) => {
+    const ids = {
+        "Little Stars Play School": "home-playschool-little-stars",
+        "Bright Kids Play School": "home-playschool-bright-kids",
+        "Happy Hearts Play School": "home-playschool-happy-hearts",
+        "Tiny Tots Play School": "home-playschool-tiny-tots",
+        "Growing Stars Play School": "home-playschool-growing-stars",
+        "Little Angels Play School": "home-playschool-little-angels",
+    };
+    const id = ids[school.name];
+    return {
+        ...school,
+        id,
+        imageLabel: "Representative photo - not this institution's campus",
+        ...getLegacyEarlyLearningImage(id),
+    };
+});
 
 export const playSchoolListings = [
     ...featuredPlaySchoolListings,
-    ...getProvidedEarlyLearningListings("playschool")
+    ...getProvidedEarlyLearningListings("playschool"),
 ];
 
 export function PlaySchoolSection() {
     const playSchools = playSchoolListings;
 
-
-    /* =====================================================
-       CREATE PLAY SCHOOL CARD
-    ====================================================== */
-
     function createCard(school) {
-
         return InstitutionCard({
-
             item: {
+                rank: school.rank,
 
-                rank:
-                    school.rank,
+                name: school.name,
 
-                name:
-                    school.name,
+                category: school.category,
 
-                category:
-                    school.category,
+                location: school.location,
 
-                location:
-                    school.location,
+                program: school.program,
 
-                program:
-                    school.program,
+                rating: school.rating,
 
-                rating:
-                    school.rating,
+                reviews: school.reviews,
 
-                reviews:
-                    school.reviews,
+                score: school.score,
 
-                score:
-                    school.score,
+                ranking: school.ranking,
 
-                ranking:
-                    school.ranking,
+                highlight: school.highlight,
 
-                highlight:
-                    school.highlight,
-
-                image:
-                    school.image,
+                image: school.image,
 
                 imageSource: school.imageSource || "",
                 imageLabel: school.imageLabel || "",
@@ -229,63 +199,26 @@ export function PlaySchoolSection() {
                 enquiryHref: `/schools?category=playschool&q=${encodeURIComponent(school.name)}&institution=${encodeURIComponent(school.name)}&location=${encodeURIComponent(school.location || "")}&enquire=1`,
                 overview: school.highlight || school.ranking || school.program || "",
 
-                actionLabel:
-                    "Explore Play School"
-
+                actionLabel: "Explore Play School",
             },
 
-            type:
-                "play-school"
-
+            type: "play-school",
         });
-
     }
-
-
-    /* =====================================================
-       VISIBLE CARDS
-    ====================================================== */
 
     const visibleSchools = playSchools;
 
-
-    /* =====================================================
-       HIDDEN CARDS
-    ====================================================== */
-
     const hiddenSchools = [];
 
-
-    /* =====================================================
-       ORIGINAL CARDS
-    ====================================================== */
-
-    const schoolCards =
-        visibleSchools
-            .map(createCard)
-            .join("");
-
-
-    /* =====================================================
-       DUPLICATE CARDS
-       FOR SEAMLESS AUTO-SCROLL
-    ====================================================== */
+    const schoolCards = visibleSchools.map(createCard).join("");
 
     const schoolCardsDuplicate = "";
-
-
-    /* =====================================================
-       CONTENT
-    ====================================================== */
 
     const content = `
 
         <div class="early-learning-section">
 
 
-            <!-- =================================================
-                 INTRO
-            ================================================== -->
 
             <div class="early-learning-intro">
 
@@ -327,16 +260,10 @@ export function PlaySchoolSection() {
             </div>
 
 
-            <!-- =================================================
-                 MOVING CARDS
-            ================================================== -->
 
             <div class="early-learning-carousel" aria-label="All play school listings"><div class="early-learning-track institution-carousel-track">${schoolCards}${schoolCardsDuplicate}</div></div>
 
 
-            <!-- =================================================
-                 ALL PLAY SCHOOLS
-            ================================================== -->
 
             <div
                 class="early-learning-all"
@@ -345,19 +272,13 @@ export function PlaySchoolSection() {
 
                 <div class="early-learning-all-grid">
 
-                    ${hiddenSchools
-                        .map(createCard)
-                        .join("")
-                    }
+                    ${hiddenSchools.map(createCard).join("")}
 
                 </div>
 
             </div>
 
 
-            <!-- =================================================
-                 CTA
-            ================================================== -->
 
             <div class="early-learning-bottom">
 
@@ -398,27 +319,15 @@ export function PlaySchoolSection() {
 
     `;
 
-
-    /* =====================================================
-       RETURN SECTION
-    ====================================================== */
-
     return Section({
+        id: "play-school",
 
-        id:
-            "play-school",
+        title: "",
 
-        title:
-            "",
+        subtitle: "",
 
-        subtitle:
-            "",
-
-        content
-
+        content,
     });
-
 }
-
 
 export default PlaySchoolSection;

@@ -1,8 +1,16 @@
 import "../assets/css/admission-partners.css";
 import "../assets/css/admission-partner-light.css";
-import { submitPartnerInterest, submitPartnerReferral, validatePartnerReferralCode } from "../services/admissionPartnerService.js";
+import {
+    submitPartnerInterest,
+    submitPartnerReferral,
+    validatePartnerReferralCode,
+} from "../services/admissionPartnerService.js";
 
-const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
+const escapeHtml = (value) =>
+    String(value ?? "").replace(
+        /[&<>"']/g,
+        (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char],
+    );
 
 export default function AdmissionPartnersPage() {
     const referralCode = new URLSearchParams(window.location.search).get("ref") || "";
@@ -71,13 +79,31 @@ export function initAdmissionPartnersPage() {
     if (studentForm) {
         const code = new URLSearchParams(window.location.search).get("ref") || "";
         const status = document.querySelector("#ap-student-referral-status");
-        validatePartnerReferralCode(code).then(result => { status.textContent = `Referral shared by ${result.partnerName}.`; }).catch(error => { studentForm.querySelector("button").disabled = true; status.textContent = error.message; });
-        studentForm.addEventListener("submit", async event => {
-            event.preventDefault(); if (!studentForm.reportValidity()) return;
-            const button = studentForm.querySelector("button"); button.disabled = true; status.textContent = "Submitting your enquiry…";
-            try { const values = Object.fromEntries(new FormData(studentForm)); const result = await submitPartnerReferral(code, { ...values, consent: true }); studentForm.reset(); status.textContent = result.message; }
-            catch (error) { status.textContent = error.message; status.classList.add("is-error"); }
-            finally { button.disabled = false; }
+        validatePartnerReferralCode(code)
+            .then((result) => {
+                status.textContent = `Referral shared by ${result.partnerName}.`;
+            })
+            .catch((error) => {
+                studentForm.querySelector("button").disabled = true;
+                status.textContent = error.message;
+            });
+        studentForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            if (!studentForm.reportValidity()) return;
+            const button = studentForm.querySelector("button");
+            button.disabled = true;
+            status.textContent = "Submitting your enquiry…";
+            try {
+                const values = Object.fromEntries(new FormData(studentForm));
+                const result = await submitPartnerReferral(code, { ...values, consent: true });
+                studentForm.reset();
+                status.textContent = result.message;
+            } catch (error) {
+                status.textContent = error.message;
+                status.classList.add("is-error");
+            } finally {
+                button.disabled = false;
+            }
         });
     }
     const form = document.querySelector("#ap-interest-form");
@@ -96,7 +122,7 @@ export function initAdmissionPartnersPage() {
     };
     experience.addEventListener("change", syncExperienceFields);
     syncExperienceFields();
-    form.addEventListener("submit", async event => {
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
         if (!form.reportValidity()) return;
         const values = Object.fromEntries(new FormData(form));
@@ -107,13 +133,24 @@ export function initAdmissionPartnersPage() {
         status.classList.remove("is-error");
         try {
             const isSubpartner = values.experience === "Subpartner";
-            const result = await submitPartnerInterest({ fullName: values.name, email: values.email, phone: values.phone, experience: values.experience, collegeName: values.collegeName, parentReferralCode: isSubpartner ? values.parentReferralCode.trim() : null, consent: true });
+            const result = await submitPartnerInterest({
+                fullName: values.name,
+                email: values.email,
+                phone: values.phone,
+                experience: values.experience,
+                collegeName: values.collegeName,
+                parentReferralCode: isSubpartner ? values.parentReferralCode.trim() : null,
+                consent: true,
+            });
             form.reset();
             syncExperienceFields();
             status.textContent = result.message || "Your enquiry has been submitted for review.";
         } catch (error) {
-            status.textContent = error.message || "We could not submit the enquiry. Please try again.";
+            status.textContent =
+                error.message || "We could not submit the enquiry. Please try again.";
             status.classList.add("is-error");
-        } finally { button.disabled = false; }
+        } finally {
+            button.disabled = false;
+        }
     });
 }

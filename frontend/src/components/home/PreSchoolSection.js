@@ -1,216 +1,191 @@
 import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
-import { getLegacyEarlyLearningImage, getProvidedEarlyLearningListings } from "../../data/earlyLearningListings.js";
-
+import {
+    getLegacyEarlyLearningImage,
+    getProvidedEarlyLearningListings,
+} from "../../data/earlyLearningListings.js";
 
 const featuredPreSchoolListings = [
+    {
+        rank: "01",
+        name: "Happy Kids Pre School",
+        category: "Pre School",
+        location: "Rohini, New Delhi",
 
-        {
-            rank: "01",
-            name: "Happy Kids Pre School",
-            category: "Pre School",
-            location: "Rohini, New Delhi",
+        program: "Playgroup • Nursery • LKG • UKG",
 
-            program:
-                "Playgroup • Nursery • LKG • UKG",
+        rating: "4.8",
+        reviews: "1,240",
+        score: "9.2",
 
-            rating: "4.8",
-            reviews: "1,240",
-            score: "9.2",
+        ranking: "Popular early-learning preschool in New Delhi",
 
-            ranking:
-                "Popular early-learning preschool in New Delhi",
+        highlight:
+            "Activity-based learning, early childhood education & child-friendly environment",
 
-            highlight:
-                "Activity-based learning, early childhood education & child-friendly environment",
+        image:
+            "https://images.unsplash.com/photo-158765" +
+            "4780291-39c9404d746b?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
 
-            image:
-                "https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1200&q=85"
-        },
+    {
+        rank: "02",
+        name: "Little Angels Pre School",
+        category: "Pre School",
+        location: "Bandra, Mumbai",
 
+        program: "Playgroup • Nursery • LKG • UKG",
 
-        {
-            rank: "02",
-            name: "Little Angels Pre School",
-            category: "Pre School",
-            location: "Bandra, Mumbai",
+        rating: "4.7",
+        reviews: "1,080",
+        score: "9.0",
 
-            program:
-                "Playgroup • Nursery • LKG • UKG",
+        ranking: "Well-known preschool and early-learning centre in Mumbai",
 
-            rating: "4.7",
-            reviews: "1,080",
-            score: "9.0",
+        highlight: "Creative learning, foundational education & child development",
 
-            ranking:
-                "Well-known preschool and early-learning centre in Mumbai",
+        image:
+            "https://images.unsplash.com/photo-150345" +
+            "4537195-1dcabb73ffb9?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
 
-            highlight:
-                "Creative learning, foundational education & child development",
+    {
+        rank: "03",
+        name: "Sunshine Pre School",
+        category: "Pre School",
+        location: "Indiranagar, Bengaluru",
 
-            image:
-                "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1200&q=85"
-        },
+        program: "Nursery • LKG • UKG",
 
+        rating: "4.6",
+        reviews: "940",
+        score: "8.8",
 
-        {
-            rank: "03",
-            name: "Sunshine Pre School",
-            category: "Pre School",
-            location: "Indiranagar, Bengaluru",
+        ranking: "Popular preschool focused on foundational education",
 
-            program:
-                "Nursery • LKG • UKG",
+        highlight: "Play-based learning, early education & social development",
 
-            rating: "4.6",
-            reviews: "940",
-            score: "8.8",
+        image:
+            "https://images.unsplash.com/photo-159646" +
+            "4716127-f2a82984de30?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
 
-            ranking:
-                "Popular preschool focused on foundational education",
+    {
+        rank: "04",
+        name: "Growing Minds Pre School",
+        category: "Pre School",
+        location: "Kothrud, Pune",
 
-            highlight:
-                "Play-based learning, early education & social development",
+        program: "Playgroup • Nursery • LKG • UKG",
 
-            image:
-                "https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&w=1200&q=85"
-        },
+        rating: "4.5",
+        reviews: "860",
+        score: "8.7",
 
+        ranking: "Growing early-learning preschool network in Pune",
 
-        {
-            rank: "04",
-            name: "Growing Minds Pre School",
-            category: "Pre School",
-            location: "Kothrud, Pune",
+        highlight: "Child-focused curriculum, early learning & engaging activities",
 
-            program:
-                "Playgroup • Nursery • LKG • UKG",
+        image:
+            "https://images.unsplash.com/photo-150345" +
+            "4537195-1dcabb73ffb9?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
 
-            rating: "4.5",
-            reviews: "860",
-            score: "8.7",
+    {
+        rank: "05",
+        name: "Smart Kids Pre School",
+        category: "Pre School",
+        location: "Gurugram, Haryana",
 
-            ranking:
-                "Growing early-learning preschool network in Pune",
+        program: "Playgroup • Nursery • LKG • UKG",
 
-            highlight:
-                "Child-focused curriculum, early learning & engaging activities",
+        rating: "4.7",
+        reviews: "790",
+        score: "8.9",
 
-            image:
-                "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1200&q=85",
-        },
+        ranking: "Popular preschool option in the NCR region",
 
+        highlight: "Early academics, creativity, foundational learning & confidence building",
 
-        {
-            rank: "05",
-            name: "Smart Kids Pre School",
-            category: "Pre School",
-            location: "Gurugram, Haryana",
+        image:
+            "https://images.unsplash.com/photo-150906" +
+            "2522246-3755977927d7?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
 
-            program:
-                "Playgroup • Nursery • LKG • UKG",
+    {
+        rank: "06",
+        name: "Rainbow Pre School",
+        category: "Pre School",
+        location: "Jaipur, Rajasthan",
 
-            rating: "4.7",
-            reviews: "790",
-            score: "8.9",
+        program: "Nursery • LKG • UKG",
 
-            ranking:
-                "Popular preschool option in the NCR region",
+        rating: "4.6",
+        reviews: "720",
+        score: "8.6",
 
-            highlight:
-                "Early academics, creativity, foundational learning & confidence building",
+        ranking: "Child-friendly early education preschool in Jaipur",
 
-            image:
-                "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85"
-        },
+        highlight: "Foundational learning, early childhood education & all-round development",
 
-
-        {
-            rank: "06",
-            name: "Rainbow Pre School",
-            category: "Pre School",
-            location: "Jaipur, Rajasthan",
-
-            program:
-                "Nursery • LKG • UKG",
-
-            rating: "4.6",
-            reviews: "720",
-            score: "8.6",
-
-            ranking:
-                "Child-friendly early education preschool in Jaipur",
-
-            highlight:
-                "Foundational learning, early childhood education & all-round development",
-
-            image:
-                "https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=1200&q=85"
-        }
-
-    ].map(school => {
-        const id = school.name === "Growing Minds Pre School"
+        image:
+            "https://images.unsplash.com/photo-157789" +
+            "6851231-70ef18881754?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
+].map((school) => {
+    const id =
+        school.name === "Growing Minds Pre School"
             ? "home-preschool-growing-minds"
-            : `home-preschool-${school.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}`;
-        return {
-            ...school,
-            id,
-            imageLabel: "Representative photo - not this institution's campus",
-            ...getLegacyEarlyLearningImage(id)
-        };
-    });
+            : `home-preschool-${school.name
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, "-")
+                  .replace(/^-|-$/g, "")}`;
+    return {
+        ...school,
+        id,
+        imageLabel: "Representative photo - not this institution's campus",
+        ...getLegacyEarlyLearningImage(id),
+    };
+});
 
 export const preSchoolListings = [
     ...featuredPreSchoolListings,
-    ...getProvidedEarlyLearningListings("preschool")
+    ...getProvidedEarlyLearningListings("preschool"),
 ];
 
 export function PreSchoolSection() {
     const preSchools = preSchoolListings;
 
-
-    /* =====================================================
-       CREATE PRE SCHOOL CARD
-    ====================================================== */
-
     function createCard(school) {
-
         return InstitutionCard({
-
             item: {
+                rank: school.rank,
 
-                rank:
-                    school.rank,
+                name: school.name,
 
-                name:
-                    school.name,
+                category: school.category,
 
-                category:
-                    school.category,
+                location: school.location,
 
-                location:
-                    school.location,
+                program: school.program,
 
-                program:
-                    school.program,
+                rating: school.rating,
 
-                rating:
-                    school.rating,
+                reviews: school.reviews,
 
-                reviews:
-                    school.reviews,
+                score: school.score,
 
-                score:
-                    school.score,
+                ranking: school.ranking,
 
-                ranking:
-                    school.ranking,
+                highlight: school.highlight,
 
-                highlight:
-                    school.highlight,
-
-                image:
-                    school.image,
+                image: school.image,
 
                 imageSource: school.imageSource || "",
                 imageLabel: school.imageLabel || "",
@@ -223,65 +198,26 @@ export function PreSchoolSection() {
                 enquiryHref: `/schools?category=preschool&q=${encodeURIComponent(school.name)}&institution=${encodeURIComponent(school.name)}&location=${encodeURIComponent(school.location || "")}&enquire=1`,
                 overview: school.highlight || school.ranking || school.program || "",
 
-                actionLabel:
-                    "Explore Pre School"
-
+                actionLabel: "Explore Pre School",
             },
 
-            type:
-                "pre-school"
-
+            type: "pre-school",
         });
-
     }
-
-
-    /* =====================================================
-       VISIBLE CARDS
-    ====================================================== */
 
     const visibleSchools = preSchools;
 
-
-    /* =====================================================
-       HIDDEN CARDS
-    ====================================================== */
-
     const hiddenSchools = [];
 
-
-    /* =====================================================
-       ORIGINAL CARDS
-    ====================================================== */
-
-    const schoolCards =
-        visibleSchools
-            .map(
-                createCard
-            )
-            .join("");
-
-
-    /* =====================================================
-       DUPLICATE CARDS
-       FOR SEAMLESS AUTO-SCROLL
-    ====================================================== */
+    const schoolCards = visibleSchools.map(createCard).join("");
 
     const schoolCardsDuplicate = "";
-
-
-    /* =====================================================
-       CONTENT
-    ====================================================== */
 
     const content = `
 
         <div class="early-learning-section">
 
 
-            <!-- =================================================
-                 INTRO
-            ================================================== -->
 
             <div class="early-learning-intro">
 
@@ -323,16 +259,10 @@ export function PreSchoolSection() {
             </div>
 
 
-            <!-- =================================================
-                 MOVING CARDS
-            ================================================== -->
 
             <div class="early-learning-carousel" aria-label="All preschool listings"><div class="early-learning-track institution-carousel-track">${schoolCards}${schoolCardsDuplicate}</div></div>
 
 
-            <!-- =================================================
-                 ALL PRE SCHOOLS
-            ================================================== -->
 
             <div
                 class="early-learning-all"
@@ -341,21 +271,13 @@ export function PreSchoolSection() {
 
                 <div class="early-learning-all-grid">
 
-                    ${hiddenSchools
-                        .map(
-                            createCard
-                        )
-                        .join("")
-                    }
+                    ${hiddenSchools.map(createCard).join("")}
 
                 </div>
 
             </div>
 
 
-            <!-- =================================================
-                 CTA
-            ================================================== -->
 
             <div class="early-learning-bottom">
 
@@ -395,27 +317,15 @@ export function PreSchoolSection() {
 
     `;
 
-
-    /* =====================================================
-       RETURN SECTION
-    ====================================================== */
-
     return Section({
+        id: "pre-school",
 
-        id:
-            "pre-school",
+        title: "",
 
-        title:
-            "",
+        subtitle: "",
 
-        subtitle:
-            "",
-
-        content
-
+        content,
     });
-
 }
-
 
 export default PreSchoolSection;

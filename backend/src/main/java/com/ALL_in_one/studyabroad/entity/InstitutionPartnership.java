@@ -2,10 +2,9 @@ package com.ALL_in_one.studyabroad.entity;
 
 import com.ALL_in_one.studyabroad.enums.PartnershipStatus;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "institution_partnership")
@@ -13,33 +12,34 @@ import java.time.LocalDateTime;
 @Setter
 public class InstitutionPartnership {
 
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long  id;
-    @ManyToOne
-    @JoinColumn(name = "institution_id", nullable = false)
-    private Institution institution;
-    @Enumerated(EnumType.STRING)
-    private PartnershipStatus status;
-    private String  partnerReference;
-    private String notes;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    @PrePersist
-    protected void onCreate() {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-        LocalDateTime now = LocalDateTime.now();
+  @ManyToOne
+  @JoinColumn(name = "institution_id", nullable = false)
+  private Institution institution;
 
-        createdAt = now;
-        updatedAt = now;
-    }
+  @Enumerated(EnumType.STRING)
+  private PartnershipStatus status;
 
+  private String partnerReference;
+  private String notes;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 
-    @PreUpdate
-    protected void onUpdate() {
+  @PrePersist
+  protected void onCreate() {
 
-        updatedAt = LocalDateTime.now();
-    }
+    LocalDateTime now = LocalDateTime.now();
 
+    createdAt = now;
+    updatedAt = now;
+  }
 
+  @PreUpdate
+  protected void onUpdate() {
+
+    updatedAt = LocalDateTime.now();
+  }
 }

@@ -2,25 +2,33 @@ import { communityApi as api } from "../../services/communityService.js";
 import { getCurrentUser } from "../../services/authService.js";
 import { initCommunityFeed } from "./communityFeed.js";
 import { initCommunityProfile } from "./communityProfile.js";
-import { communityAvatarHtml, hydrateCommunityAvatars, refreshCommunityAvatar } from "./communityAvatar.js";
+import {
+    communityAvatarHtml,
+    hydrateCommunityAvatars,
+    refreshCommunityAvatar,
+} from "./communityAvatar.js";
 
 const escapeHtml = (value = "") =>
-    String(value ?? "").replace(/[&<>"']/g, c => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    })[c]);
+    String(value ?? "").replace(
+        /[&<>"']/g,
+        (c) =>
+            ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+            })[c],
+    );
 
-const dateLabel = date =>
+const dateLabel = (date) =>
     date
         ? new Intl.DateTimeFormat("en-IN", {
-            day: "numeric",
-            month: "short",
-            hour: "2-digit",
-            minute: "2-digit"
-        }).format(new Date(date))
+              day: "numeric",
+              month: "short",
+              hour: "2-digit",
+              minute: "2-digit",
+          }).format(new Date(date))
         : "";
 
 export function initCommunityPage() {
@@ -48,10 +56,10 @@ export function initCommunityPage() {
         filters: {},
         timer: null,
         toastTimer: null,
-        chatImageData: null
+        chatImageData: null,
     };
 
-    const select = selector => root.querySelector(selector);
+    const select = (selector) => root.querySelector(selector);
 
     const toast = (message, error = false) => {
         const node = select("[data-community-toast]");
@@ -63,10 +71,7 @@ export function initCommunityPage() {
 
         clearTimeout(state.toastTimer);
 
-        state.toastTimer = setTimeout(
-            () => node.classList.remove("is-visible"),
-            3400
-        );
+        state.toastTimer = setTimeout(() => node.classList.remove("is-visible"), 3400);
     };
 
     const run = async (action, successMessage) => {
@@ -77,10 +82,7 @@ export function initCommunityPage() {
 
             return true;
         } catch (error) {
-            toast(
-                error.message || "Something went wrong. Please try again.",
-                true
-            );
+            toast(error.message || "Something went wrong. Please try again.", true);
 
             return false;
         }
@@ -100,16 +102,16 @@ export function initCommunityPage() {
         const pending = (async () => {
             const known = [
                 ...state.students,
-                ...state.friends.map(item => item.student),
-                ...state.incoming.map(item => item.student),
-                ...state.outgoing.map(item => item.student),
-                ...state.conversations.map(item => item.student)
-            ].find(person => String(person.userId) === String(userId));
+                ...state.friends.map((item) => item.student),
+                ...state.incoming.map((item) => item.student),
+                ...state.outgoing.map((item) => item.student),
+                ...state.conversations.map((item) => item.student),
+            ].find((person) => String(person.userId) === String(userId));
             if (known?.username) return known.username;
 
             const result = await api.discover({ q: name, page: 0, size: 40 });
             const match = (result.content || []).find(
-                person => String(person.userId) === String(userId)
+                (person) => String(person.userId) === String(userId),
             );
             return match?.username || "";
         })();
@@ -119,12 +121,7 @@ export function initCommunityPage() {
         return username;
     };
 
-    const hydrateAvatars = scope =>
-        hydrateCommunityAvatars(scope || root, resolveUserNameById);
-
-    // =========================================================
-    // COMMUNITY CHAT
-    // =========================================================
+    const hydrateAvatars = (scope) => hydrateCommunityAvatars(scope || root, resolveUserNameById);
 
     function renderCommunityMessages({ keepPosition = false } = {}) {
         const list = select("[data-community-chat-list]");
@@ -132,30 +129,25 @@ export function initCommunityPage() {
 
         const oldHeight = list.scrollHeight;
         const oldTop = list.scrollTop;
-        const nearBottom =
-            oldHeight - oldTop - list.clientHeight < 120;
+        const nearBottom = oldHeight - oldTop - list.clientHeight < 120;
 
         const olderButton = state.communityHasOlder
             ? `<button class="community-load-older" data-community-chat-older ${state.communityLoading ? "disabled" : ""}>${state.communityLoading ? "Loading…" : "Load earlier messages"}</button>`
             : "";
 
-        const messages = state.communityMessages.map(message => {
-            const senderName = message.senderName || "Community member";
+        const messages = state.communityMessages
+            .map((message) => {
+                const senderName = message.senderName || "Community member";
 
-            const own =
-                currentUserId &&
-                Number(message.senderId) === currentUserId;
+                const own = currentUserId && Number(message.senderId) === currentUserId;
 
-            const reactions = message.reactions || [];
+                const reactions = message.reactions || [];
 
-            const reactionButtons = [
-                "👍", "❤️", "😂", "😮", "😢", "🎉"
-            ].map(emoji => {
-                const reaction = reactions.find(
-                    item => item.emoji === emoji
-                );
+                const reactionButtons = ["👍", "❤️", "😂", "😮", "😢", "🎉"]
+                    .map((emoji) => {
+                        const reaction = reactions.find((item) => item.emoji === emoji);
 
-                return `
+                        return `
                     <button
                         type="button"
                         class="community-chat-reaction${reaction?.reactedByMe ? " is-selected" : ""}"
@@ -164,40 +156,57 @@ export function initCommunityPage() {
                         aria-label="React with ${emoji}"
                         aria-pressed="${Boolean(reaction?.reactedByMe)}"
                     >
-                        ${emoji}${reaction?.count
-                            ? `<span>${reaction.count}</span>`
-                            : ""}
+                        ${emoji}${reaction?.count ? `<span>${reaction.count}</span>` : ""}
                     </button>
                 `;
-            }).join("");
+                    })
+                    .join("");
 
-            return `
+                return `
                 <article
                     class="community-group-message${own ? " is-own" : ""}"
                     data-message-id="${message.id}"
                 >
-                    ${communityAvatarHtml(own
-                        ? { userId: currentUserId, username: "me", displayName: signedInUser?.fullName }
-                        : { senderId: message.senderId, senderName }, false, "community-group-avatar")}
+                    ${communityAvatarHtml(
+                        own
+                            ? {
+                                  userId: currentUserId,
+                                  username: "me",
+                                  displayName: signedInUser?.fullName,
+                              }
+                            : { senderId: message.senderId, senderName },
+                        false,
+                        "community-group-avatar",
+                    )}
 
                     <div class="community-group-message-body">
-                        ${own
-                            ? `<strong>${escapeHtml(senderName)} · You</strong>`
-                            : `<button type="button" class="community-chat-author" data-view-profile-id="${escapeHtml(message.senderId)}" data-view-profile-name="${escapeHtml(senderName)}">${escapeHtml(senderName)}</button>`}
+                        ${
+                            own
+                                ? `<strong>${escapeHtml(senderName)} · You</strong>`
+                                : `<button type="button" class="community-chat-author" data-view-profile-id="${escapeHtml(message.senderId)}" data-view-profile-name="${escapeHtml(senderName)}">${escapeHtml(senderName)}</button>`
+                        }
 
                         <div class="community-group-bubble">
-                            ${message.imageData ? `
+                            ${
+                                message.imageData
+                                    ? `
                                 <img
                                     class="community-group-message-image"
                                     src="${escapeHtml(message.imageData)}"
                                     alt="Image shared by ${escapeHtml(senderName)}"
                                     loading="lazy"
                                 >
-                            ` : ""}
+                            `
+                                    : ""
+                            }
 
-                            ${message.content ? `
+                            ${
+                                message.content
+                                    ? `
                                 <p>${escapeHtml(message.content)}</p>
-                            ` : ""}
+                            `
+                                    : ""
+                            }
 
                             <time>
                                 ${escapeHtml(dateLabel(message.createdAt))}
@@ -220,41 +229,42 @@ export function initCommunityPage() {
                             </div>
 
                             <div class="community-group-message-tools">
-                                ${own
-                                    ? `<button type="button" data-community-delete="${message.id}">Delete</button>`
-                                    : `<button type="button" data-community-report="${message.id}">⚑ Report</button>`
+                                ${
+                                    own
+                                        ? `<button type="button" data-community-delete="${message.id}">Delete</button>`
+                                        : `<button type="button" data-community-report="${message.id}">⚑ Report</button>`
                                 }
                             </div>
                         </div>
                     </div>
                 </article>
             `;
-        }).join("");
+            })
+            .join("");
 
         list.innerHTML = `
             ${olderButton}
-            ${messages || `
+            ${
+                messages ||
+                `
                 <div class="community-empty-state">
                     <span>✦</span>
                     <h3>Start the conversation</h3>
                     <p>Be the first to share a question, idea, or helpful study tip.</p>
                 </div>
-            `}
+            `
+            }
         `;
         hydrateAvatars(list);
 
         if (!keepPosition || nearBottom) {
             list.scrollTop = list.scrollHeight;
         } else {
-            list.scrollTop =
-                list.scrollHeight - oldHeight + oldTop;
+            list.scrollTop = list.scrollHeight - oldHeight + oldTop;
         }
     }
 
-    async function loadCommunityMessages({
-        beforeId = null,
-        quiet = false
-    } = {}) {
+    async function loadCommunityMessages({ beforeId = null, quiet = false } = {}) {
         const list = select("[data-community-chat-list]");
 
         if (!list || state.communityLoading) return;
@@ -272,23 +282,17 @@ export function initCommunityPage() {
         }
 
         try {
-            const items = await api.communityChatMessages(
-                null,
-                beforeId
-            );
+            const items = await api.communityChatMessages(null, beforeId);
 
             if (beforeId) {
                 state.communityHasOlder = items.length >= 60;
 
-                state.communityMessages = [
-                    ...items,
-                    ...state.communityMessages
-                ];
+                state.communityMessages = [...items, ...state.communityMessages];
 
                 state.communityLoading = false;
 
                 renderCommunityMessages({
-                    keepPosition: true
+                    keepPosition: true,
                 });
             } else {
                 state.communityHasOlder = items.length >= 100;
@@ -299,14 +303,11 @@ export function initCommunityPage() {
 
             select("[data-community-chat-form]").hidden = false;
             select("[data-community-chat-signin]").hidden = true;
-
         } catch (error) {
             if (!quiet) {
-                const needsSignIn =
-                    /\((401|403)\)/.test(error.message || "");
+                const needsSignIn = /\((401|403)\)/.test(error.message || "");
 
-                select("[data-community-chat-form]").hidden =
-                    needsSignIn;
+                select("[data-community-chat-form]").hidden = needsSignIn;
 
                 list.innerHTML = needsSignIn
                     ? `
@@ -336,51 +337,34 @@ export function initCommunityPage() {
             return;
         }
 
-        const lastId =
-            state.communityMessages.at(-1)?.id || 0;
+        const lastId = state.communityMessages.at(-1)?.id || 0;
 
         try {
-            const fresh = await api.communityChatMessages(
-                lastId || null
-            );
+            const fresh = await api.communityChatMessages(lastId || null);
 
             if (!fresh.length) return;
 
-            const known = new Set(
-                state.communityMessages.map(message => message.id)
-            );
+            const known = new Set(state.communityMessages.map((message) => message.id));
 
-            state.communityMessages.push(
-                ...fresh.filter(message => !known.has(message.id))
-            );
+            state.communityMessages.push(...fresh.filter((message) => !known.has(message.id)));
 
             renderCommunityMessages({
-                keepPosition: true
+                keepPosition: true,
             });
         } catch {
             // Keep the shared chat readable during temporary network interruptions.
         }
     }
 
-    // =========================================================
-    // STUDENT RELATIONSHIPS AND DISCOVERY
-    // =========================================================
-
     function relationshipFor(userId) {
-        const incoming = state.incoming.find(
-            r => r.student.userId === userId
-        );
+        const incoming = state.incoming.find((r) => r.student.userId === userId);
 
-        const outgoing = state.outgoing.find(
-            r => r.student.userId === userId
-        );
+        const outgoing = state.outgoing.find((r) => r.student.userId === userId);
 
         if (incoming) return { kind: "incoming", item: incoming };
         if (outgoing) return { kind: "outgoing", item: outgoing };
 
-        if (state.friends.some(
-            r => r.student.userId === userId
-        )) {
+        if (state.friends.some((r) => r.student.userId === userId)) {
             return { kind: "friend" };
         }
 
@@ -392,9 +376,8 @@ export function initCommunityPage() {
 
         const tags = (person.interests || [])
             .slice(0, 3)
-            .map(tag =>
-                `<span class="community-interest-tag">${escapeHtml(tag)}</span>`
-            ).join("");
+            .map((tag) => `<span class="community-interest-tag">${escapeHtml(tag)}</span>`)
+            .join("");
 
         let actions = "";
 
@@ -403,9 +386,10 @@ export function initCommunityPage() {
                 <button class="community-small-button is-primary" data-message-user="${person.userId}">
                     Message <span>→</span>
                 </button>
-                ${mode === "friend"
-                    ? `<button class="community-icon-button" data-remove-friend="${relationship.itemId || ""}" title="Remove friend" aria-label="Remove friend">⋯</button>`
-                    : ""
+                ${
+                    mode === "friend"
+                        ? `<button class="community-icon-button" data-remove-friend="${relationship.itemId || ""}" title="Remove friend" aria-label="Remove friend">⋯</button>`
+                        : ""
                 }
             `;
         } else if (relationship.kind === "incoming") {
@@ -447,9 +431,10 @@ export function initCommunityPage() {
                     ${person.country ? `<span>◎ ${escapeHtml(person.country)}</span>` : ""}
                 </div>
 
-                ${person.bio
-                    ? `<p class="community-card-bio">${escapeHtml(person.bio)}</p>`
-                    : `<p class="community-card-bio is-muted">A student building their next chapter.</p>`
+                ${
+                    person.bio
+                        ? `<p class="community-card-bio">${escapeHtml(person.bio)}</p>`
+                        : `<p class="community-card-bio is-muted">A student building their next chapter.</p>`
                 }
 
                 ${tags ? `<div class="community-interest-list">${tags}</div>` : ""}
@@ -462,76 +447,59 @@ export function initCommunityPage() {
     }
 
     function updateCounts() {
-        select('[data-stat="friends"]').textContent =
-            state.friends.length;
+        select('[data-stat="friends"]').textContent = state.friends.length;
 
-        select('[data-stat="requests"]').textContent =
-            state.incoming.length;
+        select('[data-stat="requests"]').textContent = state.incoming.length;
 
-        select('[data-stat="unread"]').textContent =
-            state.conversations.reduce(
-                (sum, c) => sum + (c.unreadCount || 0),
-                0
-            );
+        select('[data-stat="unread"]').textContent = state.conversations.reduce(
+            (sum, c) => sum + (c.unreadCount || 0),
+            0,
+        );
 
-        select('[data-tab-count="friends"]').textContent =
-            state.friends.length;
+        select('[data-tab-count="friends"]').textContent = state.friends.length;
 
-        select('[data-tab-count="requests"]').textContent =
-            state.incoming.length;
+        select('[data-tab-count="requests"]').textContent = state.incoming.length;
 
-        select('[data-tab-count="messages"]').textContent =
-            state.conversations.reduce(
-                (sum, c) => sum + (c.unreadCount || 0),
-                0
-            );
+        select('[data-tab-count="messages"]').textContent = state.conversations.reduce(
+            (sum, c) => sum + (c.unreadCount || 0),
+            0,
+        );
 
-        select('[data-tab-count="notifications"]').textContent =
-            state.notifications.filter(n => !n.read).length;
+        select('[data-tab-count="notifications"]').textContent = state.notifications.filter(
+            (n) => !n.read,
+        ).length;
     }
 
     async function loadProfile() {
         state.profile = await api.myProfile();
 
-        select("[data-my-name]").textContent =
-            state.profile.displayName;
+        select("[data-my-name]").textContent = state.profile.displayName;
 
         select("[data-my-course]").textContent =
             state.profile.course ||
-            (state.profile.discoverable
-                ? "Discoverable student"
-                : "Profile hidden from discovery");
+            (state.profile.discoverable ? "Discoverable student" : "Profile hidden from discovery");
 
         refreshCommunityAvatar(select("[data-my-avatar]"), state.profile);
 
         const form = select("[data-profile-form]");
 
-        form.elements.username.value =
-            state.profile.username || "";
+        form.elements.username.value = state.profile.username || "";
 
-        form.elements.bio.value =
-            state.profile.bio || "";
+        form.elements.bio.value = state.profile.bio || "";
 
-        form.elements.university.value =
-            state.profile.university || "";
+        form.elements.university.value = state.profile.university || "";
 
-        form.elements.course.value =
-            state.profile.course || "";
+        form.elements.course.value = state.profile.course || "";
 
-        form.elements.country.value =
-            state.profile.country || "";
+        form.elements.country.value = state.profile.country || "";
 
-        form.elements.interests.value =
-            (state.profile.interests || []).join(", ");
+        form.elements.interests.value = (state.profile.interests || []).join(", ");
 
-        form.elements.discoverable.checked =
-            state.profile.discoverable;
+        form.elements.discoverable.checked = state.profile.discoverable;
 
-        form.elements.showOnline.checked =
-            state.profile.showOnline;
+        form.elements.showOnline.checked = state.profile.showOnline;
 
-        select("[data-profile-name]").value =
-            state.profile.displayName;
+        select("[data-profile-name]").value = state.profile.displayName;
     }
 
     async function loadDiscovery() {
@@ -546,41 +514,27 @@ export function initCommunityPage() {
         const data = await api.discover({
             ...state.filters,
             page: state.page,
-            size: 9
+            size: 9,
         });
 
         state.students = data.content || [];
 
-        state.totalPages = Math.max(
-            1,
-            data.totalPages || 1
-        );
+        state.totalPages = Math.max(1, data.totalPages || 1);
 
-        if (
-            state.filters.sort === "shared" &&
-            state.profile?.interests?.length
-        ) {
-            const own = new Set(
-                state.profile.interests.map(
-                    i => i.toLowerCase()
-                )
-            );
+        if (state.filters.sort === "shared" && state.profile?.interests?.length) {
+            const own = new Set(state.profile.interests.map((i) => i.toLowerCase()));
 
-            state.students.sort((a, b) =>
-                (b.interests || []).filter(
-                    i => own.has(i.toLowerCase())
-                ).length -
-                (a.interests || []).filter(
-                    i => own.has(i.toLowerCase())
-                ).length
+            state.students.sort(
+                (a, b) =>
+                    (b.interests || []).filter((i) => own.has(i.toLowerCase())).length -
+                    (a.interests || []).filter((i) => own.has(i.toLowerCase())).length,
             );
         }
 
-        select("[data-discovery-count]").textContent =
-            `${data.totalElements || 0} profiles`;
+        select("[data-discovery-count]").textContent = `${data.totalElements || 0} profiles`;
 
         results.innerHTML = state.students.length
-            ? state.students.map(p => studentCard(p)).join("")
+            ? state.students.map((p) => studentCard(p)).join("")
             : `
                 <div class="community-empty-state">
                     <span>✦</span>
@@ -590,29 +544,20 @@ export function initCommunityPage() {
                 </div>
             `;
 
-        select("[data-page-label]").textContent =
-            `Page ${state.page + 1} of ${state.totalPages}`;
+        select("[data-page-label]").textContent = `Page ${state.page + 1} of ${state.totalPages}`;
 
-        select("[data-page-prev]").disabled =
-            state.page <= 0;
+        select("[data-page-prev]").disabled = state.page <= 0;
 
-        select("[data-page-next]").disabled =
-            state.page + 1 >= state.totalPages;
+        select("[data-page-next]").disabled = state.page + 1 >= state.totalPages;
     }
 
     async function loadLists() {
-        const [
-            friends,
-            incoming,
-            outgoing,
-            conversations,
-            notifications
-        ] = await Promise.all([
+        const [friends, incoming, outgoing, conversations, notifications] = await Promise.all([
             api.friends(),
             api.requests("incoming"),
             api.requests("outgoing"),
             api.conversations(),
-            api.notifications()
+            api.notifications(),
         ]);
 
         state.friends = friends || [];
@@ -633,14 +578,13 @@ export function initCommunityPage() {
         const target = select("[data-friends-results]");
 
         target.innerHTML = state.friends.length
-            ? state.friends.map(r => {
-                const card = studentCard(r.student, "friend");
+            ? state.friends
+                  .map((r) => {
+                      const card = studentCard(r.student, "friend");
 
-                return card.replace(
-                    `data-remove-friend=""`,
-                    `data-remove-friend="${r.id}"`
-                );
-            }).join("")
+                      return card.replace(`data-remove-friend=""`, `data-remove-friend="${r.id}"`);
+                  })
+                  .join("")
             : `
                 <div class="community-empty-state">
                     <span>◉</span>
@@ -652,14 +596,14 @@ export function initCommunityPage() {
     }
 
     function renderRequests() {
-        select("[data-incoming-requests]").innerHTML =
-            state.incoming.length
-                ? state.incoming.map(r => studentCard(r.student)).join("")
-                : `<p class="community-inline-empty">No incoming requests right now.</p>`;
+        select("[data-incoming-requests]").innerHTML = state.incoming.length
+            ? state.incoming.map((r) => studentCard(r.student)).join("")
+            : `<p class="community-inline-empty">No incoming requests right now.</p>`;
 
-        select("[data-outgoing-requests]").innerHTML =
-            state.outgoing.length
-                ? state.outgoing.map(r => `
+        select("[data-outgoing-requests]").innerHTML = state.outgoing.length
+            ? state.outgoing
+                  .map(
+                      (r) => `
                     <article class="community-request-card">
                         ${avatar(r.student)}
                         <span>
@@ -668,20 +612,23 @@ export function initCommunityPage() {
                         </span>
                         <button class="community-small-button" data-cancel-request="${r.id}">Cancel</button>
                     </article>
-                `).join("")
-                : `<p class="community-inline-empty">No sent requests.</p>`;
+                `,
+                  )
+                  .join("")
+            : `<p class="community-inline-empty">No sent requests.</p>`;
     }
 
     function renderConversations(filter = "") {
         const target = select("[data-conversation-list]");
 
-        const list = state.conversations.filter(c =>
-            !filter ||
-            c.student.displayName.toLowerCase().includes(filter.toLowerCase())
+        const list = state.conversations.filter(
+            (c) => !filter || c.student.displayName.toLowerCase().includes(filter.toLowerCase()),
         );
 
         target.innerHTML = list.length
-            ? list.map(c => `
+            ? list
+                  .map(
+                      (c) => `
                 <div class="community-conversation-item${state.activeConversation?.id === c.id ? " is-active" : ""}">
                     ${avatar(c.student)}
                     <span class="community-conversation-copy">
@@ -695,7 +642,9 @@ export function initCommunityPage() {
                         </button>
                     </span>
                 </div>
-            `).join("")
+            `,
+                  )
+                  .join("")
             : `<p class="community-inline-empty">No conversations yet. Connect with a student first.</p>`;
         hydrateAvatars(target);
     }
@@ -704,7 +653,9 @@ export function initCommunityPage() {
         const list = select("[data-notifications]");
 
         list.innerHTML = state.notifications.length
-            ? state.notifications.map(n => `
+            ? state.notifications
+                  .map(
+                      (n) => `
                 <button class="community-notification${n.read ? "" : " is-unread"}" data-notification-read="${n.id}">
                     <span class="community-notification-icon">${n.type === "MESSAGE" ? "✉" : "↗"}</span>
                     <span>
@@ -713,7 +664,9 @@ export function initCommunityPage() {
                     </span>
                     <time>${escapeHtml(dateLabel(n.createdAt))}</time>
                 </button>
-            `).join("")
+            `,
+                  )
+                  .join("")
             : `
                 <div class="community-empty-state">
                     <span>♧</span>
@@ -731,10 +684,10 @@ export function initCommunityPage() {
             rel.kind === "friend"
                 ? `<button class="community-button community-button-primary" data-message-user="${person.userId}">Message →</button>`
                 : rel.kind === "incoming"
-                    ? `<button class="community-button community-button-primary" data-accept-request="${rel.item.id}">Accept request</button>`
-                    : rel.kind === "outgoing"
-                        ? `<button class="community-small-button" disabled>Request sent</button>`
-                        : `<button class="community-button community-button-primary" data-add-friend="${person.userId}">Add friend ＋</button>`;
+                  ? `<button class="community-button community-button-primary" data-accept-request="${rel.item.id}">Accept request</button>`
+                  : rel.kind === "outgoing"
+                    ? `<button class="community-small-button" disabled>Request sent</button>`
+                    : `<button class="community-button community-button-primary" data-add-friend="${person.userId}">Add friend ＋</button>`;
 
         select("[data-profile-detail]").innerHTML = `
             <div class="community-profile-cover"></div>
@@ -744,29 +697,34 @@ export function initCommunityPage() {
                 <h2 id="community-profile-dialog-title"><button type="button" class="community-chat-author" data-view-profile="${escapeHtml(person.username)}" data-view-profile-id="${escapeHtml(person.userId)}" data-view-profile-name="${escapeHtml(person.displayName)}">${escapeHtml(person.displayName)}</button></h2>
                 <p class="community-profile-handle"><button type="button" class="community-chat-author" data-view-profile="${escapeHtml(person.username)}" data-view-profile-id="${escapeHtml(person.userId)}" data-view-profile-name="${escapeHtml(person.displayName)}">@${escapeHtml(person.username)}${person.online ? " · Online" : ""}</button></p>
 
-                ${person.bio
-                    ? `<p class="community-profile-bio">${escapeHtml(person.bio)}</p>`
-                    : ""
+                ${
+                    person.bio
+                        ? `<p class="community-profile-bio">${escapeHtml(person.bio)}</p>`
+                        : ""
                 }
 
                 <div class="community-profile-details">
-                    ${person.course
-                        ? `<span>Course<strong>${escapeHtml(person.course)}</strong></span>`
-                        : ""
+                    ${
+                        person.course
+                            ? `<span>Course<strong>${escapeHtml(person.course)}</strong></span>`
+                            : ""
                     }
-                    ${person.university
-                        ? `<span>University<strong>${escapeHtml(person.university)}</strong></span>`
-                        : ""
+                    ${
+                        person.university
+                            ? `<span>University<strong>${escapeHtml(person.university)}</strong></span>`
+                            : ""
                     }
-                    ${person.country
-                        ? `<span>Country / region<strong>${escapeHtml(person.country)}</strong></span>`
-                        : ""
+                    ${
+                        person.country
+                            ? `<span>Country / region<strong>${escapeHtml(person.country)}</strong></span>`
+                            : ""
                     }
                 </div>
 
-                ${(person.interests || []).length
-                    ? `<div class="community-interest-list">${person.interests.map(i => `<span class="community-interest-tag">${escapeHtml(i)}</span>`).join("")}</div>`
-                    : ""
+                ${
+                    (person.interests || []).length
+                        ? `<div class="community-interest-list">${person.interests.map((i) => `<span class="community-interest-tag">${escapeHtml(i)}</span>`).join("")}</div>`
+                        : ""
                 }
 
                 <div class="community-profile-actions">
@@ -781,17 +739,10 @@ export function initCommunityPage() {
         dialog.showModal();
     }
 
-    // =========================================================
-    // PRIVATE MESSAGES
-    // =========================================================
-
     function renderChat() {
         const target = select("[data-chat-window]");
         const shell = select(".community-chat-shell");
-        shell?.classList.toggle(
-            "has-active-conversation",
-            Boolean(state.activeConversation)
-        );
+        shell?.classList.toggle("has-active-conversation", Boolean(state.activeConversation));
 
         if (!state.activeConversation) {
             target.innerHTML = `
@@ -811,8 +762,7 @@ export function initCommunityPage() {
         const previousTop = previousList?.scrollTop || 0;
 
         const nearBottom =
-            !previousList ||
-            previousHeight - previousTop - previousList.clientHeight < 100;
+            !previousList || previousHeight - previousTop - previousList.clientHeight < 100;
 
         target.innerHTML = `
             <header class="community-chat-header">
@@ -826,18 +776,25 @@ export function initCommunityPage() {
             </header>
 
             <div class="community-message-list" data-message-list aria-live="polite">
-                ${state.hasOlderMessages
-                    ? `<button class="community-load-older" data-load-older>Load earlier messages</button>`
-                    : ""
+                ${
+                    state.hasOlderMessages
+                        ? `<button class="community-load-older" data-load-older>Load earlier messages</button>`
+                        : ""
                 }
 
-                ${state.messages.length
-                    ? state.messages.map(m => {
-                        const own = Number(m.senderId) === Number(state.profile.userId);
-                        const person = own
-                            ? { userId: state.profile.userId, username: "me", displayName: state.profile.displayName }
-                            : c.student;
-                        return `
+                ${
+                    state.messages.length
+                        ? state.messages
+                              .map((m) => {
+                                  const own = Number(m.senderId) === Number(state.profile.userId);
+                                  const person = own
+                                      ? {
+                                            userId: state.profile.userId,
+                                            username: "me",
+                                            displayName: state.profile.displayName,
+                                        }
+                                      : c.student;
+                                  return `
                         <div class="community-message-row${own ? " is-outgoing" : ""}" data-message-id="${m.id}">
                             ${avatar(person)}
                             <article class="community-message${own ? " is-outgoing" : " is-incoming"}">
@@ -846,8 +803,9 @@ export function initCommunityPage() {
                             </article>
                         </div>
                         `;
-                    }).join("")
-                    : `
+                              })
+                              .join("")
+                        : `
                         <div class="community-chat-empty">
                             <span>✧</span>
                             <h3>Say hello</h3>
@@ -877,17 +835,14 @@ export function initCommunityPage() {
     }
 
     function setTab(name) {
-        root.querySelectorAll("[data-community-tab]").forEach(button => {
+        root.querySelectorAll("[data-community-tab]").forEach((button) => {
             const active = button.dataset.communityTab === name;
 
             button.classList.toggle("is-active", active);
-            button.setAttribute(
-                "aria-current",
-                active ? "page" : "false"
-            );
+            button.setAttribute("aria-current", active ? "page" : "false");
         });
 
-        root.querySelectorAll("[data-panel]").forEach(panel => {
+        root.querySelectorAll("[data-panel]").forEach((panel) => {
             const active = panel.dataset.panel === name;
 
             panel.classList.toggle("is-active", active);
@@ -897,16 +852,13 @@ export function initCommunityPage() {
         if (name === "messages") renderChat();
     }
 
-    document.querySelector(".community-page-footer")?.addEventListener(
-        "click",
-        event => {
-            const link = event.target.closest("[data-community-tab-link]");
-            if (!link) return;
-            event.preventDefault();
-            setTab(link.dataset.communityTabLink);
-            root.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-    );
+    document.querySelector(".community-page-footer")?.addEventListener("click", (event) => {
+        const link = event.target.closest("[data-community-tab-link]");
+        if (!link) return;
+        event.preventDefault();
+        setTab(link.dataset.communityTabLink);
+        root.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
 
     async function refreshMessages() {
         if (
@@ -918,17 +870,12 @@ export function initCommunityPage() {
 
         const lastId = state.messages.at(-1)?.id || 0;
 
-        const fresh = await api.messages(
-            state.activeConversation.id,
-            lastId
-        );
+        const fresh = await api.messages(state.activeConversation.id, lastId);
 
         if (fresh.length) {
-            const known = new Set(state.messages.map(m => m.id));
+            const known = new Set(state.messages.map((m) => m.id));
 
-            state.messages.push(
-                ...fresh.filter(m => !known.has(m.id))
-            );
+            state.messages.push(...fresh.filter((m) => !known.has(m.id)));
 
             state.activeConversation.unreadCount = 0;
 
@@ -937,30 +884,20 @@ export function initCommunityPage() {
         }
     }
 
-    // =========================================================
-    // IMAGE UPLOADS AND COMPOSER EMOJIS
-    // =========================================================
-
     function readFileAsDataUrl(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
 
             reader.onload = () => resolve(reader.result);
-            reader.onerror = () =>
-                reject(new Error("Could not read that image."));
+            reader.onerror = () => reject(new Error("Could not read that image."));
 
             reader.readAsDataURL(file);
         });
     }
 
     async function prepareChatImage(file) {
-        if (
-            !file ||
-            !["image/jpeg", "image/png", "image/webp", "image/gif"].includes(file.type)
-        ) {
-            throw new Error(
-                "Choose a PNG, JPEG, WebP, or GIF image."
-            );
+        if (!file || !["image/jpeg", "image/png", "image/webp", "image/gif"].includes(file.type)) {
+            throw new Error("Choose a PNG, JPEG, WebP, or GIF image.");
         }
 
         if (file.size > 8 * 1024 * 1024) {
@@ -972,9 +909,7 @@ export function initCommunityPage() {
         if (data.length <= 560000) return data;
 
         if (file.type === "image/gif") {
-            throw new Error(
-                "This GIF is too large. Choose a GIF smaller than 450 KB."
-            );
+            throw new Error("This GIF is too large. Choose a GIF smaller than 450 KB.");
         }
 
         const image = new Image();
@@ -982,37 +917,22 @@ export function initCommunityPage() {
 
         await new Promise((resolve, reject) => {
             image.onload = resolve;
-            image.onerror = () =>
-                reject(new Error("Could not open that image."));
+            image.onerror = () => reject(new Error("Could not open that image."));
         });
 
-        const scale = Math.min(
-            1,
-            1200 / Math.max(
-                image.naturalWidth,
-                image.naturalHeight
-            )
-        );
+        const scale = Math.min(1, 1200 / Math.max(image.naturalWidth, image.naturalHeight));
 
         const canvas = document.createElement("canvas");
 
         canvas.width = Math.round(image.naturalWidth * scale);
         canvas.height = Math.round(image.naturalHeight * scale);
 
-        canvas.getContext("2d").drawImage(
-            image,
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
+        canvas.getContext("2d").drawImage(image, 0, 0, canvas.width, canvas.height);
 
         data = canvas.toDataURL("image/jpeg", 0.72);
 
         if (data.length > 560000) {
-            throw new Error(
-                "That image is still too large. Choose a smaller image."
-            );
+            throw new Error("That image is still too large. Choose a smaller image.");
         }
 
         return data;
@@ -1027,8 +947,7 @@ export function initCommunityPage() {
         try {
             state.chatImageData = await prepareChatImage(file);
 
-            select("[data-chat-image-name]").textContent =
-                file.name;
+            select("[data-chat-image-name]").textContent = file.name;
 
             select("[data-chat-image-preview]").innerHTML = `
                 <img src="${state.chatImageData}" alt="Selected image preview">
@@ -1047,41 +966,29 @@ export function initCommunityPage() {
         menu.hidden = !menu.hidden;
     });
 
-    select("[data-chat-emoji-menu]").addEventListener("click", event => {
+    select("[data-chat-emoji-menu]").addEventListener("click", (event) => {
         const button = event.target.closest("[data-chat-emoji]");
         if (!button) return;
 
-        const textarea =
-            select("[data-community-chat-form] textarea");
+        const textarea = select("[data-community-chat-form] textarea");
 
         const start = textarea.selectionStart;
         const end = textarea.selectionEnd;
 
-        textarea.setRangeText(
-            button.dataset.chatEmoji,
-            start,
-            end,
-            "end"
-        );
+        textarea.setRangeText(button.dataset.chatEmoji, start, end, "end");
 
         textarea.focus();
         select("[data-chat-emoji-menu]").hidden = true;
     });
 
-    document.addEventListener("click", event => {
+    document.addEventListener("click", (event) => {
         if (!event.target.closest(".community-group-emoji-wrap")) {
             select("[data-chat-emoji-menu]").hidden = true;
         }
     });
 
-    // =========================================================
-    // COMMUNITY CHAT CLICK HANDLERS
-    // =========================================================
-
-    root.addEventListener("click", async event => {
-        const backToConversations = event.target.closest(
-            "[data-back-conversations]"
-        );
+    root.addEventListener("click", async (event) => {
+        const backToConversations = event.target.closest("[data-back-conversations]");
 
         if (backToConversations) {
             state.activeConversation = null;
@@ -1093,45 +1000,30 @@ export function initCommunityPage() {
         }
 
         // NEW: toggle the six reaction emojis
-        const reactionToggle = event.target.closest(
-            "[data-community-reaction-toggle]"
-        );
+        const reactionToggle = event.target.closest("[data-community-reaction-toggle]");
 
         if (reactionToggle) {
-            const actions = reactionToggle.closest(
-                ".community-group-message-actions"
-            );
+            const actions = reactionToggle.closest(".community-group-message-actions");
 
-            const panel = actions?.querySelector(
-                ".community-group-reactions"
-            );
+            const panel = actions?.querySelector(".community-group-reactions");
 
             if (!panel) return;
 
-            const isOpening =
-                panel.classList.contains("is-collapsed");
+            const isOpening = panel.classList.contains("is-collapsed");
 
-            panel.classList.toggle(
-                "is-collapsed",
-                !isOpening
-            );
+            panel.classList.toggle("is-collapsed", !isOpening);
 
-            reactionToggle.setAttribute(
-                "aria-expanded",
-                String(isOpening)
-            );
+            reactionToggle.setAttribute("aria-expanded", String(isOpening));
 
             reactionToggle.setAttribute(
                 "aria-label",
-                isOpening ? "Hide reactions" : "Show reactions"
+                isOpening ? "Hide reactions" : "Show reactions",
             );
 
             return;
         }
 
-        const clearImage = event.target.closest(
-            "[data-chat-image-clear]"
-        );
+        const clearImage = event.target.closest("[data-chat-image-clear]");
 
         if (clearImage) {
             state.chatImageData = null;
@@ -1144,153 +1036,124 @@ export function initCommunityPage() {
         }
 
         // Existing reaction API handler
-        const reaction = event.target.closest(
-            "[data-community-react]"
-        );
+        const reaction = event.target.closest("[data-community-react]");
 
         if (
             reaction &&
-            await run(async () => {
-                const updated =
-                    await api.reactToCommunityChatMessage(
-                        Number(reaction.dataset.communityReact),
-                        reaction.dataset.reactionEmoji
-                    );
+            (await run(async () => {
+                const updated = await api.reactToCommunityChatMessage(
+                    Number(reaction.dataset.communityReact),
+                    reaction.dataset.reactionEmoji,
+                );
 
-                state.communityMessages =
-                    state.communityMessages.map(item =>
-                        item.id === updated.id ? updated : item
-                    );
+                state.communityMessages = state.communityMessages.map((item) =>
+                    item.id === updated.id ? updated : item,
+                );
 
                 renderCommunityMessages({
-                    keepPosition: true
+                    keepPosition: true,
                 });
-            })
+            }))
         ) {
             return;
         }
 
-        const deleteMessage = event.target.closest(
-            "[data-community-delete]"
-        );
+        const deleteMessage = event.target.closest("[data-community-delete]");
 
-        if (
-            deleteMessage &&
-            confirm("Delete this message for everyone?")
-        ) {
+        if (deleteMessage && confirm("Delete this message for everyone?")) {
             if (
                 await run(
-                    () => api.deleteCommunityChatMessage(
-                        Number(deleteMessage.dataset.communityDelete)
-                    ),
-                    "Message deleted."
+                    () =>
+                        api.deleteCommunityChatMessage(
+                            Number(deleteMessage.dataset.communityDelete),
+                        ),
+                    "Message deleted.",
                 )
             ) {
-                state.communityMessages =
-                    state.communityMessages.filter(
-                        item =>
-                            item.id !== Number(
-                                deleteMessage.dataset.communityDelete
-                            )
-                    );
+                state.communityMessages = state.communityMessages.filter(
+                    (item) => item.id !== Number(deleteMessage.dataset.communityDelete),
+                );
 
                 renderCommunityMessages({
-                    keepPosition: true
+                    keepPosition: true,
                 });
             }
 
             return;
         }
 
-        const reportMessage = event.target.closest(
-            "[data-community-report]"
-        );
+        const reportMessage = event.target.closest("[data-community-report]");
 
         if (reportMessage) {
-            const reason = prompt(
-                "Why are you reporting this message?"
-            );
+            const reason = prompt("Why are you reporting this message?");
 
             if (reason?.trim()) {
                 await run(
-                    () => api.reportCommunityChatMessage(
-                        Number(reportMessage.dataset.communityReport),
-                        reason.trim()
-                    ),
-                    "Message reported to the moderation team."
+                    () =>
+                        api.reportCommunityChatMessage(
+                            Number(reportMessage.dataset.communityReport),
+                            reason.trim(),
+                        ),
+                    "Message reported to the moderation team.",
                 );
             }
 
             return;
         }
 
-        const retryGroup = event.target.closest(
-            "[data-community-chat-retry]"
-        );
+        const retryGroup = event.target.closest("[data-community-chat-retry]");
 
         if (retryGroup) {
             await loadCommunityMessages();
             return;
         }
 
-        const olderGroup = event.target.closest(
-            "[data-community-chat-older]"
-        );
+        const olderGroup = event.target.closest("[data-community-chat-older]");
 
         if (olderGroup && state.communityMessages.length) {
             olderGroup.disabled = true;
 
             await loadCommunityMessages({
-                beforeId: state.communityMessages[0].id
+                beforeId: state.communityMessages[0].id,
             });
 
             return;
         }
 
-        const tab = event.target.closest(
-            "[data-community-tab], [data-community-tab-link]"
-        );
+        const tab = event.target.closest("[data-community-tab], [data-community-tab-link]");
 
         if (tab) {
-            const name =
-                tab.dataset.communityTab ||
-                tab.dataset.communityTabLink;
+            const name = tab.dataset.communityTab || tab.dataset.communityTabLink;
 
             setTab(name);
 
-            if (
-                name === "community-chat" &&
-                !state.communityMessages.length
-            ) {
+            if (name === "community-chat" && !state.communityMessages.length) {
                 await loadCommunityMessages();
             }
-if (name !== "community-chat" && !state.profile) {
-    try {
-        await loadProfile();
+            if (name !== "community-chat" && !state.profile) {
+                try {
+                    await loadProfile();
 
-        await Promise.allSettled([
-            loadLists(),
-            loadDiscovery()
-        ]);
+                    await Promise.allSettled([loadLists(), loadDiscovery()]);
 
-        api.heartbeat().catch(() => {});
-    } catch (error) {
-        toast(
-            error.message ||
-            "Could not load your profile. Check the backend and database.",
-            true
-        );
+                    api.heartbeat().catch(() => {});
+                } catch (error) {
+                    toast(
+                        error.message ||
+                            "Could not load your profile. Check the backend and database.",
+                        true,
+                    );
 
-        if (name === "discover") {
-            select("[data-student-results]").innerHTML = `
+                    if (name === "discover") {
+                        select("[data-student-results]").innerHTML = `
                 <div class="community-empty-state is-error">
                     <h3>Student discovery is unavailable</h3>
                     <p>${escapeHtml(error.message || "Please try again.")}</p>
                 </div>
             `;
-        }
-    }
-}
+                    }
+                }
+            }
 
             return;
         }
@@ -1299,10 +1162,10 @@ if (name !== "community-chat" && !state.profile) {
 
         if (
             add &&
-            await run(
+            (await run(
                 () => api.sendRequest(Number(add.dataset.addFriend)),
-                "Friend request sent."
-            )
+                "Friend request sent.",
+            ))
         ) {
             await loadLists();
             await loadDiscovery();
@@ -1313,13 +1176,10 @@ if (name !== "community-chat" && !state.profile) {
 
         if (
             accept &&
-            await run(
-                () => api.respond(
-                    Number(accept.dataset.acceptRequest),
-                    "accept"
-                ),
-                "You’re connected."
-            )
+            (await run(
+                () => api.respond(Number(accept.dataset.acceptRequest), "accept"),
+                "You’re connected.",
+            ))
         ) {
             await loadLists();
             await loadDiscovery();
@@ -1330,13 +1190,10 @@ if (name !== "community-chat" && !state.profile) {
 
         if (
             reject &&
-            await run(
-                () => api.respond(
-                    Number(reject.dataset.rejectRequest),
-                    "reject"
-                ),
-                "Request declined."
-            )
+            (await run(
+                () => api.respond(Number(reject.dataset.rejectRequest), "reject"),
+                "Request declined.",
+            ))
         ) {
             await loadLists();
             return;
@@ -1346,13 +1203,10 @@ if (name !== "community-chat" && !state.profile) {
 
         if (
             cancel &&
-            await run(
-                () => api.respond(
-                    Number(cancel.dataset.cancelRequest),
-                    "cancel"
-                ),
-                "Request cancelled."
-            )
+            (await run(
+                () => api.respond(Number(cancel.dataset.cancelRequest), "cancel"),
+                "Request cancelled.",
+            ))
         ) {
             await loadLists();
             await loadDiscovery();
@@ -1361,16 +1215,11 @@ if (name !== "community-chat" && !state.profile) {
 
         const remove = event.target.closest("[data-remove-friend]");
 
-        if (
-            remove &&
-            confirm("Remove this student from your friends?")
-        ) {
+        if (remove && confirm("Remove this student from your friends?")) {
             if (
                 await run(
-                    () => api.removeFriend(
-                        Number(remove.dataset.removeFriend)
-                    ),
-                    "Connection removed."
+                    () => api.removeFriend(Number(remove.dataset.removeFriend)),
+                    "Connection removed.",
                 )
             ) {
                 await loadLists();
@@ -1384,17 +1233,13 @@ if (name !== "community-chat" && !state.profile) {
         if (message) {
             if (
                 await run(async () => {
-                    state.activeConversation =
-                        await api.openConversation(
-                            Number(message.dataset.messageUser)
-                        );
-
-                    state.messages = await api.messages(
-                        state.activeConversation.id
+                    state.activeConversation = await api.openConversation(
+                        Number(message.dataset.messageUser),
                     );
 
-                    state.hasOlderMessages =
-                        state.messages.length >= 60;
+                    state.messages = await api.messages(state.activeConversation.id);
+
+                    state.hasOlderMessages = state.messages.length >= 60;
 
                     setTab("messages");
                     renderChat();
@@ -1406,23 +1251,19 @@ if (name !== "community-chat" && !state.profile) {
             return;
         }
 
-        const open = event.target.closest(
-            "[data-open-conversation]"
-        );
+        const open = event.target.closest("[data-open-conversation]");
 
         if (open) {
             const id = Number(open.dataset.openConversation);
 
-            state.activeConversation =
-                state.conversations.find(c => c.id === id);
+            state.activeConversation = state.conversations.find((c) => c.id === id);
 
             state.messages = [];
 
             if (
                 await run(async () => {
                     state.messages = await api.messages(id);
-                    state.hasOlderMessages =
-                        state.messages.length >= 60;
+                    state.hasOlderMessages = state.messages.length >= 60;
 
                     setTab("messages");
                     renderConversations();
@@ -1438,26 +1279,30 @@ if (name !== "community-chat" && !state.profile) {
         const view = event.target.closest("[data-view-profile], [data-view-profile-id]");
 
         if (view) {
-            const username = view.dataset.viewProfile ||
-                await resolveUserNameById(view.dataset.viewProfileId, view.dataset.viewProfileName);
+            const username =
+                view.dataset.viewProfile ||
+                (await resolveUserNameById(
+                    view.dataset.viewProfileId,
+                    view.dataset.viewProfileName,
+                ));
             const cached = [
                 ...state.students,
-                ...state.friends.map(x => x.student),
-                ...state.incoming.map(x => x.student),
-                ...state.outgoing.map(x => x.student),
-                ...state.conversations.map(x => x.student)
-            ].find(p =>
-                (username && p.username === username) ||
-                (view.dataset.viewProfileId && String(p.userId) === String(view.dataset.viewProfileId))
+                ...state.friends.map((x) => x.student),
+                ...state.incoming.map((x) => x.student),
+                ...state.outgoing.map((x) => x.student),
+                ...state.conversations.map((x) => x.student),
+            ].find(
+                (p) =>
+                    (username && p.username === username) ||
+                    (view.dataset.viewProfileId &&
+                        String(p.userId) === String(view.dataset.viewProfileId)),
             );
 
             if (cached) {
                 showProfile(cached);
             } else if (username) {
                 await run(async () => {
-                    showProfile(
-                        await api.profile(username)
-                    );
+                    showProfile(await api.profile(username));
                 }, "");
             }
 
@@ -1466,11 +1311,7 @@ if (name !== "community-chat" && !state.profile) {
 
         const older = event.target.closest("[data-load-older]");
 
-        if (
-            older &&
-            state.activeConversation &&
-            state.messages.length
-        ) {
+        if (older && state.activeConversation && state.messages.length) {
             const list = select("[data-message-list]");
             const previousHeight = list.scrollHeight;
             const previousTop = list.scrollTop;
@@ -1483,26 +1324,20 @@ if (name !== "community-chat" && !state.profile) {
                 earlier = await api.messages(
                     state.activeConversation.id,
                     null,
-                    state.messages[0].id
+                    state.messages[0].id,
                 );
             });
 
             if (loaded) {
                 state.hasOlderMessages = earlier.length >= 60;
 
-                state.messages = [
-                    ...earlier,
-                    ...state.messages
-                ];
+                state.messages = [...earlier, ...state.messages];
 
                 renderChat();
 
                 const nextList = select("[data-message-list]");
 
-                nextList.scrollTop =
-                    nextList.scrollHeight -
-                    previousHeight +
-                    previousTop;
+                nextList.scrollTop = nextList.scrollHeight - previousHeight + previousTop;
             } else {
                 older.disabled = false;
             }
@@ -1514,16 +1349,9 @@ if (name !== "community-chat" && !state.profile) {
 
         if (
             block &&
-            confirm(
-                "Block this student? They will no longer be able to connect or message you."
-            )
+            confirm("Block this student? They will no longer be able to connect or message you.")
         ) {
-            if (
-                await run(
-                    () => api.block(Number(block.dataset.blockUser)),
-                    "Student blocked."
-                )
-            ) {
+            if (await run(() => api.block(Number(block.dataset.blockUser)), "Student blocked.")) {
                 select("[data-profile-dialog]").close();
 
                 await loadLists();
@@ -1537,18 +1365,17 @@ if (name !== "community-chat" && !state.profile) {
 
         if (report) {
             const reason = prompt(
-                "Tell us why you are reporting this profile (do not include private contact details):"
+                "Tell us why you are reporting this " +
+                    "profile (do not include private contact " +
+                    "details):",
             );
 
             if (
                 reason &&
-                await run(
-                    () => api.report(
-                        Number(report.dataset.reportUser),
-                        reason
-                    ),
-                    "Report sent to the moderation queue."
-                )
+                (await run(
+                    () => api.report(Number(report.dataset.reportUser), reason),
+                    "Report sent to the moderation queue.",
+                ))
             ) {
                 select("[data-profile-dialog]").close();
             }
@@ -1556,259 +1383,184 @@ if (name !== "community-chat" && !state.profile) {
             return;
         }
 
-        const read = event.target.closest(
-            "[data-notification-read]"
-        );
+        const read = event.target.closest("[data-notification-read]");
 
         if (read) {
-            await run(
-                () => api.markRead(
-                    Number(read.dataset.notificationRead)
-                )
-            );
+            await run(() => api.markRead(Number(read.dataset.notificationRead)));
 
             await loadLists();
             return;
         }
     });
 
-    // =========================================================
     // PROFILE, SEARCH, AND PAGINATION
-    // =========================================================
 
-    select("[data-profile-close]").addEventListener(
-        "click",
-        () => select("[data-profile-dialog]").close()
+    select("[data-profile-close]").addEventListener("click", () =>
+        select("[data-profile-dialog]").close(),
     );
 
-    select("[data-profile-dialog]").addEventListener(
-        "click",
-        event => {
-            if (event.target === select("[data-profile-dialog]")) {
-                select("[data-profile-dialog]").close();
-            }
+    select("[data-profile-dialog]").addEventListener("click", (event) => {
+        if (event.target === select("[data-profile-dialog]")) {
+            select("[data-profile-dialog]").close();
         }
+    });
+
+    select(".community-search-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        state.page = 0;
+
+        state.filters = Object.fromEntries(new FormData(event.currentTarget).entries());
+
+        await run(() => loadDiscovery());
+    });
+
+    select("[data-page-prev]").addEventListener("click", async () => {
+        state.page = Math.max(0, state.page - 1);
+        await run(() => loadDiscovery());
+    });
+
+    select("[data-page-next]").addEventListener("click", async () => {
+        if (state.page + 1 < state.totalPages) {
+            state.page += 1;
+        }
+
+        await run(() => loadDiscovery());
+    });
+
+    select("[data-conversation-search]").addEventListener("input", (event) =>
+        renderConversations(event.target.value),
     );
 
-    select(".community-search-form").addEventListener(
-        "submit",
-        async event => {
+    select("[data-mark-all-read]").addEventListener("click", async () => {
+        if (await run(() => api.markAllRead(), "Notifications marked as read.")) {
+            await loadLists();
+        }
+    });
+
+    select("[data-profile-form]").addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        const feedback = select(".community-form-feedback");
+
+        const payload = {
+            username: form.elements.username.value,
+            bio: form.elements.bio.value,
+            university: form.elements.university.value,
+            course: form.elements.course.value,
+            country: form.elements.country.value,
+            interests: form.elements.interests.value,
+            discoverable: form.elements.discoverable.checked,
+            showOnline: form.elements.showOnline.checked,
+        };
+
+        try {
+            state.profile = await api.updateProfile(payload);
+
+            feedback.textContent = "Profile saved.";
+            feedback.classList.add("is-success");
+
+            select("[data-my-course]").textContent =
+                state.profile.course ||
+                (state.profile.discoverable
+                    ? "Discoverable student"
+                    : "Profile hidden from discovery");
+
+            await loadDiscovery();
+        } catch (error) {
+            feedback.textContent = error.message;
+            feedback.classList.remove("is-success");
+        }
+    });
+
+    select("[data-community-chat-form]").addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const form = event.currentTarget;
+        const textarea = form.elements.content;
+        const content = textarea.value.trim();
+
+        if (!content && !state.chatImageData) return;
+
+        const send = form.querySelector('button[type="submit"]');
+
+        send.disabled = true;
+
+        try {
+            const message = await api.sendCommunityChatMessage(content, state.chatImageData);
+
+            state.communityMessages.push(message);
+
+            state.chatImageData = null;
+            chatImageInput.value = "";
+
+            select("[data-chat-image-name]").textContent = "";
+            select("[data-chat-image-preview]").hidden = true;
+
+            renderCommunityMessages();
+
+            textarea.value = "";
+            textarea.focus();
+        } catch (error) {
+            toast(error.message || "Message could not be sent. Please try again.", true);
+        } finally {
+            send.disabled = false;
+        }
+    });
+
+    select("[data-community-chat-form]").addEventListener("keydown", (event) => {
+        if (event.target.matches("textarea") && event.key === "Enter" && !event.shiftKey) {
             event.preventDefault();
-
-            state.page = 0;
-
-            state.filters = Object.fromEntries(
-                new FormData(event.currentTarget).entries()
-            );
-
-            await run(() => loadDiscovery());
+            event.target.closest("form").requestSubmit();
         }
-    );
+    });
 
-    select("[data-page-prev]").addEventListener(
-        "click",
-        async () => {
-            state.page = Math.max(0, state.page - 1);
-            await run(() => loadDiscovery());
+    select("[data-chat-window]").addEventListener("submit", async (event) => {
+        if (!event.target.matches("[data-send-message]")) {
+            return;
         }
-    );
 
-    select("[data-page-next]").addEventListener(
-        "click",
-        async () => {
-            if (state.page + 1 < state.totalPages) {
-                state.page += 1;
-            }
+        event.preventDefault();
 
-            await run(() => loadDiscovery());
+        const textarea = event.target.elements.content;
+        const content = textarea.value.trim();
+
+        if (!content || !state.activeConversation) return;
+
+        const button = event.target.querySelector("button");
+        button.disabled = true;
+
+        try {
+            const sent = await api.sendMessage(state.activeConversation.id, content);
+
+            state.messages.push(sent);
+
+            renderChat();
+            await loadLists();
+        } catch (error) {
+            toast(error.message, true);
+        } finally {
+            const next = select("[data-send-message] textarea");
+
+            if (next) next.focus();
+
+            const send = select("[data-send-message] button");
+
+            if (send) send.disabled = false;
         }
-    );
+    });
 
-    select("[data-conversation-search]").addEventListener(
-        "input",
-        event => renderConversations(event.target.value)
-    );
-
-    select("[data-mark-all-read]").addEventListener(
-        "click",
-        async () => {
-            if (
-                await run(
-                    () => api.markAllRead(),
-                    "Notifications marked as read."
-                )
-            ) {
-                await loadLists();
-            }
-        }
-    );
-
-    select("[data-profile-form]").addEventListener(
-        "submit",
-        async event => {
+    select("[data-chat-window]").addEventListener("keydown", (event) => {
+        if (
+            event.target.matches("[data-send-message] textarea") &&
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
             event.preventDefault();
-
-            const form = event.currentTarget;
-            const feedback = select(".community-form-feedback");
-
-            const payload = {
-                username: form.elements.username.value,
-                bio: form.elements.bio.value,
-                university: form.elements.university.value,
-                course: form.elements.course.value,
-                country: form.elements.country.value,
-                interests: form.elements.interests.value,
-                discoverable: form.elements.discoverable.checked,
-                showOnline: form.elements.showOnline.checked
-            };
-
-            try {
-                state.profile = await api.updateProfile(payload);
-
-                feedback.textContent = "Profile saved.";
-                feedback.classList.add("is-success");
-
-                select("[data-my-course]").textContent =
-                    state.profile.course ||
-                    (state.profile.discoverable
-                        ? "Discoverable student"
-                        : "Profile hidden from discovery");
-
-                await loadDiscovery();
-            } catch (error) {
-                feedback.textContent = error.message;
-                feedback.classList.remove("is-success");
-            }
+            event.target.closest("form").requestSubmit();
         }
-    );
-
-    // =========================================================
-    // SEND COMMUNITY MESSAGES
-    // =========================================================
-
-    select("[data-community-chat-form]").addEventListener(
-        "submit",
-        async event => {
-            event.preventDefault();
-
-            const form = event.currentTarget;
-            const textarea = form.elements.content;
-            const content = textarea.value.trim();
-
-            if (!content && !state.chatImageData) return;
-
-            const send = form.querySelector(
-                'button[type="submit"]'
-            );
-
-            send.disabled = true;
-
-            try {
-                const message = await api.sendCommunityChatMessage(
-                    content,
-                    state.chatImageData
-                );
-
-                state.communityMessages.push(message);
-
-                state.chatImageData = null;
-                chatImageInput.value = "";
-
-                select("[data-chat-image-name]").textContent = "";
-                select("[data-chat-image-preview]").hidden = true;
-
-                renderCommunityMessages();
-
-                textarea.value = "";
-                textarea.focus();
-            } catch (error) {
-                toast(
-                    error.message ||
-                    "Message could not be sent. Please try again.",
-                    true
-                );
-            } finally {
-                send.disabled = false;
-            }
-        }
-    );
-
-    select("[data-community-chat-form]").addEventListener(
-        "keydown",
-        event => {
-            if (
-                event.target.matches("textarea") &&
-                event.key === "Enter" &&
-                !event.shiftKey
-            ) {
-                event.preventDefault();
-                event.target.closest("form").requestSubmit();
-            }
-        }
-    );
-
-    // =========================================================
-    // SEND PRIVATE MESSAGES
-    // =========================================================
-
-    select("[data-chat-window]").addEventListener(
-        "submit",
-        async event => {
-            if (!event.target.matches("[data-send-message]")) {
-                return;
-            }
-
-            event.preventDefault();
-
-            const textarea = event.target.elements.content;
-            const content = textarea.value.trim();
-
-            if (!content || !state.activeConversation) return;
-
-            const button = event.target.querySelector("button");
-            button.disabled = true;
-
-            try {
-                const sent = await api.sendMessage(
-                    state.activeConversation.id,
-                    content
-                );
-
-                state.messages.push(sent);
-
-                renderChat();
-                await loadLists();
-            } catch (error) {
-                toast(error.message, true);
-            } finally {
-                const next = select('[data-send-message] textarea');
-
-                if (next) next.focus();
-
-                const send = select('[data-send-message] button');
-
-                if (send) send.disabled = false;
-            }
-        }
-    );
-
-    select("[data-chat-window]").addEventListener(
-        "keydown",
-        event => {
-            if (
-                event.target.matches("[data-send-message] textarea") &&
-                event.key === "Enter" &&
-                !event.shiftKey
-            ) {
-                event.preventDefault();
-                event.target.closest("form").requestSubmit();
-            }
-        }
-    );
-
-    // =========================================================
-    // INITIALIZATION AND REFRESH
-    // =========================================================
+    });
 
     async function start() {
         const user = signedInUser || {};
@@ -1818,15 +1570,13 @@ if (name !== "community-chat" && !state.profile) {
             refreshCommunityAvatar(select("[data-my-avatar]"), {
                 ...user,
                 displayName: user.fullName,
-                username: "me"
+                username: "me",
             });
 
-            select("[data-community-chat-user-name]").textContent =
-                user.fullName;
+            select("[data-community-chat-user-name]").textContent = user.fullName;
         }
 
-        select("[data-my-course]").textContent =
-            "Community member";
+        select("[data-my-course]").textContent = "Community member";
 
         updateCounts();
 
@@ -1848,11 +1598,7 @@ if (name !== "community-chat" && !state.profile) {
         }, 10000);
     }
 
-    window.addEventListener(
-        "pagehide",
-        () => clearInterval(state.timer),
-        { once: true }
-    );
+    window.addEventListener("pagehide", () => clearInterval(state.timer), { once: true });
 
     initCommunityFeed(root);
     initCommunityProfile(root);

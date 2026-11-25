@@ -5,11 +5,7 @@ export function SectionTitle(title, subtitle = "") {
 
     <h2>${title}</h2>
 
-    ${
-        subtitle
-            ? `<p>${subtitle}</p>`
-            : ""
-    }
+    ${subtitle ? `<p>${subtitle}</p>` : ""}
 
 </div>
 

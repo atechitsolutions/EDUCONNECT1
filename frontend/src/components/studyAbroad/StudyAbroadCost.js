@@ -1,87 +1,48 @@
-/* =========================================================
-   STUDY ABROAD — COST
-========================================================= */
-
 function openStudyAbroadCountry(country) {
+    const selectedCountry = country === "United Kingdom" ? "UK" : country;
 
-    const selectedCountry =
-        country === "United Kingdom"
-            ? "UK"
-            : country;
+    const navbar = document.querySelector("#edu-study-nav");
 
-    const navbar =
-        document.querySelector(
-            "#edu-study-nav"
-        );
+    const countryMenu = navbar?.querySelector('[data-mega-menu="countries"]');
 
-    const countryMenu =
-        navbar?.querySelector(
-            '[data-mega-menu="countries"]'
-        );
-
-    const countryTrigger =
-        navbar?.querySelector(
-            '[data-mega-trigger="countries"]'
-        );
+    const countryTrigger = navbar?.querySelector('[data-mega-trigger="countries"]');
 
     if (!navbar || !countryMenu || !countryTrigger) {
-        document
-            .querySelector(
-                "#study-abroad-country-comparison"
-            )
-            ?.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
+        document.querySelector("#study-abroad-country-comparison")?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
 
         return;
     }
 
     navbar.scrollIntoView({
         behavior: "smooth",
-        block: "start"
+        block: "start",
     });
 
     countryMenu.classList.add("is-open");
     countryTrigger.classList.add("is-open");
-    countryTrigger.setAttribute(
-        "aria-expanded",
-        "true"
-    );
+    countryTrigger.setAttribute("aria-expanded", "true");
 
-    countryTrigger
-        .closest(".edu-study-nav-item")
-        ?.classList.add("is-open");
+    countryTrigger.closest(".edu-study-nav-item")?.classList.add("is-open");
 
-    countryMenu
-        .querySelectorAll(".edu-country-item")
-        .forEach((button) => {
-            button.classList.toggle(
-                "active",
-                button.dataset.country === selectedCountry
-            );
-        });
+    countryMenu.querySelectorAll(".edu-country-item").forEach((button) => {
+        button.classList.toggle("active", button.dataset.country === selectedCountry);
+    });
 
-    countryMenu
-        .querySelectorAll(".edu-country-panel")
-        .forEach((panel) => {
-            panel.classList.toggle(
-                "active",
-                panel.dataset.countryPanel === selectedCountry
-            );
-        });
+    countryMenu.querySelectorAll(".edu-country-panel").forEach((panel) => {
+        panel.classList.toggle("active", panel.dataset.countryPanel === selectedCountry);
+    });
 }
 
 window.openStudyAbroadCountry = openStudyAbroadCountry;
 
 if (!window.__studyAbroadCostExploreHandler) {
-
     window.__studyAbroadCostExploreHandler = true;
 
     document.addEventListener("click", (event) => {
-
-        const exploreButton =
-            event.target.closest("[data-cost-country]");
+        const exploreButton = event.target.closest("[data-cost-country]");
 
         if (!exploreButton) {
             return;
@@ -90,23 +51,19 @@ if (!window.__studyAbroadCostExploreHandler) {
         event.preventDefault();
         event.stopPropagation();
 
-        openStudyAbroadCountry(
-            exploreButton.dataset.costCountry
-        );
+        openStudyAbroadCountry(exploreButton.dataset.costCountry);
     });
 }
 
 export default function StudyAbroadCost() {
-
     const costOptions = [
-
         {
             country: "USA",
             flag: "🇺🇸",
             tuition: "₹18L – ₹45L / year",
             living: "₹8L – ₹15L / year",
             accommodation: "₹4L – ₹9L / year",
-            popularFor: "STEM • Business • Technology"
+            popularFor: "STEM • Business • Technology",
         },
 
         {
@@ -115,7 +72,7 @@ export default function StudyAbroadCost() {
             tuition: "₹15L – ₹35L / year",
             living: "₹8L – ₹14L / year",
             accommodation: "₹5L – ₹10L / year",
-            popularFor: "Business • Law • Medicine"
+            popularFor: "Business • Law • Medicine",
         },
 
         {
@@ -124,7 +81,7 @@ export default function StudyAbroadCost() {
             tuition: "₹12L – ₹30L / year",
             living: "₹7L – ₹12L / year",
             accommodation: "₹4L – ₹8L / year",
-            popularFor: "IT • Business • Engineering"
+            popularFor: "IT • Business • Engineering",
         },
 
         {
@@ -133,7 +90,7 @@ export default function StudyAbroadCost() {
             tuition: "₹14L – ₹32L / year",
             living: "₹8L – ₹14L / year",
             accommodation: "₹5L – ₹10L / year",
-            popularFor: "Business • IT • Healthcare"
+            popularFor: "Business • IT • Healthcare",
         },
 
         {
@@ -142,7 +99,7 @@ export default function StudyAbroadCost() {
             tuition: "Low / No tuition at many public universities",
             living: "₹7L – ₹11L / year",
             accommodation: "₹3L – ₹7L / year",
-            popularFor: "Engineering • Technology"
+            popularFor: "Engineering • Technology",
         },
 
         {
@@ -151,17 +108,12 @@ export default function StudyAbroadCost() {
             tuition: "₹4L – ₹15L / year",
             living: "₹6L – ₹10L / year",
             accommodation: "₹3L – ₹7L / year",
-            popularFor: "Business • Arts • Fashion"
-        }
-
+            popularFor: "Business • Arts • Fashion",
+        },
     ];
-
 
     return `
 
-        <!-- =====================================================
-             STUDY ABROAD COST
-        ====================================================== -->
 
         <section
             class="study-abroad-cost"
@@ -172,9 +124,6 @@ export default function StudyAbroadCost() {
             <div class="study-abroad-cost-container">
 
 
-                <!-- =================================================
-                     SECTION HEADER
-                ================================================== -->
 
                 <div class="study-abroad-cost-header">
 
@@ -197,30 +146,23 @@ export default function StudyAbroadCost() {
                 </div>
 
 
-                <!-- =================================================
-                     COST FILTERS
-                ================================================== -->
 
 
 
 
-                <!-- =================================================
-                     COST GRID
-                ================================================== -->
 
                 <div class="study-abroad-cost-grid">
 
 
-                    ${costOptions.map((country) => `
+                    ${costOptions
+                        .map(
+                            (country) => `
 
                         <article
                             class="study-abroad-cost-card"
                         >
 
 
-                            <!-- =================================================
-                                 CARD HEADER
-                            ================================================== -->
 
                             <div class="cost-card-header">
 
@@ -264,9 +206,6 @@ export default function StudyAbroadCost() {
                             </div>
 
 
-                            <!-- =================================================
-                                 COST DETAILS
-                            ================================================== -->
 
                             <div class="cost-card-details">
 
@@ -382,9 +321,6 @@ export default function StudyAbroadCost() {
                             </div>
 
 
-                            <!-- =================================================
-                                 COST ACTION
-                            ================================================== -->
 
                            <button
                                type="button"
@@ -399,15 +335,14 @@ export default function StudyAbroadCost() {
 
                         </article>
 
-                    `).join("")}
+                    `,
+                        )
+                        .join("")}
 
 
                 </div>
 
 
-                <!-- =================================================
-                     COST NOTE
-                ================================================== -->
 
                 <div class="study-abroad-cost-note">
 
@@ -436,9 +371,6 @@ export default function StudyAbroadCost() {
                 </div>
 
 
-                <!-- =================================================
-                     COST CTA
-                ================================================== -->
 
 
 

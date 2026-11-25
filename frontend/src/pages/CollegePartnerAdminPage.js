@@ -1,13 +1,51 @@
 import { getCurrentUser } from "../services/authService.js";
-import { createPartnerAccount, getInstitutionsForAdmin, getPartnerAccounts, getPartnerSummary, resetPartnerPassword, setPartnerActive, updatePartnerAccount, getAdminInterest, getAdminStudentInterest, sendAdminInterestNotification, getAdminInterestHistory, markAdminNotificationReviewed, getAdminLeadPartners, getAdminLeadSummary, getAdminLeads, getAdminLeadAudit, createAdminLead, previewAdminLeadImport, assignImportedAdminLeads, getAdminWalletSettings, updateAdminWalletSettings, getAdminWalletBalances, getAdminWalletDeposits, reviewAdminWalletDeposit, adjustAdminWallet, getAdminWalletTransactions, getAdminUnlockedLeads } from "../services/collegePartnerService.js";
+import {
+    createPartnerAccount,
+    getInstitutionsForAdmin,
+    getPartnerAccounts,
+    getPartnerSummary,
+    resetPartnerPassword,
+    setPartnerActive,
+    updatePartnerAccount,
+    getAdminInterest,
+    getAdminStudentInterest,
+    sendAdminInterestNotification,
+    getAdminInterestHistory,
+    markAdminNotificationReviewed,
+    getAdminLeadPartners,
+    getAdminLeadSummary,
+    getAdminLeads,
+    getAdminLeadAudit,
+    createAdminLead,
+    previewAdminLeadImport,
+    assignImportedAdminLeads,
+    getAdminWalletSettings,
+    updateAdminWalletSettings,
+    getAdminWalletBalances,
+    getAdminWalletDeposits,
+    reviewAdminWalletDeposit,
+    adjustAdminWallet,
+    getAdminWalletTransactions,
+    getAdminUnlockedLeads,
+} from "../services/collegePartnerService.js";
 import "../assets/css/college-partner.css";
 
-const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" })[char]);
-const money = amount => new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 2 }).format(Number(amount || 0));
+const esc = (value) =>
+    String(value ?? "").replace(
+        /[&<>"']/g,
+        (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char],
+    );
+const money = (amount) =>
+    new Intl.NumberFormat("en-IN", {
+        style: "currency",
+        currency: "INR",
+        minimumFractionDigits: 2,
+    }).format(Number(amount || 0));
 
 export default function CollegePartnerAdminPage() {
     const user = getCurrentUser();
-    if (!user || user.role !== "ADMIN") return `<main class="cp-denied"><h1>Administrator access required</h1><p>Sign in with an administrator account to manage college partners.</p><a href="/">Return home</a></main>`;
+    if (!user || user.role !== "ADMIN")
+        return `<main class="cp-denied"><h1>Administrator access required</h1><p>Sign in with an administrator account to manage college partners.</p><a href="/">Return home</a></main>`;
     return `<main class="cp-admin"><header class="cp-page-head"><div><span class="cp-kicker">StepInStudents · PARTNERS</span><h1>College partner management</h1><p>Manage institutions, real student leads, wallet deposits and enquiry pricing.</p></div><button class="cp-button cp-button-gold" id="cp-add">Add new college</button></header>
       <section class="cp-kpis" id="cp-kpis"><div class="cp-kpi"><span>Registered partners</span><strong>—</strong></div><div class="cp-kpi"><span>Active accounts</span><strong>—</strong></div><div class="cp-kpi"><span>Pending deposits</span><strong>—</strong></div><div class="cp-kpi"><span>Recorded page visits</span><strong>—</strong></div><div class="cp-kpi"><span>Submitted enquiries</span><strong>—</strong></div><div class="cp-kpi"><span>Wallet transactions</span><strong>—</strong></div></section>
       <section class="cp-panel" id="cp-lead-management"><div class="cp-panel-head"><div><span class="cp-kicker">ADMIN LEAD CENTRE</span><h2>Student Lead Management &amp; Distribution</h2><p>Manage genuine student enquiries and distribute consented leads to eligible registered college partners.</p></div><div class="cp-actions"><button class="cp-button cp-button-muted" id="cp-lead-add">Add New Lead</button><button class="cp-button cp-button-gold" id="cp-lead-import">Import Leads</button></div></div><div class="cp-kpis cp-lead-kpis"><div class="cp-kpi"><span>Total Student Leads</span><strong id="cp-lead-total">—</strong></div><div class="cp-kpi"><span>Manually Added</span><strong id="cp-lead-manual">—</strong></div><div class="cp-kpi"><span>Imported</span><strong id="cp-lead-imported">—</strong></div><div class="cp-kpi"><span>Website Enquiries</span><strong id="cp-lead-web">—</strong></div><div class="cp-kpi"><span>Assigned</span><strong id="cp-lead-assigned">—</strong></div><div class="cp-kpi"><span>Active Partners</span><strong id="cp-lead-partners-count">—</strong></div></div><label class="cp-lead-filter">Filter leads<input id="cp-lead-filter" type="search" placeholder="Student, course, college or source"></label><div class="cp-table-wrap"><table class="cp-table"><thead><tr><th>Student</th><th>Course</th><th>Source</th><th>Lead type · price</th><th>Assigned college</th><th>Status</th><th>Date</th></tr></thead><tbody id="cp-lead-rows"><tr><td colspan="7">Loading lead history…</td></tr></tbody></table></div><div class="cp-panel-head"><div><span class="cp-kicker">AUDIT</span><h3>Lead distribution history</h3></div></div><div class="cp-table-wrap"><table class="cp-table"><thead><tr><th>Action</th><th>Actor</th><th>College</th><th>File / Records</th><th>Date</th></tr></thead><tbody id="cp-lead-audit"><tr><td colspan="5">Loading lead audit…</td></tr></tbody></table></div><p class="cp-feedback" id="cp-lead-feedback" role="status"></p></section>
@@ -23,55 +61,178 @@ export default function CollegePartnerAdminPage() {
 }
 
 export function initCollegePartnerAdminPage() {
-    const root = document.querySelector(".cp-admin"); if (!root) return;
-    const accountsBody = root.querySelector("#cp-accounts"), feedback = root.querySelector("#cp-feedback"), dialog = root.querySelector("#cp-dialog"), credentials = root.querySelector("#cp-credentials");
-    let editingId = null, lastPartners = [];
-    let eligiblePartners = [], leadRows = [], importPreview = [], importFileName = "", importHeaders = [], importMapping = {};
-    const leadFeedback = root.querySelector("#cp-lead-feedback"), createLeadDialog = root.querySelector("#cp-lead-create-dialog"), importDialog = root.querySelector("#cp-lead-import-dialog");
+    const root = document.querySelector(".cp-admin");
+    if (!root) return;
+    const accountsBody = root.querySelector("#cp-accounts"),
+        feedback = root.querySelector("#cp-feedback"),
+        dialog = root.querySelector("#cp-dialog"),
+        credentials = root.querySelector("#cp-credentials");
+    let editingId = null,
+        lastPartners = [];
+    let eligiblePartners = [],
+        leadRows = [],
+        importPreview = [],
+        importFileName = "",
+        importHeaders = [],
+        importMapping = {};
+    const leadFeedback = root.querySelector("#cp-lead-feedback"),
+        createLeadDialog = root.querySelector("#cp-lead-create-dialog"),
+        importDialog = root.querySelector("#cp-lead-import-dialog");
     const populatePartnerSelects = () => {
-        const options = `<option value="">Select an active college partner</option>` + eligiblePartners.map(p => `<option value="${esc(p.institutionId)}">${esc(p.collegeName)}</option>`).join("");
+        const options =
+            `<option value="">Select an active college partner</option>` +
+            eligiblePartners
+                .map(
+                    (p) => `<option value="${esc(p.institutionId)}">${esc(p.collegeName)}</option>`,
+                )
+                .join("");
         root.querySelector('#cp-lead-form [name="institutionId"]').innerHTML = options;
         root.querySelector("#cp-import-partner").innerHTML = options;
     };
     const renderLeadRows = () => {
         const term = root.querySelector("#cp-lead-filter").value.trim().toLowerCase();
-        const rows = leadRows.filter(row => [row.student,row.course,row.source,row.institution,row.status,row.leadProductType].some(value => String(value||"").toLowerCase().includes(term)));
-        root.querySelector("#cp-lead-rows").innerHTML = rows.length ? rows.map(row=>`<tr><td><strong>${esc(row.student)}</strong><small>${esc(row.email)}</small></td><td>${esc(row.course||"—")}</td><td>${esc(row.source)}</td><td>${esc(row.leadProductType||"WARM_LEAD").replaceAll("_"," ")}<small>${money(row.leadUnitPrice)}</small></td><td>${esc(row.institution)}</td><td>${esc(row.status)}</td><td>${row.date?new Date(row.date).toLocaleDateString():"—"}</td></tr>`).join("") : `<tr><td colspan="7" class="cp-empty">No matching leads.</td></tr>`;
+        const rows = leadRows.filter((row) =>
+            [
+                row.student,
+                row.course,
+                row.source,
+                row.institution,
+                row.status,
+                row.leadProductType,
+            ].some((value) =>
+                String(value || "")
+                    .toLowerCase()
+                    .includes(term),
+            ),
+        );
+        root.querySelector("#cp-lead-rows").innerHTML = rows.length
+            ? rows
+                  .map(
+                      (row) =>
+                          `<tr><td><strong>${esc(row.student)}</strong><small>${esc(row.email)}</small></td><td>${esc(row.course || "—")}</td><td>${esc(row.source)}</td><td>${esc(row.leadProductType || "WARM_LEAD").replaceAll("_", " ")}<small>${money(row.leadUnitPrice)}</small></td><td>${esc(row.institution)}</td><td>${esc(row.status)}</td><td>${row.date ? new Date(row.date).toLocaleDateString() : "—"}</td></tr>`,
+                  )
+                  .join("")
+            : `<tr><td colspan="7" class="cp-empty">No matching leads.</td></tr>`;
     };
     const loadEligibleLeadPartners = async () => {
-        const leadSelect=root.querySelector('#cp-lead-form [name="institutionId"]'), importSelect=root.querySelector("#cp-import-partner");
-        leadSelect.innerHTML='<option value="">Loading eligible partners…</option>'; importSelect.innerHTML='<option value="">Loading eligible partners…</option>';
+        const leadSelect = root.querySelector('#cp-lead-form [name="institutionId"]'),
+            importSelect = root.querySelector("#cp-import-partner");
+        leadSelect.innerHTML = '<option value="">Loading eligible partners…</option>';
+        importSelect.innerHTML = '<option value="">Loading eligible partners…</option>';
         try {
             let partners;
-            try { partners=await getAdminLeadPartners(); }
-            catch { const existing=await getPartnerAccounts(); partners=existing.map(p=>({institutionId:p.institutionId,collegeName:p.collegeName,accountStatus:p.active?"ACTIVE":"INACTIVE",eligible:Boolean(p.active)})); }
-            eligiblePartners=partners; populatePartnerSelects();
-            const eligibleCount=eligiblePartners.filter(p=>p.eligible).length;
-            if(!eligibleCount){leadFeedback.textContent="No active partner accounts are available for lead assignment.";leadFeedback.classList.add("is-error");}
-            else {leadFeedback.textContent="Leads can be assigned to any active institution partner with documented student contact consent.";leadFeedback.classList.remove("is-error");}
+            try {
+                partners = await getAdminLeadPartners();
+            } catch {
+                const existing = await getPartnerAccounts();
+                partners = existing.map((p) => ({
+                    institutionId: p.institutionId,
+                    collegeName: p.collegeName,
+                    accountStatus: p.active ? "ACTIVE" : "INACTIVE",
+                    eligible: Boolean(p.active),
+                }));
+            }
+            eligiblePartners = partners;
+            populatePartnerSelects();
+            const eligibleCount = eligiblePartners.filter((p) => p.eligible).length;
+            if (!eligibleCount) {
+                leadFeedback.textContent =
+                    "No active partner accounts are available for lead assignment.";
+                leadFeedback.classList.add("is-error");
+            } else {
+                leadFeedback.textContent =
+                    "Leads can be assigned to any active " +
+                    "institution partner with documented " +
+                    "student contact consent.";
+                leadFeedback.classList.remove("is-error");
+            }
             return true;
-        } catch(error){eligiblePartners=[];leadSelect.innerHTML='<option value="">Could not load partner list</option>';importSelect.innerHTML='<option value="">Could not load partner list</option>';leadFeedback.textContent=`Partner list unavailable: ${error.message}. Check that Spring Boot is running on port 8080, MySQL is running, and then retry.`;leadFeedback.classList.add("is-error");return false;}
+        } catch (error) {
+            eligiblePartners = [];
+            leadSelect.innerHTML = '<option value="">Could not load partner list</option>';
+            importSelect.innerHTML = '<option value="">Could not load partner list</option>';
+            leadFeedback.textContent = `Partner list unavailable: ${error.message}. Check that Spring Boot is running on port 8080, MySQL is running, and then retry.`;
+            leadFeedback.classList.add("is-error");
+            return false;
+        }
     };
     const loadLeadCenter = async () => {
         await loadEligibleLeadPartners();
         try {
-            const [summary,leads,audit]=await Promise.all([getAdminLeadSummary(),getAdminLeads(),getAdminLeadAudit()]);
-            for(const [id,value] of [["cp-lead-total",summary.total],["cp-lead-manual",summary.manual],["cp-lead-imported",summary.imported],["cp-lead-web",summary.website],["cp-lead-assigned",summary.assigned],["cp-lead-partners-count",summary.activePartners]]) root.querySelector(`#${id}`).textContent=value;
-            leadRows=leads; renderLeadRows();
-            root.querySelector("#cp-lead-audit").innerHTML=audit.length?audit.map(a=>`<tr><td>${esc(a.action)}</td><td>${esc(a.actor)}</td><td>${esc(eligiblePartners.find(p=>Number(p.institutionId)===Number(a.institutionId))?.collegeName||a.institutionId||"—")}</td><td>${esc(a.fileName||a.recordCount||a.details||"—")}</td><td>${a.date?new Date(a.date).toLocaleString():"—"}</td></tr>`).join(""):`<tr><td colspan="5" class="cp-empty">No lead distribution actions recorded.</td></tr>`;
-        } catch(error){root.querySelector("#cp-lead-rows").innerHTML=`<tr><td colspan="6" class="cp-empty">Lead records could not load: ${esc(error.message)}</td></tr>`;root.querySelector("#cp-lead-audit").innerHTML=`<tr><td colspan="5" class="cp-empty">Audit history could not load: ${esc(error.message)}</td></tr>`;if(!leadFeedback.classList.contains("is-error")){leadFeedback.textContent=`Lead summary unavailable: ${error.message}. Check the backend and MySQL, then retry.`;leadFeedback.classList.add("is-error");}}
+            const [summary, leads, audit] = await Promise.all([
+                getAdminLeadSummary(),
+                getAdminLeads(),
+                getAdminLeadAudit(),
+            ]);
+            for (const [id, value] of [
+                ["cp-lead-total", summary.total],
+                ["cp-lead-manual", summary.manual],
+                ["cp-lead-imported", summary.imported],
+                ["cp-lead-web", summary.website],
+                ["cp-lead-assigned", summary.assigned],
+                ["cp-lead-partners-count", summary.activePartners],
+            ])
+                root.querySelector(`#${id}`).textContent = value;
+            leadRows = leads;
+            renderLeadRows();
+            root.querySelector("#cp-lead-audit").innerHTML = audit.length
+                ? audit
+                      .map(
+                          (a) =>
+                              `<tr><td>${esc(a.action)}</td><td>${esc(a.actor)}</td><td>${esc(eligiblePartners.find((p) => Number(p.institutionId) === Number(a.institutionId))?.collegeName || a.institutionId || "—")}</td><td>${esc(a.fileName || a.recordCount || a.details || "—")}</td><td>${a.date ? new Date(a.date).toLocaleString() : "—"}</td></tr>`,
+                      )
+                      .join("")
+                : `<tr><td colspan="5" class="cp-empty">No lead distribution actions recorded.</td></tr>`;
+        } catch (error) {
+            root.querySelector("#cp-lead-rows").innerHTML =
+                `<tr><td colspan="6" class="cp-empty">Lead records could not load: ${esc(error.message)}</td></tr>`;
+            root.querySelector("#cp-lead-audit").innerHTML =
+                `<tr><td colspan="5" class="cp-empty">Audit history could not load: ${esc(error.message)}</td></tr>`;
+            if (!leadFeedback.classList.contains("is-error")) {
+                leadFeedback.textContent = `Lead summary unavailable: ${error.message}. Check the backend and MySQL, then retry.`;
+                leadFeedback.classList.add("is-error");
+            }
+        }
     };
     loadLeadCenter();
     let interestRefresh = async () => {};
     const load = async () => {
         try {
-            const [summary, partners, balances, deposits, transactions] = await Promise.all([getPartnerSummary(), getPartnerAccounts(), getAdminWalletBalances(), getAdminWalletDeposits("PENDING"), getAdminWalletTransactions()]); lastPartners = partners;
-            const balanceByAccount = new Map(balances.map(item=>[Number(item.accountId),item.balance]));
-            const values = [summary.totalPartners, summary.activeAccounts, deposits.length, summary.pageVisits, summary.enquiries, transactions.length];
-            root.querySelectorAll("#cp-kpis .cp-kpi strong").forEach((el, i) => el.textContent = values[i]);
+            const [summary, partners, balances, deposits, transactions] = await Promise.all([
+                getPartnerSummary(),
+                getPartnerAccounts(),
+                getAdminWalletBalances(),
+                getAdminWalletDeposits("PENDING"),
+                getAdminWalletTransactions(),
+            ]);
+            lastPartners = partners;
+            const balanceByAccount = new Map(
+                balances.map((item) => [Number(item.accountId), item.balance]),
+            );
+            const values = [
+                summary.totalPartners,
+                summary.activeAccounts,
+                deposits.length,
+                summary.pageVisits,
+                summary.enquiries,
+                transactions.length,
+            ];
+            root.querySelectorAll("#cp-kpis .cp-kpi strong").forEach(
+                (el, i) => (el.textContent = values[i]),
+            );
             root.querySelector("#cp-count").textContent = `${partners.length} accounts`;
-            accountsBody.innerHTML = partners.length ? partners.map(p => `<tr><td><strong>${esc(p.collegeName)}</strong><small>${esc(p.officialEmail)}</small></td><td><code>${esc(p.username)}</code></td><td>${money(balanceByAccount.get(Number(p.id))||0)}</td><td><span class="cp-pill ${p.active ? "is-active" : "is-muted"}">${p.active ? "Active" : "Inactive"}</span></td><td class="cp-actions"><button class="cp-text-button" data-edit="${p.id}">Edit</button><button class="cp-text-button" data-toggle="${p.id}" data-active="${p.active}">${p.active ? "Deactivate" : "Activate"}</button><button class="cp-text-button" data-reset="${p.id}">Reset password</button></td></tr>`).join("") : `<tr><td colspan="5" class="cp-empty">No partner accounts yet.</td></tr>`;
-        } catch (error) { feedback.textContent = error.message; feedback.classList.add("is-error"); }
+            accountsBody.innerHTML = partners.length
+                ? partners
+                      .map(
+                          (p) =>
+                              `<tr><td><strong>${esc(p.collegeName)}</strong><small>${esc(p.officialEmail)}</small></td><td><code>${esc(p.username)}</code></td><td>${money(balanceByAccount.get(Number(p.id)) || 0)}</td><td><span class="cp-pill ${p.active ? "is-active" : "is-muted"}">${p.active ? "Active" : "Inactive"}</span></td><td class="cp-actions"><button class="cp-text-button" data-edit="${p.id}">Edit</button><button class="cp-text-button" data-toggle="${p.id}" data-active="${p.active}">${p.active ? "Deactivate" : "Activate"}</button><button class="cp-text-button" data-reset="${p.id}">Reset password</button></td></tr>`,
+                      )
+                      .join("")
+                : `<tr><td colspan="5" class="cp-empty">No partner accounts yet.</td></tr>`;
+        } catch (error) {
+            feedback.textContent = error.message;
+            feedback.classList.add("is-error");
+        }
     };
     const refreshInstitutions = async () => {
         const select = root.querySelector('[name="institutionId"]');
@@ -83,9 +244,18 @@ export function initCollegePartnerAdminPage() {
         select.innerHTML = '<option value="">Loading colleges…</option>';
         try {
             const data = await getInstitutionsForAdmin();
-            select.innerHTML = '<option value="">Select a college</option>' + data.map(i => `<option value="${esc(i.id)}">${esc(i.name)}${i.city ? ` · ${esc(i.city)}` : ""}${i.country ? `, ${esc(i.country)}` : ""}</option>`).join("");
+            select.innerHTML =
+                '<option value="">Select a college</option>' +
+                data
+                    .map(
+                        (i) =>
+                            `<option value="${esc(i.id)}">${esc(i.name)}${i.city ? ` · ${esc(i.city)}` : ""}${i.country ? `, ${esc(i.country)}` : ""}</option>`,
+                    )
+                    .join("");
             empty.hidden = data.length > 0;
-            empty.firstChild.textContent = data.length ? "" : "No college records are available yet. Add records under Admin → Institutions. ";
+            empty.firstChild.textContent = data.length
+                ? ""
+                : "No college records are available yet. Add records under Admin → Institutions. ";
             addCollegeLink.hidden = data.length > 0;
             retryButton.hidden = true;
             submit.disabled = data.length === 0;
@@ -100,50 +270,280 @@ export function initCollegePartnerAdminPage() {
         }
     };
     const loadInterest = async () => {
-        const [interest, history] = await Promise.all([getAdminInterest(), getAdminInterestHistory()]);
-        root.querySelector("#cp-interest-total").textContent = interest.studentsExploringMultipleInstitutions;
+        const [interest, history] = await Promise.all([
+            getAdminInterest(),
+            getAdminInterestHistory(),
+        ]);
+        root.querySelector("#cp-interest-total").textContent =
+            interest.studentsExploringMultipleInstitutions;
         root.querySelector("#cp-interest-new").textContent = interest.newNotifications;
         root.querySelector("#cp-interest-eligible").textContent = interest.eligibleEnquiries;
         const body = root.querySelector("#cp-interest-students");
-        body.innerHTML = interest.students.length ? interest.students.map(s => `<tr><td><strong>${esc(s.student)}</strong><small>Student ID ${esc(s.studentId)}</small></td><td>${esc(s.institutionCount)} institutions</td><td>${esc(s.activityCount)} meaningful events</td><td>${new Date(s.latestActivity).toLocaleString()}</td><td><button class="cp-text-button" data-student-interest="${esc(s.studentId)}">Review &amp; choose target</button></td></tr>`).join("") : `<tr><td colspan="5" class="cp-empty">No cross-institution student activity recorded in the last 90 days.</td></tr>`;
-        root.querySelector("#cp-interest-history").innerHTML = history.length ? history.map(n => `<tr><td>${esc(n.institution)}</td><td>${esc(n.student)}</td><td>${esc(n.title)}</td><td>${esc(n.status)}</td><td>${new Date(n.createdAt).toLocaleString()}</td><td>${n.reviewedAt ? "Reviewed" : `<button class="cp-text-button" data-reviewed="${esc(n.id)}">Mark reviewed</button>`}</td></tr>`).join("") : `<tr><td colspan="6" class="cp-empty">No alerts have been sent.</td></tr>`;
+        body.innerHTML = interest.students.length
+            ? interest.students
+                  .map(
+                      (s) =>
+                          `<tr><td><strong>${esc(s.student)}</strong><small>Student ID ${esc(s.studentId)}</small></td><td>${esc(s.institutionCount)} institutions</td><td>${esc(s.activityCount)} meaningful events</td><td>${new Date(s.latestActivity).toLocaleString()}</td><td><button class="cp-text-button" data-student-interest="${esc(s.studentId)}">Review &amp; choose target</button></td></tr>`,
+                  )
+                  .join("")
+            : `<tr><td colspan="5" class="cp-empty">No cross-institution student activity recorded in the last 90 days.</td></tr>`;
+        root.querySelector("#cp-interest-history").innerHTML = history.length
+            ? history
+                  .map(
+                      (n) =>
+                          `<tr><td>${esc(n.institution)}</td><td>${esc(n.student)}</td><td>${esc(n.title)}</td><td>${esc(n.status)}</td><td>${new Date(n.createdAt).toLocaleString()}</td><td>${n.reviewedAt ? "Reviewed" : `<button class="cp-text-button" data-reviewed="${esc(n.id)}">Mark reviewed</button>`}</td></tr>`,
+                  )
+                  .join("")
+            : `<tr><td colspan="6" class="cp-empty">No alerts have been sent.</td></tr>`;
     };
-    const renderWalletDeposits = rows => { root.querySelector("#cp-wallet-deposits").innerHTML=rows.length?rows.map(item=>`<tr><td>${esc(item.institution)}</td><td>${money(item.amount)}</td><td><strong>${esc(item.paymentReference||"—")}</strong></td><td>${new Date(item.date).toLocaleString()}</td><td>${esc(item.note||"—")}</td><td><button class="cp-text-button" data-deposit-review="${esc(item.id)}" data-decision="APPROVE">Approve</button><button class="cp-text-button" data-deposit-review="${esc(item.id)}" data-decision="REJECT">Reject</button></td></tr>`).join(""):`<tr><td colspan="6" class="cp-empty">No pending deposit requests.</td></tr>`; };
+    const renderWalletDeposits = (rows) => {
+        root.querySelector("#cp-wallet-deposits").innerHTML = rows.length
+            ? rows
+                  .map(
+                      (item) =>
+                          `<tr><td>${esc(item.institution)}</td><td>${money(item.amount)}</td><td><strong>${esc(item.paymentReference || "—")}</strong></td><td>${new Date(item.date).toLocaleString()}</td><td>${esc(item.note || "—")}</td><td><button class="cp-text-button" data-deposit-review="${esc(item.id)}" data-decision="APPROVE">Approve</button><button class="cp-text-button" data-deposit-review="${esc(item.id)}" data-decision="REJECT">Reject</button></td></tr>`,
+                  )
+                  .join("")
+            : `<tr><td colspan="6" class="cp-empty">No pending deposit requests.</td></tr>`;
+    };
     const loadWalletAdmin = async () => {
-        const [settings,balances,deposits,transactions,unlocks]=await Promise.all([getAdminWalletSettings(),getAdminWalletBalances(),getAdminWalletDeposits("PENDING"),getAdminWalletTransactions(),getAdminUnlockedLeads()]);
-        const form=root.querySelector("#cp-wallet-settings-form");for(const key of ["warmLeadName","hotLeadName","exclusiveLeadName","warmLeadPrice","hotLeadPrice","exclusiveLeadPrice"])form.elements[key].value=settings[key]??({warmLeadName:"Warm Lead",hotLeadName:"Hot Lead",exclusiveLeadName:"Exclusive Lead",warmLeadPrice:100,hotLeadPrice:150,exclusiveLeadPrice:250}[key]);for(const key of ["warmLeadEnabled","hotLeadEnabled","exclusiveLeadEnabled"])form.elements[key].checked=settings[key]!==false;form.elements.upiId.value=settings.upiId||"";form.elements.paymentInstructions.value=settings.paymentInstructions||"";
-        const productMap=Object.fromEntries((settings.leadProducts||[]).map(p=>[p.type,p]));for(const selector of [root.querySelector('#cp-lead-form [name="leadProductType"]'),root.querySelector("#cp-import-product")])if(selector)for(const option of selector.options){const product=productMap[option.value];if(product){option.textContent=`${product.name} · ${money(product.unitPrice)}${option.value==="HOT_LEAD"?" · high chance and suitable":""}`;option.disabled=!product.enabled;}}
-        root.querySelector("#cp-wallet-qr-preview").innerHTML=settings.qrImageData?`<img class="cp-wallet-qr-thumb" src="${esc(settings.qrImageData)}" alt="Current payment QR">`:"<p class='cp-muted'>No payment QR configured.</p>";
+        const [settings, balances, deposits, transactions, unlocks] = await Promise.all([
+            getAdminWalletSettings(),
+            getAdminWalletBalances(),
+            getAdminWalletDeposits("PENDING"),
+            getAdminWalletTransactions(),
+            getAdminUnlockedLeads(),
+        ]);
+        const form = root.querySelector("#cp-wallet-settings-form");
+        for (const key of [
+            "warmLeadName",
+            "hotLeadName",
+            "exclusiveLeadName",
+            "warmLeadPrice",
+            "hotLeadPrice",
+            "exclusiveLeadPrice",
+        ])
+            form.elements[key].value =
+                settings[key] ??
+                {
+                    warmLeadName: "Warm Lead",
+                    hotLeadName: "Hot Lead",
+                    exclusiveLeadName: "Exclusive Lead",
+                    warmLeadPrice: 100,
+                    hotLeadPrice: 150,
+                    exclusiveLeadPrice: 250,
+                }[key];
+        for (const key of ["warmLeadEnabled", "hotLeadEnabled", "exclusiveLeadEnabled"])
+            form.elements[key].checked = settings[key] !== false;
+        form.elements.upiId.value = settings.upiId || "";
+        form.elements.paymentInstructions.value = settings.paymentInstructions || "";
+        const productMap = Object.fromEntries(
+            (settings.leadProducts || []).map((p) => [p.type, p]),
+        );
+        for (const selector of [
+            root.querySelector('#cp-lead-form [name="leadProductType"]'),
+            root.querySelector("#cp-import-product"),
+        ])
+            if (selector)
+                for (const option of selector.options) {
+                    const product = productMap[option.value];
+                    if (product) {
+                        option.textContent = `${product.name} · ${money(product.unitPrice)}${option.value === "HOT_LEAD" ? " · high chance and suitable" : ""}`;
+                        option.disabled = !product.enabled;
+                    }
+                }
+        root.querySelector("#cp-wallet-qr-preview").innerHTML = settings.qrImageData
+            ? `<img class="cp-wallet-qr-thumb" src="${esc(settings.qrImageData)}" alt="Current payment QR">`
+            : "<p class='cp-muted'>No payment QR configured.</p>";
         renderWalletDeposits(deposits);
-        root.querySelector("#cp-wallet-balances").innerHTML=balances.length?balances.map(item=>`<tr><td>${esc(item.institution)}</td><td><code>${esc(item.username)}</code></td><td>${money(item.balance)}</td><td>${money(item.totalAdded)}</td><td>${money(item.totalSpent)}</td><td><button class="cp-text-button" data-adjust-wallet="${esc(item.accountId)}">Adjust balance</button></td></tr>`).join(""):`<tr><td colspan="6" class="cp-empty">No institution wallets yet.</td></tr>`;
-        root.querySelector("#cp-wallet-transactions").innerHTML=transactions.length?transactions.map(item=>`<tr><td>${esc(item.institution)}</td><td>${esc(String(item.transactionType||"").replaceAll("_"," "))}${item.leadProductType?` · ${esc(String(item.leadProductType).replaceAll("_"," "))}`:""}</td><td>${money(item.unitPrice)}</td><td>${esc(item.quantity??"—")}</td><td>${money(item.amount)}</td><td>${money(item.balanceAfter)}</td><td>${esc(item.status)}</td><td>${esc(item.paymentReference||item.note||"—")}</td><td>${new Date(item.date).toLocaleString()}</td></tr>`).join(""):`<tr><td colspan="9" class="cp-empty">No completed wallet transactions.</td></tr>`;
-        root.querySelector("#cp-wallet-unlocks").innerHTML=unlocks.length?unlocks.map(item=>`<tr><td>${esc(item.institution)}</td><td>${esc(item.student||"—")}</td><td>${esc(item.course||"—")}</td><td>${money(item.amount)}</td><td>${new Date(item.date).toLocaleString()}</td></tr>`).join(""):`<tr><td colspan="5" class="cp-empty">No leads have been unlocked yet.</td></tr>`;
-        const strong=root.querySelectorAll("#cp-kpis .cp-kpi strong");if(strong[2])strong[2].textContent=deposits.length;if(strong[5])strong[5].textContent=transactions.length;
+        root.querySelector("#cp-wallet-balances").innerHTML = balances.length
+            ? balances
+                  .map(
+                      (item) =>
+                          `<tr><td>${esc(item.institution)}</td><td><code>${esc(item.username)}</code></td><td>${money(item.balance)}</td><td>${money(item.totalAdded)}</td><td>${money(item.totalSpent)}</td><td><button class="cp-text-button" data-adjust-wallet="${esc(item.accountId)}">Adjust balance</button></td></tr>`,
+                  )
+                  .join("")
+            : `<tr><td colspan="6" class="cp-empty">No institution wallets yet.</td></tr>`;
+        root.querySelector("#cp-wallet-transactions").innerHTML = transactions.length
+            ? transactions
+                  .map(
+                      (item) =>
+                          `<tr><td>${esc(item.institution)}</td><td>${esc(String(item.transactionType || "").replaceAll("_", " "))}${item.leadProductType ? ` · ${esc(String(item.leadProductType).replaceAll("_", " "))}` : ""}</td><td>${money(item.unitPrice)}</td><td>${esc(item.quantity ?? "—")}</td><td>${money(item.amount)}</td><td>${money(item.balanceAfter)}</td><td>${esc(item.status)}</td><td>${esc(item.paymentReference || item.note || "—")}</td><td>${new Date(item.date).toLocaleString()}</td></tr>`,
+                  )
+                  .join("")
+            : `<tr><td colspan="9" class="cp-empty">No completed wallet transactions.</td></tr>`;
+        root.querySelector("#cp-wallet-unlocks").innerHTML = unlocks.length
+            ? unlocks
+                  .map(
+                      (item) =>
+                          `<tr><td>${esc(item.institution)}</td><td>${esc(item.student || "—")}</td><td>${esc(item.course || "—")}</td><td>${money(item.amount)}</td><td>${new Date(item.date).toLocaleString()}</td></tr>`,
+                  )
+                  .join("")
+            : `<tr><td colspan="5" class="cp-empty">No leads have been unlocked yet.</td></tr>`;
+        const strong = root.querySelectorAll("#cp-kpis .cp-kpi strong");
+        if (strong[2]) strong[2].textContent = deposits.length;
+        if (strong[5]) strong[5].textContent = transactions.length;
     };
-    interestRefresh = () => loadInterest().catch(error => { root.querySelector("#cp-feedback").textContent = error.message; root.querySelector("#cp-feedback").classList.add("is-error"); });
+    interestRefresh = () =>
+        loadInterest().catch((error) => {
+            root.querySelector("#cp-feedback").textContent = error.message;
+            root.querySelector("#cp-feedback").classList.add("is-error");
+        });
     interestRefresh();
-    loadWalletAdmin().catch(error => { root.querySelector("#cp-wallet-admin-feedback").textContent=error.message; root.querySelector("#cp-wallet-admin-feedback").classList.add("is-error"); });
-    root.querySelector("#cp-wallet-admin-refresh").addEventListener("click",()=>loadWalletAdmin().catch(error=>{root.querySelector("#cp-wallet-review-feedback").textContent=error.message;}));
-    root.querySelector("#cp-wallet-qr-file").addEventListener("change",event=>{const file=event.target.files?.[0];if(!file)return;if(file.size>1_500_000){event.target.value="";root.querySelector("#cp-wallet-admin-feedback").textContent="Choose a QR image under 1.5 MB.";return;}root.querySelector("#cp-wallet-qr-preview").innerHTML=`<img class="cp-wallet-qr-thumb" src="${URL.createObjectURL(file)}" alt="Selected payment QR">`;});
-    root.querySelector("#cp-wallet-settings-form").addEventListener("submit",async event=>{event.preventDefault();const form=event.currentTarget,status=root.querySelector("#cp-wallet-admin-feedback"),data=Object.fromEntries(new FormData(form));for(const key of ["warmLeadPrice","hotLeadPrice","exclusiveLeadPrice"])data[key]=Number(data[key]);for(const key of ["warmLeadEnabled","hotLeadEnabled","exclusiveLeadEnabled"])data[key]=form.elements[key].checked;data.removeQrImage=form.elements.removeQrImage.checked;const file=root.querySelector("#cp-wallet-qr-file").files?.[0];try{if(file){data.qrImageData=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(new Error("Could not read the QR image."));reader.readAsDataURL(file);});data.qrImageContentType=file.type;}await updateAdminWalletSettings(data);status.textContent="Lead products and payment details saved.";status.classList.remove("is-error");await loadWalletAdmin();}catch(error){status.textContent=error.message;status.classList.add("is-error");}});
-    root.querySelector("#cp-wallet-deposits").addEventListener("click",async event=>{const button=event.target.closest("[data-deposit-review]");if(!button)return;const note=prompt(`${button.dataset.decision==="APPROVE"?"Record how you verified this payment":"Reason for rejecting this deposit"}:`);if(note===null)return;if(!note.trim()){root.querySelector("#cp-wallet-review-feedback").textContent="Enter an audit note before reviewing the deposit.";return;}if(!confirm(`${button.dataset.decision} this deposit request?`))return;try{await reviewAdminWalletDeposit(button.dataset.depositReview,button.dataset.decision,note.trim());root.querySelector("#cp-wallet-review-feedback").textContent=`Deposit ${button.dataset.decision==="APPROVE"?"approved":"rejected"} and recorded in the wallet ledger.`;await loadWalletAdmin();await load();}catch(error){root.querySelector("#cp-wallet-review-feedback").textContent=error.message;root.querySelector("#cp-wallet-review-feedback").classList.add("is-error");}});
-    root.querySelector("#cp-wallet-balances").addEventListener("click",async event=>{const button=event.target.closest("[data-adjust-wallet]");if(!button)return;const amount=prompt("Enter a positive credit or negative debit amount in rupees:");if(amount===null)return;const reason=prompt("Required audit reason:");if(!reason?.trim())return;try{await adjustAdminWallet(button.dataset.adjustWallet,Number(amount),reason.trim());await loadWalletAdmin();await load();}catch(error){root.querySelector("#cp-wallet-review-feedback").textContent=error.message;root.querySelector("#cp-wallet-review-feedback").classList.add("is-error");}});
+    loadWalletAdmin().catch((error) => {
+        root.querySelector("#cp-wallet-admin-feedback").textContent = error.message;
+        root.querySelector("#cp-wallet-admin-feedback").classList.add("is-error");
+    });
+    root.querySelector("#cp-wallet-admin-refresh").addEventListener("click", () =>
+        loadWalletAdmin().catch((error) => {
+            root.querySelector("#cp-wallet-review-feedback").textContent = error.message;
+        }),
+    );
+    root.querySelector("#cp-wallet-qr-file").addEventListener("change", (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        if (file.size > 1_500_000) {
+            event.target.value = "";
+            root.querySelector("#cp-wallet-admin-feedback").textContent =
+                "Choose a QR image under 1.5 MB.";
+            return;
+        }
+        root.querySelector("#cp-wallet-qr-preview").innerHTML =
+            `<img class="cp-wallet-qr-thumb" src="${URL.createObjectURL(file)}" alt="Selected payment QR">`;
+    });
+    root.querySelector("#cp-wallet-settings-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const form = event.currentTarget,
+            status = root.querySelector("#cp-wallet-admin-feedback"),
+            data = Object.fromEntries(new FormData(form));
+        for (const key of ["warmLeadPrice", "hotLeadPrice", "exclusiveLeadPrice"])
+            data[key] = Number(data[key]);
+        for (const key of ["warmLeadEnabled", "hotLeadEnabled", "exclusiveLeadEnabled"])
+            data[key] = form.elements[key].checked;
+        data.removeQrImage = form.elements.removeQrImage.checked;
+        const file = root.querySelector("#cp-wallet-qr-file").files?.[0];
+        try {
+            if (file) {
+                data.qrImageData = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = () => reject(new Error("Could not read the QR image."));
+                    reader.readAsDataURL(file);
+                });
+                data.qrImageContentType = file.type;
+            }
+            await updateAdminWalletSettings(data);
+            status.textContent = "Lead products and payment details saved.";
+            status.classList.remove("is-error");
+            await loadWalletAdmin();
+        } catch (error) {
+            status.textContent = error.message;
+            status.classList.add("is-error");
+        }
+    });
+    root.querySelector("#cp-wallet-deposits").addEventListener("click", async (event) => {
+        const button = event.target.closest("[data-deposit-review]");
+        if (!button) return;
+        const note = prompt(
+            `${button.dataset.decision === "APPROVE" ? "Record how you verified this payment" : "Reason for rejecting this deposit"}:`,
+        );
+        if (note === null) return;
+        if (!note.trim()) {
+            root.querySelector("#cp-wallet-review-feedback").textContent =
+                "Enter an audit note before reviewing the deposit.";
+            return;
+        }
+        if (!confirm(`${button.dataset.decision} this deposit request?`)) return;
+        try {
+            await reviewAdminWalletDeposit(
+                button.dataset.depositReview,
+                button.dataset.decision,
+                note.trim(),
+            );
+            root.querySelector("#cp-wallet-review-feedback").textContent =
+                `Deposit ${button.dataset.decision === "APPROVE" ? "approved" : "rejected"} and recorded in the wallet ledger.`;
+            await loadWalletAdmin();
+            await load();
+        } catch (error) {
+            root.querySelector("#cp-wallet-review-feedback").textContent = error.message;
+            root.querySelector("#cp-wallet-review-feedback").classList.add("is-error");
+        }
+    });
+    root.querySelector("#cp-wallet-balances").addEventListener("click", async (event) => {
+        const button = event.target.closest("[data-adjust-wallet]");
+        if (!button) return;
+        const amount = prompt("Enter a positive credit or negative debit amount in rupees:");
+        if (amount === null) return;
+        const reason = prompt("Required audit reason:");
+        if (!reason?.trim()) return;
+        try {
+            await adjustAdminWallet(button.dataset.adjustWallet, Number(amount), reason.trim());
+            await loadWalletAdmin();
+            await load();
+        } catch (error) {
+            root.querySelector("#cp-wallet-review-feedback").textContent = error.message;
+            root.querySelector("#cp-wallet-review-feedback").classList.add("is-error");
+        }
+    });
     root.querySelector("#cp-interest-refresh").addEventListener("click", interestRefresh);
-    root.querySelector("#cp-interest-students").addEventListener("click", async event => {
-        const button = event.target.closest("[data-student-interest]"); if (!button) return;
+    root.querySelector("#cp-interest-students").addEventListener("click", async (event) => {
+        const button = event.target.closest("[data-student-interest]");
+        if (!button) return;
         try {
             const detail = await getAdminStudentInterest(button.dataset.studentInterest);
-            const options = detail.institutions.map(i => `<option value="${esc(i.institutionId)}">${esc(i.institution)} · ${esc(i.events.join(", "))}</option>`).join("");
+            const options = detail.institutions
+                .map(
+                    (i) =>
+                        `<option value="${esc(i.institutionId)}">${esc(i.institution)} · ${esc(i.events.join(", "))}</option>`,
+                )
+                .join("");
             const dest = root.querySelector("#cp-interest-detail");
-            dest.innerHTML = `<article class="cp-kpi"><div><span class="cp-kicker">MASKED STUDENT ACTIVITY</span><h3>${esc(detail.student)} · ID ${esc(detail.studentId)}</h3><p>${esc(detail.institutionCount)} institutions · ${esc(detail.activityCount)} events · First ${new Date(detail.firstActivity).toLocaleString()} · Latest ${new Date(detail.latestActivity).toLocaleString()}</p><ul>${detail.institutions.map(i => `<li><strong>${esc(i.institution)}</strong>: ${esc(i.events.join(", "))}; ${esc(i.visits)} events; courses: ${esc(i.courses.join(", ") || "not recorded")}</li>`).join("")}</ul><p>Contact sharing consented institution IDs: ${esc(detail.consentTargets.join(", ") || "none recorded")}</p><label>Target institution<select id="cp-interest-target">${options}</select></label><p id="cp-interest-preview">Select a target to review its alert.</p><button class="cp-button cp-button-gold" id="cp-interest-send" type="button">Preview &amp; send alert</button><p class="cp-feedback" id="cp-interest-send-status" role="status"></p></div></article>`;
-            const selector = dest.querySelector("#cp-interest-target"), preview = dest.querySelector("#cp-interest-preview");
-            const updatePreview = () => { const chosen = detail.institutions.find(i => String(i.institutionId) === selector.value); const others = detail.institutions.filter(i => String(i.institutionId) !== selector.value).map(i => i.institution); preview.textContent = `Preview: A student who explored ${chosen?.institution || "this institution"} has also viewed ${others.join(", ")}. Wording reflects recorded activity only; no enquiry is implied.`; };
-            selector.addEventListener("change", updatePreview); updatePreview();
-            dest.querySelector("#cp-interest-send").addEventListener("click", async () => { const chosen = detail.institutions.find(i => String(i.institutionId) === selector.value); if (!chosen || !confirm(`Send this one-way alert to ${chosen.institution}? You cannot send another alert to the same target for this student today.`)) return; const status = dest.querySelector("#cp-interest-send-status"); try { await sendAdminInterestNotification(detail.studentId, Number(selector.value)); status.textContent = "Alert sent and recorded in the audit history."; await interestRefresh(); } catch (error) { status.textContent = error.message; status.classList.add("is-error"); } });
-        } catch (error) { root.querySelector("#cp-feedback").textContent = error.message; }
+            dest.innerHTML = `<article class="cp-kpi"><div><span class="cp-kicker">MASKED STUDENT ACTIVITY</span><h3>${esc(detail.student)} · ID ${esc(detail.studentId)}</h3><p>${esc(detail.institutionCount)} institutions · ${esc(detail.activityCount)} events · First ${new Date(detail.firstActivity).toLocaleString()} · Latest ${new Date(detail.latestActivity).toLocaleString()}</p><ul>${detail.institutions.map((i) => `<li><strong>${esc(i.institution)}</strong>: ${esc(i.events.join(", "))}; ${esc(i.visits)} events; courses: ${esc(i.courses.join(", ") || "not recorded")}</li>`).join("")}</ul><p>Contact sharing consented institution IDs: ${esc(detail.consentTargets.join(", ") || "none recorded")}</p><label>Target institution<select id="cp-interest-target">${options}</select></label><p id="cp-interest-preview">Select a target to review its alert.</p><button class="cp-button cp-button-gold" id="cp-interest-send" type="button">Preview &amp; send alert</button><p class="cp-feedback" id="cp-interest-send-status" role="status"></p></div></article>`;
+            const selector = dest.querySelector("#cp-interest-target"),
+                preview = dest.querySelector("#cp-interest-preview");
+            const updatePreview = () => {
+                const chosen = detail.institutions.find(
+                    (i) => String(i.institutionId) === selector.value,
+                );
+                const others = detail.institutions
+                    .filter((i) => String(i.institutionId) !== selector.value)
+                    .map((i) => i.institution);
+                preview.textContent = `Preview: A student who explored ${chosen?.institution || "this institution"} has also viewed ${others.join(", ")}. Wording reflects recorded activity only; no enquiry is implied.`;
+            };
+            selector.addEventListener("change", updatePreview);
+            updatePreview();
+            dest.querySelector("#cp-interest-send").addEventListener("click", async () => {
+                const chosen = detail.institutions.find(
+                    (i) => String(i.institutionId) === selector.value,
+                );
+                if (
+                    !chosen ||
+                    !confirm(
+                        `Send this one-way alert to ${chosen.institution}? You cannot send another alert to the same target for this student today.`,
+                    )
+                )
+                    return;
+                const status = dest.querySelector("#cp-interest-send-status");
+                try {
+                    await sendAdminInterestNotification(detail.studentId, Number(selector.value));
+                    status.textContent = "Alert sent and recorded in the audit history.";
+                    await interestRefresh();
+                } catch (error) {
+                    status.textContent = error.message;
+                    status.classList.add("is-error");
+                }
+            });
+        } catch (error) {
+            root.querySelector("#cp-feedback").textContent = error.message;
+        }
     });
-    root.querySelector("#cp-interest-history").addEventListener("click", async event => { const button = event.target.closest("[data-reviewed]"); if (!button) return; await markAdminNotificationReviewed(button.dataset.reviewed); await interestRefresh(); });
-    const openCreateDialog = async institutionId => {
+    root.querySelector("#cp-interest-history").addEventListener("click", async (event) => {
+        const button = event.target.closest("[data-reviewed]");
+        if (!button) return;
+        await markAdminNotificationReviewed(button.dataset.reviewed);
+        await interestRefresh();
+    });
+    const openCreateDialog = async (institutionId) => {
         editingId = null;
         const form = root.querySelector("#cp-form");
         form.reset();
@@ -154,7 +554,9 @@ export function initCollegePartnerAdminPage() {
         const institutions = await refreshInstitutions();
         if (institutionId) {
             form.elements.institutionId.value = String(institutionId);
-            const institution = institutions.find(item => String(item.id) === String(institutionId));
+            const institution = institutions.find(
+                (item) => String(item.id) === String(institutionId),
+            );
             if (institution) {
                 form.elements.officialEmail.value = institution.email || "";
                 form.elements.contactEmail.value = institution.email || "";
@@ -162,41 +564,413 @@ export function initCollegePartnerAdminPage() {
             }
         }
     };
-    credentials.addEventListener("close", () => { root.querySelector("#cp-password").textContent = ""; root.querySelector("#cp-username").textContent = ""; });
+    credentials.addEventListener("close", () => {
+        root.querySelector("#cp-password").textContent = "";
+        root.querySelector("#cp-username").textContent = "";
+    });
     load();
     root.querySelector("#cp-add").addEventListener("click", () => openCreateDialog());
-    root.querySelector("#cp-lead-add").addEventListener("click",()=>{root.querySelector("#cp-lead-form").reset();createLeadDialog.showModal();loadEligibleLeadPartners();});
-    root.querySelector("#cp-lead-import").addEventListener("click",()=>{importDialog.showModal();loadEligibleLeadPartners();});
-    root.querySelectorAll("[data-lead-close]").forEach(button=>button.addEventListener("click",()=>button.closest("dialog").close()));
-    root.querySelector("#cp-lead-filter").addEventListener("input",renderLeadRows);
-    root.querySelector("#cp-lead-form").addEventListener("submit",async event=>{event.preventDefault();const form=event.currentTarget,submit=form.querySelector('[type="submit"]'),status=root.querySelector("#cp-lead-form-feedback"),data=Object.fromEntries(new FormData(form));data.institutionId=Number(data.institutionId);data.studentEmail=String(data.studentEmail||"").trim().toLowerCase();data.studentPhone=String(data.studentPhone||"").trim();data.consentReference=String(data.consentReference||"").trim();data.consentGiven=form.elements.consentGiven.checked;status.textContent="Saving and assigning lead…";status.classList.remove("is-error");submit.disabled=true;try{const result=await createAdminLead(data);status.textContent=`${result.message} Recipient: ${result.institution}.`;form.reset();await loadLeadCenter();setTimeout(()=>createLeadDialog.close(),700);}catch(error){status.textContent=`Lead was not saved: ${error.message}`;status.classList.add("is-error");}finally{submit.disabled=false;}});
+    root.querySelector("#cp-lead-add").addEventListener("click", () => {
+        root.querySelector("#cp-lead-form").reset();
+        createLeadDialog.showModal();
+        loadEligibleLeadPartners();
+    });
+    root.querySelector("#cp-lead-import").addEventListener("click", () => {
+        importDialog.showModal();
+        loadEligibleLeadPartners();
+    });
+    root.querySelectorAll("[data-lead-close]").forEach((button) =>
+        button.addEventListener("click", () => button.closest("dialog").close()),
+    );
+    root.querySelector("#cp-lead-filter").addEventListener("input", renderLeadRows);
+    root.querySelector("#cp-lead-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const form = event.currentTarget,
+            submit = form.querySelector('[type="submit"]'),
+            status = root.querySelector("#cp-lead-form-feedback"),
+            data = Object.fromEntries(new FormData(form));
+        data.institutionId = Number(data.institutionId);
+        data.studentEmail = String(data.studentEmail || "")
+            .trim()
+            .toLowerCase();
+        data.studentPhone = String(data.studentPhone || "").trim();
+        data.consentReference = String(data.consentReference || "").trim();
+        data.consentGiven = form.elements.consentGiven.checked;
+        status.textContent = "Saving and assigning lead…";
+        status.classList.remove("is-error");
+        submit.disabled = true;
+        try {
+            const result = await createAdminLead(data);
+            status.textContent = `${result.message} Recipient: ${result.institution}.`;
+            form.reset();
+            await loadLeadCenter();
+            setTimeout(() => createLeadDialog.close(), 700);
+        } catch (error) {
+            status.textContent = `Lead was not saved: ${error.message}`;
+            status.classList.add("is-error");
+        } finally {
+            submit.disabled = false;
+        }
+    });
     const renderImport = () => {
-        const body=root.querySelector("#cp-import-rows");
-        body.innerHTML=importPreview.length?importPreview.map((row,index)=>`<tr class="${row.valid?"":"is-invalid"}"><td><input type="checkbox" data-import-select="${index}" ${row.valid?"checked":""} aria-label="Select row ${esc(row.rowNumber)}"></td><td>${esc(row.rowNumber)}</td><td><input data-import-field="studentName" data-index="${index}" value="${esc(row.studentName)}"></td><td><input data-import-field="studentEmail" data-index="${index}" value="${esc(row.studentEmail)}"></td><td><input data-import-field="studentPhone" data-index="${index}" value="${esc(row.studentPhone)}"></td><td><input data-import-field="course" data-index="${index}" value="${esc(row.course)}"></td><td><input data-import-field="consentReference" data-index="${index}" value="${esc(row.consentReference)}"></td><td>${row.valid?"Ready":esc((row.errors||[]).join(" ")||"Duplicate in file")}</td></tr>`).join(""):`<tr><td colspan="8" class="cp-empty">Choose a file to preview.</td></tr>`;
-        const valid=importPreview.filter(r=>r.valid).length,invalid=importPreview.length-valid;
-        root.querySelector("#cp-import-summary").textContent=importPreview.length?`Total ${importPreview.length} · Preview-valid ${valid} · Duplicate ${importPreview.filter(r=>r.duplicate).length} · Invalid ${invalid}. Edit cells if needed; all selected rows are validated again on the server.`:"";
-        root.querySelector("#cp-import-errors").hidden=!invalid;
-        root.querySelector("#cp-import-assign").disabled=!importPreview.length||!eligiblePartners.length;
+        const body = root.querySelector("#cp-import-rows");
+        body.innerHTML = importPreview.length
+            ? importPreview
+                  .map(
+                      (row, index) =>
+                          `<tr class="${row.valid ? "" : "is-invalid"}"><td><input type="checkbox" data-import-select="${index}" ${row.valid ? "checked" : ""} aria-label="Select row ${esc(row.rowNumber)}"></td><td>${esc(row.rowNumber)}</td><td><input data-import-field="studentName" data-index="${index}" value="${esc(row.studentName)}"></td><td><input data-import-field="studentEmail" data-index="${index}" value="${esc(row.studentEmail)}"></td><td><input data-import-field="studentPhone" data-index="${index}" value="${esc(row.studentPhone)}"></td><td><input data-import-field="course" data-index="${index}" value="${esc(row.course)}"></td><td><input data-import-field="consentReference" data-index="${index}" value="${esc(row.consentReference)}"></td><td>${row.valid ? "Ready" : esc((row.errors || []).join(" ") || "Duplicate in file")}</td></tr>`,
+                  )
+                  .join("")
+            : `<tr><td colspan="8" class="cp-empty">Choose a file to preview.</td></tr>`;
+        const valid = importPreview.filter((r) => r.valid).length,
+            invalid = importPreview.length - valid;
+        root.querySelector("#cp-import-summary").textContent = importPreview.length
+            ? `Total ${importPreview.length} · Preview-valid ${valid} · Duplicate ${importPreview.filter((r) => r.duplicate).length} · Invalid ${invalid}. Edit cells if needed; all selected rows are validated again on the server.`
+            : "";
+        root.querySelector("#cp-import-errors").hidden = !invalid;
+        root.querySelector("#cp-import-assign").disabled =
+            !importPreview.length || !eligiblePartners.length;
     };
-    const importFields={studentName:"Student name",studentEmail:"Email",studentPhone:"Mobile",alternativePhone:"Alternative mobile",course:"Interested course",preferredDegree:"Preferred degree",studyMode:"Study mode",preferredCountry:"Preferred country",currentQualification:"Qualification",passingYear:"Passing year",preferredCollege:"Preferred college",city:"City",state:"State",message:"Enquiry message",consentGiven:"Contact consent",consentReference:"Consent reference",priority:"Priority",status:"Lead status",adminNotes:"Admin-only notes"};
-    const renderImportMapping=()=>{const box=root.querySelector("#cp-import-mapping");if(!importHeaders.length){box.hidden=true;return;}box.hidden=false;box.innerHTML=`<strong>Column mapping</strong><div>${Object.entries(importFields).map(([field,label])=>`<label>${label}<select data-map-field="${field}"><option value="">Choose column</option>${importHeaders.map((header,index)=>`<option value="${index}" ${String(importMapping[field])===String(index)?"selected":""}>${esc(header||`Column ${index+1}`)}</option>`).join("")}</select></label>`).join("")}</div>`;};
-    const applyImportMapping=()=>{for(const row of importPreview){for(const field of Object.keys(importFields)){const index=importMapping[field];if(index!==undefined&&index!=="")row[field]=String(row.rawCells?.[Number(index)]??"").trim();}const errors=[];if(!String(row.studentName||"").trim())errors.push("Student name is required.");if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(row.studentEmail||"")))errors.push("Valid email address is required.");if(String(row.studentPhone||"").replace(/\D/g,"").length<7)errors.push("Mobile number must contain 7–15 digits.");if(!String(row.course||"").trim())errors.push("Interested course is required.");if(!/^(true|yes|1|consented)$/i.test(String(row.consentGiven||"")))errors.push("Explicit contact-sharing consent is required.");if(!String(row.consentReference||"").trim())errors.push("Consent reference is required.");row.errors=errors;row.valid=!errors.length&&!row.duplicate;}renderImport();};
-    root.querySelector("#cp-import-mapping").addEventListener("change",event=>{const field=event.target.dataset.mapField;if(!field)return;importMapping[field]=event.target.value;applyImportMapping();});
-    root.querySelector("#cp-import-file").addEventListener("change",async event=>{const file=event.target.files?.[0];if(!file)return;const institutionId=Number(root.querySelector("#cp-import-partner").value);const progress=root.querySelector("#cp-import-progress"),feedbackImport=root.querySelector("#cp-import-feedback");if(!institutionId){event.target.value="";feedbackImport.textContent="Select an eligible college partner before uploading the file.";return;}importFileName=file.name;progress.hidden=false;progress.querySelector("span").style.width="0%";feedbackImport.textContent="Uploading and validating preview…";try{const result=await previewAdminLeadImport(file,institutionId,value=>progress.querySelector("span").style.width=`${value}%`);importPreview=result.rows||[];importHeaders=result.headers||[];importMapping={};const aliases={studentName:["studentname","fullname","name"],studentEmail:["studentemail","emailaddress","email"],studentPhone:["studentphone","mobilenumber","phone","mobile"],alternativePhone:["alternativephone","alternativemobile","alternatephone"],course:["interestedcourse","course","program","programme"],preferredDegree:["preferreddegree","degree"],studyMode:["studymode","deliverymode"],preferredCountry:["preferredcountry","country"],currentQualification:["currentqualification","qualification"],passingYear:["passingyear","graduationyear"],preferredCollege:["preferredcollege","college"],city:["city"],state:["state"],message:["message","enquirymessage"],consentGiven:["consentgiven","consent","contactsharingconsent"],consentReference:["consentreference","consentproof","consentid"],priority:["priority","leadpriority"],status:["status","leadstatus"],adminNotes:["adminnotes","internalnotes"]};for(const field of Object.keys(importFields)){const index=importHeaders.findIndex(header=>(aliases[field]||[]).includes(String(header||"").toLowerCase().replace(/[^a-z0-9]/g,"")));if(index>=0)importMapping[field]=String(index);}renderImportMapping();applyImportMapping();feedbackImport.textContent=`Preview ready. ${result.message}`;}catch(error){importPreview=[];importHeaders=[];renderImportMapping();renderImport();feedbackImport.textContent=error.message;feedbackImport.classList.add("is-error");}finally{progress.hidden=true;}});
-    root.querySelector("#cp-import-partner").addEventListener("change",()=>{if(!importPreview.length)return;importPreview=[];importHeaders=[];importMapping={};root.querySelector("#cp-import-file").value="";renderImportMapping();renderImport();root.querySelector("#cp-import-feedback").textContent="Partner changed. Select the file again so duplicates can be checked for this college.";});
-    root.querySelector("#cp-import-rows").addEventListener("input",event=>{const index=Number(event.target.dataset.index),key=event.target.dataset.importField;if(!key||!Number.isInteger(index)||!importPreview[index])return;importPreview[index][key]=event.target.value;});
-    root.querySelector("#cp-import-rows").addEventListener("change",event=>{if(event.target.matches("[data-import-select]"))importPreview[Number(event.target.dataset.importSelect)].selected=event.target.checked;});
-    root.querySelector("#cp-import-assign").addEventListener("click",async()=>{const status=root.querySelector("#cp-import-feedback"),institutionId=Number(root.querySelector("#cp-import-partner").value),selected=importPreview.filter((row,index)=>root.querySelector(`[data-import-select="${index}"]`)?.checked);if(!institutionId){status.textContent="Select an eligible college partner first.";return;}if(!selected.length){status.textContent="Select at least one row.";return;}const validEmail=value=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(value||""));const invalid=selected.filter(r=>!String(r.studentName||"").trim()||!validEmail(r.studentEmail)||String(r.studentPhone||"").replace(/\D/g,"").length<7||!String(r.course||"").trim()||!String(r.consentReference||"").trim()||!/^true$/i.test(String(r.consentGiven||"")));if(invalid.length){status.textContent=`${invalid.length} selected row(s) have missing or invalid name, email, mobile, course, consent or consent reference. Correct them before assigning.`;return;}const rows=selected.map(r=>({institutionId,studentName:r.studentName.trim(),studentEmail:r.studentEmail.trim(),studentPhone:r.studentPhone.trim(),alternativePhone:r.alternativePhone||"",course:r.course.trim(),preferredDegree:r.preferredDegree||"",studyMode:r.studyMode||"",preferredCountry:r.preferredCountry||"",currentQualification:r.currentQualification||"",passingYear:r.passingYear||"",preferredCollege:r.preferredCollege||"",city:r.city||"",state:r.state||"",message:r.message||"",leadSource:"EXCEL_IMPORT",leadProductType:root.querySelector("#cp-import-product").value,consentGiven:true,consentReference:r.consentReference.trim(),priority:r.priority||"NORMAL",status:r.status||"NEW",adminNotes:r.adminNotes||""}));status.textContent="Assigning selected leads…";try{const result=await assignImportedAdminLeads({institutionId,fileName:importFileName,rows});status.textContent=`Assigned ${result.assigned} lead(s) to ${result.institution}.`;await loadLeadCenter();setTimeout(()=>importDialog.close(),1000);}catch(error){status.textContent=error.message;status.classList.add("is-error");}});
-    root.querySelector("#cp-import-errors").addEventListener("click",()=>{const invalid=importPreview.filter(r=>!r.valid),csv=["rowNumber,studentName,studentEmail,studentPhone,course,errors",...invalid.map(r=>[r.rowNumber,r.studentName,r.studentEmail,r.studentPhone,r.course,(r.errors||[]).join(" ")].map(value=>`"${String(value??"").replaceAll('"','""')}"`).join(","))].join("\r\n"),url=URL.createObjectURL(new Blob([csv],{type:"text/csv"})),a=document.createElement("a");a.href=url;a.download="lead-import-errors.csv";a.click();URL.revokeObjectURL(url);});
-    root.querySelector("#cp-lead-template").addEventListener("click",event=>{event.preventDefault();const template="studentName,studentEmail,studentPhone,alternativePhone,course,preferredDegree,studyMode,preferredCountry,currentQualification,passingYear,preferredCollege,city,state,message,consentGiven,consentReference,priority,status,adminNotes\r\n";const url=URL.createObjectURL(new Blob([template],{type:"text/csv"})),a=document.createElement("a");a.href=url;a.download="stepinstudents-lead-template.csv";a.click();URL.revokeObjectURL(url);});
+    const importFields = {
+        studentName: "Student name",
+        studentEmail: "Email",
+        studentPhone: "Mobile",
+        alternativePhone: "Alternative mobile",
+        course: "Interested course",
+        preferredDegree: "Preferred degree",
+        studyMode: "Study mode",
+        preferredCountry: "Preferred country",
+        currentQualification: "Qualification",
+        passingYear: "Passing year",
+        preferredCollege: "Preferred college",
+        city: "City",
+        state: "State",
+        message: "Enquiry message",
+        consentGiven: "Contact consent",
+        consentReference: "Consent reference",
+        priority: "Priority",
+        status: "Lead status",
+        adminNotes: "Admin-only notes",
+    };
+    const renderImportMapping = () => {
+        const box = root.querySelector("#cp-import-mapping");
+        if (!importHeaders.length) {
+            box.hidden = true;
+            return;
+        }
+        box.hidden = false;
+        box.innerHTML = `<strong>Column mapping</strong><div>${Object.entries(importFields)
+            .map(
+                ([field, label]) =>
+                    `<label>${label}<select data-map-field="${field}"><option value="">Choose column</option>${importHeaders.map((header, index) => `<option value="${index}" ${String(importMapping[field]) === String(index) ? "selected" : ""}>${esc(header || `Column ${index + 1}`)}</option>`).join("")}</select></label>`,
+            )
+            .join("")}</div>`;
+    };
+    const applyImportMapping = () => {
+        for (const row of importPreview) {
+            for (const field of Object.keys(importFields)) {
+                const index = importMapping[field];
+                if (index !== undefined && index !== "")
+                    row[field] = String(row.rawCells?.[Number(index)] ?? "").trim();
+            }
+            const errors = [];
+            if (!String(row.studentName || "").trim()) errors.push("Student name is required.");
+            if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(row.studentEmail || "")))
+                errors.push("Valid email address is required.");
+            if (String(row.studentPhone || "").replace(/\D/g, "").length < 7)
+                errors.push("Mobile number must contain 7–15 digits.");
+            if (!String(row.course || "").trim()) errors.push("Interested course is required.");
+            if (!/^(true|yes|1|consented)$/i.test(String(row.consentGiven || "")))
+                errors.push("Explicit contact-sharing consent is required.");
+            if (!String(row.consentReference || "").trim())
+                errors.push("Consent reference is required.");
+            row.errors = errors;
+            row.valid = !errors.length && !row.duplicate;
+        }
+        renderImport();
+    };
+    root.querySelector("#cp-import-mapping").addEventListener("change", (event) => {
+        const field = event.target.dataset.mapField;
+        if (!field) return;
+        importMapping[field] = event.target.value;
+        applyImportMapping();
+    });
+    root.querySelector("#cp-import-file").addEventListener("change", async (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        const institutionId = Number(root.querySelector("#cp-import-partner").value);
+        const progress = root.querySelector("#cp-import-progress"),
+            feedbackImport = root.querySelector("#cp-import-feedback");
+        if (!institutionId) {
+            event.target.value = "";
+            feedbackImport.textContent =
+                "Select an eligible college partner before uploading the file.";
+            return;
+        }
+        importFileName = file.name;
+        progress.hidden = false;
+        progress.querySelector("span").style.width = "0%";
+        feedbackImport.textContent = "Uploading and validating preview…";
+        try {
+            const result = await previewAdminLeadImport(
+                file,
+                institutionId,
+                (value) => (progress.querySelector("span").style.width = `${value}%`),
+            );
+            importPreview = result.rows || [];
+            importHeaders = result.headers || [];
+            importMapping = {};
+            const aliases = {
+                studentName: ["studentname", "fullname", "name"],
+                studentEmail: ["studentemail", "emailaddress", "email"],
+                studentPhone: ["studentphone", "mobilenumber", "phone", "mobile"],
+                alternativePhone: ["alternativephone", "alternativemobile", "alternatephone"],
+                course: ["interestedcourse", "course", "program", "programme"],
+                preferredDegree: ["preferreddegree", "degree"],
+                studyMode: ["studymode", "deliverymode"],
+                preferredCountry: ["preferredcountry", "country"],
+                currentQualification: ["currentqualification", "qualification"],
+                passingYear: ["passingyear", "graduationyear"],
+                preferredCollege: ["preferredcollege", "college"],
+                city: ["city"],
+                state: ["state"],
+                message: ["message", "enquirymessage"],
+                consentGiven: ["consentgiven", "consent", "contactsharingconsent"],
+                consentReference: ["consentreference", "consentproof", "consentid"],
+                priority: ["priority", "leadpriority"],
+                status: ["status", "leadstatus"],
+                adminNotes: ["adminnotes", "internalnotes"],
+            };
+            for (const field of Object.keys(importFields)) {
+                const index = importHeaders.findIndex((header) =>
+                    (aliases[field] || []).includes(
+                        String(header || "")
+                            .toLowerCase()
+                            .replace(/[^a-z0-9]/g, ""),
+                    ),
+                );
+                if (index >= 0) importMapping[field] = String(index);
+            }
+            renderImportMapping();
+            applyImportMapping();
+            feedbackImport.textContent = `Preview ready. ${result.message}`;
+        } catch (error) {
+            importPreview = [];
+            importHeaders = [];
+            renderImportMapping();
+            renderImport();
+            feedbackImport.textContent = error.message;
+            feedbackImport.classList.add("is-error");
+        } finally {
+            progress.hidden = true;
+        }
+    });
+    root.querySelector("#cp-import-partner").addEventListener("change", () => {
+        if (!importPreview.length) return;
+        importPreview = [];
+        importHeaders = [];
+        importMapping = {};
+        root.querySelector("#cp-import-file").value = "";
+        renderImportMapping();
+        renderImport();
+        root.querySelector("#cp-import-feedback").textContent =
+            "Partner changed. Select the file again " +
+            "so duplicates can be checked for this " +
+            "college.";
+    });
+    root.querySelector("#cp-import-rows").addEventListener("input", (event) => {
+        const index = Number(event.target.dataset.index),
+            key = event.target.dataset.importField;
+        if (!key || !Number.isInteger(index) || !importPreview[index]) return;
+        importPreview[index][key] = event.target.value;
+    });
+    root.querySelector("#cp-import-rows").addEventListener("change", (event) => {
+        if (event.target.matches("[data-import-select]"))
+            importPreview[Number(event.target.dataset.importSelect)].selected =
+                event.target.checked;
+    });
+    root.querySelector("#cp-import-assign").addEventListener("click", async () => {
+        const status = root.querySelector("#cp-import-feedback"),
+            institutionId = Number(root.querySelector("#cp-import-partner").value),
+            selected = importPreview.filter(
+                (row, index) => root.querySelector(`[data-import-select="${index}"]`)?.checked,
+            );
+        if (!institutionId) {
+            status.textContent = "Select an eligible college partner first.";
+            return;
+        }
+        if (!selected.length) {
+            status.textContent = "Select at least one row.";
+            return;
+        }
+        const validEmail = (value) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(String(value || ""));
+        const invalid = selected.filter(
+            (r) =>
+                !String(r.studentName || "").trim() ||
+                !validEmail(r.studentEmail) ||
+                String(r.studentPhone || "").replace(/\D/g, "").length < 7 ||
+                !String(r.course || "").trim() ||
+                !String(r.consentReference || "").trim() ||
+                !/^true$/i.test(String(r.consentGiven || "")),
+        );
+        if (invalid.length) {
+            status.textContent = `${invalid.length} selected row(s) have missing or invalid name, email, mobile, course, consent or consent reference. Correct them before assigning.`;
+            return;
+        }
+        const rows = selected.map((r) => ({
+            institutionId,
+            studentName: r.studentName.trim(),
+            studentEmail: r.studentEmail.trim(),
+            studentPhone: r.studentPhone.trim(),
+            alternativePhone: r.alternativePhone || "",
+            course: r.course.trim(),
+            preferredDegree: r.preferredDegree || "",
+            studyMode: r.studyMode || "",
+            preferredCountry: r.preferredCountry || "",
+            currentQualification: r.currentQualification || "",
+            passingYear: r.passingYear || "",
+            preferredCollege: r.preferredCollege || "",
+            city: r.city || "",
+            state: r.state || "",
+            message: r.message || "",
+            leadSource: "EXCEL_IMPORT",
+            leadProductType: root.querySelector("#cp-import-product").value,
+            consentGiven: true,
+            consentReference: r.consentReference.trim(),
+            priority: r.priority || "NORMAL",
+            status: r.status || "NEW",
+            adminNotes: r.adminNotes || "",
+        }));
+        status.textContent = "Assigning selected leads…";
+        try {
+            const result = await assignImportedAdminLeads({
+                institutionId,
+                fileName: importFileName,
+                rows,
+            });
+            status.textContent = `Assigned ${result.assigned} lead(s) to ${result.institution}.`;
+            await loadLeadCenter();
+            setTimeout(() => importDialog.close(), 1000);
+        } catch (error) {
+            status.textContent = error.message;
+            status.classList.add("is-error");
+        }
+    });
+    root.querySelector("#cp-import-errors").addEventListener("click", () => {
+        const invalid = importPreview.filter((r) => !r.valid),
+            csv = [
+                "rowNumber,studentName,studentEmail,studentPhone,course,errors",
+                ...invalid.map((r) =>
+                    [
+                        r.rowNumber,
+                        r.studentName,
+                        r.studentEmail,
+                        r.studentPhone,
+                        r.course,
+                        (r.errors || []).join(" "),
+                    ]
+                        .map((value) => `"${String(value ?? "").replaceAll('"', '""')}"`)
+                        .join(","),
+                ),
+            ].join("\r\n"),
+            url = URL.createObjectURL(new Blob([csv], { type: "text/csv" })),
+            a = document.createElement("a");
+        a.href = url;
+        a.download = "lead-import-errors.csv";
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+    root.querySelector("#cp-lead-template").addEventListener("click", (event) => {
+        event.preventDefault();
+        const template =
+            "studentName,studentEmail,studentPhone,al" +
+            "ternativePhone,course,preferredDegree,st" +
+            "udyMode,preferredCountry,currentQualific" +
+            "ation,passingYear,preferredCollege,city," +
+            "state,message,consentGiven,consentRefere" +
+            "nce,priority,status,adminNotes\r\n";
+        const url = URL.createObjectURL(new Blob([template], { type: "text/csv" })),
+            a = document.createElement("a");
+        a.href = url;
+        a.download = "stepinstudents-lead-template.csv";
+        a.click();
+        URL.revokeObjectURL(url);
+    });
     const requestedInstitutionId = new URLSearchParams(window.location.search).get("institutionId");
     if (requestedInstitutionId) openCreateDialog(requestedInstitutionId);
     root.querySelector("#cp-retry-institutions").addEventListener("click", async () => {
         const institutions = await refreshInstitutions();
-        if (requestedInstitutionId && institutions.length) root.querySelector('[name="institutionId"]').value = requestedInstitutionId;
+        if (requestedInstitutionId && institutions.length)
+            root.querySelector('[name="institutionId"]').value = requestedInstitutionId;
     });
-    root.querySelectorAll("[data-close]").forEach(button => button.addEventListener("click", () => button.closest("dialog").close()));
-    root.querySelector("#cp-form").addEventListener("submit", async event => { event.preventDefault(); const form = event.currentTarget, status = root.querySelector("#cp-form-feedback"), data = Object.fromEntries(new FormData(form)); data.institutionId = Number(form.elements.institutionId.value); status.textContent = editingId ? "Saving changes…" : "Creating account…"; try { if (editingId) { await updatePartnerAccount(editingId, data); dialog.close(); form.reset(); } else { const result = await createPartnerAccount(data); dialog.close(); form.reset(); root.querySelector("#cp-username").textContent = result.username; root.querySelector("#cp-password").textContent = result.temporaryPassword; credentials.showModal(); } await load(); } catch (error) { status.textContent = error.message; status.classList.add("is-error"); } });
-    accountsBody.addEventListener("click", async event => { const button = event.target.closest("button"); if (!button) return; try { if (button.dataset.edit) { const p = lastPartners.find(item => item.id === Number(button.dataset.edit)); if (!p) return; editingId = p.id; const form = root.querySelector("#cp-form"); form.elements.institutionId.value = p.institutionId; form.elements.institutionId.disabled = true; form.elements.officialEmail.value = p.officialEmail || ""; form.elements.contactPerson.value = p.contactPerson || ""; form.elements.contactEmail.value = p.contactEmail || ""; form.elements.contactNumber.value = p.contactNumber || ""; form.elements.username.value = p.username || ""; form.querySelector("h2").textContent = `Edit ${p.collegeName}`; form.querySelector("button[type=submit]").textContent = "Save changes"; dialog.showModal(); return; } if (button.dataset.toggle) await setPartnerActive(button.dataset.toggle, button.dataset.active !== "true"); if (button.dataset.reset) { const result = await resetPartnerPassword(button.dataset.reset); root.querySelector("#cp-username").textContent = result.username; root.querySelector("#cp-password").textContent = result.temporaryPassword; credentials.showModal(); } await load(); } catch (error) { feedback.textContent = error.message; feedback.classList.add("is-error"); } });
-    root.querySelector("#cp-copy").addEventListener("click", async () => { await navigator.clipboard.writeText(`Username: ${root.querySelector("#cp-username").textContent}\nTemporary password: ${root.querySelector("#cp-password").textContent}`); root.querySelector("#cp-copy").textContent = "Copied"; });
+    root.querySelectorAll("[data-close]").forEach((button) =>
+        button.addEventListener("click", () => button.closest("dialog").close()),
+    );
+    root.querySelector("#cp-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const form = event.currentTarget,
+            status = root.querySelector("#cp-form-feedback"),
+            data = Object.fromEntries(new FormData(form));
+        data.institutionId = Number(form.elements.institutionId.value);
+        status.textContent = editingId ? "Saving changes…" : "Creating account…";
+        try {
+            if (editingId) {
+                await updatePartnerAccount(editingId, data);
+                dialog.close();
+                form.reset();
+            } else {
+                const result = await createPartnerAccount(data);
+                dialog.close();
+                form.reset();
+                root.querySelector("#cp-username").textContent = result.username;
+                root.querySelector("#cp-password").textContent = result.temporaryPassword;
+                credentials.showModal();
+            }
+            await load();
+        } catch (error) {
+            status.textContent = error.message;
+            status.classList.add("is-error");
+        }
+    });
+    accountsBody.addEventListener("click", async (event) => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        try {
+            if (button.dataset.edit) {
+                const p = lastPartners.find((item) => item.id === Number(button.dataset.edit));
+                if (!p) return;
+                editingId = p.id;
+                const form = root.querySelector("#cp-form");
+                form.elements.institutionId.value = p.institutionId;
+                form.elements.institutionId.disabled = true;
+                form.elements.officialEmail.value = p.officialEmail || "";
+                form.elements.contactPerson.value = p.contactPerson || "";
+                form.elements.contactEmail.value = p.contactEmail || "";
+                form.elements.contactNumber.value = p.contactNumber || "";
+                form.elements.username.value = p.username || "";
+                form.querySelector("h2").textContent = `Edit ${p.collegeName}`;
+                form.querySelector("button[type=submit]").textContent = "Save changes";
+                dialog.showModal();
+                return;
+            }
+            if (button.dataset.toggle)
+                await setPartnerActive(button.dataset.toggle, button.dataset.active !== "true");
+            if (button.dataset.reset) {
+                const result = await resetPartnerPassword(button.dataset.reset);
+                root.querySelector("#cp-username").textContent = result.username;
+                root.querySelector("#cp-password").textContent = result.temporaryPassword;
+                credentials.showModal();
+            }
+            await load();
+        } catch (error) {
+            feedback.textContent = error.message;
+            feedback.classList.add("is-error");
+        }
+    });
+    root.querySelector("#cp-copy").addEventListener("click", async () => {
+        await navigator.clipboard.writeText(
+            `Username: ${root.querySelector("#cp-username").textContent}\nTemporary password: ${root.querySelector("#cp-password").textContent}`,
+        );
+        root.querySelector("#cp-copy").textContent = "Copied";
+    });
 }

@@ -11,16 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/studyabroad/suggestions")
 public class SuggestionController {
 
-    private final SuggestionService suggestionService;
+  private final SuggestionService suggestionService;
 
+  @GetMapping
+  public ResponseEntity<SuggestionResponse> getSuggestions(@RequestParam String query) {
 
-    @GetMapping
-    public ResponseEntity<SuggestionResponse> getSuggestions(
-            @RequestParam String query) {
+    SuggestionResponse response = suggestionService.getSuggestions(query);
 
-        SuggestionResponse response =
-                suggestionService.getSuggestions(query);
-
-        return ResponseEntity.ok(response);
-    }
+    return ResponseEntity.ok(response);
+  }
 }

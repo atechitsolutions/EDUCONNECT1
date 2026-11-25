@@ -1,260 +1,191 @@
 import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
 
-
 export function TopListsSection() {
-
-    /* =====================================================
-       EDUCATION LISTS
-    ====================================================== */
-
     const educationLists = [
-
         {
             rank: "01",
 
-            name:
-                "Top Schools in India",
+            name: "Top Schools in India",
 
-            category:
-                "Best Schools",
+            category: "Best Schools",
 
-            program:
-                "Schools & K-12 Education",
+            program: "Schools & K-12 Education",
 
-            location:
-                "India",
+            location: "India",
 
             highlight:
-                "Explore top schools in India based on academics, facilities, reputation, school education and student opportunities.",
+                "Explore top schools in India based on " +
+                "academics, facilities, reputation, " +
+                "school education and student " +
+                "opportunities.",
 
             image:
-                "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-150906" +
+                "2522246-3755977927d7?auto=format&fit=cro" +
+                "p&w=1200&q=85",
 
-            actionLabel:
-                "Explore Schools"
+            actionLabel: "Explore Schools",
         },
-
 
         {
             rank: "02",
 
-            name:
-                "Top Colleges in India",
+            name: "Top Colleges in India",
 
-            category:
-                "Best Colleges",
+            category: "Best Colleges",
 
-            program:
-                "UG & PG Programs",
+            program: "UG & PG Programs",
 
-            location:
-                "India",
+            location: "India",
 
             highlight:
-                "Discover top colleges in India across streams, UG courses, PG courses and academic disciplines.",
+                "Discover top colleges in India across " +
+                "streams, UG courses, PG courses and " +
+                "academic disciplines.",
 
             image:
-                "https://digitallearning.eletsonline.com/wp-content/uploads/2020/06/infrastructure.jpg",
+                "https://digitallearning.eletsonline.com/" +
+                "wp-content/uploads/2020/06/infrastructur" +
+                "e.jpg",
 
-            actionLabel:
-                "Explore Colleges"
+            actionLabel: "Explore Colleges",
         },
-
 
         {
             rank: "03",
 
-            name:
-                "Top Universities in India",
+            name: "Top Universities in India",
 
-            category:
-                "Best Universities",
+            category: "Best Universities",
 
-            program:
-                "UG • PG • Research",
+            program: "UG • PG • Research",
 
-            location:
-                "India",
+            location: "India",
 
             highlight:
-                "Explore top universities in India offering undergraduate, postgraduate, research and professional degree programs.",
+                "Explore top universities in India " +
+                "offering undergraduate, postgraduate, " +
+                "research and professional degree " +
+                "programs.",
 
             image:
-                "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-156277" +
+                "4053-701939374585?auto=format&fit=crop&w" +
+                "=1200&q=85",
 
-            actionLabel:
-                "Explore Universities"
-        }
-
+            actionLabel: "Explore Universities",
+        },
     ];
 
-
-    /* =====================================================
-       CAREER / PROFESSIONAL LISTS
-    ====================================================== */
-
     const careerLists = [
-
         {
             rank: "04",
 
-            name:
-                "Top Engineering Colleges",
+            name: "Top Engineering Colleges",
 
-            category:
-                "Engineering",
+            category: "Engineering",
 
-            program:
-                "B.Tech • M.Tech • Research",
+            program: "B.Tech • M.Tech • Research",
 
-            location:
-                "India",
+            location: "India",
 
             highlight:
-                "Compare top engineering colleges in India through academics, B.Tech and M.Tech courses, placements, infrastructure and programs.",
+                "Compare top engineering colleges in " +
+                "India through academics, B.Tech and " +
+                "M.Tech courses, placements, " +
+                "infrastructure and programs.",
 
             image:
-                "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-158109" +
+                "1226825-a6a2a5aee158?auto=format&fit=cro" +
+                "p&w=1200&q=85",
 
-            actionLabel:
-                "Explore Engineering"
+            actionLabel: "Explore Engineering",
         },
-
 
         {
             rank: "05",
 
-            name:
-                "Top Management Colleges",
+            name: "Top Management Colleges",
 
-            category:
-                "MBA & Management",
+            category: "MBA & Management",
 
-            program:
-                "BBA • MBA • Management",
+            program: "BBA • MBA • Management",
 
-            location:
-                "India",
+            location: "India",
 
             highlight:
-                "Explore top management colleges and business schools in India offering BBA, MBA and management programs.",
+                "Explore top management colleges and " +
+                "business schools in India offering BBA, " +
+                "MBA and management programs.",
 
             image:
-                "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-145416" +
+                "5804606-c3d57bc86b40?auto=format&fit=cro" +
+                "p&w=1200&q=85",
 
-            actionLabel:
-                "Explore Management"
+            actionLabel: "Explore Management",
         },
-
 
         {
             rank: "06",
 
-            name:
-                "Top Medical Colleges",
+            name: "Top Medical Colleges",
 
-            category:
-                "Medical Education",
+            category: "Medical Education",
 
-            program:
-                "MBBS • MD • Healthcare",
+            program: "MBBS • MD • Healthcare",
 
-            location:
-                "India",
+            location: "India",
 
             highlight:
-                "Discover top medical colleges in India offering MBBS, MD and healthcare education programs.",
+                "Discover top medical colleges in India " +
+                "offering MBBS, MD and healthcare " +
+                "education programs.",
 
             image:
-                "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-157609" +
+                "1160399-112ba8d25d1d?auto=format&fit=cro" +
+                "p&w=1200&q=85",
 
-            actionLabel:
-                "Explore Medical"
-        }
-
+            actionLabel: "Explore Medical",
+        },
     ];
 
-
-    /* =====================================================
-       COMBINE ALL TOP LISTS
-    ====================================================== */
-
-    const allLists = [
-
-        ...educationLists,
-
-        ...careerLists
-
-    ];
-
-
-    /* =====================================================
-       CREATE TOP LIST CARD
-    ====================================================== */
+    const allLists = [...educationLists, ...careerLists];
 
     function createTopListCard(item) {
-
         return InstitutionCard({
-
             item: {
+                rank: item.rank,
 
-                rank:
-                    item.rank,
+                name: item.name,
 
-                name:
-                    item.name,
+                category: item.category,
 
-                category:
-                    item.category,
+                program: item.program,
 
-                program:
-                    item.program,
+                location: item.location,
 
-                location:
-                    item.location,
+                highlight: item.highlight,
 
-                highlight:
-                    item.highlight,
+                image: item.image,
 
-                image:
-                    item.image,
-
-                actionLabel:
-                    item.actionLabel
-
+                actionLabel: item.actionLabel,
             },
 
-            type:
-                "top-list"
-
+            type: "top-list",
         });
-
     }
 
-
-    /* =====================================================
-       CREATE ALL SIX CARDS
-    ====================================================== */
-
-    const listCards =
-        allLists
-            .map(createTopListCard)
-            .join("");
-
-
-    /* =====================================================
-       CONTENT
-    ====================================================== */
+    const listCards = allLists.map(createTopListCard).join("");
 
     const content = `
 
         <div class="top-lists-section">
 
 
-            <!-- =================================================
-                 INTRO
-            ================================================== -->
 
             <div class="top-lists-intro">
 
@@ -296,9 +227,6 @@ export function TopListsSection() {
             </div>
 
 
-            <!-- =================================================
-                 TOP LISTS CAROUSEL
-            ================================================== -->
 
             <div class="top-lists-carousel">
 
@@ -313,9 +241,6 @@ export function TopListsSection() {
                 </div>
 
 
-                <!-- =================================================
-                     NEXT ARROW
-                ================================================== -->
 
                 <button
                     type="button"
@@ -336,27 +261,15 @@ export function TopListsSection() {
 
     `;
 
-
-    /* =====================================================
-       RETURN SECTION
-    ====================================================== */
-
     return Section({
+        id: "top-lists",
 
-        id:
-            "top-lists",
+        title: "",
 
-        title:
-            "",
+        subtitle: "",
 
-        subtitle:
-            "",
-
-        content
-
+        content,
     });
-
 }
-
 
 export default TopListsSection;

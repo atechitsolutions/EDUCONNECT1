@@ -1,10 +1,5 @@
 import { getCurrentUser } from "../services/authService.js";
-import {
-    createNews,
-    deleteNews,
-    getAdminNews,
-    updateNews
-} from "../services/homeContent.js";
+import { createNews, deleteNews, getAdminNews, updateNews } from "../services/homeContent.js";
 
 function escapeHtml(value) {
     return String(value ?? "")
@@ -61,7 +56,7 @@ function formData() {
         category: field("admin-news-category"),
         country: field("admin-news-country"),
         imageUrl: field("admin-news-image"),
-        published: checked("admin-news-published")
+        published: checked("admin-news-published"),
     };
 }
 
@@ -74,7 +69,9 @@ function renderList(items) {
         return;
     }
 
-    container.innerHTML = items.map((news) => `
+    container.innerHTML = items
+        .map(
+            (news) => `
         <article class="admin-content-item">
             <div class="admin-content-item-main">
                 ${news.imageUrl ? `<img src="${escapeHtml(news.imageUrl)}" alt="${escapeHtml(news.title)}">` : ""}
@@ -90,7 +87,9 @@ function renderList(items) {
                 <button type="button" class="admin-danger-button" data-admin-news-delete="${news.id}">Delete</button>
             </div>
         </article>
-    `).join("");
+    `,
+        )
+        .join("");
 }
 
 function initialize() {
@@ -133,7 +132,7 @@ function initialize() {
         const edit = event.target.closest("[data-admin-news-edit]");
         if (edit) {
             const item = currentItems.find(
-                (news) => String(news.id) === String(edit.dataset.adminNewsEdit)
+                (news) => String(news.id) === String(edit.dataset.adminNewsEdit),
             );
             if (item) fillForm(item);
             return;

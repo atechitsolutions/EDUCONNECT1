@@ -39,22 +39,26 @@ export function initPremiumCursor() {
         }
     };
 
-    document.addEventListener("pointermove", (event) => {
-        targetX = event.clientX;
-        targetY = event.clientY;
+    document.addEventListener(
+        "pointermove",
+        (event) => {
+            targetX = event.clientX;
+            targetY = event.clientY;
 
-        if (!shadow.classList.contains("is-visible")) {
-            currentX = targetX;
-            currentY = targetY;
-            paintPosition();
-        }
+            if (!shadow.classList.contains("is-visible")) {
+                currentX = targetX;
+                currentY = targetY;
+                paintPosition();
+            }
 
-        shadow.classList.add("is-visible");
-        if (!framePending) {
-            framePending = true;
-            requestAnimationFrame(animateShadow);
-        }
-    }, { passive: true });
+            shadow.classList.add("is-visible");
+            if (!framePending) {
+                framePending = true;
+                requestAnimationFrame(animateShadow);
+            }
+        },
+        { passive: true },
+    );
 
     document.addEventListener("pointerleave", () => {
         shadow.classList.remove("is-visible");

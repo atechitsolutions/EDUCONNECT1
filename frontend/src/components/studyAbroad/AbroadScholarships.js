@@ -1,11 +1,5 @@
-/* =========================================================
-   STUDY ABROAD — SCHOLARSHIPS
-========================================================= */
-
 export default function AbroadScholarships() {
-
     const scholarships = [
-
         {
             name: "Fulbright Scholarship",
             country: "USA",
@@ -14,7 +8,9 @@ export default function AbroadScholarships() {
             coverage: "Tuition • Living Expenses • Travel",
             type: "Fully Funded",
             description:
-                "Scholarship opportunities for international students pursuing higher education in the United States."
+                "Scholarship opportunities for " +
+                "international students pursuing higher " +
+                "education in the United States.",
         },
 
         {
@@ -25,7 +21,9 @@ export default function AbroadScholarships() {
             coverage: "Tuition • Living Expenses • Travel",
             type: "Fully Funded",
             description:
-                "UK government scholarship programme for eligible international students pursuing a master's degree."
+                "UK government scholarship programme for " +
+                "eligible international students " +
+                "pursuing a master's degree.",
         },
 
         {
@@ -36,7 +34,9 @@ export default function AbroadScholarships() {
             coverage: "Tuition • Travel • Living Expenses",
             type: "Fully Funded",
             description:
-                "International scholarship opportunities offered through selected joint master's programmes across Europe."
+                "International scholarship opportunities " +
+                "offered through selected joint master's " +
+                "programmes across Europe.",
         },
 
         {
@@ -47,7 +47,9 @@ export default function AbroadScholarships() {
             coverage: "Tuition Support • Stipend • Travel",
             type: "Funding Support",
             description:
-                "Scholarship and funding opportunities for international students studying at German universities."
+                "Scholarship and funding opportunities " +
+                "for international students studying at " +
+                "German universities.",
         },
 
         {
@@ -58,7 +60,9 @@ export default function AbroadScholarships() {
             coverage: "Tuition • Travel • Living Expenses",
             type: "Fully Funded",
             description:
-                "Australian government scholarship opportunities for eligible students from participating countries."
+                "Australian government scholarship " +
+                "opportunities for eligible students " +
+                "from participating countries.",
         },
 
         {
@@ -69,17 +73,14 @@ export default function AbroadScholarships() {
             coverage: "Annual Financial Support",
             type: "Graduate Scholarship",
             description:
-                "Canadian doctoral scholarship programme supporting eligible international and domestic researchers."
-        }
-
+                "Canadian doctoral scholarship programme " +
+                "supporting eligible international and " +
+                "domestic researchers.",
+        },
     ];
-
 
     return `
 
-        <!-- =====================================================
-             STUDY ABROAD SCHOLARSHIPS
-        ====================================================== -->
 
         <section
             class="study-abroad-scholarships"
@@ -90,9 +91,6 @@ export default function AbroadScholarships() {
             <div class="study-abroad-scholarships-container">
 
 
-                <!-- =================================================
-                     SECTION HEADER
-                ================================================== -->
 
                 <div class="study-abroad-scholarships-header">
 
@@ -116,29 +114,22 @@ export default function AbroadScholarships() {
                 </div>
 
 
-                <!-- =================================================
-                     SCHOLARSHIP FILTERS
-                ================================================== -->
 
 
 
-                <!-- =================================================
-                     SCHOLARSHIP GRID
-                ================================================== -->
 
                 <div class="study-abroad-scholarship-grid">
 
 
-                    ${scholarships.map((scholarship) => `
+                    ${scholarships
+                        .map(
+                            (scholarship) => `
 
                         <article
                             class="study-abroad-scholarship-card"
                         >
 
 
-                            <!-- =================================================
-                                 CARD TOP
-                            ================================================== -->
 
                             <div class="scholarship-card-top">
 
@@ -168,18 +159,12 @@ export default function AbroadScholarships() {
                             </div>
 
 
-                            <!-- =================================================
-                                 SCHOLARSHIP ICON
-                            ================================================== -->
 
                             <div class="scholarship-card-icon">
                                 🎓
                             </div>
 
 
-                            <!-- =================================================
-                                 SCHOLARSHIP CONTENT
-                            ================================================== -->
 
                             <div class="scholarship-card-content">
 
@@ -199,9 +184,6 @@ export default function AbroadScholarships() {
                                 </p>
 
 
-                                <!-- =================================================
-                                     SCHOLARSHIP DETAILS
-                                ================================================== -->
 
                                 <div class="scholarship-card-details">
 
@@ -263,9 +245,6 @@ export default function AbroadScholarships() {
                                 </div>
 
 
-                                <!-- =================================================
-                                     SCHOLARSHIP ACTION
-                                ================================================== -->
 
                                 <button
                                     type="button"
@@ -286,15 +265,14 @@ export default function AbroadScholarships() {
 
                         </article>
 
-                    `).join("")}
+                    `,
+                        )
+                        .join("")}
 
 
                 </div>
 
 
-                <!-- =================================================
-                     SCHOLARSHIP FOOTER
-                ================================================== -->
 
                 <div class="study-abroad-scholarships-footer">
 

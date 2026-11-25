@@ -1,8 +1,7 @@
-
 import "../assets/css/onlineeducationleadform.css";
 
 export default function renderOnlineEducationLeadForm() {
-  return `
+    return `
     <section
       id="online-education-lead-form"
       aria-labelledby="oe-lead-title"
@@ -175,23 +174,26 @@ export default function renderOnlineEducationLeadForm() {
 }
 
 export function bindOnlineEducationLeadForm() {
-  const form = document.getElementById("oe-lead-form");
-  const status = document.getElementById("oe-lead-status");
+    const form = document.getElementById("oe-lead-form");
+    const status = document.getElementById("oe-lead-status");
 
-  if (!form || form.dataset.bound === "true") return;
+    if (!form || form.dataset.bound === "true") return;
 
-  form.dataset.bound = "true";
+    form.dataset.bound = "true";
 
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
 
-    if (!form.reportValidity()) return;
+        if (!form.reportValidity()) return;
 
-    if (status) {
-      status.hidden = false;
-      status.className = "lead3d-status lead3d-status-error";
-      status.textContent =
-        "The form is displayed correctly, but enquiry submission is not connected to a backend yet. Your details have not been saved.";
-    }
-  });
+        if (status) {
+            status.hidden = false;
+            status.className = "lead3d-status lead3d-status-error";
+            status.textContent =
+                "The form is displayed correctly, but " +
+                "enquiry submission is not connected to " +
+                "a backend yet. Your details have not " +
+                "been saved.";
+        }
+    });
 }

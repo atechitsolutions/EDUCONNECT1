@@ -1,354 +1,226 @@
 import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
 
-
 export function ScholarshipSection() {
-
-    /* =====================================================
-       POPULAR SCHOLARSHIPS
-    ====================================================== */
-
     const popularScholarships = [
-
         {
             rank: "01",
 
-            name:
-                "National Scholarship Portal",
+            name: "National Scholarship Portal",
 
-            category:
-                "Government Scholarships",
+            category: "Government Scholarships",
 
-            location:
-                "India",
+            location: "India",
 
-            program:
-                "School • UG • PG • Professional",
+            program: "School • UG • PG • Professional",
 
-            rating:
-                "4.8",
+            rating: "4.8",
 
-            reviews:
-                "2,340",
+            reviews: "2,340",
 
-            score:
-                "9.3",
+            score: "9.3",
 
-            ranking:
-                "Major platform for central and state scholarship schemes",
+            ranking: "Major platform for central and state scholarship schemes",
 
-            highlight:
-                "Government scholarships for eligible students",
+            highlight: "Government scholarships for eligible students",
 
             image:
-                "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-143403" +
+                "0216411-0b793f4b4173?auto=format&fit=cro" +
+                "p&w=1200&q=85",
 
-            actionLabel:
-                "Explore Scholarships"
-
+            actionLabel: "Explore Scholarships",
         },
-
 
         {
             rank: "02",
 
-            name:
-                "Merit-Based Scholarships",
+            name: "Merit-Based Scholarships",
 
-            category:
-                "Academic Excellence",
+            category: "Academic Excellence",
 
-            location:
-                "India",
+            location: "India",
 
-            program:
-                "School • UG • PG",
+            program: "School • UG • PG",
 
-            rating:
-                "4.7",
+            rating: "4.7",
 
-            reviews:
-                "1,820",
+            reviews: "1,820",
 
-            score:
-                "9.0",
+            score: "9.0",
 
-            ranking:
-                "Scholarship opportunities based on academic performance",
+            ranking: "Scholarship opportunities based on academic performance",
 
-            highlight:
-                "Reward strong academic achievement and merit",
+            highlight: "Reward strong academic achievement and merit",
 
             image:
-                "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-152324" +
+                "0795612-9a054b0db644?auto=format&fit=cro" +
+                "p&w=1200&q=85",
 
-            actionLabel:
-                "Explore Merit Scholarships"
-
+            actionLabel: "Explore Merit Scholarships",
         },
-
 
         {
             rank: "03",
 
-            name:
-                "Scholarships for Girls",
+            name: "Scholarships for Girls",
 
-            category:
-                "Women in Education",
+            category: "Women in Education",
 
-            location:
-                "India",
+            location: "India",
 
-            program:
-                "School • UG • PG • STEM",
+            program: "School • UG • PG • STEM",
 
-            rating:
-                "4.7",
+            rating: "4.7",
 
-            reviews:
-                "1,560",
+            reviews: "1,560",
 
-            score:
-                "8.9",
+            score: "8.9",
 
-            ranking:
-                "Financial support programs encouraging girls' education",
+            ranking: "Financial support programs encouraging girls' education",
 
-            highlight:
-                "Education support for girls and women",
+            highlight: "Education support for girls and women",
 
             image:
-                "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-152939" +
+                "0079861-591de354faf5?auto=format&fit=cro" +
+                "p&w=1200&q=85",
 
-            actionLabel:
-                "Explore Scholarships"
-
-        }
-
+            actionLabel: "Explore Scholarships",
+        },
     ];
 
-
-    /* =====================================================
-       OTHER SCHOLARSHIPS
-    ====================================================== */
-
     const otherScholarships = [
-
         {
             rank: "04",
 
-            name:
-                "Need-Based Scholarships",
+            name: "Need-Based Scholarships",
 
-            category:
-                "Financial Assistance",
+            category: "Financial Assistance",
 
-            location:
-                "India",
+            location: "India",
 
-            program:
-                "School • UG • PG",
+            program: "School • UG • PG",
 
-            rating:
-                "4.6",
+            rating: "4.6",
 
-            reviews:
-                "1,240",
+            reviews: "1,240",
 
-            score:
-                "8.8",
+            score: "8.8",
 
-            ranking:
-                "Financial aid based on family income and need",
+            ranking: "Financial aid based on family income and need",
 
-            highlight:
-                "Support for students facing financial challenges",
+            highlight: "Support for students facing financial challenges",
 
             image:
-                "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-145010" +
+                "1499163-c8848c66ca85?auto=format&fit=cro" +
+                "p&w=1200&q=85",
 
-            actionLabel:
-                "Explore Financial Aid"
-
+            actionLabel: "Explore Financial Aid",
         },
-
 
         {
             rank: "05",
 
-            name:
-                "International Scholarships",
+            name: "International Scholarships",
 
-            category:
-                "Study Abroad",
+            category: "Study Abroad",
 
-            location:
-                "Global",
+            location: "Global",
 
-            program:
-                "UG • PG • MBA • Research",
+            program: "UG • PG • MBA • Research",
 
-            rating:
-                "4.6",
+            rating: "4.6",
 
-            reviews:
-                "1,090",
+            reviews: "1,090",
 
-            score:
-                "8.9",
+            score: "8.9",
 
-            ranking:
-                "Funding opportunities for international education",
+            ranking: "Funding opportunities for international education",
 
-            highlight:
-                "Scholarships offered by universities and organizations",
+            highlight: "Scholarships offered by universities and organizations",
 
             image:
-                "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-155676" +
+                "1175-b413da4baf72?auto=format&fit=crop&w" +
+                "=1200&q=85",
 
-            actionLabel:
-                "Explore International Scholarships"
-
+            actionLabel: "Explore International Scholarships",
         },
-
 
         {
             rank: "06",
 
-            name:
-                "Private Scholarships",
+            name: "Private Scholarships",
 
-            category:
-                "Corporate & NGO Support",
+            category: "Corporate & NGO Support",
 
-            location:
-                "India",
+            location: "India",
 
-            program:
-                "School • UG • PG • Professional",
+            program: "School • UG • PG • Professional",
 
-            rating:
-                "4.5",
+            rating: "4.5",
 
-            reviews:
-                "920",
+            reviews: "920",
 
-            score:
-                "8.6",
+            score: "8.6",
 
-            ranking:
-                "Scholarships supported by companies, trusts and NGOs",
+            ranking: "Scholarships supported by companies, trusts and NGOs",
 
-            highlight:
-                "Corporate, foundation and nonprofit funding",
+            highlight: "Corporate, foundation and nonprofit funding",
 
             image:
-                "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85",
+                "https://images.unsplash.com/photo-155676" +
+                "1175-b413da4baf72?auto=format&fit=crop&w" +
+                "=1200&q=85",
 
-            actionLabel:
-                "Explore Private Scholarships"
-
-        }
-
+            actionLabel: "Explore Private Scholarships",
+        },
     ];
 
+    const allScholarships = [...popularScholarships, ...otherScholarships];
 
-    /* =====================================================
-       COMBINE ALL SCHOLARSHIPS
-    ====================================================== */
-
-    const allScholarships = [
-
-        ...popularScholarships,
-
-        ...otherScholarships
-
-    ];
-
-
-    /* =====================================================
-       CREATE SCHOLARSHIP CARD
-    ====================================================== */
-
-    function createScholarshipCard(
-        scholarship
-    ) {
-
+    function createScholarshipCard(scholarship) {
         return InstitutionCard({
-
             item: {
+                rank: scholarship.rank,
 
-                rank:
-                    scholarship.rank,
+                name: scholarship.name,
 
-                name:
-                    scholarship.name,
+                category: scholarship.category,
 
-                category:
-                    scholarship.category,
+                location: scholarship.location,
 
-                location:
-                    scholarship.location,
+                program: scholarship.program,
 
-                program:
-                    scholarship.program,
+                rating: scholarship.rating,
 
-                rating:
-                    scholarship.rating,
+                reviews: scholarship.reviews,
 
-                reviews:
-                    scholarship.reviews,
+                score: scholarship.score,
 
-                score:
-                    scholarship.score,
+                ranking: scholarship.ranking,
 
-                ranking:
-                    scholarship.ranking,
+                highlight: scholarship.highlight,
 
-                highlight:
-                    scholarship.highlight,
+                image: scholarship.image,
 
-                image:
-                    scholarship.image,
-
-                actionLabel:
-                    scholarship.actionLabel
-
+                actionLabel: scholarship.actionLabel,
             },
 
-            type:
-                "scholarship"
-
+            type: "scholarship",
         });
-
     }
 
-
-    /* =====================================================
-       CREATE ALL SIX CARDS
-    ====================================================== */
-
-    const scholarshipCards =
-        allScholarships
-            .map(
-                createScholarshipCard
-            )
-            .join("");
-
-
-    /* =====================================================
-       CONTENT
-    ====================================================== */
+    const scholarshipCards = allScholarships.map(createScholarshipCard).join("");
 
     const content = `
 
         <div class="scholarship-section">
 
 
-            <!-- =================================================
-                 INTRO
-            ================================================== -->
 
             <div class="scholarship-intro">
 
@@ -390,9 +262,6 @@ export function ScholarshipSection() {
             </div>
 
 
-            <!-- =================================================
-                 HORIZONTAL CAROUSEL
-            ================================================== -->
 
             <div class="scholarship-carousel">
 
@@ -408,9 +277,6 @@ export function ScholarshipSection() {
                 </div>
 
 
-                <!-- =================================================
-                     NEXT BUTTON
-                ================================================== -->
 
                 <button
                     type="button"
@@ -430,27 +296,15 @@ export function ScholarshipSection() {
 
     `;
 
-
-    /* =====================================================
-       RETURN SECTION
-    ====================================================== */
-
     return Section({
+        id: "scholarship",
 
-        id:
-            "scholarship",
+        title: "",
 
-        title:
-            "",
+        subtitle: "",
 
-        subtitle:
-            "",
-
-        content
-
+        content,
     });
-
 }
-
 
 export default ScholarshipSection;

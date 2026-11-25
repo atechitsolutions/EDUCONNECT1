@@ -1,5 +1,4 @@
 export default function Navbar() {
-
     return `
 
     <nav
@@ -19,9 +18,6 @@ export default function Navbar() {
 
         <div class="navbar-container" id="educonnect-primary-navigation">
 
-            <!-- =================================================
-                 HOME
-            ================================================== -->
 
             <a
                 href="/"
@@ -32,9 +28,6 @@ export default function Navbar() {
             </a>
 
 
-            <!-- =================================================
-                 SCHOOL DROPDOWN
-            ================================================== -->
 
             <div class="navbar-dropdown">
 
@@ -95,9 +88,6 @@ export default function Navbar() {
             </div>
 
 
-            <!-- =================================================
-                 COLLEGE DROPDOWN
-            ================================================== -->
 
             <div class="navbar-dropdown">
 
@@ -126,7 +116,6 @@ export default function Navbar() {
 
                 <div class="navbar-dropdown-menu">
 
-                    <!-- UNIVERSITY -->
 
                     <a
                         href="/colleges/ug"
@@ -136,7 +125,6 @@ export default function Navbar() {
                     </a>
 
 
-                    <!-- PG -->
 
                     <a
                         href="/colleges/pg"
@@ -150,9 +138,6 @@ export default function Navbar() {
             </div>
 
 
-            <!-- =================================================
-                 STUDY ABROAD
-            ================================================== -->
 
             <a
                 href="/study-abroad"
@@ -172,9 +157,6 @@ export default function Navbar() {
 
 
 
-            <!-- =================================================
-                 JOBS
-            ================================================== -->
 
             <a
                 href="/#top-companies"
@@ -186,16 +168,10 @@ export default function Navbar() {
             </a>
 
 
-            <!-- =================================================
-                 COMMUNITY
-            ================================================== -->
 
 
 
 
-            <!-- =================================================
-                 NEWS
-            ================================================== -->
 
             <a
                 href="/#news"
@@ -207,9 +183,6 @@ export default function Navbar() {
             </a>
 
 
-            <!-- =================================================
-                 CERTIFICATE
-            ================================================== -->
 
             <a
                 href="/online-education"
@@ -221,9 +194,6 @@ export default function Navbar() {
             </a>
 
 
-            <!-- =================================================
-                 ONLINE COURSES
-            ================================================== -->
 
             <a
                 href="/online-education"
@@ -236,9 +206,6 @@ export default function Navbar() {
 
 
 
-   <!-- =================================================
-                 SCHOLARSHIPS
-            ================================================== -->
 
             <a
                 href="/#scholarships"
@@ -251,9 +218,6 @@ export default function Navbar() {
 
 
 
-            <!-- =================================================
-                 PARTNERS LOGIN
-            ================================================== -->
 
             <a
                 href="/college/login"
@@ -277,5 +241,4 @@ export default function Navbar() {
     </nav>
 
     `;
-
 }

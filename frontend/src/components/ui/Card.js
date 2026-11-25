@@ -4,7 +4,7 @@ export function Card({
     description = "",
     badge = "",
     image = "",
-    href = "#"
+    href = "#",
 }) {
     return `
         <article class="premium-card">

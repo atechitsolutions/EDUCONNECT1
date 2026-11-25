@@ -1,22 +1,22 @@
 import { onlineEducationDefaultCards } from "../../data/onlineEducationDefaultCards.js";
 
-import {
-    getOnlineEducationCardOverrides
-} from "../../services/onlineEducationService.js";
+import { getOnlineEducationCardOverrides } from "../../services/onlineEducationService.js";
 function escapeHTML(value = "") {
-    return String(value).replace(/[&<>"']/g, (character) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    })[character]);
+    return String(value).replace(
+        /[&<>"']/g,
+        (character) =>
+            ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+            })[character],
+    );
 }
 
 function imageStyle(image) {
-    return image
-        ? `style="background-image:url('${escapeHTML(image)}')"`
-        : "";
+    return image ? `style="background-image:url('${escapeHTML(image)}')"` : "";
 }
 
 function renderLevelCard(card, index) {
@@ -93,35 +93,47 @@ function renderInstitutionCard(card) {
             data-subjects="${escapeHTML(subject)}"
             data-modes="${escapeHTML(mode)}">
             <div class="oe-institution-top">
-                ${card.image
-                    ? `<img class="oe-admin-institution-image" src="${escapeHTML(card.image)}" alt="">`
-                    : `<span class="oe-institution-monogram" aria-hidden="true">${escapeHTML((card.title || "EC").slice(0, 2).toUpperCase())}</span>`}
+                ${
+                    card.image
+                        ? `<img class="oe-admin-institution-image" src="${escapeHTML(card.image)}" alt="">`
+                        : `<span class="oe-institution-monogram" aria-hidden="true">${escapeHTML((card.title || "EC").slice(0, 2).toUpperCase())}</span>`
+                }
                 <span class="oe-verified-source">Added by StepInStudents</span>
             </div>
             <h3>${escapeHTML(card.title)}</h3>
             <p class="oe-institution-location">${escapeHTML(country)} · ${escapeHTML(level.split("|")[0])}</p>
             <p>${escapeHTML(card.description)}</p>
-            <div class="oe-institution-tags">${[subject, mode].flatMap((value) => value.split("|")).map((value) => `<span>${escapeHTML(value)}</span>`).join("")}</div>
+            <div class="oe-institution-tags">${[subject, mode]
+                .flatMap((value) => value.split("|"))
+                .map((value) => `<span>${escapeHTML(value)}</span>`)
+                .join("")}</div>
             <div class="oe-institution-actions"><a href="${escapeHTML(destination)}" ${destination.startsWith("http") ? 'target="_blank" rel="noopener noreferrer"' : ""}>View institution ↗</a></div>
         </article>
     `;
 }
 
 function renderProgrammePreview(card) {
-    const provider = card.provider || 'StepInStudents listing';
-    const subject = card.subject || card.subtitle || 'Online learning';
-    const level = card.level || 'Online Degree';
-    const mode = card.mode || 'Fully online';
-    const country = card.country || 'Global';
-    const duration = card.duration || 'Check provider website';
+    const provider = card.provider || "StepInStudents listing";
+    const subject = card.subject || card.subtitle || "Online learning";
+    const level = card.level || "Online Degree";
+    const mode = card.mode || "Fully online";
+    const country = card.country || "Global";
+    const duration = card.duration || "Check provider website";
     const qualification = card.qualification || level;
-    const href = /^https?:\/\//i.test(card.link || '') ? card.link : '#';
+    const href = /^https?:\/\//i.test(card.link || "") ? card.link : "#";
     return `
         <article class="oe-programme-card oe-admin-added-card">
-            ${card.image ? `<img class="oe-programme-image" src="${escapeHTML(card.image)}" alt="">` : ''}
-            <div class="oe-programme-top"><span class="oe-provider-mark">${escapeHTML(provider.split(' ').slice(0, 2).map((part) => part[0]).join('').toUpperCase())}</span><span class="oe-sample-badge">Illustrative sample</span></div>
+            ${card.image ? `<img class="oe-programme-image" src="${escapeHTML(card.image)}" alt="">` : ""}
+            <div class="oe-programme-top"><span class="oe-provider-mark">${escapeHTML(
+                provider
+                    .split(" ")
+                    .slice(0, 2)
+                    .map((part) => part[0])
+                    .join("")
+                    .toUpperCase(),
+            )}</span><span class="oe-sample-badge">Illustrative sample</span></div>
             <p class="oe-programme-subject">${escapeHTML(subject)}</p>
-            <h3>${escapeHTML(card.title || 'Programme title')}</h3>
+            <h3>${escapeHTML(card.title || "Programme title")}</h3>
             <p class="oe-provider-name">${escapeHTML(provider)}</p>
             <div class="oe-programme-tags"><span>${escapeHTML(level)}</span><span>${escapeHTML(mode)}</span></div>
             <dl class="oe-programme-meta"><div><dt>Location</dt><dd>${escapeHTML(country)}</dd></div><div><dt>Duration</dt><dd>${escapeHTML(duration)}</dd></div><div><dt>Tuition</dt><dd>Check provider website</dd></div><div><dt>Award</dt><dd>${escapeHTML(qualification)}</dd></div></dl>
@@ -136,12 +148,12 @@ export function renderOnlineEducationCardPreview(card, index = 0) {
         levels: (value, position) => renderLevelCard(value, position),
         subjects: (value) => renderSubjectCard(value),
         popular: (value) => renderPopularCard(value),
-        platforms: (value) => renderImageTile(value, 'platforms'),
-        pathways: (value) => renderImageTile(value, 'pathways'),
+        platforms: (value) => renderImageTile(value, "platforms"),
+        pathways: (value) => renderImageTile(value, "pathways"),
         institutions: (value) => renderInstitutionCard(value),
-        programmes: (value) => renderProgrammePreview(value)
+        programmes: (value) => renderProgrammePreview(value),
     };
-    return renderers[card.section]?.(card, index) || '';
+    return renderers[card.section]?.(card, index) || "";
 }
 
 export async function renderOnlineEducationCustomCards() {
@@ -150,30 +162,44 @@ export async function renderOnlineEducationCustomCards() {
     const renderers = {
         levels: renderLevelCard,
         subjects: renderSubjectCard,
-        popular: renderPopularCard
+        popular: renderPopularCard,
     };
 
-    for (const section of ["levels", "subjects", "popular", "platforms", "pathways", "institutions"]) {
-        const container = document.querySelector({
-            levels: ".oe-level-grid",
-            subjects: ".oe-subject-grid",
-            popular: ".oe-popular-grid",
-            platforms: ".oe-platform-grid",
-            pathways: ".oe-path-grid",
-            institutions: "#oe-institution-results"
-        }[section]);
+    for (const section of [
+        "levels",
+        "subjects",
+        "popular",
+        "platforms",
+        "pathways",
+        "institutions",
+    ]) {
+        const container = document.querySelector(
+            {
+                levels: ".oe-level-grid",
+                subjects: ".oe-subject-grid",
+                popular: ".oe-popular-grid",
+                platforms: ".oe-platform-grid",
+                pathways: ".oe-path-grid",
+                institutions: "#oe-institution-results",
+            }[section],
+        );
 
         if (!container) continue;
 
         applyDefaultCardChanges(section, container, overrides, removedIds);
 
-        const sectionCards = cards.filter((card) => card.section === section
-            && !onlineEducationDefaultCards.some((base) => base.id === card.id));
-        const markup = sectionCards.map((card, index) => {
-            if (renderers[section]) return renderers[section](card, index);
-            if (section === "institutions") return renderInstitutionCard(card);
-            return renderImageTile(card, section);
-        }).join("");
+        const sectionCards = cards.filter(
+            (card) =>
+                card.section === section &&
+                !onlineEducationDefaultCards.some((base) => base.id === card.id),
+        );
+        const markup = sectionCards
+            .map((card, index) => {
+                if (renderers[section]) return renderers[section](card, index);
+                if (section === "institutions") return renderInstitutionCard(card);
+                return renderImageTile(card, section);
+            })
+            .join("");
 
         container.insertAdjacentHTML("beforeend", markup);
     }
@@ -184,20 +210,50 @@ export async function renderOnlineEducationCustomCards() {
         const select = document.getElementById(selectId);
         if (!select) return;
 
-        for (const value of values.flatMap((item) => String(item || "").split("|")).filter(Boolean)) {
+        for (const value of values
+            .flatMap((item) => String(item || "").split("|"))
+            .filter(Boolean)) {
             if ([...select.options].some((option) => option.value === value)) continue;
             select.add(new Option(value, value));
         }
     };
 
-    addFilterOptions("oe-filter-level", [...onlineEducationDefaultCards, ...cards].map((card) => card.level || (card.section === "levels" ? card.title : "")));
-    addFilterOptions("oe-filter-subject", [...onlineEducationDefaultCards, ...cards].map((card) => card.subject || (card.section === "subjects" ? card.title : "")));
-    addFilterOptions("oe-filter-country", cards.map((card) => card.country));
-    addFilterOptions("oe-filter-mode", cards.map((card) => card.mode));
-    addFilterOptions("oe-inst-country", cards.filter((card) => card.section === "institutions").map((card) => card.country));
-    addFilterOptions("oe-inst-level", cards.filter((card) => card.section === "institutions").map((card) => card.level));
-    addFilterOptions("oe-inst-subject", cards.filter((card) => card.section === "institutions").map((card) => card.subject));
-    addFilterOptions("oe-inst-mode", cards.filter((card) => card.section === "institutions").map((card) => card.mode));
+    addFilterOptions(
+        "oe-filter-level",
+        [...onlineEducationDefaultCards, ...cards].map(
+            (card) => card.level || (card.section === "levels" ? card.title : ""),
+        ),
+    );
+    addFilterOptions(
+        "oe-filter-subject",
+        [...onlineEducationDefaultCards, ...cards].map(
+            (card) => card.subject || (card.section === "subjects" ? card.title : ""),
+        ),
+    );
+    addFilterOptions(
+        "oe-filter-country",
+        cards.map((card) => card.country),
+    );
+    addFilterOptions(
+        "oe-filter-mode",
+        cards.map((card) => card.mode),
+    );
+    addFilterOptions(
+        "oe-inst-country",
+        cards.filter((card) => card.section === "institutions").map((card) => card.country),
+    );
+    addFilterOptions(
+        "oe-inst-level",
+        cards.filter((card) => card.section === "institutions").map((card) => card.level),
+    );
+    addFilterOptions(
+        "oe-inst-subject",
+        cards.filter((card) => card.section === "institutions").map((card) => card.subject),
+    );
+    addFilterOptions(
+        "oe-inst-mode",
+        cards.filter((card) => card.section === "institutions").map((card) => card.mode),
+    );
 }
 
 function duplicateEducationLevelCards() {
@@ -212,9 +268,11 @@ function duplicateEducationLevelCards() {
         clone.dataset.carouselClone = "true";
         clone.setAttribute("aria-hidden", "true");
         clone.setAttribute("tabindex", "-1");
-        clone.querySelectorAll("a, button, input, select, textarea, [tabindex]").forEach((element) => {
-            element.setAttribute("tabindex", "-1");
-        });
+        clone
+            .querySelectorAll("a, button, input, select, textarea, [tabindex]")
+            .forEach((element) => {
+                element.setAttribute("tabindex", "-1");
+            });
         track.append(clone);
     });
 }
@@ -307,13 +365,21 @@ function applyDefaultCardChanges(section, container, overrides, removedIds) {
             element.dataset.subjects = card.subject;
             element.dataset.modes = card.mode;
             const location = element.querySelector(".oe-institution-location");
-            if (location) location.textContent = [card.provider, card.country, card.level?.split("|")[0]].filter(Boolean).join(" · ");
+            if (location)
+                location.textContent = [card.provider, card.country, card.level?.split("|")[0]]
+                    .filter(Boolean)
+                    .join(" · ");
             const description = element.querySelector(".oe-institution-location + p");
             if (description && card.description) description.textContent = card.description;
             const link = element.querySelector(".oe-institution-actions a");
             if (link && card.link) link.href = card.link;
             const tags = element.querySelector(".oe-institution-tags");
-            if (tags) tags.innerHTML = [card.level, card.subject, card.mode].filter(Boolean).flatMap((value) => value.split("|")).map((value) => `<span>${escapeHTML(value)}</span>`).join("");
+            if (tags)
+                tags.innerHTML = [card.level, card.subject, card.mode]
+                    .filter(Boolean)
+                    .flatMap((value) => value.split("|"))
+                    .map((value) => `<span>${escapeHTML(value)}</span>`)
+                    .join("");
             setInstitutionPhoto(element, card.image);
         }
     });
@@ -324,7 +390,11 @@ function setBackground(element, image) {
 }
 
 function setCardPhoto(cardElement, image, section) {
-    if (!image || cardElement.querySelector(":scope > .oe-admin-card-photo, :scope > .oe-pathway-image")) return;
+    if (
+        !image ||
+        cardElement.querySelector(":scope > .oe-admin-card-photo, :scope > .oe-pathway-image")
+    )
+        return;
     const photo = document.createElement("span");
     photo.className = section === "pathways" ? "oe-pathway-image" : "oe-admin-card-photo";
     photo.style.backgroundImage = `url("${image}")`;

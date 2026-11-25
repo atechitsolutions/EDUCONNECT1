@@ -5,13 +5,14 @@ import org.springframework.stereotype.Component;
 
 @Component("localAdminAccess")
 public class LocalAdminAccess {
-    private final boolean cardEditorPublic;
+  private final boolean cardEditorPublic;
 
-    public LocalAdminAccess(@Value("${app.local-admin.card-editor-public:false}") boolean cardEditorPublic) {
-        this.cardEditorPublic = cardEditorPublic;
-    }
+  public LocalAdminAccess(
+      @Value("${app.local-admin.card-editor-public:false}") boolean cardEditorPublic) {
+    this.cardEditorPublic = cardEditorPublic;
+  }
 
-    public boolean isCardEditorPublic() {
-        return cardEditorPublic;
-    }
+  public boolean isCardEditorPublic() {
+    return cardEditorPublic;
+  }
 }

@@ -3,13 +3,20 @@ import { regionalBoardingSchools, boardingDirectoryCard } from "./boardingSchool
 
 export function TopBoardingSchoolsSection() {
     const seen = new Set();
-    const allBoardingSchools = Object.entries(regionalBoardingSchools).flatMap(([region, schools]) => schools.filter(school => {
-        const key = `${(school[2] || school[0]).toLowerCase().replace(/[^a-z0-9]/g, "")}|${school[1].toLowerCase().replace(/[^a-z0-9]/g, "")}`;
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-    }).map(school => ({ school, region })));
-    const featuredCards = allBoardingSchools.map(({ school, region }, index) => boardingDirectoryCard(school, index, region));
+    const allBoardingSchools = Object.entries(regionalBoardingSchools).flatMap(
+        ([region, schools]) =>
+            schools
+                .filter((school) => {
+                    const key = `${(school[2] || school[0]).toLowerCase().replace(/[^a-z0-9]/g, "")}|${school[1].toLowerCase().replace(/[^a-z0-9]/g, "")}`;
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                })
+                .map((school) => ({ school, region })),
+    );
+    const featuredCards = allBoardingSchools.map(({ school, region }, index) =>
+        boardingDirectoryCard(school, index, region),
+    );
     const content = `
         <div class="boarding-schools-section">
             <div class="boarding-schools-intro">

@@ -1,50 +1,41 @@
 import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
-import {
-    getInstitutions
-} from "../../services/studyAbroadService.js";
-import {
-    bindInstitutionDetailButtons
-} from "../studyAbroad/InstitutionDetailsModals.js";
-
+import { getInstitutions } from "../../services/studyAbroadService.js";
+import { bindInstitutionDetailButtons } from "../studyAbroad/InstitutionDetailsModals.js";
 
 export function StudyAbroadSection() {
-
     function createInstitutionCard(institution, index) {
-
-        const location = [
-            institution.city,
-            institution.state,
-            institution.country
-        ].filter(Boolean).join(", ");
+        const location = [institution.city, institution.state, institution.country]
+            .filter(Boolean)
+            .join(", ");
 
         const category = [
             institution.type === "UNIVERSITY"
                 ? "University"
                 : institution.type === "COLLEGE"
-                    ? "College"
-                    : "Institution",
-            institution.country
-        ].filter(Boolean).join(" • ");
+                  ? "College"
+                  : "Institution",
+            institution.country,
+        ]
+            .filter(Boolean)
+            .join(" • ");
 
         return InstitutionCard({
-
             item: {
                 id: institution.id,
                 rank: String(index + 1).padStart(2, "0"),
                 name: institution.name,
                 category,
                 location,
-                program: institution.type === "UNIVERSITY"
-                    ? "University listing"
-                    : institution.type === "COLLEGE"
-                        ? "College listing"
-                        : "Institution listing",
-                ranking: institution.verified
-                    ? "Details verified"
-                    : "Institution listing",
-                highlight: institution.description ||
-                    "Explore this institution as a Study Abroad option.",
+                program:
+                    institution.type === "UNIVERSITY"
+                        ? "University listing"
+                        : institution.type === "COLLEGE"
+                          ? "College listing"
+                          : "Institution listing",
+                ranking: institution.verified ? "Details verified" : "Institution listing",
+                highlight:
+                    institution.description || "Explore this institution as a Study Abroad option.",
                 image: institution.coverImageUrl || "",
                 actionLabel: "Explore",
                 actionMode: "details",
@@ -52,13 +43,12 @@ export function StudyAbroadSection() {
                 enquiryHref: /^\d+$/.test(String(institution.id || ""))
                     ? `/college/enquire?institutionId=${encodeURIComponent(institution.id)}`
                     : "/study-abroad#study-abroad-lead-form",
-                showCompare: true
+                showCompare: true,
             },
 
-            type: "study-abroad"
+            type: "study-abroad",
         });
     }
-
 
     const content = `
         <div
@@ -141,115 +131,70 @@ export function StudyAbroadSection() {
         </div>
     `;
 
+    const section = Section({
+        id: "study-abroad-section",
+        title: "",
+        subtitle: "",
+        content,
+    });
 
-    const section =
-        Section({
-            id: "study-abroad-section",
-            title: "",
-            subtitle: "",
-            content
-        });
+    setTimeout(async () => {
+        try {
+            const institutions = await getInstitutions();
 
+            const visibleInstitutions = institutions.filter(
+                (institution) =>
+                    institution.active === true && institution.studyAbroadEnabled === true,
+            );
 
-    setTimeout(
-        async () => {
+            const track = document.querySelector("#study-abroad-destinations .study-abroad-track");
 
-            try {
+            const countElement = document.querySelector(
+                "#study-abroad-destinations .study-abroad-institution-count",
+            );
 
-                const institutions =
-                    await getInstitutions();
+            if (!track) {
+                return;
+            }
 
-                const visibleInstitutions =
-                    institutions
-                        .filter(
-                            (institution) =>
-                                institution.active === true &&
-                                institution.studyAbroadEnabled === true
-                        );
+            if (countElement) {
+                countElement.textContent = visibleInstitutions.length;
+            }
 
-                const track =
-                    document.querySelector(
-                        "#study-abroad-destinations .study-abroad-track"
-                    );
-
-                const countElement =
-                    document.querySelector(
-                        "#study-abroad-destinations .study-abroad-institution-count"
-                    );
-
-                if (!track) {
-                    return;
-                }
-
-                if (countElement) {
-                    countElement.textContent =
-                        visibleInstitutions.length;
-                }
-
-                if (!visibleInstitutions.length) {
-
-                    track.innerHTML = `
+            if (!visibleInstitutions.length) {
+                track.innerHTML = `
                         <div class="study-abroad-loading">
                             No Study Abroad institutions have been listed yet.
                         </div>
                     `;
 
-                    return;
-                }
-
-                const institutionMap =
-                    new Map(
-                        visibleInstitutions.map(
-                            (institution) => [
-                                String(institution.id),
-                                institution
-                            ]
-                        )
-                    );
-
-                track.innerHTML =
-                    visibleInstitutions
-                        .map(createInstitutionCard)
-                        .join("");
-
-                bindInstitutionDetailButtons(
-                    track,
-                    institutionMap
-                );
-                bindInstitutionCompare(track, institutionMap);
-
-                window.dispatchEvent(
-                    new CustomEvent(
-                        "educonnect:studyabroad-cards-ready"
-                    )
-                );
-
+                return;
             }
-            catch (error) {
 
-                console.error(
-                    "Failed to load Study Abroad institutions:",
-                    error
-                );
+            const institutionMap = new Map(
+                visibleInstitutions.map((institution) => [String(institution.id), institution]),
+            );
 
-                const track =
-                    document.querySelector(
-                        "#study-abroad-destinations .study-abroad-track"
-                    );
+            track.innerHTML = visibleInstitutions.map(createInstitutionCard).join("");
 
-                if (track) {
-                    track.innerHTML = `
+            bindInstitutionDetailButtons(track, institutionMap);
+            bindInstitutionCompare(track, institutionMap);
+
+            window.dispatchEvent(new CustomEvent("educonnect:studyabroad-cards-ready"));
+        } catch (error) {
+            console.error("Failed to load Study Abroad institutions:", error);
+
+            const track = document.querySelector("#study-abroad-destinations .study-abroad-track");
+
+            if (track) {
+                track.innerHTML = `
                         <div class="study-abroad-loading">
                             Unable to load Study Abroad institutions.
                         </div>
                     `;
-                }
             }
-
-        },
-        0
-    );
-
+        }
+    }, 0);
 
     return section;
 }
@@ -263,7 +208,7 @@ function bindInstitutionCompare(track, institutionMap) {
 
     const selected = new Map();
     const syncButtons = () => {
-        track.querySelectorAll('[data-action="compare"]').forEach(button => {
+        track.querySelectorAll('[data-action="compare"]').forEach((button) => {
             const id = button.closest(".institution-card")?.dataset.institutionId;
             const isSelected = selected.has(String(id));
             button.dataset.compared = String(isSelected);
@@ -286,7 +231,7 @@ function bindInstitutionCompare(track, institutionMap) {
 
         const heading = document.createElement("tr");
         appendCell(heading, "th", "Institution").scope = "row";
-        institutions.forEach(institution => {
+        institutions.forEach((institution) => {
             const cell = document.createElement("th");
             cell.scope = "col";
             const name = document.createElement("strong");
@@ -295,7 +240,10 @@ function bindInstitutionCompare(track, institutionMap) {
             remove.type = "button";
             remove.className = "sd-button";
             remove.dataset.removeStudyAbroadInstitution = String(institution.id);
-            remove.setAttribute("aria-label", `Remove ${institution.name || "institution"} from comparison`);
+            remove.setAttribute(
+                "aria-label",
+                `Remove ${institution.name || "institution"} from comparison`,
+            );
             remove.textContent = "Remove";
             cell.append(name, remove);
             heading.append(cell);
@@ -303,25 +251,28 @@ function bindInstitutionCompare(track, institutionMap) {
         tableBody.append(heading);
 
         [
-            ["Country", institution => institution.country],
-            ["Location", institution => [institution.city, institution.state].filter(Boolean).join(", ")],
-            ["Type", institution => institution.type],
-            ["Popular courses", institution => institution.popularCourses],
-            ["Tuition", institution => institution.tuition],
-            ["Estimated living costs", institution => institution.livingCost],
-            ["Intakes", institution => institution.intakes],
-            ["Scholarships", institution => institution.scholarships]
+            ["Country", (institution) => institution.country],
+            [
+                "Location",
+                (institution) => [institution.city, institution.state].filter(Boolean).join(", "),
+            ],
+            ["Type", (institution) => institution.type],
+            ["Popular courses", (institution) => institution.popularCourses],
+            ["Tuition", (institution) => institution.tuition],
+            ["Estimated living costs", (institution) => institution.livingCost],
+            ["Intakes", (institution) => institution.intakes],
+            ["Scholarships", (institution) => institution.scholarships],
         ].forEach(([label, getValue]) => {
             const row = document.createElement("tr");
             appendCell(row, "th", label).scope = "row";
-            institutions.forEach(institution => {
+            institutions.forEach((institution) => {
                 appendCell(row, "td", String(getValue(institution) || "Not listed"));
             });
             tableBody.append(row);
         });
     };
 
-    track.addEventListener("click", event => {
+    track.addEventListener("click", (event) => {
         const button = event.target.closest('[data-action="compare"]');
         if (!button || !track.contains(button)) return;
 
@@ -347,7 +298,7 @@ function bindInstitutionCompare(track, institutionMap) {
         if (!dialog.open) dialog.showModal();
     });
 
-    dialog.addEventListener("click", event => {
+    dialog.addEventListener("click", (event) => {
         const remove = event.target.closest("[data-remove-study-abroad-institution]");
         if (remove) {
             selected.delete(remove.dataset.removeStudyAbroadInstitution);

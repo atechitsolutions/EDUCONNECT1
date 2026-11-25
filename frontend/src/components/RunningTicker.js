@@ -1,10 +1,4 @@
-export function RunningTicker({
-    title,
-    items = [],
-    background = "#0F4C81",
-    color = "#ffffff"
-}) {
-
+export function RunningTicker({ title, items = [], background = "#0F4C81", color = "#ffffff" }) {
     return `
         <section class="running-ticker">
 
@@ -22,11 +16,16 @@ export function RunningTicker({
 
                 <div class="ticker-track">
 
-                    ${items.concat(items).map(item => `
+                    ${items
+                        .concat(items)
+                        .map(
+                            (item) => `
                         <span class="ticker-item">
                             ${item}
                         </span>
-                    `).join("")}
+                    `,
+                        )
+                        .join("")}
 
                 </div>
 

@@ -1,52 +1,35 @@
-/**
- * ============================================================
- * STEPINSTUDENTS — STUDY ABROAD HERO
- * ============================================================
- *
- * Purpose:
- * - Introduce the Study Abroad service
- * - Provide primary search/discovery
- * - Promote counselling
- * - Surface popular destinations
- * - Create strong SEO-relevant page content
- *
- * Framework:
- * Vanilla JavaScript + Vite
- * ============================================================
- */
-
 export default function StudyAbroadHero() {
     const popularDestinations = [
         {
             name: "USA",
             code: "US",
-            description: "Study in the USA: universities & courses"
+            description: "Study in the USA: universities & courses",
         },
         {
             name: "UK",
             code: "UK",
-            description: "Study in the UK: universities & courses"
+            description: "Study in the UK: universities & courses",
         },
         {
             name: "Canada",
             code: "CA",
-            description: "Study in Canada: courses & universities"
+            description: "Study in Canada: courses & universities",
         },
         {
             name: "Australia",
             code: "AU",
-            description: "Study in Australia: courses & universities"
+            description: "Study in Australia: courses & universities",
         },
         {
             name: "Germany",
             code: "DE",
-            description: "Study in Germany: courses & admissions"
+            description: "Study in Germany: courses & admissions",
         },
         {
             name: "Ireland",
             code: "IE",
-            description: "Study in Ireland: courses & universities"
-        }
+            description: "Study in Ireland: courses & universities",
+        },
     ];
 
     return `
@@ -56,9 +39,6 @@ export default function StudyAbroadHero() {
             aria-labelledby="study-abroad-hero-title"
         >
 
-            <!-- ==================================================
-                 BACKGROUND DECORATION
-            =================================================== -->
 
             <div
                 class="study-abroad-hero-background"
@@ -74,18 +54,12 @@ export default function StudyAbroadHero() {
             </div>
 
 
-            <!-- ==================================================
-                 MAIN HERO CONTAINER
-            =================================================== -->
 
             <div class="study-abroad-container">
 
                 <div class="study-abroad-hero-layout">
 
 
-                    <!-- ==================================================
-                         LEFT CONTENT
-                    =================================================== -->
 
                     <div class="study-abroad-hero-content">
 
@@ -115,9 +89,6 @@ export default function StudyAbroadHero() {
                         </p>
 
 
-                        <!-- ==================================================
-                             SEARCH
-                        =================================================== -->
 
                         <div class="institution-search-widget study-abroad-search-widget">
                             <form
@@ -211,9 +182,6 @@ export default function StudyAbroadHero() {
                         </div>
 
 
-                        <!-- ==================================================
-                             SEARCH SUGGESTIONS
-                        =================================================== -->
 
                         <div class="study-abroad-search-suggestions">
 
@@ -246,9 +214,6 @@ export default function StudyAbroadHero() {
                         </div>
 
 
-                        <!-- ==================================================
-                             PRIMARY ACTIONS
-                        =================================================== -->
 
                         <div class="study-abroad-hero-actions">
 
@@ -291,9 +256,6 @@ export default function StudyAbroadHero() {
                         </div>
 
 
-                        <!-- ==================================================
-                             TRUST INDICATORS
-                        =================================================== -->
 
                         <div class="study-abroad-hero-trust">
 
@@ -346,9 +308,6 @@ export default function StudyAbroadHero() {
                     </div>
 
 
-                    <!-- ==================================================
-                         RIGHT HERO PANEL
-                    =================================================== -->
 
                     <div class="study-abroad-hero-visual">
 
@@ -357,7 +316,6 @@ export default function StudyAbroadHero() {
                             aria-label="Study abroad planning overview"
                         >
 
-                            <!-- CARD HEADER -->
 
                             <div class="study-abroad-card-header">
 
@@ -379,7 +337,6 @@ export default function StudyAbroadHero() {
                             </div>
 
 
-                            <!-- PROGRESS -->
 
                             <div class="study-abroad-plan-progress">
 
@@ -402,7 +359,6 @@ export default function StudyAbroadHero() {
                             </div>
 
 
-                            <!-- PLANNING STEPS -->
 
                             <div class="study-abroad-plan-list">
 
@@ -496,7 +452,6 @@ export default function StudyAbroadHero() {
                             </div>
 
 
-                            <!-- CARD FOOTER -->
 
                             <div class="study-abroad-card-footer">
 
@@ -534,9 +489,6 @@ export default function StudyAbroadHero() {
                         </div>
 
 
-                        <!-- ==================================================
-                             FLOATING DESTINATION CARD
-                        =================================================== -->
 
 
 
@@ -548,9 +500,6 @@ export default function StudyAbroadHero() {
                 </div>
 
 
-                <!-- ==================================================
-                     POPULAR DESTINATIONS
-                =================================================== -->
 
                 <div
                     class="study-abroad-popular-destinations"
@@ -617,7 +566,7 @@ export default function StudyAbroadHero() {
                                         </span>
 
                                     </a>
-                                `
+                                `,
                             )
                             .join("")}
 

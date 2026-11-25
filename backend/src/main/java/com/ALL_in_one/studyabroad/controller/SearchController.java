@@ -12,16 +12,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/studyabroad/search")
 public class SearchController {
 
-    private final SearchService searchService;
+  private final SearchService searchService;
 
+  @PostMapping
+  public ResponseEntity<SearchResponse> search(@RequestBody SearchRequest request) {
 
-    @PostMapping
-    public ResponseEntity<SearchResponse> search(
-            @RequestBody SearchRequest request) {
+    SearchResponse response = searchService.search(request);
 
-        SearchResponse response =
-                searchService.search(request);
-
-        return ResponseEntity.ok(response);
-    }
+    return ResponseEntity.ok(response);
+  }
 }

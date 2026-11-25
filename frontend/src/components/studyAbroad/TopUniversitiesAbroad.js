@@ -1,11 +1,5 @@
-/* =========================================================
-   STUDY ABROAD — TOP UNIVERSITIES
-========================================================= */
-
 export default function TopUniversitiesAbroad() {
-
     const universities = [
-
         {
             rank: "01",
             name: "Harvard University",
@@ -64,16 +58,11 @@ export default function TopUniversitiesAbroad() {
             location: "Amsterdam, Netherlands",
             type: "Public University",
             programs: "Business • Data Science • Economics",
-        }
-
+        },
     ];
-
 
     return `
 
-        <!-- =====================================================
-             TOP UNIVERSITIES ABROAD
-        ====================================================== -->
 
         <section
             class="study-abroad-top-universities"
@@ -83,9 +72,6 @@ export default function TopUniversitiesAbroad() {
             <div class="study-abroad-top-universities-container">
 
 
-                <!-- =================================================
-                     SECTION HEADER
-                ================================================== -->
 
                 <div class="study-abroad-top-universities-header">
 
@@ -107,9 +93,6 @@ export default function TopUniversitiesAbroad() {
                 </div>
 
 
-                <!-- =================================================
-                     UNIVERSITY FILTERS
-                ================================================== -->
 
                 <div class="study-abroad-university-filters">
 
@@ -158,21 +141,17 @@ export default function TopUniversitiesAbroad() {
                 </div>
 
 
-                <!-- =================================================
-                     UNIVERSITY GRID
-                ================================================== -->
 
                 <div class="study-abroad-university-grid">
 
-                    ${universities.map((university) => `
+                    ${universities
+                        .map(
+                            (university) => `
 
                         <article
                             class="study-abroad-university-card"
                         >
 
-                            <!-- =================================================
-                                 CARD TOP
-                            ================================================== -->
 
                             <div class="university-card-top">
 
@@ -183,18 +162,12 @@ export default function TopUniversitiesAbroad() {
                             </div>
 
 
-                            <!-- =================================================
-                                 UNIVERSITY ICON
-                            ================================================== -->
 
                             <div class="university-card-icon">
                                 🎓
                             </div>
 
 
-                            <!-- =================================================
-                                 UNIVERSITY INFORMATION
-                            ================================================== -->
 
                             <div class="university-card-content">
 
@@ -220,9 +193,6 @@ export default function TopUniversitiesAbroad() {
                                 </p>
 
 
-                                <!-- =================================================
-                                     UNIVERSITY DETAILS
-                                ================================================== -->
 
                                 <div class="university-card-info">
 
@@ -254,9 +224,6 @@ export default function TopUniversitiesAbroad() {
                                 </div>
 
 
-                                <!-- =================================================
-                                     CARD ACTION
-                                ================================================== -->
 
                                 <button
                                     type="button"
@@ -275,7 +242,9 @@ export default function TopUniversitiesAbroad() {
 
                         </article>
 
-                    `).join("")}
+                    `,
+                        )
+                        .join("")}
 
                 </div>
 

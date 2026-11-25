@@ -1,17 +1,13 @@
-/* =========================================================
-   STUDY ABROAD — APPLICATION PROCESS
-========================================================= */
-
 export default function StudyAbroadApplication() {
-
     const steps = [
-
         {
             number: "01",
             icon: "🎯",
             title: "Choose Your Destination",
             description:
-                "Explore countries, universities and study destinations based on your academic and career goals."
+                "Explore countries, universities and " +
+                "study destinations based on your " +
+                "academic and career goals.",
         },
 
         {
@@ -19,7 +15,9 @@ export default function StudyAbroadApplication() {
             icon: "🎓",
             title: "Select Your University",
             description:
-                "Compare universities, courses, admission requirements and available study options."
+                "Compare universities, courses, " +
+                "admission requirements and available " +
+                "study options.",
         },
 
         {
@@ -27,7 +25,9 @@ export default function StudyAbroadApplication() {
             icon: "📄",
             title: "Prepare Your Application",
             description:
-                "Organize your academic documents, test scores, statement of purpose and other application requirements."
+                "Organize your academic documents, test " +
+                "scores, statement of purpose and other " +
+                "application requirements.",
         },
 
         {
@@ -35,7 +35,9 @@ export default function StudyAbroadApplication() {
             icon: "📝",
             title: "Apply to University",
             description:
-                "Submit your application and required documents according to the university's admission process."
+                "Submit your application and required " +
+                "documents according to the university's " +
+                "admission process.",
         },
 
         {
@@ -43,7 +45,9 @@ export default function StudyAbroadApplication() {
             icon: "💰",
             title: "Explore Funding",
             description:
-                "Look for scholarships, grants and other funding opportunities that may be available to you."
+                "Look for scholarships, grants and other " +
+                "funding opportunities that may be " +
+                "available to you.",
         },
 
         {
@@ -51,17 +55,14 @@ export default function StudyAbroadApplication() {
             icon: "✈️",
             title: "Prepare for Your Journey",
             description:
-                "Once admitted, prepare for your visa, accommodation, travel and transition to your new destination."
-        }
-
+                "Once admitted, prepare for your visa, " +
+                "accommodation, travel and transition to " +
+                "your new destination.",
+        },
     ];
-
 
     return `
 
-        <!-- =====================================================
-             STUDY ABROAD APPLICATION PROCESS
-        ====================================================== -->
 
         <section
             class="study-abroad-application"
@@ -72,9 +73,6 @@ export default function StudyAbroadApplication() {
             <div class="study-abroad-application-container">
 
 
-                <!-- =================================================
-                     SECTION HEADER
-                ================================================== -->
 
                 <div class="study-abroad-application-header">
 
@@ -104,23 +102,19 @@ export default function StudyAbroadApplication() {
                 </div>
 
 
-                <!-- =================================================
-                     APPLICATION PROCESS
-                ================================================== -->
 
                 <div class="study-abroad-application-process">
 
 
-                    ${steps.map((step, index) => `
+                    ${steps
+                        .map(
+                            (step, index) => `
 
                         <div
                             class="study-abroad-application-step"
                         >
 
 
-                            <!-- =================================================
-                                 STEP NUMBER
-                            ================================================== -->
 
                             <div class="application-step-number">
 
@@ -129,9 +123,6 @@ export default function StudyAbroadApplication() {
                             </div>
 
 
-                            <!-- =================================================
-                                 STEP CONTENT
-                            ================================================== -->
 
                             <div class="application-step-content">
 
@@ -170,9 +161,6 @@ export default function StudyAbroadApplication() {
                             </div>
 
 
-                            <!-- =================================================
-                                 PROCESS CONNECTOR
-                            ================================================== -->
 
                             ${
                                 index < steps.length - 1
@@ -190,15 +178,14 @@ export default function StudyAbroadApplication() {
 
                         </div>
 
-                    `).join("")}
+                    `,
+                        )
+                        .join("")}
 
 
                 </div>
 
 
-                <!-- =================================================
-                     APPLICATION CTA
-                ================================================== -->
 
                 <div class="study-abroad-application-cta">
 

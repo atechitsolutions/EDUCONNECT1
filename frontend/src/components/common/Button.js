@@ -5,16 +5,17 @@ export default function Button({
     icon = "",
     href = "#",
     fullWidth = false,
-    disabled = false
+    disabled = false,
 } = {}) {
-
     const classes = [
         "btn",
         `btn-${variant}`,
         `btn-${size}`,
         fullWidth ? "btn-block" : "",
-        disabled ? "btn-disabled" : ""
-    ].join(" ").trim();
+        disabled ? "btn-disabled" : "",
+    ]
+        .join(" ")
+        .trim();
 
     return `
         <a

@@ -8,88 +8,55 @@ import CurrentAffairs from "../components/CurrentAffairs.js";
 
 import Categories from "../components/home/categories.js";
 
-import PlaySchoolSection
-    from "../components/home/PlaySchoolSection.js";
+import PlaySchoolSection from "../components/home/PlaySchoolSection.js";
 
-import PreSchoolSection
-    from "../components/home/PreSchoolSection.js";
+import PreSchoolSection from "../components/home/PreSchoolSection.js";
 
-import SchoolSection
-    from "../components/home/SchoolSection.js";
+import SchoolSection from "../components/home/SchoolSection.js";
 
-import TopBoardingSchoolsSection
-    from "../components/home/TopBoardingSchoolsSection.js";
+import TopBoardingSchoolsSection from "../components/home/TopBoardingSchoolsSection.js";
 
-import TopUGPGCollegesSection
-    from "../components/home/TopUGPGCollegesSection.js";
+import TopUGPGCollegesSection from "../components/home/TopUGPGCollegesSection.js";
 
-import {
-    OnlineEducationSection
-} from "../components/home/OnlineEducationSection.js";
+import { OnlineEducationSection } from "../components/home/OnlineEducationSection.js";
 
-import {
-    NewsSection
-} from "../components/home/NewsSection.js";
+import { NewsSection } from "../components/home/NewsSection.js";
 
-import StudyAbroadSection
-    from "../components/home/studyAbroad.js";
+import StudyAbroadSection from "../components/home/studyAbroad.js";
 
-import ScholarshipSection
-    from "../components/home/scholarshipSection.js";
+import ScholarshipSection from "../components/home/scholarshipSection.js";
 
-import TopListsSection
-    from "../components/home/topListsSection.js";
+import TopListsSection from "../components/home/topListsSection.js";
 
-import RankingsSection
-    from "../components/home/rankingsSection.js";
+import RankingsSection from "../components/home/rankingsSection.js";
 
-import StudentReviewsSection
-    from "../components/home/studentReviewsSection.js";
+import StudentReviewsSection from "../components/home/studentReviewsSection.js";
 
-import CompareCollegeSection
-    from "../components/home/compareCollegeSection.js";
+import CompareCollegeSection from "../components/home/compareCollegeSection.js";
 
-import InstitutionCompareSection
-    from "../components/home/InstitutionCompareSection.js";
+import InstitutionCompareSection from "../components/home/InstitutionCompareSection.js";
 
-import EducationLoanSection
-    from "../components/home/educationLoanSection.js";
+import EducationLoanSection from "../components/home/educationLoanSection.js";
 
-import TopCompaniesSection
-    from "../components/home/TopCompaniesSection.js";
+import TopCompaniesSection from "../components/home/TopCompaniesSection.js";
 
-import FooterSection
-    from "../components/home/footerSection.js";
-
+import FooterSection from "../components/home/footerSection.js";
 
 export default function MainLayout() {
-
     return `
 
-        <!-- =====================================================
-             SITE HEADER
-        ====================================================== -->
 
         ${Header()}
 
 
-        <!-- =====================================================
-             PRIMARY NAVIGATION
-        ====================================================== -->
 
         ${Navbar()}
 
 
-        <!-- =====================================================
-             MAIN HOMEPAGE CONTENT
-        ====================================================== -->
 
         <main id="main-content">
 
 
-            <!-- =================================================
-                 HERO / PRIMARY EDUCATION SEARCH
-            ================================================== -->
 
             <section
                 id="hero"
@@ -99,9 +66,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 EDUCATION SOCIAL / DISCOVERY
-            ================================================== -->
 
             <section
                 id="education-social"
@@ -111,9 +75,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 CURRENT AFFAIRS
-            ================================================== -->
 
             <section
                 id="current-affairs"
@@ -123,9 +84,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 EDUCATION CATEGORIES
-            ================================================== -->
 
             <section
                 id="education-categories"
@@ -135,9 +93,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 PLAY SCHOOL
-            ================================================== -->
 
             <section
                 id="play-school"
@@ -147,9 +102,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 PRE SCHOOL
-            ================================================== -->
 
             <section
                 id="pre-school"
@@ -159,9 +111,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 SCHOOLS
-            ================================================== -->
 
             <section
                 id="schools"
@@ -171,9 +120,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 TOP BOARDING SCHOOLS
-            ================================================== -->
 
             <section
                 id="boarding-schools"
@@ -183,9 +129,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 UG AND PG COLLEGES
-            ================================================== -->
 
             <section
                 id="colleges"
@@ -195,9 +138,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 ONLINE EDUCATION
-            ================================================== -->
 
             <section
                 id="online-education"
@@ -207,9 +147,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 EDUCATION NEWS
-            ================================================== -->
 
             <section
                 id="news"
@@ -219,9 +156,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 STUDY ABROAD
-            ================================================== -->
 
             <section
                 id="study-abroad"
@@ -231,9 +165,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 EDUCATION RANKINGS
-            ================================================== -->
 
             <section
                 id="rankings"
@@ -243,9 +174,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 STUDENT REVIEWS
-            ================================================== -->
 
             <section
                 id="student-reviews"
@@ -255,9 +183,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 SCHOLARSHIPS
-            ================================================== -->
 
             <section
                 id="scholarships"
@@ -267,18 +192,12 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 EDUCATION LOANS
-            ================================================== -->
 
             <section id="education-loans" aria-label="Education loan information">
                 ${EducationLoanSection()}
             </section>
 
 
-            <!-- =================================================
-                 EDUCATION TOP LISTS
-            ================================================== -->
 
             <section
                 id="top-lists"
@@ -288,9 +207,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 COLLEGE COMPARISON
-            ================================================== -->
 
             <section
                 id="institution-comparison"
@@ -307,9 +223,6 @@ export default function MainLayout() {
             </section>
 
 
-            <!-- =================================================
-                 COMPANIES
-            ================================================== -->
 
             <section
                 id="top-companies"
@@ -322,9 +235,6 @@ export default function MainLayout() {
         </main>
 
 
-        <!-- =====================================================
-             FOOTER
-        ====================================================== -->
 
         ${FooterSection()}
 

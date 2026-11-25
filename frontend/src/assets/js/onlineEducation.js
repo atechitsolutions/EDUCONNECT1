@@ -1,333 +1,124 @@
-/* =========================================================
-   STEPINSTUDENTS — ONLINE EDUCATION INFINITE CAROUSEL
-========================================================= */
-
 export function initOnlineEducationCarousel() {
-
-    const carousel =
-        document.querySelector(
-            "#online-education .online-education-carousel"
-        );
+    const carousel = document.querySelector("#online-education .online-education-carousel");
 
     if (!carousel) {
         return;
     }
 
+    const viewport = carousel.querySelector(".online-education-viewport");
 
-    const viewport =
-        carousel.querySelector(
-            ".online-education-viewport"
-        );
+    const track = carousel.querySelector(".online-education-track");
 
-    const track =
-        carousel.querySelector(
-            ".online-education-track"
-        );
+    const nextButton = carousel.querySelector(".online-education-next");
 
-    const nextButton =
-        carousel.querySelector(
-            ".online-education-next"
-        );
-
-
-    if (
-        !viewport ||
-        !track ||
-        !nextButton
-    ) {
+    if (!viewport || !track || !nextButton) {
         return;
     }
 
-
-    const cards =
-        Array.from(
-            track.querySelectorAll(
-                ".institution-card"
-            )
-        );
-
+    const cards = Array.from(track.querySelectorAll(".institution-card"));
 
     if (!cards.length) {
         return;
     }
 
+    const originalCount = cards.length;
 
-    /* =====================================================
-       ORIGINAL CARD COUNT
-    ====================================================== */
+    cards.forEach((card) => {
+        const clone = card.cloneNode(true);
 
-    const originalCount =
-        cards.length;
+        clone.dataset.carouselClone = "true";
 
+        track.appendChild(clone);
+    });
 
-    /* =====================================================
-       CLONE FIRST CARDS
-       These clones allow the carousel to continue
-       smoothly after the last original card.
-    ====================================================== */
-
-    cards.forEach(
-        (card) => {
-
-            const clone =
-                card.cloneNode(true);
-
-            clone.dataset.carouselClone =
-                "true";
-
-            track.appendChild(
-                clone
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       UPDATED CARD LIST
-    ====================================================== */
-
-    const allCards =
-        Array.from(
-            track.querySelectorAll(
-                ".institution-card"
-            )
-        );
-
+    const allCards = Array.from(track.querySelectorAll(".institution-card"));
 
     let currentIndex = 0;
 
     let isAnimating = false;
 
-
-    /* =====================================================
-       GET CARD STEP
-    ====================================================== */
-
     function getStep() {
-
-        if (
-            allCards.length < 2
-        ) {
-
-            return (
-                allCards[0]
-                    .getBoundingClientRect()
-                    .width
-            );
-
+        if (allCards.length < 2) {
+            return allCards[0].getBoundingClientRect().width;
         }
 
+        const first = allCards[0].getBoundingClientRect();
 
-        const first =
-            allCards[0]
-                .getBoundingClientRect();
+        const second = allCards[1].getBoundingClientRect();
 
-
-        const second =
-            allCards[1]
-                .getBoundingClientRect();
-
-
-        return (
-            second.left -
-            first.left
-        );
-
+        return second.left - first.left;
     }
-
-
-    /* =====================================================
-       GET VISIBLE CARDS
-    ====================================================== */
 
     function getVisibleCards() {
+        const viewportWidth = viewport.getBoundingClientRect().width;
 
-        const viewportWidth =
-            viewport
-                .getBoundingClientRect()
-                .width;
+        const cardWidth = allCards[0].getBoundingClientRect().width;
 
+        const computedStyle = window.getComputedStyle(track);
 
-        const cardWidth =
-            allCards[0]
-                .getBoundingClientRect()
-                .width;
+        const gap = parseFloat(computedStyle.columnGap || computedStyle.gap || "0");
 
-
-        const computedStyle =
-            window.getComputedStyle(
-                track
-            );
-
-
-        const gap =
-            parseFloat(
-                computedStyle.columnGap ||
-                computedStyle.gap ||
-                "0"
-            );
-
-
-        return Math.max(
-            1,
-            Math.floor(
-                (
-                    viewportWidth +
-                    gap
-                ) /
-                (
-                    cardWidth +
-                    gap
-                )
-            )
-        );
-
+        return Math.max(1, Math.floor((viewportWidth + gap) / (cardWidth + gap)));
     }
 
+    function applyPosition(animate = true) {
+        const step = getStep();
 
-    /* =====================================================
-       APPLY POSITION
-    ====================================================== */
+        track.style.transition = animate ? "transform 0.45s cubic-bezier(.2,.8,.2,1)" : "none";
 
-    function applyPosition(
-        animate = true
-    ) {
-
-        const step =
-            getStep();
-
-
-        track.style.transition =
-            animate
-                ? "transform 0.45s cubic-bezier(.2,.8,.2,1)"
-                : "none";
-
-
-        track.style.transform =
-            `translate3d(
+        track.style.transform = `translate3d(
                 -${currentIndex * step}px,
                 0,
                 0
             )`;
-
     }
 
-
-    /* =====================================================
-       NEXT BUTTON
-    ====================================================== */
-
-    nextButton.addEventListener(
-        "click",
-        () => {
-
-            if (isAnimating) {
-                return;
-            }
-
-
-            isAnimating = true;
-
-
-            currentIndex += 1;
-
-
-            applyPosition(
-                true
-            );
-
+    nextButton.addEventListener("click", () => {
+        if (isAnimating) {
+            return;
         }
-    );
 
+        isAnimating = true;
 
-    /* =====================================================
-       AFTER ANIMATION
-       When we reach the cloned area, silently jump back
-       to the original cards.
-    ====================================================== */
+        currentIndex += 1;
 
-    track.addEventListener(
-        "transitionend",
-        (event) => {
+        applyPosition(true);
+    });
 
-            if (
-                event.propertyName !==
-                "transform"
-            ) {
-                return;
-            }
+    track.addEventListener("transitionend", (event) => {
+        if (event.propertyName !== "transform") {
+            return;
+        }
 
+        const visibleCards = getVisibleCards();
 
-            const visibleCards =
-                getVisibleCards();
-
-
-            /*
+        /*
                 Once we move far enough into the
                 duplicated cards, reset to the
                 corresponding original position.
             */
 
-            if (
-                currentIndex >=
-                originalCount
-            ) {
+        if (currentIndex >= originalCount) {
+            currentIndex = currentIndex - originalCount;
 
-                currentIndex =
-                    currentIndex -
-                    originalCount;
+            applyPosition(false);
+        }
 
-
-                applyPosition(
-                    false
-                );
-
-            }
-
-
-            /*
+        /*
                 Give the browser one frame to finish
                 the reset before allowing another click.
             */
 
-            requestAnimationFrame(
-                () => {
+        requestAnimationFrame(() => {
+            isAnimating = false;
+        });
+    });
 
-                    isAnimating =
-                        false;
+    window.addEventListener("resize", () => {
+        applyPosition(false);
+    });
 
-                }
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       RESIZE
-    ====================================================== */
-
-    window.addEventListener(
-        "resize",
-        () => {
-
-            applyPosition(
-                false
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       INITIAL POSITION
-    ====================================================== */
-
-    applyPosition(
-        false
-    );
-
+    applyPosition(false);
 
     /*
         Prevent the arrow from appearing disabled.
@@ -335,14 +126,7 @@ export function initOnlineEducationCarousel() {
         always continue moving forward.
     */
 
-    nextButton.disabled =
-        false;
-
+    nextButton.disabled = false;
 }
-
-
-/* =========================================================
-   DEFAULT EXPORT
-========================================================= */
 
 export default initOnlineEducationCarousel;

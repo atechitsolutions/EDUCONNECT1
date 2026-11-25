@@ -12,7 +12,11 @@ const SUGGESTION_DELAY_MS = 250;
 let collegeCatalogPromise;
 let onlineCatalogPromise;
 
-const norm = value => String(value ?? "").toLocaleLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+const norm = (value) =>
+    String(value ?? "")
+        .toLocaleLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .trim();
 const schoolCatalog = (() => {
     const records = new Map();
     const add = (record, category) => {
@@ -20,20 +24,26 @@ const schoolCatalog = (() => {
         if (!name) return;
         const location = record.location || [record.city, record.state].filter(Boolean).join(", ");
         const key = `${norm(name)}|${norm(location)}`;
-        if (!records.has(key)) records.set(key, { name, location, category, href: `/schools?q=${encodeURIComponent(name)}&category=${category}` });
+        if (!records.has(key))
+            records.set(key, {
+                name,
+                location,
+                category,
+                href: `/schools?q=${encodeURIComponent(name)}&category=${category}`,
+            });
     };
-    getRegionalSchoolListings().forEach(item => add(item, "regular"));
-    getBoardingSchoolListings().forEach(item => add(item, "boarding"));
-    preSchoolListings.forEach(item => add(item, "preschool"));
-    playSchoolListings.forEach(item => add(item, "playschool"));
+    getRegionalSchoolListings().forEach((item) => add(item, "regular"));
+    getBoardingSchoolListings().forEach((item) => add(item, "boarding"));
+    preSchoolListings.forEach((item) => add(item, "preschool"));
+    playSchoolListings.forEach((item) => add(item, "playschool"));
     return [...records.values()];
 })();
 
 function getCollegeCatalog() {
     if (!collegeCatalogPromise) {
         collegeCatalogPromise = fetch(`${API_BASE_URL}/api/institution/domestic`)
-            .then(response => response.ok ? response.json() : [])
-            .then(items => Array.isArray(items) ? items : [])
+            .then((response) => (response.ok ? response.json() : []))
+            .then((items) => (Array.isArray(items) ? items : []))
             .catch(() => []);
     }
     return collegeCatalogPromise;
@@ -41,7 +51,9 @@ function getCollegeCatalog() {
 
 function getOnlineCatalog() {
     if (!onlineCatalogPromise) {
-        onlineCatalogPromise = getOnlineEducationProgrammes().catch(() => onlineEducationProgrammes);
+        onlineCatalogPromise = getOnlineEducationProgrammes().catch(
+            () => onlineEducationProgrammes,
+        );
     }
     return onlineCatalogPromise;
 }
@@ -49,27 +61,78 @@ function getOnlineCatalog() {
 async function getUnifiedMatches(query) {
     const term = norm(query);
     if (!term) return [];
-    const includes = value => norm(value).includes(term);
-    const [collegeItems, onlineItems] = await Promise.all([getCollegeCatalog(), getOnlineCatalog()]);
+    const includes = (value) => norm(value).includes(term);
+    const [collegeItems, onlineItems] = await Promise.all([
+        getCollegeCatalog(),
+        getOnlineCatalog(),
+    ]);
     const studyMatches = await fetchSuggestions(query).catch(() => ({ suggestions: [] }));
     const groups = [
-        (Array.isArray(studyMatches?.suggestions) ? studyMatches.suggestions : []).map(name => ({ name, category: "Study Abroad", href: `/study-abroad/search-results?q=${encodeURIComponent(name)}` })),
-        schoolCatalog.filter(item => includes(`${item.name} ${item.location}`)).map(item => ({ ...item, category: item.category === "boarding" ? "Boarding school" : item.category === "preschool" ? "Preschool" : item.category === "playschool" ? "Play school" : "School" })),
-        collegeItems.filter(item => includes(`${item.name} ${item.city || ""} ${item.state || ""} ${item.popularCourses || ""}`)).map(item => ({ name: item.name, location: [item.city, item.state].filter(Boolean).join(", "), category: "College", href: /^\d+$/.test(String(item.id)) ? `/colleges/${item.id}` : `/colleges/ug?q=${encodeURIComponent(item.name)}` })),
-        onlineItems.filter(item => includes(`${item.title} ${item.providerName} ${item.subject} ${item.educationLevel}`)).map(item => ({ name: item.title, location: item.providerName, category: "Online education", href: `/online-education?q=${encodeURIComponent(item.title)}` }))
+        (Array.isArray(studyMatches?.suggestions) ? studyMatches.suggestions : []).map((name) => ({
+            name,
+            category: "Study Abroad",
+            href: `/study-abroad/search-results?q=${encodeURIComponent(name)}`,
+        })),
+        schoolCatalog
+            .filter((item) => includes(`${item.name} ${item.location}`))
+            .map((item) => ({
+                ...item,
+                category:
+                    item.category === "boarding"
+                        ? "Boarding school"
+                        : item.category === "preschool"
+                          ? "Preschool"
+                          : item.category === "playschool"
+                            ? "Play school"
+                            : "School",
+            })),
+        collegeItems
+            .filter((item) =>
+                includes(
+                    `${item.name} ${item.city || ""} ${item.state || ""} ${item.popularCourses || ""}`,
+                ),
+            )
+            .map((item) => ({
+                name: item.name,
+                location: [item.city, item.state].filter(Boolean).join(", "),
+                category: "College",
+                href: /^\d+$/.test(String(item.id))
+                    ? `/colleges/${item.id}`
+                    : `/colleges/ug?q=${encodeURIComponent(item.name)}`,
+            })),
+        onlineItems
+            .filter((item) =>
+                includes(
+                    `${item.title} ${item.providerName} ${item.subject} ${item.educationLevel}`,
+                ),
+            )
+            .map((item) => ({
+                name: item.title,
+                location: item.providerName,
+                category: "Online education",
+                href: `/online-education?q=${encodeURIComponent(item.title)}`,
+            })),
     ];
     const result = [];
-    for (let index = 0; index < 8; index += 1) groups.forEach(group => { if (group[index]) result.push(group[index]); });
+    for (let index = 0; index < 8; index += 1)
+        groups.forEach((group) => {
+            if (group[index]) result.push(group[index]);
+        });
     return result.slice(0, 24);
 }
 
 function renderUnifiedResults(container, matches) {
     if (!matches.length) {
-        container.innerHTML = '<p class="institution-search-message">No matching schools, colleges, online programmes or Study Abroad listings were found.</p>';
+        container.innerHTML =
+            "<p " +
+            'class="institution-search-message">No ' +
+            "matching schools, colleges, online " +
+            "programmes or Study Abroad listings " +
+            "were found.</p>";
         container.hidden = false;
         return;
     }
-    container.innerHTML = `<h2 class="institution-search-results-title">Search results</h2><div class="institution-search-unified-list">${matches.map(item => `<a class="institution-search-unified-item" href="${escapeHtml(item.href)}"><span>${escapeHtml(item.name)}</span><small>${escapeHtml(item.category)}${item.location ? ` · ${escapeHtml(item.location)}` : ""}</small><b aria-hidden="true">→</b></a>`).join("")}</div>`;
+    container.innerHTML = `<h2 class="institution-search-results-title">Search results</h2><div class="institution-search-unified-list">${matches.map((item) => `<a class="institution-search-unified-item" href="${escapeHtml(item.href)}"><span>${escapeHtml(item.name)}</span><small>${escapeHtml(item.category)}${item.location ? ` · ${escapeHtml(item.location)}` : ""}</small><b aria-hidden="true">→</b></a>`).join("")}</div>`;
     container.hidden = false;
 }
 
@@ -80,7 +143,7 @@ function escapeHtml(value) {
             "<": "&lt;",
             ">": "&gt;",
             '"': "&quot;",
-            "'": "&#39;"
+            "'": "&#39;",
         };
 
         return entities[character];
@@ -88,26 +151,17 @@ function escapeHtml(value) {
 }
 
 function getInstitutionLocation(institution) {
-    return [
-        institution.city,
-        institution.state,
-        institution.country
-    ]
+    return [institution.city, institution.state, institution.country]
         .filter(Boolean)
-        .filter((value, index, values) =>
-            values.indexOf(value) === index
-        )
+        .filter((value, index, values) => values.indexOf(value) === index)
         .join(", ");
 }
 
 function renderInstitutionCard(institution) {
     const rawType = String(institution.type || "").toUpperCase();
 
-    const type = rawType === "UNIVERSITY"
-        ? "University"
-        : rawType === "COLLEGE"
-            ? "College"
-            : "Institution";
+    const type =
+        rawType === "UNIVERSITY" ? "University" : rawType === "COLLEGE" ? "College" : "Institution";
 
     return InstitutionCard({
         type: "study-abroad",
@@ -120,15 +174,13 @@ function renderInstitutionCard(institution) {
             program: escapeHtml(type),
             highlight: escapeHtml(institution.description || ""),
             actionLabel: "View Details",
-            showCompare: true
-        }
+            showCompare: true,
+        },
     });
 }
 
 function renderSearchResults(container, response) {
-    const results = Array.isArray(response?.results)
-        ? response.results
-        : [];
+    const results = Array.isArray(response?.results) ? response.results : [];
 
     if (!results.length) {
         container.innerHTML = `
@@ -170,45 +222,34 @@ function setSuggestionMessage(container, message) {
 function closeSuggestions(form, container) {
     container.hidden = true;
 
-    form.querySelector("input[name='q']")
-        ?.setAttribute("aria-expanded", "false");
+    form.querySelector("input[name='q']")?.setAttribute("aria-expanded", "false");
 }
 
 async function fetchSuggestions(query) {
-    const url = new URL(
-        "/api/studyabroad/suggestions",
-        API_BASE_URL
-    );
+    const url = new URL("/api/studyabroad/suggestions", API_BASE_URL);
 
     url.searchParams.set("query", query);
 
     const response = await fetch(url);
 
     if (!response.ok) {
-        throw new Error(
-            `Suggestion request failed (${response.status}).`
-        );
+        throw new Error(`Suggestion request failed (${response.status}).`);
     }
 
     return response.json();
 }
 
 async function fetchSearchResults(query) {
-    const response = await fetch(
-        `${API_BASE_URL}/api/studyabroad/search`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ query })
-        }
-    );
+    const response = await fetch(`${API_BASE_URL}/api/studyabroad/search`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }),
+    });
 
     if (!response.ok) {
-        throw new Error(
-            `Institution search failed (${response.status}).`
-        );
+        throw new Error(`Institution search failed (${response.status}).`);
     }
 
     return response.json();
@@ -217,19 +258,12 @@ async function fetchSearchResults(query) {
 function initializeSearchForm(form) {
     const input = form.querySelector("input[name='q']");
 
-    const suggestions = document.getElementById(
-        form.dataset.searchSuggestionsId
-    );
+    const suggestions = document.getElementById(form.dataset.searchSuggestionsId);
 
-    const results = document.getElementById(
-        form.dataset.searchResultsId
-    );
+    const results = document.getElementById(form.dataset.searchResultsId);
 
     if (!input || !suggestions || !results) {
-        console.error(
-            "Institution search form is missing its input or result containers.",
-            form
-        );
+        console.error("Institution search form is missing its input or result containers.", form);
         return;
     }
 
@@ -264,10 +298,7 @@ function initializeSearchForm(form) {
             return;
         }
 
-        setSuggestionMessage(
-            suggestions,
-            "Finding matching institutions..."
-        );
+        setSuggestionMessage(suggestions, "Finding matching institutions...");
 
         input.setAttribute("aria-expanded", "true");
 
@@ -276,7 +307,9 @@ function initializeSearchForm(form) {
                 let matchingSuggestions;
                 if (form.closest(".study-abroad-search-widget")) {
                     const response = await fetchSuggestions(query);
-                    matchingSuggestions = (Array.isArray(response?.suggestions) ? response.suggestions : []).map(name => ({ name, category: "Study Abroad" }));
+                    matchingSuggestions = (
+                        Array.isArray(response?.suggestions) ? response.suggestions : []
+                    ).map((name) => ({ name, category: "Study Abroad" }));
                 } else matchingSuggestions = await getUnifiedMatches(query);
 
                 if (requestNumber !== latestSuggestionRequest) {
@@ -288,7 +321,7 @@ function initializeSearchForm(form) {
                 if (!matchingSuggestions.length) {
                     setSuggestionMessage(
                         suggestions,
-                        "No matching schools, colleges, online programmes or Study Abroad listings found."
+                        "No matching schools, colleges, online programmes or Study Abroad listings found.",
                     );
                     return;
                 }
@@ -312,23 +345,18 @@ function initializeSearchForm(form) {
                     return;
                 }
 
-                console.error(
-                    "Unable to load institution suggestions.",
-                    error
-                );
+                console.error("Unable to load institution suggestions.", error);
 
                 setSuggestionMessage(
                     suggestions,
-                    "Suggestions could not be loaded. Please try again."
+                    "Suggestions could not be loaded. Please try again.",
                 );
             }
         }, SUGGESTION_DELAY_MS);
     });
 
     suggestions.addEventListener("click", (event) => {
-        const option = event.target.closest(
-            ".institution-search-suggestion"
-        );
+        const option = event.target.closest(".institution-search-suggestion");
 
         if (!option) {
             return;
@@ -360,14 +388,16 @@ function initializeSearchForm(form) {
 
         // The Study Abroad hero search uses the dedicated results page.
         if (form.closest(".study-abroad-search-widget")) {
-            window.location.assign(
-                `/study-abroad/search-results?q=${encodeURIComponent(query)}`
-            );
+            window.location.assign(`/study-abroad/search-results?q=${encodeURIComponent(query)}`);
             return;
         }
 
         // Other forms retain their existing inline search behavior.
-        results.innerHTML = '<p class="institution-search-message" role="status">Searching schools, colleges, online education and Study Abroad…</p>';
+        results.innerHTML =
+            '<p class="institution-search-message" ' +
+            'role="status">Searching schools, ' +
+            "colleges, online education and Study " +
+            "Abroad…</p>";
 
         results.hidden = false;
 
@@ -376,9 +406,15 @@ function initializeSearchForm(form) {
             const studyResults = await fetchSearchResults(query).catch(() => null);
             const studyItems = Array.isArray(studyResults?.results) ? studyResults.results : [];
             const combined = [...matches];
-            studyItems.forEach(item => {
-                if (!item.name || combined.some(match => norm(match.name) === norm(item.name))) return;
-                combined.push({ name: item.name, location: getInstitutionLocation(item), category: "Study Abroad", href: `/study-abroad/search-results?q=${encodeURIComponent(item.name)}` });
+            studyItems.forEach((item) => {
+                if (!item.name || combined.some((match) => norm(match.name) === norm(item.name)))
+                    return;
+                combined.push({
+                    name: item.name,
+                    location: getInstitutionLocation(item),
+                    category: "Study Abroad",
+                    href: `/study-abroad/search-results?q=${encodeURIComponent(item.name)}`,
+                });
             });
             renderUnifiedResults(results, combined.slice(0, 24));
         } catch (error) {
@@ -394,9 +430,7 @@ function initializeSearchForm(form) {
 }
 
 export function initInstitutionSearch() {
-    document
-        .querySelectorAll("[data-institution-search]")
-        .forEach(initializeSearchForm);
+    document.querySelectorAll("[data-institution-search]").forEach(initializeSearchForm);
 }
 
 function getInstitutionBatchSize() {
@@ -412,56 +446,36 @@ function getInstitutionBatchSize() {
 }
 
 export async function loadStudyAbroadInstitutions() {
-    const response = await fetch(
-        `${API_BASE_URL}/api/institution`
-    );
+    const response = await fetch(`${API_BASE_URL}/api/institution`);
 
     if (!response.ok) {
-        throw new Error(
-            `Study abroad institutions request failed (${response.status}).`
-        );
+        throw new Error(`Study abroad institutions request failed (${response.status}).`);
     }
 
     const allInstitutions = await response.json();
 
     if (!Array.isArray(allInstitutions)) {
-        throw new TypeError(
-            "Institutions response must be an array."
-        );
+        throw new TypeError("Institutions response must be an array.");
     }
 
     const institutions = allInstitutions.filter(
-        (institution) =>
-            institution.active === true &&
-            institution.studyAbroadEnabled === true
+        (institution) => institution.active === true && institution.studyAbroadEnabled === true,
     );
 
-    const homeTrack = document.querySelector(
-        "#study-abroad .study-abroad-track"
-    );
+    const homeTrack = document.querySelector("#study-abroad .study-abroad-track");
 
     if (homeTrack && !homeTrack.dataset.institutionsLoaded) {
-        const cards = institutions
-            .map(renderInstitutionCard)
-            .join("");
+        const cards = institutions.map(renderInstitutionCard).join("");
 
         homeTrack.insertAdjacentHTML("beforeend", cards);
         homeTrack.dataset.institutionsLoaded = "true";
     }
 
-    const studyAbroadSection = document.getElementById(
-        "study-abroad-institutions"
-    );
+    const studyAbroadSection = document.getElementById("study-abroad-institutions");
 
-    const studyAbroadGrid = document.querySelector(
-        "[data-study-abroad-institutions]"
-    );
+    const studyAbroadGrid = document.querySelector("[data-study-abroad-institutions]");
 
-    if (
-        !studyAbroadSection ||
-        !studyAbroadGrid ||
-        !institutions.length
-    ) {
+    if (!studyAbroadSection || !studyAbroadGrid || !institutions.length) {
         return;
     }
 
@@ -477,7 +491,7 @@ export async function loadStudyAbroadInstitutions() {
         "Netherlands",
         "Italy",
         "United Arab Emirates",
-        "Hungary"
+        "Hungary",
     ];
 
     const groups = new Map();
@@ -498,14 +512,14 @@ export async function loadStudyAbroadInstitutions() {
 
         return (
             (indexA < 0 ? countryOrder.length : indexA) -
-            (indexB < 0 ? countryOrder.length : indexB)
-        ) || a.localeCompare(b);
+                (indexB < 0 ? countryOrder.length : indexB) || a.localeCompare(b)
+        );
     });
 
     const batchSize = getInstitutionBatchSize();
 
-    studyAbroadGrid.innerHTML = sortedCountries.map(
-        (country, countryIndex) => {
+    studyAbroadGrid.innerHTML = sortedCountries
+        .map((country, countryIndex) => {
             const countryInstitutions = groups.get(country);
 
             return `
@@ -520,17 +534,23 @@ export async function loadStudyAbroadInstitutions() {
                     </div>
 
                     <div class="institution-search-card-grid">
-                        ${countryInstitutions.map((institution, index) => `
+                        ${countryInstitutions
+                            .map(
+                                (institution, index) => `
                             <div
                                 class="institution-search-card-item"
                                 ${index >= batchSize ? "hidden" : ""}
                             >
                                 ${renderInstitutionCard(institution)}
                             </div>
-                        `).join("")}
+                        `,
+                            )
+                            .join("")}
                     </div>
 
-                    ${countryInstitutions.length > batchSize ? `
+                    ${
+                        countryInstitutions.length > batchSize
+                            ? `
                         <div class="study-abroad-load-more-wrap">
                             <button
                                 type="button"
@@ -542,34 +562,30 @@ export async function loadStudyAbroadInstitutions() {
                                 <span aria-hidden="true">↓</span>
                             </button>
                         </div>
-                    ` : ""}
+                    `
+                            : ""
+                    }
                 </section>
             `;
-        }
-    ).join("");
+        })
+        .join("");
 
     // Bind once; each country has independent View More / View Less state.
     if (studyAbroadGrid.dataset.paginationBound !== "true") {
         studyAbroadGrid.addEventListener("click", (event) => {
-            const button = event.target.closest(
-                "[data-institution-load-more]"
-            );
+            const button = event.target.closest("[data-institution-load-more]");
 
             if (!button || !studyAbroadGrid.contains(button)) {
                 return;
             }
 
-            const group = button.closest(
-                "[data-institution-country-group]"
-            );
+            const group = button.closest("[data-institution-country-group]");
 
             if (!group) {
                 return;
             }
 
-            const items = [
-                ...group.querySelectorAll(".institution-search-card-item")
-            ];
+            const items = [...group.querySelectorAll(".institution-search-card-item")];
 
             const currentBatchSize = getInstitutionBatchSize();
 
@@ -579,8 +595,7 @@ export async function loadStudyAbroadInstitutions() {
                 });
 
                 button.dataset.expanded = "false";
-                button.innerHTML =
-                    'View More Institutions <span aria-hidden="true">↓</span>';
+                button.innerHTML = 'View More Institutions <span aria-hidden="true">↓</span>';
 
                 return;
             }
@@ -594,8 +609,7 @@ export async function loadStudyAbroadInstitutions() {
 
             if (!items.some((item) => item.hidden)) {
                 button.dataset.expanded = "true";
-                button.innerHTML =
-                    'View Less <span aria-hidden="true">↑</span>';
+                button.innerHTML = 'View Less <span aria-hidden="true">↑</span>';
             }
         });
 

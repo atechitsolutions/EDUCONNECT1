@@ -13,21 +13,25 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
-    Optional<Follow> findByFollower_IdAndFollowing_Id(Long followerId, Long followingId);
-    boolean existsByFollower_IdAndFollowing_Id(Long followerId, Long followingId);
-    long countByFollowing_Id(Long userId);
-    long countByFollower_Id(Long userId);
-    long countByFollower_IdAndCreatedAtAfter(Long followerId, LocalDateTime after);
+  Optional<Follow> findByFollower_IdAndFollowing_Id(Long followerId, Long followingId);
 
-    @EntityGraph(attributePaths = {"follower"})
-    Page<Follow> findByFollowing_IdOrderByIdDesc(Long userId, Pageable pageable);
+  boolean existsByFollower_IdAndFollowing_Id(Long followerId, Long followingId);
 
-    @EntityGraph(attributePaths = {"following"})
-    Page<Follow> findByFollower_IdOrderByIdDesc(Long userId, Pageable pageable);
+  long countByFollowing_Id(Long userId);
 
-    @Query("select f.following.id from Follow f where f.follower.id = :me and f.following.id in :ids")
-    List<Long> followingAmong(@Param("me") Long me, @Param("ids") Collection<Long> ids);
+  long countByFollower_Id(Long userId);
 
-    @Query("select f.follower.id from Follow f where f.following.id = :me and f.follower.id in :ids")
-    List<Long> followersAmong(@Param("me") Long me, @Param("ids") Collection<Long> ids);
+  long countByFollower_IdAndCreatedAtAfter(Long followerId, LocalDateTime after);
+
+  @EntityGraph(attributePaths = {"follower"})
+  Page<Follow> findByFollowing_IdOrderByIdDesc(Long userId, Pageable pageable);
+
+  @EntityGraph(attributePaths = {"following"})
+  Page<Follow> findByFollower_IdOrderByIdDesc(Long userId, Pageable pageable);
+
+  @Query("select f.following.id from Follow f where f.follower.id = :me and f.following.id in :ids")
+  List<Long> followingAmong(@Param("me") Long me, @Param("ids") Collection<Long> ids);
+
+  @Query("select f.follower.id from Follow f where f.following.id = :me and f.follower.id in :ids")
+  List<Long> followersAmong(@Param("me") Long me, @Param("ids") Collection<Long> ids);
 }

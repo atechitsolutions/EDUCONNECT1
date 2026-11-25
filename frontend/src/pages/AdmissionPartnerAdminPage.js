@@ -1,15 +1,169 @@
 import { getCurrentUser } from "../services/authService.js";
-import { getAdminAdmissionPartners, getAdminAdmissionLeads, getAdminReferralAudit, decideAdmissionPartner, updateReferralAdmission, getAdminReferralLedger, postReferralCommission, reconcileReferralCommission } from "../services/admissionPartnerService.js";
+import {
+    getAdminAdmissionPartners,
+    getAdminAdmissionLeads,
+    getAdminReferralAudit,
+    decideAdmissionPartner,
+    updateReferralAdmission,
+    getAdminReferralLedger,
+    postReferralCommission,
+    reconcileReferralCommission,
+} from "../services/admissionPartnerService.js";
 import "../assets/css/admission-partners.css";
 import "../assets/css/admission-partner-workspace.css";
 import "../assets/css/admission-partner-light.css";
-const safe=v=>String(v??"—").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const money=v=>new Intl.NumberFormat("en-IN",{style:"currency",currency:"INR"}).format(Number(v||0));
+const safe = (v) =>
+    String(v ?? "—").replace(
+        /[&<>"']/g,
+        (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c],
+    );
+const money = (v) =>
+    new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR" }).format(Number(v || 0));
 
-export default function AdmissionPartnerAdminPage(){const u=getCurrentUser();if(!u||u.role!=="ADMIN")return `<main class="ap-workspace"><section class="ap-workspace-panel"><h1>Administrator access required</h1><p>Sign in with an administrator account to review admission referral partners.</p><a href="/">Return home</a></section></main>`;return `<main class="ap-workspace" id="ap-admin-workspace"><header class="ap-workspace-head"><div><p class="ap-eyebrow">StepInStudents · OPERATIONS</p><h1>Admission partner review</h1><p>Review applications, attribute student referrals, confirm admissions and reconcile documented commissions.</p></div><div class="ap-admin-link"><a href="/admin/college-partners">College partner management ↗</a></div></header><p class="ap-form-status" id="ap-admin-status" role="status"></p><section class="ap-workspace-panel ap-table-panel"><p class="ap-eyebrow">APPLICATIONS</p><h2>Partner applicants</h2><div class="ap-table-wrap"><table><thead><tr><th>Applicant</th><th>Contact</th><th>Experience</th><th>Parent</th><th>Status</th><th>Review</th></tr></thead><tbody id="ap-applicants-body"><tr><td colspan="6">Loading applications…</td></tr></tbody></table></div></section><section class="ap-workspace-panel ap-table-panel"><p class="ap-eyebrow">REFERRALS & ADMISSIONS</p><h2>Student referral records</h2><p class="ap-workspace-muted">Mark a lead under review before confirming admission. An admission confirmation is a platform status, not an institutional admission guarantee.</p><div class="ap-table-wrap"><table><thead><tr><th>Lead</th><th>Partner</th><th>Interest</th><th>Status</th><th>Action</th></tr></thead><tbody id="ap-admin-leads-body"><tr><td colspan="5">Loading referrals…</td></tr></tbody></table></div></section><section class="ap-workspace-panel"><p class="ap-eyebrow">RECORD ELIGIBLE COMMISSION</p><h2>Institution remittance record</h2><p class="ap-workspace-muted">Enter the institutional amount and the written partner share. These values are snapshotted in a unique ledger entry; no amount is inferred from an admission alone.</p><form class="ap-form" id="ap-commission-form"><label>Confirmed referral lead ID<input name="leadId" type="number" min="1" step="1" required></label><label>Eligible institutional commission (₹)<input name="institutionalAmount" type="number" min="0" step="0.01" required></label><label>Partner share (%)<input name="partnerSharePercent" type="number" min="0" max="100" step="0.01" required></label><label>Direct partner share (%) for subpartner referral<input name="directPartnerSharePercent" type="number" min="0" max="100" step="0.01" value="0" required></label><label>Institution remittance reference<input name="institutionReference" maxlength="120" required></label><label>Unique transaction key<input name="idempotencyKey" maxlength="80" required></label><button class="ap-button ap-button-primary" type="submit">Record pending commission</button><p id="ap-commission-status" class="ap-form-status" role="status"></p></form></section><section class="ap-workspace-panel ap-table-panel"><p class="ap-eyebrow">FINANCE CONTROL</p><h2>Commission ledger</h2><div class="ap-table-wrap"><table><thead><tr><th>Partner</th><th>Referral</th><th>Institution</th><th>Partner share</th><th>Platform share</th><th>Status</th><th>Reconcile</th></tr></thead><tbody id="ap-admin-ledger-body"><tr><td colspan="7">Loading ledger…</td></tr></tbody></table></div></section><section class="ap-workspace-panel ap-table-panel"><p class="ap-eyebrow">ACCOUNTABILITY</p><h2>Recent audit activity</h2><div class="ap-table-wrap"><table><thead><tr><th>Time</th><th>Action</th><th>Record</th><th>Actor</th><th>Details</th></tr></thead><tbody id="ap-audit-body"><tr><td colspan="5">Loading audit log…</td></tr></tbody></table></div></section></main>`;}
+export default function AdmissionPartnerAdminPage() {
+    const u = getCurrentUser();
+    if (!u || u.role !== "ADMIN")
+        return `<main class="ap-workspace"><section class="ap-workspace-panel"><h1>Administrator access required</h1><p>Sign in with an administrator account to review admission referral partners.</p><a href="/">Return home</a></section></main>`;
+    return `<main class="ap-workspace" id="ap-admin-workspace"><header class="ap-workspace-head"><div><p class="ap-eyebrow">StepInStudents · OPERATIONS</p><h1>Admission partner review</h1><p>Review applications, attribute student referrals, confirm admissions and reconcile documented commissions.</p></div><div class="ap-admin-link"><a href="/admin/college-partners">College partner management ↗</a></div></header><p class="ap-form-status" id="ap-admin-status" role="status"></p><section class="ap-workspace-panel ap-table-panel"><p class="ap-eyebrow">APPLICATIONS</p><h2>Partner applicants</h2><div class="ap-table-wrap"><table><thead><tr><th>Applicant</th><th>Contact</th><th>Experience</th><th>Parent</th><th>Status</th><th>Review</th></tr></thead><tbody id="ap-applicants-body"><tr><td colspan="6">Loading applications…</td></tr></tbody></table></div></section><section class="ap-workspace-panel ap-table-panel"><p class="ap-eyebrow">REFERRALS & ADMISSIONS</p><h2>Student referral records</h2><p class="ap-workspace-muted">Mark a lead under review before confirming admission. An admission confirmation is a platform status, not an institutional admission guarantee.</p><div class="ap-table-wrap"><table><thead><tr><th>Lead</th><th>Partner</th><th>Interest</th><th>Status</th><th>Action</th></tr></thead><tbody id="ap-admin-leads-body"><tr><td colspan="5">Loading referrals…</td></tr></tbody></table></div></section><section class="ap-workspace-panel"><p class="ap-eyebrow">RECORD ELIGIBLE COMMISSION</p><h2>Institution remittance record</h2><p class="ap-workspace-muted">Enter the institutional amount and the written partner share. These values are snapshotted in a unique ledger entry; no amount is inferred from an admission alone.</p><form class="ap-form" id="ap-commission-form"><label>Confirmed referral lead ID<input name="leadId" type="number" min="1" step="1" required></label><label>Eligible institutional commission (₹)<input name="institutionalAmount" type="number" min="0" step="0.01" required></label><label>Partner share (%)<input name="partnerSharePercent" type="number" min="0" max="100" step="0.01" required></label><label>Direct partner share (%) for subpartner referral<input name="directPartnerSharePercent" type="number" min="0" max="100" step="0.01" value="0" required></label><label>Institution remittance reference<input name="institutionReference" maxlength="120" required></label><label>Unique transaction key<input name="idempotencyKey" maxlength="80" required></label><button class="ap-button ap-button-primary" type="submit">Record pending commission</button><p id="ap-commission-status" class="ap-form-status" role="status"></p></form></section><section class="ap-workspace-panel ap-table-panel"><p class="ap-eyebrow">FINANCE CONTROL</p><h2>Commission ledger</h2><div class="ap-table-wrap"><table><thead><tr><th>Partner</th><th>Referral</th><th>Institution</th><th>Partner share</th><th>Platform share</th><th>Status</th><th>Reconcile</th></tr></thead><tbody id="ap-admin-ledger-body"><tr><td colspan="7">Loading ledger…</td></tr></tbody></table></div></section><section class="ap-workspace-panel ap-table-panel"><p class="ap-eyebrow">ACCOUNTABILITY</p><h2>Recent audit activity</h2><div class="ap-table-wrap"><table><thead><tr><th>Time</th><th>Action</th><th>Record</th><th>Actor</th><th>Details</th></tr></thead><tbody id="ap-audit-body"><tr><td colspan="5">Loading audit log…</td></tr></tbody></table></div></section></main>`;
+}
 
-export function initAdmissionPartnerAdminPage(){const root=document.querySelector("#ap-admin-workspace");if(!root)return;const status=document.querySelector("#ap-admin-status");const esc=event=>event.target.closest("[data-admin-action]");
-    const load=async()=>{try{const [partners,allLeads,ledger,audit]=await Promise.all([getAdminAdmissionPartners(),getAdminAdmissionLeads(),getAdminReferralLedger(),getAdminReferralAudit()]);const rows=partners.map(p=>`<tr><td>${safe(p.fullName)}</td><td>${safe(p.email)}<small>${safe(p.phone)}</small></td><td>${safe(p.experience)}</td><td>${safe(p.parentId)}</td><td>${safe(p.status)}</td><td>${p.status==="PENDING"?`<button class="ap-table-action" data-admin-action="approve" data-id="${p.id}" data-email="${safe(p.email)}">Approve & link account</button><button class="ap-table-action ap-danger-action" data-admin-action="reject" data-id="${p.id}">Reject</button>`:p.status==="APPROVED"?`<button class="ap-table-action ap-danger-action" data-admin-action="suspend" data-id="${p.id}">Suspend</button>`:"—"}</td></tr>`).join("");document.querySelector("#ap-applicants-body").innerHTML=rows||`<tr><td colspan="6">No partner applications have been submitted.</td></tr>`;document.querySelector("#ap-admin-leads-body").innerHTML=allLeads.length?allLeads.map(l=>`<tr><td>${safe(l.studentName)}<small>${safe(l.studentEmail)} · ID ${l.id}</small></td><td>${safe(l.partnerName)}</td><td>${safe(l.institutionInterest)}<small>${safe(l.courseInterest)}</small></td><td>${safe(l.status)}</td><td>${l.status==="REFERRED"?`<button data-admin-action="review-lead" data-id="${l.id}" class="ap-table-action">Start review</button>`:l.status==="IN_REVIEW"?`<button data-admin-action="confirm-lead" data-id="${l.id}" class="ap-table-action">Confirm admission</button>`:"—"}</td></tr>`).join(""):`<tr><td colspan="5">No student referrals have been submitted.</td></tr>`;document.querySelector("#ap-admin-ledger-body").innerHTML=ledger.length?ledger.map(c=>`<tr><td>${safe(c.partnerName)}<small>${safe(c.partnerEmail)}</small></td><td>${safe(c.leadId)}</td><td>${money(c.institutionalAmount)}</td><td>${money(c.partnerAmount)}</td><td>${money(c.platformAmount)}</td><td>${safe(c.status)}</td><td>${c.status==="PENDING_REMITTANCE"?`<button data-admin-action="payable" data-id="${c.id}" class="ap-table-action">Confirm remittance</button>`:c.status==="PAYABLE"?`<button data-admin-action="reverse" data-id="${c.id}" class="ap-table-action ap-danger-action">Reverse</button>`:"Reversed"}</td></tr>`).join(""):`<tr><td colspan="7">No commission entries recorded.</td></tr>`;document.querySelector("#ap-audit-body").innerHTML=audit.length?audit.map(a=>`<tr><td>${safe(new Date(a.createdAt).toLocaleString())}</td><td>${safe(a.action)}</td><td>${safe(a.entityType)} · ${safe(a.entityId)}</td><td>${safe(a.actor)}</td><td>${safe(a.details)}</td></tr>`).join(""):`<tr><td colspan="5">No audit activity recorded.</td></tr>`;}catch(e){status.textContent=e.message;status.classList.add("is-error");}};
-    load();root.addEventListener("click",async event=>{const button=esc(event);if(!button)return;button.disabled=true;try{const action=button.dataset.adminAction,id=Number(button.dataset.id);if(action==="approve"){const allow=window.confirm("Does the written institutional agreement explicitly permit this direct partner to invite subpartners?");await decideAdmissionPartner(id,{status:"APPROVED",userEmail:button.dataset.email,subpartnersAllowed:allow});}else if(action==="reject")await decideAdmissionPartner(id,{status:"REJECTED"});else if(action==="suspend")await decideAdmissionPartner(id,{status:"SUSPENDED"});else if(action==="review-lead")await updateReferralAdmission(id,"IN_REVIEW");else if(action==="confirm-lead"){if(!window.confirm("Confirm this admission status? The institution makes the admission decision; confirm only from verified records."))return;await updateReferralAdmission(id,"ADMISSION_CONFIRMED");}else if(action==="payable"){const reference=window.prompt("Enter the verified institutional remittance reference before making the partner share payable:");if(!reference)return;await reconcileReferralCommission(id,"PAYABLE",reference);}else if(action==="reverse"){if(!window.confirm("Reverse this ledger entry? Reversed entries cannot be reopened."))return;await reconcileReferralCommission(id,"REVERSED");}status.textContent="Record updated. Partner login: registered email and the first 4 phone digits.";await load();}catch(e){status.textContent=e.message;status.classList.add("is-error");}finally{button.disabled=false;}});
-    document.querySelector("#ap-commission-form").addEventListener("submit",async event=>{event.preventDefault();const form=event.currentTarget,out=document.querySelector("#ap-commission-status"),button=form.querySelector("button");button.disabled=true;out.textContent="Recording commission snapshot…";try{const v=Object.fromEntries(new FormData(form));const row=await postReferralCommission({...v,leadId:Number(v.leadId),institutionalAmount:v.institutionalAmount,partnerSharePercent:v.partnerSharePercent,directPartnerSharePercent:v.directPartnerSharePercent});out.textContent=`Commission recorded. Referrer: ${money(row.partnerAmount)} · Direct partner: ${money(row.directPartnerAmount)} · Platform: ${money(row.platformAmount)} · ${row.status}`;form.reset();await load();}catch(e){out.textContent=e.message;out.classList.add("is-error");}finally{button.disabled=false;}});
+export function initAdmissionPartnerAdminPage() {
+    const root = document.querySelector("#ap-admin-workspace");
+    if (!root) return;
+    const status = document.querySelector("#ap-admin-status");
+    const esc = (event) => event.target.closest("[data-admin-action]");
+    const load = async () => {
+        try {
+            const [partners, allLeads, ledger, audit] = await Promise.all([
+                getAdminAdmissionPartners(),
+                getAdminAdmissionLeads(),
+                getAdminReferralLedger(),
+                getAdminReferralAudit(),
+            ]);
+            const rows = partners
+                .map(
+                    (p) =>
+                        `<tr><td>${safe(p.fullName)}</td><td>${safe(p.email)}<small>${safe(p.phone)}</small></td><td>${safe(p.experience)}</td><td>${safe(p.parentId)}</td><td>${safe(p.status)}</td><td>${p.status === "PENDING" ? `<button class="ap-table-action" data-admin-action="approve" data-id="${p.id}" data-email="${safe(p.email)}">Approve & link account</button><button class="ap-table-action ap-danger-action" data-admin-action="reject" data-id="${p.id}">Reject</button>` : p.status === "APPROVED" ? `<button class="ap-table-action ap-danger-action" data-admin-action="suspend" data-id="${p.id}">Suspend</button>` : "—"}</td></tr>`,
+                )
+                .join("");
+            document.querySelector("#ap-applicants-body").innerHTML =
+                rows ||
+                `<tr><td colspan="6">No partner applications have been submitted.</td></tr>`;
+            document.querySelector("#ap-admin-leads-body").innerHTML = allLeads.length
+                ? allLeads
+                      .map(
+                          (l) =>
+                              `<tr><td>${safe(l.studentName)}<small>${safe(l.studentEmail)} · ID ${l.id}</small></td><td>${safe(l.partnerName)}</td><td>${safe(l.institutionInterest)}<small>${safe(l.courseInterest)}</small></td><td>${safe(l.status)}</td><td>${l.status === "REFERRED" ? `<button data-admin-action="review-lead" data-id="${l.id}" class="ap-table-action">Start review</button>` : l.status === "IN_REVIEW" ? `<button data-admin-action="confirm-lead" data-id="${l.id}" class="ap-table-action">Confirm admission</button>` : "—"}</td></tr>`,
+                      )
+                      .join("")
+                : `<tr><td colspan="5">No student referrals have been submitted.</td></tr>`;
+            document.querySelector("#ap-admin-ledger-body").innerHTML = ledger.length
+                ? ledger
+                      .map(
+                          (c) =>
+                              `<tr><td>${safe(c.partnerName)}<small>${safe(c.partnerEmail)}</small></td><td>${safe(c.leadId)}</td><td>${money(c.institutionalAmount)}</td><td>${money(c.partnerAmount)}</td><td>${money(c.platformAmount)}</td><td>${safe(c.status)}</td><td>${c.status === "PENDING_REMITTANCE" ? `<button data-admin-action="payable" data-id="${c.id}" class="ap-table-action">Confirm remittance</button>` : c.status === "PAYABLE" ? `<button data-admin-action="reverse" data-id="${c.id}" class="ap-table-action ap-danger-action">Reverse</button>` : "Reversed"}</td></tr>`,
+                      )
+                      .join("")
+                : `<tr><td colspan="7">No commission entries recorded.</td></tr>`;
+            document.querySelector("#ap-audit-body").innerHTML = audit.length
+                ? audit
+                      .map(
+                          (a) =>
+                              `<tr><td>${safe(new Date(a.createdAt).toLocaleString())}</td><td>${safe(a.action)}</td><td>${safe(a.entityType)} · ${safe(a.entityId)}</td><td>${safe(a.actor)}</td><td>${safe(a.details)}</td></tr>`,
+                      )
+                      .join("")
+                : `<tr><td colspan="5">No audit activity recorded.</td></tr>`;
+        } catch (e) {
+            status.textContent = e.message;
+            status.classList.add("is-error");
+        }
+    };
+    load();
+    root.addEventListener("click", async (event) => {
+        const button = esc(event);
+        if (!button) return;
+        button.disabled = true;
+        try {
+            const action = button.dataset.adminAction,
+                id = Number(button.dataset.id);
+            if (action === "approve") {
+                const allow = window.confirm(
+                    "Does the written institutional " +
+                        "agreement explicitly permit this direct " +
+                        "partner to invite subpartners?",
+                );
+                await decideAdmissionPartner(id, {
+                    status: "APPROVED",
+                    userEmail: button.dataset.email,
+                    subpartnersAllowed: allow,
+                });
+            } else if (action === "reject")
+                await decideAdmissionPartner(id, { status: "REJECTED" });
+            else if (action === "suspend")
+                await decideAdmissionPartner(id, { status: "SUSPENDED" });
+            else if (action === "review-lead") await updateReferralAdmission(id, "IN_REVIEW");
+            else if (action === "confirm-lead") {
+                if (
+                    !window.confirm(
+                        "Confirm this admission status? The " +
+                            "institution makes the admission " +
+                            "decision; confirm only from verified " +
+                            "records.",
+                    )
+                )
+                    return;
+                await updateReferralAdmission(id, "ADMISSION_CONFIRMED");
+            } else if (action === "payable") {
+                const reference = window.prompt(
+                    "Enter the verified institutional " +
+                        "remittance reference before making the " +
+                        "partner share payable:",
+                );
+                if (!reference) return;
+                await reconcileReferralCommission(id, "PAYABLE", reference);
+            } else if (action === "reverse") {
+                if (
+                    !window.confirm(
+                        "Reverse this ledger entry? Reversed entries cannot be reopened.",
+                    )
+                )
+                    return;
+                await reconcileReferralCommission(id, "REVERSED");
+            }
+            status.textContent =
+                "Record updated. Partner login: registered email and the first 4 phone digits.";
+            await load();
+        } catch (e) {
+            status.textContent = e.message;
+            status.classList.add("is-error");
+        } finally {
+            button.disabled = false;
+        }
+    });
+    document.querySelector("#ap-commission-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const form = event.currentTarget,
+            out = document.querySelector("#ap-commission-status"),
+            button = form.querySelector("button");
+        button.disabled = true;
+        out.textContent = "Recording commission snapshot…";
+        try {
+            const v = Object.fromEntries(new FormData(form));
+            const row = await postReferralCommission({
+                ...v,
+                leadId: Number(v.leadId),
+                institutionalAmount: v.institutionalAmount,
+                partnerSharePercent: v.partnerSharePercent,
+                directPartnerSharePercent: v.directPartnerSharePercent,
+            });
+            out.textContent = `Commission recorded. Referrer: ${money(row.partnerAmount)} · Direct partner: ${money(row.directPartnerAmount)} · Platform: ${money(row.platformAmount)} · ${row.status}`;
+            form.reset();
+            await load();
+        } catch (e) {
+            out.textContent = e.message;
+            out.classList.add("is-error");
+        } finally {
+            button.disabled = false;
+        }
+    });
 }

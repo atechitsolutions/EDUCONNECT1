@@ -33,10 +33,7 @@ async function parseResponse(response) {
     }
 
     if (!response.ok) {
-        throw new Error(
-            data?.message ||
-            `Request failed with status ${response.status}`
-        );
+        throw new Error(data?.message || `Request failed with status ${response.status}`);
     }
 
     return data;
@@ -48,70 +45,53 @@ export async function getInstitutions() {
 }
 
 export async function getAdminInstitutions() {
-    const response = await fetch(
-        `${API_BASE_URL}/institution/admin`,
-        { headers: buildHeaders() }
-    );
+    const response = await fetch(`${API_BASE_URL}/institution/admin`, { headers: buildHeaders() });
     return parseResponse(response);
 }
 
 export async function getInstitutionById(id) {
-    const response = await fetch(
-        `${API_BASE_URL}/institution/${encodeURIComponent(id)}`
-    );
+    const response = await fetch(`${API_BASE_URL}/institution/${encodeURIComponent(id)}`);
     return parseResponse(response);
 }
 
 export async function getStudyAbroadSuggestions(query) {
     const response = await fetch(
-        `${API_BASE_URL}/studyabroad/suggestions?query=${encodeURIComponent(query)}`
+        `${API_BASE_URL}/studyabroad/suggestions?query=${encodeURIComponent(query)}`,
     );
     return parseResponse(response);
 }
 
 export async function searchStudyAbroad(query) {
-    const response = await fetch(
-        `${API_BASE_URL}/studyabroad/search`,
-        {
-            method: "POST",
-            headers: buildHeaders(true),
-            body: JSON.stringify({ query })
-        }
-    );
+    const response = await fetch(`${API_BASE_URL}/studyabroad/search`, {
+        method: "POST",
+        headers: buildHeaders(true),
+        body: JSON.stringify({ query }),
+    });
     return parseResponse(response);
 }
 
 export async function createInstitution(data) {
-    const response = await fetch(
-        `${API_BASE_URL}/institution`,
-        {
-            method: "POST",
-            headers: buildHeaders(true),
-            body: JSON.stringify(data)
-        }
-    );
+    const response = await fetch(`${API_BASE_URL}/institution`, {
+        method: "POST",
+        headers: buildHeaders(true),
+        body: JSON.stringify(data),
+    });
     return parseResponse(response);
 }
 
 export async function updateInstitution(id, data) {
-    const response = await fetch(
-        `${API_BASE_URL}/institution/${encodeURIComponent(id)}`,
-        {
-            method: "PUT",
-            headers: buildHeaders(true),
-            body: JSON.stringify(data)
-        }
-    );
+    const response = await fetch(`${API_BASE_URL}/institution/${encodeURIComponent(id)}`, {
+        method: "PUT",
+        headers: buildHeaders(true),
+        body: JSON.stringify(data),
+    });
     return parseResponse(response);
 }
 
 export async function deleteInstitution(id) {
-    const response = await fetch(
-        `${API_BASE_URL}/institution/${encodeURIComponent(id)}`,
-        {
-            method: "DELETE",
-            headers: buildHeaders()
-        }
-    );
+    const response = await fetch(`${API_BASE_URL}/institution/${encodeURIComponent(id)}`, {
+        method: "DELETE",
+        headers: buildHeaders(),
+    });
     return parseResponse(response);
 }

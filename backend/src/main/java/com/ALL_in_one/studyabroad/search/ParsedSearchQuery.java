@@ -1,6 +1,5 @@
 package com.ALL_in_one.studyabroad.search;
 
-
 import com.ALL_in_one.studyabroad.enums.InstitutionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,13 +8,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ParsedSearchQuery {
 
-    private String originalQuery;
+  private String originalQuery;
 
-    private String normalizedQuery;
+  private String normalizedQuery;
 
-    private InstitutionType institutionType;
+  private InstitutionType institutionType;
 
-    private String location;
+  private String location;
 
-    private String keyword;
+  private String keyword;
 }

@@ -3,10 +3,6 @@ import { API_BASE_URL as API_ROOT } from "../config/api.js";
 
 const API_BASE_URL = `${API_ROOT}/api`;
 
-/* =========================
-   COMMON HELPERS
-========================= */
-
 function buildHeaders(includeJson = false) {
     const headers = {};
 
@@ -36,116 +32,71 @@ async function parseResponse(response) {
     }
 
     if (!response.ok) {
-        throw new Error(
-            data?.message ||
-            `Request failed with status ${response.status}`
-        );
+        throw new Error(data?.message || `Request failed with status ${response.status}`);
     }
 
     return data;
 }
 
-/* =========================
-   NEWS - PUBLIC
-========================= */
-
 export async function getPublishedNews() {
-    const response = await fetch(
-        `${API_BASE_URL}/home/news`
-    );
+    const response = await fetch(`${API_BASE_URL}/home/news`);
 
     return parseResponse(response);
 }
 
 export async function getPublishedNewsById(id) {
-    const response = await fetch(
-        `${API_BASE_URL}/home/news/${encodeURIComponent(id)}`
-    );
+    const response = await fetch(`${API_BASE_URL}/home/news/${encodeURIComponent(id)}`);
 
     return parseResponse(response);
 }
 
-/* =========================
-   NEWS - ADMIN
-   Existing functions preserved
-========================= */
-
 export async function getAdminNews() {
-    const response = await fetch(
-        `${API_BASE_URL}/home/news/admin`,
-        { headers: buildHeaders() }
-    );
+    const response = await fetch(`${API_BASE_URL}/home/news/admin`, { headers: buildHeaders() });
 
     return parseResponse(response);
 }
 
 export async function createNews(data) {
-    const response = await fetch(
-        `${API_BASE_URL}/home/news/admin`,
-        {
-            method: "POST",
-            headers: buildHeaders(true),
-            body: JSON.stringify(data)
-        }
-    );
+    const response = await fetch(`${API_BASE_URL}/home/news/admin`, {
+        method: "POST",
+        headers: buildHeaders(true),
+        body: JSON.stringify(data),
+    });
 
     return parseResponse(response);
 }
 
 export async function updateNews(id, data) {
-    const response = await fetch(
-        `${API_BASE_URL}/home/news/admin/${encodeURIComponent(id)}`,
-        {
-            method: "PUT",
-            headers: buildHeaders(true),
-            body: JSON.stringify(data)
-        }
-    );
+    const response = await fetch(`${API_BASE_URL}/home/news/admin/${encodeURIComponent(id)}`, {
+        method: "PUT",
+        headers: buildHeaders(true),
+        body: JSON.stringify(data),
+    });
 
     return parseResponse(response);
 }
 
 export async function deleteNews(id) {
-    const response = await fetch(
-        `${API_BASE_URL}/home/news/admin/${encodeURIComponent(id)}`,
-        {
-            method: "DELETE",
-            headers: buildHeaders()
-        }
-    );
+    const response = await fetch(`${API_BASE_URL}/home/news/admin/${encodeURIComponent(id)}`, {
+        method: "DELETE",
+        headers: buildHeaders(),
+    });
 
     return parseResponse(response);
 }
-
-/* =========================
-   CURRENT AFFAIRS - PUBLIC
-========================= */
 
 export async function getCurrentAffairs() {
-    const response = await fetch(
-        `${API_BASE_URL}/home/updates/current-affairs`
-    );
+    const response = await fetch(`${API_BASE_URL}/home/updates/current-affairs`);
 
     return parseResponse(response);
 }
-
-/* =========================
-   ADMIN UPDATES
-========================= */
 
 // Backend endpoint returns all update types.
 export async function getAdminUpdates() {
-    const response = await fetch(
-        `${API_BASE_URL}/home/updates/admin`,
-        { headers: buildHeaders() }
-    );
+    const response = await fetch(`${API_BASE_URL}/home/updates/admin`, { headers: buildHeaders() });
 
     return parseResponse(response);
 }
-
-/* =========================
-   CURRENT AFFAIRS - ADMIN
-========================= */
 
 // Filter the shared endpoint to show only Current Affairs.
 export async function getAdminCurrentAffairs() {
@@ -155,9 +106,7 @@ export async function getAdminCurrentAffairs() {
         return [];
     }
 
-    return updates.filter(
-        item => item.type === "CURRENT_AFFAIRS"
-    );
+    return updates.filter((item) => item.type === "CURRENT_AFFAIRS");
 }
 
 export async function createCurrentAffair(data) {
@@ -169,17 +118,14 @@ export async function createCurrentAffair(data) {
         icon: data.icon || "",
         targetUrl: data.targetUrl || "",
         active: data.active ?? true,
-        sortOrder: Number(data.sortOrder ?? 0)
+        sortOrder: Number(data.sortOrder ?? 0),
     };
 
-    const response = await fetch(
-        `${API_BASE_URL}/home/updates/admin`,
-        {
-            method: "POST",
-            headers: buildHeaders(true),
-            body: JSON.stringify(payload)
-        }
-    );
+    const response = await fetch(`${API_BASE_URL}/home/updates/admin`, {
+        method: "POST",
+        headers: buildHeaders(true),
+        body: JSON.stringify(payload),
+    });
 
     return parseResponse(response);
 }
@@ -193,29 +139,23 @@ export async function updateCurrentAffair(id, data) {
         icon: data.icon || "",
         targetUrl: data.targetUrl || "",
         active: data.active ?? true,
-        sortOrder: Number(data.sortOrder ?? 0)
+        sortOrder: Number(data.sortOrder ?? 0),
     };
 
-    const response = await fetch(
-        `${API_BASE_URL}/home/updates/admin/${encodeURIComponent(id)}`,
-        {
-            method: "PUT",
-            headers: buildHeaders(true),
-            body: JSON.stringify(payload)
-        }
-    );
+    const response = await fetch(`${API_BASE_URL}/home/updates/admin/${encodeURIComponent(id)}`, {
+        method: "PUT",
+        headers: buildHeaders(true),
+        body: JSON.stringify(payload),
+    });
 
     return parseResponse(response);
 }
 
 export async function deleteCurrentAffair(id) {
-    const response = await fetch(
-        `${API_BASE_URL}/home/updates/admin/${encodeURIComponent(id)}`,
-        {
-            method: "DELETE",
-            headers: buildHeaders()
-        }
-    );
+    const response = await fetch(`${API_BASE_URL}/home/updates/admin/${encodeURIComponent(id)}`, {
+        method: "DELETE",
+        headers: buildHeaders(),
+    });
 
     return parseResponse(response);
 }

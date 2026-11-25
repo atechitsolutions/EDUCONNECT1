@@ -13,13 +13,15 @@ function createNewsCard(news, index) {
             location: news.country || "India",
             program: news.subtitle || "Education News",
             ranking: news.description || "",
-            highlight: news.imageCredit ? `<small class="news-image-credit">${news.imageCredit}</small>` : "Published on StepInStudents",
+            highlight: news.imageCredit
+                ? `<small class="news-image-credit">${news.imageCredit}</small>`
+                : "Published on StepInStudents",
             image: news.imageUrl || "",
             actionLabel: news.actionLabel || "Read Full News",
             actionHref: news.sourceUrl || "",
-            showCompare: false
+            showCompare: false,
         },
-        type: "education-news"
+        type: "education-news",
     });
 }
 
@@ -31,17 +33,13 @@ function bindNewsNavigation(container) {
     container.dataset.newsBound = "true";
 
     container.addEventListener("click", (event) => {
-        const button = event.target.closest(
-            ".institution-card-action[data-action='details']"
-        );
+        const button = event.target.closest(".institution-card-action[data-action='details']");
 
         if (!button || !container.contains(button)) {
             return;
         }
 
-        const id = button
-            .closest(".institution-card")
-            ?.dataset.institutionId;
+        const id = button.closest(".institution-card")?.dataset.institutionId;
 
         if (!id) {
             return;
@@ -110,36 +108,68 @@ export function NewsSection() {
                 {
                     title: "MIT develops faster, more reliable AI models for climate prediction",
                     subtitle: "November 12, 2026 · MIT News",
-                    description: "A new training method helps climate emulators adapt to scenarios they did not see during training, using far less data.",
+                    description:
+                        "A new training method helps climate " +
+                        "emulators adapt to scenarios they did " +
+                        "not see during training, using far less " +
+                        "data.",
                     category: "Research & technology",
                     country: "United States",
-                    imageUrl: "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202611/MIT-Climate-Emulation-01_0.jpg?itok=G0a7yGB9",
-                    sourceUrl: "https://news.mit.edu/2026/new-research-could-lead-faster-trustworthy-ai-models-climate-prediction-1112",
+                    imageUrl:
+                        "https://news.mit.edu/sites/default/files" +
+                        "/styles/news_article__image_gallery/publ" +
+                        "ic/images/202611/MIT-Climate-Emulation-0" +
+                        "1_0.jpg?itok=G0a7yGB9",
+                    sourceUrl:
+                        "https://news.mit.edu/2026/new-research-c" +
+                        "ould-lead-faster-trustworthy-ai-models-c" +
+                        "limate-prediction-1112",
                     actionLabel: "Read at MIT News",
-                    imageCredit: "Image: UCAR; MIT News"
+                    imageCredit: "Image: UCAR; MIT News",
                 },
                 {
                     title: "MIT and Northeastern researchers design tougher nature-inspired materials",
                     subtitle: "November 11, 2026 · MIT News",
-                    description: "A network-inspired material design could improve impact absorption in products such as helmets, packaging, and armor.",
+                    description:
+                        "A network-inspired material design " +
+                        "could improve impact absorption in " +
+                        "products such as helmets, packaging, " +
+                        "and armor.",
                     category: "University research",
                     country: "United States",
-                    imageUrl: "https://news.mit.edu/sites/default/files/download/202611/MIT-MultiMeta-01-Press.jpg",
-                    sourceUrl: "https://news.mit.edu/2026/engineers-design-stronger-resilient-nature-inspired-metamaterials-1111",
+                    imageUrl:
+                        "https://news.mit.edu/sites/default/files" +
+                        "/download/202611/MIT-MultiMeta-01-Press." +
+                        "jpg",
+                    sourceUrl:
+                        "https://news.mit.edu/2026/engineers-desi" +
+                        "gn-stronger-resilient-nature-inspired-me" +
+                        "tamaterials-1111",
                     actionLabel: "Read at MIT News",
-                    imageCredit: "Photo: Rishi Kommalapati / MIT"
+                    imageCredit: "Photo: Rishi Kommalapati / MIT",
                 },
                 {
                     title: "MIT welcomes seven new faculty to its College of Computing",
                     subtitle: "November 10, 2026 · MIT News",
-                    description: "New faculty will work across AI, quantum computing, environmental science, human-AI interaction, and economics.",
+                    description:
+                        "New faculty will work across AI, " +
+                        "quantum computing, environmental " +
+                        "science, human-AI interaction, and " +
+                        "economics.",
                     category: "Campus & education",
                     country: "United States",
-                    imageUrl: "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202610/26-27%20SCC%20Faculty%20copy.png?itok=cxHnBrCa",
-                    sourceUrl: "https://news.mit.edu/2026/mit-schwarzman-college-computing-welcomes-new-faculty-1110",
+                    imageUrl:
+                        "https://news.mit.edu/sites/default/files" +
+                        "/styles/news_article__image_gallery/publ" +
+                        "ic/images/202610/26-27%20SCC%20Faculty%2" +
+                        "0copy.png?itok=cxHnBrCa",
+                    sourceUrl:
+                        "https://news.mit.edu/2026/mit-schwarzman" +
+                        "-college-computing-welcomes-new-faculty-" +
+                        "1110",
                     actionLabel: "Read at MIT News",
-                    imageCredit: "Photos courtesy of the faculty / MIT"
-                }
+                    imageCredit: "Photos courtesy of the faculty / MIT",
+                },
             ];
             const items = [...currentStories, ...publishedItems];
 
@@ -156,11 +186,15 @@ export function NewsSection() {
                 return;
             }
 
-            track.innerHTML = items
-                .map(createNewsCard)
-                .join("");
+            track.innerHTML = items.map(createNewsCard).join("");
             track.querySelectorAll(".institution-card-visual > img").forEach((image) => {
-                image.addEventListener("error", () => { image.hidden = true; }, { once: true });
+                image.addEventListener(
+                    "error",
+                    () => {
+                        image.hidden = true;
+                    },
+                    { once: true },
+                );
             });
 
             bindNewsNavigation(track);
@@ -179,7 +213,7 @@ export function NewsSection() {
         id: "news",
         title: "",
         subtitle: "",
-        content
+        content,
     });
 }
 

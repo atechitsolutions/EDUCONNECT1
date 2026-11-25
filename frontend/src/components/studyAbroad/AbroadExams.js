@@ -1,97 +1,80 @@
-/* =========================================================
-   STUDY ABROAD — EXAMS
-========================================================= */
-
 export default function AbroadExams() {
-
     const exams = [
-
         {
             name: "IELTS",
             category: "English Proficiency",
             description:
-                "International English language test accepted by universities and institutions worldwide.",
-            sections:
-                "Listening • Reading • Writing • Speaking",
-            score:
-                "Band Score: 0 – 9",
-            suitableFor:
-                "USA • UK • Canada • Australia • Europe"
+                "International English language test " +
+                "accepted by universities and " +
+                "institutions worldwide.",
+            sections: "Listening • Reading • Writing • Speaking",
+            score: "Band Score: 0 – 9",
+            suitableFor: "USA • UK • Canada • Australia • Europe",
         },
 
         {
             name: "TOEFL",
             category: "English Proficiency",
             description:
-                "English language proficiency test commonly used for international university admissions.",
-            sections:
-                "Reading • Listening • Speaking • Writing",
-            score:
-                "Score: 0 – 120",
-            suitableFor:
-                "USA • Canada • UK • Australia"
+                "English language proficiency test " +
+                "commonly used for international " +
+                "university admissions.",
+            sections: "Reading • Listening • Speaking • Writing",
+            score: "Score: 0 – 120",
+            suitableFor: "USA • Canada • UK • Australia",
         },
 
         {
             name: "PTE Academic",
             category: "English Proficiency",
             description:
-                "Computer-based English language test designed for international study and migration.",
-            sections:
-                "Speaking • Writing • Reading • Listening",
-            score:
-                "Score: 10 – 90",
-            suitableFor:
-                "Australia • UK • Canada • New Zealand"
+                "Computer-based English language test " +
+                "designed for international study and " +
+                "migration.",
+            sections: "Speaking • Writing • Reading • Listening",
+            score: "Score: 10 – 90",
+            suitableFor: "Australia • UK • Canada • New Zealand",
         },
 
         {
             name: "GRE",
             category: "Graduate Admission",
             description:
-                "Graduate-level admission test used by many universities for master's and other programs.",
-            sections:
-                "Verbal • Quantitative • Analytical Writing",
-            score:
-                "Verbal & Quantitative: 130 – 170",
-            suitableFor:
-                "USA • Canada • Europe • Other Destinations"
+                "Graduate-level admission test used by " +
+                "many universities for master's and " +
+                "other programs.",
+            sections: "Verbal • Quantitative • Analytical Writing",
+            score: "Verbal & Quantitative: 130 – 170",
+            suitableFor: "USA • Canada • Europe • Other Destinations",
         },
 
         {
             name: "GMAT",
             category: "Business School",
             description:
-                "Admission test designed for candidates applying to business and management programs.",
-            sections:
-                "Quantitative • Verbal • Data Insights",
-            score:
-                "Score varies by GMAT edition",
-            suitableFor:
-                "Business Schools Worldwide"
+                "Admission test designed for candidates " +
+                "applying to business and management " +
+                "programs.",
+            sections: "Quantitative • Verbal • Data Insights",
+            score: "Score varies by GMAT edition",
+            suitableFor: "Business Schools Worldwide",
         },
 
         {
             name: "SAT",
             category: "Undergraduate Admission",
             description:
-                "Standardized admission test used by universities and colleges for undergraduate applications.",
-            sections:
-                "Reading & Writing • Mathematics",
-            score:
-                "Score: 400 – 1600",
-            suitableFor:
-                "USA • Selected International Universities"
-        }
-
+                "Standardized admission test used by " +
+                "universities and colleges for " +
+                "undergraduate applications.",
+            sections: "Reading & Writing • Mathematics",
+            score: "Score: 400 – 1600",
+            suitableFor: "USA • Selected International Universities",
+        },
     ];
-
 
     return `
 
-        <!-- =====================================================
-             STUDY ABROAD EXAMS
-        ====================================================== -->
 
         <section
             class="study-abroad-exams"
@@ -102,9 +85,6 @@ export default function AbroadExams() {
             <div class="study-abroad-exams-container">
 
 
-                <!-- =================================================
-                     SECTION HEADER
-                ================================================== -->
 
                 <div class="study-abroad-exams-header">
 
@@ -134,9 +114,6 @@ export default function AbroadExams() {
                 </div>
 
 
-                <!-- =================================================
-                     EXAM FILTERS
-                ================================================== -->
 
                 <div class="study-abroad-exam-filters">
 
@@ -184,23 +161,19 @@ export default function AbroadExams() {
                 </div>
 
 
-                <!-- =================================================
-                     EXAM GRID
-                ================================================== -->
 
                 <div class="study-abroad-exams-grid">
 
 
-                    ${exams.map((exam) => `
+                    ${exams
+                        .map(
+                            (exam) => `
 
                         <article
                             class="study-abroad-exam-card"
                         >
 
 
-                            <!-- =================================================
-                                 CARD HEADER
-                            ================================================== -->
 
                             <div class="exam-card-header">
 
@@ -218,9 +191,6 @@ export default function AbroadExams() {
                             </div>
 
 
-                            <!-- =================================================
-                                 EXAM CONTENT
-                            ================================================== -->
 
                             <div class="exam-card-content">
 
@@ -235,9 +205,6 @@ export default function AbroadExams() {
                                 </p>
 
 
-                                <!-- =================================================
-                                     EXAM DETAILS
-                                ================================================== -->
 
                                 <div class="exam-card-details">
 
@@ -317,9 +284,6 @@ export default function AbroadExams() {
                                 </div>
 
 
-                                <!-- =================================================
-                                     EXAM ACTION
-                                ================================================== -->
 
                                 <button
                                     type="button"
@@ -340,15 +304,14 @@ export default function AbroadExams() {
 
                         </article>
 
-                    `).join("")}
+                    `,
+                        )
+                        .join("")}
 
 
                 </div>
 
 
-                <!-- =================================================
-                     EXAM FOOTER
-                ================================================== -->
 
                 <div class="study-abroad-exams-footer">
 

@@ -5,10 +5,6 @@ export default function Hero() {
             aria-labelledby="hero-title"
         >
 
-            <!-- =====================================================
-                 PREMIUM BACKGROUND OVERLAY
-                 This stays behind all interactive content
-            ====================================================== -->
 
             <div
                 class="hero-overlay"
@@ -16,16 +12,10 @@ export default function Hero() {
             ></div>
 
 
-            <!-- =====================================================
-                 HERO CONTENT
-            ====================================================== -->
 
             <div class="hero-content">
 
 
-                <!-- =================================================
-                     PLATFORM LABEL
-                ================================================== -->
 
                 <div class="hero-badge">
 
@@ -39,9 +29,6 @@ export default function Hero() {
                 </div>
 
 
-                <!-- =================================================
-                     MAIN HEADING
-                ================================================== -->
 
                 <h1
                     id="hero-title"
@@ -56,9 +43,6 @@ export default function Hero() {
                 </h1>
 
 
-                <!-- =================================================
-                     DESCRIPTION
-                ====================================================== -->
 
                 <p class="hero-description">
 
@@ -69,9 +53,6 @@ export default function Hero() {
                 </p>
 
 
-                <!-- =================================================
-                     EDUCATION SEARCH
-                ================================================== -->
 
                 <div class="institution-search-widget">
                     <form
@@ -139,9 +120,6 @@ export default function Hero() {
                 </div>
 
 
-                <!-- =================================================
-                     QUICK SEARCH OPTIONS
-                ================================================== -->
 
                 <nav
                     class="hero-quick-links"
@@ -195,9 +173,6 @@ export default function Hero() {
                 </nav>
 
 
-                <!-- =================================================
-                     MAIN ACTION BUTTONS
-                ================================================== -->
 
                 <div class="hero-buttons">
 
@@ -228,12 +203,6 @@ export default function Hero() {
                 </div>
 
 
-                <!-- =================================================
-                     PLATFORM STATISTICS
-
-                     Keep these values only if they are supported
-                     by actual STEPINSTUDENTS data.
-                ================================================== -->
 
                 <div
                     class="hero-stats"
@@ -314,9 +283,6 @@ export default function Hero() {
             </div>
 
 
-            <!-- =====================================================
-                 DECORATIVE GLOW
-            ====================================================== -->
 
             <div
                 class="hero-glow hero-glow-one"
@@ -329,9 +295,6 @@ export default function Hero() {
             ></div>
 
 
-            <!-- =====================================================
-                 SCROLL INDICATOR
-            ====================================================== -->
 
             <div
                 class="hero-scroll-indicator"

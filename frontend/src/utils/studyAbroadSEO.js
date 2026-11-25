@@ -1,8 +1,12 @@
 const STUDY_ABROAD_PAGE = {
     title: "Study Abroad from India: Courses & Universities | StepInStudents",
-    description: "Compare study abroad destinations from India. Explore universities, courses, admissions, scholarships and estimated tuition and living costs.",
+    description:
+        "Compare study abroad destinations from " +
+        "India. Explore universities, courses, " +
+        "admissions, scholarships and estimated " +
+        "tuition and living costs.",
     canonical: "https://stepinstudents.com/study-abroad/",
-    image: "https://stepinstudents.com/images/banner/study-abroad-banner.jpeg"
+    image: "https://stepinstudents.com/images/banner/study-abroad-banner.jpeg",
 };
 
 function setMeta(selector, attribute, content) {
@@ -25,14 +29,22 @@ export function applyStudyAbroadSEO() {
 
     document.title = page.title;
     setMeta('meta[name="description"]', ["name", "description"], page.description);
-    setMeta('meta[name="robots"]', ["name", "robots"], "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1");
+    setMeta(
+        'meta[name="robots"]',
+        ["name", "robots"],
+        "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    );
     setMeta('meta[property="og:type"]', ["property", "og:type"], "website");
     setMeta('meta[property="og:site_name"]', ["property", "og:site_name"], "StepInStudents");
     setMeta('meta[property="og:title"]', ["property", "og:title"], page.title);
     setMeta('meta[property="og:description"]', ["property", "og:description"], page.description);
     setMeta('meta[property="og:url"]', ["property", "og:url"], page.canonical);
     setMeta('meta[property="og:image"]', ["property", "og:image"], page.image);
-    setMeta('meta[property="og:image:alt"]', ["property", "og:image:alt"], "Study abroad opportunities featured by StepInStudents");
+    setMeta(
+        'meta[property="og:image:alt"]',
+        ["property", "og:image:alt"],
+        "Study abroad opportunities featured by StepInStudents",
+    );
     setMeta('meta[name="twitter:card"]', ["name", "twitter:card"], "summary_large_image");
     setMeta('meta[name="twitter:title"]', ["name", "twitter:title"], page.title);
     setMeta('meta[name="twitter:description"]', ["name", "twitter:description"], page.description);
@@ -56,12 +68,12 @@ export function applyStudyAbroadSEO() {
         inLanguage: "en-IN",
         primaryImageOfPage: {
             "@type": "ImageObject",
-            url: page.image
+            url: page.image,
         },
         isPartOf: {
             "@type": "WebSite",
             name: "StepInStudents",
-            url: "https://stepinstudents.com/"
+            url: "https://stepinstudents.com/",
         },
         breadcrumb: {
             "@type": "BreadcrumbList",
@@ -70,16 +82,16 @@ export function applyStudyAbroadSEO() {
                     "@type": "ListItem",
                     position: 1,
                     name: "Home",
-                    item: "https://stepinstudents.com/"
+                    item: "https://stepinstudents.com/",
                 },
                 {
                     "@type": "ListItem",
                     position: 2,
                     name: "Study Abroad",
-                    item: STUDY_ABROAD_PAGE.canonical
-                }
-            ]
-        }
+                    item: STUDY_ABROAD_PAGE.canonical,
+                },
+            ],
+        },
     };
 
     const script = document.createElement("script");

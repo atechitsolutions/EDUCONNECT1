@@ -1,73 +1,64 @@
-/* =========================================================
-   STUDY ABROAD FINAL CTA  (boarding-pass sign-up section)
-   Returns an HTML string, same pattern as the other
-   studyAbroad/* components. Styles are included below so
-   no separate CSS file or import is needed.
-   ========================================================= */
-
-/* ---------- lead submit: connect your backend here ---------- */
 async function submitStudyAbroadLead(phone) {
-  // TODO: replace with your real API call, e.g. from studyAbroadService.js:
-  //   await studyAbroadService.saveLead({ phone });
-  // Throw an Error("message") to show a failure message to the user.
-  window.dispatchEvent(new CustomEvent("studyabroad:lead", { detail: { phone } }));
-  await new Promise((r) => setTimeout(r, 400));
+    // TODO: replace with your real API call, e.g. from studyAbroadService.js:
+    //   await studyAbroadService.saveLead({ phone });
+    // Throw an Error("message") to show a failure message to the user.
+    window.dispatchEvent(new CustomEvent("studyabroad:lead", { detail: { phone } }));
+    await new Promise((r) => setTimeout(r, 400));
 }
 
-/* ---------- inline handlers (work with innerHTML rendering) ---------- */
 if (typeof window !== "undefined") {
-  window.ljLeapInput = function (input) {
-    input.value = input.value.replace(/\D/g, "").slice(0, 10);
-    const form = input.closest("form");
-    const msg = form.querySelector(".lj-msg");
-    msg.textContent = "";
-    msg.className = "lj-msg";
-    form.querySelector(".lj-phone").classList.remove("is-error");
-  };
+    window.ljLeapInput = function (input) {
+        input.value = input.value.replace(/\D/g, "").slice(0, 10);
+        const form = input.closest("form");
+        const msg = form.querySelector(".lj-msg");
+        msg.textContent = "";
+        msg.className = "lj-msg";
+        form.querySelector(".lj-phone").classList.remove("is-error");
+    };
 
-  window.ljLeapCode = function (select) {
-    select.closest(".lj-phone__code").setAttribute("data-code", select.value);
-  };
+    window.ljLeapCode = function (select) {
+        select.closest(".lj-phone__code").setAttribute("data-code", select.value);
+    };
 
-  window.ljLeapSubmit = async function (event) {
-    event.preventDefault();
-    const form = event.target;
-    const input = form.querySelector("input[type='tel']");
-    const code = form.querySelector("select").value;
-    const msg = form.querySelector(".lj-msg");
-    const btn = form.querySelector(".lj-btn");
-    const label = btn.querySelector("span");
-    const box = form.querySelector(".lj-phone");
+    window.ljLeapSubmit = async function (event) {
+        event.preventDefault();
+        const form = event.target;
+        const input = form.querySelector("input[type='tel']");
+        const code = form.querySelector("select").value;
+        const msg = form.querySelector(".lj-msg");
+        const btn = form.querySelector(".lj-btn");
+        const label = btn.querySelector("span");
+        const box = form.querySelector(".lj-phone");
 
-    if (input.value.length !== 10) {
-      box.classList.add("is-error");
-      msg.className = "lj-msg lj-msg--error";
-      msg.textContent = "Enter a valid 10-digit phone number.";
-      input.focus();
-      return false;
-    }
+        if (input.value.length !== 10) {
+            box.classList.add("is-error");
+            msg.className = "lj-msg lj-msg--error";
+            msg.textContent = "Enter a valid 10-digit phone number.";
+            input.focus();
+            return false;
+        }
 
-    btn.disabled = true;
-    label.textContent = "Sending…";
-    try {
-      await submitStudyAbroadLead(code + input.value);
-      msg.className = "lj-msg lj-msg--ok";
-      msg.textContent = "Thanks! Our counsellors will contact you soon.";
-      input.value = "";
-    } catch (err) {
-      msg.className = "lj-msg lj-msg--error";
-      msg.textContent = (err && err.message) || "Something went wrong. Please try again.";
-    } finally {
-      btn.disabled = false;
-      label.textContent = "Get Started";
-    }
-    return false;
-  };
+        btn.disabled = true;
+        label.textContent = "Sending…";
+        try {
+            await submitStudyAbroadLead(code + input.value);
+            msg.className = "lj-msg lj-msg--ok";
+            msg.textContent = "Thanks! Our counsellors will contact you soon.";
+            input.value = "";
+        } catch (err) {
+            msg.className = "lj-msg lj-msg--error";
+            msg.textContent = (err && err.message) || "Something went wrong. Please try again.";
+        } finally {
+            btn.disabled = false;
+            label.textContent = "Get Started";
+        }
+        return false;
+    };
 }
 
 const LJ_BARS = [
-  3, 6, 2, 5, 3, 8, 2, 4, 6, 3, 2, 7, 3, 5, 2, 9, 3, 4, 2, 6, 3, 5, 8, 2, 4, 3,
-  6, 2, 5, 3, 7, 2, 4, 6, 3, 2, 8, 3, 5, 2, 4, 6, 3, 9, 2, 5, 3, 4,
+    3, 6, 2, 5, 3, 8, 2, 4, 6, 3, 2, 7, 3, 5, 2, 9, 3, 4, 2, 6, 3, 5, 8, 2, 4, 3, 6, 2, 5, 3, 7, 2,
+    4, 6, 3, 2, 8, 3, 5, 2, 4, 6, 3, 9, 2, 5, 3, 4,
 ];
 
 const LJ_CAP_SVG = `
@@ -188,14 +179,11 @@ position:relative;overflow:hidden;padding:36px 16px 32px;background:linear-gradi
 </style>`;
 
 export default function StudyAbroadCTA() {
-  const bars = LJ_BARS.map((w) => `<i style="--w:${w}"></i>`).join("");
+    const bars = LJ_BARS.map((w) => `<i style="--w:${w}"></i>`).join("");
 
-  return `
+    return `
 ${LJ_STYLES}
 
-<!-- =====================================================
-     STUDY ABROAD FINAL CTA
-     ===================================================== -->
 <section class="lj-section" id="study-abroad-cta" aria-labelledby="lj-heading">
   <span class="lj-cloud lj-cloud--a" aria-hidden="true"></span>
   <span class="lj-cloud lj-cloud--b" aria-hidden="true"></span>

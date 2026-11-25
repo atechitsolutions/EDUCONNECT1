@@ -7,6 +7,5 @@ import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 
 public record WalletAdjustmentRequest(
-        @DecimalMin(value = "-500000.00") @DecimalMax(value = "500000.00") BigDecimal amount,
-        @NotBlank @Size(max = 1000) String reason
-) { }
+    @DecimalMin(value = "-500000.00") @DecimalMax(value = "500000.00") BigDecimal amount,
+    @NotBlank @Size(max = 1000) String reason) {}

@@ -1,15 +1,8 @@
 import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
 
-
 export function TopCompaniesSection() {
-
-    /* =====================================================
-       TOP COMPANIES
-    ====================================================== */
-
     const companies = [
-
         {
             rank: "01",
             name: "Tata Consultancy Services",
@@ -17,23 +10,24 @@ export function TopCompaniesSection() {
             category: "IT & Technology",
             location: "Pan India",
 
-            program:
-                "Jobs • Internships • Graduate Programs",
+            program: "Jobs • Internships • Graduate Programs",
 
             rating: "4.7",
             reviews: "5,240",
             score: "9.1",
 
             ranking:
-                "One of India's leading IT and technology companies offering jobs and career opportunities in India",
+                "One of India's leading IT and " +
+                "technology companies offering jobs and " +
+                "career opportunities in India",
 
-            highlight:
-                "Strong career growth & learning opportunities",
+            highlight: "Strong career growth & learning opportunities",
 
             image:
-                "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=85"
+                "https://images.unsplash.com/photo-149736" +
+                "6811353-6870744d04b2?auto=format&fit=cro" +
+                "p&w=1200&q=85",
         },
-
 
         {
             rank: "02",
@@ -42,23 +36,24 @@ export function TopCompaniesSection() {
             category: "IT & Technology",
             location: "Pan India",
 
-            program:
-                "Jobs • Internships • Graduate Programs",
+            program: "Jobs • Internships • Graduate Programs",
 
             rating: "4.6",
             reviews: "4,820",
             score: "8.9",
 
             ranking:
-                "Major IT and technology company offering jobs, internships and career opportunities in India",
+                "Major IT and technology company " +
+                "offering jobs, internships and career " +
+                "opportunities in India",
 
-            highlight:
-                "Learning & development focused workplace",
+            highlight: "Learning & development focused workplace",
 
             image:
-                "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85"
+                "https://images.unsplash.com/photo-149736" +
+                "6754035-f200968a6e72?auto=format&fit=cro" +
+                "p&w=1200&q=85",
         },
-
 
         {
             rank: "03",
@@ -67,23 +62,24 @@ export function TopCompaniesSection() {
             category: "Technology",
             location: "India",
 
-            program:
-                "Software • Cloud • Product • Internships",
+            program: "Software • Cloud • Product • Internships",
 
             rating: "4.8",
             reviews: "3,950",
             score: "9.5",
 
             ranking:
-                "Leading global technology company offering software, cloud, AI and technology careers in India",
+                "Leading global technology company " +
+                "offering software, cloud, AI and " +
+                "technology careers in India",
 
-            highlight:
-                "Innovation, technology & strong work culture",
+            highlight: "Innovation, technology & strong work culture",
 
             image:
-                "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=85"
+                "https://images.unsplash.com/photo-149736" +
+                "6216548-37526070297c?auto=format&fit=cro" +
+                "p&w=1200&q=85",
         },
-
 
         {
             rank: "04",
@@ -92,23 +88,24 @@ export function TopCompaniesSection() {
             category: "Technology",
             location: "India",
 
-            program:
-                "Software • Data • AI • Internships",
+            program: "Software • Data • AI • Internships",
 
             rating: "4.8",
             reviews: "4,210",
             score: "9.6",
 
             ranking:
-                "Leading technology company offering software, data, AI and internship opportunities in India",
+                "Leading technology company offering " +
+                "software, data, AI and internship " +
+                "opportunities in India",
 
-            highlight:
-                "Innovation & global career opportunities",
+            highlight: "Innovation & global career opportunities",
 
             image:
-                "https://images.unsplash.com/photo-1573804633927-bfcbcd909acd?auto=format&fit=crop&w=1200&q=85"
+                "https://images.unsplash.com/photo-157380" +
+                "4633927-bfcbcd909acd?auto=format&fit=cro" +
+                "p&w=1200&q=85",
         },
-
 
         {
             rank: "05",
@@ -117,23 +114,24 @@ export function TopCompaniesSection() {
             category: "Technology & E-Commerce",
             location: "India",
 
-            program:
-                "Technology • Operations • Business • Internships",
+            program: "Technology • Operations • Business • Internships",
 
             rating: "4.6",
             reviews: "4,680",
             score: "8.8",
 
             ranking:
-                "Leading technology and e-commerce company offering jobs, internships and business career opportunities in India",
+                "Leading technology and e-commerce " +
+                "company offering jobs, internships and " +
+                "business career opportunities in India",
 
-            highlight:
-                "Fast-paced careers & diverse opportunities",
+            highlight: "Fast-paced careers & diverse opportunities",
 
             image:
-                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=85"
+                "https://images.unsplash.com/photo-152327" +
+                "5335684-37898b6baf30?auto=format&fit=cro" +
+                "p&w=1200&q=85",
         },
-
 
         {
             rank: "06",
@@ -142,15 +140,15 @@ export function TopCompaniesSection() {
             category: "Consulting & Professional Services",
             location: "India",
 
-            highlight:
-                "Professional growth, consulting careers and business opportunities",
+            highlight: "Professional growth, consulting careers and business opportunities",
 
             rating: "4.6",
 
             image:
-                "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=85"
+                "https://images.unsplash.com/photo-149736" +
+                "6811353-6870744d04b2?auto=format&fit=cro" +
+                "p&w=1200&q=85",
         },
-
 
         {
             rank: "07",
@@ -159,23 +157,24 @@ export function TopCompaniesSection() {
             category: "IT & Consulting",
             location: "Pan India",
 
-            program:
-                "Technology • Consulting • Strategy • Internships",
+            program: "Technology • Consulting • Strategy • Internships",
 
             rating: "4.5",
             reviews: "4,060",
             score: "8.6",
 
             ranking:
-                "Global technology and consulting company offering IT, consulting and digital career opportunities in India",
+                "Global technology and consulting " +
+                "company offering IT, consulting and " +
+                "digital career opportunities in India",
 
-            highlight:
-                "Global opportunities & digital careers",
+            highlight: "Global opportunities & digital careers",
 
             image:
-                "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85"
+                "https://images.unsplash.com/photo-149736" +
+                "6754035-f200968a6e72?auto=format&fit=cro" +
+                "p&w=1200&q=85",
         },
-
 
         {
             rank: "08",
@@ -184,23 +183,24 @@ export function TopCompaniesSection() {
             category: "Banking & Finance",
             location: "Pan India",
 
-            program:
-                "Banking • Finance • Analytics • Internships",
+            program: "Banking • Finance • Analytics • Internships",
 
             rating: "4.5",
             reviews: "2,980",
             score: "8.5",
 
             ranking:
-                "One of India's leading private sector banks offering banking, finance and analytics career opportunities",
+                "One of India's leading private sector " +
+                "banks offering banking, finance and " +
+                "analytics career opportunities",
 
-            highlight:
-                "Career stability & financial sector growth",
+            highlight: "Career stability & financial sector growth",
 
             image:
-                "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85"
+                "https://images.unsplash.com/photo-155676" +
+                "1175-b413da4baf72?auto=format&fit=crop&w" +
+                "=1200&q=85",
         },
-
 
         {
             rank: "09",
@@ -209,23 +209,24 @@ export function TopCompaniesSection() {
             category: "Conglomerate",
             location: "India",
 
-            program:
-                "Technology • Finance • Retail • Operations",
+            program: "Technology • Finance • Retail • Operations",
 
             rating: "4.5",
             reviews: "2,740",
             score: "8.4",
 
             ranking:
-                "Large diversified company offering career opportunities across technology, finance, retail and operations",
+                "Large diversified company offering " +
+                "career opportunities across technology, " +
+                "finance, retail and operations",
 
-            highlight:
-                "Diverse career paths across industries",
+            highlight: "Diverse career paths across industries",
 
             image:
-                "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85"
+                "https://images.unsplash.com/photo-148640" +
+                "6146926-c627a92ad1ab?auto=format&fit=cro" +
+                "p&w=1200&q=85",
         },
-
 
         {
             rank: "10",
@@ -234,119 +235,67 @@ export function TopCompaniesSection() {
             category: "IT & Technology",
             location: "Pan India",
 
-            program:
-                "IT • Consulting • Cloud • Internships",
+            program: "IT • Consulting • Cloud • Internships",
 
             rating: "4.4",
             reviews: "2,560",
             score: "8.3",
 
             ranking:
-                "Established IT and technology company offering consulting, cloud and career opportunities in India",
+                "Established IT and technology company " +
+                "offering consulting, cloud and career " +
+                "opportunities in India",
 
-            highlight:
-                "Workplace opportunities & career mobility",
+            highlight: "Workplace opportunities & career mobility",
 
             image:
-                "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=85"
-        }
-
+                "https://images.unsplash.com/photo-149736" +
+                "6216548-37526070297c?auto=format&fit=cro" +
+                "p&w=1200&q=85",
+        },
     ];
 
-
-    /* =====================================================
-       CREATE COMPANY CARD
-    ====================================================== */
-
     function createCompanyCard(company) {
-
         return InstitutionCard({
-
             item: {
+                rank: company.rank,
 
-                rank:
-                    company.rank,
+                name: company.name,
 
-                name:
-                    company.name,
+                category: company.category,
 
-                category:
-                    company.category,
+                program: company.program,
 
-                program:
-                    company.program,
+                location: company.location,
 
-                location:
-                    company.location,
+                rating: company.rating,
 
-                rating:
-                    company.rating,
+                reviews: company.reviews,
 
-                reviews:
-                    company.reviews,
+                score: company.score,
 
-                score:
-                    company.score,
+                ranking: company.ranking,
 
-                ranking:
-                    company.ranking,
+                highlight: company.highlight,
 
-                highlight:
-                    company.highlight,
+                image: company.image,
 
-                image:
-                    company.image,
-
-                actionLabel:
-                    "Explore Careers"
-
+                actionLabel: "Explore Careers",
             },
 
-            type:
-                "company"
-
+            type: "company",
         });
-
     }
 
+    const companyCards = companies.map(createCompanyCard).join("");
 
-    /* =====================================================
-       ORIGINAL COMPANY CARDS
-    ====================================================== */
-
-    const companyCards =
-        companies
-            .map(
-                createCompanyCard
-            )
-            .join("");
-
-
-    /* =====================================================
-       DUPLICATE COMPANY CARDS
-       FOR SEAMLESS CAROUSEL
-    ====================================================== */
-
-    const companyCardsDuplicate =
-        companies
-            .map(
-                createCompanyCard
-            )
-            .join("");
-
-
-    /* =====================================================
-       CONTENT
-    ====================================================== */
+    const companyCardsDuplicate = companies.map(createCompanyCard).join("");
 
     const content = `
 
         <div class="top-companies-section">
 
 
-            <!-- =================================================
-                 SECTION INTRO
-            ================================================== -->
 
             <div class="top-companies-intro">
 
@@ -385,9 +334,6 @@ export function TopCompaniesSection() {
             </div>
 
 
-            <!-- =================================================
-                 COMPANY CAROUSEL
-            ================================================== -->
 
             <div class="top-companies-carousel">
 
@@ -404,9 +350,6 @@ export function TopCompaniesSection() {
             </div>
 
 
-            <!-- =================================================
-                 BOTTOM CTA
-            ================================================== -->
 
             <div class="top-companies-bottom">
 
@@ -441,9 +384,6 @@ export function TopCompaniesSection() {
             </div>
 
 
-            <!-- =================================================
-                 ALL COMPANIES VIEW
-            ================================================== -->
 
             <div
                 class="top-companies-all"
@@ -452,12 +392,7 @@ export function TopCompaniesSection() {
 
                 <div class="top-companies-all-grid">
 
-                    ${companies
-                        .map(
-                            createCompanyCard
-                        )
-                        .join("")
-                    }
+                    ${companies.map(createCompanyCard).join("")}
 
                 </div>
 
@@ -468,27 +403,15 @@ export function TopCompaniesSection() {
 
     `;
 
-
-    /* =====================================================
-       RETURN SECTION
-    ====================================================== */
-
     return Section({
+        id: "top-companies",
 
-        id:
-            "top-companies",
+        title: "",
 
-        title:
-            "",
+        subtitle: "",
 
-        subtitle:
-            "",
-
-        content
-
+        content,
     });
-
 }
-
 
 export default TopCompaniesSection;

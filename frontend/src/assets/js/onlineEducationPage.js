@@ -5,17 +5,14 @@ import domesticInstitutionSites from "../../data/domestic-institution-site-data.
 import domesticCampusPhotos from "../../data/domestic-college-campus-photos.json";
 import domesticPhotoSources from "../../data/domestic-college-photo-sources.json";
 import domesticInstitutionOverviews from "../../data/institution-overviews.json";
-import { onlineEducationCampusImages, DOMESTIC_PROFILE_FACTS, ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS } from "../../pages/OnlineEducationPage.js";
+import {
+    onlineEducationCampusImages,
+    DOMESTIC_PROFILE_FACTS,
+    ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS,
+} from "../../pages/OnlineEducationPage.js";
 import { renderOnlineEducationCustomCards } from "./onlineEducationCustomCards.js";
 import { addProgrammeImages } from "../../utils/onlineEducationImages.js";
 
-/* ---------------------------------------------------------
-   ENQUIRY SETTINGS
-   ENQUIRY_ENDPOINT: your backend URL, e.g. "/api/enquiries".
-   If empty, enquiries are saved in localStorage for testing.
-   USE_EXISTING_ENQUIRY_FORM: true = scroll to a form already on
-   the page (falls back to the popup if none is found).
---------------------------------------------------------- */
 const ENQUIRY_ENDPOINT = "";
 const ENQUIRY_STORAGE_KEY = "educonnect-online-enquiries";
 const USE_EXISTING_ENQUIRY_FORM = false;
@@ -25,69 +22,95 @@ const CAMPUS_IMAGE_URLS = onlineEducationCampusImages;
 const AMBIGUOUS_DIRECTORY_CODES = new Set([
     "EC-IN-UN-FUTURE",
     "EC-IN-UN-GANPAT-GOA",
-    "EC-IN-NEEDS-OXFORD"
+    "EC-IN-NEEDS-OXFORD",
 ]);
 const DOMESTIC_DISCOVERY_INSTITUTIONS = domesticInstitutionDirectory
     .filter((record) => {
         const code = String(record.code || "");
-        const eligible = !record.directoryCategory &&
+        const eligible =
+            !record.directoryCategory &&
             (code.startsWith("EC-IN-UN-") ||
                 ["EC-IN-COL-ACHARYA", "EC-IN-COL-APBS", "EC-IN-NEEDS-OXFORD"].includes(code));
-        return eligible && !onlineEducationInstitutions.some((item) =>
-            item.country === "India" &&
-            item.name.toLocaleLowerCase() === String(record.name || "").toLocaleLowerCase()
+        return (
+            eligible &&
+            !onlineEducationInstitutions.some(
+                (item) =>
+                    item.country === "India" &&
+                    item.name.toLocaleLowerCase() === String(record.name || "").toLocaleLowerCase(),
+            )
         );
     })
     .map((record) => {
         const site = domesticInstitutionSites[record.code] || {};
         const profile = DOMESTIC_PROFILE_FACTS[record.code];
-        const overview = domesticInstitutionOverviews.find((item) =>
-            item.country === "India" &&
-            item.name.toLocaleLowerCase() === record.name.toLocaleLowerCase()
+        const overview = domesticInstitutionOverviews.find(
+            (item) =>
+                item.country === "India" &&
+                item.name.toLocaleLowerCase() === record.name.toLocaleLowerCase(),
         );
         const imageUrl = domesticCampusPhotos[record.code] || site.campusImage || "";
-        const officialWebsite = site.officialDomain &&
-            !/^https?:\/\//i.test(site.officialDomain)
-            ? `https://${site.officialDomain}`
-            : "";
+        const officialWebsite =
+            site.officialDomain && !/^https?:\/\//i.test(site.officialDomain)
+                ? `https://${site.officialDomain}`
+                : "";
         return {
             id: `directory-${record.code}`,
             directoryCode: record.code,
             name: record.name,
             country: "India",
             city: String(record.city || ""),
-            type: record.type === "COLLEGE" ? "College" :
-                record.type === "UNIVERSITY" ? "University" : "Institution",
+            type:
+                record.type === "COLLEGE"
+                    ? "College"
+                    : record.type === "UNIVERSITY"
+                      ? "University"
+                      : "Institution",
             levels: AMBIGUOUS_DIRECTORY_CODES.has(record.code)
-                ? [] : ["Bachelor's", "Master's", "Diploma", "Certificate"],
+                ? []
+                : ["Bachelor's", "Master's", "Diploma", "Certificate"],
             subjects: ["Other"],
-            modes: record.code === "EC-IN-UN-VGU" ? ["Distance learning"] :
-                AMBIGUOUS_DIRECTORY_CODES.has(record.code) ? [] : ["On-campus"],
+            modes:
+                record.code === "EC-IN-UN-VGU"
+                    ? ["Distance learning"]
+                    : AMBIGUOUS_DIRECTORY_CODES.has(record.code)
+                      ? []
+                      : ["On-campus"],
             overview: profile?.overview?.join("\n") || overview?.overview || site.description || "",
             url: officialWebsite,
             imageUrl,
             imageSourceUrl: domesticPhotoSources[record.code]?.sourceUrl || imageUrl,
-            imageVerificationStatus: imageUrl ? "campus-photo-source-identified" : "awaiting-authentic-photo",
+            imageVerificationStatus: imageUrl
+                ? "campus-photo-source-identified"
+                : "awaiting-authentic-photo",
             dataVerificationStatus: AMBIGUOUS_DIRECTORY_CODES.has(record.code)
-                ? "needs-clarification" : "pending-review",
+                ? "needs-clarification"
+                : "pending-review",
             programmeNote: AMBIGUOUS_DIRECTORY_CODES.has(record.code)
                 ? "This directory entry needs confirmation before students rely on it."
                 : record.code === "EC-IN-UN-VGU"
-                    ? "Distance mode is listed for this institution; confirm programme-specific UGC-DEB entitlement."
-                    : "Campus institution listing. No online or distance programme has been verified for this card.",
-            lastVerifiedAt: null
+                  ? "Distance mode is listed for this " +
+                    "institution; confirm programme-specific " +
+                    "UGC-DEB entitlement."
+                  : "Campus institution listing. No online " +
+                    "or distance programme has been verified " +
+                    "for this card.",
+            lastVerifiedAt: null,
         };
     });
 const ALL_DISCOVERY_INSTITUTIONS = ONLINE_EDUCATION_DISCOVERY_INSTITUTIONS;
 
 const escapeHTML = (value = "") =>
-    String(value ?? "").replace(/[&<>"']/g, (char) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    })[char]);
+    String(value ?? "").replace(
+        /[&<>"']/g,
+        (char) =>
+            ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+            })[char],
+    );
 
 const storage = (key, fallback) => {
     try {
@@ -115,7 +138,11 @@ function setMeta(selector, attribute, value, createTag) {
 function updatePageMetadata() {
     const title = "Online Education: Compare Courses & Degrees | StepInStudents";
     const description =
-        "Compare online courses, certificates, diplomas and degrees by subject, level, study mode and destination. Explore options from universities and learning providers.";
+        "Compare online courses, certificates, " +
+        "diplomas and degrees by subject, level, " +
+        "study mode and destination. Explore " +
+        "options from universities and learning " +
+        "providers.";
     const canonicalUrl = "https://stepinstudents.com/online-education/";
 
     document.title = title;
@@ -142,10 +169,7 @@ function updatePageMetadata() {
 }
 
 function formatTuition(programme) {
-    if (
-        programme.tuitionAmount === null ||
-        programme.tuitionAmount === undefined
-    ) {
+    if (programme.tuitionAmount === null || programme.tuitionAmount === undefined) {
         return "Check provider website";
     }
 
@@ -156,13 +180,15 @@ function formatTuition(programme) {
 }
 
 function getProviderInitials(providerName = "") {
-    return String(providerName)
-        .trim()
-        .split(/\s+/)
-        .filter(Boolean)
-        .slice(0, 2)
-        .map((word) => word.charAt(0).toUpperCase())
-        .join("") || "ED";
+    return (
+        String(providerName)
+            .trim()
+            .split(/\s+/)
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((word) => word.charAt(0).toUpperCase())
+            .join("") || "ED"
+    );
 }
 
 function safeExternalUrl(url) {
@@ -185,9 +211,7 @@ function safeExternalUrl(url) {
  */
 function findExistingEnquiryTarget(root) {
     const forms = [...root.querySelectorAll("form")].filter(
-        (form) =>
-            !form.matches("#oe-hero-search-form") &&
-            !form.matches("[data-oe-enquiry-form]")
+        (form) => !form.matches("#oe-hero-search-form") && !form.matches("[data-oe-enquiry-form]"),
     );
 
     const enquiryWords =
@@ -202,13 +226,17 @@ function findExistingEnquiryTarget(root) {
             form.className,
             form.innerText,
             [...form.querySelectorAll("label, button, input, textarea")]
-                .map((element) => [
-                    element.innerText,
-                    element.getAttribute("placeholder"),
-                    element.getAttribute("aria-label"),
-                    element.value
-                ].filter(Boolean).join(" "))
-                .join(" ")
+                .map((element) =>
+                    [
+                        element.innerText,
+                        element.getAttribute("placeholder"),
+                        element.getAttribute("aria-label"),
+                        element.value,
+                    ]
+                        .filter(Boolean)
+                        .join(" "),
+                )
+                .join(" "),
         ].join(" ");
 
         if (enquiryWords.test(searchableText)) {
@@ -217,37 +245,41 @@ function findExistingEnquiryTarget(root) {
     }
 
     for (const form of forms) {
-        const section = form.closest(
-            "section, article, [role='region'], .oe-section"
-        );
+        const section = form.closest("section, article, [role='region'], .oe-section");
 
         if (
             section &&
-            enquiryWords.test([
-                section.id,
-                section.className,
-                section.getAttribute("aria-label"),
-                section.querySelector("h1, h2, h3, h4")?.innerText
-            ].filter(Boolean).join(" "))
+            enquiryWords.test(
+                [
+                    section.id,
+                    section.className,
+                    section.getAttribute("aria-label"),
+                    section.querySelector("h1, h2, h3, h4")?.innerText,
+                ]
+                    .filter(Boolean)
+                    .join(" "),
+            )
         ) {
             return section;
         }
     }
 
-    const sections = [
-        ...root.querySelectorAll(
-            "section, article, [role='region'], .oe-section"
-        )
-    ];
+    const sections = [...root.querySelectorAll("section, article, [role='region'], .oe-section")];
 
-    return sections.find((element) =>
-        enquiryWords.test([
-            element.id,
-            element.className,
-            element.getAttribute("aria-label"),
-            element.querySelector("h1, h2, h3, h4")?.innerText
-        ].filter(Boolean).join(" "))
-    ) || null;
+    return (
+        sections.find((element) =>
+            enquiryWords.test(
+                [
+                    element.id,
+                    element.className,
+                    element.getAttribute("aria-label"),
+                    element.querySelector("h1, h2, h3, h4")?.innerText,
+                ]
+                    .filter(Boolean)
+                    .join(" "),
+            ),
+        ) || null
+    );
 }
 
 /* Returns true if an existing enquiry form/section was found and scrolled to. */
@@ -257,19 +289,22 @@ function scrollToExistingEnquiry(root) {
     if (!target) return false;
 
     target.scrollIntoView({
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-            ? "auto"
-            : "smooth",
-        block: "start"
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "start",
     });
 
     const firstControl = target.matches("form")
         ? target.querySelector(
-            'input:not([type="hidden"]):not([disabled]), textarea:not([disabled]), select:not([disabled])'
-        )
+              'input:not([type="hidden"]):not([disabled' +
+                  "]), textarea:not([disabled]), " +
+                  "select:not([disabled])",
+          )
         : target.querySelector(
-            'form input:not([type="hidden"]):not([disabled]), form textarea:not([disabled]), form select:not([disabled])'
-        );
+              "form " +
+                  'input:not([type="hidden"]):not([disabled' +
+                  "]), form textarea:not([disabled]), form " +
+                  "select:not([disabled])",
+          );
 
     if (firstControl) {
         window.setTimeout(() => {
@@ -280,12 +315,9 @@ function scrollToExistingEnquiry(root) {
     return true;
 }
 
-
 function getProgrammeOverview(programme) {
     // Prefer an explicitly supplied overview or description.
-    const suppliedOverview = String(
-        programme.overview || programme.description || ""
-    ).trim();
+    const suppliedOverview = String(programme.overview || programme.description || "").trim();
 
     if (suppliedOverview.length > 40) {
         return suppliedOverview;
@@ -294,13 +326,11 @@ function getProgrammeOverview(programme) {
     const title = programme.title || "This programme";
     const provider = programme.providerName || "the listed institution";
     const subject = programme.subject || "its listed subject area";
-    const qualification =
-        programme.qualificationType || programme.educationLevel || "programme";
+    const qualification = programme.qualificationType || programme.educationLevel || "programme";
     const level = programme.educationLevel || "Not specified";
     const mode = programme.studyMode || "Not specified";
     const duration = programme.duration || "Not listed";
-    const eligibility =
-        programme.eligibility || "Not listed in the supplied catalogue";
+    const eligibility = programme.eligibility || "Not listed in the supplied catalogue";
     const categories = Array.isArray(programme.categories)
         ? programme.categories.filter(Boolean).join(", ")
         : "";
@@ -311,7 +341,7 @@ function getProgrammeOverview(programme) {
         `Its listed education level is ${level}, with a ${String(mode).toLowerCase()} study format.`,
         `The catalogue lists the programme duration as ${duration}.`,
         `The available eligibility information is: ${eligibility}.`,
-        `Prospective applicants should consult the official provider for the current curriculum, admission requirements, fees, assessment details, start dates and qualification recognition.`
+        `Prospective applicants should consult the official provider for the current curriculum, admission requirements, fees, assessment details, start dates and qualification recognition.`,
     ];
 
     return sentences.join(" ");
@@ -326,17 +356,20 @@ function getProgrammeDetails(programme) {
         ["Study mode", programme.studyMode],
         ["Country", programme.country],
         ["Duration", programme.duration],
-        ["Tuition", formatTuition(programme)]
+        ["Tuition", formatTuition(programme)],
     ];
 
-    return fields.map(([label, value]) => `
+    return fields
+        .map(
+            ([label, value]) => `
         <div class="oe-detail-row">
             <dt>${escapeHTML(label)}</dt>
             <dd>${escapeHTML(value || "Check provider website")}</dd>
         </div>
-    `).join("");
+    `,
+        )
+        .join("");
 }
-
 
 /* Small set of styles for the enquiry popup form (added once). */
 function injectEnquiryStyles() {
@@ -394,8 +427,14 @@ function bindCourseCarousels(root) {
             carousel.dataset.activeSlide = String(index + 1);
         };
 
-        previous.addEventListener("click", () => { index -= 1; update(); });
-        next.addEventListener("click", () => { index += 1; update(); });
+        previous.addEventListener("click", () => {
+            index -= 1;
+            update();
+        });
+        next.addEventListener("click", () => {
+            index += 1;
+            update();
+        });
         viewport.addEventListener("pointerdown", (event) => {
             if (event.pointerType === "mouse") return;
             pointerStart = { x: event.clientX, y: event.clientY, id: event.pointerId };
@@ -408,7 +447,9 @@ function bindCourseCarousels(root) {
         });
         const finishSwipe = (event) => {
             if (!pointerStart || event.pointerId !== pointerStart.id) return;
-            const horizontal = Math.abs(pointerDelta) > 38 && Math.abs(pointerDelta) > Math.abs(event.clientY - pointerStart.y) * 1.15;
+            const horizontal =
+                Math.abs(pointerDelta) > 38 &&
+                Math.abs(pointerDelta) > Math.abs(event.clientY - pointerStart.y) * 1.15;
             if (horizontal) {
                 index += pointerDelta < 0 ? 1 : -1;
                 suppressClick = true;
@@ -419,12 +460,16 @@ function bindCourseCarousels(root) {
         };
         viewport.addEventListener("pointerup", finishSwipe);
         viewport.addEventListener("pointercancel", finishSwipe);
-        viewport.addEventListener("click", (event) => {
-            if (!suppressClick) return;
-            event.preventDefault();
-            event.stopPropagation();
-            suppressClick = false;
-        }, true);
+        viewport.addEventListener(
+            "click",
+            (event) => {
+                if (!suppressClick) return;
+                event.preventDefault();
+                event.stopPropagation();
+                suppressClick = false;
+            },
+            true,
+        );
         window.addEventListener("resize", update);
         update();
     });
@@ -436,43 +481,36 @@ export async function initOnlineEducationPage() {
     if (!root) return;
     bindCourseCarousels(root);
 
-root.querySelectorAll("[data-enquire-course]").forEach((button) => {
-    button.addEventListener("click", () => {
-        const courseName = button.dataset.enquireCourse;
-        const form = root.querySelector(
-            "#study-abroad-counselling, #oe-lead-form, #oe-lead-name"
-        );
-
-        const courseInput = root.querySelector(
-            'input[name="course"], input[name="courseInterest"], ' +
-            'input[name="courseOrInstitution"], #oe-course-interest'
-        );
-
-        if (courseInput) {
-            courseInput.value = courseName;
-            courseInput.dispatchEvent(
-                new Event("input", { bubbles: true })
+    root.querySelectorAll("[data-enquire-course]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const courseName = button.dataset.enquireCourse;
+            const form = root.querySelector(
+                "#study-abroad-counselling, #oe-lead-form, #oe-lead-name",
             );
-            courseInput.dispatchEvent(
-                new Event("change", { bubbles: true })
+
+            const courseInput = root.querySelector(
+                'input[name="course"], input[name="courseInterest"], ' +
+                    'input[name="courseOrInstitution"], #oe-course-interest',
             );
-        }
 
-        const leadForm = root.querySelector(
-            ".oe-lead-form, #oe-lead-form"
-        );
+            if (courseInput) {
+                courseInput.value = courseName;
+                courseInput.dispatchEvent(new Event("input", { bubbles: true }));
+                courseInput.dispatchEvent(new Event("change", { bubbles: true }));
+            }
 
-        const target = form || leadForm;
+            const leadForm = root.querySelector(".oe-lead-form, #oe-lead-form");
 
-        if (target) {
-            target.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
-            });
-        }
+            const target = form || leadForm;
+
+            if (target) {
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start",
+                });
+            }
+        });
     });
-});
-
 
     if (!root) return;
 
@@ -504,15 +542,7 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
         console.warn("Online education card changes could not be loaded.", error);
     }
 
-    const filters = [
-        "level",
-        "mode",
-        "country",
-        "type",
-        "subject",
-        "difficulty",
-        "budget"
-    ];
+    const filters = ["level", "mode", "country", "type", "subject", "difficulty", "budget"];
 
     let programmes = [];
     let visibleLimit = 4;
@@ -527,34 +557,25 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
     let detailsDialog = null;
     let enquiryDialog = null;
 
-    const motionEnabled =
-        !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    /* ---------------------------------------------------------
-       SUBJECT CAROUSEL
-    --------------------------------------------------------- */
+    const motionEnabled = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const subjectCarousel = root.querySelector("[data-subject-carousel]");
     const subjectTrack = root.querySelector("[data-subject-track]");
 
     if (subjectCarousel && subjectTrack) {
         if (!subjectTrack.dataset.loopReady) {
-            const originalCards = [
-                ...subjectTrack.querySelectorAll(".oe-subject-card")
-            ];
+            const originalCards = [...subjectTrack.querySelectorAll(".oe-subject-card")];
 
-            const firstWidth =
-                originalCards[0]?.getBoundingClientRect().width || 0;
+            const firstWidth = originalCards[0]?.getBoundingClientRect().width || 0;
 
-            const gap =
-                parseFloat(getComputedStyle(subjectTrack).gap) || 0;
+            const gap = parseFloat(getComputedStyle(subjectTrack).gap) || 0;
 
             const cardStep = firstWidth + gap;
 
             if (cardStep > 0) {
                 const cloneCount = Math.min(
                     originalCards.length,
-                    Math.ceil(subjectCarousel.clientWidth / cardStep) + 1
+                    Math.ceil(subjectCarousel.clientWidth / cardStep) + 1,
                 );
 
                 originalCards.slice(0, cloneCount).forEach((card) => {
@@ -575,9 +596,7 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
         let subjectTimer;
 
         const originals = () => [
-            ...subjectTrack.querySelectorAll(
-                ".oe-subject-card:not([data-carousel-clone])"
-            )
+            ...subjectTrack.querySelectorAll(".oe-subject-card:not([data-carousel-clone])"),
         ];
 
         const moveSubject = (direction) => {
@@ -585,8 +604,7 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
 
             if (!cards.length) return;
 
-            const gap =
-                parseFloat(getComputedStyle(subjectTrack).gap) || 0;
+            const gap = parseFloat(getComputedStyle(subjectTrack).gap) || 0;
 
             const step = cards[0].getBoundingClientRect().width + gap;
 
@@ -599,14 +617,14 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
 
                 subjectCarousel.scrollTo({
                     left: step * subjectIndex,
-                    behavior: "smooth"
+                    behavior: "smooth",
                 });
 
                 window.setTimeout(() => {
                     subjectIndex = 0;
                     subjectCarousel.scrollTo({
                         left: 0,
-                        behavior: "auto"
+                        behavior: "auto",
                     });
                 }, 720);
 
@@ -616,13 +634,12 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
             if (nextIndex < 0) {
                 subjectIndex = Math.max(
                     0,
-                    cards.length -
-                        Math.ceil(subjectCarousel.clientWidth / step)
+                    cards.length - Math.ceil(subjectCarousel.clientWidth / step),
                 );
 
                 subjectCarousel.scrollTo({
                     left: step * subjectIndex,
-                    behavior: "auto"
+                    behavior: "auto",
                 });
 
                 return;
@@ -632,7 +649,7 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
 
             subjectCarousel.scrollTo({
                 left: step * subjectIndex,
-                behavior: "smooth"
+                behavior: "smooth",
             });
         };
 
@@ -640,40 +657,24 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
             window.clearInterval(subjectTimer);
 
             if (!document.hidden && originals().length > 1) {
-                subjectTimer = window.setInterval(
-                    () => moveSubject(1),
-                    2600
-                );
+                subjectTimer = window.setInterval(() => moveSubject(1), 2600);
             }
         };
 
-        root.querySelector("[data-subject-prev]")?.addEventListener(
-            "click",
-            () => {
-                moveSubject(-1);
-                restartSubjectAutoplay();
-            }
-        );
+        root.querySelector("[data-subject-prev]")?.addEventListener("click", () => {
+            moveSubject(-1);
+            restartSubjectAutoplay();
+        });
 
-        root.querySelector("[data-subject-next]")?.addEventListener(
-            "click",
-            () => {
-                moveSubject(1);
-                restartSubjectAutoplay();
-            }
-        );
+        root.querySelector("[data-subject-next]")?.addEventListener("click", () => {
+            moveSubject(1);
+            restartSubjectAutoplay();
+        });
 
-        document.addEventListener(
-            "visibilitychange",
-            restartSubjectAutoplay
-        );
+        document.addEventListener("visibilitychange", restartSubjectAutoplay);
 
         restartSubjectAutoplay();
     }
-
-    /* ---------------------------------------------------------
-       REVEAL ANIMATIONS
-    --------------------------------------------------------- */
 
     if (motionEnabled && "IntersectionObserver" in window) {
         root.classList.add("oe-motion-ready");
@@ -689,8 +690,8 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
             },
             {
                 threshold: 0.08,
-                rootMargin: "0px 0px -24px 0px"
-            }
+                rootMargin: "0px 0px -24px 0px",
+            },
         );
     }
 
@@ -702,38 +703,26 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
             return;
         }
 
-        root.querySelectorAll(".oe-reveal:not(.is-visible)").forEach(
-            (card, index) => {
-                card.style.setProperty(
-                    "--oe-stagger",
-                    `${Math.min(index % 6, 5) * 55}ms`
-                );
+        root.querySelectorAll(".oe-reveal:not(.is-visible)").forEach((card, index) => {
+            card.style.setProperty("--oe-stagger", `${Math.min(index % 6, 5) * 55}ms`);
 
-                cardObserver.observe(card);
-            }
-        );
+            cardObserver.observe(card);
+        });
     };
 
     root.querySelectorAll(
         ".oe-level-card, .oe-subject-card, .oe-popular-card, " +
-        ".oe-platform-card, .oe-institution-card, .oe-provider-card, " +
-        ".oe-path-grid a, .oe-steps article"
+            ".oe-platform-card, .oe-institution-card, .oe-provider-card, " +
+            ".oe-path-grid a, .oe-steps article",
     ).forEach((card) => card.classList.add("oe-reveal"));
 
     observeCards();
 
-    /* ---------------------------------------------------------
-       POINTER SPOTLIGHT AND CARD TILT
-    --------------------------------------------------------- */
-
-    if (
-        motionEnabled &&
-        window.matchMedia("(hover: hover) and (pointer: fine)").matches
-    ) {
+    if (motionEnabled && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
         root.addEventListener("pointermove", (event) => {
             const card = event.target.closest(
                 ".oe-popular-card, .oe-platform-card, .oe-programme-card, " +
-                ".oe-level-card, .oe-subject-card, .oe-provider-card, .oe-path-grid a"
+                    ".oe-level-card, .oe-subject-card, .oe-provider-card, .oe-path-grid a",
             );
 
             if (!card) return;
@@ -748,27 +737,17 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
             card.style.setProperty("--oe-pointer-x", `${x * 100}%`);
             card.style.setProperty("--oe-pointer-y", `${y * 100}%`);
 
-            if (
-                card.matches(
-                    ".oe-programme-card, .oe-popular-card, .oe-platform-card"
-                )
-            ) {
-                card.style.setProperty(
-                    "--oe-tilt-x",
-                    `${(0.5 - y) * 3}deg`
-                );
+            if (card.matches(".oe-programme-card, .oe-popular-card, .oe-platform-card")) {
+                card.style.setProperty("--oe-tilt-x", `${(0.5 - y) * 3}deg`);
 
-                card.style.setProperty(
-                    "--oe-tilt-y",
-                    `${(x - 0.5) * 3}deg`
-                );
+                card.style.setProperty("--oe-tilt-y", `${(x - 0.5) * 3}deg`);
             }
         });
 
         root.addEventListener("pointerout", (event) => {
             const card = event.target.closest(
                 ".oe-popular-card, .oe-platform-card, .oe-programme-card, " +
-                ".oe-level-card, .oe-subject-card, .oe-provider-card, .oe-path-grid a"
+                    ".oe-level-card, .oe-subject-card, .oe-provider-card, .oe-path-grid a",
             );
 
             if (card && !card.contains(event.relatedTarget)) {
@@ -777,10 +756,6 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
             }
         });
     }
-
-    /* ---------------------------------------------------------
-       SEARCH, FILTERS AND STORAGE
-    --------------------------------------------------------- */
 
     const getState = () => ({
         query: byId("oe-hero-query")?.value.trim().toLowerCase() || "",
@@ -791,20 +766,14 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
         subject: byId("oe-filter-subject")?.value || "",
         difficulty: byId("oe-filter-difficulty")?.value || "",
         budget: byId("oe-filter-budget")?.value || "",
-        degree: activeDegree
+        degree: activeDegree,
     });
 
     const syncStorage = () => {
         try {
-            localStorage.setItem(
-                "educonnect-online-favourites",
-                JSON.stringify(favourites)
-            );
+            localStorage.setItem("educonnect-online-favourites", JSON.stringify(favourites));
 
-            localStorage.setItem(
-                "educonnect-online-compare",
-                JSON.stringify(compared)
-            );
+            localStorage.setItem("educonnect-online-compare", JSON.stringify(compared));
         } catch {
             // Filtering still works if browser storage is unavailable.
         }
@@ -820,132 +789,148 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
             programme.studyMode,
             programme.country,
             programme.difficultyLevel,
-            ...(programme.categories || [])
-        ].join(" ").toLowerCase();
+            ...(programme.categories || []),
+        ]
+            .join(" ")
+            .toLowerCase();
 
         const queryAliases = {
             "ai & machine learning": [
                 "artificial intelligence",
                 "machine learning",
                 "generative ai",
-                "agentic ai"
-            ]
+                "agentic ai",
+            ],
         };
         const queryTerms = queryAliases[state.query] || [state.query];
 
         const degreeMatches = (degree) => {
             if (!degree) return true;
             const title = String(programme.title || "");
-            const level = `${programme.educationLevel || ""} ${programme.qualificationType || ""}`.toLowerCase();
-            const isBachelor = /bachelor|undergraduate/.test(level) || /\((?:ba|bs|bsc|bcom)\)/i.test(title);
+            const level =
+                `${programme.educationLevel || ""} ${programme.qualificationType || ""}`.toLowerCase();
+            const isBachelor =
+                /bachelor|undergraduate/.test(level) || /\((?:ba|bs|bsc|bcom)\)/i.test(title);
             switch (degree) {
-                case "MBA": return /\bmba\b|master of business administration/i.test(text);
-                case "BBA": return /\bbba\b|bachelor(?:'s)? of business administration/i.test(text) || (isBachelor && /business/i.test(text) && /administration|management/i.test(text));
-                case "BCA": return /\bbca\b|bachelor(?:'s)? of computer applications/i.test(text) || (isBachelor && /computer applications|computer information systems|information technology|software engineering/i.test(text));
-                case "B.Sc": return /\bb\.?sc\b|bachelor(?:'s)? of science/i.test(text) || (isBachelor && /\(bs\)|science/i.test(title + " " + programme.subject));
-                case "B.Com": return /\bb\.?com\b|bachelor(?:'s)? of commerce/i.test(text) || (isBachelor && /commerce|accountancy|accounting/i.test(text));
-                case "MA": return /master of arts|\bma\b/i.test(text) || (/master|postgraduate/.test(level) && /arts|humanities|history|literature|communication|psychology/i.test(text));
-                default: return true;
+                case "MBA":
+                    return /\bmba\b|master of business administration/i.test(text);
+                case "BBA":
+                    return (
+                        /\bbba\b|bachelor(?:'s)? of business administration/i.test(text) ||
+                        (isBachelor &&
+                            /business/i.test(text) &&
+                            /administration|management/i.test(text))
+                    );
+                case "BCA":
+                    return (
+                        /\bbca\b|bachelor(?:'s)? of computer applications/i.test(text) ||
+                        (isBachelor &&
+                            /computer applications|computer information systems|information technology|software engineering/i.test(
+                                text,
+                            ))
+                    );
+                case "B.Sc":
+                    return (
+                        /\bb\.?sc\b|bachelor(?:'s)? of science/i.test(text) ||
+                        (isBachelor && /\(bs\)|science/i.test(title + " " + programme.subject))
+                    );
+                case "B.Com":
+                    return (
+                        /\bb\.?com\b|bachelor(?:'s)? of commerce/i.test(text) ||
+                        (isBachelor && /commerce|accountancy|accounting/i.test(text))
+                    );
+                case "MA":
+                    return (
+                        /master of arts|\bma\b/i.test(text) ||
+                        (/master|postgraduate/.test(level) &&
+                            /arts|humanities|history|literature|communication|psychology/i.test(
+                                text,
+                            ))
+                    );
+                default:
+                    return true;
             }
         };
 
         const subjectAlias = {
             "AI & Machine Learning": "Artificial Intelligence",
             "Computer Science": "Computer Science & IT",
-            "Business": "Business & Management",
-            "Engineering": "Engineering & Technology",
-            "Healthcare": "Medicine & Healthcare",
-            "Finance": "Finance & Accounting",
+            Business: "Business & Management",
+            Engineering: "Engineering & Technology",
+            Healthcare: "Medicine & Healthcare",
+            Finance: "Finance & Accounting",
             "Digital Marketing": "Marketing",
-            "Design": "Design & Media",
-            "Education": "Education"
+            Design: "Design & Media",
+            Education: "Education",
         };
 
         const levelAliases = {
-            "Undergraduate": ["Undergraduate"],
+            Undergraduate: ["Undergraduate"],
             "Bachelor's": ["Bachelor's"],
-            "Postgraduate": ["Postgraduate"],
+            Postgraduate: ["Postgraduate"],
             "Master's": ["Master's"],
-            "Doctoral": ["Doctoral"],
+            Doctoral: ["Doctoral"],
             "PhD / Doctorate": ["PhD / Doctorate"],
-            "MBA": ["MBA"],
+            MBA: ["MBA"],
             "Online Degree": ["Online Degree"],
             "Professional Certificate": ["Professional Certificate"],
-            "Microcredential": ["Microcredential"],
-            "Short Course": ["Short Course"]
+            Microcredential: ["Microcredential"],
+            "Short Course": ["Short Course"],
         };
 
         const levelOK =
             !state.level ||
-            (levelAliases[state.level] || [state.level]).includes(
-                programme.educationLevel
-            ) ||
-            String(programme.qualificationType || "").toLowerCase().includes(state.level.toLowerCase()) ||
-            (
-                state.level === "Professional Certificate" &&
-                (programme.categories || []).includes("Professional Certificate")
-            );
+            (levelAliases[state.level] || [state.level]).includes(programme.educationLevel) ||
+            String(programme.qualificationType || "")
+                .toLowerCase()
+                .includes(state.level.toLowerCase()) ||
+            (state.level === "Professional Certificate" &&
+                (programme.categories || []).includes("Professional Certificate"));
 
         const amount = programme.tuitionAmount;
 
         const budgetOK =
             !state.budget ||
-            (
-                amount !== null &&
+            (amount !== null &&
                 amount !== undefined &&
-                (
-                    state.budget === "free"
-                        ? amount === 0
-                        : state.budget === "10000"
-                            ? amount < 10000
-                            : state.budget === "50000"
-                                ? amount >= 10000 && amount <= 50000
-                                : state.budget === "100000"
-                                    ? amount > 50000 && amount <= 100000
-                                    : state.budget === "500000"
-                                        ? amount > 100000 && amount <= 500000
-                                        : amount > 500000
-                )
-            );
+                (state.budget === "free"
+                    ? amount === 0
+                    : state.budget === "10000"
+                      ? amount < 10000
+                      : state.budget === "50000"
+                        ? amount >= 10000 && amount <= 50000
+                        : state.budget === "100000"
+                          ? amount > 50000 && amount <= 100000
+                          : state.budget === "500000"
+                            ? amount > 100000 && amount <= 500000
+                            : amount > 500000));
 
         return (
             (!state.query || queryTerms.some((term) => text.includes(term))) &&
             degreeMatches(state.degree) &&
             levelOK &&
-            (
-                !state.mode ||
+            (!state.mode ||
                 String(programme.studyMode || "")
                     .toLowerCase()
-                    .includes(state.mode.toLowerCase())
-            ) &&
+                    .includes(state.mode.toLowerCase())) &&
             (!state.country || programme.country === state.country) &&
             (!state.type || programme.providerType === state.type) &&
-            (
-                !state.subject ||
+            (!state.subject ||
                 programme.subject === state.subject ||
                 programme.subject === subjectAlias[state.subject] ||
                 String(programme.subject || "")
                     .toLowerCase()
-                    .includes(state.subject.toLowerCase())
-            ) &&
-            (
-                !state.difficulty ||
-                programme.difficultyLevel === state.difficulty
-            ) &&
+                    .includes(state.subject.toLowerCase())) &&
+            (!state.difficulty || programme.difficultyLevel === state.difficulty) &&
             budgetOK
         );
     };
-
-    /* ---------------------------------------------------------
-       DETAILS DIALOG
-    --------------------------------------------------------- */
 
     const ensureDetailsDialog = () => {
         if (detailsDialog?.isConnected) return detailsDialog;
 
         detailsDialog = document.createElement("dialog");
-        detailsDialog.className =
-            "oe-compare-dialog oe-programme-details-dialog";
+        detailsDialog.className = "oe-compare-dialog oe-programme-details-dialog";
         detailsDialog.setAttribute("aria-label", "Details");
 
         root.append(detailsDialog);
@@ -953,20 +938,17 @@ root.querySelectorAll("[data-enquire-course]").forEach((button) => {
         return detailsDialog;
     };
 
+    const openProgrammeDetails = (id) => {
+        const programme = programmes.find((item) => String(item.id) === String(id));
 
-const openProgrammeDetails = (id) => {
-    const programme = programmes.find(
-        (item) => String(item.id) === String(id)
-    );
+        if (!programme) return;
 
-    if (!programme) return;
+        const dialog = ensureDetailsDialog();
+        dialog.classList.remove("oe-institution-details-dialog");
+        const providerUrl = safeExternalUrl(programme.officialProgramUrl);
+        const overview = getProgrammeOverview(programme);
 
-    const dialog = ensureDetailsDialog();
-    dialog.classList.remove("oe-institution-details-dialog");
-    const providerUrl = safeExternalUrl(programme.officialProgramUrl);
-    const overview = getProgrammeOverview(programme);
-
-    dialog.innerHTML = `
+        dialog.innerHTML = `
         <div class="oe-dialog-head">
             <div>
                 <p class="oe-eyebrow">PROGRAMME OVERVIEW</p>
@@ -1023,22 +1005,17 @@ const openProgrammeDetails = (id) => {
         </div>
     `;
 
-    if (!dialog.open) dialog.showModal();
-};
-
-
-    /* ---------------------------------------------------------
-       INSTITUTION DETAILS DIALOG
-    --------------------------------------------------------- */
+        if (!dialog.open) dialog.showModal();
+    };
 
     const openInstitutionDetails = (id, clickedButton = null) => {
         const institution = ALL_DISCOVERY_INSTITUTIONS.find(
-            (item) => String(item.id) === String(id)
+            (item) => String(item.id) === String(id),
         );
 
-        let directoryInstitution = institution || DOMESTIC_DISCOVERY_INSTITUTIONS.find(
-            (item) => String(item.id) === String(id)
-        );
+        let directoryInstitution =
+            institution ||
+            DOMESTIC_DISCOVERY_INSTITUTIONS.find((item) => String(item.id) === String(id));
 
         if (!directoryInstitution && clickedButton) {
             const card = clickedButton.closest(".oe-institution-card");
@@ -1052,9 +1029,11 @@ const openProgrammeDetails = (id) => {
                     type: "Institution",
                     levels: (card.dataset.levels || "").split("|").filter(Boolean),
                     subjects: (card.dataset.subjects || "").split("|").filter(Boolean),
-                    overview: card.querySelector(".oe-institution-location + p")?.textContent?.trim() || "Institution information is being confirmed.",
+                    overview:
+                        card.querySelector(".oe-institution-location + p")?.textContent?.trim() ||
+                        "Institution information is being confirmed.",
                     imageUrl: card.querySelector("img")?.src || "",
-                    url: ""
+                    url: "",
                 };
             }
         }
@@ -1064,17 +1043,19 @@ const openProgrammeDetails = (id) => {
         const dialog = ensureDetailsDialog();
         dialog.classList.add("oe-institution-details-dialog");
         const candidateInstitutionUrl = safeExternalUrl(directoryInstitution.url);
-        const institutionUrl = candidateInstitutionUrl && new URL(candidateInstitutionUrl).origin !== window.location.origin
-            ? candidateInstitutionUrl
-            : "";
+        const institutionUrl =
+            candidateInstitutionUrl &&
+            new URL(candidateInstitutionUrl).origin !== window.location.origin
+                ? candidateInstitutionUrl
+                : "";
         const campusImage = safeExternalUrl(
-            directoryInstitution.imageUrl || INSTITUTION_CAMPUS_IMAGES[directoryInstitution.id]
+            directoryInstitution.imageUrl || INSTITUTION_CAMPUS_IMAGES[directoryInstitution.id],
         );
 
         const details = [
             ["Institution type", directoryInstitution.type],
             ["Education levels", directoryInstitution.levels?.join(", ")],
-            ["Subjects", directoryInstitution.subjects?.join(", ")]
+            ["Subjects", directoryInstitution.subjects?.join(", ")],
         ].filter(([, value]) => value && value !== "Not listed in verified profile");
 
         dialog.innerHTML = `
@@ -1090,12 +1071,16 @@ const openProgrammeDetails = (id) => {
             </div>
 
             <dl class="oe-institution-detail-facts">
-                ${details.map(([label, value]) => `
+                ${details
+                    .map(
+                        ([label, value]) => `
                     <div class="oe-detail-row">
                         <dt>${escapeHTML(label)}</dt>
                         <dd>${escapeHTML(value || "Not specified")}</dd>
                     </div>
-                `).join("")}
+                `,
+                    )
+                    .join("")}
             </dl>
 
             <div class="oe-dialog-actions">
@@ -1127,10 +1112,6 @@ const openProgrammeDetails = (id) => {
         if (!dialog.open) dialog.showModal();
     };
 
-    /* ---------------------------------------------------------
-       ENQUIRE NOW DIALOG
-    --------------------------------------------------------- */
-
     const ensureEnquiryDialog = () => {
         if (enquiryDialog?.isConnected) return enquiryDialog;
 
@@ -1147,11 +1128,10 @@ const openProgrammeDetails = (id) => {
     };
 
     const openEnquiry = (kind, id) => {
-        const subject = kind === "institution"
-            ? ALL_DISCOVERY_INSTITUTIONS.find(
-                (item) => String(item.id) === String(id)
-            )
-            : programmes.find((item) => String(item.id) === String(id));
+        const subject =
+            kind === "institution"
+                ? ALL_DISCOVERY_INSTITUTIONS.find((item) => String(item.id) === String(id))
+                : programmes.find((item) => String(item.id) === String(id));
 
         if (!subject) return;
 
@@ -1164,9 +1144,10 @@ const openProgrammeDetails = (id) => {
         }
 
         const title = kind === "institution" ? subject.name : subject.title;
-        const sub = kind === "institution"
-            ? [subject.city, subject.country].filter(Boolean).join(" · ")
-            : [subject.providerName, subject.country].filter(Boolean).join(" · ");
+        const sub =
+            kind === "institution"
+                ? [subject.city, subject.country].filter(Boolean).join(" · ")
+                : [subject.providerName, subject.country].filter(Boolean).join(" · ");
 
         const dialog = ensureEnquiryDialog();
 
@@ -1235,7 +1216,7 @@ const openProgrammeDetails = (id) => {
             const response = await fetch(ENQUIRY_ENDPOINT, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
+                body: JSON.stringify(payload),
             });
 
             if (!response.ok) {
@@ -1261,7 +1242,7 @@ const openProgrammeDetails = (id) => {
             email: String(fd.get("email") || "").trim(),
             phone: String(fd.get("phone") || "").trim(),
             message: String(fd.get("message") || "").trim(),
-            consent: fd.get("consent") === "on"
+            consent: fd.get("consent") === "on",
         };
 
         form.querySelectorAll("[data-error-for]").forEach((element) => {
@@ -1298,11 +1279,10 @@ const openProgrammeDetails = (id) => {
             return;
         }
 
-        const subject = data.kind === "institution"
-            ? ALL_DISCOVERY_INSTITUTIONS.find(
-                (item) => String(item.id) === data.itemId
-            )
-            : programmes.find((item) => String(item.id) === data.itemId);
+        const subject =
+            data.kind === "institution"
+                ? ALL_DISCOVERY_INSTITUTIONS.find((item) => String(item.id) === data.itemId)
+                : programmes.find((item) => String(item.id) === data.itemId);
 
         const submitButton = form.querySelector('button[type="submit"]');
 
@@ -1315,23 +1295,18 @@ const openProgrammeDetails = (id) => {
             await sendEnquiry({
                 kind: data.kind,
                 itemId: data.itemId,
-                itemName: data.kind === "institution"
-                    ? subject?.name || ""
-                    : subject?.title || "",
-                providerName: data.kind === "institution"
-                    ? subject?.name || ""
-                    : subject?.providerName || "",
+                itemName: data.kind === "institution" ? subject?.name || "" : subject?.title || "",
+                providerName:
+                    data.kind === "institution" ? subject?.name || "" : subject?.providerName || "",
                 country: subject?.country || "",
                 fullName: data.fullName,
                 email: data.email,
                 phone: data.phone,
                 message: data.message,
-                submittedAt: new Date().toISOString()
+                submittedAt: new Date().toISOString(),
             });
 
-            const itemLabel = data.kind === "institution"
-                ? subject?.name
-                : subject?.title;
+            const itemLabel = data.kind === "institution" ? subject?.name : subject?.title;
 
             enquiryDialog.innerHTML = `
                 <div class="oe-dialog-head">
@@ -1366,8 +1341,7 @@ const openProgrammeDetails = (id) => {
             console.error("Enquiry could not be sent.", error);
 
             if (status) {
-                status.textContent =
-                    "Could not send your enquiry. Please try again.";
+                status.textContent = "Could not send your enquiry. Please try again.";
             }
 
             if (submitButton) {
@@ -1377,18 +1351,12 @@ const openProgrammeDetails = (id) => {
         }
     };
 
-    /* ---------------------------------------------------------
-       PROGRAMME CARD RENDERER
-    --------------------------------------------------------- */
-
     const renderProgrammeCard = (programme) => {
         const id = String(programme.id);
         const providerName = programme.providerName || "Institution";
         const providerInitials = getProviderInitials(providerName);
 
-        const imageUrl = safeExternalUrl(
-            programme.imageUrl || programme.image
-        );
+        const imageUrl = safeExternalUrl(programme.imageUrl || programme.image);
 
         const imageMarkup = imageUrl
             ? `
@@ -1416,11 +1384,9 @@ const openProgrammeDetails = (id) => {
         const country = programme.country || "Country not specified";
         const duration = programme.duration || "Duration not listed";
         const studyMode = programme.studyMode || "Online";
-        const qualification =
-            programme.qualificationType || "Qualification not listed";
+        const qualification = programme.qualificationType || "Qualification not listed";
         const fee = formatTuition(programme);
-        const eligibility =
-            programme.eligibility || "Check official provider";
+        const eligibility = programme.eligibility || "Check official provider";
 
         return `
             <article
@@ -1448,12 +1414,14 @@ const openProgrammeDetails = (id) => {
 
                     <div class="oe-course-card-tags">
                         ${[studyMode, duration, qualification]
-                            .filter(value =>
-                                value &&
-                                !["not listed", "not specified", "n/a", "unknown"]
-                                    .includes(value.trim().toLowerCase())
+                            .filter(
+                                (value) =>
+                                    value &&
+                                    !["not listed", "not specified", "n/a", "unknown"].includes(
+                                        value.trim().toLowerCase(),
+                                    ),
                             )
-                            .map(value => `<span>${escapeHTML(value.trim())}</span>`)
+                            .map((value) => `<span>${escapeHTML(value.trim())}</span>`)
                             .join("")}
                     </div>
 
@@ -1480,37 +1448,23 @@ const openProgrammeDetails = (id) => {
         `;
     };
 
-    /* ---------------------------------------------------------
-       PROGRAMME RENDERING AND SORTING
-    --------------------------------------------------------- */
-
     const render = () => {
         const state = getState();
         const sort = byId("oe-sort")?.value || "";
 
-        const filtered = programmes.filter((programme) =>
-            matches(programme, state)
-        );
+        const filtered = programmes.filter((programme) => matches(programme, state));
 
         if (sort === "name") {
-            filtered.sort((a, b) =>
-                String(a.title || "").localeCompare(String(b.title || ""))
-            );
+            filtered.sort((a, b) => String(a.title || "").localeCompare(String(b.title || "")));
         }
 
         if (sort === "lowest") {
-            filtered.sort(
-                (a, b) =>
-                    (a.tuitionAmount ?? Infinity) -
-                    (b.tuitionAmount ?? Infinity)
-            );
+            filtered.sort((a, b) => (a.tuitionAmount ?? Infinity) - (b.tuitionAmount ?? Infinity));
         }
 
         if (sort === "highest") {
             filtered.sort(
-                (a, b) =>
-                    (b.tuitionAmount ?? -Infinity) -
-                    (a.tuitionAmount ?? -Infinity)
+                (a, b) => (b.tuitionAmount ?? -Infinity) - (a.tuitionAmount ?? -Infinity),
             );
         }
 
@@ -1519,9 +1473,7 @@ const openProgrammeDetails = (id) => {
                 const aDuration = Number.parseFloat(a.duration) || Infinity;
                 const bDuration = Number.parseFloat(b.duration) || Infinity;
 
-                return sort === "shortest"
-                    ? aDuration - bDuration
-                    : bDuration - aDuration;
+                return sort === "shortest" ? aDuration - bDuration : bDuration - aDuration;
             });
         }
 
@@ -1536,10 +1488,7 @@ const openProgrammeDetails = (id) => {
 
         if (empty) empty.hidden = filtered.length !== 0;
 
-        results.innerHTML = filtered
-            .slice(0, visibleLimit)
-            .map(renderProgrammeCard)
-            .join("");
+        results.innerHTML = filtered.slice(0, visibleLimit).map(renderProgrammeCard).join("");
 
         observeCards();
 
@@ -1555,8 +1504,7 @@ const openProgrammeDetails = (id) => {
             const value = state[key];
 
             if (value) {
-                const displayValue =
-                    value === "10000" ? "Under ₹10,000" : value;
+                const displayValue = value === "10000" ? "Under ₹10,000" : value;
 
                 chips.push(`
                     <button type="button" data-clear-filter="${escapeHTML(key)}">
@@ -1570,7 +1518,9 @@ const openProgrammeDetails = (id) => {
         const activeFilters = byId("oe-active-filters");
 
         if (activeDegree) {
-            chips.unshift(`<button type="button" data-clear-degree>Degree: ${escapeHTML(activeDegree)} <span aria-hidden="true">×</span></button>`);
+            chips.unshift(
+                `<button type="button" data-clear-degree>Degree: ${escapeHTML(activeDegree)} <span aria-hidden="true">×</span></button>`,
+            );
         }
 
         if (activeFilters) {
@@ -1579,10 +1529,6 @@ const openProgrammeDetails = (id) => {
 
         updateCompareBar();
     };
-
-    /* ---------------------------------------------------------
-       PROGRAMME COMPARISON
-    --------------------------------------------------------- */
 
     const updateCompareBar = () => {
         let bar = byId("oe-compare-bar");
@@ -1596,9 +1542,7 @@ const openProgrammeDetails = (id) => {
         }
 
         const names = compared
-            .map((id) => programmes.find(
-                (programme) => String(programme.id) === String(id)
-            ))
+            .map((id) => programmes.find((programme) => String(programme.id) === String(id)))
             .filter(Boolean)
             .map((programme) => programme.title);
 
@@ -1629,9 +1573,7 @@ const openProgrammeDetails = (id) => {
 
     const compareView = () => {
         const selected = compared
-            .map((id) => programmes.find(
-                (programme) => String(programme.id) === String(id)
-            ))
+            .map((id) => programmes.find((programme) => String(programme.id) === String(id)))
             .filter(Boolean);
 
         let dialog = byId("oe-compare-dialog");
@@ -1652,7 +1594,7 @@ const openProgrammeDetails = (id) => {
             ["Duration", (p) => p.duration],
             ["Tuition", (p) => formatTuition(p)],
             ["Entry requirements", () => "Check provider website"],
-            ["Recognition", () => "Verify with official regulator"]
+            ["Recognition", () => "Verify with official regulator"],
         ];
 
         dialog.innerHTML = `
@@ -1675,7 +1617,9 @@ const openProgrammeDetails = (id) => {
                     <thead>
                         <tr>
                             <th scope="col">Programme detail</th>
-                            ${selected.map((p) => `
+                            ${selected
+                                .map(
+                                    (p) => `
                                 <th scope="col">
                                     ${escapeHTML(p.title)}
                                     <button
@@ -1684,26 +1628,37 @@ const openProgrammeDetails = (id) => {
                                         data-remove-compare="${escapeHTML(p.id)}"
                                     >Remove</button>
                                 </th>
-                            `).join("")}
+                            `,
+                                )
+                                .join("")}
                         </tr>
                     </thead>
 
                     <tbody>
-                        ${rows.map(([label, get]) => `
+                        ${rows
+                            .map(
+                                ([label, get]) => `
                             <tr>
                                 <th scope="row">${escapeHTML(label)}</th>
-                                ${selected.map((p) => `
+                                ${selected
+                                    .map(
+                                        (p) => `
                                     <td>${escapeHTML(get(p) || "Not specified")}</td>
-                                `).join("")}
+                                `,
+                                    )
+                                    .join("")}
                             </tr>
-                        `).join("")}
+                        `,
+                            )
+                            .join("")}
 
                         <tr>
                             <th scope="row">Official programme page</th>
-                            ${selected.map((p) => {
-                                const url = safeExternalUrl(p.officialProgramUrl);
+                            ${selected
+                                .map((p) => {
+                                    const url = safeExternalUrl(p.officialProgramUrl);
 
-                                return `
+                                    return `
                                     <td>
                                         ${
                                             url
@@ -1712,7 +1667,8 @@ const openProgrammeDetails = (id) => {
                                         }
                                     </td>
                                 `;
-                            }).join("")}
+                                })
+                                .join("")}
                         </tr>
                     </tbody>
                 </table>
@@ -1741,10 +1697,6 @@ const openProgrammeDetails = (id) => {
         if (!dialog.open) dialog.showModal();
     };
 
-    /* ---------------------------------------------------------
-       CLEAR FILTERS
-    --------------------------------------------------------- */
-
     const clearAll = () => {
         for (const key of filters) {
             const input = byId(`oe-filter-${key}`);
@@ -1763,10 +1715,6 @@ const openProgrammeDetails = (id) => {
         if (heroDestination) heroDestination.value = "";
         render();
     };
-
-    /* ---------------------------------------------------------
-       INSTITUTION COMPARISON
-    --------------------------------------------------------- */
 
     const updateInstitutionCompare = () => {
         const bar = byId("oe-institution-compare-bar");
@@ -1792,20 +1740,12 @@ const openProgrammeDetails = (id) => {
 
         const cards = [...root.querySelectorAll(".oe-institution-card")];
 
-        const matchingCards = cards.filter((card) =>
-            (!country || card.dataset.country === country) &&
-            (
-                !level ||
-                (card.dataset.levels || "").split("|").includes(level)
-            ) &&
-            (
-                !subject ||
-                (card.dataset.subjects || "").split("|").includes(subject)
-            ) &&
-            (
-                !mode ||
-                (card.dataset.modes || "").split("|").includes(mode)
-            )
+        const matchingCards = cards.filter(
+            (card) =>
+                (!country || card.dataset.country === country) &&
+                (!level || (card.dataset.levels || "").split("|").includes(level)) &&
+                (!subject || (card.dataset.subjects || "").split("|").includes(subject)) &&
+                (!mode || (card.dataset.modes || "").split("|").includes(mode)),
         );
 
         cards.forEach((card) => {
@@ -1833,12 +1773,7 @@ const openProgrammeDetails = (id) => {
         filterInstitutions();
     });
 
-    [
-        "oe-inst-country",
-        "oe-inst-level",
-        "oe-inst-subject",
-        "oe-inst-mode"
-    ].forEach((id) => {
+    ["oe-inst-country", "oe-inst-level", "oe-inst-subject", "oe-inst-mode"].forEach((id) => {
         byId(id)?.addEventListener("change", () => {
             institutionsExpanded = false;
             filterInstitutions();
@@ -1846,12 +1781,7 @@ const openProgrammeDetails = (id) => {
     });
 
     byId("oe-inst-clear")?.addEventListener("click", () => {
-        [
-            "oe-inst-country",
-            "oe-inst-level",
-            "oe-inst-subject",
-            "oe-inst-mode"
-        ].forEach((id) => {
+        ["oe-inst-country", "oe-inst-level", "oe-inst-subject", "oe-inst-mode"].forEach((id) => {
             const input = byId(id);
             if (input) input.value = "";
         });
@@ -1861,10 +1791,6 @@ const openProgrammeDetails = (id) => {
     });
 
     filterInstitutions();
-
-    /* ---------------------------------------------------------
-       PAGE CLICK HANDLERS
-    --------------------------------------------------------- */
 
     root.addEventListener("click", (event) => {
         const menu = event.target.closest(".oe-menu-toggle");
@@ -1879,8 +1805,7 @@ const openProgrammeDetails = (id) => {
         const filterToggle = event.target.closest(".oe-filter-toggle");
 
         if (filterToggle) {
-            const expanded =
-                filterToggle.getAttribute("aria-expanded") === "true";
+            const expanded = filterToggle.getAttribute("aria-expanded") === "true";
 
             filterToggle.setAttribute("aria-expanded", String(!expanded));
             byId("oe-filters")?.classList.toggle("is-open", !expanded);
@@ -1914,29 +1839,28 @@ const openProgrammeDetails = (id) => {
                 "Computer Science": "Computer Science & IT",
                 "AI & Machine Learning": "Artificial Intelligence",
                 "Data Science": "Data Science",
-                "Business": "Business & Management",
-                "Engineering": "Engineering & Technology",
-                "Healthcare": "Medicine & Healthcare",
-                "Finance": "Finance & Accounting",
+                Business: "Business & Management",
+                Engineering: "Engineering & Technology",
+                Healthcare: "Medicine & Healthcare",
+                Finance: "Finance & Accounting",
                 "Digital Marketing": "Marketing",
-                "Cybersecurity": "Cybersecurity",
-                "Design": "Design & Media",
-                "Psychology": "Psychology",
-                "Education": "Education"
+                Cybersecurity: "Cybersecurity",
+                Design: "Design & Media",
+                Psychology: "Psychology",
+                Education: "Education",
             };
 
             const subjectFilter = byId("oe-filter-subject");
 
             if (subjectFilter) {
-                subjectFilter.value =
-                    aliases[subject.dataset.subject] || subject.dataset.subject;
+                subjectFilter.value = aliases[subject.dataset.subject] || subject.dataset.subject;
             }
 
             render();
 
             byId("oe-programmes")?.scrollIntoView({
                 behavior: "smooth",
-                block: "start"
+                block: "start",
             });
         }
 
@@ -1954,7 +1878,7 @@ const openProgrammeDetails = (id) => {
 
             byId("oe-programmes")?.scrollIntoView({
                 behavior: "smooth",
-                block: "start"
+                block: "start",
             });
         }
 
@@ -1973,7 +1897,7 @@ const openProgrammeDetails = (id) => {
             render();
             byId("oe-programmes")?.scrollIntoView({
                 behavior: "smooth",
-                block: "start"
+                block: "start",
             });
             return;
         }
@@ -1992,7 +1916,7 @@ const openProgrammeDetails = (id) => {
 
             byId("oe-programmes")?.scrollIntoView({
                 behavior: "smooth",
-                block: "start"
+                block: "start",
             });
         }
 
@@ -2013,15 +1937,10 @@ const openProgrammeDetails = (id) => {
         }
 
         // Institution card / popup: Enquire Now
-        const institutionEnquiryButton = event.target.closest(
-            "[data-enquire-institution]"
-        );
+        const institutionEnquiryButton = event.target.closest("[data-enquire-institution]");
 
         if (institutionEnquiryButton) {
-            openEnquiry(
-                "institution",
-                institutionEnquiryButton.dataset.enquireInstitution
-            );
+            openEnquiry("institution", institutionEnquiryButton.dataset.enquireInstitution);
             return;
         }
 
@@ -2048,18 +1967,14 @@ const openProgrammeDetails = (id) => {
         const clearChip = event.target.closest("[data-clear-filter]");
 
         if (clearChip) {
-            const input = byId(
-                `oe-filter-${clearChip.dataset.clearFilter}`
-            );
+            const input = byId(`oe-filter-${clearChip.dataset.clearFilter}`);
 
             if (input) input.value = "";
 
             render();
         }
 
-        if (event.target.closest(
-            "#oe-clear, #oe-clear-mobile, #oe-empty-reset"
-        )) {
+        if (event.target.closest("#oe-clear, #oe-clear-mobile, #oe-empty-reset")) {
             clearAll();
         }
 
@@ -2082,9 +1997,7 @@ const openProgrammeDetails = (id) => {
         const remove = event.target.closest("[data-remove-compare]");
 
         if (remove) {
-            compared = compared.filter(
-                (id) => id !== remove.dataset.removeCompare
-            );
+            compared = compared.filter((id) => id !== remove.dataset.removeCompare);
 
             syncStorage();
             render();
@@ -2108,20 +2021,18 @@ const openProgrammeDetails = (id) => {
         if (event.target.closest("#oe-inst-compare-clear")) {
             institutionCompared = [];
 
-            root.querySelectorAll("[data-institution-compare]").forEach(
-                (input) => {
-                    input.checked = false;
-                }
-            );
+            root.querySelectorAll("[data-institution-compare]").forEach((input) => {
+                input.checked = false;
+            });
 
             updateInstitutionCompare();
         }
 
         if (event.target.closest("#oe-inst-compare-show")) {
             const selected = institutionCompared
-                .map((id) => ALL_DISCOVERY_INSTITUTIONS.find(
-                    (item) => String(item.id) === String(id)
-                ))
+                .map((id) =>
+                    ALL_DISCOVERY_INSTITUTIONS.find((item) => String(item.id) === String(id)),
+                )
                 .filter(Boolean);
 
             let dialog = byId("oe-institution-dialog");
@@ -2140,7 +2051,7 @@ const openProgrammeDetails = (id) => {
                 ["Subjects shown", (item) => (item.subjects || []).join(", ")],
                 ["Delivery modes", (item) => (item.modes || []).join(", ")],
                 ["Online programme information", (item) => item.programmeNote],
-                ["Source checked", (item) => item.lastVerifiedAt]
+                ["Source checked", (item) => item.lastVerifiedAt],
             ];
 
             dialog.innerHTML = `
@@ -2163,28 +2074,41 @@ const openProgrammeDetails = (id) => {
                         <thead>
                             <tr>
                                 <th scope="col">Institution detail</th>
-                                ${selected.map((item) => `
+                                ${selected
+                                    .map(
+                                        (item) => `
                                     <th scope="col">${escapeHTML(item.name)}</th>
-                                `).join("")}
+                                `,
+                                    )
+                                    .join("")}
                             </tr>
                         </thead>
 
                         <tbody>
-                            ${institutionRows.map(([label, get]) => `
+                            ${institutionRows
+                                .map(
+                                    ([label, get]) => `
                                 <tr>
                                     <th scope="row">${escapeHTML(label)}</th>
-                                    ${selected.map((item) => `
+                                    ${selected
+                                        .map(
+                                            (item) => `
                                         <td>${escapeHTML(get(item) || "Not specified")}</td>
-                                    `).join("")}
+                                    `,
+                                        )
+                                        .join("")}
                                 </tr>
-                            `).join("")}
+                            `,
+                                )
+                                .join("")}
 
                             <tr>
                                 <th scope="row">Official institution page</th>
-                                ${selected.map((item) => {
-                                    const url = safeExternalUrl(item.url);
+                                ${selected
+                                    .map((item) => {
+                                        const url = safeExternalUrl(item.url);
 
-                                    return `
+                                        return `
                                         <td>
                                             ${
                                                 url
@@ -2193,7 +2117,8 @@ const openProgrammeDetails = (id) => {
                                             }
                                         </td>
                                     `;
-                                }).join("")}
+                                    })
+                                    .join("")}
                             </tr>
                         </tbody>
                     </table>
@@ -2225,11 +2150,9 @@ const openProgrammeDetails = (id) => {
         if (event.target.closest("#oe-inst-dialog-clear")) {
             institutionCompared = [];
 
-            root.querySelectorAll("[data-institution-compare]").forEach(
-                (input) => {
-                    input.checked = false;
-                }
-            );
+            root.querySelectorAll("[data-institution-compare]").forEach((input) => {
+                input.checked = false;
+            });
 
             updateInstitutionCompare();
             byId("oe-institution-dialog")?.close();
@@ -2245,17 +2168,17 @@ const openProgrammeDetails = (id) => {
         }
     });
 
-    root.addEventListener("click", (event) => {
-        const button = event.target.closest("[data-view-institution-details]");
-        if (!button) return;
-        event.preventDefault();
-        event.stopPropagation();
-        openInstitutionDetails(button.dataset.viewInstitutionDetails, button);
-    }, true);
-
-    /* ---------------------------------------------------------
-       ENQUIRY FORM SUBMIT
-    --------------------------------------------------------- */
+    root.addEventListener(
+        "click",
+        (event) => {
+            const button = event.target.closest("[data-view-institution-details]");
+            if (!button) return;
+            event.preventDefault();
+            event.stopPropagation();
+            openInstitutionDetails(button.dataset.viewInstitutionDetails, button);
+        },
+        true,
+    );
 
     root.addEventListener("submit", (event) => {
         const form = event.target.closest("[data-oe-enquiry-form]");
@@ -2265,10 +2188,6 @@ const openProgrammeDetails = (id) => {
         event.preventDefault();
         handleEnquirySubmit(form);
     });
-
-    /* ---------------------------------------------------------
-       PROGRAMME COMPARE CHECKBOXES
-    --------------------------------------------------------- */
 
     results.addEventListener("change", (event) => {
         const checkbox = event.target.closest("[data-compare]");
@@ -2282,27 +2201,17 @@ const openProgrammeDetails = (id) => {
             return;
         }
 
-        compared = checkbox.checked
-            ? [...compared, id]
-            : compared.filter((item) => item !== id);
+        compared = checkbox.checked ? [...compared, id] : compared.filter((item) => item !== id);
 
         syncStorage();
         render();
     });
-
-    /* ---------------------------------------------------------
-       FILTER AND SORT LISTENERS
-    --------------------------------------------------------- */
 
     for (const key of filters) {
         byId(`oe-filter-${key}`)?.addEventListener("change", render);
     }
 
     byId("oe-sort")?.addEventListener("change", render);
-
-    /* ---------------------------------------------------------
-       INSTITUTION COMPARE CHECKBOXES
-    --------------------------------------------------------- */
 
     root.addEventListener("change", (event) => {
         const checkbox = event.target.closest("[data-institution-compare]");
@@ -2323,10 +2232,6 @@ const openProgrammeDetails = (id) => {
         updateInstitutionCompare();
     });
 
-    /* ---------------------------------------------------------
-       HERO SEARCH
-    --------------------------------------------------------- */
-
     byId("oe-hero-search-form")?.addEventListener("submit", (event) => {
         event.preventDefault();
 
@@ -2346,21 +2251,15 @@ const openProgrammeDetails = (id) => {
 
         byId("oe-programmes")?.scrollIntoView({
             behavior: "smooth",
-            block: "start"
+            block: "start",
         });
     });
 
     byId("oe-hero-query")?.addEventListener("input", render);
 
-    /* ---------------------------------------------------------
-       LOAD PROGRAMME DATA AND ASSIGN IMAGES
-    --------------------------------------------------------- */
-
     try {
         // Assign image URLs to every programme before filtering or rendering.
-        programmes = addProgrammeImages(
-            await getOnlineEducationProgrammes()
-        );
+        programmes = addProgrammeImages(await getOnlineEducationProgrammes());
 
         const populateProgrammeSelect = (selectId, values, label) => {
             const select = byId(selectId);
@@ -2368,9 +2267,22 @@ const openProgrammeDetails = (id) => {
             const existing = [...select.options].slice(1).map((option) => option.value);
             const available = [...new Set([...values, ...existing])]
                 .map((value) => String(value || "").trim())
-                .filter((value) => value && !["not specified", "not listed", "n/a", "unknown"].includes(value.toLowerCase()))
+                .filter(
+                    (value) =>
+                        value &&
+                        !["not specified", "not listed", "n/a", "unknown"].includes(
+                            value.toLowerCase(),
+                        ),
+                )
                 .sort((a, b) => a.localeCompare(b));
-            select.innerHTML = `<option value="">${label}</option>` + available.map((value) => `<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`).join("");
+            select.innerHTML =
+                `<option value="">${label}</option>` +
+                available
+                    .map(
+                        (value) =>
+                            `<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`,
+                    )
+                    .join("");
         };
         const programmeLevels = programmes.map((programme) => programme.educationLevel);
         const programmeCountries = programmes.map((programme) => programme.country);
@@ -2379,17 +2291,11 @@ const openProgrammeDetails = (id) => {
         populateProgrammeSelect("oe-hero-destination", programmeCountries, "All Destinations");
         populateProgrammeSelect("oe-filter-country", programmeCountries, "Destinations");
 
-        const availableIds = new Set(
-            programmes.map((programme) => String(programme.id))
-        );
+        const availableIds = new Set(programmes.map((programme) => String(programme.id)));
 
-        compared = compared.filter((id) =>
-            availableIds.has(String(id))
-        );
+        compared = compared.filter((id) => availableIds.has(String(id)));
 
-        favourites = favourites.filter((id) =>
-            availableIds.has(String(id))
-        );
+        favourites = favourites.filter((id) => availableIds.has(String(id)));
 
         syncStorage();
         const initialQuery = new URLSearchParams(location.search).get("q");
@@ -2398,16 +2304,12 @@ const openProgrammeDetails = (id) => {
         }
         render();
     } catch (error) {
-        console.error(
-            "Unable to load online education programmes.",
-            error
-        );
+        console.error("Unable to load online education programmes.", error);
 
         const resultCount = byId("oe-result-count");
 
         if (resultCount) {
-            resultCount.textContent =
-                "The discovery sample could not be loaded.";
+            resultCount.textContent = "The discovery sample could not be loaded.";
         }
 
         results.innerHTML = `

@@ -1,16 +1,76 @@
-import { getPublicInstitution, submitCollegeEnquiry, revokeCollegeEnquiryConsent } from "../services/collegePartnerService.js";
+import {
+    getPublicInstitution,
+    submitCollegeEnquiry,
+    revokeCollegeEnquiryConsent,
+} from "../services/collegePartnerService.js";
 import { getCurrentUser } from "../services/authService.js";
 import "../assets/css/college-partner.css";
-const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" })[char]);
+const esc = (value) =>
+    String(value ?? "").replace(
+        /[&<>"']/g,
+        (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char],
+    );
 export default function CollegeEnquiryPage() {
-    const id = new URLSearchParams(location.search).get("institutionId"), user = getCurrentUser();
+    const id = new URLSearchParams(location.search).get("institutionId"),
+        user = getCurrentUser();
     return `<main class="cp-enquiry-page"><a href="/" class="cp-auth-back">← StepInStudents home</a><section class="cp-enquiry-card"><a class="cp-brand" href="/">STEPINSTUDENTS<span>COLLEGE ENQUIRY</span></a><span class="cp-kicker">STUDENT ENQUIRY</span><h1 id="cp-enquiry-college">College enquiry</h1><p>Share your interest with this college. Contact sharing is a separate choice and is not required to submit your enquiry.</p><form id="cp-enquiry-form"><input type="hidden" name="institutionId" value="${esc(id)}"><label>Full name<input name="name" value="${user?.role === "STUDENT" ? esc(user.fullName) : ""}" maxlength="120" required></label><div class="cp-form-grid"><label>Email<input name="email" type="email" value="${user?.role === "STUDENT" ? esc(user.email) : ""}" maxlength="180" required></label><label>Phone number<input name="phone" type="tel" maxlength="40"></label></div><label>Course of interest<input name="course" maxlength="160" placeholder="e.g. Computer Science"></label><label>Message<textarea name="message" rows="4" maxlength="4000" placeholder="What would you like to know?"></textarea></label><label class="cp-consent-check"><input type="checkbox" name="consent" value="true" required><span>I consent to sharing the contact details provided above and this enquiry with this college so it can respond to my request.</span></label><label class="cp-consent-check"><input type="checkbox" name="contactSharingConsent" value="true"><span>Optional: I also consent to StepInStudents sharing my contact details with this college for follow-up about this institution, subject to eligibility checks.</span></label><button class="cp-button cp-button-gold" type="submit">Submit enquiry</button><p class="cp-feedback" id="cp-enquiry-status" role="status"></p></form></section></main>`;
 }
 export function initCollegeEnquiryPage() {
-    const form = document.querySelector("#cp-enquiry-form"); if (!form) return;
-    const id = new URLSearchParams(location.search).get("institutionId"), status = form.querySelector("#cp-enquiry-status");
-    if (!id || !/^\d+$/.test(id)) { status.textContent = "A valid college record is required to submit an enquiry."; form.querySelector("button").disabled = true; return; }
-    getPublicInstitution(id).then(institution => { document.querySelector("#cp-enquiry-college").textContent = `Enquire with ${institution.name}`; }).catch(error => { status.textContent = error.message; form.querySelector("button").disabled = true; });
-    form.addEventListener("submit", async event => { event.preventDefault(); const submitted = new FormData(form), data = Object.fromEntries(submitted); data.institutionId = Number(data.institutionId); data.consent = submitted.get("consent") === "true"; data.contactSharingConsent = submitted.get("contactSharingConsent") === "true"; const button = form.querySelector("button"); button.disabled = true; status.textContent = "Submitting your enquiry…"; try { const result = await submitCollegeEnquiry(data); status.textContent = result.message; if (data.contactSharingConsent && getCurrentUser()?.role === "STUDENT") { status.insertAdjacentHTML("beforeend", ` <button class="cp-text-button" type="button" data-revoke-consent="${Number(result.id)}">Revoke optional contact-sharing consent</button>`); } form.reset(); } catch (error) { status.textContent = error.message; status.classList.add("is-error"); } finally { button.disabled = false; } });
-    status.addEventListener("click", async event => { const revoke = event.target.closest("[data-revoke-consent]"); if (!revoke) return; revoke.disabled = true; try { await revokeCollegeEnquiryConsent(revoke.dataset.revokeConsent); status.textContent = "Contact-sharing consent revoked. Your enquiry remains submitted."; } catch (error) { status.textContent = error.message; revoke.disabled = false; } });
+    const form = document.querySelector("#cp-enquiry-form");
+    if (!form) return;
+    const id = new URLSearchParams(location.search).get("institutionId"),
+        status = form.querySelector("#cp-enquiry-status");
+    if (!id || !/^\d+$/.test(id)) {
+        status.textContent = "A valid college record is required to submit an enquiry.";
+        form.querySelector("button").disabled = true;
+        return;
+    }
+    getPublicInstitution(id)
+        .then((institution) => {
+            document.querySelector("#cp-enquiry-college").textContent =
+                `Enquire with ${institution.name}`;
+        })
+        .catch((error) => {
+            status.textContent = error.message;
+            form.querySelector("button").disabled = true;
+        });
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const submitted = new FormData(form),
+            data = Object.fromEntries(submitted);
+        data.institutionId = Number(data.institutionId);
+        data.consent = submitted.get("consent") === "true";
+        data.contactSharingConsent = submitted.get("contactSharingConsent") === "true";
+        const button = form.querySelector("button");
+        button.disabled = true;
+        status.textContent = "Submitting your enquiry…";
+        try {
+            const result = await submitCollegeEnquiry(data);
+            status.textContent = result.message;
+            if (data.contactSharingConsent && getCurrentUser()?.role === "STUDENT") {
+                status.insertAdjacentHTML(
+                    "beforeend",
+                    ` <button class="cp-text-button" type="button" data-revoke-consent="${Number(result.id)}">Revoke optional contact-sharing consent</button>`,
+                );
+            }
+            form.reset();
+        } catch (error) {
+            status.textContent = error.message;
+            status.classList.add("is-error");
+        } finally {
+            button.disabled = false;
+        }
+    });
+    status.addEventListener("click", async (event) => {
+        const revoke = event.target.closest("[data-revoke-consent]");
+        if (!revoke) return;
+        revoke.disabled = true;
+        try {
+            await revokeCollegeEnquiryConsent(revoke.dataset.revokeConsent);
+            status.textContent = "Contact-sharing consent revoked. Your enquiry remains submitted.";
+        } catch (error) {
+            status.textContent = error.message;
+            revoke.disabled = false;
+        }
+    });
 }

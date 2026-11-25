@@ -1,5 +1,19 @@
-const SCHOOL_CARD_SELECTOR = "#top-boarding-schools .regional-school-card, #school .regional-school-card, #pre-school .institution-card, #play-school .institution-card";
-const SCHOOL_COMPARE_BUTTON_SELECTOR = "#top-boarding-schools .regional-school-card [data-action=\"compare\"], #school .regional-school-card [data-action=\"compare\"], #pre-school .institution-card [data-action=\"compare\"], #play-school .institution-card [data-action=\"compare\"]";
+const SCHOOL_CARD_SELECTOR =
+    "#top-boarding-schools " +
+    ".regional-school-card, #school " +
+    ".regional-school-card, #pre-school " +
+    ".institution-card, #play-school " +
+    ".institution-card";
+const SCHOOL_COMPARE_BUTTON_SELECTOR =
+    "#top-boarding-schools " +
+    ".regional-school-card " +
+    '[data-action="compare"], #school ' +
+    ".regional-school-card " +
+    '[data-action="compare"], #pre-school ' +
+    ".institution-card " +
+    '[data-action="compare"], #play-school ' +
+    ".institution-card " +
+    '[data-action="compare"]';
 
 function getSchoolRecord(card) {
     const name = card.querySelector(".institution-card-title h3")?.textContent.trim();
@@ -8,7 +22,8 @@ function getSchoolRecord(card) {
     const location = (card.querySelector(".institution-card-title p")?.textContent || "")
         .replace(/^[\s📍⌖]+/u, "")
         .trim();
-    const category = card.querySelector(".institution-card-category")?.textContent.trim() || "Not listed";
+    const category =
+        card.querySelector(".institution-card-category")?.textContent.trim() || "Not listed";
     const isEarlyLearning = ["pre-school", "play-school"].includes(card.dataset.type);
 
     return {
@@ -17,9 +32,16 @@ function getSchoolRecord(card) {
         location: location || "Not listed",
         category,
         board: isEarlyLearning ? "Not applicable" : category,
-        status: isEarlyLearning ? "Not applicable" : card.querySelector(".institution-card-program")?.textContent.trim() || "Not listed",
-        programme: isEarlyLearning ? card.querySelector(".institution-card-program")?.textContent.trim() || "Not listed" : "Not listed",
-        overview: card.querySelector(".institution-card-overview, .institution-card-highlight")?.textContent.trim() || "Not listed"
+        status: isEarlyLearning
+            ? "Not applicable"
+            : card.querySelector(".institution-card-program")?.textContent.trim() || "Not listed",
+        programme: isEarlyLearning
+            ? card.querySelector(".institution-card-program")?.textContent.trim() || "Not listed"
+            : "Not listed",
+        overview:
+            card
+                .querySelector(".institution-card-overview, .institution-card-highlight")
+                ?.textContent.trim() || "Not listed",
     };
 }
 
@@ -50,7 +72,7 @@ export default function initHomeSchoolCompare() {
     let dialog;
 
     const syncButtons = () => {
-        document.querySelectorAll(SCHOOL_COMPARE_BUTTON_SELECTOR).forEach(button => {
+        document.querySelectorAll(SCHOOL_COMPARE_BUTTON_SELECTOR).forEach((button) => {
             const card = button.closest(SCHOOL_CARD_SELECTOR);
             const school = card && getSchoolRecord(card);
             if (!school) return;
@@ -58,7 +80,9 @@ export default function initHomeSchoolCompare() {
             const isSelected = selected.has(school.id);
             button.dataset.compared = isSelected ? "true" : "";
             button.setAttribute("aria-pressed", String(isSelected));
-            button.replaceChildren(document.createTextNode(isSelected ? "Added to compare" : "Compare"));
+            button.replaceChildren(
+                document.createTextNode(isSelected ? "Added to compare" : "Compare"),
+            );
             const arrow = document.createElement("span");
             arrow.textContent = "›";
             button.append(arrow);
@@ -73,7 +97,7 @@ export default function initHomeSchoolCompare() {
 
         const heading = document.createElement("tr");
         appendTextCell(heading, "th", "School").scope = "row";
-        schools.forEach(school => {
+        schools.forEach((school) => {
             const cell = document.createElement("th");
             cell.scope = "col";
             const name = document.createElement("strong");
@@ -95,41 +119,45 @@ export default function initHomeSchoolCompare() {
             ["Day / boarding", "status"],
             ["Category", "category"],
             ["Programme", "programme"],
-            ["Overview", "overview"]
+            ["Overview", "overview"],
         ].forEach(([label, key]) => {
             const row = document.createElement("tr");
             appendTextCell(row, "th", label).scope = "row";
-            schools.forEach(school => appendTextCell(row, "td", school[key]));
+            schools.forEach((school) => appendTextCell(row, "td", school[key]));
             body.append(row);
         });
     };
 
-    document.addEventListener("click", event => {
-        const button = event.target.closest?.('[data-action="compare"]');
-        if (!button || !button.closest(SCHOOL_CARD_SELECTOR)) return;
+    document.addEventListener(
+        "click",
+        (event) => {
+            const button = event.target.closest?.('[data-action="compare"]');
+            if (!button || !button.closest(SCHOOL_CARD_SELECTOR)) return;
 
-        const school = getSchoolRecord(button.closest(SCHOOL_CARD_SELECTOR));
-        if (!school) return;
+            const school = getSchoolRecord(button.closest(SCHOOL_CARD_SELECTOR));
+            if (!school) return;
 
-        if (selected.has(school.id)) {
-            selected.delete(school.id);
-        } else if (selected.size < 3) {
-            selected.set(school.id, school);
-        } else {
-            button.textContent = "Up to 3";
-            window.setTimeout(syncButtons, 1200);
-            return;
-        }
+            if (selected.has(school.id)) {
+                selected.delete(school.id);
+            } else if (selected.size < 3) {
+                selected.set(school.id, school);
+            } else {
+                button.textContent = "Up to 3";
+                window.setTimeout(syncButtons, 1200);
+                return;
+            }
 
-        syncButtons();
-        if (selected.size < 2) return;
+            syncButtons();
+            if (selected.size < 2) return;
 
-        dialog ||= createComparisonDialog();
-        renderComparison();
-        if (!dialog.open) dialog.showModal();
-    }, true);
+            dialog ||= createComparisonDialog();
+            renderComparison();
+            if (!dialog.open) dialog.showModal();
+        },
+        true,
+    );
 
-    document.addEventListener("click", event => {
+    document.addEventListener("click", (event) => {
         const remove = event.target.closest?.("[data-remove-home-school]");
         if (remove && dialog?.contains(remove)) {
             selected.delete(remove.dataset.removeHomeSchool);

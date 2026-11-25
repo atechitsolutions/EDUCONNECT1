@@ -1,31 +1,30 @@
 export default function RunningSocial() {
-
     const items = [
         {
             icon: "🏛️",
             title: "Top Universities",
-            subtitle: "Rankings Updated"
+            subtitle: "Rankings Updated",
         },
         {
             icon: "📢",
             title: "Admissions Open 2026",
-            subtitle: "Apply Now"
+            subtitle: "Apply Now",
         },
         {
             icon: "🏆",
             title: "Top Colleges Updated",
-            subtitle: "New Rankings Out"
+            subtitle: "New Rankings Out",
         },
         {
             icon: "💼",
             title: "New Internship Opportunities",
-            subtitle: "Apply Before Deadline"
+            subtitle: "Apply Before Deadline",
         },
         {
             icon: "🎓",
             title: "University Admissions",
-            subtitle: "Latest Updates"
-        }
+            subtitle: "Latest Updates",
+        },
     ];
 
     const tickerItems = [...items, ...items];
@@ -35,7 +34,6 @@ export default function RunningSocial() {
 
             <div class="premium-ticker">
 
-                <!-- LABEL -->
                 <div class="premium-ticker-label">
 
                     <div class="ticker-label-icon">
@@ -50,12 +48,13 @@ export default function RunningSocial() {
                 </div>
 
 
-                <!-- RUNNING CONTENT -->
                 <div class="premium-ticker-window">
 
                     <div class="premium-ticker-track">
 
-                        ${tickerItems.map(item => `
+                        ${tickerItems
+                            .map(
+                                (item) => `
                             <div class="premium-ticker-item">
 
                                 <div class="premium-ticker-item-icon">
@@ -75,14 +74,15 @@ export default function RunningSocial() {
                                 </div>
 
                             </div>
-                        `).join("")}
+                        `,
+                            )
+                            .join("")}
 
                     </div>
 
                 </div>
 
 
-                <!-- ARROW -->
                 <button
                     class="premium-ticker-arrow"
                     aria-label="View social media updates"
@@ -93,7 +93,6 @@ export default function RunningSocial() {
             </div>
 
 
-            <!-- PROGRESS LINE -->
             <div class="premium-ticker-progress">
                 <span></span>
             </div>

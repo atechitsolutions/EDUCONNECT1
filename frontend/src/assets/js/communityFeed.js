@@ -3,21 +3,22 @@ import { getCurrentUser } from "../../services/authService.js";
 import { communityAvatarHtml, hydrateCommunityAvatars } from "./communityAvatar.js";
 
 const escapeHtml = (value = "") =>
-    String(value ?? "").replace(/[&<>"']/g, c => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    })[c]);
+    String(value ?? "").replace(
+        /[&<>"']/g,
+        (c) =>
+            ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+            })[c],
+    );
 
-const timeAgo = date => {
+const timeAgo = (date) => {
     if (!date) return "";
 
-    const seconds = Math.max(
-        1,
-        Math.floor((Date.now() - new Date(date).getTime()) / 1000)
-    );
+    const seconds = Math.max(1, Math.floor((Date.now() - new Date(date).getTime()) / 1000));
 
     if (seconds < 60) return "just now";
 
@@ -33,23 +34,24 @@ const timeAgo = date => {
     return new Intl.DateTimeFormat("en-IN", {
         day: "numeric",
         month: "short",
-        year: "numeric"
+        year: "numeric",
     }).format(new Date(date));
 };
 
 // Text is escaped first; only then are #tags and @mentions turned into buttons.
-const formatText = text => escapeHtml(text)
-    .replace(
-        /(^|\s)#([\p{L}\p{N}_]{2,40})/gu,
-        (m, pre, tag) =>
-            `${pre}<button type="button" class="feed-tag" data-feed-tag="${tag.toLowerCase()}">#${tag}</button>`
-    )
-    .replace(
-        /(^|\s)@([a-zA-Z0-9_]{3,40})/g,
-        (m, pre, name) =>
-            `${pre}<button type="button" class="feed-mention" data-view-profile="${name.toLowerCase()}">@${name}</button>`
-    )
-    .replace(/\n/g, "<br>");
+const formatText = (text) =>
+    escapeHtml(text)
+        .replace(
+            /(^|\s)#([\p{L}\p{N}_]{2,40})/gu,
+            (m, pre, tag) =>
+                `${pre}<button type="button" class="feed-tag" data-feed-tag="${tag.toLowerCase()}">#${tag}</button>`,
+        )
+        .replace(
+            /(^|\s)@([a-zA-Z0-9_]{3,40})/g,
+            (m, pre, name) =>
+                `${pre}<button type="button" class="feed-mention" data-view-profile="${name.toLowerCase()}">@${name}</button>`,
+        )
+        .replace(/\n/g, "<br>");
 
 const FILTERS = [
     { key: "all", label: "All Posts", sort: "latest", category: "" },
@@ -59,13 +61,13 @@ const FILTERS = [
     { key: "idea", label: "Ideas", sort: "latest", category: "IDEA" },
     { key: "question", label: "Questions", sort: "latest", category: "QUESTION" },
     { key: "achievement", label: "Achievements", sort: "latest", category: "ACHIEVEMENT" },
-    { key: "job", label: "Internships & Jobs", sort: "latest", category: "JOB" }
+    { key: "job", label: "Internships & Jobs", sort: "latest", category: "JOB" },
 ];
 
 const VISIBILITY_LABEL = {
     PUBLIC: "🌐 Public",
     CONNECTIONS: "👥 Connections",
-    PRIVATE: "🔒 Only me"
+    PRIVATE: "🔒 Only me",
 };
 
 const MAX_IMAGES = 4;
@@ -95,7 +97,7 @@ export function initCommunityFeed(root) {
         pendingReload: false,
         requestId: 0,
         replyTo: null,
-        single: null
+        single: null,
     };
 
     const blobCache = new Map();
@@ -198,14 +200,16 @@ export function initCommunityFeed(root) {
             </div>
 
             <div class="feed-filters" data-feed-filters>
-                ${FILTERS.map((f, i) => `
+                ${FILTERS.map(
+                    (f, i) => `
                     <button
                         type="button"
                         class="${i === 0 ? "is-active" : ""}"
                         data-feed-filter="${f.key}">
                         ${f.label}
                     </button>
-                `).join("")}
+                `,
+                ).join("")}
             </div>
 
             <div class="feed-single" data-feed-single hidden></div>
@@ -223,16 +227,19 @@ export function initCommunityFeed(root) {
 
     hydrateCommunityAvatars(host);
 
-    const $ = selector => host.querySelector(selector);
+    const $ = (selector) => host.querySelector(selector);
 
     // Post viewer: a full-screen dialog attached to the page root,
     // so it can open from any tab (e.g. a profile).
-    root.insertAdjacentHTML("beforeend", `
+    root.insertAdjacentHTML(
+        "beforeend",
+        `
         <dialog class="feed-viewer" data-feed-viewer aria-label="Post viewer">
             <button type="button" class="feed-viewer-close" data-feed-viewer-close aria-label="Close post">×</button>
             <div class="feed-root feed-viewer-body" data-feed-viewer-body></div>
         </dialog>
-    `);
+    `,
+    );
 
     const viewer = root.querySelector("[data-feed-viewer]");
     const viewerBody = viewer.querySelector("[data-feed-viewer-body]");
@@ -262,28 +269,27 @@ export function initCommunityFeed(root) {
             if (success) toast(success);
 
             return result === undefined ? true : result;
-
         } catch (error) {
             toast(error.message || "Something went wrong.", true);
             return false;
         }
     };
 
-    // ------------------------------------------------------------
-    // POST RENDERING
-    // ------------------------------------------------------------
-
-    const gallery = images => {
+    const gallery = (images) => {
         if (!Array.isArray(images) || !images.length) return "";
 
         return `
             <div class="feed-gallery feed-gallery-${Math.min(images.length, 4)}">
-                ${images.map(path => `
+                ${images
+                    .map(
+                        (path) => `
                     <img
                         class="feed-image"
                         data-feed-media="${escapeHtml(path)}"
                         alt="Image shared in a post">
-                `).join("")}
+                `,
+                    )
+                    .join("")}
             </div>
         `;
     };
@@ -326,18 +332,18 @@ export function initCommunityFeed(root) {
 
                     <div class="feed-menu" data-feed-menu-panel hidden>
 
-                        ${p.mine
-                            ? `
+                        ${
+                            p.mine
+                                ? `
                                 <button type="button" data-feed-edit>Edit post</button>
                                 <button type="button" class="is-danger" data-feed-delete>Delete post</button>
                             `
-                            : `
+                                : `
                                 <button type="button" class="is-danger" data-feed-report>Report post</button>
-                            `}
+                            `
+                        }
 
-                        ${single
-                            ? ""
-                            : `<button type="button" data-feed-open>Open post</button>`}
+                        ${single ? "" : `<button type="button" data-feed-open>Open post</button>`}
 
                     </div>
                 </div>
@@ -428,44 +434,49 @@ export function initCommunityFeed(root) {
 
                 <div class="feed-comment-tools">
 
-                    ${reply
-                        ? ""
-                        : `
+                    ${
+                        reply
+                            ? ""
+                            : `
                             <button
                                 type="button"
                                 data-feed-reply="${c.id}"
                                 data-reply-name="${escapeHtml(c.author.username)}">
                                 Reply
                             </button>
-                        `}
+                        `
+                    }
 
-                    ${c.mine
-                        ? `
+                    ${
+                        c.mine
+                            ? `
                             <button type="button" data-feed-comment-delete="${c.id}">
                                 Delete
                             </button>
                         `
-                        : ""}
+                            : ""
+                    }
 
                 </div>
 
-                ${!reply && c.replies?.length
-                    ? `
+                ${
+                    !reply && c.replies?.length
+                        ? `
                         <div class="feed-replies">
-                            ${c.replies.map(r => commentHtml(r, true)).join("")}
+                            ${c.replies.map((r) => commentHtml(r, true)).join("")}
                         </div>
                     `
-                    : ""}
+                        : ""
+                }
 
             </div>
         </div>
     `;
 
     const skeleton = () =>
-        `<div class="feed-skeleton"><i></i><div><b></b><b></b><b></b></div></div>`
-            .repeat(3);
+        `<div class="feed-skeleton"><i></i><div><b></b><b></b><b></b></div></div>`.repeat(3);
 
-    const emptyHtml = message => `
+    const emptyHtml = (message) => `
         <div class="feed-empty">
             <span>✦</span>
             <h3>${escapeHtml(message)}</h3>
@@ -473,7 +484,7 @@ export function initCommunityFeed(root) {
         </div>
     `;
 
-    const errorHtml = message => `
+    const errorHtml = (message) => `
         <div class="feed-empty is-error">
             <span>!</span>
             <h3>Could not load the feed</h3>
@@ -485,64 +496,59 @@ export function initCommunityFeed(root) {
         </div>
     `;
 
-    // ------------------------------------------------------------
     // IMAGE LOADING (private images need the bearer token,
     // so each one is fetched lazily as a blob)
-    // ------------------------------------------------------------
 
-    const mediaObserver = "IntersectionObserver" in window
-        ? new IntersectionObserver(entries => {
-            entries.forEach(async entry => {
-                if (!entry.isIntersecting) return;
+    const mediaObserver =
+        "IntersectionObserver" in window
+            ? new IntersectionObserver(
+                  (entries) => {
+                      entries.forEach(async (entry) => {
+                          if (!entry.isIntersecting) return;
 
-                const img = entry.target;
-                mediaObserver.unobserve(img);
+                          const img = entry.target;
+                          mediaObserver.unobserve(img);
 
-                const path = img.dataset.feedMedia;
+                          const path = img.dataset.feedMedia;
 
-                try {
-                    if (!blobCache.has(path)) {
-                        blobCache.set(path, feedApi.image(path));
-                    }
+                          try {
+                              if (!blobCache.has(path)) {
+                                  blobCache.set(path, feedApi.image(path));
+                              }
 
-                    img.src = await blobCache.get(path);
-                    img.classList.add("is-loaded");
+                              img.src = await blobCache.get(path);
+                              img.classList.add("is-loaded");
+                          } catch {
+                              blobCache.delete(path);
+                              img.alt = "Image unavailable";
+                          }
+                      });
+                  },
+                  { rootMargin: "300px" },
+              )
+            : null;
 
-                } catch {
-                    blobCache.delete(path);
-                    img.alt = "Image unavailable";
-                }
-            });
-        }, { rootMargin: "300px" })
-        : null;
-
-    const watchMedia = scope => {
-        scope.querySelectorAll("img[data-feed-media]:not([src])")
-            .forEach(img => {
-                if (mediaObserver) {
-                    mediaObserver.observe(img);
-                } else {
-                    feedApi.image(img.dataset.feedMedia)
-                        .then(url => {
-                            img.src = url;
-                            img.classList.add("is-loaded");
-                        })
-                        .catch(() => {
-                            img.alt = "Image unavailable";
-                        });
-                }
-            });
+    const watchMedia = (scope) => {
+        scope.querySelectorAll("img[data-feed-media]:not([src])").forEach((img) => {
+            if (mediaObserver) {
+                mediaObserver.observe(img);
+            } else {
+                feedApi
+                    .image(img.dataset.feedMedia)
+                    .then((url) => {
+                        img.src = url;
+                        img.classList.add("is-loaded");
+                    })
+                    .catch(() => {
+                        img.alt = "Image unavailable";
+                    });
+            }
+        });
     };
 
-    // ------------------------------------------------------------
-    // POST STATE HELPERS
-    // ------------------------------------------------------------
+    const findPost = (id) => state.posts.find((p) => Number(p.id) === Number(id));
 
-    const findPost = id =>
-        state.posts.find(p => Number(p.id) === Number(id));
-
-    const allCards = id =>
-        root.querySelectorAll(`[data-post-id="${id}"]`);
+    const allCards = (id) => root.querySelectorAll(`[data-post-id="${id}"]`);
 
     const paintCard = (card, post) => {
         const likeCount = card.querySelector('[data-count="like"]');
@@ -570,12 +576,10 @@ export function initCommunityFeed(root) {
     };
 
     // Keeps the list card, single view and viewer in sync.
-    const replacePost = post => {
+    const replacePost = (post) => {
         if (!post || typeof post !== "object" || post.id == null) return;
 
-        const index = state.posts.findIndex(
-            p => Number(p.id) === Number(post.id)
-        );
+        const index = state.posts.findIndex((p) => Number(p.id) === Number(post.id));
 
         if (index >= 0) state.posts[index] = post;
 
@@ -583,13 +587,13 @@ export function initCommunityFeed(root) {
             state.single = post;
         }
 
-        allCards(post.id).forEach(card => paintCard(card, post));
+        allCards(post.id).forEach((card) => paintCard(card, post));
     };
 
     const setCommentCount = (id, count) => {
         if (count == null) return;
 
-        allCards(id).forEach(card => {
+        allCards(id).forEach((card) => {
             const node = card.querySelector('[data-count="comment"]');
             if (node) node.textContent = count;
         });
@@ -606,9 +610,7 @@ export function initCommunityFeed(root) {
         const body = card.querySelector("[data-feed-body]");
 
         if (body) {
-            body.innerHTML = post.content
-                ? `<p>${formatText(post.content)}</p>`
-                : "";
+            body.innerHTML = post.content ? `<p>${formatText(post.content)}</p>` : "";
         }
 
         const meta = card.querySelector(".feed-meta");
@@ -621,10 +623,6 @@ export function initCommunityFeed(root) {
             `;
         }
     };
-
-    // ------------------------------------------------------------
-    // LOAD POSTS
-    // ------------------------------------------------------------
 
     async function load(reset = false) {
         if (state.loading) {
@@ -653,18 +651,14 @@ export function initCommunityFeed(root) {
                 sort: state.filter.sort,
                 q: state.q,
                 page: state.page,
-                size: 10
+                size: 10,
             });
 
             if (requestId !== state.requestId) return;
 
-            const content = Array.isArray(result?.content)
-                ? result.content
-                : [];
+            const content = Array.isArray(result?.content) ? result.content : [];
 
-            state.posts = reset
-                ? content
-                : state.posts.concat(content);
+            state.posts = reset ? content : state.posts.concat(content);
 
             const currentPage = Number(result?.page ?? state.page);
             const totalPages = Number(result?.totalPages ?? 0);
@@ -675,14 +669,12 @@ export function initCommunityFeed(root) {
 
             if (!state.posts.length) {
                 list.innerHTML = emptyHtml(
-                    state.q
-                        ? "No posts match your search"
-                        : "No posts here yet"
+                    state.q ? "No posts match your search" : "No posts here yet",
                 );
             } else {
                 const wrapper = document.createElement("div");
 
-                wrapper.innerHTML = content.map(p => postHtml(p)).join("");
+                wrapper.innerHTML = content.map((p) => postHtml(p)).join("");
 
                 while (wrapper.firstChild) {
                     list.appendChild(wrapper.firstChild);
@@ -694,18 +686,14 @@ export function initCommunityFeed(root) {
 
             $("[data-feed-more]").hidden = state.last;
             state.loaded = true;
-
         } catch (error) {
             if (requestId === state.requestId) {
                 if (reset || !state.posts.length) {
-                    list.innerHTML = errorHtml(
-                        error.message || "Please check your connection."
-                    );
+                    list.innerHTML = errorHtml(error.message || "Please check your connection.");
                 } else {
                     toast(error.message || "Could not load more posts.", true);
                 }
             }
-
         } finally {
             state.loading = false;
 
@@ -717,10 +705,6 @@ export function initCommunityFeed(root) {
     }
 
     const reload = () => load(true);
-
-    // ------------------------------------------------------------
-    // COMMENTS
-    // ------------------------------------------------------------
 
     async function loadComments(card, reset = true) {
         const id = card.dataset.postId;
@@ -744,13 +728,12 @@ export function initCommunityFeed(root) {
 
             list.insertAdjacentHTML(
                 "beforeend",
-                result.content.map(c => commentHtml(c)).join("")
+                result.content.map((c) => commentHtml(c)).join(""),
             );
             hydrateCommunityAvatars(list);
 
             more.dataset.page = page;
             more.hidden = page >= result.totalPages - 1;
-
         } catch (error) {
             list.innerHTML = `
                 <small class="feed-muted">${escapeHtml(error.message)}</small>
@@ -758,19 +741,17 @@ export function initCommunityFeed(root) {
         }
     }
 
-    // ------------------------------------------------------------
-    // CREATE POST COMPOSER
-    // ------------------------------------------------------------
-
     const form = $("[data-feed-composer]");
     const previews = $("[data-feed-previews]");
 
     const renderPreviews = () => {
-        state.previewUrls.forEach(url => URL.revokeObjectURL(url));
+        state.previewUrls.forEach((url) => URL.revokeObjectURL(url));
 
-        state.previewUrls = state.files.map(file => URL.createObjectURL(file));
+        state.previewUrls = state.files.map((file) => URL.createObjectURL(file));
 
-        previews.innerHTML = state.files.map((file, i) => `
+        previews.innerHTML = state.files
+            .map(
+                (file, i) => `
             <figure>
                 <img src="${state.previewUrls[i]}" alt="Selected image ${i + 1}">
 
@@ -781,15 +762,16 @@ export function initCommunityFeed(root) {
                     ×
                 </button>
             </figure>
-        `).join("");
+        `,
+            )
+            .join("");
     };
 
     form.elements.content.addEventListener("input", () => {
-        $("[data-feed-count]").textContent =
-            `${form.elements.content.value.length}/5000`;
+        $("[data-feed-count]").textContent = `${form.elements.content.value.length}/5000`;
     });
 
-    $("[data-feed-files]").addEventListener("change", event => {
+    $("[data-feed-files]").addEventListener("change", (event) => {
         for (const file of event.target.files) {
             if (!IMAGE_TYPES.includes(file.type)) {
                 toast("Only JPEG, PNG, WebP or GIF images are allowed.", true);
@@ -813,7 +795,7 @@ export function initCommunityFeed(root) {
         renderPreviews();
     });
 
-    form.addEventListener("submit", async event => {
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         const content = form.elements.content.value.trim();
@@ -834,7 +816,7 @@ export function initCommunityFeed(root) {
         data.append("category", form.elements.category.value);
         data.append("visibility", form.elements.visibility.value);
 
-        state.files.forEach(file => data.append("images", file));
+        state.files.forEach((file) => data.append("images", file));
 
         const ok = await attempt(() => feedApi.create(data), "Post published.");
 
@@ -855,20 +837,16 @@ export function initCommunityFeed(root) {
         reload();
     });
 
-    // ------------------------------------------------------------
     // INTERACTIONS (shared by the feed and the post viewer)
-    // ------------------------------------------------------------
 
-    const closeMenus = except => {
-        root.querySelectorAll("[data-feed-menu-panel]").forEach(menu => {
+    const closeMenus = (except) => {
+        root.querySelectorAll("[data-feed-menu-panel]").forEach((menu) => {
             if (menu !== except) menu.hidden = true;
         });
     };
 
-    const onClick = async event => {
-        const target = event.target instanceof Element
-            ? event.target
-            : event.target?.parentElement;
+    const onClick = async (event) => {
+        const target = event.target instanceof Element ? event.target : event.target?.parentElement;
 
         if (!target) return;
 
@@ -898,10 +876,9 @@ export function initCommunityFeed(root) {
 
         if (filterButton) {
             state.filter =
-                FILTERS.find(f => f.key === filterButton.dataset.feedFilter) ||
-                FILTERS[0];
+                FILTERS.find((f) => f.key === filterButton.dataset.feedFilter) || FILTERS[0];
 
-            host.querySelectorAll("[data-feed-filter]").forEach(b => {
+            host.querySelectorAll("[data-feed-filter]").forEach((b) => {
                 b.classList.toggle("is-active", b === filterButton);
             });
 
@@ -913,7 +890,7 @@ export function initCommunityFeed(root) {
         if (scopeButton) {
             state.scope = scopeButton.dataset.feedScope;
 
-            host.querySelectorAll("[data-feed-scope]").forEach(b => {
+            host.querySelectorAll("[data-feed-scope]").forEach((b) => {
                 b.classList.toggle("is-active", b === scopeButton);
             });
 
@@ -946,11 +923,7 @@ export function initCommunityFeed(root) {
 
             url.searchParams.delete("post");
 
-            history.replaceState(
-                null,
-                "",
-                `${url.pathname}${url.search}${url.hash}`
-            );
+            history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
 
             state.single = null;
 
@@ -999,11 +972,7 @@ export function initCommunityFeed(root) {
             if (result && typeof result === "object") {
                 replacePost(result);
 
-                toast(
-                    result.savedByMe
-                        ? "Saved to your collection."
-                        : "Removed from saved."
-                );
+                toast(result.savedByMe ? "Saved to your collection." : "Removed from saved.");
 
                 changed();
             }
@@ -1025,7 +994,7 @@ export function initCommunityFeed(root) {
                 try {
                     await navigator.share({
                         title: "StepInStudents post",
-                        url: link
+                        url: link,
                     });
 
                     return;
@@ -1072,14 +1041,13 @@ export function initCommunityFeed(root) {
         if (button.matches("[data-feed-reply]")) {
             state.replyTo = {
                 postId: String(id),
-                commentId: Number(button.dataset.feedReply)
+                commentId: Number(button.dataset.feedReply),
             };
 
             const note = card.querySelector("[data-feed-replying]");
 
             note.hidden = false;
-            note.textContent =
-                `Replying to @${button.dataset.replyName} — send an empty box to cancel`;
+            note.textContent = `Replying to @${button.dataset.replyName} — send an empty box to cancel`;
 
             const input = card.querySelector("[data-feed-comment-form] input");
 
@@ -1114,17 +1082,12 @@ export function initCommunityFeed(root) {
 
             if (!confirm("Delete this post permanently?")) return;
 
-            const result = await attempt(
-                () => feedApi.remove(id),
-                "Post deleted."
-            );
+            const result = await attempt(() => feedApi.remove(id), "Post deleted.");
 
             if (result) {
-                allCards(id).forEach(c => c.remove());
+                allCards(id).forEach((c) => c.remove());
 
-                state.posts = state.posts.filter(
-                    p => Number(p.id) !== Number(id)
-                );
+                state.posts = state.posts.filter((p) => Number(p.id) !== Number(id));
 
                 if (state.single && Number(state.single.id) === Number(id)) {
                     state.single = null;
@@ -1133,7 +1096,8 @@ export function initCommunityFeed(root) {
                     $("[data-feed-list]").hidden = false;
                 }
 
-                if (viewer.open) viewer.close(); // its close event calls changed()
+                if (viewer.open)
+                    viewer.close(); // its close event calls changed()
                 else changed();
             }
 
@@ -1149,7 +1113,7 @@ export function initCommunityFeed(root) {
             if (reason && reason.trim()) {
                 await attempt(
                     () => feedApi.report(id, reason.trim()),
-                    "Thanks — our moderators will review it."
+                    "Thanks — our moderators will review it.",
                 );
             }
 
@@ -1166,11 +1130,7 @@ export function initCommunityFeed(root) {
     host.addEventListener("click", onClick);
     viewer.addEventListener("click", onClick);
 
-    // ------------------------------------------------------------
-    // COMMENT SUBMISSION
-    // ------------------------------------------------------------
-
-    const onSubmit = async event => {
+    const onSubmit = async (event) => {
         const commentForm = event.target.closest("[data-feed-comment-form]");
 
         if (!commentForm) return;
@@ -1196,9 +1156,7 @@ export function initCommunityFeed(root) {
                 ? state.replyTo.commentId
                 : null;
 
-        const result = await attempt(
-            () => feedApi.addComment(id, content, parentId)
-        );
+        const result = await attempt(() => feedApi.addComment(id, content, parentId));
 
         if (!result) return;
 
@@ -1216,10 +1174,6 @@ export function initCommunityFeed(root) {
 
     host.addEventListener("submit", onSubmit);
     viewer.addEventListener("submit", onSubmit);
-
-    // ------------------------------------------------------------
-    // EDIT POST
-    // ------------------------------------------------------------
 
     function startEdit(card, post) {
         if (!post) return;
@@ -1251,32 +1205,28 @@ export function initCommunityFeed(root) {
 
         editForm.querySelector("textarea").focus();
 
-        editForm.querySelector("[data-edit-cancel]")
-            .addEventListener("click", () => {
-                body.innerHTML = post.content
-                    ? `<p>${formatText(post.content)}</p>`
-                    : "";
-            });
+        editForm.querySelector("[data-edit-cancel]").addEventListener("click", () => {
+            body.innerHTML = post.content ? `<p>${formatText(post.content)}</p>` : "";
+        });
 
-        editForm.addEventListener("submit", async submitEvent => {
+        editForm.addEventListener("submit", async (submitEvent) => {
             submitEvent.preventDefault();
 
             const content = editForm.querySelector("textarea").value.trim();
 
             const updated = await attempt(
-                () => feedApi.update(post.id, {
-                    content,
-                    category: post.category,
-                    visibility: post.visibility
-                }),
-                "Post updated."
+                () =>
+                    feedApi.update(post.id, {
+                        content,
+                        category: post.category,
+                        visibility: post.visibility,
+                    }),
+                "Post updated.",
             );
 
             if (!updated || typeof updated !== "object") return;
 
-            const index = state.posts.findIndex(
-                p => Number(p.id) === Number(updated.id)
-            );
+            const index = state.posts.findIndex((p) => Number(p.id) === Number(updated.id));
 
             if (index >= 0) state.posts[index] = updated;
 
@@ -1285,15 +1235,13 @@ export function initCommunityFeed(root) {
             }
 
             // Update every copy of this post (list, single view, viewer).
-            allCards(updated.id).forEach(c => paintContent(c, updated));
+            allCards(updated.id).forEach((c) => paintContent(c, updated));
 
             changed();
         });
     }
 
-    // ------------------------------------------------------------
     // SINGLE POST VIEW (inline, used for ?post=ID links)
-    // ------------------------------------------------------------
 
     async function showSingle(id) {
         const box = $("[data-feed-single]");
@@ -1331,7 +1279,6 @@ export function initCommunityFeed(root) {
             comments.dataset.loaded = "1";
 
             loadComments(card);
-
         } catch (error) {
             box.innerHTML = `
                 <button type="button" class="feed-link-btn" data-feed-back>
@@ -1343,9 +1290,7 @@ export function initCommunityFeed(root) {
         }
     }
 
-    // ------------------------------------------------------------
     // POST VIEWER DIALOG (opens from any tab)
-    // ------------------------------------------------------------
 
     async function showViewer(id) {
         viewerBody.innerHTML = skeleton();
@@ -1369,13 +1314,12 @@ export function initCommunityFeed(root) {
             comments.dataset.loaded = "1";
 
             loadComments(card);
-
         } catch (error) {
             viewerBody.innerHTML = errorHtml(error.message);
         }
     }
 
-    const onViewerBackdrop = event => {
+    const onViewerBackdrop = (event) => {
         if (event.target === viewer) viewer.close();
     };
 
@@ -1384,29 +1328,23 @@ export function initCommunityFeed(root) {
         changed();
     };
 
-    const onViewPost = event => showViewer(event.detail);
+    const onViewPost = (event) => showViewer(event.detail);
 
     viewer.addEventListener("click", onViewerBackdrop);
     viewer.addEventListener("close", onViewerClose);
     root.addEventListener("feed:view-post", onViewPost);
 
-    // ------------------------------------------------------------
     // DIALOG BACKDROP (composer)
-    // ------------------------------------------------------------
 
-    $("[data-feed-dialog]").addEventListener("click", event => {
+    $("[data-feed-dialog]").addEventListener("click", (event) => {
         if (event.target === event.currentTarget) {
             event.currentTarget.close();
         }
     });
 
-    // ------------------------------------------------------------
-    // SEARCH
-    // ------------------------------------------------------------
-
     let searchTimer;
 
-    $("[data-feed-search]").addEventListener("input", event => {
+    $("[data-feed-search]").addEventListener("input", (event) => {
         clearTimeout(searchTimer);
 
         searchTimer = setTimeout(() => {
@@ -1415,31 +1353,27 @@ export function initCommunityFeed(root) {
         }, 350);
     });
 
-    // ------------------------------------------------------------
-    // INFINITE SCROLL
-    // ------------------------------------------------------------
-
     const sentinel = $("[data-feed-more]");
 
-    const scrollObserver = "IntersectionObserver" in window
-        ? new IntersectionObserver(entries => {
-            if (
-                entries[0].isIntersecting &&
-                !state.loading &&
-                !state.last &&
-                state.loaded
-            ) {
-                state.page += 1;
-                load();
-            }
-        }, { rootMargin: "400px" })
-        : null;
+    const scrollObserver =
+        "IntersectionObserver" in window
+            ? new IntersectionObserver(
+                  (entries) => {
+                      if (
+                          entries[0].isIntersecting &&
+                          !state.loading &&
+                          !state.last &&
+                          state.loaded
+                      ) {
+                          state.page += 1;
+                          load();
+                      }
+                  },
+                  { rootMargin: "400px" },
+              )
+            : null;
 
     if (scrollObserver) scrollObserver.observe(sentinel);
-
-    // ------------------------------------------------------------
-    // COMMUNITY TAB ACTIVATION
-    // ------------------------------------------------------------
 
     const activate = () => {
         if (!state.loaded && !state.loading) reload();
@@ -1452,16 +1386,10 @@ export function initCommunityFeed(root) {
         }
     };
 
-    const onRootClick = event => {
-        const target = event.target instanceof Element
-            ? event.target
-            : event.target?.parentElement;
+    const onRootClick = (event) => {
+        const target = event.target instanceof Element ? event.target : event.target?.parentElement;
 
-        if (
-            target?.closest(
-                '[data-community-tab="feed"], [data-community-tab-link="feed"]'
-            )
-        ) {
+        if (target?.closest('[data-community-tab="feed"], [data-community-tab-link="feed"]')) {
             activate();
         }
     };
@@ -1472,19 +1400,15 @@ export function initCommunityFeed(root) {
         root.querySelector('[data-community-tab="feed"]')?.click();
     }
 
-    // ------------------------------------------------------------
-    // CLEANUP
-    // ------------------------------------------------------------
-
     const cleanup = () => {
         clearTimeout(searchTimer);
         clearTimeout(toast.timer);
 
-        state.previewUrls.forEach(url => URL.revokeObjectURL(url));
+        state.previewUrls.forEach((url) => URL.revokeObjectURL(url));
         state.previewUrls = [];
 
-        blobCache.forEach(promise => {
-            promise.then(url => URL.revokeObjectURL(url)).catch(() => {});
+        blobCache.forEach((promise) => {
+            promise.then((url) => URL.revokeObjectURL(url)).catch(() => {});
         });
         blobCache.clear();
 

@@ -10,7 +10,7 @@ function authHeaders(json = false) {
 
     return {
         ...(json ? { "Content-Type": "application/json" } : {}),
-        ...(token ? { Authorization: `Bearer ${token}` } : {})
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
     };
 }
 
@@ -22,12 +22,12 @@ async function request(path = "", options = {}) {
             ...options,
             headers: {
                 ...authHeaders(Boolean(options.body)),
-                ...options.headers
-            }
+                ...options.headers,
+            },
         });
     } catch {
         throw new Error(
-            "Could not reach the StepInStudents server. Start the backend and try again."
+            "Could not reach the StepInStudents server. Start the backend and try again.",
         );
     }
 
@@ -43,7 +43,9 @@ async function request(path = "", options = {}) {
 
         const message =
             response.status === 401 || response.status === 403
-                ? "Admin sign-in is required to manage Online Education cards. Sign in with an administrator account and try again."
+                ? "Admin sign-in is required to manage " +
+                  "Online Education cards. Sign in with an " +
+                  "administrator account and try again."
                 : serverMessage ||
                   `The server could not complete this request (${response.status}).`;
 
@@ -73,7 +75,7 @@ function toRequestPayload(card, active = true) {
         country: card.country || "",
         duration: card.duration || "",
         image: card.image || "",
-        active
+        active,
     };
 }
 
@@ -90,16 +92,11 @@ export async function getOnlineEducationCards() {
  * Active saved cards override defaults; removed IDs suppress defaults.
  */
 export async function getOnlineEducationCardOverrides() {
-    const [cards, removed] = await Promise.all([
-        getOnlineEducationCards(),
-        request("/removed")
-    ]);
+    const [cards, removed] = await Promise.all([getOnlineEducationCards(), request("/removed")]);
 
     return {
         cards,
-        removedIds: new Set(
-            Array.isArray(removed?.ids) ? removed.ids : []
-        )
+        removedIds: new Set(Array.isArray(removed?.ids) ? removed.ids : []),
     };
 }
 
@@ -108,19 +105,13 @@ export async function getOnlineEducationCardOverrides() {
  * Combines built-in defaults, saved overrides, new cards,
  * and archived cards so defaults can be restored.
  */
-export async function getOnlineEducationAdminCards({
-    includeInactive = true
-} = {}) {
+export async function getOnlineEducationAdminCards({ includeInactive = true } = {}) {
     const response = await request("/admin");
     const savedCards = Array.isArray(response) ? response : [];
 
-    const savedById = new Map(
-        savedCards.map((card) => [card.id, card])
-    );
+    const savedById = new Map(savedCards.map((card) => [card.id, card]));
 
-    const defaultIds = new Set(
-        onlineEducationDefaultCards.map((card) => card.id)
-    );
+    const defaultIds = new Set(onlineEducationDefaultCards.map((card) => card.id));
 
     const defaults = onlineEducationDefaultCards.map((baseCard) => {
         const saved = savedById.get(baseCard.id);
@@ -130,7 +121,7 @@ export async function getOnlineEducationAdminCards({
             ...(saved || {}),
             isDefault: true,
             active: saved ? saved.active === true : true,
-            isRemoved: saved ? saved.active !== true : false
+            isRemoved: saved ? saved.active !== true : false,
         };
     });
 
@@ -140,14 +131,12 @@ export async function getOnlineEducationAdminCards({
             ...card,
             isDefault: false,
             active: card.active === true,
-            isRemoved: card.active !== true
+            isRemoved: card.active !== true,
         }));
 
     const cards = [...defaults, ...additions];
 
-    return includeInactive
-        ? cards
-        : cards.filter((card) => card.active);
+    return includeInactive ? cards : cards.filter((card) => card.active);
 }
 
 /**
@@ -163,33 +152,24 @@ export async function saveOnlineEducationCard(card) {
         throw new Error("Choose a page section for this card.");
     }
 
-    const defaultCard = onlineEducationDefaultCards.find(
-        (item) => item.id === card.id
-    );
+    const defaultCard = onlineEducationDefaultCards.find((item) => item.id === card.id);
 
     const records = await request("/admin");
 
-    const exists =
-        Array.isArray(records) &&
-        records.some((item) => item.id === card.id);
+    const exists = Array.isArray(records) && records.some((item) => item.id === card.id);
 
     const payload = toRequestPayload(
         {
             ...card,
-            section: card.section || defaultCard?.section
+            section: card.section || defaultCard?.section,
         },
-        true
+        true,
     );
 
-    return request(
-        exists
-            ? `/admin/${encodeURIComponent(card.id)}`
-            : "/admin",
-        {
-            method: exists ? "PUT" : "POST",
-            body: JSON.stringify(payload)
-        }
-    );
+    return request(exists ? `/admin/${encodeURIComponent(card.id)}` : "/admin", {
+        method: exists ? "PUT" : "POST",
+        body: JSON.stringify(payload),
+    });
 }
 
 /**
@@ -204,20 +184,13 @@ export async function deleteOnlineEducationCard(id) {
 
     const records = await request("/admin");
 
-    const exists =
-        Array.isArray(records) &&
-        records.some((item) => item.id === id);
+    const exists = Array.isArray(records) && records.some((item) => item.id === id);
 
     if (exists) {
-        return request(
-            `/admin/${encodeURIComponent(id)}`,
-            { method: "DELETE" }
-        );
+        return request(`/admin/${encodeURIComponent(id)}`, { method: "DELETE" });
     }
 
-    const defaultCard = onlineEducationDefaultCards.find(
-        (item) => item.id === id
-    );
+    const defaultCard = onlineEducationDefaultCards.find((item) => item.id === id);
 
     if (!defaultCard) {
         throw new Error("This card is no longer available.");
@@ -225,9 +198,7 @@ export async function deleteOnlineEducationCard(id) {
 
     return request("/admin", {
         method: "POST",
-        body: JSON.stringify(
-            toRequestPayload(defaultCard, false)
-        )
+        body: JSON.stringify(toRequestPayload(defaultCard, false)),
     });
 }
 
@@ -237,7 +208,7 @@ export async function deleteOnlineEducationCard(id) {
 export async function restoreOnlineEducationCard(card) {
     return saveOnlineEducationCard({
         ...card,
-        active: true
+        active: true,
     });
 }
 
@@ -251,17 +222,11 @@ export async function getOnlineEducationProgrammes() {
     try {
         const [savedCards, removed] = await Promise.all([
             getOnlineEducationCards(),
-            request("/removed")
+            request("/removed"),
         ]);
-        const removedIds = new Set(
-            Array.isArray(removed?.ids) ? removed.ids : []
-        );
-        const programmeRecords = savedCards.filter(
-            (card) => card.section === "programmes"
-        );
-        const savedById = new Map(
-            programmeRecords.map((card) => [card.id, card])
-        );
+        const removedIds = new Set(Array.isArray(removed?.ids) ? removed.ids : []);
+        const programmeRecords = savedCards.filter((card) => card.section === "programmes");
+        const savedById = new Map(programmeRecords.map((card) => [card.id, card]));
         const programmes = onlineEducationProgrammes
             .filter((programme) => !removedIds.has(programme.id))
             .map((programme) => {
@@ -277,11 +242,13 @@ export async function getOnlineEducationProgrammes() {
                     studyMode: override.mode || programme.studyMode,
                     country: override.country || programme.country,
                     duration: override.duration || programme.duration,
-                    description: override.description || ""
+                    description: override.description || "",
                 };
             });
         const addedProgrammes = programmeRecords
-            .filter((card) => !onlineEducationProgrammes.some((programme) => programme.id === card.id))
+            .filter(
+                (card) => !onlineEducationProgrammes.some((programme) => programme.id === card.id),
+            )
             .map((card) => ({
                 id: card.id,
                 title: card.title,
@@ -300,7 +267,7 @@ export async function getOnlineEducationProgrammes() {
                 difficultyLevel: "Not specified",
                 certificateAvailable: null,
                 eligibility: "Not listed in supplied data",
-                highlight: null
+                highlight: null,
             }));
         return [...programmes, ...addedProgrammes];
     } catch {

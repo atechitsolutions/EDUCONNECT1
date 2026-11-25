@@ -5,9 +5,8 @@ export function ThreeColumnLayout({
     leftWidth = "280px",
     rightWidth = "280px",
     gap = "25px",
-    className = ""
+    className = "",
 } = {}) {
-
     return `
 
 <section
@@ -40,5 +39,4 @@ export function ThreeColumnLayout({
 </section>
 
 `;
-
 }

@@ -1,50 +1,33 @@
-import {
-    getCurrentUser
-} from "../services/authService.js";
+import { getCurrentUser } from "../services/authService.js";
 
 import {
     createInstitution,
     deleteInstitution,
     getAdminInstitutions,
-    updateInstitution
+    updateInstitution,
 } from "../services/studyAbroadService.js";
-
 
 function value(id) {
     return document.getElementById(id)?.value.trim() || "";
 }
 
-
 function checked(id) {
-    return Boolean(
-        document.getElementById(id)?.checked
-    );
+    return Boolean(document.getElementById(id)?.checked);
 }
 
-
 function setMessage(message, type = "") {
-
-    const element =
-        document.querySelector(
-            "[data-admin-study-abroad-message]"
-        );
+    const element = document.querySelector("[data-admin-study-abroad-message]");
 
     if (!element) {
         return;
     }
 
     element.textContent = message;
-    element.className =
-        `admin-study-abroad-message ${type}`;
+    element.className = `admin-study-abroad-message ${type}`;
 }
 
-
 function resetForm() {
-
-    const form =
-        document.getElementById(
-            "admin-study-abroad-form"
-        );
+    const form = document.getElementById("admin-study-abroad-form");
 
     if (!form) {
         return;
@@ -52,21 +35,13 @@ function resetForm() {
 
     form.reset();
 
-    document.getElementById(
-        "admin-study-abroad-id"
-    ).value = "";
+    document.getElementById("admin-study-abroad-id").value = "";
 
-    document.getElementById(
-        "admin-study-abroad-submit"
-    ).textContent = "Add Institution";
+    document.getElementById("admin-study-abroad-submit").textContent = "Add Institution";
 }
 
-
 function fillForm(institution) {
-
-    document.getElementById(
-        "admin-study-abroad-id"
-    ).value = institution.id || "";
+    document.getElementById("admin-study-abroad-id").value = institution.id || "";
 
     document.getElementById("admin-name").value = institution.name || "";
     document.getElementById("admin-description").value = institution.description || "";
@@ -80,23 +55,20 @@ function fillForm(institution) {
     document.getElementById("admin-phone").value = institution.phone || "";
     document.getElementById("admin-cover-image").value = institution.coverImageUrl || "";
     document.getElementById("admin-type").value = institution.type || "UNIVERSITY";
-    document.getElementById("admin-study-abroad-enabled").checked = institution.studyAbroadEnabled === true;
+    document.getElementById("admin-study-abroad-enabled").checked =
+        institution.studyAbroadEnabled === true;
     document.getElementById("admin-active").checked = institution.active === true;
     document.getElementById("admin-verified").checked = institution.verified === true;
 
-    document.getElementById(
-        "admin-study-abroad-submit"
-    ).textContent = "Update Institution";
+    document.getElementById("admin-study-abroad-submit").textContent = "Update Institution";
 
     window.scrollTo({
         top: 0,
-        behavior: "smooth"
+        behavior: "smooth",
     });
 }
 
-
 function createFormData() {
-
     return {
         name: value("admin-name"),
         description: value("admin-description"),
@@ -112,32 +84,25 @@ function createFormData() {
         type: value("admin-type"),
         studyAbroadEnabled: checked("admin-study-abroad-enabled"),
         active: checked("admin-active"),
-        verified: checked("admin-verified")
+        verified: checked("admin-verified"),
     };
 }
 
-
 function renderInstitutionList(institutions) {
-
-    const container =
-        document.querySelector(
-            "[data-admin-study-abroad-list]"
-        );
+    const container = document.querySelector("[data-admin-study-abroad-list]");
 
     if (!container) {
         return;
     }
 
     if (!institutions.length) {
-        container.innerHTML =
-            `<p class="admin-study-abroad-empty">No institutions found.</p>`;
+        container.innerHTML = `<p class="admin-study-abroad-empty">No institutions found.</p>`;
         return;
     }
 
-    container.innerHTML =
-        institutions
-            .map(
-                (institution) => `
+    container.innerHTML = institutions
+        .map(
+            (institution) => `
                     <article class="admin-study-abroad-item">
 
                         <div class="admin-study-abroad-item-image">
@@ -157,11 +122,9 @@ function renderInstitutionList(institutions) {
                             <h3>${institution.name}</h3>
 
                             <p>
-                                ${[
-                                    institution.city,
-                                    institution.state,
-                                    institution.country
-                                ].filter(Boolean).join(", ")}
+                                ${[institution.city, institution.state, institution.country]
+                                    .filter(Boolean)
+                                    .join(", ")}
                             </p>
 
                             <div class="admin-study-abroad-status-row">
@@ -206,45 +169,35 @@ function renderInstitutionList(institutions) {
                         </div>
 
                     </article>
-                `
-            )
-            .join("");
+                `,
+        )
+        .join("");
 }
 
-
 async function loadInstitutions() {
-
     try {
         setMessage("Loading institutions...");
 
-        const institutions =
-            await getAdminInstitutions();
+        const institutions = await getAdminInstitutions();
 
         renderInstitutionList(institutions);
         setMessage("");
 
         return institutions;
-    }
-    catch (error) {
+    } catch (error) {
         setMessage(error.message, "error");
         return [];
     }
 }
 
-
 function initializeAdminStudyAbroad() {
-
-    const user =
-        getCurrentUser();
+    const user = getCurrentUser();
 
     if (!user || user.role !== "ADMIN") {
         return;
     }
 
-    const form =
-        document.getElementById(
-            "admin-study-abroad-form"
-        );
+    const form = document.getElementById("admin-study-abroad-form");
 
     if (!form || form.dataset.initialized === "true") {
         return;
@@ -254,131 +207,78 @@ function initializeAdminStudyAbroad() {
 
     loadInstitutions();
 
-    form.addEventListener(
-        "submit",
-        async (event) => {
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-            event.preventDefault();
+        setMessage("Saving institution...");
 
-            setMessage("Saving institution...");
+        const id = document.getElementById("admin-study-abroad-id").value;
 
-            const id =
-                document.getElementById(
-                    "admin-study-abroad-id"
-                ).value;
+        try {
+            if (id) {
+                await updateInstitution(id, createFormData());
 
-            try {
+                setMessage("Institution updated successfully.", "success");
+            } else {
+                await createInstitution(createFormData());
 
-                if (id) {
-                    await updateInstitution(
-                        id,
-                        createFormData()
-                    );
-
-                    setMessage(
-                        "Institution updated successfully.",
-                        "success"
-                    );
-                }
-                else {
-                    await createInstitution(
-                        createFormData()
-                    );
-
-                    setMessage(
-                        "Institution added successfully.",
-                        "success"
-                    );
-                }
-
-                resetForm();
-                await loadInstitutions();
+                setMessage("Institution added successfully.", "success");
             }
-            catch (error) {
-                setMessage(
-                    error.message,
-                    "error"
-                );
-            }
+
+            resetForm();
+            await loadInstitutions();
+        } catch (error) {
+            setMessage(error.message, "error");
         }
-    );
+    });
 
+    document.addEventListener("click", async (event) => {
+        const editButton = event.target.closest("[data-admin-edit]");
 
-    document.addEventListener(
-        "click",
-        async (event) => {
-
-            const editButton =
-                event.target.closest(
-                    "[data-admin-edit]"
-                );
-
-            if (editButton) {
-
-                try {
-                    const institutions =
-                        await getAdminInstitutions();
-
-                    const institution =
-                        institutions.find(
-                            (item) =>
-                                String(item.id) ===
-                                String(editButton.dataset.adminEdit)
-                        );
-
-                    if (institution) {
-                        fillForm(institution);
-                    }
-                }
-                catch (error) {
-                    setMessage(error.message, "error");
-                }
-
-                return;
-            }
-
-
-            const deleteButton =
-                event.target.closest(
-                    "[data-admin-delete]"
-                );
-
-            if (!deleteButton) {
-                return;
-            }
-
-            const id =
-                deleteButton.dataset.adminDelete;
-
-            if (!window.confirm(
-                "Delete this institution from StepInStudents?"
-            )) {
-                return;
-            }
-
+        if (editButton) {
             try {
+                const institutions = await getAdminInstitutions();
 
-                await deleteInstitution(id);
-
-                setMessage(
-                    "Institution deleted successfully.",
-                    "success"
+                const institution = institutions.find(
+                    (item) => String(item.id) === String(editButton.dataset.adminEdit),
                 );
 
-                await loadInstitutions();
-            }
-            catch (error) {
+                if (institution) {
+                    fillForm(institution);
+                }
+            } catch (error) {
                 setMessage(error.message, "error");
             }
+
+            return;
         }
-    );
+
+        const deleteButton = event.target.closest("[data-admin-delete]");
+
+        if (!deleteButton) {
+            return;
+        }
+
+        const id = deleteButton.dataset.adminDelete;
+
+        if (!window.confirm("Delete this institution from StepInStudents?")) {
+            return;
+        }
+
+        try {
+            await deleteInstitution(id);
+
+            setMessage("Institution deleted successfully.", "success");
+
+            await loadInstitutions();
+        } catch (error) {
+            setMessage(error.message, "error");
+        }
+    });
 }
 
-
 export default function AdminStudyAbroadPage() {
-
-    const user =
-        getCurrentUser();
+    const user = getCurrentUser();
 
     if (!user || user.role !== "ADMIN") {
         return `
@@ -392,10 +292,7 @@ export default function AdminStudyAbroadPage() {
         `;
     }
 
-    setTimeout(
-        initializeAdminStudyAbroad,
-        0
-    );
+    setTimeout(initializeAdminStudyAbroad, 0);
 
     return `
         <main class="admin-study-abroad-page">

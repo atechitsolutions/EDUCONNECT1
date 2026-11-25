@@ -1,72 +1,40 @@
-/**
- * ============================================================
- * STEPINSTUDENTS — STUDY ABROAD COURSE EXPLORER
- * ============================================================
- *
- * Purpose:
- * - Course discovery
- * - Degree-level discovery
- * - Subject-based navigation
- * - Study abroad SEO
- * - Internal linking
- *
- * Framework:
- * Vanilla JavaScript + Vite
- * ============================================================
- */
-
 export default function StudyAbroadCourseExplorer() {
-
     const studyLevels = [
         {
             number: "01",
             title: "Bachelor's",
-            description:
-                "Explore undergraduate programs and international bachelor's degrees.",
-            keyword:
-                "bachelor's programs abroad"
+            description: "Explore undergraduate programs and international bachelor's degrees.",
+            keyword: "bachelor's programs abroad",
         },
 
         {
             number: "02",
             title: "Master's",
-            description:
-                "Discover postgraduate programs across universities and destinations.",
-            keyword:
-                "master's programs abroad"
+            description: "Discover postgraduate programs across universities and destinations.",
+            keyword: "master's programs abroad",
         },
 
         {
             number: "03",
             title: "MBA",
-            description:
-                "Explore business, management and leadership programs overseas.",
-            keyword:
-                "MBA abroad"
+            description: "Explore business, management and leadership programs overseas.",
+            keyword: "MBA abroad",
         },
 
         {
             number: "04",
             title: "PhD",
-            description:
-                "Explore research-focused doctoral programs and academic pathways.",
-            keyword:
-                "PhD abroad"
-        }
+            description: "Explore research-focused doctoral programs and academic pathways.",
+            keyword: "PhD abroad",
+        },
     ];
-
 
     const popularCourses = [
         {
             title: "Computer Science",
             short: "CS",
-            description:
-                "Explore computer science, software engineering and computing programs.",
-            tags: [
-                "Technology",
-                "Software",
-                "AI"
-            ]
+            description: "Explore computer science, software engineering and computing programs.",
+            tags: ["Technology", "Software", "AI"],
         },
 
         {
@@ -74,35 +42,24 @@ export default function StudyAbroadCourseExplorer() {
             short: "AI",
             description:
                 "Discover programs focused on data, artificial intelligence and machine learning.",
-            tags: [
-                "Data",
-                "AI",
-                "Machine Learning"
-            ]
+            tags: ["Data", "AI", "Machine Learning"],
         },
 
         {
             title: "Business & Management",
             short: "BM",
-            description:
-                "Explore business, management, entrepreneurship and leadership programs.",
-            tags: [
-                "Business",
-                "Management",
-                "Leadership"
-            ]
+            description: "Explore business, management, entrepreneurship and leadership programs.",
+            tags: ["Business", "Management", "Leadership"],
         },
 
         {
             title: "Engineering",
             short: "EN",
             description:
-                "Explore engineering programs across technology, mechanical, civil and other fields.",
-            tags: [
-                "Technology",
-                "Engineering",
-                "Research"
-            ]
+                "Explore engineering programs across " +
+                "technology, mechanical, civil and other " +
+                "fields.",
+            tags: ["Technology", "Engineering", "Research"],
         },
 
         {
@@ -110,50 +67,30 @@ export default function StudyAbroadCourseExplorer() {
             short: "FE",
             description:
                 "Discover finance, economics, accounting and related international programs.",
-            tags: [
-                "Finance",
-                "Economics",
-                "Accounting"
-            ]
+            tags: ["Finance", "Economics", "Accounting"],
         },
 
         {
             title: "Health & Life Sciences",
             short: "HS",
-            description:
-                "Explore health, biomedical, life science and related study options.",
-            tags: [
-                "Health",
-                "Science",
-                "Research"
-            ]
+            description: "Explore health, biomedical, life science and related study options.",
+            tags: ["Health", "Science", "Research"],
         },
 
         {
             title: "Design & Creative Arts",
             short: "DA",
-            description:
-                "Discover design, media, visual communication and creative programs.",
-            tags: [
-                "Design",
-                "Creative",
-                "Media"
-            ]
+            description: "Discover design, media, visual communication and creative programs.",
+            tags: ["Design", "Creative", "Media"],
         },
 
         {
             title: "Hospitality & Tourism",
             short: "HT",
-            description:
-                "Explore hospitality, tourism, hotel management and related programs.",
-            tags: [
-                "Hospitality",
-                "Tourism",
-                "Management"
-            ]
-        }
+            description: "Explore hospitality, tourism, hotel management and related programs.",
+            tags: ["Hospitality", "Tourism", "Management"],
+        },
     ];
-
 
     return `
         <section
@@ -165,9 +102,6 @@ export default function StudyAbroadCourseExplorer() {
             <div class="study-abroad-container">
 
 
-                <!-- ==================================================
-                     HEADER
-                =================================================== -->
 
                 <div class="study-abroad-section-header">
 
@@ -201,9 +135,6 @@ export default function StudyAbroadCourseExplorer() {
                 </div>
 
 
-                <!-- ==================================================
-                     DEGREE LEVEL
-                =================================================== -->
 
                 <div class="study-abroad-course-level-wrapper">
 
@@ -259,7 +190,7 @@ export default function StudyAbroadCourseExplorer() {
                                         </span>
 
                                     </a>
-                                `
+                                `,
                             )
                             .join("")}
 
@@ -268,9 +199,6 @@ export default function StudyAbroadCourseExplorer() {
                 </div>
 
 
-                <!-- ==================================================
-                     POPULAR SUBJECTS
-                =================================================== -->
 
                 <div class="study-abroad-popular-courses">
 
@@ -340,7 +268,7 @@ export default function StudyAbroadCourseExplorer() {
                                                             <span>
                                                                 ${tag}
                                                             </span>
-                                                        `
+                                                        `,
                                                     )
                                                     .join("")}
 
@@ -362,7 +290,7 @@ export default function StudyAbroadCourseExplorer() {
                                         </a>
 
                                     </article>
-                                `
+                                `,
                             )
                             .join("")}
 
@@ -371,9 +299,6 @@ export default function StudyAbroadCourseExplorer() {
                 </div>
 
 
-                <!-- ==================================================
-                     COURSE DISCOVERY TOOL
-                =================================================== -->
 
                 <div
                     class="study-abroad-course-discovery"
@@ -556,9 +481,6 @@ export default function StudyAbroadCourseExplorer() {
                 </div>
 
 
-                <!-- ==================================================
-                     SEO CONTENT
-                =================================================== -->
 
                 <div class="study-abroad-course-seo">
 

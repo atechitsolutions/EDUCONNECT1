@@ -2,9 +2,7 @@ import StudyAbroadNavbar from "./StudyAbroadNavbar.js";
 import FooterSection from "../components/home/footerSection.js";
 import StudyAbroadPage from "../pages/StudyAbroadPage.js";
 
-
 export default function StudyAbroadLayout() {
-
     return `
 
         ${StudyAbroadNavbar()}

@@ -6,12 +6,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Email")
-
-
-
 public class Email {
-    @Id
-    private Long id;
+  @Id private Long id;
 
   private String fullName;
   private String email;
@@ -21,5 +17,4 @@ public class Email {
   private String preferedDesgination;
   private String preferedCourse;
   private String desiredStudylevel;
-
 }

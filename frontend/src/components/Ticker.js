@@ -1,5 +1,4 @@
 export default function Ticker(title, items = []) {
-
     return `
 
     <section class="ticker">
@@ -14,7 +13,10 @@ export default function Ticker(title, items = []) {
 
             <div class="ticker-track">
 
-                ${items.concat(items).map(item => `
+                ${items
+                    .concat(items)
+                    .map(
+                        (item) => `
 
                     <span class="ticker-item">
 
@@ -22,7 +24,9 @@ export default function Ticker(title, items = []) {
 
                     </span>
 
-                `).join("")}
+                `,
+                    )
+                    .join("")}
 
             </div>
 
@@ -31,5 +35,4 @@ export default function Ticker(title, items = []) {
     </section>
 
     `;
-
 }

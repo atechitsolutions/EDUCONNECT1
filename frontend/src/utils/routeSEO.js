@@ -3,89 +3,242 @@ const SITE_ORIGIN = "https://stepinstudents.com";
 const ROUTE_SEO = {
     "/admission-partners": {
         title: "Admission Referral Partners | StepInStudents",
-        description: "Learn about referring prospective students to education opportunities with StepInStudents. Partner applications are reviewed before approval.",
+        description:
+            "Learn about referring prospective " +
+            "students to education opportunities " +
+            "with StepInStudents. Partner " +
+            "applications are reviewed before " +
+            "approval.",
         image: "/images/banner/education-banner.jpeg",
         indexable: true,
         primaryKeyword: "education admission referral partner",
-        secondaryKeywords: ["become an admission partner", "university recruitment partner", "student referral programme"]
+        secondaryKeywords: [
+            "become an admission partner",
+            "university recruitment partner",
+            "student referral programme",
+        ],
     },
-    "/admission-partners/dashboard": { title: "Admission Partner Dashboard | StepInStudents", description: "View your referred student leads and recorded commission ledger.", indexable: false },
-    "/admin/admission-partners": { title: "Admission Partner Review | StepInStudents", description: "Administrator review of admission referral partner applications, admissions and commissions.", indexable: false },
+    "/admission-partners/dashboard": {
+        title: "Admission Partner Dashboard | StepInStudents",
+        description: "View your referred student leads and recorded commission ledger.",
+        indexable: false,
+    },
+    "/admin/admission-partners": {
+        title: "Admission Partner Review | StepInStudents",
+        description:
+            "Administrator review of admission " +
+            "referral partner applications, " +
+            "admissions and commissions.",
+        indexable: false,
+    },
     "/": {
         title: "Education in India: Schools, Colleges & Courses | StepInStudents",
-        description: "Compare schools, colleges and universities in India. Explore courses, scholarships, education rankings and study abroad options on StepInStudents.",
+        description:
+            "Compare schools, colleges and " +
+            "universities in India. Explore courses, " +
+            "scholarships, education rankings and " +
+            "study abroad options on StepInStudents.",
         image: "/images/banner/education-banner.jpeg",
         indexable: true,
         primaryKeyword: "education",
-        secondaryKeywords: ["education in India", "schools in India", "colleges in India", "university courses", "education scholarships", "study abroad"]
+        secondaryKeywords: [
+            "education in India",
+            "schools in India",
+            "colleges in India",
+            "university courses",
+            "education scholarships",
+            "study abroad",
+        ],
     },
     "/study-abroad": {
         title: "Study Abroad from India: Courses & Universities | StepInStudents",
-        description: "Compare study abroad destinations from India. Explore universities, courses, admissions, scholarships and estimated tuition and living costs.",
+        description:
+            "Compare study abroad destinations from " +
+            "India. Explore universities, courses, " +
+            "admissions, scholarships and estimated " +
+            "tuition and living costs.",
         image: "/images/banner/study-abroad-banner.jpeg",
         indexable: true,
         primaryKeyword: "study abroad",
-        secondaryKeywords: ["study abroad from India", "study abroad universities", "courses abroad", "study abroad scholarships", "international admissions", "tuition and living costs"]
+        secondaryKeywords: [
+            "study abroad from India",
+            "study abroad universities",
+            "courses abroad",
+            "study abroad scholarships",
+            "international admissions",
+            "tuition and living costs",
+        ],
     },
     "/online-education": {
         title: "Online Education: Compare Courses & Degrees | StepInStudents",
-        description: "Compare online courses, certificates, diplomas and degrees by subject, level, study mode and destination. Explore options from universities and learning providers.",
+        description:
+            "Compare online courses, certificates, " +
+            "diplomas and degrees by subject, level, " +
+            "study mode and destination. Explore " +
+            "options from universities and learning " +
+            "providers.",
         image: "/images/online-education-footer.jpg",
         indexable: true,
         primaryKeyword: "online education",
-        secondaryKeywords: ["online courses", "online degrees", "distance learning", "online certificates", "compare online programmes"]
+        secondaryKeywords: [
+            "online courses",
+            "online degrees",
+            "distance learning",
+            "online certificates",
+            "compare online programmes",
+        ],
     },
     "/community": {
         title: "Student Community for Learning & Connections | StepInStudents",
-        description: "Connect with students, exchange study ideas and find learning communities on StepInStudents.",
+        description:
+            "Connect with students, exchange study " +
+            "ideas and find learning communities on " +
+            "StepInStudents.",
         image: "/images/community/student-community-chat.jpg",
         indexable: false,
         primaryKeyword: "student community",
-        secondaryKeywords: ["student network", "study partners", "student groups", "education discussions"]
+        secondaryKeywords: [
+            "student network",
+            "study partners",
+            "student groups",
+            "education discussions",
+        ],
     },
     "/colleges": {
         title: "Discover Colleges & Universities in India | StepInStudents",
-        description: "Explore Indian colleges and universities, browse undergraduate and postgraduate options, and search the StepInStudents college directory.",
+        description:
+            "Explore Indian colleges and " +
+            "universities, browse undergraduate and " +
+            "postgraduate options, and search the " +
+            "StepInStudents college directory.",
         image: "/images/banner/education-banner.jpeg",
         indexable: true,
         primaryKeyword: "colleges in India",
-        secondaryKeywords: ["Indian universities", "UG colleges", "PG colleges", "college directory"]
+        secondaryKeywords: [
+            "Indian universities",
+            "UG colleges",
+            "PG colleges",
+            "college directory",
+        ],
     },
     "/schools": {
         title: "School Directory in India | StepInStudents",
-        description: "Explore schools across India by region, board and school type. Compare verified school information and send an enquiry to a school.",
+        description:
+            "Explore schools across India by region, " +
+            "board and school type. Compare verified " +
+            "school information and send an enquiry " +
+            "to a school.",
         image: "/images/banner/education-banner.jpeg",
         indexable: true,
         primaryKeyword: "schools in India",
-        secondaryKeywords: ["school directory", "boarding schools", "day schools", "CBSE schools", "ICSE schools"]
+        secondaryKeywords: [
+            "school directory",
+            "boarding schools",
+            "day schools",
+            "CBSE schools",
+            "ICSE schools",
+        ],
     },
     "/colleges/ug": {
         title: "Undergraduate Colleges in India | StepInStudents",
-        description: "Search undergraduate colleges and universities in the StepInStudents directory.",
+        description:
+            "Search undergraduate colleges and universities in the StepInStudents directory.",
         indexable: true,
-        primaryKeyword: "undergraduate colleges in India"
+        primaryKeyword: "undergraduate colleges in India",
     },
     "/colleges/pg": {
         title: "Postgraduate Colleges in India | StepInStudents",
-        description: "Search postgraduate colleges and universities in the StepInStudents directory.",
+        description:
+            "Search postgraduate colleges and universities in the StepInStudents directory.",
         indexable: true,
-        primaryKeyword: "postgraduate colleges in India"
+        primaryKeyword: "postgraduate colleges in India",
     },
     "/study-abroad/search-results": {
         title: "Study Abroad Search Results | StepInStudents",
         description: "Search study abroad institutions and destinations on StepInStudents.",
-        indexable: false
+        indexable: false,
     },
-    "/admin": { title: "Admin Dashboard | StepInStudents", description: "Manage StepInStudents education content and platform tools. Administrator access is required.", indexable: false },
-    "/admin/news": { title: "Manage Education News | StepInStudents Admin", description: "Review and manage education news published on StepInStudents. Administrator access is required.", indexable: false },
-    "/admin/current-affairs": { title: "Manage Current Affairs | StepInStudents Admin", description: "Manage current-affairs updates for the StepInStudents education platform. Administrator access is required.", indexable: false },
-    "/admin/study-abroad": { title: "Manage Study Abroad Listings | StepInStudents Admin", description: "Manage study abroad institution records in StepInStudents. Administrator access is required.", indexable: false },
-    "/admin/college-partners": { title: "Manage College Partners | StepInStudents Admin", description: "Manage college partner accounts and access in StepInStudents. Administrator access is required.", indexable: false },
-    "/online-education/admin": { title: "Manage Online Education | StepInStudents Admin", description: "Manage online education listings in StepInStudents. Administrator access is required.", indexable: false },
-    "/college": { title: "College Portal Access | StepInStudents", description: "Access the StepInStudents college partner portal using credentials provided by an administrator.", indexable: false },
-    "/college/login": { title: "College Partner Sign In | StepInStudents", description: "Sign in to the StepInStudents college partner portal with your assigned account credentials.", indexable: false },
-    "/college/dashboard": { title: "College Partner Dashboard | StepInStudents", description: "View institution-scoped student interest and enquiry information in the private StepInStudents partner dashboard.", indexable: false },
-    "/college/enquire": { title: "College Enquiry | StepInStudents", description: "Submit an enquiry to the selected college through the StepInStudents student enquiry form.", indexable: false }
+    "/admin": {
+        title: "Admin Dashboard | StepInStudents",
+        description:
+            "Manage StepInStudents education content " +
+            "and platform tools. Administrator " +
+            "access is required.",
+        indexable: false,
+    },
+    "/admin/news": {
+        title: "Manage Education News | StepInStudents Admin",
+        description:
+            "Review and manage education news " +
+            "published on StepInStudents. " +
+            "Administrator access is required.",
+        indexable: false,
+    },
+    "/admin/current-affairs": {
+        title: "Manage Current Affairs | StepInStudents Admin",
+        description:
+            "Manage current-affairs updates for the " +
+            "StepInStudents education platform. " +
+            "Administrator access is required.",
+        indexable: false,
+    },
+    "/admin/study-abroad": {
+        title: "Manage Study Abroad Listings | StepInStudents Admin",
+        description:
+            "Manage study abroad institution records " +
+            "in StepInStudents. Administrator access " +
+            "is required.",
+        indexable: false,
+    },
+    "/admin/college-partners": {
+        title: "Manage College Partners | StepInStudents Admin",
+        description:
+            "Manage college partner accounts and " +
+            "access in StepInStudents. Administrator " +
+            "access is required.",
+        indexable: false,
+    },
+    "/online-education/admin": {
+        title: "Manage Online Education | StepInStudents Admin",
+        description:
+            "Manage online education listings in " +
+            "StepInStudents. Administrator access is " +
+            "required.",
+        indexable: false,
+    },
+    "/college": {
+        title: "College Portal Access | StepInStudents",
+        description:
+            "Access the StepInStudents college " +
+            "partner portal using credentials " +
+            "provided by an administrator.",
+        indexable: false,
+    },
+    "/college/login": {
+        title: "College Partner Sign In | StepInStudents",
+        description:
+            "Sign in to the StepInStudents college " +
+            "partner portal with your assigned " +
+            "account credentials.",
+        indexable: false,
+    },
+    "/college/dashboard": {
+        title: "College Partner Dashboard | StepInStudents",
+        description:
+            "View institution-scoped student " +
+            "interest and enquiry information in the " +
+            "private StepInStudents partner " +
+            "dashboard.",
+        indexable: false,
+    },
+    "/college/enquire": {
+        title: "College Enquiry | StepInStudents",
+        description:
+            "Submit an enquiry to the selected " +
+            "college through the StepInStudents " +
+            "student enquiry form.",
+        indexable: false,
+    },
 };
 
 function upsertMeta(selector, attribute, value) {
@@ -126,8 +279,10 @@ function setRouteSchema(page, canonical) {
         primaryImageOfPage: { "@type": "ImageObject", url: `${SITE_ORIGIN}${page.image}` },
         breadcrumb: {
             "@type": "BreadcrumbList",
-            itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: `${SITE_ORIGIN}/` }]
-        }
+            itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_ORIGIN}/` },
+            ],
+        },
     };
     const script = document.createElement("script");
     script.id = "route-seo-page-schema";
@@ -141,10 +296,19 @@ export function applyRouteSEO(pathname = window.location.pathname) {
     // These entry pages ship dedicated static metadata and own page helpers.
     // Avoid replacing their richer social/schema tags with generic metadata.
     if (path === "/study-abroad" || path === "/online-education") return;
-    const page = ROUTE_SEO[path] || (path === "/index.html" ? ROUTE_SEO["/"] : /^\/colleges\/\d+$/.test(path) ? ROUTE_SEO["/colleges"] : null);
+    const page =
+        ROUTE_SEO[path] ||
+        (path === "/index.html"
+            ? ROUTE_SEO["/"]
+            : /^\/colleges\/\d+$/.test(path)
+              ? ROUTE_SEO["/colleges"]
+              : null);
     if (!page) {
         document.title = "Page Not Found | StepInStudents";
-        const description = "The requested StepInStudents page could not be found. Return to education discovery and browse available sections.";
+        const description =
+            "The requested StepInStudents page could " +
+            "not be found. Return to education " +
+            "discovery and browse available sections.";
         upsertMeta('meta[name="description"]', "name", description);
         upsertMeta('meta[name="robots"]', "name", "noindex, nofollow");
         upsertMeta('meta[property="og:title"]', "property", document.title);
@@ -162,16 +326,32 @@ export function applyRouteSEO(pathname = window.location.pathname) {
     }
 
     document.title = page.title;
-    upsertMeta('meta[name="description"]', "name", page.description || "StepInStudents education information and services.");
-    upsertMeta('meta[name="robots"]', "name", page.indexable ? "index, follow, max-image-preview:large" : "noindex, nofollow");
+    upsertMeta(
+        'meta[name="description"]',
+        "name",
+        page.description || "StepInStudents education information and services.",
+    );
+    upsertMeta(
+        'meta[name="robots"]',
+        "name",
+        page.indexable ? "index, follow, max-image-preview:large" : "noindex, nofollow",
+    );
     upsertMeta('meta[property="og:type"]', "property", "website");
     upsertMeta('meta[property="og:site_name"]', "property", "StepInStudents");
     upsertMeta('meta[property="og:title"]', "property", page.title);
-    upsertMeta('meta[property="og:description"]', "property", page.description || "StepInStudents education information and services.");
+    upsertMeta(
+        'meta[property="og:description"]',
+        "property",
+        page.description || "StepInStudents education information and services.",
+    );
     upsertMeta('meta[property="og:locale"]', "property", "en_IN");
     upsertMeta('meta[name="twitter:card"]', "name", "summary_large_image");
     upsertMeta('meta[name="twitter:title"]', "name", page.title);
-    upsertMeta('meta[name="twitter:description"]', "name", page.description || "StepInStudents education information and services.");
+    upsertMeta(
+        'meta[name="twitter:description"]',
+        "name",
+        page.description || "StepInStudents education information and services.",
+    );
 
     const canonical = page.indexable ? `${SITE_ORIGIN}${path === "/" ? "/" : `${path}/`}` : null;
     upsertCanonical(canonical);
@@ -179,9 +359,17 @@ export function applyRouteSEO(pathname = window.location.pathname) {
     if (page.image) {
         const imageUrl = `${SITE_ORIGIN}${page.image}`;
         upsertMeta('meta[property="og:image"]', "property", imageUrl);
-        upsertMeta('meta[property="og:image:alt"]', "property", `${page.primaryKeyword || "StepInStudents"} page image`);
+        upsertMeta(
+            'meta[property="og:image:alt"]',
+            "property",
+            `${page.primaryKeyword || "StepInStudents"} page image`,
+        );
         upsertMeta('meta[name="twitter:image"]', "name", imageUrl);
-        upsertMeta('meta[name="twitter:image:alt"]', "name", `${page.primaryKeyword || "StepInStudents"} page image`);
+        upsertMeta(
+            'meta[name="twitter:image:alt"]',
+            "name",
+            `${page.primaryKeyword || "StepInStudents"} page image`,
+        );
     } else {
         document.head.querySelector('meta[property="og:image"]')?.remove();
         document.head.querySelector('meta[property="og:image:alt"]')?.remove();

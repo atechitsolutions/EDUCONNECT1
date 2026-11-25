@@ -1,5 +1,4 @@
 export default function AuthModal() {
-
     return `
         <div
             id="auth-modal"
@@ -20,9 +19,6 @@ export default function AuthModal() {
                 aria-labelledby="auth-modal-title"
             >
 
-                <!-- =====================================================
-                     LEFT SIDE
-                ====================================================== -->
 
                 <div class="auth-modal-showcase">
 
@@ -51,13 +47,9 @@ export default function AuthModal() {
                 </div>
 
 
-                <!-- =====================================================
-                     RIGHT SIDE
-                ====================================================== -->
 
                 <div class="auth-modal-content">
 
-                    <!-- CLOSE -->
 
                     <button
                         type="button"
@@ -69,9 +61,6 @@ export default function AuthModal() {
                     </button>
 
 
-                    <!-- =================================================
-                         LOGIN
-                    ================================================== -->
 
                     <div
                         id="auth-login-view"
@@ -178,9 +167,6 @@ export default function AuthModal() {
                     </div>
 
 
-                    <!-- =================================================
-                         REGISTER
-                    ================================================== -->
 
                     <div
                         id="auth-register-view"
@@ -330,9 +316,6 @@ export default function AuthModal() {
                     </div>
 
 
-                    <!-- =================================================
-                         FORGOT PASSWORD
-                    ================================================== -->
 
                     <div
                         id="auth-forgot-view"

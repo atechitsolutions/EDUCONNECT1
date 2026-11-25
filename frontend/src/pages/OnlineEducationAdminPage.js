@@ -6,7 +6,7 @@ import {
     deleteOnlineEducationCard,
     getOnlineEducationAdminCards,
     restoreOnlineEducationCard,
-    saveOnlineEducationCard
+    saveOnlineEducationCard,
 } from "../services/onlineEducationService.js";
 
 const sections = [
@@ -14,62 +14,86 @@ const sections = [
         value: "levels",
         label: "Explore by education level",
         image: "required",
-        fields: ["title", "description", "level", "image"]
+        fields: ["title", "description", "level", "image"],
     },
     {
         value: "subjects",
         label: "Explore by subject",
         image: "optional",
-        fields: ["title", "subtitle", "description", "subject", "image"]
+        fields: ["title", "subtitle", "description", "subject", "image"],
     },
     {
         value: "popular",
         label: "Popular online course topics",
         image: "optional",
         linkRequired: true,
-        fields: ["title", "subtitle", "description", "subject", "provider", "link", "image"]
+        fields: ["title", "subtitle", "description", "subject", "provider", "link", "image"],
     },
     {
         value: "platforms",
         label: "Choose a platform for your learning goal",
         image: "required",
         linkRequired: true,
-        fields: ["title", "subtitle", "description", "provider", "link", "image"]
+        fields: ["title", "subtitle", "description", "provider", "link", "image"],
     },
     {
         value: "pathways",
         label: "Learning pathways",
         image: "optional",
-        fields: ["title", "subtitle", "description", "subject", "level", "image"]
+        fields: ["title", "subtitle", "description", "subject", "level", "image"],
     },
     {
         value: "institutions",
         label: "Universities and providers",
         image: "optional",
         linkRequired: true,
-        fields: ["title", "provider", "description", "link", "country", "level", "subject", "mode", "image"]
+        fields: [
+            "title",
+            "provider",
+            "description",
+            "link",
+            "country",
+            "level",
+            "subject",
+            "mode",
+            "image",
+        ],
     },
     {
         value: "programmes",
         label: "Find online courses and degree programmes",
         image: "optional",
         linkRequired: true,
-        fields: ["title", "description", "subject", "provider", "level", "qualification", "mode", "country", "duration", "link", "image"]
-    }
+        fields: [
+            "title",
+            "description",
+            "subject",
+            "provider",
+            "level",
+            "qualification",
+            "mode",
+            "country",
+            "duration",
+            "link",
+            "image",
+        ],
+    },
 ];
 
-const sectionLabels = new Map(
-    sections.map((section) => [section.value, section.label])
-);
+const sectionLabels = new Map(sections.map((section) => [section.value, section.label]));
 
 const escapeHTML = (value = "") =>
-    String(value).replace(/[&<>"']/g, (character) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    })[character]);
+    String(value).replace(
+        /[&<>"']/g,
+        (character) =>
+            ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+            })[character],
+    );
 
 function resizeImage(file) {
     return new Promise((resolve, reject) => {
@@ -77,10 +101,7 @@ function resizeImage(file) {
         const source = URL.createObjectURL(file);
 
         image.onload = () => {
-            const scale = Math.min(
-                1,
-                1600 / Math.max(image.width, image.height)
-            );
+            const scale = Math.min(1, 1600 / Math.max(image.width, image.height));
 
             const canvas = document.createElement("canvas");
 
@@ -91,19 +112,11 @@ function resizeImage(file) {
 
             if (!context) {
                 URL.revokeObjectURL(source);
-                reject(
-                    new Error("This browser could not process the image.")
-                );
+                reject(new Error("This browser could not process the image."));
                 return;
             }
 
-            context.drawImage(
-                image,
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
             URL.revokeObjectURL(source);
 
@@ -113,11 +126,7 @@ function resizeImage(file) {
         image.onerror = () => {
             URL.revokeObjectURL(source);
 
-            reject(
-                new Error(
-                    "That image could not be opened. Try a JPG, PNG or WebP file."
-                )
-            );
+            reject(new Error("That image could not be opened. Try a JPG, PNG or WebP file."));
         };
 
         image.src = source;
@@ -129,9 +138,7 @@ function makeNewCardId() {
         return `oe-card-${globalThis.crypto.randomUUID()}`;
     }
 
-    return `oe-card-${Date.now()}-${Math.random()
-        .toString(36)
-        .slice(2, 8)}`;
+    return `oe-card-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
 export function initOnlineEducationAdminPage() {
@@ -154,24 +161,16 @@ export function initOnlineEducationAdminPage() {
     const listFilter = document.getElementById("oe-admin-list-filter");
     const listSearch = document.getElementById("oe-admin-list-search");
 
-    if (
-        !form ||
-        !sectionSelect ||
-        !fileInput ||
-        !preview ||
-        !dropArea ||
-        !message ||
-        !cardList
-    ) {
-        console.error(
-            "Online Education admin page is missing required elements."
-        );
+    if (!form || !sectionSelect || !fileInput || !preview || !dropArea || !message || !cardList) {
+        console.error("Online Education admin page is missing required elements.");
         return;
     }
 
     const fieldLabels = new Map(
-        [...form.querySelectorAll("[data-card-field]")]
-            .map((label) => [label.dataset.cardField, label])
+        [...form.querySelectorAll("[data-card-field]")].map((label) => [
+            label.dataset.cardField,
+            label,
+        ]),
     );
 
     let imageData = "";
@@ -192,8 +191,7 @@ export function initOnlineEducationAdminPage() {
             title: String(fields.get("title") || "Your card title").trim(),
             subtitle: String(fields.get("subtitle") || "").trim(),
             description: String(
-                fields.get("description") ||
-                "Add a short description to preview it here."
+                fields.get("description") || "Add a short description to preview it here.",
             ).trim(),
             link: String(fields.get("link") || "").trim(),
             provider: String(fields.get("provider") || "").trim(),
@@ -203,28 +201,23 @@ export function initOnlineEducationAdminPage() {
             mode: String(fields.get("mode") || "").trim(),
             country: String(fields.get("country") || "").trim(),
             duration: String(fields.get("duration") || "").trim(),
-            image: imageData
+            image: imageData,
         };
     }
 
     function updateLivePreview() {
         const card = currentCard();
-        const section = sections.find(
-            (item) => item.value === card.section
-        );
+        const section = sections.find((item) => item.value === card.section);
 
         for (const [field, label] of fieldLabels) {
-            label.hidden =
-                field !== "section" &&
-                !section?.fields.includes(field);
+            label.hidden = field !== "section" && !section?.fields.includes(field);
         }
 
         const imageRequired = section?.image === "required";
 
         // Existing default cards can be edited without forcing
         // the administrator to replace a photo they did not change.
-        fileInput.required =
-            imageRequired && !imageData && !editingId;
+        fileInput.required = imageRequired && !imageData && !editingId;
 
         const linkInput = form.elements.namedItem("link");
 
@@ -232,18 +225,17 @@ export function initOnlineEducationAdminPage() {
             linkInput.required = Boolean(section?.linkRequired);
         }
 
-        document.querySelector("[data-image-required]").textContent =
-            imageRequired
-                ? "Required for new cards in this layout. Existing cards can keep their current design."
-                : section?.image === "optional"
-                    ? "Optional. The public card uses its section-specific image crop."
-                    : "This section does not use a card photo.";
+        document.querySelector("[data-image-required]").textContent = imageRequired
+            ? "Required for new cards in this layout. " +
+              "Existing cards can keep their current " +
+              "design."
+            : section?.image === "optional"
+              ? "Optional. The public card uses its section-specific image crop."
+              : "This section does not use a card photo.";
 
         dropArea.hidden = section?.image === "none";
 
-        document.querySelector(
-            "[data-image-preview]"
-        ).hidden = section?.image === "none";
+        document.querySelector("[data-image-preview]").hidden = section?.image === "none";
 
         const sectionClass = {
             levels: "oe-level-section",
@@ -252,7 +244,7 @@ export function initOnlineEducationAdminPage() {
             platforms: "oe-platform-guide",
             pathways: "oe-pathways",
             institutions: "oe-universities",
-            programmes: "oe-explorer"
+            programmes: "oe-explorer",
         }[card.section];
 
         const gridClass = {
@@ -262,16 +254,14 @@ export function initOnlineEducationAdminPage() {
             platforms: "oe-platform-grid",
             pathways: "oe-path-grid",
             institutions: "oe-provider-grid",
-            programmes: "oe-programme-grid"
+            programmes: "oe-programme-grid",
         }[card.section];
 
         const sectionDefaults = onlineEducationDefaultCards.filter(
-            (item) => item.section === card.section
+            (item) => item.section === card.section,
         );
 
-        const cardPosition = sectionDefaults.findIndex(
-            (item) => item.id === card.id
-        );
+        const cardPosition = sectionDefaults.findIndex((item) => item.id === card.id);
 
         const previewIndex = cardPosition >= 0 ? cardPosition : 0;
 
@@ -317,9 +307,7 @@ export function initOnlineEducationAdminPage() {
 
         document.getElementById("oe-admin-save").textContent = "Add card";
 
-        document.getElementById(
-            "oe-admin-editor-title"
-        ).textContent = "Add or edit a card";
+        document.getElementById("oe-admin-editor-title").textContent = "Add or edit a card";
 
         if (clearMessage) {
             showMessage("");
@@ -351,7 +339,7 @@ export function initOnlineEducationAdminPage() {
             "qualification",
             "mode",
             "country",
-            "duration"
+            "duration",
         ];
 
         fields.forEach((field) => {
@@ -367,36 +355,26 @@ export function initOnlineEducationAdminPage() {
 
         setImagePreview(imageData);
 
-        document.getElementById("oe-admin-save").textContent =
-            "Save changes";
+        document.getElementById("oe-admin-save").textContent = "Save changes";
 
-        document.getElementById(
-            "oe-admin-editor-title"
-        ).textContent = `Editing: ${card.title}`;
+        document.getElementById("oe-admin-editor-title").textContent = `Editing: ${card.title}`;
 
         showMessage(
             card.active === false
                 ? "This card is archived. Saving changes will restore it on the public page."
-                : `Editing ${card.isDefault ? "default" : "custom"} card: ${card.title}`
+                : `Editing ${card.isDefault ? "default" : "custom"} card: ${card.title}`,
         );
 
         updateLivePreview();
 
         document.getElementById("oe-admin-form-panel")?.scrollIntoView({
             behavior: "smooth",
-            block: "start"
+            block: "start",
         });
     }
 
     function cardSummary(card) {
-        return [
-            card.provider,
-            card.country,
-            card.level,
-            card.subject
-        ]
-            .filter(Boolean)
-            .join(" · ");
+        return [card.provider, card.country, card.level, card.subject].filter(Boolean).join(" · ");
     }
 
     function filteredAdminCards() {
@@ -404,8 +382,7 @@ export function initOnlineEducationAdminPage() {
         const query = (listSearch?.value || "").trim().toLowerCase();
 
         return adminCards.filter((card) => {
-            const sectionMatches =
-                section === "all" || card.section === section;
+            const sectionMatches = section === "all" || card.section === section;
 
             const queryMatches =
                 !query ||
@@ -416,9 +393,11 @@ export function initOnlineEducationAdminPage() {
                     card.country,
                     card.level,
                     card.subject,
-                    card.id
+                    card.id,
                 ].some((value) =>
-                    String(value || "").toLowerCase().includes(query)
+                    String(value || "")
+                        .toLowerCase()
+                        .includes(query),
                 );
 
             return sectionMatches && queryMatches;
@@ -437,19 +416,19 @@ export function initOnlineEducationAdminPage() {
             return;
         }
 
-        cardList.innerHTML = cards.map((card) => {
-            const active = card.active !== false;
+        cardList.innerHTML = cards
+            .map((card) => {
+                const active = card.active !== false;
 
-            const image = card.image
-                ? `<img src="${escapeHTML(card.image)}" alt="" loading="lazy">`
-                : `<div class="oe-admin-item-placeholder">No image</div>`;
+                const image = card.image
+                    ? `<img src="${escapeHTML(card.image)}" alt="" loading="lazy">`
+                    : `<div class="oe-admin-item-placeholder">No image</div>`;
 
-            const status = active ? "Published" : "Archived";
-            const origin = card.isDefault ? "Default card" : "Custom card";
-            const details =
-                cardSummary(card) || card.description || card.id;
+                const status = active ? "Published" : "Archived";
+                const origin = card.isDefault ? "Default card" : "Custom card";
+                const details = cardSummary(card) || card.description || card.id;
 
-            return `
+                return `
                 <article
                     class="oe-admin-item ${active ? "" : "is-archived"}"
                     data-admin-card-id="${escapeHTML(card.id)}"
@@ -500,7 +479,8 @@ export function initOnlineEducationAdminPage() {
                     </div>
                 </article>
             `;
-        }).join("");
+            })
+            .join("");
     }
 
     async function refreshAdminCards({ quiet = false } = {}) {
@@ -518,20 +498,17 @@ export function initOnlineEducationAdminPage() {
 
         try {
             adminCards = await getOnlineEducationAdminCards({
-                includeInactive: true
+                includeInactive: true,
             });
 
             renderAdminCardList();
 
             if (listStatus) {
-                const activeCount = adminCards.filter(
-                    (card) => card.active !== false
-                ).length;
+                const activeCount = adminCards.filter((card) => card.active !== false).length;
 
                 const archivedCount = adminCards.length - activeCount;
 
-                listStatus.textContent =
-                    `${activeCount} active cards · ${archivedCount} archived cards`;
+                listStatus.textContent = `${activeCount} active cards · ${archivedCount} archived cards`;
             }
         } catch (error) {
             cardList.innerHTML = `
@@ -621,7 +598,7 @@ export function initOnlineEducationAdminPage() {
             mode: String(fields.get("mode") || "").trim(),
             country: String(fields.get("country") || "").trim(),
             duration: String(fields.get("duration") || "").trim(),
-            image: imageData
+            image: imageData,
         };
 
         if (!card.title) {
@@ -629,35 +606,20 @@ export function initOnlineEducationAdminPage() {
             return;
         }
 
-        const sectionConfig = sections.find(
-            (item) => item.value === section
-        );
+        const sectionConfig = sections.find((item) => item.value === section);
 
-        if (
-            sectionConfig?.image === "required" &&
-            !card.image &&
-            !editingId
-        ) {
-            showMessage(
-                "Add a photo for this new card before saving.",
-                true
-            );
+        if (sectionConfig?.image === "required" && !card.image && !editingId) {
+            showMessage("Add a photo for this new card before saving.", true);
             return;
         }
 
         if (sectionConfig?.linkRequired && !card.link) {
-            showMessage(
-                "Add the official link for this section before saving.",
-                true
-            );
+            showMessage("Add the official link for this section before saving.", true);
             return;
         }
 
         if (card.link && !/^https?:\/\//i.test(card.link)) {
-            showMessage(
-                "Links must start with http:// or https://.",
-                true
-            );
+            showMessage("Links must start with http:// or https://.", true);
             return;
         }
 
@@ -671,22 +633,16 @@ export function initOnlineEducationAdminPage() {
             showMessage(
                 wasEditing
                     ? "Changes saved. The card is active on the public page."
-                    : "Card created and saved to the server."
+                    : "Card created and saved to the server.",
             );
 
             try {
                 await refreshAdminCards({ quiet: true });
             } catch (error) {
-                console.error(
-                    "Card saved but the admin list did not refresh.",
-                    error
-                );
+                console.error("Card saved but the admin list did not refresh.", error);
             }
         } catch (error) {
-            showMessage(
-                error.message || "The server could not save this card.",
-                true
-            );
+            showMessage(error.message || "The server could not save this card.", true);
         }
     });
 
@@ -696,23 +652,19 @@ export function initOnlineEducationAdminPage() {
         const restoreButton = event.target.closest("[data-admin-restore]");
 
         if (editButton) {
-            const card = adminCards.find(
-                (item) => item.id === editButton.dataset.adminEdit
-            );
+            const card = adminCards.find((item) => item.id === editButton.dataset.adminEdit);
 
             loadCardIntoEditor(card);
             return;
         }
 
         if (deleteButton) {
-            const card = adminCards.find(
-                (item) => item.id === deleteButton.dataset.adminDelete
-            );
+            const card = adminCards.find((item) => item.id === deleteButton.dataset.adminDelete);
 
             if (!card) return;
 
             const confirmed = window.confirm(
-                `Archive “${card.title}”? It will be hidden from the public Online Education page. You can restore it later.`
+                `Archive “${card.title}”? It will be hidden from the public Online Education page. You can restore it later.`,
             );
 
             if (!confirmed) return;
@@ -723,14 +675,9 @@ export function initOnlineEducationAdminPage() {
                 await deleteOnlineEducationCard(card.id);
                 await refreshAdminCards({ quiet: true });
 
-                showMessage(
-                    `“${card.title}” was archived. The database record was preserved.`
-                );
+                showMessage(`“${card.title}” was archived. The database record was preserved.`);
             } catch (error) {
-                showMessage(
-                    error.message || "The card could not be archived.",
-                    true
-                );
+                showMessage(error.message || "The card could not be archived.", true);
             } finally {
                 deleteButton.disabled = false;
             }
@@ -739,9 +686,7 @@ export function initOnlineEducationAdminPage() {
         }
 
         if (restoreButton) {
-            const card = adminCards.find(
-                (item) => item.id === restoreButton.dataset.adminRestore
-            );
+            const card = adminCards.find((item) => item.id === restoreButton.dataset.adminRestore);
 
             if (!card) return;
 
@@ -751,36 +696,25 @@ export function initOnlineEducationAdminPage() {
                 await restoreOnlineEducationCard(card);
                 await refreshAdminCards({ quiet: true });
 
-                showMessage(
-                    `“${card.title}” was restored to the public catalogue.`
-                );
+                showMessage(`“${card.title}” was restored to the public catalogue.`);
             } catch (error) {
-                showMessage(
-                    error.message || "The card could not be restored.",
-                    true
-                );
+                showMessage(error.message || "The card could not be restored.", true);
             } finally {
                 restoreButton.disabled = false;
             }
         }
     });
 
-    document.getElementById("oe-admin-reset").addEventListener(
-        "click",
-        () => resetEditor()
-    );
+    document.getElementById("oe-admin-reset").addEventListener("click", () => resetEditor());
 
-    document.getElementById("oe-admin-refresh-list")?.addEventListener(
-        "click",
-        async () => {
-            try {
-                await refreshAdminCards();
-                showMessage("Card list refreshed from the server.");
-            } catch (error) {
-                showMessage(error.message, true);
-            }
+    document.getElementById("oe-admin-refresh-list")?.addEventListener("click", async () => {
+        try {
+            await refreshAdminCards();
+            showMessage("Card list refreshed from the server.");
+        } catch (error) {
+            showMessage(error.message, true);
         }
-    );
+    });
 
     listFilter?.addEventListener("change", renderAdminCardList);
     listSearch?.addEventListener("input", renderAdminCardList);
@@ -788,10 +722,7 @@ export function initOnlineEducationAdminPage() {
     updateLivePreview();
 
     refreshAdminCards().catch((error) => {
-        showMessage(
-            error.message || "Admin access is required to load saved cards.",
-            true
-        );
+        showMessage(error.message || "Admin access is required to load saved cards.", true);
     });
 }
 export default function OnlineEducationAdminPage() {
@@ -863,11 +794,15 @@ export default function OnlineEducationAdminPage() {
                             <span>Filter by section</span>
                             <select id="oe-admin-list-filter">
                                 <option value="all">All sections</option>
-                                ${sections.map((section) => `
+                                ${sections
+                                    .map(
+                                        (section) => `
                                     <option value="${section.value}">
                                         ${section.label}
                                     </option>
-                                `).join("")}
+                                `,
+                                    )
+                                    .join("")}
                             </select>
                         </label>
 
@@ -915,11 +850,15 @@ export default function OnlineEducationAdminPage() {
                                     id="oe-admin-section"
                                     required
                                 >
-                                    ${sections.map((section) => `
+                                    ${sections
+                                        .map(
+                                            (section) => `
                                         <option value="${section.value}">
                                             ${section.label}
                                         </option>
-                                    `).join("")}
+                                    `,
+                                        )
+                                        .join("")}
                                 </select>
                             </label>
 

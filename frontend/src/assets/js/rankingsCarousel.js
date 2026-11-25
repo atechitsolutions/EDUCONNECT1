@@ -14,7 +14,7 @@ export function initRankingsCarousel() {
         schools: "#school .early-learning-track .institution-card",
         preschool: "#pre-school .early-learning-track .institution-card",
         playschool: "#play-school .early-learning-track .institution-card",
-        boarding: "#top-boarding-schools .boarding-schools-track .institution-card"
+        boarding: "#top-boarding-schools .boarding-schools-track .institution-card",
     };
     let visibleCards = [];
     let carouselCards = [];
@@ -23,7 +23,10 @@ export function initRankingsCarousel() {
 
     function cardStep() {
         if (carouselCards.length < 2) return carouselCards[0]?.getBoundingClientRect().width || 0;
-        return carouselCards[1].getBoundingClientRect().left - carouselCards[0].getBoundingClientRect().left;
+        return (
+            carouselCards[1].getBoundingClientRect().left -
+            carouselCards[0].getBoundingClientRect().left
+        );
     }
 
     function moveTrack(animate = true) {
@@ -33,10 +36,13 @@ export function initRankingsCarousel() {
 
     function rebuildCarousel() {
         track.querySelectorAll('[data-carousel-clone="true"]').forEach((clone) => clone.remove());
-        track.querySelectorAll('[data-ranking-source-card="true"]').forEach((card) => card.remove());
+        track
+            .querySelectorAll('[data-ranking-source-card="true"]')
+            .forEach((card) => card.remove());
         const selectedCategory = categoryFilter?.value || "all";
-        let cardsForView = categoryCards.filter((card) =>
-            selectedCategory === "all" || card.dataset.rankingCategory === selectedCategory
+        let cardsForView = categoryCards.filter(
+            (card) =>
+                selectedCategory === "all" || card.dataset.rankingCategory === selectedCategory,
         );
 
         const sourceSelector = sourceLists[selectedCategory];
@@ -69,7 +75,7 @@ export function initRankingsCarousel() {
 
         carouselCards = [
             ...visibleCards,
-            ...Array.from(track.querySelectorAll('[data-carousel-clone="true"]'))
+            ...Array.from(track.querySelectorAll('[data-carousel-clone="true"]')),
         ];
         currentIndex = 0;
         isAnimating = false;
@@ -91,7 +97,9 @@ export function initRankingsCarousel() {
             currentIndex = 0;
             moveTrack(false);
         }
-        requestAnimationFrame(() => { isAnimating = false; });
+        requestAnimationFrame(() => {
+            isAnimating = false;
+        });
     });
 
     categoryFilter?.addEventListener("change", rebuildCarousel);

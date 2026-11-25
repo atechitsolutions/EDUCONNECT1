@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @SpringBootApplication
 @EnableMethodSecurity
 public class AllInOneApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(AllInOneApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(AllInOneApplication.class, args);
+  }
 }

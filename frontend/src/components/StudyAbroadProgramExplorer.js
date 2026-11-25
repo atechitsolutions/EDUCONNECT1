@@ -1,35 +1,4 @@
-/**
- * ============================================================
- * STEPINSTUDENTS — STUDY ABROAD PROGRAM EXPLORER
- * ============================================================
- *
- * Purpose:
- * - University/program discovery
- * - Search and filtering UI
- * - Study abroad lead generation
- * - Future Spring Boot API integration
- *
- * Framework:
- * Vanilla JavaScript + Vite
- * ============================================================
- */
-
 export default function StudyAbroadProgramExplorer() {
-
-    /*
-     * --------------------------------------------------------
-     * DEMO PROGRAM DATA
-     * --------------------------------------------------------
-     *
-     * This is presentation data only.
-     *
-     * Later this can be replaced with:
-     *
-     * GET /api/study-abroad/programs
-     *
-     * without changing the overall UI structure.
-     */
-
     const programs = [
         {
             id: 1,
@@ -41,7 +10,7 @@ export default function StudyAbroadProgramExplorer() {
             duration: "2 Years",
             tuition: "Tuition varies",
             mode: "On Campus",
-            badge: "POPULAR"
+            badge: "POPULAR",
         },
 
         {
@@ -54,7 +23,7 @@ export default function StudyAbroadProgramExplorer() {
             duration: "1 Year",
             tuition: "Tuition varies",
             mode: "On Campus",
-            badge: "POPULAR"
+            badge: "POPULAR",
         },
 
         {
@@ -67,7 +36,7 @@ export default function StudyAbroadProgramExplorer() {
             duration: "4 Years",
             tuition: "Tuition varies",
             mode: "On Campus",
-            badge: "FEATURED"
+            badge: "FEATURED",
         },
 
         {
@@ -80,7 +49,7 @@ export default function StudyAbroadProgramExplorer() {
             duration: "2 Years",
             tuition: "Tuition varies",
             mode: "On Campus",
-            badge: "POPULAR"
+            badge: "POPULAR",
         },
 
         {
@@ -93,7 +62,7 @@ export default function StudyAbroadProgramExplorer() {
             duration: "2 Years",
             tuition: "Tuition varies",
             mode: "On Campus",
-            badge: "FEATURED"
+            badge: "FEATURED",
         },
 
         {
@@ -106,10 +75,9 @@ export default function StudyAbroadProgramExplorer() {
             duration: "1 Year",
             tuition: "Tuition varies",
             mode: "On Campus",
-            badge: "POPULAR"
-        }
+            badge: "POPULAR",
+        },
     ];
-
 
     return `
         <section
@@ -121,9 +89,6 @@ export default function StudyAbroadProgramExplorer() {
             <div class="study-abroad-container">
 
 
-                <!-- ==================================================
-                     HEADER
-                =================================================== -->
 
                 <div class="study-abroad-section-header">
 
@@ -147,9 +112,6 @@ export default function StudyAbroadProgramExplorer() {
                 </div>
 
 
-                <!-- ==================================================
-                     SEARCH PANEL
-                =================================================== -->
 
                 <div class="study-abroad-program-search-panel">
 
@@ -184,7 +146,6 @@ export default function StudyAbroadProgramExplorer() {
                     >
 
 
-                        <!-- SEARCH -->
 
                         <div
                             class="study-abroad-filter-field study-abroad-filter-search"
@@ -229,7 +190,6 @@ export default function StudyAbroadProgramExplorer() {
                         </div>
 
 
-                        <!-- COUNTRY -->
 
                         <div class="study-abroad-filter-field">
 
@@ -275,7 +235,6 @@ export default function StudyAbroadProgramExplorer() {
                         </div>
 
 
-                        <!-- DEGREE -->
 
                         <div class="study-abroad-filter-field">
 
@@ -313,7 +272,6 @@ export default function StudyAbroadProgramExplorer() {
                         </div>
 
 
-                        <!-- SUBJECT -->
 
                         <div class="study-abroad-filter-field">
 
@@ -351,7 +309,6 @@ export default function StudyAbroadProgramExplorer() {
                         </div>
 
 
-                        <!-- MODE -->
 
                         <div class="study-abroad-filter-field">
 
@@ -398,9 +355,6 @@ export default function StudyAbroadProgramExplorer() {
                 </div>
 
 
-                <!-- ==================================================
-                     RESULTS HEADER
-                =================================================== -->
 
                 <div class="study-abroad-program-results-header">
 
@@ -426,9 +380,6 @@ export default function StudyAbroadProgramExplorer() {
                 </div>
 
 
-                <!-- ==================================================
-                     RESULTS
-                =================================================== -->
 
                 <div
                     class="study-abroad-program-results"
@@ -552,16 +503,13 @@ export default function StudyAbroadProgramExplorer() {
                                     </div>
 
                                 </article>
-                            `
+                            `,
                         )
                         .join("")}
 
                 </div>
 
 
-                <!-- ==================================================
-                     EMPTY STATE
-                =================================================== -->
 
                 <div
                     class="study-abroad-program-empty"
@@ -593,9 +541,6 @@ export default function StudyAbroadProgramExplorer() {
                 </div>
 
 
-                <!-- ==================================================
-                     COUNSELLING CTA
-                =================================================== -->
 
                 <div class="study-abroad-program-cta">
 
@@ -629,9 +574,6 @@ export default function StudyAbroadProgramExplorer() {
                 </div>
 
 
-                <!-- ==================================================
-                     SEO CONTENT
-                =================================================== -->
 
                 <div class="study-abroad-program-seo">
 

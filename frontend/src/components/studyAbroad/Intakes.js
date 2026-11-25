@@ -1,22 +1,17 @@
-/* =========================================================
-   STUDY ABROAD — INTAKES
-========================================================= */
-
 export default function Intakes() {
-
     const intakes = [
-
         {
             name: "Fall Intake",
             months: "September – November",
             icon: "🍂",
             status: "Most Popular",
             description:
-                "The main intake for international students with the widest range of universities, courses and scholarship opportunities.",
-            countries:
-                "USA • Canada • UK • Australia • Europe",
-            application:
-                "Applications usually open several months before the intake."
+                "The main intake for international " +
+                "students with the widest range of " +
+                "universities, courses and scholarship " +
+                "opportunities.",
+            countries: "USA • Canada • UK • Australia • Europe",
+            application: "Applications usually open several months before the intake.",
         },
 
         {
@@ -25,11 +20,11 @@ export default function Intakes() {
             icon: "🌱",
             status: "Popular",
             description:
-                "A useful alternative for students who miss the main fall intake and want to begin their studies early in the year.",
-            countries:
-                "USA • Canada • UK • Australia",
-            application:
-                "Application timelines vary by university and course."
+                "A useful alternative for students who " +
+                "miss the main fall intake and want to " +
+                "begin their studies early in the year.",
+            countries: "USA • Canada • UK • Australia",
+            application: "Application timelines vary by university and course.",
         },
 
         {
@@ -38,21 +33,16 @@ export default function Intakes() {
             icon: "☀️",
             status: "Limited Programs",
             description:
-                "A smaller intake with selected universities and programs available depending on the destination.",
-            countries:
-                "USA • UK • Australia • Selected Destinations",
-            application:
-                "Available programs and deadlines depend on the university."
-        }
-
+                "A smaller intake with selected " +
+                "universities and programs available " +
+                "depending on the destination.",
+            countries: "USA • UK • Australia • Selected Destinations",
+            application: "Available programs and deadlines depend on the university.",
+        },
     ];
-
 
     return `
 
-        <!-- =====================================================
-             STUDY ABROAD INTAKES
-        ====================================================== -->
 
         <section
             class="study-abroad-intakes"
@@ -63,9 +53,6 @@ export default function Intakes() {
             <div class="study-abroad-intakes-container">
 
 
-                <!-- =================================================
-                     SECTION HEADER
-                ================================================== -->
 
                 <div class="study-abroad-intakes-header">
 
@@ -93,23 +80,19 @@ export default function Intakes() {
                 </div>
 
 
-                <!-- =================================================
-                     INTAKE TIMELINE
-                ================================================== -->
 
                 <div class="study-abroad-intakes-timeline">
 
 
-                    ${intakes.map((intake, index) => `
+                    ${intakes
+                        .map(
+                            (intake, index) => `
 
                         <article
                             class="study-abroad-intake-card"
                         >
 
 
-                            <!-- =================================================
-                                 CARD HEADER
-                            ================================================== -->
 
                             <div class="intake-card-header">
 
@@ -130,9 +113,6 @@ export default function Intakes() {
                             </div>
 
 
-                            <!-- =================================================
-                                 CARD CONTENT
-                            ================================================== -->
 
                             <div class="intake-card-content">
 
@@ -168,9 +148,6 @@ export default function Intakes() {
                                 </p>
 
 
-                                <!-- =================================================
-                                     INTAKE DETAILS
-                                ================================================== -->
 
                                 <div class="intake-card-details">
 
@@ -232,9 +209,6 @@ export default function Intakes() {
                                 </div>
 
 
-                                <!-- =================================================
-                                     CARD ACTION
-                                ================================================== -->
 
                                 <button
                                     type="button"
@@ -255,15 +229,14 @@ export default function Intakes() {
 
                         </article>
 
-                    `).join("")}
+                    `,
+                        )
+                        .join("")}
 
 
                 </div>
 
 
-                <!-- =================================================
-                     INTAKE PLANNING CTA
-                ================================================== -->
 
                 <div class="study-abroad-intakes-cta">
 

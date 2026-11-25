@@ -1,33 +1,16 @@
-/**
- * ============================================================
- * STEPINSTUDENTS — STUDY ABROAD SUPPORT
- * ============================================================
- *
- * Purpose:
- * - Application support
- * - Scholarship discovery
- * - Education finance
- * - Exams
- * - Visa preparation
- * - Pre-departure guidance
- * - Counselling conversion
- *
- * Framework:
- * Vanilla JavaScript + Vite
- * ============================================================
- */
-
 export default function StudyAbroadSupport() {
-
     const supportServices = [
         {
             number: "01",
             category: "APPLICATION",
             title: "University application guidance",
             description:
-                "Understand application requirements, documents, deadlines and the steps involved in applying to your shortlisted institutions.",
+                "Understand application requirements, " +
+                "documents, deadlines and the steps " +
+                "involved in applying to your " +
+                "shortlisted institutions.",
             link: "#study-abroad-application-process",
-            linkText: "Application process"
+            linkText: "Application process",
         },
 
         {
@@ -35,9 +18,11 @@ export default function StudyAbroadSupport() {
             category: "SCHOLARSHIPS",
             title: "Find scholarship opportunities",
             description:
-                "Explore scholarship and funding options and understand the eligibility criteria and deadlines that may apply.",
+                "Explore scholarship and funding options " +
+                "and understand the eligibility criteria " +
+                "and deadlines that may apply.",
             link: "#study-abroad-scholarships",
-            linkText: "Explore scholarships"
+            linkText: "Explore scholarships",
         },
 
         {
@@ -45,9 +30,12 @@ export default function StudyAbroadSupport() {
             category: "EDUCATION FINANCE",
             title: "Plan your education funding",
             description:
-                "Understand tuition, living expenses and potential education financing options before finalizing your study destination.",
+                "Understand tuition, living expenses and " +
+                "potential education financing options " +
+                "before finalizing your study " +
+                "destination.",
             link: "#study-abroad-education-loan",
-            linkText: "Explore education loans"
+            linkText: "Explore education loans",
         },
 
         {
@@ -55,9 +43,11 @@ export default function StudyAbroadSupport() {
             category: "EXAMS",
             title: "Understand required exams",
             description:
-                "Learn about English-language and other standardized tests that may be relevant to your destination or program.",
+                "Learn about English-language and other " +
+                "standardized tests that may be relevant " +
+                "to your destination or program.",
             link: "#study-abroad-exams",
-            linkText: "Explore exams"
+            linkText: "Explore exams",
         },
 
         {
@@ -65,9 +55,11 @@ export default function StudyAbroadSupport() {
             category: "VISA",
             title: "Prepare for your student visa",
             description:
-                "Understand the documentation and planning involved in the student visa stage for your selected destination.",
+                "Understand the documentation and " +
+                "planning involved in the student visa " +
+                "stage for your selected destination.",
             link: "#study-abroad-visa",
-            linkText: "Visa guidance"
+            linkText: "Visa guidance",
         },
 
         {
@@ -75,57 +67,52 @@ export default function StudyAbroadSupport() {
             category: "PRE-DEPARTURE",
             title: "Get ready to travel",
             description:
-                "Prepare for the practical aspects of moving abroad, including documents, accommodation, travel and arrival planning.",
+                "Prepare for the practical aspects of " +
+                "moving abroad, including documents, " +
+                "accommodation, travel and arrival " +
+                "planning.",
             link: "#study-abroad-pre-departure",
-            linkText: "Pre-departure guide"
-        }
+            linkText: "Pre-departure guide",
+        },
     ];
-
 
     const journeySteps = [
         {
             number: "01",
             title: "Discover",
-            description:
-                "Explore destinations, courses and universities."
+            description: "Explore destinations, courses and universities.",
         },
 
         {
             number: "02",
             title: "Shortlist",
-            description:
-                "Compare programs and identify suitable options."
+            description: "Compare programs and identify suitable options.",
         },
 
         {
             number: "03",
             title: "Prepare",
-            description:
-                "Get your documents, exams and application materials ready."
+            description: "Get your documents, exams and application materials ready.",
         },
 
         {
             number: "04",
             title: "Apply",
-            description:
-                "Submit applications and monitor the next steps."
+            description: "Submit applications and monitor the next steps.",
         },
 
         {
             number: "05",
             title: "Decide",
-            description:
-                "Review admission outcomes and plan your next stage."
+            description: "Review admission outcomes and plan your next stage.",
         },
 
         {
             number: "06",
             title: "Prepare to travel",
-            description:
-                "Organize visa, accommodation and pre-departure requirements."
-        }
+            description: "Organize visa, accommodation and pre-departure requirements.",
+        },
     ];
-
 
     return `
         <section
@@ -137,9 +124,6 @@ export default function StudyAbroadSupport() {
             <div class="study-abroad-container">
 
 
-                <!-- ==================================================
-                     SECTION HEADER
-                =================================================== -->
 
                 <div class="study-abroad-section-header">
 
@@ -165,9 +149,6 @@ export default function StudyAbroadSupport() {
                 </div>
 
 
-                <!-- ==================================================
-                     JOURNEY TIMELINE
-                =================================================== -->
 
                 <div
                     class="study-abroad-journey"
@@ -198,16 +179,13 @@ export default function StudyAbroadSupport() {
                                     </div>
 
                                 </div>
-                            `
+                            `,
                         )
                         .join("")}
 
                 </div>
 
 
-                <!-- ==================================================
-                     SUPPORT SERVICES
-                =================================================== -->
 
                 <div class="study-abroad-support-grid">
 
@@ -259,16 +237,13 @@ export default function StudyAbroadSupport() {
                                     </a>
 
                                 </article>
-                            `
+                            `,
                         )
                         .join("")}
 
                 </div>
 
 
-                <!-- ==================================================
-                     DOCUMENT CHECKLIST
-                =================================================== -->
 
                 <div
                     class="study-abroad-document-section"
@@ -351,9 +326,6 @@ export default function StudyAbroadSupport() {
                 </div>
 
 
-                <!-- ==================================================
-                     IMPORTANT NOTICE
-                =================================================== -->
 
                 <div class="study-abroad-support-notice">
 
@@ -380,9 +352,6 @@ export default function StudyAbroadSupport() {
                 </div>
 
 
-                <!-- ==================================================
-                     COUNSELLING CTA
-                =================================================== -->
 
                 <div
                     class="study-abroad-support-cta"
@@ -430,9 +399,6 @@ export default function StudyAbroadSupport() {
                 </div>
 
 
-                <!-- ==================================================
-                     SEO CONTENT
-                =================================================== -->
 
                 <div class="study-abroad-support-seo">
 

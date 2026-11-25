@@ -14,13 +14,16 @@ import AdminNewsPage from "../pages/AdminNewsPage.js";
 import AdminCurrentAffairsPage from "../pages/AdminCurrentAffairsPage.js";
 import AdminStudyAbroadPage from "../pages/AdminStudyAbroadPage.js";
 
-import StudyAbroadSearchResultsPage
-    from "../pages/StudyAbroadSearchResultsPage.js";
+import StudyAbroadSearchResultsPage from "../pages/StudyAbroadSearchResultsPage.js";
 import CollegePartnerAdminPage from "../pages/CollegePartnerAdminPage.js";
 import CollegeLoginPage from "../pages/CollegeLoginPage.js";
 import CollegePartnerDashboardPage from "../pages/CollegePartnerDashboardPage.js";
 import CollegeEnquiryPage from "../pages/CollegeEnquiryPage.js";
-import { CollegesPage, CollegeDirectoryPage, CollegeDetailPage } from "../pages/CollegeDiscoveryPage.js";
+import {
+    CollegesPage,
+    CollegeDirectoryPage,
+    CollegeDetailPage,
+} from "../pages/CollegeDiscoveryPage.js";
 import { SchoolDiscoveryPage } from "../pages/SchoolDiscoveryPage.js";
 import { AdminSchoolEnquiriesPage } from "../pages/AdminSchoolEnquiriesPage.js";
 import AdmissionPartnersPage from "../pages/AdmissionPartnersPage.js";
@@ -28,8 +31,7 @@ import AdmissionPartnerDashboardPage from "../pages/AdmissionPartnerDashboardPag
 import AdmissionPartnerAdminPage from "../pages/AdmissionPartnerAdminPage.js";
 
 export function Router() {
-    const path =
-        window.location.pathname.replace(/\/+$/, "") || "/";
+    const path = window.location.pathname.replace(/\/+$/, "") || "/";
 
     let pageContent = "";
     let pageStatus = 200;
@@ -42,125 +44,100 @@ export function Router() {
         pageContent = `${Header()}${Navbar()}${SchoolDiscoveryPage()}${FooterSection()}`;
     } else if (path === "/admin/school-enquiries") {
         pageContent = AdminSchoolEnquiriesPage();
-    } else if (path === "/colleges" || path === "/colleges/ug" || path === "/colleges/pg" || collegeDetailMatch) {
-        const collegePage = collegeDetailMatch ? CollegeDetailPage(collegeDetailMatch[1]) : path === "/colleges" ? CollegesPage() : CollegeDirectoryPage(path.endsWith("/pg") ? "PG" : "UG");
+    } else if (
+        path === "/colleges" ||
+        path === "/colleges/ug" ||
+        path === "/colleges/pg" ||
+        collegeDetailMatch
+    ) {
+        const collegePage = collegeDetailMatch
+            ? CollegeDetailPage(collegeDetailMatch[1])
+            : path === "/colleges"
+              ? CollegesPage()
+              : CollegeDirectoryPage(path.endsWith("/pg") ? "PG" : "UG");
         pageContent = `${Header()}${Navbar()}${collegePage}${FooterSection()}`;
-    } else switch (path) {
-        // =====================================================
-        // HOME
-        // =====================================================
+    } else
+        switch (path) {
+            case "/":
+            case "/index.html":
+                pageContent = MainLayout();
+                break;
 
-        case "/":
-        case "/index.html":
-            pageContent = MainLayout();
-            break;
+            case "/admission-partners":
+                pageContent = `${Header()}${Navbar()}${AdmissionPartnersPage()}${FooterSection()}`;
+                break;
 
-        case "/admission-partners":
-            pageContent = `${Header()}${Navbar()}${AdmissionPartnersPage()}${FooterSection()}`;
-            break;
+            case "/admission-partners/dashboard":
+                pageContent = `${Header()}${Navbar()}${AdmissionPartnerDashboardPage()}`;
+                break;
 
-        case "/admission-partners/dashboard":
-            pageContent = `${Header()}${Navbar()}${AdmissionPartnerDashboardPage()}`;
-            break;
+            case "/admin/admission-partners":
+                pageContent = AdmissionPartnerAdminPage();
+                break;
 
-        case "/admin/admission-partners":
-            pageContent = AdmissionPartnerAdminPage();
-            break;
+            case "/admin":
+                pageContent = `${Header()}${AdminDashboardPage()}${FooterSection()}`;
+                break;
 
-        // =====================================================
-        // GENERAL ADMIN DASHBOARD
-        // =====================================================
+            // ADMIN — NEWS
 
-        case "/admin":
-            pageContent =
-                `${Header()}${AdminDashboardPage()}${FooterSection()}`;
-            break;
+            case "/admin/news":
+                pageContent = `${Header()}${AdminNewsPage()}${FooterSection()}`;
+                break;
 
-        // =====================================================
-        // ADMIN — NEWS
-        // =====================================================
+            // ADMIN — CURRENT AFFAIRS
 
-        case "/admin/news":
-            pageContent =
-                `${Header()}${AdminNewsPage()}${FooterSection()}`;
-            break;
+            case "/admin/current-affairs":
+                pageContent = `${Header()}${AdminCurrentAffairsPage()}${FooterSection()}`;
+                break;
 
-        // =====================================================
-        // ADMIN — CURRENT AFFAIRS
-        // =====================================================
+            // ADMIN — STUDY ABROAD
 
-        case "/admin/current-affairs":
-            pageContent =
-                `${Header()}${AdminCurrentAffairsPage()}${FooterSection()}`;
-            break;
+            case "/admin/study-abroad":
+                pageContent = `${Header()}${AdminStudyAbroadPage()}${FooterSection()}`;
+                break;
 
-        // =====================================================
-        // ADMIN — STUDY ABROAD
-        // =====================================================
+            case "/admin/college-partners":
+                pageContent = CollegePartnerAdminPage();
+                break;
 
-        case "/admin/study-abroad":
-            pageContent =
-                `${Header()}${AdminStudyAbroadPage()}${FooterSection()}`;
-            break;
+            case "/college":
+            case "/college/login":
+                pageContent = CollegeLoginPage();
+                break;
 
-        case "/admin/college-partners":
-            pageContent = CollegePartnerAdminPage();
-            break;
+            case "/college/dashboard":
+                pageContent = CollegePartnerDashboardPage();
+                break;
 
-        case "/college":
-        case "/college/login":
-            pageContent = CollegeLoginPage();
-            break;
+            case "/college/enquire":
+                pageContent = CollegeEnquiryPage();
+                break;
 
-        case "/college/dashboard":
-            pageContent = CollegePartnerDashboardPage();
-            break;
+            case "/study-abroad":
+                pageContent = StudyAbroadLayout();
+                break;
 
-        case "/college/enquire":
-            pageContent = CollegeEnquiryPage();
-            break;
+            case "/study-abroad/search-results":
+                pageContent = StudyAbroadSearchResultsPage();
+                break;
 
-        // =====================================================
-        // STUDY ABROAD
-        // =====================================================
+            case "/online-education":
+                pageContent = OnlineEducationLayout();
+                break;
 
-        case "/study-abroad":
-            pageContent = StudyAbroadLayout();
-            break;
+            case "/online-education/admin":
+                pageContent = `${Header()}${OnlineEducationAdminPage()}${FooterSection()}`;
+                break;
 
-        case "/study-abroad/search-results":
-            pageContent = StudyAbroadSearchResultsPage();
-            break;
+            case "/community":
+                pageContent = CommunityPage();
+                break;
 
-        // =====================================================
-        // ONLINE EDUCATION
-        // =====================================================
+            default:
+                pageStatus = 404;
 
-        case "/online-education":
-            pageContent = OnlineEducationLayout();
-            break;
-
-        case "/online-education/admin":
-            pageContent =
-                `${Header()}${OnlineEducationAdminPage()}${FooterSection()}`;
-            break;
-
-        // =====================================================
-        // COMMUNITY
-        // =====================================================
-
-        case "/community":
-            pageContent = CommunityPage();
-            break;
-
-        // =====================================================
-        // UNKNOWN ROUTE
-        // =====================================================
-
-        default:
-            pageStatus = 404;
-
-            pageContent = `
+                pageContent = `
                 <main
                     class="route-not-found"
                     aria-labelledby="route-not-found-title"
@@ -182,11 +159,10 @@ export function Router() {
                     </section>
                 </main>
             `;
-            break;
-    }
+                break;
+        }
 
-    document.documentElement.dataset.routeStatus =
-        String(pageStatus);
+    document.documentElement.dataset.routeStatus = String(pageStatus);
 
     return `
         ${pageContent}

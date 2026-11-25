@@ -1,11 +1,6 @@
 import InstitutionCard from "../common/InstitutionCard.js";
-import {
-    getStudyAbroadSuggestions,
-    searchStudyAbroad
-} from "../../services/studyAbroadService.js";
-import {
-    bindInstitutionDetailButtons
-} from "./InstitutionDetailsModals.js";
+import { getStudyAbroadSuggestions, searchStudyAbroad } from "../../services/studyAbroadService.js";
+import { bindInstitutionDetailButtons } from "./InstitutionDetailsModals.js";
 
 function escapeHtml(value) {
     return String(value ?? "")
@@ -111,7 +106,8 @@ function initializeStudyAbroadSearch() {
         }
 
         suggestionsBox.innerHTML = suggestions
-            .map((suggestion) => `
+            .map(
+                (suggestion) => `
                 <button
                     type="button"
                     class="study-abroad-search-suggestion"
@@ -119,7 +115,8 @@ function initializeStudyAbroadSearch() {
                 >
                     🔍 ${escapeHtml(suggestion)}
                 </button>
-            `)
+            `,
+            )
             .join("");
 
         suggestionsBox.hidden = false;
@@ -169,7 +166,7 @@ function initializeStudyAbroadSearch() {
             }
 
             const institutionMap = new Map(
-                results.map((institution) => [String(institution.id), institution])
+                results.map((institution) => [String(institution.id), institution]),
             );
 
             resultsContainer.innerHTML = results
@@ -180,11 +177,9 @@ function initializeStudyAbroadSearch() {
                             rank: String(index + 1).padStart(2, "0"),
                             name: institution.name,
                             category: institution.type,
-                            location: [
-                                institution.city,
-                                institution.state,
-                                institution.country
-                            ].filter(Boolean).join(", "),
+                            location: [institution.city, institution.state, institution.country]
+                                .filter(Boolean)
+                                .join(", "),
                             program: "Study Abroad listing",
                             ranking: institution.verified
                                 ? "Details verified"
@@ -192,10 +187,10 @@ function initializeStudyAbroadSearch() {
                             highlight: institution.description || "",
                             image: institution.coverImageUrl || "",
                             actionLabel: "View More",
-                            showCompare: false
+                            showCompare: false,
                         },
-                        type: "study-abroad-search"
-                    })
+                        type: "study-abroad-search",
+                    }),
                 )
                 .join("");
 
@@ -212,10 +207,7 @@ function initializeStudyAbroadSearch() {
 
     input.addEventListener("input", () => {
         clearTimeout(suggestionTimer);
-        suggestionTimer = setTimeout(
-            () => loadSuggestions(input.value),
-            250
-        );
+        suggestionTimer = setTimeout(() => loadSuggestions(input.value), 250);
     });
 
     searchButton.addEventListener("click", () => runSearch(input.value));

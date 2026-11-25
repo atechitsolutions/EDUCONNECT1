@@ -9,8 +9,5 @@ import lombok.Setter;
 @Setter
 public class ForgotPasswordRequest {
 
-    @NotBlank
-    @Email
-    private String email;
-
+  @NotBlank @Email private String email;
 }

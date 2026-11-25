@@ -1,7 +1,4 @@
-export default function Loading({
-    text = "Loading..."
-} = {}) {
-
+export default function Loading({ text = "Loading..." } = {}) {
     return `
         <div class="loading-state">
 

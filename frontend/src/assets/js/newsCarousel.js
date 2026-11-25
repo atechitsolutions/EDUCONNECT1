@@ -1,276 +1,103 @@
-/* =========================================================
-   STEPINSTUDENTS — NEWS INFINITE CAROUSEL
-========================================================= */
-
 export function initNewsCarousel() {
-
-    const carousel =
-        document.querySelector(
-            "#news .news-carousel"
-        );
-
+    const carousel = document.querySelector("#news .news-carousel");
 
     if (!carousel || carousel.dataset.carouselInitialized === "true") {
         return;
     }
 
+    const viewport = carousel.querySelector(".news-viewport");
 
-    const viewport =
-        carousel.querySelector(
-            ".news-viewport"
-        );
+    const track = carousel.querySelector(".news-track");
 
+    const nextButton = carousel.querySelector(".news-next");
 
-    const track =
-        carousel.querySelector(
-            ".news-track"
-        );
-
-
-    const nextButton =
-        carousel.querySelector(
-            ".news-next"
-        );
-
-
-    if (
-        !viewport ||
-        !track ||
-        !nextButton
-    ) {
+    if (!viewport || !track || !nextButton) {
         return;
     }
 
-
-    /* =====================================================
-       ORIGINAL CARDS
-    ====================================================== */
-
-    const originalCards =
-        Array.from(
-            track.querySelectorAll(
-                ".institution-card"
-            )
-        );
-
+    const originalCards = Array.from(track.querySelectorAll(".institution-card"));
 
     if (!originalCards.length) {
         return;
     }
 
-
     carousel.dataset.carouselInitialized = "true";
 
-    const originalCount =
-        originalCards.length;
+    const originalCount = originalCards.length;
 
+    originalCards.forEach((card) => {
+        const clone = card.cloneNode(true);
 
-    /* =====================================================
-       DUPLICATE CARDS
-    ====================================================== */
+        clone.dataset.carouselClone = "true";
 
-    originalCards.forEach(
-        (card) => {
+        track.appendChild(clone);
+    });
 
-            const clone =
-                card.cloneNode(true);
+    const allCards = Array.from(track.querySelectorAll(".institution-card"));
 
-            clone.dataset.carouselClone =
-                "true";
+    let currentIndex = 0;
 
-            track.appendChild(
-                clone
-            );
-
-        }
-    );
-
-
-    const allCards =
-        Array.from(
-            track.querySelectorAll(
-                ".institution-card"
-            )
-        );
-
-
-    let currentIndex =
-        0;
-
-
-    let isAnimating =
-        false;
-
-
-    /* =====================================================
-       GET CARD STEP
-    ====================================================== */
+    let isAnimating = false;
 
     function getStep() {
-
-        if (
-            allCards.length < 2
-        ) {
-
-            return (
-                allCards[0]
-                    .getBoundingClientRect()
-                    .width
-            );
-
+        if (allCards.length < 2) {
+            return allCards[0].getBoundingClientRect().width;
         }
 
+        const first = allCards[0].getBoundingClientRect();
 
-        const first =
-            allCards[0]
-                .getBoundingClientRect();
+        const second = allCards[1].getBoundingClientRect();
 
-
-        const second =
-            allCards[1]
-                .getBoundingClientRect();
-
-
-        return (
-            second.left -
-            first.left
-        );
-
+        return second.left - first.left;
     }
 
+    function moveTrack(animate = true) {
+        const step = getStep();
 
-    /* =====================================================
-       MOVE TRACK
-    ====================================================== */
+        track.style.transition = animate ? "transform 0.45s cubic-bezier(.2,.8,.2,1)" : "none";
 
-    function moveTrack(
-        animate = true
-    ) {
-
-        const step =
-            getStep();
-
-
-        track.style.transition =
-            animate
-                ? "transform 0.45s cubic-bezier(.2,.8,.2,1)"
-                : "none";
-
-
-        track.style.transform =
-            `translate3d(
+        track.style.transform = `translate3d(
                 -${currentIndex * step}px,
                 0,
                 0
             )`;
-
     }
 
-
-    /* =====================================================
-       NEXT BUTTON
-    ====================================================== */
-
-    nextButton.addEventListener(
-        "click",
-        () => {
-
-            if (isAnimating) {
-                return;
-            }
-
-
-            isAnimating =
-                true;
-
-
-            currentIndex +=
-                1;
-
-
-            moveTrack(
-                true
-            );
-
+    nextButton.addEventListener("click", () => {
+        if (isAnimating) {
+            return;
         }
-    );
 
+        isAnimating = true;
 
-    /* =====================================================
-       INFINITE RESET
-    ====================================================== */
+        currentIndex += 1;
 
-    track.addEventListener(
-        "transitionend",
-        (event) => {
+        moveTrack(true);
+    });
 
-            if (
-                event.propertyName !==
-                "transform"
-            ) {
-                return;
-            }
-
-
-            if (
-                currentIndex >=
-                originalCount
-            ) {
-
-                currentIndex =
-                    currentIndex -
-                    originalCount;
-
-
-                moveTrack(
-                    false
-                );
-
-            }
-
-
-            requestAnimationFrame(
-                () => {
-
-                    isAnimating =
-                        false;
-
-                }
-            );
-
+    track.addEventListener("transitionend", (event) => {
+        if (event.propertyName !== "transform") {
+            return;
         }
-    );
 
+        if (currentIndex >= originalCount) {
+            currentIndex = currentIndex - originalCount;
 
-    /* =====================================================
-       RESIZE
-    ====================================================== */
-
-    window.addEventListener(
-        "resize",
-        () => {
-
-            moveTrack(
-                false
-            );
-
+            moveTrack(false);
         }
-    );
 
+        requestAnimationFrame(() => {
+            isAnimating = false;
+        });
+    });
 
-    /* =====================================================
-       INITIALIZE
-    ====================================================== */
+    window.addEventListener("resize", () => {
+        moveTrack(false);
+    });
 
-    nextButton.disabled =
-        false;
+    nextButton.disabled = false;
 
-
-    moveTrack(
-        false
-    );
-
+    moveTrack(false);
 }
-
 
 export default initNewsCarousel;

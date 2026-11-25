@@ -2,8 +2,10 @@ import { getCurrentAffairs } from "../services/homeContent.js";
 
 function escapeHtml(value) {
     return String(value ?? "")
-        .replaceAll("&", "&amp;").replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;").replaceAll('"', "&quot;")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
 }
 
@@ -12,20 +14,20 @@ const fallbackItems = [
         icon: "🎓",
         title: "Kashi Tamil Sangamam 5.0 scheduled for Nov 28–Dec 12",
         subtitle: "Ministry of Education · 4 Nov 2026",
-        targetUrl: "https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2332761&lang=2&reg=48"
+        targetUrl: "https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2332761&lang=2&reg=48",
     },
     {
         icon: "📰",
         title: "UGC publishes the Fifth Amendment to its degree specifications",
         subtitle: "University Grants Commission · 27 Aug 2026",
-        targetUrl: "https://www.ugc.gov.in/regulations/UGC_Regulations_university"
+        targetUrl: "https://www.ugc.gov.in/regulations/UGC_Regulations_university",
     },
     {
         icon: "🌐",
         title: "UGC invites institutions for online and distance programmes in 2027",
         subtitle: "University Grants Commission · 31 Aug 2026",
-        targetUrl: "https://www.ugc.gov.in/notices"
-    }
+        targetUrl: "https://www.ugc.gov.in/notices",
+    },
 ];
 
 function safeExternalUrl(value) {
@@ -39,8 +41,9 @@ function safeExternalUrl(value) {
 
 function renderTickerItems(items) {
     // Repeat a complete set so the CSS -50% animation loops without a blank gap.
-    return [...items, ...items].map((item, index) => {
-        const content = `
+    return [...items, ...items]
+        .map((item, index) => {
+            const content = `
             <div class="premium-ticker-item">
                 <div class="premium-ticker-item-icon">${escapeHtml(item.icon || "📢")}</div>
                 <div class="premium-ticker-item-content">
@@ -48,13 +51,15 @@ function renderTickerItems(items) {
                     <span>${escapeHtml(item.subtitle || "Current Affairs")}</span>
                 </div>
             </div>`;
-        const targetUrl = safeExternalUrl(item.targetUrl);
-        const duplicateAttributes = index >= items.length ? 'aria-hidden="true" tabindex="-1"' : "";
+            const targetUrl = safeExternalUrl(item.targetUrl);
+            const duplicateAttributes =
+                index >= items.length ? 'aria-hidden="true" tabindex="-1"' : "";
 
-        return targetUrl
-            ? `<a class="premium-ticker-item-link" href="${escapeHtml(targetUrl)}" target="_blank" rel="noopener noreferrer" ${duplicateAttributes}>${content}</a>`
-            : `<div ${index >= items.length ? 'aria-hidden="true"' : ""}>${content}</div>`;
-    }).join("");
+            return targetUrl
+                ? `<a class="premium-ticker-item-link" href="${escapeHtml(targetUrl)}" target="_blank" rel="noopener noreferrer" ${duplicateAttributes}>${content}</a>`
+                : `<div ${index >= items.length ? 'aria-hidden="true"' : ""}>${content}</div>`;
+        })
+        .join("");
 }
 
 export default function CurrentAffairs() {
@@ -94,5 +99,3 @@ export default function CurrentAffairs() {
 
     return section;
 }
-
-

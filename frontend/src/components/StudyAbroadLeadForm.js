@@ -1,26 +1,4 @@
-/**
- * ============================================================
- * STEPINSTUDENTS — STUDY ABROAD LEAD FORM
- * ============================================================
- *
- * Purpose:
- * - Free counselling enquiry
- * - Study abroad lead capture
- * - Student profile collection
- * - Consent collection
- * - Future Spring Boot API integration
- *
- * Important:
- * This component only creates the frontend form.
- * API submission will be connected in the service layer.
- *
- * Framework:
- * Vanilla JavaScript + Vite
- * ============================================================
- */
-
 export default function StudyAbroadLeadForm() {
-
     return `
         <section
             class="study-abroad-lead-section"
@@ -33,9 +11,6 @@ export default function StudyAbroadLeadForm() {
                 <div class="study-abroad-lead-wrapper">
 
 
-                    <!-- ==================================================
-                         LEFT CONTENT
-                    =================================================== -->
 
                     <div class="study-abroad-lead-content">
 
@@ -52,7 +27,6 @@ export default function StudyAbroadLeadForm() {
                         </p>
 
 
-                        <!-- BENEFITS -->
 
                         <div class="study-abroad-lead-benefits">
 
@@ -118,7 +92,6 @@ export default function StudyAbroadLeadForm() {
                         </div>
 
 
-                        <!-- NOTE -->
 
                         <div class="study-abroad-lead-note">
 
@@ -138,9 +111,6 @@ export default function StudyAbroadLeadForm() {
                     </div>
 
 
-                    <!-- ==================================================
-                         FORM
-                    =================================================== -->
 
                     <div class="study-abroad-lead-card">
 
@@ -170,9 +140,6 @@ export default function StudyAbroadLeadForm() {
                         >
 
 
-                            <!-- ==================================================
-                                 NAME
-                            =================================================== -->
 
                             <div class="study-abroad-form-field">
 
@@ -197,9 +164,6 @@ export default function StudyAbroadLeadForm() {
 
                             </div>
 
-                            <!-- ==================================================
-                                 EMAIL
-                            =================================================== -->
 
                             <div class="study-abroad-form-field">
 
@@ -224,9 +188,6 @@ export default function StudyAbroadLeadForm() {
                             </div>
 
 
-                            <!-- ==================================================
-                                 PHONE
-                            =================================================== -->
 
                             <div class="study-abroad-form-field">
 
@@ -262,9 +223,6 @@ export default function StudyAbroadLeadForm() {
 
 
 
-                            <!-- ==================================================
-                                 DESTINATION
-                            =================================================== -->
 
                             <div class="study-abroad-form-field">
 
@@ -330,9 +288,6 @@ export default function StudyAbroadLeadForm() {
 
 
 
-                            <!-- ==================================================
-                                 MESSAGE
-                            =================================================== -->
 
                             <div class="study-abroad-form-field">
 
@@ -358,9 +313,6 @@ export default function StudyAbroadLeadForm() {
                             </div>
 
 
-                            <!-- ==================================================
-                                 CONSENT
-                            =================================================== -->
 
                             <div class="study-abroad-consent">
 
@@ -392,9 +344,6 @@ export default function StudyAbroadLeadForm() {
                             ></span>
 
 
-                            <!-- ==================================================
-                                 SUBMIT
-                            =================================================== -->
 
                             <button
                                 type="submit"
@@ -412,9 +361,6 @@ export default function StudyAbroadLeadForm() {
                             </button>
 
 
-                            <!-- ==================================================
-                                 FORM STATUS
-                            =================================================== -->
 
                             <div
                                 id="study-abroad-form-status"
@@ -440,9 +386,6 @@ export default function StudyAbroadLeadForm() {
                 </div>
 
 
-                <!-- ==================================================
-                     TRUST / PROCESS STRIP
-                =================================================== -->
 
                 <div class="study-abroad-lead-process">
 
@@ -499,9 +442,6 @@ export default function StudyAbroadLeadForm() {
                 </div>
 
 
-                <!-- ==================================================
-                     SEO CONTENT
-                =================================================== -->
 
                 <div class="study-abroad-lead-seo">
 

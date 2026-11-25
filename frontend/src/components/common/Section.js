@@ -6,9 +6,8 @@ export default function Section({
     subtitle = "",
     content = "",
     className = "",
-    background = "white"
+    background = "white",
 } = {}) {
-
     return `
         <section
             ${id ? `id="${id}"` : ""}
@@ -17,7 +16,9 @@ export default function Section({
 
             ${Container(`
 
-                ${title ? `
+                ${
+                    title
+                        ? `
                     <div class="section-header">
 
                         <div>
@@ -26,16 +27,14 @@ export default function Section({
                                 ${title}
                             </h2>
 
-                            ${
-                                subtitle
-                                    ? `<p class="section-subtitle">${subtitle}</p>`
-                                    : ""
-                            }
+                            ${subtitle ? `<p class="section-subtitle">${subtitle}</p>` : ""}
 
                         </div>
 
                     </div>
-                ` : ""}
+                `
+                        : ""
+                }
 
                 <div class="section-body">
 

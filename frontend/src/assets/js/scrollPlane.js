@@ -1,19 +1,9 @@
 export default function initScrollPlane() {
-
-    /* =====================================================
-       CREATE FIXED SECTION FLIGHT OVERLAY
-    ====================================================== */
-
     const flight = document.createElement("div");
 
-    flight.className =
-        "section-flight-plane";
+    flight.className = "section-flight-plane";
 
-    flight.setAttribute(
-        "aria-hidden",
-        "true"
-    );
-
+    flight.setAttribute("aria-hidden", "true");
 
     flight.innerHTML = `
         <div class="section-flight-trail">
@@ -72,44 +62,21 @@ export default function initScrollPlane() {
         </div>
     `;
 
-
     /*
         IMPORTANT:
         Put the overlay directly under <html>,
         outside #app/body content flow.
     */
 
-    document.documentElement.appendChild(
-        flight
-    );
+    document.documentElement.appendChild(flight);
 
+    const plane = flight.querySelector(".section-flight-icon");
 
-    /* =====================================================
-       ELEMENTS
-    ====================================================== */
+    const trail = flight.querySelector(".section-flight-trail");
 
-    const plane =
-        flight.querySelector(
-            ".section-flight-icon"
-        );
+    const dashes = trail.querySelectorAll("span");
 
-    const trail =
-        flight.querySelector(
-            ".section-flight-trail"
-        );
-
-    const dashes =
-        trail.querySelectorAll(
-            "span"
-        );
-
-
-    /* =====================================================
-       SECTIONS
-    ====================================================== */
-
-    const sections =
-        document.querySelectorAll(`
+    const sections = document.querySelectorAll(`
             .hero,
             #categories,
             #online-education,
@@ -126,89 +93,42 @@ export default function initScrollPlane() {
             #top-ug-pg-colleges
         `);
 
-
-    /* =====================================================
-       STATE
-    ====================================================== */
-
     let activeSection = null;
 
     let isFlying = false;
 
     let finishTimer = null;
 
-
-    /* =====================================================
-       RESET
-    ====================================================== */
-
     function resetFlight() {
+        flight.classList.remove("section-flight-active");
 
-        flight.classList.remove(
-            "section-flight-active"
-        );
+        plane.classList.remove("section-plane-flying");
 
-        plane.classList.remove(
-            "section-plane-flying"
-        );
+        dashes.forEach((dash) => {
+            dash.classList.remove("section-dash-flying");
 
-        dashes.forEach(
-            (dash) => {
-
-                dash.classList.remove(
-                    "section-dash-flying"
-                );
-
-                dash.style.animationDelay =
-                    "0s";
-
-            }
-        );
-
+            dash.style.animationDelay = "0s";
+        });
     }
 
-
-    /* =====================================================
-       PLAY FLIGHT
-    ====================================================== */
-
     function playFlight() {
-
         /*
             Never stack multiple flights.
         */
 
         if (isFlying) {
-
             return;
-
         }
-
 
         isFlying = true;
 
-
-        /* ---------------------------------------------
-           CLEAR OLD TIMER
-        ---------------------------------------------- */
-
         if (finishTimer) {
-
-            clearTimeout(
-                finishTimer
-            );
+            clearTimeout(finishTimer);
 
             finishTimer = null;
-
         }
 
-
-        /* ---------------------------------------------
-           RESET
-        ---------------------------------------------- */
-
         resetFlight();
-
 
         /*
             Force browser to register the reset
@@ -217,155 +137,70 @@ export default function initScrollPlane() {
 
         void flight.offsetWidth;
 
+        flight.classList.add("section-flight-active");
 
-        /* ---------------------------------------------
-           START
-        ---------------------------------------------- */
+        plane.classList.add("section-plane-flying");
 
-        flight.classList.add(
-            "section-flight-active"
-        );
+        dashes.forEach((dash, index) => {
+            dash.style.animationDelay = `${index * 0.14}s`;
 
-        plane.classList.add(
-            "section-plane-flying"
-        );
+            dash.classList.add("section-dash-flying");
+        });
 
+        finishTimer = setTimeout(() => {
+            resetFlight();
 
-        /* ---------------------------------------------
-           DASHED TRAIL
-        ---------------------------------------------- */
+            isFlying = false;
 
-        dashes.forEach(
-            (dash, index) => {
-
-                dash.style.animationDelay =
-                    `${index * 0.14}s`;
-
-                dash.classList.add(
-                    "section-dash-flying"
-                );
-
-            }
-        );
-
-
-        /* ---------------------------------------------
-           CLEANUP
-        ---------------------------------------------- */
-
-        finishTimer =
-            setTimeout(
-                () => {
-
-                    resetFlight();
-
-                    isFlying = false;
-
-                    finishTimer = null;
-
-                },
-                3100
-            );
-
+            finishTimer = null;
+        }, 3100);
     }
 
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
 
-    /* =====================================================
-       INTERSECTION OBSERVER
-    ====================================================== */
-
-    const observer =
-        new IntersectionObserver(
-            (entries) => {
-
-                entries.forEach(
-                    (entry) => {
-
-                        if (
-                            !entry.isIntersecting
-                        ) {
-
-                            return;
-
-                        }
-
-
-                        /*
+                /*
                             Prevent the same section from
                             launching repeatedly.
                         */
 
-                        if (
-                            activeSection ===
-                            entry.target
-                        ) {
+                if (activeSection === entry.target) {
+                    return;
+                }
 
-                            return;
+                activeSection = entry.target;
 
-                        }
+                playFlight();
+            });
+        },
+        {
+            threshold: 0.55,
 
-
-                        activeSection =
-                            entry.target;
-
-
-                        playFlight();
-
-                    }
-                );
-
-            },
-            {
-                threshold:
-                    0.55,
-
-                rootMargin:
-                    "0px 0px -15% 0px"
-            }
-        );
-
-
-    /* =====================================================
-       OBSERVE SECTIONS
-    ====================================================== */
-
-    sections.forEach(
-        (section) => {
-
-            observer.observe(
-                section
-            );
-
-        }
+            rootMargin: "0px 0px -15% 0px",
+        },
     );
 
-
-    /* =====================================================
-       CLEANUP
-    ====================================================== */
+    sections.forEach((section) => {
+        observer.observe(section);
+    });
 
     window.addEventListener(
         "beforeunload",
         () => {
-
             observer.disconnect();
 
-
             if (finishTimer) {
-
-                clearTimeout(
-                    finishTimer
-                );
-
+                clearTimeout(finishTimer);
             }
 
-
             flight.remove();
-
         },
         {
-            once: true
-        }
+            once: true,
+        },
     );
-
 }

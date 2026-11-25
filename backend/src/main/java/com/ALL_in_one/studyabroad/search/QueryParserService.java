@@ -1,308 +1,176 @@
 package com.ALL_in_one.studyabroad.search;
 
 import com.ALL_in_one.studyabroad.enums.InstitutionType;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
 public class QueryParserService {
 
-    private static final List<String> FILLER_WORDS = List.of(
-            "best",
-            "top",
-            "popular",
-            "famous",
-            "leading",
-            "good",
-            "great"
-    );
+  private static final List<String> FILLER_WORDS =
+      List.of("best", "top", "popular", "famous", "leading", "good", "great");
 
-    private static final List<String> LOCATION_CONNECTORS = List.of(
-            " in ",
-            " near ",
-            " around ",
-            " at "
-    );
+  private static final List<String> LOCATION_CONNECTORS =
+      List.of(" in ", " near ", " around ", " at ");
 
+  public ParsedSearchQuery parseQuery(String query) {
 
-    public ParsedSearchQuery parseQuery(String query) {
+    String originalQuery = query == null ? "" : query.trim();
 
-        String originalQuery =
-                query == null ? "" : query.trim();
+    String normalizedQuery = normalizeQuery(originalQuery);
 
-        String normalizedQuery =
-                normalizeQuery(originalQuery);
+    if (normalizedQuery.isBlank()) {
 
-
-        if (normalizedQuery.isBlank()) {
-
-            return new ParsedSearchQuery(
-                    originalQuery,
-                    normalizedQuery,
-                    null,
-                    null,
-                    ""
-            );
-        }
-
-
-        InstitutionType institutionType =
-                extractInstitutionType(normalizedQuery);
-
-
-        String cleanedQuery =
-                removeFillerWords(normalizedQuery);
-
-
-        int connectorIndex =
-                findFirstConnector(cleanedQuery);
-
-
-        String location = null;
-
-        String keyword;
-
-
-        if (connectorIndex != -1) {
-
-            String connector =
-                    getConnectorAtIndex(
-                            cleanedQuery,
-                            connectorIndex
-                    );
-
-
-            String beforeLocation =
-                    cleanedQuery.substring(
-                            0,
-                            connectorIndex
-                    ).trim();
-
-
-            String afterConnector =
-                    cleanedQuery.substring(
-                            connectorIndex + connector.length()
-                    ).trim();
-
-
-            int forIndex =
-                    afterConnector.indexOf(" for ");
-
-
-            if (forIndex != -1) {
-
-                location =
-                        afterConnector
-                                .substring(
-                                        0,
-                                        forIndex
-                                )
-                                .trim();
-
-
-                String keywordAfterLocation =
-                        afterConnector
-                                .substring(
-                                        forIndex + 5
-                                )
-                                .trim();
-
-
-                String keywordBeforeLocation =
-                        removeInstitutionTypeWords(
-                                beforeLocation
-                        );
-
-
-                keyword =
-                        combineKeywords(
-                                keywordBeforeLocation,
-                                keywordAfterLocation
-                        );
-
-            } else {
-
-                location = afterConnector;
-
-
-                keyword =
-                        removeInstitutionTypeWords(
-                                beforeLocation
-                        );
-            }
-
-        } else {
-
-            keyword =
-                    removeInstitutionTypeWords(
-                            cleanedQuery
-                    );
-        }
-
-
-        return new ParsedSearchQuery(
-                originalQuery,
-                normalizedQuery,
-                institutionType,
-                cleanValue(location),
-                cleanValue(keyword)
-        );
+      return new ParsedSearchQuery(originalQuery, normalizedQuery, null, null, "");
     }
 
+    InstitutionType institutionType = extractInstitutionType(normalizedQuery);
 
-    private String normalizeQuery(String query) {
+    String cleanedQuery = removeFillerWords(normalizedQuery);
 
-        return query
-                .toLowerCase()
-                .trim()
-                .replaceAll("\\s+", " ");
+    int connectorIndex = findFirstConnector(cleanedQuery);
+
+    String location = null;
+
+    String keyword;
+
+    if (connectorIndex != -1) {
+
+      String connector = getConnectorAtIndex(cleanedQuery, connectorIndex);
+
+      String beforeLocation = cleanedQuery.substring(0, connectorIndex).trim();
+
+      String afterConnector = cleanedQuery.substring(connectorIndex + connector.length()).trim();
+
+      int forIndex = afterConnector.indexOf(" for ");
+
+      if (forIndex != -1) {
+
+        location = afterConnector.substring(0, forIndex).trim();
+
+        String keywordAfterLocation = afterConnector.substring(forIndex + 5).trim();
+
+        String keywordBeforeLocation = removeInstitutionTypeWords(beforeLocation);
+
+        keyword = combineKeywords(keywordBeforeLocation, keywordAfterLocation);
+
+      } else {
+
+        location = afterConnector;
+
+        keyword = removeInstitutionTypeWords(beforeLocation);
+      }
+
+    } else {
+
+      keyword = removeInstitutionTypeWords(cleanedQuery);
     }
 
+    return new ParsedSearchQuery(
+        originalQuery, normalizedQuery, institutionType, cleanValue(location), cleanValue(keyword));
+  }
 
-    private InstitutionType extractInstitutionType(
-            String query) {
+  private String normalizeQuery(String query) {
 
-        if (query.contains("universities")
-                || query.contains("university")) {
+    return query.toLowerCase().trim().replaceAll("\\s+", " ");
+  }
 
-            return InstitutionType.UNIVERSITY;
-        }
+  private InstitutionType extractInstitutionType(String query) {
 
+    if (query.contains("universities") || query.contains("university")) {
 
-        if (query.contains("colleges")
-                || query.contains("college")) {
-
-            return InstitutionType.COLLEGE;
-        }
-
-
-        return null;
+      return InstitutionType.UNIVERSITY;
     }
 
+    if (query.contains("colleges") || query.contains("college")) {
 
-    private String removeFillerWords(String query) {
-
-        String cleanedQuery = query;
-
-
-        for (String fillerWord : FILLER_WORDS) {
-
-            cleanedQuery =
-                    cleanedQuery.replaceAll(
-                            "\\b" + fillerWord + "\\b",
-                            " "
-                    );
-        }
-
-
-        return cleanedQuery
-                .replaceAll("\\s+", " ")
-                .trim();
+      return InstitutionType.COLLEGE;
     }
 
+    return null;
+  }
 
-    private String removeInstitutionTypeWords(
-            String value) {
+  private String removeFillerWords(String query) {
 
-        return value
-                .replaceAll("\\buniversities\\b", " ")
-                .replaceAll("\\buniversity\\b", " ")
-                .replaceAll("\\bcolleges\\b", " ")
-                .replaceAll("\\bcollege\\b", " ")
-                .replaceAll("\\s+", " ")
-                .trim();
+    String cleanedQuery = query;
+
+    for (String fillerWord : FILLER_WORDS) {
+
+      cleanedQuery = cleanedQuery.replaceAll("\\b" + fillerWord + "\\b", " ");
     }
 
+    return cleanedQuery.replaceAll("\\s+", " ").trim();
+  }
 
-    private String combineKeywords(
-            String firstKeyword,
-            String secondKeyword) {
+  private String removeInstitutionTypeWords(String value) {
 
-        String first =
-                cleanValue(firstKeyword);
+    return value
+        .replaceAll("\\buniversities\\b", " ")
+        .replaceAll("\\buniversity\\b", " ")
+        .replaceAll("\\bcolleges\\b", " ")
+        .replaceAll("\\bcollege\\b", " ")
+        .replaceAll("\\s+", " ")
+        .trim();
+  }
 
-        String second =
-                cleanValue(secondKeyword);
+  private String combineKeywords(String firstKeyword, String secondKeyword) {
 
+    String first = cleanValue(firstKeyword);
 
-        if (first == null) {
-            return second == null ? "" : second;
-        }
+    String second = cleanValue(secondKeyword);
 
-
-        if (second == null) {
-            return first;
-        }
-
-
-        return first + " " + second;
+    if (first == null) {
+      return second == null ? "" : second;
     }
 
-
-    private int findFirstConnector(String query) {
-
-        int firstIndex = -1;
-
-
-        for (String connector :
-                LOCATION_CONNECTORS) {
-
-            int currentIndex =
-                    query.indexOf(connector);
-
-
-            if (currentIndex != -1) {
-
-                if (firstIndex == -1
-                        || currentIndex < firstIndex) {
-
-                    firstIndex = currentIndex;
-                }
-            }
-        }
-
-
-        return firstIndex;
+    if (second == null) {
+      return first;
     }
 
+    return first + " " + second;
+  }
 
-    private String getConnectorAtIndex(
-            String query,
-            int connectorIndex) {
+  private int findFirstConnector(String query) {
 
-        for (String connector :
-                LOCATION_CONNECTORS) {
+    int firstIndex = -1;
 
-            if (query.startsWith(
-                    connector,
-                    connectorIndex
-            )) {
+    for (String connector : LOCATION_CONNECTORS) {
 
-                return connector;
-            }
+      int currentIndex = query.indexOf(connector);
+
+      if (currentIndex != -1) {
+
+        if (firstIndex == -1 || currentIndex < firstIndex) {
+
+          firstIndex = currentIndex;
         }
-
-
-        return "";
+      }
     }
 
+    return firstIndex;
+  }
 
-    private String cleanValue(String value) {
+  private String getConnectorAtIndex(String query, int connectorIndex) {
 
-        if (value == null) {
-            return null;
-        }
+    for (String connector : LOCATION_CONNECTORS) {
 
+      if (query.startsWith(connector, connectorIndex)) {
 
-        String cleaned =
-                value
-                        .replaceAll("\\s+", " ")
-                        .trim();
-
-
-        return cleaned.isBlank()
-                ? null
-                : cleaned;
+        return connector;
+      }
     }
+
+    return "";
+  }
+
+  private String cleanValue(String value) {
+
+    if (value == null) {
+      return null;
+    }
+
+    String cleaned = value.replaceAll("\\s+", " ").trim();
+
+    return cleaned.isBlank() ? null : cleaned;
+  }
 }

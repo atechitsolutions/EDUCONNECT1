@@ -8,342 +8,205 @@ import com.ALL_in_one.studyabroad.enums.InstitutionType;
 import com.ALL_in_one.studyabroad.repository.InstitutionSearchRepository;
 import com.ALL_in_one.studyabroad.search.ParsedSearchQuery;
 import com.ALL_in_one.studyabroad.search.QueryParserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class SearchService {
 
-    private static final int MAX_SEARCH_RESULTS = 50;
+  private static final int MAX_SEARCH_RESULTS = 50;
 
-    private final QueryParserService queryParserService;
+  private final QueryParserService queryParserService;
 
-    private final InstitutionSearchRepository institutionSearchRepository;
+  private final InstitutionSearchRepository institutionSearchRepository;
 
+  public SearchResponse search(SearchRequest request) {
 
-    public SearchResponse search(SearchRequest request) {
+    String query = request == null || request.getQuery() == null ? "" : request.getQuery().trim();
 
-        String query =
-                request == null || request.getQuery() == null
-                        ? ""
-                        : request.getQuery().trim();
+    SearchResponse response = new SearchResponse();
 
+    response.setQuery(query);
 
-        SearchResponse response =
-                new SearchResponse();
+    if (query.isBlank()) {
 
-        response.setQuery(query);
+      response.setResults(List.of());
 
+      response.setTotalResults(0);
 
-        if (query.isBlank()) {
-
-            response.setResults(List.of());
-
-            response.setTotalResults(0);
-
-            return response;
-        }
-
-
-        ParsedSearchQuery parsedQuery =
-                queryParserService.parseQuery(query);
-
-
-        List<Institution> institutions =
-                findInstitutions(parsedQuery);
-
-
-        List<SearchResult> results =
-                institutions.stream()
-                        .map(this::toSearchResult)
-                        .toList();
-
-
-        response.setResults(results);
-
-        response.setTotalResults(results.size());
-
-        return response;
+      return response;
     }
 
+    ParsedSearchQuery parsedQuery = queryParserService.parseQuery(query);
 
-    private List<Institution> findInstitutions(
-            ParsedSearchQuery parsedQuery) {
+    List<Institution> institutions = findInstitutions(parsedQuery);
 
-        InstitutionType requestedType =
-                parsedQuery.getInstitutionType();
+    List<SearchResult> results = institutions.stream().map(this::toSearchResult).toList();
 
-        String location =
-                parsedQuery.getLocation();
+    response.setResults(results);
 
-        String keyword =
-                parsedQuery.getKeyword();
+    response.setTotalResults(results.size());
 
+    return response;
+  }
 
-        PageRequest pageRequest =
-                PageRequest.of(
-                        0,
-                        MAX_SEARCH_RESULTS
-                );
+  private List<Institution> findInstitutions(ParsedSearchQuery parsedQuery) {
 
+    InstitutionType requestedType = parsedQuery.getInstitutionType();
 
-        /*
-         * CASE 1:
-         *
-         * Location is present.
-         *
-         * Example:
-         * "universities in Toronto"
-         *
-         * Location is the hard filter.
-         * Requested institution type is used
-         * as a preference.
-         */
-        if (location != null) {
+    String location = parsedQuery.getLocation();
 
-            String safeKeyword =
-                    keyword == null ? "" : keyword;
+    String keyword = parsedQuery.getKeyword();
 
+    PageRequest pageRequest = PageRequest.of(0, MAX_SEARCH_RESULTS);
 
-            if (requestedType != null) {
+    /*
+     * CASE 1:
+     *
+     * Location is present.
+     *
+     * Example:
+     * "universities in Toronto"
+     *
+     * Location is the hard filter.
+     * Requested institution type is used
+     * as a preference.
+     */
+    if (location != null) {
 
-                List<Institution> preferredInstitutions =
-                        institutionSearchRepository
-                                .searchActiveInstitutionsByTypeAndLocation(
-                                        requestedType,
-                                        location,
-                                        safeKeyword,
-                                        pageRequest
-                                );
+      String safeKeyword = keyword == null ? "" : keyword;
 
+      if (requestedType != null) {
 
-                List<Institution> allInstitutions =
-                        institutionSearchRepository
-                                .searchActiveInstitutionsByLocation(
-                                        location,
-                                        safeKeyword,
-                                        pageRequest
-                                );
+        List<Institution> preferredInstitutions =
+            institutionSearchRepository.searchActiveInstitutionsByTypeAndLocation(
+                requestedType, location, safeKeyword, pageRequest);
 
+        List<Institution> allInstitutions =
+            institutionSearchRepository.searchActiveInstitutionsByLocation(
+                location, safeKeyword, pageRequest);
 
-                return mergePreferredResults(
-                        preferredInstitutions,
-                        allInstitutions
-                );
-            }
+        return mergePreferredResults(preferredInstitutions, allInstitutions);
+      }
 
-
-            return institutionSearchRepository
-                    .searchActiveInstitutionsByLocation(
-                            location,
-                            safeKeyword,
-                            pageRequest
-                    );
-        }
-
-
-        /*
-         * CASE 2:
-         *
-         * Institution type is present,
-         * but there is no explicit location.
-         *
-         * Example:
-         * "universities Canada"
-         *
-         * Requested type is preferred,
-         * but other institution types can
-         * also appear.
-         */
-        if (requestedType != null) {
-
-            String safeKeyword =
-                    keyword == null ? "" : keyword;
-
-
-            List<Institution> preferredInstitutions =
-                    institutionSearchRepository
-                            .searchActiveInstitutionsByType(
-                                    safeKeyword,
-                                    requestedType,
-                                    pageRequest
-                            );
-
-
-            List<Institution> allInstitutions =
-                    institutionSearchRepository
-                            .searchActiveInstitutions(
-                                    safeKeyword,
-                                    pageRequest
-                            );
-
-
-            return mergePreferredResults(
-                    preferredInstitutions,
-                    allInstitutions
-            );
-        }
-
-
-        /*
-         * CASE 3:
-         *
-         * No institution type and no
-         * explicit location.
-         *
-         * Example:
-         * "Toronto"
-         * "engineering"
-         */
-        String searchText =
-                keyword == null || keyword.isBlank()
-                        ? parsedQuery.getNormalizedQuery()
-                        : keyword;
-
-
-        return institutionSearchRepository
-                .searchActiveInstitutions(
-                        searchText,
-                        pageRequest
-                );
+      return institutionSearchRepository.searchActiveInstitutionsByLocation(
+          location, safeKeyword, pageRequest);
     }
 
+    /*
+     * CASE 2:
+     *
+     * Institution type is present,
+     * but there is no explicit location.
+     *
+     * Example:
+     * "universities Canada"
+     *
+     * Requested type is preferred,
+     * but other institution types can
+     * also appear.
+     */
+    if (requestedType != null) {
 
-    private List<Institution> mergePreferredResults(
-            List<Institution> preferredInstitutions,
-            List<Institution> allInstitutions) {
+      String safeKeyword = keyword == null ? "" : keyword;
 
-        Map<Long, Institution> uniqueInstitutions =
-                new LinkedHashMap<>();
+      List<Institution> preferredInstitutions =
+          institutionSearchRepository.searchActiveInstitutionsByType(
+              safeKeyword, requestedType, pageRequest);
 
+      List<Institution> allInstitutions =
+          institutionSearchRepository.searchActiveInstitutions(safeKeyword, pageRequest);
 
-        /*
-         * First add institutions matching
-         * the requested type.
-         */
-        for (Institution institution :
-                preferredInstitutions) {
-
-            uniqueInstitutions.put(
-                    institution.getId(),
-                    institution
-            );
-        }
-
-
-        /*
-         * Then add all other matching
-         * institutions.
-         *
-         * Duplicate institutions are ignored.
-         */
-        for (Institution institution :
-                allInstitutions) {
-
-            uniqueInstitutions.putIfAbsent(
-                    institution.getId(),
-                    institution
-            );
-
-
-            if (uniqueInstitutions.size()
-                    >= MAX_SEARCH_RESULTS) {
-
-                break;
-            }
-        }
-
-
-        return new ArrayList<>(
-                uniqueInstitutions.values()
-        );
+      return mergePreferredResults(preferredInstitutions, allInstitutions);
     }
 
+    /*
+     * CASE 3:
+     *
+     * No institution type and no
+     * explicit location.
+     *
+     * Example:
+     * "Toronto"
+     * "engineering"
+     */
+    String searchText =
+        keyword == null || keyword.isBlank() ? parsedQuery.getNormalizedQuery() : keyword;
 
-    private SearchResult toSearchResult(
-            Institution institution) {
+    return institutionSearchRepository.searchActiveInstitutions(searchText, pageRequest);
+  }
 
-        SearchResult result =
-                new SearchResult();
+  private List<Institution> mergePreferredResults(
+      List<Institution> preferredInstitutions, List<Institution> allInstitutions) {
 
+    Map<Long, Institution> uniqueInstitutions = new LinkedHashMap<>();
 
-        result.setId(
-                institution.getId()
-        );
+    /*
+     * First add institutions matching
+     * the requested type.
+     */
+    for (Institution institution : preferredInstitutions) {
 
-
-        result.setName(
-                institution.getName()
-        );
-
-
-        result.setDescription(
-                institution.getDescription()
-        );
-
-
-        result.setAddress(
-                institution.getAddress()
-        );
-
-
-        result.setCity(
-                institution.getCity()
-        );
-
-
-        result.setState(
-                institution.getState()
-        );
-
-
-        result.setCountry(
-                institution.getCountry()
-        );
-
-
-        result.setCountryCode(
-                institution.getCountryCode()
-        );
-
-
-        result.setWebsite(
-                institution.getWebsite()
-        );
-
-
-        result.setEmail(
-                institution.getEmail()
-        );
-
-
-        result.setPhone(
-                institution.getPhone()
-        );
-
-
-        result.setCoverImageUrl(
-                institution.getCoverImageUrl()
-        );
-
-
-        result.setType(
-                institution.getType()
-        );
-
-
-        result.setVerified(
-                institution.isVerified()
-        );
-
-
-        return result;
+      uniqueInstitutions.put(institution.getId(), institution);
     }
+
+    /*
+     * Then add all other matching
+     * institutions.
+     *
+     * Duplicate institutions are ignored.
+     */
+    for (Institution institution : allInstitutions) {
+
+      uniqueInstitutions.putIfAbsent(institution.getId(), institution);
+
+      if (uniqueInstitutions.size() >= MAX_SEARCH_RESULTS) {
+
+        break;
+      }
+    }
+
+    return new ArrayList<>(uniqueInstitutions.values());
+  }
+
+  private SearchResult toSearchResult(Institution institution) {
+
+    SearchResult result = new SearchResult();
+
+    result.setId(institution.getId());
+
+    result.setName(institution.getName());
+
+    result.setDescription(institution.getDescription());
+
+    result.setAddress(institution.getAddress());
+
+    result.setCity(institution.getCity());
+
+    result.setState(institution.getState());
+
+    result.setCountry(institution.getCountry());
+
+    result.setCountryCode(institution.getCountryCode());
+
+    result.setWebsite(institution.getWebsite());
+
+    result.setEmail(institution.getEmail());
+
+    result.setPhone(institution.getPhone());
+
+    result.setCoverImageUrl(institution.getCoverImageUrl());
+
+    result.setType(institution.getType());
+
+    result.setVerified(institution.isVerified());
+
+    return result;
+  }
 }

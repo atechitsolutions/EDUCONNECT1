@@ -1,7 +1,11 @@
 export default function Header() {
     const isHomePage = window.location.pathname === "/";
     const routePath = window.location.pathname.replace(/\/+$/, "") || "/";
-    const hasPrimaryNavigation = isHomePage || routePath === "/index.html" || routePath === "/latest-news" || /^\/latest-news\/\d+$/.test(routePath);
+    const hasPrimaryNavigation =
+        isHomePage ||
+        routePath === "/index.html" ||
+        routePath === "/latest-news" ||
+        /^\/latest-news\/\d+$/.test(routePath);
     return `
         <header class="header">
             <div class="header-container">
@@ -11,19 +15,22 @@ export default function Header() {
                     <a href="/">StepInStudents</a>
                 </div>
 
-                ${isHomePage ? `
+                ${
+                    isHomePage
+                        ? `
                 <a class="header-community-promo" href="/community" aria-label="Explore the Global Student Community">
                     <span class="community-promo-people" aria-hidden="true">
                         <span>JD</span><span>AR</span><span>PS</span><span>MK</span><b>+</b>
                     </span>
                     <span class="community-promo-copy">
                         <strong>Global Student Community</strong>
-                        <small>Connect · Discuss · Share · Grow</small>
+                        <small>Connect · Discuss · Share </small>
                     </span>
                     <span class="community-promo-live"><i></i> LIVE</span>
                     <span class="community-promo-cta">Explore Community <b aria-hidden="true">→</b></span>
                 </a>
-                ` : `
+                `
+                        : `
                 <!-- Search -->
                 <div class="search-box">
                     <input
@@ -31,7 +38,8 @@ export default function Header() {
                         placeholder="Search Schools, Colleges, Universities, Jobs..."
                     >
                 </div>
-                `}
+                `
+                }
 
                 <!-- Location -->
 
@@ -43,7 +51,9 @@ export default function Header() {
                  <button class="notification-btn">
                           🔔
                  </button>
-                 ${hasPrimaryNavigation ? `<button
+                 ${
+                     hasPrimaryNavigation
+                         ? `<button
                     type="button"
                     class="mobile-header-menu-toggle"
                     aria-label="Open main navigation"
@@ -53,7 +63,9 @@ export default function Header() {
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
-                 </button>` : ""}
+                 </button>`
+                         : ""
+                 }
                   <button
                        type="button"
                        class="header-login-button"

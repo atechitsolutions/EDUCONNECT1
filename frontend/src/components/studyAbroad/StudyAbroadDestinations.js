@@ -5,69 +5,117 @@ import { getInstitutionLogoUrl } from "../../utils/institutionLogo.js";
 const COUNTRY_META = {
     US: {
         flag: "🇺🇸",
-        image: "https://images.unsplash.com/photo-1685532735950-5ecf5293d254?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-168553" +
+            "2735950-5ecf5293d254?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     USA: {
         flag: "🇺🇸",
-        image: "https://images.unsplash.com/photo-1685532735950-5ecf5293d254?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-168553" +
+            "2735950-5ecf5293d254?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     GB: {
         flag: "🇬🇧",
-        image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-151363" +
+            "5269975-59663e0ac1ad?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     UK: {
         flag: "🇬🇧",
-        image: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-151363" +
+            "5269975-59663e0ac1ad?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     CA: {
         flag: "🇨🇦",
-        image: "https://images.unsplash.com/photo-1517935706615-2717063c2225?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-151793" +
+            "5706615-2717063c2225?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     AU: {
         flag: "🇦🇺",
-        image: "https://images.unsplash.com/photo-1527557561443-e64662fc5562?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-152755" +
+            "7561443-e64662fc5562?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     DE: {
         flag: "🇩🇪",
-        image: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-146726" +
+            "9204594-9661b134dd2b?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     BE: {
         flag: "🇧🇪",
-        image: "https://images.unsplash.com/photo-1572886071978-7c60b5b3e506?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-157288" +
+            "6071978-7c60b5b3e506?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     FR: {
         flag: "🇫🇷",
-        image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-150260" +
+            "2898657-3e91760cbb34?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     IE: {
         flag: "🇮🇪",
-        image: "https://images.unsplash.com/photo-1590089415225-401ed6f9db8e?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-159008" +
+            "9415225-401ed6f9db8e?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     NZ: {
         flag: "🇳🇿",
-        image: "https://images.unsplash.com/photo-1507699622108-4be3abd695ad?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-150769" +
+            "9622108-4be3abd695ad?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     IT: {
         flag: "🇮🇹",
-        image: "https://images.unsplash.com/photo-1668171321834-658179e37f5e?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-166817" +
+            "1321834-658179e37f5e?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     NL: {
         flag: "🇳🇱",
-        image: "https://images.unsplash.com/photo-1536880756060-98a6a140f0a7?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-153688" +
+            "0756060-98a6a140f0a7?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     AE: {
         flag: "🇦🇪",
-        image: "https://images.unsplash.com/photo-1597278315489-a4b8b67659f0?auto=format&fit=crop&w=1200&q=85"
+        image:
+            "https://images.unsplash.com/photo-159727" +
+            "8315489-a4b8b67659f0?auto=format&fit=cro" +
+            "p&w=1200&q=85",
     },
     HU: {
         flag: "🇭🇺",
-        image: "https://images.unsplash.com/photo-1664289496602-378f6e666f7e?auto=format&fit=crop&w=1200&q=85"
-    }
+        image:
+            "https://images.unsplash.com/photo-166428" +
+            "9496602-378f6e666f7e?auto=format&fit=cro" +
+            "p&w=1200&q=85",
+    },
 };
 
 const FALLBACK_META = {
     flag: "🌍",
-    image: "https://images.unsplash.com/photo-1521292270410-a8c4d716d518?auto=format&fit=crop&w=1200&q=85"
+    image:
+        "https://images.unsplash.com/photo-152129" +
+        "2270410-a8c4d716d518?auto=format&fit=cro" +
+        "p&w=1200&q=85",
 };
 
 function escapeHtml(value) {
@@ -80,7 +128,9 @@ function escapeHtml(value) {
 }
 
 function getCountryMeta(code) {
-    const normalizedCode = String(code ?? "").trim().toUpperCase();
+    const normalizedCode = String(code ?? "")
+        .trim()
+        .toUpperCase();
     return COUNTRY_META[normalizedCode] ?? FALLBACK_META;
 }
 
@@ -88,13 +138,24 @@ function getDirectoryOverview(institution, country) {
     if (institution.overview) return institution.overview;
 
     const institutionType = institution.type || "institution";
-    const location = institution.location || [institution.city, institution.state, country].filter(Boolean).join(", ") || country;
-    const founding = institution.established ? ` Its recorded founding year is ${institution.established}.` : "";
+    const location =
+        institution.location ||
+        [institution.city, institution.state, country].filter(Boolean).join(", ") ||
+        country;
+    const founding = institution.established
+        ? ` Its recorded founding year is ${institution.established}.`
+        : "";
 
     return `${institution.name} is listed in StepInStudents as a ${institutionType.toLowerCase()} based in ${location}.${founding} Use this directory profile to compare its listed details with other destinations. Programme availability, admission requirements, campus services and fees vary by course and applicant; confirm current information with the institution before applying.`;
 }
 function getInstitutionInitials(name) {
-    return String(name || "Institution").trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+    return String(name || "Institution")
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map((part) => part[0])
+        .join("")
+        .toUpperCase();
 }
 function buildDestinations(institutions) {
     const groups = new Map();
@@ -113,7 +174,7 @@ function buildDestinations(institutions) {
                 institutions: [],
                 universities: 0,
                 colleges: 0,
-                otherInstitutions: 0
+                otherInstitutions: 0,
             });
         }
 
@@ -135,9 +196,7 @@ function buildDestinations(institutions) {
         }
     });
 
-    return [...groups.values()].sort(
-        (a, b) => a.country.localeCompare(b.country)
-    );
+    return [...groups.values()].sort((a, b) => a.country.localeCompare(b.country));
 }
 
 /*
@@ -227,31 +286,44 @@ export default function StudyAbroadDestinations() {
     `;
 
     setTimeout(async () => {
-        const container = document.querySelector(
-            "[data-study-abroad-destinations]"
-        );
+        const container = document.querySelector("[data-study-abroad-destinations]");
 
         if (!container) {
             return;
         }
 
         try {
-            const supplied = (directoryData.countries || []).flatMap((country) => country.institutions || []);
+            const supplied = (directoryData.countries || []).flatMap(
+                (country) => country.institutions || [],
+            );
             let remote = [];
             try {
                 const response = await getInstitutions();
                 remote = Array.isArray(response) ? response : [];
             } catch (error) {
-                console.warn("Using the supplied study-abroad directory because the institution service is unavailable.", error);
+                console.warn(
+                    "Using the supplied study-abroad " +
+                        "directory because the institution " +
+                        "service is unavailable.",
+                    error,
+                );
             }
-            const key = (item) => `${String(item.country || "").trim().toLowerCase()}::${String(item.name || "").trim().toLowerCase()}`;
+            const key = (item) =>
+                `${String(item.country || "")
+                    .trim()
+                    .toLowerCase()}::${String(item.name || "")
+                    .trim()
+                    .toLowerCase()}`;
             const known = new Set(supplied.map(key));
-            const visible = [...supplied, ...remote.filter((item) => {
-                const itemKey = key(item);
-                if (known.has(itemKey)) return false;
-                known.add(itemKey);
-                return true;
-            })];
+            const visible = [
+                ...supplied,
+                ...remote.filter((item) => {
+                    const itemKey = key(item);
+                    if (known.has(itemKey)) return false;
+                    known.add(itemKey);
+                    return true;
+                }),
+            ];
             const destinations = buildDestinations(visible);
 
             if (!destinations.length) {
@@ -270,28 +342,25 @@ export default function StudyAbroadDestinations() {
 
             const initialCount = getDestinationBatchSize();
 
-            container.innerHTML = destinations.map((destination, index) => {
-                const meta = getCountryMeta(destination.code);
-                const total = destination.institutions.length;
+            container.innerHTML = destinations
+                .map((destination, index) => {
+                    const meta = getCountryMeta(destination.code);
+                    const total = destination.institutions.length;
 
-                const universityLabel = destination.universities === 1
-                    ? "University"
-                    : "Universities";
+                    const universityLabel =
+                        destination.universities === 1 ? "University" : "Universities";
 
-                const collegeLabel = destination.colleges === 1
-                    ? "College"
-                    : "Colleges";
+                    const collegeLabel = destination.colleges === 1 ? "College" : "Colleges";
 
-                const otherInstitutionLabel = destination.otherInstitutions === 1
-                    ? "Other institution"
-                    : "Other institutions";
+                    const otherInstitutionLabel =
+                        destination.otherInstitutions === 1
+                            ? "Other institution"
+                            : "Other institutions";
 
-                return `
+                    return `
                     <article
                         class="study-abroad-destination-card"
-                        data-country="${escapeHtml(
-                            destination.code || destination.country
-                        )}"
+                        data-country="${escapeHtml(destination.code || destination.country)}"
                         data-destination-index="${index}"
                         ${index >= initialCount ? "hidden" : ""}
                     >
@@ -300,15 +369,13 @@ export default function StudyAbroadDestinations() {
                             class="study-abroad-destination-link"
                             data-open-destination="${index}"
                             aria-label="Explore Study Abroad institutions in ${escapeHtml(
-                                destination.country
+                                destination.country,
                             )}"
                         >
                             <div class="destination-card-image">
                                 <img
                                     src="${meta.image}"
-                                    alt="Study in ${escapeHtml(
-                                        destination.country
-                                    )}"
+                                    alt="Study in ${escapeHtml(destination.country)}"
                                     loading="lazy"
                                 />
 
@@ -320,9 +387,7 @@ export default function StudyAbroadDestinations() {
                                 </div>
 
                                 <span class="destination-card-count">
-                                    ${total} listed ${
-                                        total === 1 ? "institution" : "institutions"
-                                    }
+                                    ${total} listed ${total === 1 ? "institution" : "institutions"}
                                 </span>
                             </div>
 
@@ -363,11 +428,10 @@ export default function StudyAbroadDestinations() {
                         </button>
                     </article>
                 `;
-            }).join("");
+                })
+                .join("");
 
-            const sectionElement = container.closest(
-                ".study-abroad-destinations"
-            );
+            const sectionElement = container.closest(".study-abroad-destinations");
 
             const dialog = sectionElement?.querySelector("[data-destination-dialog]");
             const dialogTitle = dialog?.querySelector("[data-destination-dialog-title]");
@@ -378,27 +442,49 @@ export default function StudyAbroadDestinations() {
             const detailDialog = sectionElement?.querySelector("[data-institution-detail-dialog]");
             const detailTitle = detailDialog?.querySelector("[data-institution-detail-title]");
             const detailCountry = detailDialog?.querySelector("[data-institution-detail-country]");
-            const detailOverview = detailDialog?.querySelector("[data-institution-detail-overview]");
-            const detailConfidence = detailDialog?.querySelector("[data-institution-detail-confidence]");
+            const detailOverview = detailDialog?.querySelector(
+                "[data-institution-detail-overview]",
+            );
+            const detailConfidence = detailDialog?.querySelector(
+                "[data-institution-detail-confidence]",
+            );
             const detailFields = detailDialog?.querySelector("[data-institution-detail-fields]");
             let pendingInstitutionSelection = null;
 
             const groupedInstitutions = (destination) => {
                 const groups = [
                     { title: "Universities", matches: (type) => type.includes("university") },
-                    { title: "Colleges", matches: (type) => type.includes("college") || type.includes("business school") },
-                    { title: "Other institutions", matches: (type) => !type.includes("university") && !type.includes("college") && !type.includes("business school") }
+                    {
+                        title: "Colleges",
+                        matches: (type) =>
+                            type.includes("college") || type.includes("business school"),
+                    },
+                    {
+                        title: "Other institutions",
+                        matches: (type) =>
+                            !type.includes("university") &&
+                            !type.includes("college") &&
+                            !type.includes("business school"),
+                    },
                 ];
-                return groups.map((group) => {
-                    const entries = destination.institutions.filter((institution) => group.matches(String(institution.type || "").toLowerCase()));
-                    if (!entries.length) return "";
-                    return `<section class="destination-dialog-group"><h3>${group.title}<span>${entries.length}</span></h3><ul>${entries.map((institution) => `
+                return groups
+                    .map((group) => {
+                        const entries = destination.institutions.filter((institution) =>
+                            group.matches(String(institution.type || "").toLowerCase()),
+                        );
+                        if (!entries.length) return "";
+                        return `<section class="destination-dialog-group"><h3>${group.title}<span>${entries.length}</span></h3><ul>${entries
+                            .map(
+                                (institution) => `
                         <li><button type="button" class="destination-dialog-institution" data-open-institution="${destination.institutions.indexOf(institution)}">
                             <span class="destination-dialog-institution-logo" aria-hidden="true">${getInstitutionLogoUrl(institution) ? `<img src="${escapeHtml(getInstitutionLogoUrl(institution))}" alt="" loading="lazy" data-institution-logo /><span class="destination-dialog-institution-logo-fallback" hidden>${escapeHtml(getInstitutionInitials(institution.name))}</span>` : `<span class="destination-dialog-institution-logo-fallback">${escapeHtml(getInstitutionInitials(institution.name))}</span>`}</span>
                             <span class="destination-dialog-institution-details"><strong>${escapeHtml(institution.name || "Institution")}</strong><span>${escapeHtml([institution.city, institution.state].filter(Boolean).join(", ") || institution.type || "Study Abroad institution")}</span></span>
                             <span class="destination-dialog-select-label">View details <span aria-hidden="true">→</span></span>
-                        </button></li>`).join("")}</ul></section>`;
-                }).join("");
+                        </button></li>`,
+                            )
+                            .join("")}</ul></section>`;
+                    })
+                    .join("");
             };
 
             sectionElement?.addEventListener("click", (event) => {
@@ -420,10 +506,30 @@ export default function StudyAbroadDestinations() {
                     const destinationSelect = document.querySelector("#study-abroad-destination");
                     const institutionInput = document.querySelector("#study-abroad-institution");
                     if (destinationSelect && country) {
-                        const aliases = { "united states": "usa", "united states of america": "usa", usa: "usa", "united kingdom": "uk", uk: "uk", "new zealand": "new-zealand" };
-                        const value = aliases[country.trim().toLowerCase()] || country.trim().toLowerCase().replaceAll(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-                        let option = [...destinationSelect.options].find((item) => item.value === value || item.textContent.trim().toLowerCase() === country.toLowerCase());
-                        if (!option) { option = new Option(country, value); destinationSelect.add(option); }
+                        const aliases = {
+                            "united states": "usa",
+                            "united states of america": "usa",
+                            usa: "usa",
+                            "united kingdom": "uk",
+                            uk: "uk",
+                            "new zealand": "new-zealand",
+                        };
+                        const value =
+                            aliases[country.trim().toLowerCase()] ||
+                            country
+                                .trim()
+                                .toLowerCase()
+                                .replaceAll(/[^a-z0-9]+/g, "-")
+                                .replace(/^-|-$/g, "");
+                        let option = [...destinationSelect.options].find(
+                            (item) =>
+                                item.value === value ||
+                                item.textContent.trim().toLowerCase() === country.toLowerCase(),
+                        );
+                        if (!option) {
+                            option = new Option(country, value);
+                            destinationSelect.add(option);
+                        }
                         destinationSelect.value = option.value;
                         destinationSelect.dispatchEvent(new Event("change", { bubbles: true }));
                     }
@@ -431,7 +537,9 @@ export default function StudyAbroadDestinations() {
                         institutionInput.value = institution.name || "";
                         institutionInput.dispatchEvent(new Event("input", { bubbles: true }));
                     }
-                    const selectionNote = document.querySelector("[data-selected-institution-note]");
+                    const selectionNote = document.querySelector(
+                        "[data-selected-institution-note]",
+                    );
                     if (selectionNote) {
                         selectionNote.textContent = `Selected ${institution.name} in ${country}. Complete the remaining details to request counselling.`;
                         selectionNote.hidden = false;
@@ -439,12 +547,23 @@ export default function StudyAbroadDestinations() {
                     detailDialog?.close();
                     dialog?.close();
                     pendingInstitutionSelection = null;
-                    document.querySelector("#study-abroad-lead-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
-                    window.setTimeout(() => document.querySelector("#study-abroad-name")?.focus({ preventScroll: true }), 450);
+                    document
+                        .querySelector("#study-abroad-lead-form")
+                        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    window.setTimeout(
+                        () =>
+                            document
+                                .querySelector("#study-abroad-name")
+                                ?.focus({ preventScroll: true }),
+                        450,
+                    );
                     return;
                 }
 
-                if (closeButton) { dialog?.close(); return; }
+                if (closeButton) {
+                    dialog?.close();
+                    return;
+                }
 
                 if (cardButton) {
                     const destinationIndex = Number(cardButton.dataset.openDestination);
@@ -453,43 +572,78 @@ export default function StudyAbroadDestinations() {
                     dialog.dataset.activeDestinationIndex = String(destinationIndex);
                     dialogTitle.textContent = `Study in ${destination.country}`;
                     dialogSummary.textContent = `${destination.institutions.length} listed ${destination.institutions.length === 1 ? "institution" : "institutions"} in this destination.`;
-                    dialogList.innerHTML = groupedInstitutions(destination) || "<p>No institutions are listed for this destination yet.</p>";
-                    dialogList.querySelectorAll("[data-institution-logo]").forEach((logo) => logo.addEventListener("error", () => {
-                        logo.hidden = true;
-                        const fallback = logo.nextElementSibling;
-                        if (fallback) fallback.hidden = false;
-                    }, { once: true }));
+                    dialogList.innerHTML =
+                        groupedInstitutions(destination) ||
+                        "<p>No institutions are listed for this destination yet.</p>";
+                    dialogList.querySelectorAll("[data-institution-logo]").forEach((logo) =>
+                        logo.addEventListener(
+                            "error",
+                            () => {
+                                logo.hidden = true;
+                                const fallback = logo.nextElementSibling;
+                                if (fallback) fallback.hidden = false;
+                            },
+                            { once: true },
+                        ),
+                    );
                     dialogSearch.dataset.destinationQuery = `institutions in ${destination.country}`;
                     dialog.showModal();
                     return;
                 }
 
                 if (institutionButton) {
-                    const destination = destinations[Number(dialog?.dataset.activeDestinationIndex)];
-                    const institution = destination?.institutions[Number(institutionButton.dataset.openInstitution)];
+                    const destination =
+                        destinations[Number(dialog?.dataset.activeDestinationIndex)];
+                    const institution =
+                        destination?.institutions[
+                            Number(institutionButton.dataset.openInstitution)
+                        ];
                     if (!destination || !institution || !detailDialog) return;
                     pendingInstitutionSelection = { institution, country: destination.country };
                     detailTitle.textContent = institution.name || "Institution";
                     detailCountry.textContent = `${getCountryMeta(destination.code).flag} ${destination.country}`;
-                    detailOverview.textContent = getDirectoryOverview(institution, destination.country);
-                    detailOverview.dataset.verified = institution.overviewVerifiedAt && institution.overviewSources?.length ? "true" : "false";
+                    detailOverview.textContent = getDirectoryOverview(
+                        institution,
+                        destination.country,
+                    );
+                    detailOverview.dataset.verified =
+                        institution.overviewVerifiedAt && institution.overviewSources?.length
+                            ? "true"
+                            : "false";
                     const confidenceLabels = {
                         high: "High confidence · well-established facts",
                         medium: "Medium confidence · verify details",
-                        low: "Low confidence · ambiguous; verify before publishing"
+                        low: "Low confidence · ambiguous; verify before publishing",
                     };
-                    detailConfidence.textContent = confidenceLabels[institution.overviewConfidence] || "Confidence not rated";
+                    detailConfidence.textContent =
+                        confidenceLabels[institution.overviewConfidence] || "Confidence not rated";
                     detailConfidence.hidden = !institution.overviewConfidence;
                     const rows = [
-                        ["Location", [institution.city, institution.state, institution.location].filter(Boolean).join(", ")],
-                        ["Institution type", institution.type], ["Established", institution.established],
-                        ["Tuition", institution.tuition], ["Estimated living costs", institution.living],
-                        ["Rankings", institution.rankings], ["Popular courses", institution.popularCourses],
-                        ["Scholarships", institution.scholarships], ["Intakes", institution.intakes],
-                        ["English tests", institution.englishTests], ["Post-study work", institution.postStudyWork],
-                        ["Verification", institution.verificationNote]
+                        [
+                            "Location",
+                            [institution.city, institution.state, institution.location]
+                                .filter(Boolean)
+                                .join(", "),
+                        ],
+                        ["Institution type", institution.type],
+                        ["Established", institution.established],
+                        ["Tuition", institution.tuition],
+                        ["Estimated living costs", institution.living],
+                        ["Rankings", institution.rankings],
+                        ["Popular courses", institution.popularCourses],
+                        ["Scholarships", institution.scholarships],
+                        ["Intakes", institution.intakes],
+                        ["English tests", institution.englishTests],
+                        ["Post-study work", institution.postStudyWork],
+                        ["Verification", institution.verificationNote],
                     ].filter(([, value]) => value && String(value).trim());
-                    detailFields.innerHTML = rows.map(([label, value]) => `<div class="institution-detail-field"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("") || "<p>More institution details will be added soon.</p>";
+                    detailFields.innerHTML =
+                        rows
+                            .map(
+                                ([label, value]) =>
+                                    `<div class="institution-detail-field"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`,
+                            )
+                            .join("") || "<p>More institution details will be added soon.</p>";
                     dialog?.close();
                     detailDialog.showModal();
                     return;
@@ -505,23 +659,26 @@ export default function StudyAbroadDestinations() {
                 }
             });
 
-            dialog?.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
-            detailDialog?.addEventListener("click", (event) => {
-                if (event.target === detailDialog) { detailDialog.close(); pendingInstitutionSelection = null; }
+            dialog?.addEventListener("click", (event) => {
+                if (event.target === dialog) dialog.close();
             });
-            dialog?.querySelector("[data-destination-close]")?.addEventListener("click", () => dialog.close());
+            detailDialog?.addEventListener("click", (event) => {
+                if (event.target === detailDialog) {
+                    detailDialog.close();
+                    pendingInstitutionSelection = null;
+                }
+            });
+            dialog
+                ?.querySelector("[data-destination-close]")
+                ?.addEventListener("click", () => dialog.close());
             detailDialog?.querySelector("[data-detail-close]")?.addEventListener("click", () => {
                 detailDialog.close();
                 pendingInstitutionSelection = null;
             });
 
-            const controls = sectionElement?.querySelector(
-                "[data-destination-controls]"
-            );
+            const controls = sectionElement?.querySelector("[data-destination-controls]");
 
-            const button = controls?.querySelector(
-                "[data-destination-load-more]"
-            );
+            const button = controls?.querySelector("[data-destination-load-more]");
 
             let expanded = false;
 
@@ -529,11 +686,7 @@ export default function StudyAbroadDestinations() {
                 controls.hidden = destinations.length <= initialCount;
 
                 button.addEventListener("click", () => {
-                    const cards = [
-                        ...container.querySelectorAll(
-                            ".study-abroad-destination-card"
-                        )
-                    ];
+                    const cards = [...container.querySelectorAll(".study-abroad-destination-card")];
 
                     if (expanded) {
                         cards.forEach((card, index) => {
@@ -557,17 +710,12 @@ export default function StudyAbroadDestinations() {
 
                     if (!cards.some((card) => card.hidden)) {
                         expanded = true;
-                        button.innerHTML =
-                            'View Less <span aria-hidden="true">↑</span>';
+                        button.innerHTML = 'View Less <span aria-hidden="true">↑</span>';
                     }
                 });
             }
-
         } catch (error) {
-            console.error(
-                "Failed to load Study Abroad destinations:",
-                error
-            );
+            console.error("Failed to load Study Abroad destinations:", error);
 
             container.innerHTML = `
                 <div class="study-abroad-destination-empty">

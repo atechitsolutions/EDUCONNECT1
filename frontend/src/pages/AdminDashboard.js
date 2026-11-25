@@ -50,7 +50,6 @@ export default function AdminDashboardPage() {
                         <p>Review enquiries from families browsing the school directory.</p>
                         <strong>Manage School Enquiries →</strong>
                     </a>
-                    <!-- NEWS -->
                     <a
                         class="admin-dashboard-card"
                         href="/admin/news"
@@ -64,7 +63,6 @@ export default function AdminDashboardPage() {
                         <strong>Manage News →</strong>
                     </a>
 
-                    <!-- CURRENT AFFAIRS -->
                     <a
                         class="admin-dashboard-card"
                         href="/admin/current-affairs"
@@ -78,7 +76,6 @@ export default function AdminDashboardPage() {
                         <strong>Manage Current Affairs →</strong>
                     </a>
 
-                    <!-- ONLINE EDUCATION -->
                     <a
                         class="admin-dashboard-card admin-dashboard-card-online-education"
                         href="/online-education/admin"
@@ -93,7 +90,6 @@ export default function AdminDashboardPage() {
                         <strong>Manage Online Education →</strong>
                     </a>
 
-                    <!-- STUDY ABROAD -->
                     <a
                         class="admin-dashboard-card"
                         href="/admin/study-abroad"
@@ -107,7 +103,6 @@ export default function AdminDashboardPage() {
                         <strong>Manage Study Abroad →</strong>
                     </a>
 
-                    <!-- COLLEGE PARTNERS -->
                     <a class="admin-dashboard-card" href="/admin/college-partners">
                         <span>◫</span>
                         <h2>College Partners</h2>
@@ -115,7 +110,6 @@ export default function AdminDashboardPage() {
                         <strong>Manage College Partners →</strong>
                     </a>
 
-                    <!-- MORE MODULES -->
                     <div
                         class="admin-dashboard-card admin-dashboard-card-placeholder"
                     >

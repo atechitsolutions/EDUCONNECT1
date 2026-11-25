@@ -1,44 +1,39 @@
-
 import { feedApi } from "../../services/feedService.js";
 import { refreshCommunityAvatar } from "./communityAvatar.js";
 
 const esc = (value = "") =>
-    String(value ?? "").replace(/[&<>"']/g, c => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    })[c]);
+    String(value ?? "").replace(
+        /[&<>"']/g,
+        (c) =>
+            ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;",
+            })[c],
+    );
 
 const initials = (name = "Student") =>
     String(name)
         .trim()
         .split(/\s+/)
         .slice(0, 2)
-        .map(p => p[0] || "")
+        .map((p) => p[0] || "")
         .join("")
         .toUpperCase() || "S";
 
-const compact = n =>
+const compact = (n) =>
     new Intl.NumberFormat("en", {
         notation: "compact",
-        maximumFractionDigits: 1
+        maximumFractionDigits: 1,
     }).format(Number(n) || 0);
 
-const REDUCED = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-).matches;
+const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const FINE_POINTER = window.matchMedia(
-    "(pointer: fine)"
-).matches;
+const FINE_POINTER = window.matchMedia("(pointer: fine)").matches;
 
-const IMAGE_TYPES = [
-    "image/jpeg",
-    "image/png",
-    "image/webp"
-];
+const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 
@@ -66,20 +61,20 @@ export function initCommunityProfile(root) {
             kind: "followers",
             page: 0,
             last: true,
-            loading: false
+            loading: false,
         },
 
         edit: {
             avatar: null,
             cover: null,
             removeAvatar: false,
-            removeCover: false
-        }
+            removeCover: false,
+        },
     };
 
     const blobs = new Map();
 
-    const blobUrl = path => {
+    const blobUrl = (path) => {
         if (!path) return Promise.resolve("");
 
         if (!blobs.has(path)) {
@@ -357,15 +352,11 @@ export function initCommunityProfile(root) {
         </div>
     `;
 
-    const $ = selector => host.querySelector(selector);
+    const $ = (selector) => host.querySelector(selector);
 
-    const $$ = selector => [
-        ...host.querySelectorAll(selector)
-    ];
+    const $$ = (selector) => [...host.querySelectorAll(selector)];
 
-    // --------------------------------------------------
     // Notifications
-    // --------------------------------------------------
 
     const toast = (message, error = false) => {
         const node = root.querySelector("[data-community-toast]");
@@ -394,16 +385,13 @@ export function initCommunityProfile(root) {
             }
 
             return result ?? true;
-
         } catch (error) {
             toast(error.message || "Something went wrong.", true);
             return false;
         }
     };
 
-    // --------------------------------------------------
     // Particles
-    // --------------------------------------------------
 
     $("[data-pf-particles]").innerHTML = Array.from(
         { length: 16 },
@@ -417,17 +405,13 @@ export function initCommunityProfile(root) {
                     --delay:${(i % 7) * -1.3}s
                 "
             ></i>
-        `
+        `,
     ).join("");
 
-    // --------------------------------------------------
     // Image handling
-    // --------------------------------------------------
 
-    const loadImages = scope => {
-        scope.querySelectorAll(
-            "img[data-pf-src]:not([src])"
-        ).forEach(async img => {
+    const loadImages = (scope) => {
+        scope.querySelectorAll("img[data-pf-src]:not([src])").forEach(async (img) => {
             try {
                 img.src = await blobUrl(img.dataset.pfSrc);
                 img.classList.add("is-loaded");
@@ -437,35 +421,39 @@ export function initCommunityProfile(root) {
         });
     };
 
-    const lazy = "IntersectionObserver" in window
-        ? new IntersectionObserver(entries => {
-            entries.forEach(async entry => {
-                if (!entry.isIntersecting) return;
+    const lazy =
+        "IntersectionObserver" in window
+            ? new IntersectionObserver(
+                  (entries) => {
+                      entries.forEach(async (entry) => {
+                          if (!entry.isIntersecting) return;
 
-                const img = entry.target;
+                          const img = entry.target;
 
-                lazy.unobserve(img);
+                          lazy.unobserve(img);
 
-                try {
-                    img.src = await blobUrl(img.dataset.pfLazy);
-                    img.classList.add("is-loaded");
-                } catch {
-                    img.remove();
-                }
-            });
-        }, { rootMargin: "240px" })
-        : null;
+                          try {
+                              img.src = await blobUrl(img.dataset.pfLazy);
+                              img.classList.add("is-loaded");
+                          } catch {
+                              img.remove();
+                          }
+                      });
+                  },
+                  { rootMargin: "240px" },
+              )
+            : null;
 
-    const watchLazy = scope => {
-        scope.querySelectorAll(
-            "img[data-pf-lazy]:not([src])"
-        ).forEach(img => {
+    const watchLazy = (scope) => {
+        scope.querySelectorAll("img[data-pf-lazy]:not([src])").forEach((img) => {
             if (lazy) {
                 lazy.observe(img);
             } else {
-                blobUrl(img.dataset.pfLazy).then(url => {
-                    img.src = url;
-                }).catch(() => img.remove());
+                blobUrl(img.dataset.pfLazy)
+                    .then((url) => {
+                        img.src = url;
+                    })
+                    .catch(() => img.remove());
             }
         });
     };
@@ -485,9 +473,7 @@ export function initCommunityProfile(root) {
             : `<b>${esc(initials(name))}</b>`;
     };
 
-    // --------------------------------------------------
     // Animation effects
-    // --------------------------------------------------
 
     const countUp = (element, target) => {
         const to = Number(target) || 0;
@@ -505,17 +491,10 @@ export function initCommunityProfile(root) {
 
         const duration = 650;
 
-        const tick = now => {
-            const t = Math.min(
-                1,
-                (now - start) / duration
-            );
+        const tick = (now) => {
+            const t = Math.min(1, (now - start) / duration);
 
-            const value = Math.round(
-                from + (to - from) * (
-                    1 - Math.pow(1 - t, 3)
-                )
-            );
+            const value = Math.round(from + (to - from) * (1 - Math.pow(1 - t, 3)));
 
             element.textContent = compact(value);
 
@@ -528,9 +507,7 @@ export function initCommunityProfile(root) {
     };
 
     if (FINE_POINTER && !REDUCED) {
-
-        host.addEventListener("pointermove", event => {
-
+        host.addEventListener("pointermove", (event) => {
             const tilt = event.target.closest("[data-tilt]");
 
             if (tilt) {
@@ -569,19 +546,17 @@ export function initCommunityProfile(root) {
 
                 hero.style.setProperty(
                     "--px",
-                    `${((event.clientX - rect.left) / rect.width - 0.5) * 24}px`
+                    `${((event.clientX - rect.left) / rect.width - 0.5) * 24}px`,
                 );
 
                 hero.style.setProperty(
                     "--py",
-                    `${((event.clientY - rect.top) / rect.height - 0.5) * 16}px`
+                    `${((event.clientY - rect.top) / rect.height - 0.5) * 16}px`,
                 );
             }
-
         });
 
-        host.addEventListener("pointerout", event => {
-
+        host.addEventListener("pointerout", (event) => {
             const tilt = event.target.closest("[data-tilt]");
 
             if (tilt && !tilt.contains(event.relatedTarget)) {
@@ -594,25 +569,26 @@ export function initCommunityProfile(root) {
             if (magnetic && !magnetic.contains(event.relatedTarget)) {
                 magnetic.style.transform = "";
             }
-
         });
     }
 
-    const reveal = "IntersectionObserver" in window
-        ? new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("is-in");
-                    reveal.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.08 })
-        : null;
+    const reveal =
+        "IntersectionObserver" in window
+            ? new IntersectionObserver(
+                  (entries) => {
+                      entries.forEach((entry) => {
+                          if (entry.isIntersecting) {
+                              entry.target.classList.add("is-in");
+                              reveal.unobserve(entry.target);
+                          }
+                      });
+                  },
+                  { threshold: 0.08 },
+              )
+            : null;
 
-    const watchReveal = scope => {
-        scope.querySelectorAll(
-            ".pf-reveal:not(.is-in)"
-        ).forEach(element => {
+    const watchReveal = (scope) => {
+        scope.querySelectorAll(".pf-reveal:not(.is-in)").forEach((element) => {
             if (reveal) {
                 reveal.observe(element);
             } else {
@@ -621,9 +597,7 @@ export function initCommunityProfile(root) {
         });
     };
 
-    // --------------------------------------------------
     // Tab indicator
-    // --------------------------------------------------
 
     const moveIndicator = () => {
         const active = $(".pf-tabs button.is-active");
@@ -639,18 +613,14 @@ export function initCommunityProfile(root) {
 
     window.addEventListener("resize", moveIndicator);
 
-    // --------------------------------------------------
     // Profile header
-    // --------------------------------------------------
 
     function renderHeader() {
         const p = state.p;
 
         if (!p) return;
 
-        p.interests = Array.isArray(p.interests)
-            ? p.interests
-            : [];
+        p.interests = Array.isArray(p.interests) ? p.interests : [];
 
         const cover = $("[data-pf-cover]");
 
@@ -659,10 +629,11 @@ export function initCommunityProfile(root) {
         cover.classList.remove("has-image");
 
         if (p.coverUrl) {
-            blobUrl(p.coverUrl).then(url => {
-                if (state.p !== p) return;
+            blobUrl(p.coverUrl)
+                .then((url) => {
+                    if (state.p !== p) return;
 
-                cover.style.backgroundImage = `
+                    cover.style.backgroundImage = `
                     linear-gradient(
                         180deg,
                         rgba(17,17,36,.15),
@@ -671,9 +642,9 @@ export function initCommunityProfile(root) {
                     url("${url}")
                 `;
 
-                cover.classList.add("has-image");
-
-            }).catch(() => {});
+                    cover.classList.add("has-image");
+                })
+                .catch(() => {});
         }
 
         const stat = (key, label) => `
@@ -690,7 +661,6 @@ export function initCommunityProfile(root) {
         let actions = "";
 
         if (p.me) {
-
             actions = `
                 <button
                     type="button"
@@ -716,11 +686,10 @@ export function initCommunityProfile(root) {
                     ＋ New post
                 </button>
             `;
-
         } else {
-
-            const friend = {
-                FRIEND: `
+            const friend =
+                {
+                    FRIEND: `
                     <button
                         type="button"
                         class="pf-btn pf-btn-glass pf-magnetic"
@@ -730,7 +699,7 @@ export function initCommunityProfile(root) {
                     </button>
                 `,
 
-                NONE: `
+                    NONE: `
                     <button
                         type="button"
                         class="pf-btn pf-btn-glass pf-magnetic"
@@ -740,7 +709,7 @@ export function initCommunityProfile(root) {
                     </button>
                 `,
 
-                OUTGOING: `
+                    OUTGOING: `
                     <button
                         type="button"
                         class="pf-btn pf-btn-glass"
@@ -750,7 +719,7 @@ export function initCommunityProfile(root) {
                     </button>
                 `,
 
-                INCOMING: `
+                    INCOMING: `
                     <button
                         type="button"
                         class="pf-btn pf-btn-glass pf-magnetic"
@@ -758,8 +727,8 @@ export function initCommunityProfile(root) {
                     >
                         Accept request
                     </button>
-                `
-            }[p.friendStatus] || "";
+                `,
+                }[p.friendStatus] || "";
 
             actions = `
                 <button
@@ -768,11 +737,7 @@ export function initCommunityProfile(root) {
                     data-pf-follow
                     aria-pressed="${Boolean(p.following)}"
                 >
-                    ${
-                        p.following
-                            ? "Following"
-                            : (p.followsMe ? "Follow back" : "Follow")
-                    }
+                    ${p.following ? "Following" : p.followsMe ? "Follow back" : "Follow"}
                 </button>
 
                 ${friend}
@@ -809,11 +774,15 @@ export function initCommunityProfile(root) {
                         @${esc(p.username || "")}
                     </span>
 
-                    ${p.online ? `
+                    ${
+                        p.online
+                            ? `
                         <span class="pf-chip pf-chip-online">
                             ● Online
                         </span>
-                    ` : ""}
+                    `
+                            : ""
+                    }
 
                 </div>
 
@@ -830,34 +799,20 @@ export function initCommunityProfile(root) {
                 ${
                     p.bio
                         ? `<p class="pf-bio">${esc(p.bio)}</p>`
-                        : (
-                            p.me
-                                ? `<p class="pf-bio is-muted">
+                        : p.me
+                          ? `<p class="pf-bio is-muted">
                                     Add a short bio so students know what you are working toward.
                                    </p>`
-                                : ""
-                        )
+                          : ""
                 }
 
                 <div class="pf-meta">
 
-                    ${
-                        p.course
-                            ? `<span class="pf-chip">◈ ${esc(p.course)}</span>`
-                            : ""
-                    }
+                    ${p.course ? `<span class="pf-chip">◈ ${esc(p.course)}</span>` : ""}
 
-                    ${
-                        p.university
-                            ? `<span class="pf-chip">⌂ ${esc(p.university)}</span>`
-                            : ""
-                    }
+                    ${p.university ? `<span class="pf-chip">⌂ ${esc(p.university)}</span>` : ""}
 
-                    ${
-                        p.country
-                            ? `<span class="pf-chip">◎ ${esc(p.country)}</span>`
-                            : ""
-                    }
+                    ${p.country ? `<span class="pf-chip">◎ ${esc(p.country)}</span>` : ""}
 
                 </div>
 
@@ -865,9 +820,13 @@ export function initCommunityProfile(root) {
                     p.interests.length
                         ? `
                             <div class="pf-interests">
-                                ${p.interests.map(item => `
+                                ${p.interests
+                                    .map(
+                                        (item) => `
                                     <span>${esc(item)}</span>
-                                `).join("")}
+                                `,
+                                    )
+                                    .join("")}
                             </div>
                         `
                         : ""
@@ -932,29 +891,20 @@ export function initCommunityProfile(root) {
         loadImages($("[data-pf-head]"));
 
         $$("[data-pf-stat] [data-count]").forEach((element, index) => {
-            countUp(element, [
-                p.postCount,
-                p.followerCount,
-                p.followingCount
-            ][index]);
+            countUp(element, [p.postCount, p.followerCount, p.followingCount][index]);
         });
 
-        $$("[data-own-only]").forEach(button => {
+        $$("[data-own-only]").forEach((button) => {
             button.hidden = !p.me;
         });
 
         moveIndicator();
     }
 
-    // --------------------------------------------------
     // Posts
-    // --------------------------------------------------
 
     const skeletonGrid = () =>
-        Array.from(
-            { length: 6 },
-            () => `<div class="pf-post is-skeleton"></div>`
-        ).join("");
+        Array.from({ length: 6 }, () => `<div class="pf-post is-skeleton"></div>`).join("");
 
     const emptyState = () => {
         const mine = state.p?.me;
@@ -964,18 +914,12 @@ export function initCommunityProfile(root) {
                 mine ? "You haven't posted yet" : "No posts to show",
                 mine
                     ? "Share a project, idea or question with the community."
-                    : "Posts you are allowed to see will appear here."
+                    : "Posts you are allowed to see will appear here.",
             ],
 
-            liked: [
-                "No liked posts yet",
-                "Posts you like will be collected here."
-            ],
+            liked: ["No liked posts yet", "Posts you like will be collected here."],
 
-            saved: [
-                "Nothing saved yet",
-                "Save posts from the feed to read them later."
-            ]
+            saved: ["Nothing saved yet", "Save posts from the feed to read them later."],
         };
 
         const message = messages[state.tab] || messages.posts;
@@ -1007,16 +951,12 @@ export function initCommunityProfile(root) {
         `;
     };
 
-    const postCard = post => {
-        const images = Array.isArray(post.images)
-            ? post.images
-            : [];
+    const postCard = (post) => {
+        const images = Array.isArray(post.images) ? post.images : [];
 
         const first = images[0];
 
-        const caption = esc(
-            (post.content || "").slice(0, 120)
-        );
+        const caption = esc((post.content || "").slice(0, 120));
 
         return `
             <article
@@ -1093,17 +1033,11 @@ export function initCommunityProfile(root) {
         }
 
         try {
-            const result = await feedApi.profilePosts(
-                state.p.username,
-                state.tab,
-                state.page
-            );
+            const result = await feedApi.profilePosts(state.p.username, state.tab, state.page);
 
             if (gen !== state.gen) return;
 
-            const content = Array.isArray(result?.content)
-                ? result.content
-                : [];
+            const content = Array.isArray(result?.content) ? result.content : [];
 
             const currentPage = Number(result?.page ?? state.page);
 
@@ -1120,10 +1054,7 @@ export function initCommunityProfile(root) {
             if (!state.posts.length) {
                 grid.innerHTML = emptyState();
             } else {
-                grid.insertAdjacentHTML(
-                    "beforeend",
-                    content.map(postCard).join("")
-                );
+                grid.insertAdjacentHTML("beforeend", content.map(postCard).join(""));
 
                 watchLazy(grid);
 
@@ -1131,9 +1062,7 @@ export function initCommunityProfile(root) {
             }
 
             $("[data-pf-grid-more]").hidden = state.last;
-
         } catch (error) {
-
             if (gen !== state.gen) return;
 
             grid.innerHTML = `
@@ -1155,18 +1084,14 @@ export function initCommunityProfile(root) {
 
                 </div>
             `;
-
         } finally {
-
             if (gen === state.gen) {
                 state.loading = false;
             }
         }
     }
 
-    // --------------------------------------------------
     // Load profile
-    // --------------------------------------------------
 
     async function load(username = state.username) {
         state.username = username;
@@ -1177,11 +1102,8 @@ export function initCommunityProfile(root) {
 
         state.tab = "posts";
 
-        $$("[data-pf-tab]").forEach(button => {
-            button.classList.toggle(
-                "is-active",
-                button.dataset.pfTab === "posts"
-            );
+        $$("[data-pf-tab]").forEach((button) => {
+            button.classList.toggle("is-active", button.dataset.pfTab === "posts");
         });
 
         $("[data-pf-head]").innerHTML = `
@@ -1213,9 +1135,7 @@ export function initCommunityProfile(root) {
             renderHeader();
 
             await loadPosts(true);
-
         } catch (error) {
-
             if (gen !== state.gen) return;
 
             state.p = null;
@@ -1255,17 +1175,14 @@ export function initCommunityProfile(root) {
             state.p = profile;
 
             renderHeader();
-
         } catch {
             // Keep the current profile if refreshing fails.
         }
     }
 
-    // --------------------------------------------------
     // Followers / following
-    // --------------------------------------------------
 
-    const personRow = person => {
+    const personRow = (person) => {
         let button = "";
 
         if (!person.me) {
@@ -1315,11 +1232,7 @@ export function initCommunityProfile(root) {
 
                         <small>@${esc(person.username)}</small>
 
-                        ${
-                            person.bio
-                                ? `<em>${esc(person.bio.slice(0, 70))}</em>`
-                                : ""
-                        }
+                        ${person.bio ? `<em>${esc(person.bio.slice(0, 70))}</em>` : ""}
 
                     </span>
 
@@ -1351,18 +1264,11 @@ export function initCommunityProfile(root) {
         }
 
         try {
-            const method = box.kind === "followers"
-                ? feedApi.followers
-                : feedApi.following;
+            const method = box.kind === "followers" ? feedApi.followers : feedApi.following;
 
-            const result = await method(
-                state.p.username,
-                box.page
-            );
+            const result = await method(state.p.username, box.page);
 
-            const content = Array.isArray(result?.content)
-                ? result.content
-                : [];
+            const content = Array.isArray(result?.content) ? result.content : [];
 
             if (reset) {
                 list.innerHTML = "";
@@ -1385,10 +1291,7 @@ export function initCommunityProfile(root) {
                     </div>
                 `;
             } else {
-                list.insertAdjacentHTML(
-                    "beforeend",
-                    content.map(personRow).join("")
-                );
+                list.insertAdjacentHTML("beforeend", content.map(personRow).join(""));
             }
 
             loadImages(list);
@@ -1400,13 +1303,10 @@ export function initCommunityProfile(root) {
             box.last = currentPage >= totalPages - 1;
 
             $("[data-pf-people-more]").hidden = box.last;
-
         } catch (error) {
-
             list.innerHTML = `
                 <p class="pf-error">${esc(error.message)}</p>
             `;
-
         } finally {
             box.loading = false;
         }
@@ -1417,17 +1317,14 @@ export function initCommunityProfile(root) {
 
         state.people.kind = kind;
 
-        $("[data-pf-people-title]").textContent =
-            kind === "followers" ? "Followers" : "Following";
+        $("[data-pf-people-title]").textContent = kind === "followers" ? "Followers" : "Following";
 
         $("[data-pf-people]").showModal();
 
         loadPeople(true);
     }
 
-    // --------------------------------------------------
     // Edit profile
-    // --------------------------------------------------
 
     function fillEdit() {
         const p = state.p;
@@ -1438,7 +1335,7 @@ export function initCommunityProfile(root) {
             avatar: null,
             cover: null,
             removeAvatar: false,
-            removeCover: false
+            removeCover: false,
         };
 
         form.elements.displayName.value = p.displayName || "";
@@ -1453,9 +1350,7 @@ export function initCommunityProfile(root) {
 
         form.elements.country.value = p.country || "";
 
-        form.elements.interests.value = (
-            Array.isArray(p.interests) ? p.interests : []
-        ).join(", ");
+        form.elements.interests.value = (Array.isArray(p.interests) ? p.interests : []).join(", ");
 
         form.elements.discoverable.checked = Boolean(p.discoverable);
 
@@ -1476,7 +1371,6 @@ export function initCommunityProfile(root) {
         const coverBox = $("[data-pf-edit-cover]");
 
         if (edit.avatar) {
-
             const url = URL.createObjectURL(edit.avatar);
 
             avatarBox.innerHTML = `
@@ -1487,15 +1381,11 @@ export function initCommunityProfile(root) {
                 >
                 <b>${esc(initials(p.displayName))}</b>
             `;
-
         } else if (!edit.removeAvatar && p.avatarUrl) {
-
             avatarBox.innerHTML = avatarInner(p);
 
             loadImages(avatarBox);
-
         } else {
-
             avatarBox.innerHTML = `
                 <b>${esc(initials(p.displayName))}</b>
             `;
@@ -1504,16 +1394,15 @@ export function initCommunityProfile(root) {
         coverBox.style.backgroundImage = "";
 
         if (edit.cover) {
-
             const url = URL.createObjectURL(edit.cover);
 
             coverBox.style.backgroundImage = `url("${url}")`;
-
         } else if (!edit.removeCover && p.coverUrl) {
-
-            blobUrl(p.coverUrl).then(url => {
-                coverBox.style.backgroundImage = `url("${url}")`;
-            }).catch(() => {});
+            blobUrl(p.coverUrl)
+                .then((url) => {
+                    coverBox.style.backgroundImage = `url("${url}")`;
+                })
+                .catch(() => {});
         }
     }
 
@@ -1525,179 +1414,130 @@ export function initCommunityProfile(root) {
         if (!file) return;
 
         if (!IMAGE_TYPES.includes(file.type)) {
-            return toast(
-                "Use a JPEG, PNG or WebP image.",
-                true
-            );
+            return toast("Use a JPEG, PNG or WebP image.", true);
         }
 
         if (file.size > MAX_IMAGE_BYTES) {
-            return toast(
-                "Images must be 5 MB or smaller.",
-                true
-            );
+            return toast("Images must be 5 MB or smaller.", true);
         }
 
         state.edit[key] = file;
 
-        state.edit[
-            key === "avatar"
-                ? "removeAvatar"
-                : "removeCover"
-        ] = false;
+        state.edit[key === "avatar" ? "removeAvatar" : "removeCover"] = false;
 
         paintEditImages();
     };
 
-    $("[data-pf-avatar-input]").addEventListener(
-        "change",
-        event => pickImage(event.target, "avatar")
+    $("[data-pf-avatar-input]").addEventListener("change", (event) =>
+        pickImage(event.target, "avatar"),
     );
 
-    $("[data-pf-cover-input]").addEventListener(
-        "change",
-        event => pickImage(event.target, "cover")
+    $("[data-pf-cover-input]").addEventListener("change", (event) =>
+        pickImage(event.target, "cover"),
     );
 
-    $("[data-pf-edit-form]").addEventListener(
-        "submit",
-        async event => {
-            event.preventDefault();
+    $("[data-pf-edit-form]").addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-            const form = event.currentTarget;
+        const form = event.currentTarget;
 
-            const error = $("[data-pf-edit-error]");
+        const error = $("[data-pf-edit-error]");
 
-            const submit = form.querySelector('[type="submit"]');
+        const submit = form.querySelector('[type="submit"]');
 
-            const data = new FormData();
+        const data = new FormData();
 
-            [
-                "displayName",
-                "username",
-                "bio",
-                "university",
-                "course",
-                "country",
-                "interests"
-            ].forEach(key => {
-                data.append(
-                    key,
-                    form.elements[key].value.trim()
-                );
-            });
+        ["displayName", "username", "bio", "university", "course", "country", "interests"].forEach(
+            (key) => {
+                data.append(key, form.elements[key].value.trim());
+            },
+        );
 
-            data.append(
-                "discoverable",
-                form.elements.discoverable.checked
-            );
+        data.append("discoverable", form.elements.discoverable.checked);
 
-            data.append(
-                "showOnline",
-                form.elements.showOnline.checked
-            );
+        data.append("showOnline", form.elements.showOnline.checked);
 
-            data.append(
-                "removeAvatar",
-                state.edit.removeAvatar
-            );
+        data.append("removeAvatar", state.edit.removeAvatar);
 
-            data.append(
-                "removeCover",
-                state.edit.removeCover
-            );
+        data.append("removeCover", state.edit.removeCover);
 
-            if (state.edit.avatar) {
-                data.append("avatar", state.edit.avatar);
-            }
+        if (state.edit.avatar) {
+            data.append("avatar", state.edit.avatar);
+        }
 
-            if (state.edit.cover) {
-                data.append("cover", state.edit.cover);
-            }
+        if (state.edit.cover) {
+            data.append("cover", state.edit.cover);
+        }
 
-            submit.disabled = true;
+        submit.disabled = true;
 
-            submit.textContent = "Saving…";
+        submit.textContent = "Saving…";
 
-            try {
-                const updated = await feedApi.updateProfile(data);
+        try {
+            const updated = await feedApi.updateProfile(data);
 
-                // Some APIs return no response body after a successful update.
-                // Refresh the profile if the service does not return an object.
-                state.p = updated && typeof updated === "object"
+            // Some APIs return no response body after a successful update.
+            // Refresh the profile if the service does not return an object.
+            state.p =
+                updated && typeof updated === "object"
                     ? updated
                     : await feedApi.profile(state.p.username);
 
-                blobs.clear();
+            blobs.clear();
 
-                $("[data-pf-edit-dialog]").close();
+            $("[data-pf-edit-dialog]").close();
 
-                renderHeader();
+            renderHeader();
 
-                const nameNode = root.querySelector("[data-my-name]");
+            const nameNode = root.querySelector("[data-my-name]");
 
-                const avatarNode = root.querySelector("[data-my-avatar]");
+            const avatarNode = root.querySelector("[data-my-avatar]");
 
-                const courseNode = root.querySelector("[data-my-course]");
+            const courseNode = root.querySelector("[data-my-course]");
 
-                if (nameNode) {
-                    nameNode.textContent = state.p.displayName || "";
-                }
-
-                if (avatarNode) {
-                    refreshCommunityAvatar(avatarNode, state.p);
-                }
-
-                if (courseNode) {
-                    courseNode.textContent =
-                        state.p.course ||
-                        (
-                            state.p.discoverable
-                                ? "Discoverable student"
-                                : "Profile hidden from discovery"
-                        );
-                }
-
-                toast("Profile updated.");
-
-            } catch (err) {
-
-                error.textContent =
-                    err.message || "Could not save your profile.";
-
-                error.hidden = false;
-
-            } finally {
-
-                submit.disabled = false;
-
-                submit.textContent = "Save changes";
+            if (nameNode) {
+                nameNode.textContent = state.p.displayName || "";
             }
-        }
-    );
 
-    // --------------------------------------------------
+            if (avatarNode) {
+                refreshCommunityAvatar(avatarNode, state.p);
+            }
+
+            if (courseNode) {
+                courseNode.textContent =
+                    state.p.course ||
+                    (state.p.discoverable
+                        ? "Discoverable student"
+                        : "Profile hidden from discovery");
+            }
+
+            toast("Profile updated.");
+        } catch (err) {
+            error.textContent = err.message || "Could not save your profile.";
+
+            error.hidden = false;
+        } finally {
+            submit.disabled = false;
+
+            submit.textContent = "Save changes";
+        }
+    });
+
     // Share profile
-    // --------------------------------------------------
 
     async function shareProfile() {
         if (!state.p) return;
 
-        const link = `${
-            location.origin
-        }/community?profile=${
-            encodeURIComponent(state.p.username)
-        }`;
+        const link = `${location.origin}/community?profile=${encodeURIComponent(state.p.username)}`;
 
         if (navigator.share) {
             try {
                 await navigator.share({
                     title: `${state.p.displayName} on StepInStudents`,
-                    url: link
+                    url: link,
                 });
 
                 return;
-
             } catch {
                 // User cancelled sharing.
             }
@@ -1707,21 +1547,18 @@ export function initCommunityProfile(root) {
             await navigator.clipboard.writeText(link);
 
             toast("Profile link copied.");
-
         } catch {
             toast(link);
         }
     }
 
-    // --------------------------------------------------
     // Event handling
-    // --------------------------------------------------
 
-    host.addEventListener("click", async event => {
+    host.addEventListener("click", async (event) => {
         const target = event.target;
 
         if (!target.closest("[data-pf-more]")) {
-            $$("[data-pf-menu]").forEach(menu => {
+            $$("[data-pf-menu]").forEach((menu) => {
                 menu.hidden = true;
             });
         }
@@ -1754,7 +1591,7 @@ export function initCommunityProfile(root) {
 
             state.loading = false;
 
-            $$("[data-pf-tab]").forEach(button => {
+            $$("[data-pf-tab]").forEach((button) => {
                 button.classList.toggle("is-active", button === tab);
             });
 
@@ -1772,7 +1609,7 @@ export function initCommunityProfile(root) {
             if (stat.dataset.pfStat === "posts") {
                 $("[data-pf-tabs]").scrollIntoView({
                     behavior: REDUCED ? "auto" : "smooth",
-                    block: "start"
+                    block: "start",
                 });
 
                 return;
@@ -1801,14 +1638,10 @@ export function initCommunityProfile(root) {
 
         // New post
         if (target.closest("[data-pf-newpost]")) {
-            root.querySelector(
-                '[data-community-tab="feed"]'
-            )?.click();
+            root.querySelector('[data-community-tab="feed"]')?.click();
 
             setTimeout(() => {
-                root.querySelector(
-                    "[data-feed-open-composer]"
-                )?.click();
+                root.querySelector("[data-feed-open-composer]")?.click();
             }, 60);
 
             return;
@@ -1887,8 +1720,8 @@ export function initCommunityProfile(root) {
         if (post) {
             root.dispatchEvent(
                 new CustomEvent("feed:view-post", {
-                    detail: Number(post.dataset.pfPost)
-                })
+                    detail: Number(post.dataset.pfPost),
+                }),
             );
 
             return;
@@ -1939,9 +1772,7 @@ export function initCommunityProfile(root) {
             toggle.disabled = true;
 
             const result = await attempt(() => {
-                return following
-                    ? feedApi.unfollow(username)
-                    : feedApi.follow(username);
+                return following ? feedApi.unfollow(username) : feedApi.follow(username);
             });
 
             if (result !== false) {
@@ -1950,7 +1781,6 @@ export function initCommunityProfile(root) {
                 state.people.page = 0;
 
                 await loadPeople(true);
-
             } else {
                 toggle.disabled = false;
             }
@@ -1959,63 +1789,53 @@ export function initCommunityProfile(root) {
         }
 
         // Existing community module handles friend requests and blocking.
-        if (
-            target.closest(
-                "[data-add-friend], [data-accept-request], [data-block-user]"
-            )
-        ) {
+        if (target.closest("[data-add-friend], [data-accept-request], [data-block-user]")) {
             setTimeout(refreshDetail, 900);
         }
     });
 
-    // --------------------------------------------------
     // Keyboard support for posts
-    // --------------------------------------------------
 
-    host.addEventListener("keydown", event => {
+    host.addEventListener("keydown", (event) => {
         const post = event.target.closest("[data-pf-post]");
 
-        if (
-            post &&
-            (event.key === "Enter" || event.key === " ")
-        ) {
+        if (post && (event.key === "Enter" || event.key === " ")) {
             event.preventDefault();
 
             post.click();
         }
     });
 
-    // --------------------------------------------------
     // Open full profile from community
-    // --------------------------------------------------
 
-    root.addEventListener("click", event => {
-        const link = event.target.closest("[data-view-profile], [data-view-profile-id]");
+    root.addEventListener(
+        "click",
+        (event) => {
+            const link = event.target.closest("[data-view-profile], [data-view-profile-id]");
 
-        if (!link || !link.dataset.viewProfile) {
-            return;
-        }
+            if (!link || !link.dataset.viewProfile) {
+                return;
+            }
 
-        event.stopPropagation();
+            event.stopPropagation();
 
-        event.preventDefault();
+            event.preventDefault();
 
-        root.querySelectorAll("dialog[open]").forEach(dialog => {
-            dialog.close();
-        });
+            root.querySelectorAll("dialog[open]").forEach((dialog) => {
+                dialog.close();
+            });
 
-        openProfile(link.dataset.viewProfile);
-
-    }, true);
+            openProfile(link.dataset.viewProfile);
+        },
+        true,
+    );
 
     function openProfile(username) {
         if (!username) return;
 
         state.navigating = true;
 
-        root.querySelector(
-            '[data-community-tab="profile"]'
-        )?.click();
+        root.querySelector('[data-community-tab="profile"]')?.click();
 
         state.navigating = false;
 
@@ -2025,21 +1845,14 @@ export function initCommunityProfile(root) {
 
         host.scrollIntoView({
             block: "start",
-            behavior: REDUCED ? "auto" : "smooth"
+            behavior: REDUCED ? "auto" : "smooth",
         });
     }
 
-    // --------------------------------------------------
     // Open own profile from sidebar
-    // --------------------------------------------------
 
-    root.addEventListener("click", event => {
-        if (
-            state.navigating ||
-            !event.target.closest(
-                '[data-community-tab="profile"]'
-            )
-        ) {
+    root.addEventListener("click", (event) => {
+        if (state.navigating || !event.target.closest('[data-community-tab="profile"]')) {
             return;
         }
 
@@ -2050,9 +1863,7 @@ export function initCommunityProfile(root) {
         }
     });
 
-    // --------------------------------------------------
     // Refresh after feed changes
-    // --------------------------------------------------
 
     root.addEventListener("feed:changed", () => {
         if (!state.p) return;
@@ -2072,33 +1883,21 @@ export function initCommunityProfile(root) {
         loadPosts(true);
     });
 
-    // --------------------------------------------------
     // Profile deep link
-    // --------------------------------------------------
 
-    const deep = new URLSearchParams(
-        location.search
-    ).get("profile");
+    const deep = new URLSearchParams(location.search).get("profile");
 
-    if (
-        deep &&
-        /^[a-zA-Z0-9_]{3,40}$/.test(deep)
-    ) {
+    if (deep && /^[a-zA-Z0-9_]{3,40}$/.test(deep)) {
         setTimeout(() => openProfile(deep), 0);
     }
 
-    // --------------------------------------------------
     // Initialize
-    // --------------------------------------------------
 
     watchReveal(host);
 
     if ("ResizeObserver" in window) {
-        new ResizeObserver(moveIndicator).observe(
-            $("[data-pf-tabs]")
-        );
+        new ResizeObserver(moveIndicator).observe($("[data-pf-tabs]"));
     }
-
 }
 
 export default initCommunityProfile;
