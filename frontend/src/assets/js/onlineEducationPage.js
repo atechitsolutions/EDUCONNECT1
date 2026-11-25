@@ -2303,6 +2303,16 @@ export async function initOnlineEducationPage() {
             byId("oe-hero-query").value = initialQuery;
         }
         render();
+
+        const programmeQuery = new URLSearchParams(location.search);
+        const enquiryProgramme = programmeQuery.get("enquireProgramme");
+        const detailsProgramme = programmeQuery.get("viewProgramme");
+
+        if (enquiryProgramme) {
+            openEnquiry("programme", enquiryProgramme);
+        } else if (detailsProgramme) {
+            openProgrammeDetails(detailsProgramme);
+        }
     } catch (error) {
         console.error("Unable to load online education programmes.", error);
 
