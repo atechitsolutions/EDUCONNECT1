@@ -946,6 +946,9 @@
 }
 
 .oe-programme-details-dialog {
+    position: fixed;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
     width: min(720px, calc(100% - 28px));
     max-width: 720px;
     max-height: 85vh;
@@ -956,6 +959,7 @@
     color: #202e49;
     background: #fff;
     box-shadow: 0 24px 80px rgba(12, 25, 50, 0.24);
+    margin: 0;
 }
 
 .oe-programme-details-dialog.oe-institution-details-dialog {
@@ -1050,6 +1054,8 @@
     }
 
     .oe-programme-details-dialog {
+        width: calc(100vw - 24px);
+        max-height: 84dvh;
         padding: 17px;
     }
 

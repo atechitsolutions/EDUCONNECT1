@@ -17031,19 +17031,24 @@ body,
 #news .news-track .institution-card-body { display: flex; flex: 1; flex-direction: column; min-height: 0; padding: 14px; }
 #news .news-track .institution-card-title h3 { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
 #news .news-track .institution-card-ranking { display: -webkit-box; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
-#news .news-track .institution-card-actions { margin-top: auto; padding: 12px 0 0; }
+#news .news-track .institution-card-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    padding: 12px 0 8px;
+}
 #news .news-track .institution-card-action {
     display: inline-flex;
-    width: max-content;
-    min-height: 0;
+    width: calc(100% - 28px);
+    min-height: 48px;
     justify-content: center;
     gap: 8px;
-    padding: 8px 12px;
+    padding: 11px 16px;
     border: 1px solid #c8daf3;
     border-radius: 999px;
     background: #fff;
     color: #17365f;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.2;
     box-shadow: 0 3px 9px rgba(25, 66, 123, .12);
 }

@@ -111,11 +111,8 @@ function createProgrammeCard(programme, index, presentation = {}) {
             category: escapeHtml(presentation.category ?? defaultCategory),
             location: escapeHtml(presentation.location ?? defaultLocation),
             program: escapeHtml(presentation.program ?? defaultProgrammeDetails),
-            ranking: escapeHtml(presentation.ranking ?? studyDetails),
-            overview:
-                programme.description ||
-                programme.highlight ||
-                getDisplayValue(programme.eligibility),
+            ranking: "",
+            overview: "",
             image: getSafeImageUrl(programme.imageUrl || programme.image),
             actionLabel: "Explore",
             actionHref: detailsHref,
@@ -153,9 +150,9 @@ function createInstitutionCard(group, groupIndex) {
         .filter(Boolean)
         .join(" · ");
     const programmeCount = group.programmes.length;
-    const similarButton =
-        programmeCount > 1
-            ? `
+    const similarButton = `
+        <div class="online-education-programmes-slot">
+            ${programmeCount > 1 ? `
                 <button
                     type="button"
                     class="online-education-programmes-button"
@@ -163,8 +160,9 @@ function createInstitutionCard(group, groupIndex) {
                     aria-haspopup="dialog"
                     aria-label="View all ${programmeCount} programmes from ${escapeHtml(group.providerName)}"
                 >View all ${programmeCount} programmes</button>
-            `
-            : "";
+            ` : ""}
+        </div>
+    `;
 
     return createProgrammeCard(programme, representative.index, {
         rank: groupIndex + 1,
@@ -172,7 +170,6 @@ function createInstitutionCard(group, groupIndex) {
         category,
         location: countries.join(" · "),
         program: programme.title,
-        ranking: `${programmeCount} ${programmeCount === 1 ? "programme" : "programmes"} available`,
         belowActions: similarButton,
     });
 }
@@ -398,7 +395,9 @@ async function loadProgrammes() {
             return;
         }
 
-        const groups = groupProgrammes(programmes);
+        const groups = groupProgrammes(programmes).sort(
+            (first, second) => second.programmes.length - first.programmes.length,
+        );
         const programmeByCardId = new Map(
             programmes.map((programme, index) => [`online-program-${index + 1}`, programme]),
         );

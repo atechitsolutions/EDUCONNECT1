@@ -1032,6 +1032,14 @@
     cursor: pointer;
     box-shadow: 0 4px 12px #19395812;
 }
+.online-education-programmes-slot {
+    display: flex;
+    align-items: flex-start;
+    min-height: 54px;
+}
+.online-education-programmes-slot .online-education-programmes-button {
+    flex: 1 1 auto;
+}
 #main-content .online-education-programmes-button:hover {
     border-color: #82aedb;
     background: #f3f8fd;

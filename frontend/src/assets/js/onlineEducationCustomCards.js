@@ -73,7 +73,7 @@ function renderImageTile(card, section) {
             <span class="oe-platform-kicker">${escapeHTML(card.subtitle || "STEPINSTUDENTS")}</span>
             <h3>${escapeHTML(card.title)}</h3>
             <p>${escapeHTML(card.description)}</p>
-            ${/^https?:\/\//i.test(card.link || "") ? `<a class="oe-platform-external" href="${escapeHTML(card.link)}" target="_blank" rel="noopener noreferrer">${escapeHTML(card.provider || "Visit provider")} ↗</a>` : ""}
+            ${/^https?:\/\//i.test(card.link || "") ? `<a class="oe-platform-external" href="${escapeHTML(card.link)}" target="_blank" rel="noopener noreferrer">${escapeHTML(card.provider || "Provider website")} ↗</a>` : ""}
             <a class="oe-platform-local" href="#oe-programmes">Explore options on StepInStudents <span>→</span></a>
         </article>
     `;
@@ -120,7 +120,6 @@ function renderProgrammePreview(card) {
     const country = card.country || "Global";
     const duration = card.duration || "Check provider website";
     const qualification = card.qualification || level;
-    const href = /^https?:\/\//i.test(card.link || "") ? card.link : "#";
     return `
         <article class="oe-programme-card oe-admin-added-card">
             ${card.image ? `<img class="oe-programme-image" src="${escapeHTML(card.image)}" alt="">` : ""}
@@ -138,7 +137,6 @@ function renderProgrammePreview(card) {
             <div class="oe-programme-tags"><span>${escapeHTML(level)}</span><span>${escapeHTML(mode)}</span></div>
             <dl class="oe-programme-meta"><div><dt>Location</dt><dd>${escapeHTML(country)}</dd></div><div><dt>Duration</dt><dd>${escapeHTML(duration)}</dd></div><div><dt>Tuition</dt><dd>Check provider website</dd></div><div><dt>Award</dt><dd>${escapeHTML(qualification)}</dd></div></dl>
             <p class="oe-card-footnote">Illustrative listing · verify details with the provider.</p>
-            <div class="oe-programme-actions"><a class="oe-button oe-primary" href="${escapeHTML(href)}">Visit provider ↗</a></div>
         </article>
     `;
 }

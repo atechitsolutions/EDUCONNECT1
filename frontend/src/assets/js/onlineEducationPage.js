@@ -945,7 +945,6 @@ export async function initOnlineEducationPage() {
 
         const dialog = ensureDetailsDialog();
         dialog.classList.remove("oe-institution-details-dialog");
-        const providerUrl = safeExternalUrl(programme.officialProgramUrl);
         const overview = getProgrammeOverview(programme);
 
         dialog.innerHTML = `
@@ -980,17 +979,6 @@ export async function initOnlineEducationPage() {
         </p>
 
         <div class="oe-dialog-actions">
-            ${
-                providerUrl
-                    ? `<a
-                        class="oe-button oe-outline"
-                        href="${escapeHTML(providerUrl)}"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >Visit provider ↗</a>`
-                    : ""
-            }
-
             <button
                 type="button"
                 class="oe-button oe-primary"
@@ -1652,24 +1640,6 @@ export async function initOnlineEducationPage() {
                             )
                             .join("")}
 
-                        <tr>
-                            <th scope="row">Official programme page</th>
-                            ${selected
-                                .map((p) => {
-                                    const url = safeExternalUrl(p.officialProgramUrl);
-
-                                    return `
-                                    <td>
-                                        ${
-                                            url
-                                                ? `<a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer">Visit provider ↗</a>`
-                                                : "Not provided"
-                                        }
-                                    </td>
-                                `;
-                                })
-                                .join("")}
-                        </tr>
                     </tbody>
                 </table>
             </div>
