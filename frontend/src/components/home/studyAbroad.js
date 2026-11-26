@@ -2,6 +2,81 @@ import Section from "../common/Section.js";
 import InstitutionCard from "../common/InstitutionCard.js";
 import { getInstitutions } from "../../services/studyAbroadService.js";
 import { bindInstitutionDetailButtons } from "../studyAbroad/InstitutionDetailsModals.js";
+import { getRealInstitutionPhoto } from "../../utils/institutionCoverImage.js";
+
+async function loadCampusPhotos(track, institutions) {
+    const cards = [...track.querySelectorAll(".institution-card")];
+    const viewport = track.closest(".study-abroad-viewport");
+    const usedPhotoUrls = new Set();
+    const institutionById = new Map(institutions.map((institution) => [String(institution.id), institution]));
+    const queue = [];
+    let resolving = false;
+
+    const loadOne = async ({ institution, image }) => {
+        if (!image || image.dataset.campusPhotoResolved === "true") return;
+        image.dataset.campusPhotoResolved = "true";
+        const savedCampusImage = String(institution.campusImageUrl || "").trim();
+        if (savedCampusImage) {
+            image.src = savedCampusImage;
+            image.alt = `${institution.name} campus`;
+            usedPhotoUrls.add(savedCampusImage);
+            return;
+        }
+
+        try {
+            const photo = await getRealInstitutionPhoto({
+                name: institution.name,
+                city: institution.city,
+                country: institution.country,
+                excludeUrls: [...usedPhotoUrls],
+            });
+            if (photo?.url && image.isConnected) {
+                image.dataset.fallbackSrc = image.src;
+                image.onerror = () => {
+                    image.onerror = null;
+                    if (image.dataset.fallbackSrc) image.src = image.dataset.fallbackSrc;
+                };
+                image.src = photo.url;
+                image.alt = `${institution.name} campus`;
+                image.title = `Campus photo: ${photo.title}`;
+                usedPhotoUrls.add(photo.url);
+            }
+        } catch {
+            // Leave the saved cover image visible if a campus photo cannot be loaded.
+        }
+    };
+
+    const drainQueue = async () => {
+        if (resolving) return;
+        resolving = true;
+        while (queue.length) await loadOne(queue.shift());
+        resolving = false;
+    };
+
+    if (typeof IntersectionObserver === "undefined" || !viewport) {
+        for (const card of cards) {
+            const institution = institutionById.get(card.dataset.institutionId);
+            const image = card.querySelector(".institution-card-visual > img");
+            if (institution && image) queue.push({ institution, image });
+        }
+        void drainQueue();
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            observer.unobserve(entry.target);
+            const card = entry.target;
+            const institution = institutionById.get(card.dataset.institutionId);
+            const image = card.querySelector(".institution-card-visual > img");
+            if (institution && image) queue.push({ institution, image });
+        }
+        void drainQueue();
+    }, { root: viewport, rootMargin: "0px 360px" });
+
+    cards.forEach((card) => observer.observe(card));
+}
 
 export function StudyAbroadSection() {
     function createInstitutionCard(institution, index) {
@@ -27,16 +102,11 @@ export function StudyAbroadSection() {
                 name: institution.name,
                 category,
                 location,
-                program:
-                    institution.type === "UNIVERSITY"
-                        ? "University listing"
-                        : institution.type === "COLLEGE"
-                          ? "College listing"
-                          : "Institution listing",
-                ranking: institution.verified ? "Details verified" : "Institution listing",
+                program: "",
+                ranking: institution.verified ? "Details verified" : "",
                 highlight:
                     institution.description || "Explore this institution as a Study Abroad option.",
-                image: institution.coverImageUrl || "",
+                image: institution.campusImageUrl || institution.coverImageUrl || "",
                 actionLabel: "Explore",
                 actionMode: "details",
                 actionLayout: "home-directory-actions",
@@ -170,6 +240,7 @@ export function StudyAbroadSection() {
                 visibleInstitutions.map((institution) => [String(institution.id), institution]),
             );
             track.innerHTML = visibleInstitutions.map(createInstitutionCard).join("");
+            void loadCampusPhotos(track, visibleInstitutions);
             bindInstitutionDetailButtons(track, institutionMap);
             bindInstitutionCompare(track, institutionMap);
             window.dispatchEvent(new CustomEvent("educonnect:studyabroad-cards-ready"));

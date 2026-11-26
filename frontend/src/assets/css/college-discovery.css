@@ -1132,6 +1132,13 @@
     max-height: none !important;
     overflow: visible !important;
 }
+#main-content #study-abroad-destinations .study-abroad-track {
+    align-items: stretch !important;
+}
+#main-content #study-abroad-destinations .institution-card:has(.home-directory-actions) {
+    align-self: stretch !important;
+    min-height: 0 !important;
+}
 #main-content .home-directory-actions {
     padding-bottom: 15px !important;
 }

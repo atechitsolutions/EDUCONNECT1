@@ -9,6 +9,54 @@ import { getInstitutionLogoUrl } from "../utils/institutionLogo.js";
 
 import "../assets/css/study-abroad-details.css";
 import "../assets/css/study-abroad-search-results.css";
+
+const CAMPUS_PHOTO_OVERRIDES = {
+    "touro university germany listing":
+        "https://static.wixstatic.com/media/1ab39b_1a2e40876336489c95b48193a7d8f6bb~mv2.jpg/v1/fill/w_1080%2Ch_720%2Cal_c/1ab39b_1a2e40876336489c95b48193a7d8f6bb~mv2.jpg",
+    "touro university berlin":
+        "https://static.wixstatic.com/media/1ab39b_1a2e40876336489c95b48193a7d8f6bb~mv2.jpg/v1/fill/w_1080%2Ch_720%2Cal_c/1ab39b_1a2e40876336489c95b48193a7d8f6bb~mv2.jpg",
+    "technical university of munich":
+        "https://www.tum.de/fileadmin/_processed_/9/b/csm_20170302_TUM_Haupteingang_AE_-13_klein_5b83171fbf.jpg",
+    "whu otto beisheim school of management":
+        "https://www.whu.edu/fileadmin/_processed_/7/f/csm_Campus_Vallendar_C_Building_27516a588a.jpg",
+    "srh university":
+        "https://www.srh-university.de/fileadmin/_processed_/5/0/csm_Campus_Herbststimmungen_357_0fd702cdcb.jpg",
+    "international school of management ism":
+        "https://abroadcube.com/assets/images/institutions/international-school-of-management-202304291319.jpg",
+    "code university of applied sciences":
+        "https://cdn.sanity.io/images/vwbnrb3f/production/2bb9753eda33ded27044e265c68309984bee9985-1920x1280.jpg?fm=webp&q=85",
+    "munich business school":
+        "https://smapse.com/storage/2017/03/converted/825_585_munich-business-school10.jpg",
+    "university of applied management":
+        "https://derivates.kicker.de/image/fetch/w_1000%2Cq_auto%3Abest/http%3A/mediadb.kicker.de/news/1000/10005/10006/10015/10022/artikel02/1027853/campus_800x600-1532010179.jpg",
+    "university of bonn":
+        "https://www.philosophie.uni-bonn.de/studium/erasmus/dateien-1/uni-bonn-neu.jpg/%40%40images/image-1200-1a5b293cf4fa67dc50f3793f9ac26e8a.webp",
+    "university of t bingen":
+        "https://uni-tuebingen.de/fileadmin/Uni_Tuebingen/International/Internationale_Universitaet/Bilder/Neue_Aula_International.jpg",
+    "university of w rzburg":
+        "https://www.uni-wuerzburg.de/fileadmin/_processed_/f/0/csm_20wuerzburger-impulse-www_a492451906.jpg",
+    "tu darmstadt":
+        "https://www.tu-darmstadt.de/media/daa_responsives_design/01_die_universitaet_medien/campus_medien_1/gallerie_bauwerke_bg/Campus_Stadtmitte_im_Schnee-25_1180x664.jpg",
+    "chemnitz university of technology":
+        "https://www.tu-chemnitz.de/tu/aktuelles/2022/1663568990-11472-0.jpg",
+};
+const ICN_BERLIN_CAMPUS_PHOTO =
+    "https://portal.applyeurolink.org/static_images/universities/203/ext-berlin.png";
+
+function normalizePhotoName(value) {
+    return String(value || "").trim().toLocaleLowerCase().replace(/[^a-z0-9]+/g, " ");
+}
+
+function getCampusPhotoOverride(name, country) {
+    const normalizedName = normalizePhotoName(name);
+    if (normalizedName === "icn business school" && normalizePhotoName(country) === "germany") {
+        return ICN_BERLIN_CAMPUS_PHOTO;
+    }
+    const matchedOverride = Object.entries(CAMPUS_PHOTO_OVERRIDES).find(
+        ([targetName]) => normalizedName === targetName || normalizedName.startsWith(`${targetName} `),
+    );
+    return matchedOverride?.[1] || "";
+}
 const UNIVERSITY_METADATA = new Map(
     (directoryData.countries || [])
         .flatMap((country) => country.institutions || [])
@@ -430,7 +478,7 @@ function renderInstitutionCard(item, index, bestMatchId) {
             name: escapeHtml(item.name || "Institution"),
             category: escapeHtml(type),
             location: escapeHtml(location),
-            image: escapeHtml(getCountryPhoto(item.country)),
+            image: escapeHtml(getCampusPhotoOverride(item.name, item.country) || getCountryPhoto(item.country)),
             logo: metadata?.logoUrl || getInstitutionLogoUrl({ ...item, name: item.name }),
             logoAlt: escapeHtml(`${item.name || "Institution"} official logo`),
             verifiedFacts: "",
@@ -482,6 +530,7 @@ async function loadVisibleInstitutionPhotos(grid) {
             const image = card.querySelector(".institution-card-visual > img");
             if (!image || image.dataset.photoResolved === "true") return;
             image.dataset.photoResolved = "true";
+            if (getCampusPhotoOverride(card.dataset.photoName, card.dataset.photoCountry)) return;
             const photo = await getRealInstitutionPhoto({
                 name: card.dataset.photoName,
                 city: card.dataset.photoCity || card.dataset.photoState,

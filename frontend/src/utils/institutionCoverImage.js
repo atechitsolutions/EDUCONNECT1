@@ -98,7 +98,7 @@ function cache(key, value) {
     }
 }
 
-async function searchCommons(query, tokens) {
+async function searchCommons(query, tokens, excludedUrls = new Set()) {
     const params = new URLSearchParams({
         action: "query",
         generator: "search",
@@ -131,19 +131,21 @@ async function searchCommons(query, tokens) {
         };
         return score(b) - score(a);
     });
-    const page = pages[0];
+    const page = pages.find((candidate) => !excludedUrls.has(candidate.imageinfo[0].thumburl));
     return page
         ? { url: page.imageinfo[0].thumburl, title: page.title.replace(/^File:/, "") }
         : null;
 }
 
-export async function getRealInstitutionPhoto({ name, city, country }) {
+export async function getRealInstitutionPhoto({ name, city, country, excludeUrls = [] }) {
     const safeName = String(name || "").trim();
     const safeCity = String(city || "").trim();
     const safeCountry = String(country || "").trim();
     const key = normalize(`${safeName}|${safeCity}|${safeCountry}`);
+    const excluded = new Set(excludeUrls);
     const previous = cached(key);
-    if (previous) return previous === "none" ? null : previous;
+    if (previous && previous !== "none" && !excluded.has(previous.url)) return previous;
+    if (previous === "none") return null;
     const place = [safeCity, safeCountry].filter(Boolean).join(" ");
     const queries = [
         safeName && `${safeName} campus`,
@@ -155,7 +157,7 @@ export async function getRealInstitutionPhoto({ name, city, country }) {
         .filter((token) => token.length > 2);
     try {
         for (const query of queries) {
-            const photo = await searchCommons(query, tokens);
+            const photo = await searchCommons(query, tokens, excluded);
             if (photo) {
                 cache(key, photo);
                 return photo;

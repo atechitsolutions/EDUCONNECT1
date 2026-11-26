@@ -334,7 +334,13 @@ function initializeSearchForm(form) {
                     option.setAttribute("role", "option");
                     option.dataset.query = suggestion.name;
                     option.dataset.href = suggestion.href;
-                    option.innerHTML = `<span>${escapeHtml(suggestion.name)}</span><small>${escapeHtml(suggestion.category)}${suggestion.location ? ` · ${escapeHtml(suggestion.location)}` : ""}</small>`;
+                    const metadata = [
+                        suggestion.category === "Study Abroad" ? "" : suggestion.category,
+                        suggestion.location,
+                    ]
+                        .filter(Boolean)
+                        .join(" · ");
+                    option.innerHTML = `<span>${escapeHtml(suggestion.name)}</span>${metadata ? `<small>${escapeHtml(metadata)}</small>` : ""}`;
 
                     suggestions.append(option);
                 });
