@@ -17054,8 +17054,8 @@ body,
 #news .news-track .institution-card-actions {
     display: flex;
     justify-content: center;
-    margin-top: auto;
-    padding: 12px 0 8px;
+    margin-top: 6px !important;
+    padding: 0 0 8px;
 }
 #news .news-track .institution-card-action {
     display: inline-flex;
