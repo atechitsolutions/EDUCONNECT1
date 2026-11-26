@@ -743,9 +743,7 @@ export function TopUGPGCollegesSection() {
                 </div>
 
 
-                <p>
-                    Explore PG courses and admissions.
-                </p>
+
 
             </div>
 

@@ -4,7 +4,7 @@ import StudyAbroadDestinations from "../components/studyAbroad/StudyAbroadDestin
 
 import { loadStudyAbroadInstitutions } from "../assets/js/institutionSearch.js";
 
-import StudyAbroadLeadForm from "../components/StudyAbroadLeadForm.js";
+import StudyAbroadLeadForm, { bindStudyAbroadLeadForm } from "../components/StudyAbroadLeadForm.js";
 
 import CountryComparison from "../components/studyAbroad/CountryComparison.js";
 
@@ -22,6 +22,7 @@ import StudyAbroadCTA from "../components/studyAbroad/StudyAbroadCTA.js";
 
 export default function StudyAbroadPage() {
     setTimeout(() => {
+        bindStudyAbroadLeadForm(document);
         loadStudyAbroadInstitutions().catch((error) => {
             console.error("Unable to load Study Abroad institution cards.", error);
         });

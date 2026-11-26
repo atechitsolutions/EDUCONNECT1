@@ -6,6 +6,7 @@ import com.ALL_in_one.community.entity.*;
 import com.ALL_in_one.community.repository.*;
 import com.ALL_in_one.entity.User;
 import com.ALL_in_one.repository.UserRepository;
+import com.ALL_in_one.notification.EmailNotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -51,6 +52,7 @@ public class PostService {
 
   public record MediaFile(Path path, String contentType) {}
 
+  private final EmailNotificationService emailNotifications;
   private final UserRepository users;
   private final StudentProfileRepository profiles;
   private final FriendshipRepository friendships;
@@ -79,6 +81,7 @@ public class PostService {
       SavedPostRepository saves,
       PostShareRepository shares,
       PostCommentRepository comments,
+      EmailNotificationService emailNotifications,
       @Value("${app.community.upload-dir:uploads/community}") String uploadDir) {
     this.users = users;
     this.profiles = profiles;
@@ -92,6 +95,7 @@ public class PostService {
     this.saves = saves;
     this.shares = shares;
     this.comments = comments;
+    this.emailNotifications = emailNotifications;
 
     this.uploadRoot = Path.of(uploadDir).toAbsolutePath().normalize();
 
@@ -290,6 +294,9 @@ public class PostService {
     post.setHashtags(hashtags(body));
 
     post = posts.save(post);
+    emailNotifications.enqueue("Community post", "Student community", Map.of(
+        "Submission ID", post.getId(), "Author", me.getFullName(), "Email", me.getEmail(),
+        "Category", cat, "Content", Objects.toString(post.getContent(), "")));
 
     for (String[] s : stored) {
 
@@ -331,7 +338,9 @@ public class PostService {
 
     post.setHashtags(hashtags(body));
     post.setEditedAt(LocalDateTime.now());
-
+    emailNotifications.enqueue("Community post updated", "Student community", Map.of(
+        "Submission ID", post.getId(), "Author", me.getFullName(), "Email", me.getEmail(),
+        "Category", post.getCategory(), "Content", Objects.toString(post.getContent(), "")));
     return view(post, me.getId());
   }
 
@@ -556,6 +565,9 @@ public class PostService {
     comment.setContent(body);
 
     comment = comments.save(comment);
+    emailNotifications.enqueue("Community comment", "Student community", Map.of(
+        "Submission ID", comment.getId(), "Author", me.getFullName(), "Email", me.getEmail(),
+        "Post ID", post.getId(), "Comment", comment.getContent()));
 
     post.setCommentCount((int) comments.countByPost_Id(postId));
 

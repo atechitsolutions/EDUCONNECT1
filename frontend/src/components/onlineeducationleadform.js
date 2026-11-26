@@ -1,3 +1,4 @@
+import { submitLeadSubmission } from "../services/leadSubmissionService.js";
 import "../assets/css/onlineeducationleadform.css";
 
 export default function renderOnlineEducationLeadForm() {
@@ -148,6 +149,7 @@ export default function renderOnlineEducationLeadForm() {
                 </div>
               </div>
 
+              <label><input type="checkbox" name="consent" required> I agree to be contacted about this enquiry.</label>
               <button class="lead3d-submit" type="submit">
                 <span>Submit Enquiry</span>
                 <span class="lead3d-submit-arrow" aria-hidden="true">→</span>
@@ -162,8 +164,7 @@ export default function renderOnlineEducationLeadForm() {
               ></p>
 
               <p class="lead3d-privacy">
-                Please provide accurate contact details. Your enquiry will
-                only be saved when a submission service is connected.
+                Your information will be used to respond to this enquiry.
               </p>
             </form>
           </div>
@@ -181,19 +182,21 @@ export function bindOnlineEducationLeadForm() {
 
     form.dataset.bound = "true";
 
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         if (!form.reportValidity()) return;
 
-        if (status) {
-            status.hidden = false;
-            status.className = "lead3d-status lead3d-status-error";
-            status.textContent =
-                "The form is displayed correctly, but " +
-                "enquiry submission is not connected to " +
-                "a backend yet. Your details have not " +
-                "been saved.";
-        }
+        const button = form.querySelector("button[type=submit]");
+        if (button) button.disabled = true;
+        try {
+            const values = Object.fromEntries(new FormData(form).entries());
+            const consent = values.consent === "on"; delete values.consent;
+            await submitLeadSubmission("Online education enquiry", "Online education lead form", values, consent);
+            if (status) { status.hidden = false; status.className = "lead3d-status"; status.textContent = "Your enquiry was submitted successfully."; }
+            form.reset();
+        } catch (error) {
+            if (status) { status.hidden = false; status.className = "lead3d-status lead3d-status-error"; status.textContent = error.message; }
+        } finally { if (button) button.disabled = false; }
     });
 }

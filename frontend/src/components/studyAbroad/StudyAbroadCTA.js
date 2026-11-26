@@ -1,9 +1,7 @@
-async function submitStudyAbroadLead(phone) {
-    // TODO: replace with your real API call, e.g. from studyAbroadService.js:
-    //   await studyAbroadService.saveLead({ phone });
-    // Throw an Error("message") to show a failure message to the user.
-    window.dispatchEvent(new CustomEvent("studyabroad:lead", { detail: { phone } }));
-    await new Promise((r) => setTimeout(r, 400));
+import { submitLeadSubmission } from "../../services/leadSubmissionService.js";
+
+async function submitStudyAbroadLead(phone, consent) {
+    return submitLeadSubmission("Study Abroad counselling enquiry", "Study Abroad CTA", { phone }, consent);
 }
 
 if (typeof window !== "undefined") {
@@ -29,6 +27,7 @@ if (typeof window !== "undefined") {
         const btn = form.querySelector(".lj-btn");
         const label = btn.querySelector("span");
         const box = form.querySelector(".lj-phone");
+        const consent = form.querySelector("input[name=consent]");
 
         if (input.value.length !== 10) {
             box.classList.add("is-error");
@@ -38,10 +37,17 @@ if (typeof window !== "undefined") {
             return false;
         }
 
+        if (!consent?.checked) {
+            msg.className = "lj-msg lj-msg--error";
+            msg.textContent = "Please agree to be contacted about this enquiry.";
+            consent?.focus();
+            return false;
+        }
+
         btn.disabled = true;
         label.textContent = "Sending…";
         try {
-            await submitStudyAbroadLead(code + input.value);
+            await submitStudyAbroadLead(code + input.value, consent.checked);
             msg.className = "lj-msg lj-msg--ok";
             msg.textContent = "Thanks! Our counsellors will contact you soon.";
             input.value = "";
@@ -196,7 +202,7 @@ ${LJ_STYLES}
     <form class="lj-card lj-signup" onsubmit="return window.ljLeapSubmit(event)" novalidate>
       <div class="lj-logo" aria-label="StepInStudents">
         ${LJ_CAP_SVG}
-        <span class="lj-logo__text"><span class="lj-logo__edu">EDU</span><span class="lj-logo__connect">CONNECT</span></span>
+        <span class="lj-logo__text"><span class="lj-logo__edu">StepInStudents</span><span class="lj-logo__connect"></span></span>
       </div>
 
       <p class="lj-tagline">Sign up today and our study abroad experts get in touch with you.</p>
@@ -226,6 +232,7 @@ ${LJ_STYLES}
                placeholder="Phone Number*" oninput="window.ljLeapInput(this)" />
       </div>
 
+      <label class="lj-consent"><input type="checkbox" name="consent" required> I agree to be contacted about my Study Abroad enquiry.</label>
       <p class="lj-msg" role="status" aria-live="polite"></p>
 
       <button type="submit" class="lj-btn">

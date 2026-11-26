@@ -9,6 +9,7 @@ import com.ALL_in_one.collegepartner.dto.WalletDepositRequest;
 import com.ALL_in_one.collegepartner.dto.WalletUnlockRequest;
 import com.ALL_in_one.collegepartner.entity.*;
 import com.ALL_in_one.collegepartner.repository.*;
+import com.ALL_in_one.notification.EmailNotificationService;
 import com.ALL_in_one.studyabroad.entity.Institution;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -42,7 +43,7 @@ class CollegeWalletServiceTest {
     enquiries = mock(CollegeStudentEnquiryRepository.class);
     accessLogs = mock(StudentDataAccessLogRepository.class);
     service =
-        new CollegeWalletService(accounts, wallets, transactions, settings, enquiries, accessLogs);
+        new CollegeWalletService(mock(EmailNotificationService.class), accounts, wallets, transactions, settings, enquiries, accessLogs);
 
     Institution institution = new Institution();
     institution.setId(8L);

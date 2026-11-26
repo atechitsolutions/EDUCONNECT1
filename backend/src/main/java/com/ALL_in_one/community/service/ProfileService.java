@@ -9,6 +9,7 @@ import com.ALL_in_one.community.entity.*;
 import com.ALL_in_one.community.repository.*;
 import com.ALL_in_one.entity.User;
 import com.ALL_in_one.repository.UserRepository;
+import com.ALL_in_one.notification.EmailNotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,6 +34,7 @@ public class ProfileService {
 
   public record MediaFile(Path path, String contentType) {}
 
+  private final EmailNotificationService emailNotifications;
   private final UserRepository users;
   private final StudentProfileRepository profiles;
   private final FriendshipRepository friendships;
@@ -54,6 +56,7 @@ public class ProfileService {
       CommunityNotificationRepository notifications,
       CommunityService community,
       PostService postService,
+      EmailNotificationService emailNotifications,
       @Value("${app.community.upload-dir:uploads/community}") String uploadDir) {
     this.users = users;
     this.profiles = profiles;
@@ -64,6 +67,7 @@ public class ProfileService {
     this.notifications = notifications;
     this.community = community;
     this.postService = postService;
+    this.emailNotifications = emailNotifications;
     this.mediaRoot = Path.of(uploadDir, "profile").toAbsolutePath().normalize();
     try {
       Files.createDirectories(this.mediaRoot);
@@ -198,6 +202,9 @@ public class ProfileService {
       media.touch();
       mediaRepo.save(media);
     }
+    emailNotifications.enqueue("Community profile update", "Student community", Map.of(
+        "Student ID", me.getId(), "Name", me.getFullName(), "Email", me.getEmail(),
+        "Updated profile", "Profile details or profile media were updated."));
     return buildDetail(me, ensureProfile(me));
   }
 

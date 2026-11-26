@@ -5,6 +5,7 @@ import com.ALL_in_one.community.entity.*;
 import com.ALL_in_one.community.repository.*;
 import com.ALL_in_one.entity.User;
 import com.ALL_in_one.repository.UserRepository;
+import com.ALL_in_one.notification.EmailNotificationService;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -27,6 +28,7 @@ public class CommunityService {
   private final CommunityNotificationRepository notifications;
   private final UserBlockRepository blocks;
   private final CommunityReportRepository reports;
+  private final EmailNotificationService emailNotifications;
 
   public CommunityService(
       UserRepository users,
@@ -37,7 +39,8 @@ public class CommunityService {
       CommunityGroupMessageRepository communityChatMessages,
       CommunityNotificationRepository notifications,
       UserBlockRepository blocks,
-      CommunityReportRepository reports) {
+      CommunityReportRepository reports,
+      EmailNotificationService emailNotifications) {
     this.users = users;
     this.profiles = profiles;
     this.friendships = friendships;
@@ -47,6 +50,7 @@ public class CommunityService {
     this.notifications = notifications;
     this.blocks = blocks;
     this.reports = reports;
+    this.emailNotifications = emailNotifications;
   }
 
   private User current(String email) {
@@ -517,6 +521,9 @@ public class CommunityService {
     report.setReported(target);
     report.setReason(details);
     reports.save(report);
+    emailNotifications.enqueue("Community account report", "Student community moderation", Map.of(
+        "Submission ID", report.getId(), "Reporter", user.getFullName(), "Reporter email", user.getEmail(),
+        "Reported student ID", target.getId(), "Reason", details));
   }
 
   public List<Map<String, Object>> moderationReports(String email) {

@@ -3,6 +3,8 @@ package com.ALL_in_one.school.service;
 import com.ALL_in_one.school.dto.SchoolEnquiryRequest;
 import com.ALL_in_one.school.entity.SchoolEnquiry;
 import com.ALL_in_one.school.repository.SchoolEnquiryRepository;
+import com.ALL_in_one.notification.EmailNotificationService;
+import java.util.Map;
 import java.util.List;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SchoolEnquiryService {
   private final SchoolEnquiryRepository repository;
+  private final EmailNotificationService emailNotifications;
 
   @Transactional
   public SchoolEnquiry submit(SchoolEnquiryRequest request) {
@@ -26,7 +29,12 @@ public class SchoolEnquiryService {
     enquiry.setGrade(request.grade().trim());
     enquiry.setMessage(request.message() == null ? null : request.message().trim());
     enquiry.setConsent(request.consent());
-    return repository.save(enquiry);
+    SchoolEnquiry saved = repository.save(enquiry);
+    emailNotifications.enqueue("School admission enquiry", "School discovery page", Map.of(
+        "Name", saved.getName(), "Email", saved.getEmail(), "Phone", saved.getPhone(),
+        "School", saved.getSchoolName(), "City", saved.getCity(), "Grade", saved.getGrade(),
+        "Message", saved.getMessage() == null ? "" : saved.getMessage()));
+    return saved;
   }
 
   @Transactional(readOnly = true)
@@ -45,6 +53,11 @@ public class SchoolEnquiryService {
             .findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Enquiry not found."));
     enquiry.setStatus(normalized);
-    return repository.save(enquiry);
+    SchoolEnquiry saved = repository.save(enquiry);
+    emailNotifications.enqueue("School admission enquiry", "School discovery page", Map.of(
+        "Name", saved.getName(), "Email", saved.getEmail(), "Phone", saved.getPhone(),
+        "School", saved.getSchoolName(), "City", saved.getCity(), "Grade", saved.getGrade(),
+        "Message", saved.getMessage() == null ? "" : saved.getMessage()));
+    return saved;
   }
 }

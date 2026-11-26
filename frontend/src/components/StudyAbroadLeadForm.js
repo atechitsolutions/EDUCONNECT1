@@ -1,3 +1,5 @@
+import { submitLeadSubmission } from "../services/leadSubmissionService.js";
+
 export default function StudyAbroadLeadForm() {
     return `
         <section
@@ -471,4 +473,26 @@ export default function StudyAbroadLeadForm() {
 
         </section>
     `;
+}
+
+export function bindStudyAbroadLeadForm(root = document) {
+    const form = root.querySelector("#study-abroad-lead-form-element");
+    if (!form || form.dataset.emailBound) return;
+    form.dataset.emailBound = "true";
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        const status = form.querySelector("#study-abroad-form-status");
+        const button = form.querySelector("button[type=submit]");
+        if (button) button.disabled = true;
+        const values = Object.fromEntries(new FormData(form).entries());
+        const consent = values.consent === "on"; delete values.consent;
+        try {
+            await submitLeadSubmission("Study Abroad counselling enquiry", "Study Abroad page", values, consent);
+            if (status) status.textContent = "Your enquiry has been submitted successfully.";
+            form.reset();
+        } catch (error) {
+            if (status) status.textContent = error.message;
+        } finally { if (button) button.disabled = false; }
+    });
 }

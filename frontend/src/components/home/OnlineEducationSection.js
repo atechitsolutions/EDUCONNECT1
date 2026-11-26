@@ -297,7 +297,7 @@ function bindProgrammeComparison(section, dialog, toolbar, programmeByCardId) {
         toolbarStatus.textContent =
             selected.length === 1
                 ? "Select one more programme to compare."
-                : "Choose Compare selected when your shortlist is ready.";
+                : "";
         openButton.disabled = selected.length < 2;
 
         section.querySelectorAll('[data-action="compare"]').forEach((button) => {

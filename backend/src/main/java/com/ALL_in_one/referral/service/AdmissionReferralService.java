@@ -6,6 +6,7 @@ import com.ALL_in_one.referral.entity.*;
 import com.ALL_in_one.referral.repository.*;
 import com.ALL_in_one.referral.repository.ReferralAuditLogRepository;
 import com.ALL_in_one.repository.UserRepository;
+import com.ALL_in_one.notification.EmailNotificationService;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class AdmissionReferralService {
   private final ReferralAuditLogRepository auditLogs;
   private final UserRepository users;
   private final PasswordEncoder passwordEncoder;
+  private final EmailNotificationService emailNotifications;
 
   @Transactional
   public Map<String, Object> register(PartnerInterestRequest request) {
@@ -65,6 +67,9 @@ public class AdmissionReferralService {
     partner.setParent(parent);
     partner.setConsentAt(LocalDateTime.now());
     partners.save(partner);
+    emailNotifications.enqueue("Admission partner registration", "Admission partners page", Map.of(
+        "Name", partner.getFullName(), "Email", partner.getEmail(), "Phone", Objects.toString(partner.getPhone(), ""),
+        "College", Objects.toString(partner.getCollegeName(), ""), "Request type", subpartnerRequest ? "Subpartner" : "Partner"));
     String action =
         subpartnerRequest ? "SUBPARTNER_REQUEST_SUBMITTED" : "PARTNER_INTEREST_SUBMITTED";
     String details =
@@ -173,6 +178,9 @@ public class AdmissionReferralService {
     sub.setConsentAt(LocalDateTime.now());
     sub.setParent(parent);
     partners.save(sub);
+    emailNotifications.enqueue("Admission subpartner request", "Admission partner dashboard", Map.of(
+        "Submission ID", sub.getId(), "Name", sub.getFullName(), "Email", sub.getEmail(),
+        "Phone", Objects.toString(sub.getPhone(), ""), "Parent partner", parent.getFullName()));
     audit(
         "SUBPARTNER_INVITED",
         "PARTNER",
@@ -357,6 +365,11 @@ public class AdmissionReferralService {
     lead.setConsentAt(LocalDateTime.now());
     lead.setAttributionKey(UUID.randomUUID().toString());
     leads.save(lead);
+    emailNotifications.enqueue("Admission student referral", "Partner referral form", Map.of(
+        "Submission ID", lead.getId(), "Student name", lead.getStudentName(),
+        "Student email", lead.getStudentEmail(), "Phone", Objects.toString(lead.getStudentPhone(), ""),
+        "Institution", Objects.toString(lead.getInstitutionInterest(), ""),
+        "Course", Objects.toString(lead.getCourseInterest(), ""), "Partner", partner.getFullName()));
     audit(
         "REFERRAL_SUBMITTED",
         "LEAD",

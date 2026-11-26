@@ -1,6 +1,7 @@
 package com.ALL_in_one.collegepartner.service;
 
 import com.ALL_in_one.collegepartner.dto.*;
+import com.ALL_in_one.notification.EmailNotificationService;
 import com.ALL_in_one.collegepartner.dto.AdminLeadRequest;
 import com.ALL_in_one.collegepartner.entity.*;
 import com.ALL_in_one.collegepartner.repository.*;
@@ -27,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 @RequiredArgsConstructor
 public class CollegePartnerService {
+  private final EmailNotificationService emailNotifications;
   private final CollegePartnerAccountRepository accounts;
   private final CollegeAnalyticsEventRepository events;
   private final CollegeStudentEnquiryRepository enquiries;
@@ -73,6 +75,11 @@ public class CollegePartnerService {
     account.setActive(true);
     account.setMustChangePassword(true);
     account = accounts.save(account);
+    emailNotifications.enqueue("College partner account created", "College partner administration", Map.of(
+        "Institution", institution.getName(), "Username", username,
+        "Official email", account.getOfficialEmail(),
+        "Contact person", Objects.toString(account.getContactPerson(), ""),
+        "Contact email", Objects.toString(account.getContactEmail(), "")));
     return Map.of(
         "id",
         account.getId(),
@@ -296,6 +303,11 @@ public class CollegePartnerService {
         .filter(user -> "STUDENT".equals(user.getRole()))
         .ifPresent(e::setStudent);
     CollegeStudentEnquiry saved = enquiries.save(e);
+    emailNotifications.enqueue("College programme enquiry", institution.getName(), Map.of(
+        "Name", saved.getStudentName(), "Email", saved.getStudentEmail(),
+        "Phone", saved.getStudentPhone() == null ? "" : saved.getStudentPhone(),
+        "Course", saved.getCourse() == null ? "" : saved.getCourse(),
+        "Message", saved.getMessage() == null ? "" : saved.getMessage()));
     recordEvent(
         institution.getId(),
         visitorId,
@@ -390,6 +402,10 @@ public class CollegePartnerService {
               + "Check the existing enquiry or correct the value before assigning.");
     CollegeStudentEnquiry lead = makeAdminLead(request, partner, admin, "ADMIN_ADDED");
     lead = enquiries.save(lead);
+    emailNotifications.enqueue("Admin-created lead", partner.getInstitution().getName(), Map.of(
+        "Submission ID", lead.getId(), "Name", lead.getStudentName(),
+        "Email", lead.getStudentEmail(), "Phone", Objects.toString(lead.getStudentPhone(), ""),
+        "Course", Objects.toString(lead.getCourse(), ""), "Source", "Admin lead creation"));
     auditLead(
         lead,
         "ADMIN_LEAD_ASSIGNED",
@@ -538,6 +554,9 @@ public class CollegePartnerService {
     batch.setRecordCount(saved.size());
     batch.setDetails("Assigned imported leads after consent and duplicate validation.");
     leadAudits.save(batch);
+    emailNotifications.enqueue("Lead import summary", "College partner administration", Map.of(
+        "Institution", partner.getInstitution().getName(), "Assigned leads", saved.size(),
+        "File", safeFileName(request.fileName()), "Submitted by", admin));
     saved.forEach(lead ->
         auditLead(
             lead,

@@ -3,6 +3,7 @@ package com.ALL_in_one.collegepartner.service;
 import com.ALL_in_one.collegepartner.dto.*;
 import com.ALL_in_one.collegepartner.entity.*;
 import com.ALL_in_one.collegepartner.repository.*;
+import com.ALL_in_one.notification.EmailNotificationService;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class CollegeWalletService {
+  private final EmailNotificationService emailNotifications;
   private final CollegePartnerAccountRepository accounts;
   private final CollegePartnerWalletRepository wallets;
   private final CollegeWalletTransactionRepository transactions;
@@ -50,6 +52,11 @@ public class CollegeWalletService {
     item.setNote(clean(request.note()));
     item.setActor(username);
     item = transactions.save(item);
+    String institutionName = Objects.toString(account.getInstitution().getName(), "");
+    emailNotifications.enqueue("College partner wallet deposit request", institutionName, Map.of(
+        "Submission ID", Objects.toString(item.getId(), "Pending"), "Institution", institutionName,
+        "Amount", item.getAmount().toPlainString(), "Payment reference", reference,
+        "Partner", username, "Note", Objects.toString(item.getNote(), "")));
     return transactionView(item, account.getInstitution().getName());
   }
 

@@ -384,10 +384,10 @@ export function SchoolDiscoveryPage() {
         .join("");
     return `<main id="schools-discovery" class="sd-page">
         <div class="sd-container">
-            <header class="sd-page-heading"><div><span class="sd-eyebrow">SCHOOL DIRECTORY</span><h1>Top Schools in India</h1><p>Browse schools by region and compare the details we can verify.</p></div><span class="sd-directory-badge">${listings.length} listings</span></header>
+            <header class="sd-page-heading"><div><span class="sd-eyebrow">SCHOOL DIRECTORY</span><h1>Top Schools in India</h1></div><span class="sd-directory-badge">${listings.length} listings</span></header>
             <section class="sd-search-panel" aria-label="Search schools by region">
                 <div class="sd-search-fields"><label class="sd-select-field"><span>Region</span><select id="sd-region"><option value="">All India</option>${options}</select></label><label class="sd-category-field"><span>School category</span><select id="sd-school-group">${schoolGroupOptions}</select></label><label class="sd-query-field"><span>School or city</span><input id="sd-query" type="search" placeholder="Search school or city" autocomplete="off"></label><button id="sd-search-button" class="sd-button sd-button-primary" type="button">Search</button></div>
-                <div class="sd-results-summary" aria-live="polite"><strong id="sd-selected-region">All India</strong><span><b id="sd-result-count">${listings.length}</b> schools</span><span>Rankings are approximate editorial listings.</span></div>
+                <div class="sd-results-summary" aria-live="polite"><strong id="sd-selected-region">All India</strong><span><b id="sd-result-count">${listings.length}</b> schools</span></div>
             </section>
             <section class="sd-directory" aria-label="School directory">
                 <div class="sd-directory-toolbar"><div><span class="sd-eyebrow">DISCOVER</span><h2>Find your school</h2></div><button id="sd-clear-filters" class="sd-clear-button" type="button">Clear filters</button></div>

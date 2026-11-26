@@ -16,6 +16,7 @@ import com.ALL_in_one.referral.repository.ReferralAuditLogRepository;
 import com.ALL_in_one.referral.repository.ReferralCommissionRepository;
 import com.ALL_in_one.referral.repository.ReferralLeadRepository;
 import com.ALL_in_one.repository.UserRepository;
+import com.ALL_in_one.notification.EmailNotificationService;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +30,7 @@ class AdmissionReferralRegistrationTest {
   private final UserRepository users = mock(UserRepository.class);
   private final PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
   private final AdmissionReferralService service =
-      new AdmissionReferralService(partners, leads, commissions, auditLogs, users, passwordEncoder);
+      new AdmissionReferralService(partners, leads, commissions, auditLogs, users, passwordEncoder, mock(EmailNotificationService.class));
 
   @Test
   void registersPendingSubpartnerUnderEligibleSuperpartner() {

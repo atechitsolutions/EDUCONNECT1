@@ -1,3 +1,4 @@
+import { submitLeadSubmission } from "../../services/leadSubmissionService.js";
 import Section from "../common/Section.js";
 
 const loanCards = [
@@ -87,10 +88,10 @@ export function EducationLoanSection() {
                     <label>Course or platform<input name="course" placeholder="e.g. MSc in Canada, upGrad, ForSchol"></label>
                     <label>Preferred loan amount<select name="amount" required><option value="">Choose a range</option><option>Under ₹7.5 lakh</option><option>₹7.5 lakh–₹25 lakh</option><option>₹25 lakh–₹75 lakh</option><option>₹75 lakh–₹1.5 crore</option><option>₹1.5 crore–₹3 crore</option></select></label>
                     <label>City<input name="city" autocomplete="address-level2" value="Ghaziabad, Uttar Pradesh"></label>
-                    <label class="loan-consent"><input type="checkbox" required><span>I agree to be contacted about this enquiry. I will share financial documents only through a verified lender’s official channel.</span></label>
+                    <label class="loan-consent"><input type="checkbox" name="consent" required><span>I agree to be contacted about this enquiry. I will share financial documents only through a verified lender’s official channel.</span></label>
                     <button class="loan-form-submit" type="submit">Prepare my enquiry <span aria-hidden="true">→</span></button>
                     <p class="loan-form-feedback" role="status" aria-live="polite"></p>
-                    <p class="loan-form-privacy">This enquiry form is a website demo and does not send or store your personal details yet. To apply now, use a lender’s official website or the government portal.</p>
+                    <p class="loan-form-privacy">Your enquiry will be sent to StepInStudents for guidance. Apply only through a verified lender or official government portal.</p>
                 </form>
             </dialog>
 
@@ -188,16 +189,20 @@ export function initEducationLoanSection(root = document) {
         ?.querySelectorAll("input")
         .forEach((input) => input.addEventListener("input", calculateLoan));
     if (calculator) calculateLoan();
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
         if (!form.reportValidity()) return;
         const feedback = form.querySelector(".loan-form-feedback");
-        feedback.textContent =
-            "Your details are complete. Use the " +
-            "official lender or PM-Vidyalaxmi portal " +
-            "above to submit an application; this " +
-            "demo has not sent your information.";
-        feedback.classList.add("is-visible");
+        const button = form.querySelector("button[type=submit]");
+        if (button) button.disabled = true;
+        const values = Object.fromEntries(new FormData(form).entries());
+        const consent = values.consent === "on"; delete values.consent;
+        try {
+            await submitLeadSubmission("Education loan guidance enquiry", "Education loan section", values, consent);
+            feedback.textContent = "Your enquiry has been submitted.";
+            form.reset();
+        } catch (error) { feedback.textContent = error.message; }
+        finally { feedback.classList.add("is-visible"); if (button) button.disabled = false; }
     });
 }
 

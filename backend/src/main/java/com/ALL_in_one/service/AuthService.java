@@ -7,6 +7,8 @@ import com.ALL_in_one.dto.LoginRequest;
 import com.ALL_in_one.dto.RegisterRequest;
 import com.ALL_in_one.entity.User;
 import com.ALL_in_one.repository.UserRepository;
+import com.ALL_in_one.notification.EmailNotificationService;
+import java.util.Map;
 import java.time.LocalDateTime;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,12 +24,14 @@ public class AuthService {
   private final JwtService jwtService;
 
   private final StudentProfileRepository studentProfileRepository;
+  private final EmailNotificationService emailNotifications;
 
   public AuthService(
       UserRepository userRepository,
       PasswordEncoder passwordEncoder,
       JwtService jwtService,
-      StudentProfileRepository studentProfileRepository) {
+      StudentProfileRepository studentProfileRepository,
+      EmailNotificationService emailNotifications) {
 
     this.userRepository = userRepository;
 
@@ -36,6 +40,7 @@ public class AuthService {
     this.jwtService = jwtService;
 
     this.studentProfileRepository = studentProfileRepository;
+    this.emailNotifications = emailNotifications;
   }
 
   @Transactional
@@ -81,6 +86,8 @@ public class AuthService {
       studentProfileRepository.save(profile);
     }
 
+    emailNotifications.enqueue("Student registration", "Account registration", Map.of(
+        "Name", savedUser.getFullName(), "Email", savedUser.getEmail(), "Account type", role));
     String token = jwtService.generateToken(savedUser.getEmail());
 
     return new AuthResponse(

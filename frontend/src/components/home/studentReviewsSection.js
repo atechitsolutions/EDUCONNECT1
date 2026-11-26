@@ -329,33 +329,7 @@ export function StudentReviewsSection() {
 
 
 
-            <div
-                class="video-reviews-trust"
-            >
 
-                <div
-                    class="video-reviews-trust-icon"
-                >
-                    ✓
-                </div>
-
-
-                <div>
-
-                    <strong>
-                        Real Student & Parent Education Experiences
-                    </strong>
-
-
-                    <p>
-                        Hear directly from students and parents
-                        about their school, college, university and
-                        education journeys.
-                    </p>
-
-                </div>
-
-            </div>
 
         </div>
 

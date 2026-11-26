@@ -1,3 +1,4 @@
+import { submitLeadSubmission } from "../../services/leadSubmissionService.js";
 import { getOnlineEducationProgrammes } from "../../services/onlineEducationService.js";
 import { onlineEducationInstitutions } from "../../data/onlineEducationInstitutions.js";
 import domesticInstitutionDirectory from "../../data/domestic-college-directory.json";
@@ -13,7 +14,6 @@ import {
 import { renderOnlineEducationCustomCards } from "./onlineEducationCustomCards.js";
 import { addProgrammeImages } from "../../utils/onlineEducationImages.js";
 
-const ENQUIRY_ENDPOINT = "";
 const ENQUIRY_STORAGE_KEY = "educonnect-online-enquiries";
 const USE_EXISTING_ENQUIRY_FORM = false;
 
@@ -1200,24 +1200,13 @@ export async function initOnlineEducationPage() {
     };
 
     const sendEnquiry = async (payload) => {
-        if (ENQUIRY_ENDPOINT) {
-            const response = await fetch(ENQUIRY_ENDPOINT, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
-            });
-
-            if (!response.ok) {
-                throw new Error(`Server returned ${response.status}`);
-            }
-
-            return;
-        }
-
-        // Local fallback so the flow can be tested without a backend
-        const saved = storage(ENQUIRY_STORAGE_KEY, []);
-        saved.push(payload);
-        localStorage.setItem(ENQUIRY_STORAGE_KEY, JSON.stringify(saved));
+        const { kind, itemId, itemName, providerName, country, fullName, email, phone, message, consent } = payload;
+        return submitLeadSubmission(
+            "Online programme enquiry",
+            kind === "institution" ? "Online education institution card" : "Online education programme card",
+            { itemId, selectedItem: itemName, provider: providerName, country, name: fullName, email, phone, message },
+            consent === true,
+        );
     };
 
     const handleEnquirySubmit = async (form) => {
@@ -1292,6 +1281,7 @@ export async function initOnlineEducationPage() {
                 phone: data.phone,
                 message: data.message,
                 submittedAt: new Date().toISOString(),
+                consent: data.consent,
             });
 
             const itemLabel = data.kind === "institution" ? subject?.name : subject?.title;
