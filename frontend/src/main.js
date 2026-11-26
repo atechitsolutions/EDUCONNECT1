@@ -569,3 +569,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+// Keep school-section cards shadow-free after the full stylesheet cascade.
+import "./assets/css/school-card-flat.css";

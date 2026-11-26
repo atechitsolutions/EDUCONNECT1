@@ -1,0 +1,57 @@
+/* School listing cards only; keep controls and action buttons unchanged. */
+#school .institution-card,
+#pre-school .institution-card,
+#play-school .institution-card,
+.boarding-directory .institution-card,
+.school-region-results-grid .institution-card,
+.sd-page .sd-school-card {
+    box-shadow: none !important;
+    transition: transform .25s ease, border-color .25s ease !important;
+}
+
+#school .institution-card-highlight,
+#school .institution-card-ranking,
+#pre-school .institution-card-highlight,
+#pre-school .institution-card-ranking,
+#play-school .institution-card-highlight,
+#play-school .institution-card-ranking,
+.boarding-directory .institution-card-highlight,
+.boarding-directory .institution-card-ranking,
+.school-region-results-grid .institution-card-highlight,
+.school-region-results-grid .institution-card-ranking {
+    background: transparent !important;
+    text-shadow: none !important;
+    filter: none !important;
+}
+
+#school .institution-card-overlay,
+#pre-school .institution-card-overlay,
+#play-school .institution-card-overlay,
+.boarding-directory .institution-card-overlay,
+.school-region-results-grid .institution-card-overlay {
+    background: linear-gradient(180deg, rgba(0, 0, 0, .02) 30%, rgba(0, 0, 0, .56) 100%) !important;
+    filter: none !important;
+}
+
+#school .institution-card:hover,
+#pre-school .institution-card:hover,
+#play-school .institution-card:hover,
+.boarding-directory .institution-card:hover,
+.school-region-results-grid .institution-card:hover,
+.sd-page .sd-school-card:hover {
+    box-shadow: none !important;
+}
+
+/* Remove the carousel edge-fade haze from all school listings. */
+#school .early-learning-carousel::before,
+#school .early-learning-carousel::after,
+#pre-school .early-learning-carousel::before,
+#pre-school .early-learning-carousel::after,
+#play-school .early-learning-carousel::before,
+#play-school .early-learning-carousel::after,
+.boarding-schools-section .boarding-schools-carousel::before,
+.boarding-schools-section .boarding-schools-carousel::after {
+    content: none !important;
+    display: none !important;
+    background: none !important;
+}

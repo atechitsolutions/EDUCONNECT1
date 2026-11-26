@@ -16996,6 +16996,26 @@ body,
    TOUCH DEVICES
 ========================================================= */
 
+/* Keep school cards flat across preschool, play-school, and boarding-school sections. */
+#school .early-learning-carousel .institution-card,
+#pre-school .early-learning-carousel .institution-card,
+#play-school .early-learning-carousel .institution-card,
+.boarding-directory .institution-card,
+.school-region-results-grid .institution-card,
+.sd-page .sd-school-card {
+    box-shadow: none !important;
+    transition: transform .25s ease, border-color .25s ease;
+}
+
+#school .early-learning-carousel .institution-card:hover,
+#pre-school .early-learning-carousel .institution-card:hover,
+#play-school .early-learning-carousel .institution-card:hover,
+.boarding-directory .institution-card:hover,
+.school-region-results-grid .institution-card:hover,
+.sd-page .sd-school-card:hover {
+    box-shadow: none !important;
+}
+
 @media (hover: none), (pointer: coarse) {
 
     .institution-card:hover {
