@@ -4,6 +4,30 @@ import { getInstitutions } from "../../services/studyAbroadService.js";
 import { bindInstitutionDetailButtons } from "../studyAbroad/InstitutionDetailsModals.js";
 import { getRealInstitutionPhoto } from "../../utils/institutionCoverImage.js";
 
+const escapeHtml = (value) =>
+    String(value ?? "").replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+    })[character]);
+
+function formatStudyAbroadCardDescription(value) {
+    const description = String(value || "").trim();
+    const parts = description.split(/\s*[·•|]\s*/).filter(Boolean);
+    const establishedIndex = parts.findIndex((part) => /^Established\b/i.test(part));
+
+    if (establishedIndex < 0 || parts.length < 2) {
+        return escapeHtml(description || "Explore this institution as a Study Abroad option.");
+    }
+
+    const established = parts.splice(establishedIndex, 1)[0];
+    return `<div class="study-abroad-card-facts"><div class="study-abroad-card-facts-main">${parts
+        .map((part) => `<span>${escapeHtml(part)}</span>`)
+        .join("")}</div><span class="study-abroad-card-established">${escapeHtml(established)}</span></div>`;
+}
+
 async function loadCampusPhotos(track, institutions) {
     const cards = [...track.querySelectorAll(".institution-card")];
     const viewport = track.closest(".study-abroad-viewport");
@@ -104,8 +128,7 @@ export function StudyAbroadSection() {
                 location,
                 program: "",
                 ranking: institution.verified ? "Details verified" : "",
-                highlight:
-                    institution.description || "Explore this institution as a Study Abroad option.",
+                highlight: formatStudyAbroadCardDescription(institution.description),
                 image: institution.campusImageUrl || institution.coverImageUrl || "",
                 actionLabel: "Explore",
                 actionMode: "details",

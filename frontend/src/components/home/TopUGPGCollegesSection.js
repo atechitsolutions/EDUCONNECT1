@@ -489,9 +489,17 @@ export function TopUGPGCollegesSection() {
             college.name.trim().toLocaleLowerCase(),
         ),
     );
+    const hiddenHomeCollegeCodes = new Set([
+        "EC-IN-COL-IIL",
+        "EC-IN-UN-AMITY-PUNJAB",
+        "EC-IN-UN-DBS",
+        "EC-IN-COL-SKITM",
+        "EC-IN-COL-RCCM",
+    ]);
     const directoryCollegeCards = domesticInstitutionDirectory
         .filter(
             (institution) =>
+                !hiddenHomeCollegeCodes.has(institution.code) &&
                 !institution.directoryCategory &&
                 !existingCollegeNames.has(institution.name.trim().toLocaleLowerCase()),
         )
