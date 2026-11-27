@@ -41,6 +41,24 @@ export async function loginUser(data) {
     return result;
 }
 
+export async function loginWithGoogle(credential) {
+    const response = await fetch(`${API_BASE_URL}/google`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.message || "Google sign-in failed.");
+    localStorage.setItem(TOKEN_KEY, result.token);
+    localStorage.setItem(USER_KEY, JSON.stringify({
+        userId: result.userId,
+        fullName: result.fullName,
+        email: result.email,
+        role: result.role,
+    }));
+    return result;
+}
+
 export async function registerUser(data) {
     const response = await fetch(`${API_BASE_URL}/register`, {
         method: "POST",

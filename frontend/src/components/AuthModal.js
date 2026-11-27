@@ -147,6 +147,14 @@ export default function AuthModal() {
 
                         </form>
 
+                        <div class="auth-google-divider"><span>or continue with</span></div>
+                        <div id="auth-google-signin-container">
+                            <button type="button" id="auth-google-signin" class="auth-google-signin">
+                                <span class="auth-google-mark" aria-hidden="true">G</span>
+                                Continue with Google
+                            </button>
+                        </div>
+
 
                         <div class="auth-switch">
 

@@ -10,6 +10,7 @@ import com.ALL_in_one.repository.UserRepository;
 import com.ALL_in_one.notification.EmailNotificationService;
 import java.util.Map;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -118,5 +119,28 @@ public class AuthService {
 
     return new AuthResponse(
         token, user.getId(), user.getFullName(), user.getEmail(), user.getRole());
+  }
+
+  @Transactional
+  public AuthResponse loginWithGoogle(GoogleIdentityService.Identity identity) {
+    String email = identity.email().trim().toLowerCase();
+    User user = userRepository.findByEmail(email).orElseGet(() -> {
+      User created = new User();
+      created.setFullName(identity.name().length() > 100 ? identity.name().substring(0, 100) : identity.name());
+      created.setEmail(email);
+      created.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
+      created.setRole("STUDENT");
+      created.setCreatedAt(LocalDateTime.now());
+      User saved = userRepository.save(created);
+      StudentProfile profile = new StudentProfile();
+      profile.setUser(saved);
+      profile.setUsername("student_" + saved.getId());
+      studentProfileRepository.save(profile);
+      emailNotifications.enqueue("Student registration", "Google sign-in", Map.of(
+          "Name", saved.getFullName(), "Email", saved.getEmail(), "Account type", saved.getRole()));
+      return saved;
+    });
+    String token = jwtService.generateToken(user.getEmail());
+    return new AuthResponse(token, user.getId(), user.getFullName(), user.getEmail(), user.getRole());
   }
 }

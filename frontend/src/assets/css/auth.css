@@ -422,6 +422,13 @@
     transform: none;
 }
 
+.auth-google-divider{display:flex;align-items:center;gap:14px;margin:18px 0;color:#71839b;font-size:13px}
+.auth-google-divider::before,.auth-google-divider::after{content:"";height:1px;flex:1;background:#dce5f0}
+#auth-google-signin-container{display:flex;justify-content:center;min-height:44px;margin-bottom:18px}
+.auth-google-signin{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:50px;border:1px solid #cfd9e7;border-radius:12px;background:#fff;color:#263b55;font:inherit;font-size:15px;font-weight:700;cursor:pointer}
+.auth-google-signin:hover{background:#f8fbff;border-color:#9bb8ec}
+.auth-google-mark{font-family:Arial,sans-serif;font-size:20px;font-weight:800;color:#4285f4}
+
 
 /* =========================================================
    SWITCH

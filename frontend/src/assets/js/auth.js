@@ -1,5 +1,6 @@
 import {
     loginUser,
+    loginWithGoogle,
     registerUser,
     forgotPassword,
     isAuthenticated,
@@ -27,6 +28,8 @@ export function initAuth() {
 
     setupLoginForm();
 
+    setupGoogleSignIn();
+
     setupRegisterForm();
 
     setupForgotPasswordForm();
@@ -36,6 +39,70 @@ export function initAuth() {
     setupProtectedLinks();
 
     updateAuthButtons();
+}
+
+function setupGoogleSignIn() {
+    const container = document.querySelector("#auth-google-signin-container");
+    const fallbackButton = document.querySelector("#auth-google-signin");
+    if (!container || !fallbackButton) return;
+
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "";
+    if (!clientId) {
+        fallbackButton.addEventListener("click", () => {
+            showMessage("Google sign-in needs a Google OAuth Web Client ID before it can be used.", "error");
+        });
+        return;
+    }
+
+    fallbackButton.hidden = true;
+    const startGoogle = () => {
+        if (!window.google?.accounts?.id) return;
+        window.google.accounts.id.initialize({
+            client_id: clientId,
+            callback: async ({ credential }) => {
+                clearAllMessages();
+                try {
+                    await loginWithGoogle(credential);
+                    updateAuthButtons();
+                    pendingNavigation = null;
+                    showMessage("Google sign-in successful.", "success");
+                    setTimeout(() => {
+                        closeAuthModal();
+                        // Google sign-in is the student entry point. Always send
+                        // Google users to the public home page so they can explore
+                        // the student features, even when their email is also
+                        // associated with a partner account.
+                        pendingNavigation = null;
+                        window.location.href = "/";
+                    }, 500);
+                } catch (error) {
+                    showMessage(error.message || "Google sign-in failed.", "error");
+                }
+            },
+        });
+        window.google.accounts.id.renderButton(container, {
+            theme: "outline", size: "large", shape: "pill", text: "continue_with",
+            width: Math.min(420, Math.max(220, container.clientWidth)),
+        });
+    };
+
+    if (window.google?.accounts?.id) {
+        startGoogle();
+        return;
+    }
+    let script = document.querySelector("script[data-google-identity]");
+    if (!script) {
+        script = document.createElement("script");
+        script.src = "https://accounts.google.com/gsi/client";
+        script.async = true;
+        script.defer = true;
+        script.dataset.googleIdentity = "true";
+        script.onload = startGoogle;
+        script.onerror = () => showMessage("Google sign-in could not load. Check your connection and try again.", "error");
+        document.head.append(script);
+    } else {
+        script.addEventListener("load", startGoogle, { once: true });
+    }
 }
 
 function setupHeaderButtons() {

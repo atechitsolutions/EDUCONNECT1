@@ -3,6 +3,7 @@ package com.ALL_in_one.controller;
 import com.ALL_in_one.dto.*;
 import com.ALL_in_one.service.AuthService;
 import com.ALL_in_one.service.PasswordResetService;
+import com.ALL_in_one.service.GoogleIdentityService;
 import jakarta.validation.Valid;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,8 @@ public class AuthController {
   private final AuthService authService;
 
   private final PasswordResetService passwordResetService;
+
+  private final GoogleIdentityService googleIdentityService;
 
   @PostMapping("/register")
   public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
@@ -77,6 +80,18 @@ public class AuthController {
 
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
           .body(Map.of("message", exception.getMessage()));
+    }
+  }
+
+  @PostMapping("/google")
+  public ResponseEntity<?> google(@RequestBody Map<String, String> request) {
+    try {
+      GoogleIdentityService.Identity identity = googleIdentityService.verify(request.get("credential"));
+      return ResponseEntity.ok(authService.loginWithGoogle(identity));
+    } catch (IllegalArgumentException exception) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", exception.getMessage()));
+    } catch (IllegalStateException exception) {
+      return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(Map.of("message", exception.getMessage()));
     }
   }
 }
