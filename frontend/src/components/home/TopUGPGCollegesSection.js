@@ -17,7 +17,10 @@ export function TopUGPGCollegesSection() {
         const site = institutionSiteData[code];
         return [
             ...new Set(
-                [site?.campusImage, domesticCampusPhotos[code], verifiedCampusPhotos[code]]
+                // Prefer the explicitly curated campus-photo map. The site-data
+                // snapshot can contain a stale logo or promotional banner and
+                // must not override a replacement image from the photo map.
+                [domesticCampusPhotos[code], site?.campusImage, verifiedCampusPhotos[code]]
                     .map(usableCampusImage)
                     .filter(Boolean),
             ),

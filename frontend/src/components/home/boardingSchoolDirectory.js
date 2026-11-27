@@ -13,7 +13,6 @@ export const regionalBoardingSchools = {
         ["Jayshree Periwal International School", "Jaipur"],
         ["Neerja Modi School", "Jaipur"],
         ["India International School", "Jaipur"],
-        ["Delhi Public School (DPS)", "Jaipur", "Delhi Public School, Jaipur"],
     ],
     Jaipur: [
         ["Jayshree Periwal International School", "Mahapura"],
@@ -22,7 +21,6 @@ export const regionalBoardingSchools = {
             "Jaipur",
             "Maharani Gayatri Devi Girls' School",
         ],
-        ["Delhi Public School (DPS)", "Jaipur", "Delhi Public School, Jaipur"],
         ["India International School", "Mansarovar"],
         ["SRN International School", "Jagatpura"],
         ["Neerja Modi School", "Jaipur"],

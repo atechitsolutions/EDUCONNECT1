@@ -24,20 +24,16 @@ public class LocalAdminAccountInitializer {
       @Value("${app.local-admin.full-name:Local StepInStudents Admin}") String fullName) {
     return args -> {
       String normalizedEmail = email.trim().toLowerCase();
-      if (userRepository.existsByEmail(normalizedEmail)) {
-        System.out.println("Local admin account already exists: " + normalizedEmail);
-        return;
-      }
-
-      User admin = new User();
+      User admin = userRepository.findByEmail(normalizedEmail).orElseGet(User::new);
+      boolean isNew = admin.getId() == null;
       admin.setFullName(fullName.trim());
       admin.setEmail(normalizedEmail);
       admin.setPassword(passwordEncoder.encode(password));
       admin.setRole("ADMIN");
-      admin.setCreatedAt(LocalDateTime.now());
+      if (admin.getCreatedAt() == null) admin.setCreatedAt(LocalDateTime.now());
       userRepository.save(admin);
 
-      System.out.println("Created local development admin account: " + normalizedEmail);
+      System.out.println((isNew ? "Created" : "Updated") + " local development admin account: " + normalizedEmail);
     };
   }
 }

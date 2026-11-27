@@ -276,7 +276,7 @@ const verified = {
     },
     "Mahatma Gandhi International School": {
         url: "https://www.mgis.in/",
-        image: "https://www.mgis.in/wp-content/uploads/2026/04/1000294729.jpg",
+        image: "https://i.pinimg.com/736x/16/15/27/1615278e187dc1ff08d102806fee3c8f.jpg",
         board: "IB; Cambridge; French national curriculum; BTEC",
         status: "Day school",
         schoolType: "Co-educational school",
@@ -1302,7 +1302,7 @@ export const campusPhotos = {
         credit: "Photo source: Skoodos",
     },
     "Sacred Heart Senior Secondary School": {
-        image: "https://shsdharamshala.com/wp-content/uploads/2025/05/1652505994342.png",
+        image: "https://i.pinimg.com/1200x/55/54/b2/5554b265e61a708f5b5c5561ca09f6ee.jpg",
         source: "https://shsdharamshala.com/",
         credit: "Photo source: Sacred Heart School",
     },
@@ -1390,7 +1390,7 @@ export const campusPhotos = {
         credit: "Photo source: India Today",
     },
     "The Asian School": {
-        image: "https://res.cloudinary.com/eduminatti-com/gallery/uttarakhand/G76.png",
+        image: "https://i.pinimg.com/1200x/ed/c6/26/edc62645928fae6aac4c249effa699d1.jpg",
         source: "https://www.eduminatti.com/schools/dehradun/the-asian-school-dehradun",
         credit: "Photo source: Eduminatti",
     },
@@ -1600,7 +1600,7 @@ export const campusPhotos = {
         credit: "Photo source: Edustoke",
     },
     "Navrachana International School": {
-        image: "https://images.indianexpress.com/2025/01/Navrachana-school.jpeg",
+        image: "https://i.pinimg.com/736x/2e/c6/19/2ec6196c0381975990814fafe4411b4d.jpg",
         source:
             "https://indianexpress.com/article/cities" +
             "/ahmedabad/vadodara-navrachna-school-bom" +
@@ -1681,7 +1681,7 @@ export const campusPhotos = {
         credit: "Photo source: Oakridge International School",
     },
     "Chirec International School": {
-        image: "https://www.inschools.in/Telangana/Banners/Chirec%20kondapur.jpg",
+        image: "https://i.pinimg.com/736x/d7/72/18/d77218382920434036b3693cdd19f7bb.jpg",
         source: "https://www.inschools.in/CBSE-Schools-In-Hyderabad.html",
         credit: "Photo source: INschools India",
     },
@@ -1857,9 +1857,7 @@ export const campusPhotos = {
     },
     "Emerald Heights International School": {
         image:
-            "https://indoreeducation.com/wp-content/u" +
-            "ploads/2024/09/MAIN-BUILDING-FRONT-EMERA" +
-            "LD-HEIGHTS-SCHOOL-scaled-1.jpg",
+            "https://i.pinimg.com/736x/15/1f/2d/151f2dafe58d83838b08b22b9d2394a5.jpg",
         source: "https://indoreeducation.com/directory/emerald-heights-international-school/",
         credit: "Photo source: Indore Education",
     },
@@ -1886,11 +1884,7 @@ export const campusPhotos = {
     },
     "Jubilee Hills Public School": {
         image:
-            "https://www.schoolsuniverse.com/_next/im" +
-            "age?q=75&url=https%3A%2F%2Fcdn.schoolsun" +
-            "iverse.com%2Fmedia%2Fuploads%2F2024-09-2" +
-            "6%252010%253A01%253A46.143887jj2.jpg&w=7" +
-            "68",
+            "https://i.pinimg.com/1200x/7f/e1/0d/7fe10dc1f36cea2e09591cde9bf43d92.jpg",
         source: "https://www.schoolsuniverse.com/school/jubilee-hills-public-school-hyderabad",
         credit: "Photo source: SchoolsUniverse",
     },
@@ -1936,9 +1930,7 @@ export const campusPhotos = {
     },
     "Udgam School for Children": {
         image:
-            "https://www.teacherhorizons.com/static/m" +
-            "ediav2/schools/6494/images/809127_main.j" +
-            "pg",
+            "https://i.pinimg.com/736x/b2/0d/2f/b20d2f19522532a93d44712ec4da2bad.jpg",
         source: "https://www.teacherhorizons.com/schools/asia-india-ahmedabad-udgam-school",
         credit: "Photo source: Teacher Horizons",
     },
