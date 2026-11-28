@@ -86,4 +86,81 @@
     flex:1 1 auto;             /* text takes the remaining width */
     min-width:0;
     line-height:1.5;
-}
+}/* Refer a student form: layout fixes */
+ .ap-form{
+     margin-top:16px;
+ }
+
+ /* Phone field spans the full row since the College field is gone */
+ .ap-form > label:nth-of-type(3){
+     grid-column:1/-1;
+ }
+
+ /* Consent checkbox row */
+ .ap-form .ap-consent{
+     grid-column:1/-1;
+     align-items:flex-start;
+ }
+ .ap-form .ap-consent input[type="checkbox"]{
+     width:18px;
+     height:18px;
+     min-width:18px;
+     flex:0 0 auto;
+     margin:2px 0 0;
+     padding:0;
+ }
+ .ap-form .ap-consent span{
+     flex:1 1 auto;
+     min-width:0;
+     line-height:1.5;
+ }/* Make the Refer a student card wider and centered */
+  .ap-form{
+      max-width:none;
+      width:100%;
+      gap:20px 32px;
+  }
+
+  .ap-referral-card{              /* <- replace with your card's class */
+      width:100%;
+      max-width:1200px;
+      margin:0 auto;
+      padding:48px 56px;
+      box-sizing:border-box;
+  }/* Wide layout for laptops: no class names needed */
+   @media (min-width:1024px){
+
+       /* the card (direct parent of the form) and the wrapper around it */
+       :has(> .ap-form),
+       :has(> :has(> .ap-form)){
+           width:100% !important;
+           max-width:none !important;
+           box-sizing:border-box;
+       }
+
+       /* if the wrapper is a 2-column grid, let the card take the full row */
+       :has(> :has(> .ap-form)){
+           grid-template-columns:1fr !important;
+       }
+
+       :has(> .ap-form){
+           padding:48px 64px;
+       }
+
+       /* 3 fields per row */
+       .ap-form{
+           grid-template-columns:repeat(3,minmax(0,1fr));
+           gap:24px 32px;
+       }
+
+       /* undo the earlier phone full-width rule */
+       .ap-form > label:nth-of-type(3){
+           grid-column:auto;
+       }
+
+       /* course, consent and button use the full row */
+       .ap-form > label:nth-of-type(4),
+       .ap-form .ap-consent,
+       .ap-form > button{
+           grid-column:1/-1;
+       }
+   }
