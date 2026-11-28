@@ -82,7 +82,7 @@ public class AdmissionReferralService {
             ? "Your subpartner request has been submitted for review. "
                 + "Review may take 24 to 48 hours. If approved, sign in using Partner login "
                 + "with your registered email and the first 4 digits of your phone number."
-            : "Your partner interest has been submitted for review.";
+            : "Your partner interest has been submitted for review our team contact you soon, login username email and password is first four digit of phone number";
     return Map.of("id", partner.getId(), "status", partner.getStatus(), "message", message);
   }
 

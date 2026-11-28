@@ -61,3 +61,8 @@ body {
 ::selection { color: #fff; background: #425dd7; }
 :focus-visible { outline: 3px solid rgba(39, 124, 230, .52); outline-offset: 3px; }
 
+/* Make placeholder text readable (dark) on light inputs. */
+::placeholder { color: var(--ec-muted); opacity: 1; }
+:-ms-input-placeholder { color: var(--ec-muted); }
+::-ms-input-placeholder { color: var(--ec-muted); }
+
